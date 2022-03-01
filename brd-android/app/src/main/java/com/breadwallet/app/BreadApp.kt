@@ -303,8 +303,10 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
                     .addInterceptor(authInterceptor)
                     .addInterceptor(fabriikAuthInterceptor)
                     .build(),
-                FabriikApiConstants.HOST_BLOCKSATOSHI_API,
-                FabriikApiConstants.HOST_WALLET_API
+                "https://ec2b-86-58-117-49.ngrok.io/blocksatoshi/blocksatoshi",
+                "https://f2dc-86-58-117-49.ngrok.io/blocksatoshi/wallet"
+                /*FabriikApiConstants.HOST_BLOCKSATOSHI_API,
+                FabriikApiConstants.HOST_WALLET_API*/
             )
         }
 

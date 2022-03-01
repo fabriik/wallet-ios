@@ -5,8 +5,8 @@ import com.breadwallet.appcore.BuildConfig
 object FabriikApiConstants {
 
     val HOST = when {
-        BuildConfig.DEBUG -> "one-dev.moneybutton.io/blocksatoshi"
-        else -> "one-dev.moneybutton.io/blocksatoshi" //todo: change endpoint to production
+        BuildConfig.DEBUG -> "f2dc-86-58-117-49.ngrok.io"
+        else -> "f2dc-86-58-117-49.ngrok.io" //todo: change endpoint to production
     }
 
     private val BASE_URL = "https://${HOST}"
