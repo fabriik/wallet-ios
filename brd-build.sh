@@ -1,9 +1,10 @@
-REPO="brd-mobile"
+REPO=brd-mobile
 # BRANCH="mitbase"
 # BRANCH="main"
-BRANCH="mit"
-DEV_DIR="~/code"
+BRANCH=mit
+DEV_DIR=~/Dev/
 
+echo $DEV_DIR/$REPO
 echo
 echo Building Repo $REPO : Branch $BRANCH
 echo
@@ -76,30 +77,31 @@ BRD_ENV=~/.brd_env
 echo
 echo Checkinf for env settings $BRD_ENV
 echo
-if [ ! -f $ENV_FILE ]; then
+if [ ! -f $BRD_ENV ]; then
   echo Env configuration does not exist.
   echo
   echo Creating $BRD_ENV
   touch $BRD_ENV
-  echo "API_TOKEN = <TOKEN>" >> $ENV_FILE
-  echo "API_URL = <API_URL>" >> $ENV_FILE
-  echo "DEBUG_TOKEN = <DEBUG_TOKEN>" >> $ENV_FILE
-  echo "DEBUG_URL = <DEBUG_URL>" >> $ENV_FILE
+  echo "API_TOKEN = <TOKEN>" >> $BRD_ENV
+  echo "API_URL = <API_URL>" >> $BRD_ENV
+  echo "DEBUG_TOKEN = <DEBUG_TOKEN>" >> $BRD_ENV
+  echo "DEBUG_URL = <DEBUG_URL>" >> $BRD_ENV
   echo
   echo Please configure $BRD_ENV
   echo
   exit 1
 fi
 
-IOS_ENV_FILE=/brd-ios/.env
+IOS_ENV_FILE=$DEV_DIR/$REPO/brd-ios/.env
 echo
 echo updating $IOS_ENV_FILE
 echo
-cp $ENV_FILE $IOS_ENV_FILE
+cp $BRD_ENV $IOS_ENV_FILE
 echo
 echo
 
-echo "sdk.dir=/Users/gvh/Library/Android/sdk" >./local.properties
+cd $DEV_DIR/$REPO
+echo "sdk.dir=$HOME/Library/Android/Sdk" > ./local.properties
 cp ./local.properties ./external/walletKit/walletKitJava/local.properties
 
 # echo
