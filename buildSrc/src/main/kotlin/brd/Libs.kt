@@ -34,6 +34,7 @@ private const val WALLETKIT_VERSION = "6.3.5"
 private const val FIREBASE_APPDIST_VERSION = "2.1.1"
 private const val FIREBASE_MESSAGING_VERSION = "21.0.1"
 private const val FIREBASE_ANALYTICS_VERSION = "18.0.2"
+private const val FIREBASE_FUNCTIONS_VERSION = "19.2.0"
 private const val FIREBASE_CONFIG_VERSION = "20.0.3"
 private const val CRASHLYTICS_VERSION = "17.4.1"
 private const val CRASHLYTICS_PLUGIN_VERSION = "2.5.2"
@@ -79,6 +80,7 @@ private const val BIOMETRIC_VERSION = "1.2.0-alpha02"
 private const val AGP_VERSION = "4.1.3"
 private const val SERVICES_PLUGIN_VERSION = "4.3.4"
 private const val AUTODESK_VERSION = "0.6.2"
+private const val CASH_UI_VERSION = "4.4-fabriik"
 const val COMPOSE_VERSION = "1.0.0-beta02"
 private const val ACCOMPANIST_VERSION = "0.6.2"
 private const val BLOCKSET_VERSION = "0.1.3"
@@ -134,6 +136,7 @@ object Libs {
         const val Analytics = "com.google.firebase:firebase-analytics-ktx:$FIREBASE_ANALYTICS_VERSION"
         const val ConfigKtx = "com.google.firebase:firebase-config-ktx:$FIREBASE_CONFIG_VERSION"
         const val Crashlytics = "com.google.firebase:firebase-crashlytics-ndk:$CRASHLYTICS_VERSION"
+        const val FunctionsKtx = "com.google.firebase:firebase-functions-ktx:$FIREBASE_FUNCTIONS_VERSION"
         const val DistributionPlugin = "com.google.firebase:firebase-appdistribution-gradle:$FIREBASE_APPDIST_VERSION"
         const val CrashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_PLUGIN_VERSION"
     }
@@ -269,6 +272,10 @@ object Libs {
 
     object AutoDesk {
         const val CoroutineWorker = "com.autodesk:coroutineworker:$AUTODESK_VERSION"
+    }
+
+    object Atmcoin {
+        const val CashUi = "com.github.atmcoin.cash-ui-android:atmUI:$CASH_UI_VERSION"
     }
 
     object Compose {
