@@ -275,7 +275,7 @@ object Libs {
     }
 
     object Atmcoin {
-        const val CashUi = "com.github.atmcoin.cash-ui-android:atmUI:$CASH_UI_VERSION"
+        const val CashUi = "com.github.atmcoin.cash-ui-android:cashUI:$CASH_UI_VERSION"
     }
 
     object Compose {
