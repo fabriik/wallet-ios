@@ -3,11 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:kyc/common/app_theme.dart';
 import 'package:kyc/common/dependency_provider.dart';
 import 'package:kyc/kyc/models/kyc_pi.dart';
+import 'package:kyc/kyc/view/kyc_page.dart';
 import 'package:kyc/l10n/l10n.dart';
+import 'package:kyc/login/login.dart';
+import 'package:kyc/method_channels.dart';
 import 'package:kyc/middleware/models/merapi.dart';
 import 'package:kyc/widgets/error_snackbar.dart';
 
 class KycOnboardingPage extends StatefulWidget {
+  const KycOnboardingPage({Key? key}) : super(key: key);
+
   @override
   _KycOnboardingPageState createState() => _KycOnboardingPageState();
 }
@@ -183,22 +188,48 @@ class _KycOnboardingPageState extends State<KycOnboardingPage> {
     );
   }
 
-  Future<void> _onSubmit() async {
+  void _onSubmit() async {
     setState(() {
       working = true;
     });
+    final userRepo = DependencyProvider.of(context).userRepo;
     try {
-      final pi = await DependencyProvider.of(context).userRepo.getKycPi();
-      print(pi);
-      Navigator.of(context).pushNamed('/kyc-main', arguments: pi);
+      String? sessionKey = await getSessionKey();
+      final valid = await userRepo.isSessionKeyValid(sessionKey);
+      if (!valid) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return const LoginPage();
+            },
+          ),
+        );
+      } else {
+        userRepo.loginWithSessionKey(sessionKey!);
+        final kycPi = await userRepo.getKycPi();
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => KycPage(kycPi: kycPi),
+          ),
+        );
+      }
+    } on MerapiError catch (error) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(
+          ErrorSnackBar.fromLocaleMerapiError(error, context.l10n),
+        );
     } catch (error, stacktrace) {
       print(error);
       print(stacktrace);
-      // ScaffoldMessenger.of(context)
-      //   ..removeCurrentSnackBar()
-      //   ..showSnackBar(
-      //     ErrorSnackBar.fromLocaleMerapiError(error, context.l10n),
-      //   );
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(
+          const SnackBar(
+            content: Text("Something wrong"),
+            backgroundColor: Colors.red,
+          ),
+        );
     } finally {
       setState(() {
         working = false;

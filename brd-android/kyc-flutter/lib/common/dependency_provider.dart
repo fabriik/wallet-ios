@@ -1,5 +1,6 @@
 // ignore: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:kyc/auth/auth.dart';
 import 'package:kyc/data/user_repository.dart';
 import 'package:kyc/navigation/navigation.dart';
 
@@ -8,10 +9,12 @@ class DependencyProvider extends InheritedWidget {
       : navigationCubit = NavigationCubit(),
         super(key: key, child: child) {
     userRepo = UserRepo(onSessionExpired: onSessionExpired);
+    authCubit = AuthCubit(navigationCubit: navigationCubit, userRepo: userRepo);
   }
 
   final NavigationCubit navigationCubit;
   late final UserRepo userRepo;
+  late final AuthCubit authCubit;
 
   static DependencyProvider of(BuildContext context) {
     final result =

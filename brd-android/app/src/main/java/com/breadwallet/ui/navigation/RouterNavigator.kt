@@ -27,8 +27,6 @@ package com.breadwallet.ui.navigation
 import cash.just.support.CashSupport
 import cash.just.support.pages.Topic
 import cash.just.ui.CashUI
-import android.util.Log
-import android.widget.Toast
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.Router
@@ -40,13 +38,9 @@ import com.breadwallet.R
 import com.breadwallet.breadbox.BreadBox
 import com.breadwallet.legacy.presenter.settings.NotificationSettingsController
 import com.breadwallet.logger.logError
-import com.breadwallet.tools.util.EventUtils
-import com.breadwallet.tools.util.Link
-import com.breadwallet.tools.util.ServerBundlesHelper
-import com.breadwallet.tools.util.asLink
+import com.breadwallet.tools.util.*
 import com.breadwallet.ui.addwallets.AddWalletsController
 import com.breadwallet.ui.auth.AuthenticationController
-import com.breadwallet.ui.changehandlers.BottomSheetChangeHandler
 import com.breadwallet.ui.changehandlers.DialogChangeHandler
 import com.breadwallet.ui.controllers.AlertDialogController
 import com.breadwallet.ui.controllers.SignalController
@@ -116,7 +110,7 @@ class RouterNavigator(
     override fun navigateTo(target: INavigationTarget) =
         patch(target as NavigationTarget)
 
-    fun Controller.asTransaction(
+    private fun Controller.asTransaction(
         popChangeHandler: ControllerChangeHandler? = FadeChangeHandler(),
         pushChangeHandler: ControllerChangeHandler? = FadeChangeHandler()
     ) = RouterTransaction.with(this)

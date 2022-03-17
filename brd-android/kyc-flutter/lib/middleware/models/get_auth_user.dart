@@ -9,7 +9,7 @@ class GetAuthUserResponse {
       : id = json['id'] as int,
         username = json['username'] as String,
         email = json['email'] as String,
-        roles = Set<String>.from(json['roles'] as Iterable<String>);
+        roles = Set<String>.from(json['roles'] as List<dynamic>);
 
   /// User id
   final int id;

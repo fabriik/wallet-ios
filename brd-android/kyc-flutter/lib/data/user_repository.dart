@@ -18,17 +18,14 @@ class UserRepo {
   final SessionManager _sessionManager = SessionManager();
   final SessionExpiredCallback? onSessionExpired;
 
-  Future<bool> loginWithEmailPass(LoginCredentials loginCredentials) async {
+  Future<String?> loginWithEmailPass(LoginCredentials loginCredentials) async {
     try {
       final result = await _fabriikClient.login(
         email: loginCredentials.email!.trim(),
         password: loginCredentials.password!,
       );
       if (result.result == 'ok') {
-        _sessionManager
-          ..setUserEmail(loginCredentials.email!.trim())
-          ..persistSessionKey(result.data.sessionKey);
-        return true;
+        return result.data.sessionKey;
       } else {
         throw Exception(result.error);
       }
@@ -39,8 +36,8 @@ class UserRepo {
       } else {
         throw Exception(e);
       }
-    } catch(e) {
-      return false;
+    } catch (e) {
+      return null;
     }
   }
 
@@ -48,8 +45,13 @@ class UserRepo {
     _sessionManager.persistSessionKey(sessionKey);
   }
 
-  Future<User?> signUpWithEmail(String email, String password, String firstName,
-      String lastName, String phone) async {
+  Future<String?> signUpWithEmail(
+    String email,
+    String password,
+    String firstName,
+    String lastName,
+    String phone,
+  ) async {
     try {
       final result = await _fabriikClient.register(
         email,
@@ -59,11 +61,7 @@ class UserRepo {
         phone,
       );
       if (result.data['result'] == 'ok') {
-        final user = User(firstName, lastName, email, phone);
-        _sessionManager
-          ..setUserData(user)
-          ..persistSessionKey(result.data['data']['sessionKey'].toString());
-        return user;
+        return result.data['data']['sessionKey'].toString();
       } else {
         throw result.data['error'].toString();
       }
@@ -161,6 +159,22 @@ class UserRepo {
       return false;
     }
 
+    return true;
+  }
+
+  Future<bool> isSessionKeyValid(String? sessionKey) async {
+    if (sessionKey == null) {
+      return false;
+    }
+    try {
+      final si = SessionInfo(
+        sessionKey: sessionKey,
+        onExpired: null,
+      );
+      await _fabriikClient.getAuthUser(si);
+    } on MerapiSessionExpiredError {
+      return false;
+    }
     return true;
   }
 }

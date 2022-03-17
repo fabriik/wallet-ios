@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:kyc/common/app_theme.dart';
 import 'package:kyc/kyc/cubit/kyc_cubit.dart';
 import 'package:kyc/kyc/models/kyc_pi.dart';
@@ -15,6 +14,13 @@ import './kyc_scan_front_page.dart';
 import './kyc_selfie_page.dart';
 
 class KycPage extends StatefulWidget {
+  final KycPi? kycPi;
+
+  const KycPage({
+    Key? key,
+    this.kycPi,
+  }) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _KycPageState();
 }
@@ -26,10 +32,9 @@ class _KycPageState extends State<KycPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        final pi = ModalRoute.of(context)!.settings.arguments as KycPi?;
         final cubit = KycCubit();
-        if (pi != null) {
-          cubit.setPi(pi);
+        if (widget.kycPi != null) {
+          cubit.setPi(widget.kycPi!);
         }
         return cubit;
       },

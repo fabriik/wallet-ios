@@ -10,12 +10,11 @@ class SessionManager {
   static const String prefKeyCurrentUserPhone = 'PREF_KEY_CURRENT_USER_PHONE';
   static const String prefKeyCurrentUserSessionKey =
       'PREF_KEY_CURRENT_USER_SESSION_KEY';
-  static const String prefKeyBiometricsStatus = 'PREF_KEY_BIOMETRICS_STATUS';
   static const String prefKeyGlobalCurrency = 'PREF_KEY_GLOBAL_CURRENCY';
 
   late SharedPreferences mPrefs;
 
-  void persistSessionKey(String sessionKey) async {
+  Future<void> persistSessionKey(String sessionKey) async {
     await getPrefInstance();
     await mPrefs.setString(prefKeyCurrentUserSessionKey, sessionKey);
   }
@@ -47,16 +46,6 @@ class SessionManager {
   Future<String?> getGlobalCurrency() async {
     await getPrefInstance();
     return mPrefs.getString(prefKeyGlobalCurrency);
-  }
-
-  Future<bool?> getBiometricsStatus() async {
-    await getPrefInstance();
-    return mPrefs.getBool(prefKeyBiometricsStatus);
-  }
-
-  void setBiometricsStatus(bool isBiometricsOn) async {
-    await getPrefInstance();
-    await mPrefs.setBool(prefKeyBiometricsStatus, isBiometricsOn);
   }
 
   Future<String?> getUserLastName() async {

@@ -69,14 +69,15 @@ class FabriikClient {
     }
   }
 
-  Future<Map<String, dynamic>> _fetchJson(
-      {required String path,
-      required String method,
-      MerapiInputData? data,
-      bool sendSessionKey = true,
-      String? sessionKey,
-      SessionExpiredCallback? onExpired,
-      bool useFormData = false}) async {
+  Future<Map<String, dynamic>> _fetchJson({
+    required String path,
+    required String method,
+    MerapiInputData? data,
+    bool sendSessionKey = true,
+    String? sessionKey,
+    SessionExpiredCallback? onExpired,
+    bool useFormData = false,
+  }) async {
     final options = Options().compose(_httpClient.options, path)
       ..method = method;
 
