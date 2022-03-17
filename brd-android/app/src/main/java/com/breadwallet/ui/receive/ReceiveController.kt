@@ -31,6 +31,9 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import cash.just.support.CashSupport
+import cash.just.support.pages.Topic
+import cash.just.ui.CashUI
 import com.breadwallet.R
 import com.breadwallet.databinding.ControllerReceiveBinding
 import com.breadwallet.legacy.presenter.customviews.BRKeyboard
@@ -44,6 +47,7 @@ import com.breadwallet.ui.BaseMobiusController
 import com.breadwallet.ui.ViewEffect
 import com.breadwallet.ui.changehandlers.BottomSheetChangeHandler
 import com.breadwallet.ui.flowbind.clicks
+import com.breadwallet.ui.navigation.fragmentManager
 import com.breadwallet.ui.receive.ReceiveScreen.E
 import com.breadwallet.ui.receive.ReceiveScreen.F
 import com.breadwallet.ui.receive.ReceiveScreen.M
@@ -135,9 +139,14 @@ class ReceiveController(args: Bundle) : BaseMobiusController<M, E, F>(args) {
     }
 
     override fun bindView(modelFlow: Flow<M>): Flow<E> {
+        binding.faqButton.setOnClickListener {
+            router.fragmentManager()?.let {
+                CashUI.showSupportPage(CashSupport.Builder().detail(Topic.RECEIVE), it)
+            }
+        }
+
         return with(binding) {
             merge(
-                faqButton.clicks().map { E.OnFaqClicked },
                 shareButton.clicks().map { E.OnShareClicked },
                 closeButton.clicks().map { E.OnCloseClicked },
                 qrImage.clicks().map { E.OnCopyAddressClicked },

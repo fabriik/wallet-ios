@@ -59,6 +59,6 @@ object BrdRelease {
 
     const val ANDROID_TARGET_SDK = 29
     const val ANDROID_COMPILE_SDK = 31
-    const val ANDROID_MINIMUM_SDK = 23
+    const val ANDROID_MINIMUM_SDK = 24
     const val ANDROID_BUILD_TOOLS = "30.0.2"
 }

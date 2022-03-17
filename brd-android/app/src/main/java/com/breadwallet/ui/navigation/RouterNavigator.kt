@@ -24,6 +24,9 @@
  */
 package com.breadwallet.ui.navigation
 
+import cash.just.support.CashSupport
+import cash.just.support.pages.Topic
+import cash.just.ui.CashUI
 import android.util.Log
 import android.widget.Toast
 import com.bluelinelabs.conductor.Controller
@@ -139,13 +142,9 @@ class RouterNavigator(
     }
 
     override fun brdRewards() {
-        val rewardsUrl = HTTPServer.getPlatformUrl(HTTPServer.URL_REWARDS)
-        router.pushController(
-            WebController(rewardsUrl).asTransaction(
-                VerticalChangeHandler(),
-                VerticalChangeHandler()
-            )
-        )
+        router.fragmentManager()?.let {
+            CashUI.showSupportPage(CashSupport.Builder().detail(Topic.BRD_REWARDS), it)
+        }
     }
 
     override fun reviewBrd() {
@@ -245,12 +244,27 @@ class RouterNavigator(
     }
 
     override fun supportPage(effect: NavigationTarget.SupportPage) {
-        router.pushController(
-            WebController(effect.asSupportUrl()).asTransaction(
-                BottomSheetChangeHandler(),
-                BottomSheetChangeHandler()
-            )
-        )
+        router.fragmentManager()?.let {
+            when(effect.articleId) {
+                BRConstants.FAQ_SET_PIN -> {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.PIN), it)
+                }
+                BRConstants.FAQ_IMPORT_WALLET -> {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.IMPORT_WALLET), it)
+                }
+                BRConstants.FAQ_ENABLE_FINGERPRINT -> {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.FINGERPRINT), it)
+                }
+                BRConstants.FAQ_RESCAN -> {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SYNC_BITCOIN_BLOCK_CHAIN), it)
+                }
+                BRConstants.FAQ_PAPER_KEY -> {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.RECOVERY_KEY), it)
+                } else -> {
+                    CashUI.showSupportPage(CashSupport.Builder(), it)
+                }
+            }
+        }
     }
 
     override fun setPin(effect: NavigationTarget.SetPin) {
