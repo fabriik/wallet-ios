@@ -42,6 +42,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cash.just.support.CashSupport
+import cash.just.support.pages.Topic
+import cash.just.ui.CashUI
 import com.bluelinelabs.conductor.RouterTransaction
 import com.breadwallet.R
 import com.breadwallet.breadbox.WalletState
@@ -61,6 +64,7 @@ import com.breadwallet.ui.flowbind.clicks
 import com.breadwallet.ui.home.MAX_CRYPTO_DIGITS
 import com.breadwallet.ui.navigation.NavigationTarget
 import com.breadwallet.ui.navigation.asSupportUrl
+import com.breadwallet.ui.navigation.fragmentManager
 import com.breadwallet.ui.wallet.WalletScreen.DIALOG_CREATE_ACCOUNT
 import com.breadwallet.ui.wallet.WalletScreen.E
 import com.breadwallet.ui.wallet.WalletScreen.F
@@ -148,12 +152,9 @@ open class WalletController(args: Bundle) : BaseMobiusController<M, E, F>(args),
             updateUi()
             setPriceTags(BRSharedPrefs.isCryptoPreferred(), false)
             delistedTokenLayout.moreInfoButton.setOnClickListener {
-                val url = NavigationTarget.SupportPage(BRConstants.FAQ_UNSUPPORTED_TOKEN).asSupportUrl()
-                router.pushController(
-                    RouterTransaction.with(
-                        WebController(url)
-                    )
-                )
+                router.fragmentManager()?.let {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.FAQ_UNSUPPORTED_TOKEN), it)
+                }
             }
 
             txAdapter = ModelAdapter { TransactionListItem(it, currentModel.isCryptoPreferred) }
