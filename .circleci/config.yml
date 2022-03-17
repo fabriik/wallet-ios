@@ -98,6 +98,8 @@ jobs:
 
             brew install ghostscript SwiftLint
             brew install --cask android-commandlinetools
+            sdkmanager --update
+            sdkmanager --install "cmdline-tools;latest"
             export ANDROID_SDK_ROOT=/usr/local/bin
 
       - run:
