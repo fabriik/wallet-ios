@@ -98,7 +98,7 @@ jobs:
 
             brew install ghostscript SwiftLint
             brew install --cask android-commandlinetools
-            export ANDROID_SDK_ROOT=$(brew --prefix)/share/android-commandlinetools
+            export ANDROID_SDK_ROOT=$(brew --prefix)/share/android-commandlinetools/cmdline-tools/homebrew/bin
 
       - run:
           name: Check Key
