@@ -6,10 +6,7 @@ orbs:
 workflows:
   buildapp:
     jobs:
-      - build-fabriik:
-          filters:
-            branches:
-              only: gvh/ci
+      - build-fabriik
 
 jobs:
   build-fabriik:
