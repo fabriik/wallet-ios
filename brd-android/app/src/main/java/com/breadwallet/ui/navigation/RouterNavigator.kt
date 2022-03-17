@@ -24,6 +24,9 @@
  */
 package com.breadwallet.ui.navigation
 
+import cash.just.support.CashSupport
+import cash.just.support.pages.Topic
+import cash.just.ui.CashUI
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.Router
@@ -35,15 +38,9 @@ import com.breadwallet.R
 import com.breadwallet.breadbox.BreadBox
 import com.breadwallet.legacy.presenter.settings.NotificationSettingsController
 import com.breadwallet.logger.logError
-import com.breadwallet.tools.util.BRConstants
-import com.breadwallet.tools.util.EventUtils
-import com.breadwallet.tools.util.Link
-import com.breadwallet.tools.util.ServerBundlesHelper
-import com.breadwallet.tools.util.asLink
-import com.breadwallet.tools.util.btc
+import com.breadwallet.tools.util.*
 import com.breadwallet.ui.addwallets.AddWalletsController
 import com.breadwallet.ui.auth.AuthenticationController
-import com.breadwallet.ui.changehandlers.BottomSheetChangeHandler
 import com.breadwallet.ui.changehandlers.DialogChangeHandler
 import com.breadwallet.ui.controllers.AlertDialogController
 import com.breadwallet.ui.controllers.SignalController
@@ -83,8 +80,10 @@ import com.breadwallet.ui.uigift.CreateGiftController
 import com.breadwallet.ui.uigift.ShareGiftController
 import com.breadwallet.util.CryptoUriParser
 import com.breadwallet.util.isBrd
+import com.fabriik.buy.ui.BuyWebViewActivity
 import com.platform.HTTPServer
 import com.platform.util.AppReviewPromptManager
+import io.flutter.embedding.android.FlutterActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -92,7 +91,6 @@ import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.erased.instance
-import java.util.Locale
 
 @Suppress("TooManyFunctions")
 class RouterNavigator(
@@ -112,7 +110,7 @@ class RouterNavigator(
     override fun navigateTo(target: INavigationTarget) =
         patch(target as NavigationTarget)
 
-    fun Controller.asTransaction(
+    private fun Controller.asTransaction(
         popChangeHandler: ControllerChangeHandler? = FadeChangeHandler(),
         pushChangeHandler: ControllerChangeHandler? = FadeChangeHandler()
     ) = RouterTransaction.with(this)
@@ -138,13 +136,9 @@ class RouterNavigator(
     }
 
     override fun brdRewards() {
-        val rewardsUrl = HTTPServer.getPlatformUrl(HTTPServer.URL_REWARDS)
-        router.pushController(
-            WebController(rewardsUrl).asTransaction(
-                VerticalChangeHandler(),
-                VerticalChangeHandler()
-            )
-        )
+        router.fragmentManager()?.let {
+            CashUI.showSupportPage(CashSupport.Builder().detail(Topic.BRD_REWARDS), it)
+        }
     }
 
     override fun reviewBrd() {
@@ -152,29 +146,23 @@ class RouterNavigator(
         AppReviewPromptManager.openGooglePlay(checkNotNull(router.activity))
     }
 
-    override fun buy() {
-        val url = String.format(
-            BRConstants.CURRENCY_PARAMETER_STRING_FORMAT,
-            HTTPServer.getPlatformUrl(HTTPServer.URL_BUY),
-            btc.toUpperCase(Locale.ROOT)
-        )
-        val webTransaction =
-            WebController(url).asTransaction(
-                VerticalChangeHandler(),
-                VerticalChangeHandler()
-            )
+    override fun openKyc() {
+        router.activity?.let {
+            val intent = FlutterActivity
+                .withCachedEngine("flutter_kyc")
+                .build(it)
 
-        when (router.backstack.lastOrNull()?.controller) {
-            is HomeController -> router.pushController(webTransaction)
-            else -> {
-                router.setBackstack(
-                    listOf(
-                        HomeController().asTransaction(),
-                        webTransaction
-                    ),
-                    VerticalChangeHandler()
+            it.startActivity(intent)
+        }
+    }
+
+    override fun buy() {
+        router.activity?.let {
+            it.startActivity(
+                BuyWebViewActivity.getStartIntent(
+                    it
                 )
-            }
+            )
         }
     }
 
@@ -206,7 +194,7 @@ class RouterNavigator(
 
     override fun sendSheet(effect: NavigationTarget.SendSheet) {
         val controller = when {
-            effect.cryptoRequestUrl != null -> SendSheetController(effect.cryptoRequestUrl!!)
+            effect.cryptoRequestUrl != null -> SendSheetController(effect.cryptoRequestUrl)
             else -> SendSheetController(effect.currencyId)
         }
         router.pushController(RouterTransaction.with(controller))
@@ -250,12 +238,27 @@ class RouterNavigator(
     }
 
     override fun supportPage(effect: NavigationTarget.SupportPage) {
-        router.pushController(
-            WebController(effect.asSupportUrl()).asTransaction(
-                BottomSheetChangeHandler(),
-                BottomSheetChangeHandler()
-            )
-        )
+        router.fragmentManager()?.let {
+            when(effect.articleId) {
+                BRConstants.FAQ_SET_PIN -> {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.PIN), it)
+                }
+                BRConstants.FAQ_IMPORT_WALLET -> {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.IMPORT_WALLET), it)
+                }
+                BRConstants.FAQ_ENABLE_FINGERPRINT -> {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.FINGERPRINT), it)
+                }
+                BRConstants.FAQ_RESCAN -> {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SYNC_BITCOIN_BLOCK_CHAIN), it)
+                }
+                BRConstants.FAQ_PAPER_KEY -> {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.RECOVERY_KEY), it)
+                } else -> {
+                    CashUI.showSupportPage(CashSupport.Builder(), it)
+                }
+            }
+        }
     }
 
     override fun setPin(effect: NavigationTarget.SetPin) {

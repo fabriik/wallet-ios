@@ -34,6 +34,9 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import cash.just.support.CashSupport
+import cash.just.support.pages.Topic
+import cash.just.ui.CashUI
 import com.bluelinelabs.conductor.RouterTransaction
 import com.breadwallet.R
 import com.breadwallet.breadbox.TransferSpeed
@@ -57,6 +60,7 @@ import com.breadwallet.ui.controllers.AlertDialogController
 import com.breadwallet.ui.flowbind.clicks
 import com.breadwallet.ui.flowbind.focusChanges
 import com.breadwallet.ui.flowbind.textChanges
+import com.breadwallet.ui.navigation.fragmentManager
 import com.breadwallet.ui.scanner.ScannerController
 import com.breadwallet.ui.send.SendSheet.E
 import com.breadwallet.ui.send.SendSheet.E.OnAmountChange
@@ -169,7 +173,24 @@ class SendSheetController(args: Bundle? = null) :
         Utils.hideKeyboard(activity)
     }
 
+    override fun onHelpClicked(dialogId: String, controller: AlertDialogController) {
+        if (dialogId == DIALOG_PAYMENT_ERROR) {
+            router.fragmentManager()?.let {
+                // check if fastsync is off to show error: could not publish transaction
+                CashUI.showSupportPage(CashSupport.Builder().detail(Topic.ERROR_PUBLISH_TRANSACTION_P2P), it)
+            }
+        } else {
+            super.onHelpClicked(dialogId, controller)
+        }
+    }
+
     override fun bindView(modelFlow: Flow<M>): Flow<E> {
+        binding.buttonFaq.setOnClickListener {
+            router.fragmentManager()?.let {
+                CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
+            }
+        }
+
         return with(binding) {
             merge(
                 keyboard.bindInput(),
@@ -193,7 +214,6 @@ class SendSheetController(args: Bundle? = null) :
                 textInputHederaMemo.textChanges().map {
                     E.TransferFieldUpdate.Value(TransferField.HEDERA_MEMO, it)
                 },
-                buttonFaq.clicks().map { E.OnFaqClicked },
                 buttonScan.clicks().map { E.OnScanClicked },
                 buttonSend.clicks().map { E.OnSendClicked },
                 buttonClose.clicks().map { E.OnCloseClicked },

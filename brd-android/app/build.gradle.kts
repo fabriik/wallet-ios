@@ -158,8 +158,10 @@ android {
 }
 
 dependencies {
+    implementation(project(":flutter"))
     implementation(project(":cosmos-bundled"))
     implementation(project(":brd-android:app-core"))
+    implementation(project(":brd-android:buy"))
     implementation(Libs.WalletKit.CoreAndroid)
 
     // AndroidX
@@ -197,6 +199,7 @@ dependencies {
     implementation(Libs.Firebase.Analytics)
     implementation(Libs.Firebase.Messaging)
     implementation(Libs.Firebase.Crashlytics)
+    implementation(Libs.Firebase.FunctionsKtx)
     implementation(Libs.Guava.Core)
     implementation(Libs.Zxing.Core)
 
@@ -241,6 +244,9 @@ dependencies {
     // Kodein DI
     implementation(Libs.Kodein.CoreErasedJvm)
     implementation(Libs.Kodein.FrameworkAndroidX)
+
+    // Atmcoin
+    implementation(Libs.Atmcoin.CashUi)
 
     // Debugging/Monitoring
     debugImplementation(Libs.LeakCanary.Core)
