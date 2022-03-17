@@ -103,7 +103,6 @@ jobs:
             echo $(which adb)
             export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
             ls -la /usr/local/opt
-            ls -la ~/Library/Android/sdk/tools
 
       - run:
           name: Check Key
