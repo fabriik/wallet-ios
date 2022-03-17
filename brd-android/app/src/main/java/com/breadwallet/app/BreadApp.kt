@@ -31,6 +31,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Build
+import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.CameraXConfig
@@ -82,6 +83,10 @@ import com.platform.sqlite.PlatformSqliteHelper
 import com.platform.tools.KVStoreManager
 import com.platform.tools.TokenHolder
 import drewcarlson.blockset.BdbService
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterEngineCache
+import io.flutter.embedding.engine.dart.DartExecutor
+import io.flutter.plugin.common.MethodChannel
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import kotlinx.coroutines.*
@@ -98,12 +103,14 @@ import org.kodein.di.erased.singleton
 import java.io.File
 import java.io.UnsupportedEncodingException
 import java.util.*
+import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
 private const val LOCK_TIMEOUT = 180_000L // 3 minutes in milliseconds
 private const val ENCRYPTED_PREFS_FILE = "crypto_shared_prefs"
 private const val ENCRYPTED_GIFT_BACKUP_FILE = "gift_shared_prefs"
 private const val WALLETKIT_DATA_DIR_NAME = "cryptocore"
+private const val CONNECTION_TIMEOUT_SECONDS = 60
 
 @Suppress("TooManyFunctions")
 class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
@@ -302,6 +309,9 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
 
             BlockchainDb(
                 httpClient.newBuilder()
+                    .readTimeout(CONNECTION_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
+                    .writeTimeout(CONNECTION_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
+                    .connectTimeout(CONNECTION_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
                     .addInterceptor(authInterceptor)
                     .addInterceptor(fabriikAuthInterceptor)
                     .build(),
@@ -417,7 +427,8 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
     private val accountMetaData by instance<AccountMetaDataProvider>()
     private val conversionTracker by instance<ConversionTracker>()
     private val connectivityStateProvider by instance<ConnectivityStateProvider>()
-
+    private lateinit var flutterEngine: FlutterEngine
+    private val CHANNEL = "kyc-platform-channels"
     override fun onCreate() {
         super.onCreate()
         installHooks()
@@ -447,6 +458,34 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
         // Start our local server as soon as the application instance is created, since we need to
         // display support WebViews during onboarding.
         HTTPServer.getInstance().startServer(this)
+
+        flutterEngine = FlutterEngine(this)
+
+        flutterEngine.dartExecutor.executeDartEntrypoint(
+            DartExecutor.DartEntrypoint.createDefault()
+        )
+
+        FlutterEngineCache
+            .getInstance()
+            .put("flutter_kyc", flutterEngine)
+
+        initMethodChannel()
+    }
+
+    private fun initMethodChannel() {
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            CHANNEL
+        ).setMethodCallHandler { call, result ->
+            if (call.method == "getSessionKey") {
+                val pref = getSharedPreferences("default", Context.MODE_PRIVATE)
+                val sessionKey = pref.getString("sessionKey", null)
+                Log.d("BreadApp", "sessionKey from storage is $sessionKey")
+                result.success(sessionKey)
+            } else {
+                result.notImplemented()
+            }
+        }
     }
 
     /**
