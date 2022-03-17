@@ -96,12 +96,14 @@ import org.kodein.di.erased.singleton
 import java.io.File
 import java.io.UnsupportedEncodingException
 import java.util.*
+import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
 private const val LOCK_TIMEOUT = 180_000L // 3 minutes in milliseconds
 private const val ENCRYPTED_PREFS_FILE = "crypto_shared_prefs"
 private const val ENCRYPTED_GIFT_BACKUP_FILE = "gift_shared_prefs"
 private const val WALLETKIT_DATA_DIR_NAME = "cryptocore"
+private const val CONNECTION_TIMEOUT_SECONDS = 60
 
 @Suppress("TooManyFunctions")
 class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
@@ -300,6 +302,9 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
 
             BlockchainDb(
                 httpClient.newBuilder()
+                    .readTimeout(CONNECTION_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
+                    .writeTimeout(CONNECTION_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
+                    .connectTimeout(CONNECTION_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
                     .addInterceptor(authInterceptor)
                     .addInterceptor(fabriikAuthInterceptor)
                     .build(),
