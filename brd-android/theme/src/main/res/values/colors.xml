@@ -180,6 +180,7 @@
 
     <!-- Fabriik colors -->
     <color name="fabriik_background">#F9F9F9</color>
+    <color name="fabriik_blue_400">#82AFFC</color>
     <color name="fabriik_blue_700">#0861FF</color>
     <color name="fabriik_gray_300">#DADCE0</color>
     <color name="fabriik_light_grey">#DADCE0</color>
@@ -187,4 +188,5 @@
     <color name="fabriik_black">#2E3134</color>
     <color name="fabriik_green">#00A86E</color>
     <color name="fabriik_red">#D72431</color>
+    <color name="fabriik_gold_100">#F7F5F1</color>
 </resources>
