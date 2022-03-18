@@ -26,6 +26,7 @@ package com.breadwallet.ui.pin
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import com.breadwallet.R
 import com.breadwallet.databinding.ControllerPinInputBinding
@@ -80,9 +81,11 @@ class InputPinController(args: Bundle) : BaseMobiusController<M, E, F>(args) {
 
     override fun onCreateView(view: View) {
         super.onCreateView(view)
-        val pinDigitButtonColors = resources?.getIntArray(R.array.pin_digit_button_colors)
-        binding.brkeyboard.setButtonTextColor(pinDigitButtonColors)
+
+        val pinDigitButtonColor = ContextCompat.getColor(view.context, R.color.white)
+        binding.brkeyboard.setButtonTextColor(pinDigitButtonColor)
         binding.brkeyboard.setShowDecimal(false)
+        binding.brkeyboard.setDeleteImage(R.drawable.ic_delete_white)
     }
 
     override fun handleViewEffect(effect: ViewEffect) {
