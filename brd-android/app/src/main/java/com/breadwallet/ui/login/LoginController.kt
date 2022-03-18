@@ -152,10 +152,10 @@ class LoginController(args: Bundle? = null) :
         with(binding) {
             brkeyboard.setShowDecimal(false)
             brkeyboard.setDeleteButtonBackgroundColor(resources!!.getColor(android.R.color.transparent))
-            brkeyboard.setDeleteImage(R.drawable.ic_delete_dark)
+            brkeyboard.setDeleteImage(R.drawable.ic_delete_white)
 
-            val pinDigitButtonColors = resources!!.getIntArray(R.array.pin_digit_button_colors)
-            brkeyboard.setButtonTextColor(pinDigitButtonColors)
+            val pinDigitButtonColor = ContextCompat.getColor(root.context, R.color.white)
+            brkeyboard.setButtonTextColor(pinDigitButtonColor)
         }
     }
 

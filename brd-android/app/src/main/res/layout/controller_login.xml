@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   android:id="@+id/activity_pit"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   android:background="@color/primary_background"
-                                                   android:clickable="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_pit"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_blue_fabriik"
+    android:clickable="true">
 
 
     <com.breadwallet.legacy.presenter.customviews.BaseTextView
@@ -15,11 +15,11 @@
         android:layout_marginTop="12dp"
         android:drawableLeft="@drawable/ic_qrcode"
         android:drawablePadding="5dp"
+        android:fontFamily="@font/mobile_font_book"
         android:text="@string/Send.scanLabel"
         android:textColor="@color/logo_gradient_start"
         android:textSize="18sp"
         android:visibility="gone"
-        android:fontFamily="@font/mobile_font_book"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintVertical_bias="0.75"
-        app:pinDigitsResId="@drawable/ic_pin_dot_empty">
+        app:pinDigitsResId="@drawable/ic_pin_dot_empty_white"
+        app:pinFilledDotResId="@drawable/ic_pin_dot_filled_white">
 
     </com.breadwallet.legacy.presenter.customviews.PinLayout>
 
@@ -90,12 +91,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:background="@drawable/b_half_left_white"
+            android:fontFamily="@font/mobile_font_medium"
             android:paddingTop="8dp"
             android:paddingBottom="0dp"
             android:text="@string/UnlockScreen.myAddress"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:fontFamily="@font/mobile_font_medium"
             app:isBreadButton="false" />
 
         <com.breadwallet.legacy.presenter.customviews.BRButton
@@ -104,12 +105,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:background="@drawable/b_half_right_white"
+            android:fontFamily="@font/mobile_font_medium"
             android:paddingTop="8dp"
             android:paddingBottom="0dp"
             android:text="@string/UnlockScreen.scan"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            android:fontFamily="@font/mobile_font_medium" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <ImageView

@@ -80,17 +80,8 @@ class AboutController(args: Bundle? = null) : BaseController(args) {
             twitterShareButton.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BRConstants.URL_TWITTER)))
             }
-            blogShareButton.setOnClickListener {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BRConstants.URL_BLOG)))
-            }
             policyText.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BRConstants.URL_PRIVACY_POLICY)))
-            }
-
-            brdRewardsId.text = BRSharedPrefs.getWalletRewardId()
-            brdCopy.setOnClickListener {
-                BRClipboardManager.putClipboard(brdRewardsId.text.toString())
-                toast(R.string.Receive_copied)
             }
         }
     }

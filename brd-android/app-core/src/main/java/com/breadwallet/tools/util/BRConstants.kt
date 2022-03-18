@@ -136,9 +136,9 @@ object BRConstants {
     /**
      * Social media links and privacy policy URLS
      */
-    const val URL_PRIVACY_POLICY = "https://brd.com/privacy"
-    const val URL_TWITTER = "https://twitter.com/brdhq"
-    const val URL_REDDIT = "https://www.reddit.com/r/BRDapp/"
+    const val URL_PRIVACY_POLICY = "https://fabriik.com/privacy-policy/"
+    const val URL_TWITTER = "https://twitter.com/fabriik_market"
+    const val URL_REDDIT = "https://www.reddit.com/r/Fabriik/"
     const val URL_BLOG = "https://brd.com/blog/"
     const val URL_BRD_HOST = "brd.com"
     const val WALLET_PAIR_PATH = "wallet-pair"

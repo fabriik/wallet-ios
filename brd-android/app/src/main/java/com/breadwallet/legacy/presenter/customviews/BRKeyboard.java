@@ -231,4 +231,11 @@ public class BRKeyboard extends LinearLayout implements View.OnClickListener {
         invalidate();
     }
 
+    public void setButtonTextColor(int color) {
+        for (int i = 0; i < mPinButtons.size(); i++) {
+            mPinButtons.get(i).setTextColor(color);
+        }
+
+        invalidate();
+    }
 }

@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutSetPin"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/dark_blue_fabriik">
 
     <com.breadwallet.legacy.presenter.customviews.BaseTextView
         android:id="@+id/title"
@@ -66,6 +67,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:pinDigitsResId="@drawable/ic_pin_dot_empty_white"
+        app:pinFilledDotResId="@drawable/ic_pin_dot_filled_white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
