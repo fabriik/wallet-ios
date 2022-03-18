@@ -6,6 +6,7 @@ plugins {
     kotlin("android")
     id("kotlin-parcelize")
     id("dev.zacsweers.redacted")
+    id("kotlin-kapt")
 }
 
 redacted {
@@ -40,6 +41,9 @@ dependencies {
 
     implementation(Libs.Material.Core)
 
-    implementation(Libs.Networking.Moshi)
     implementation(Libs.Networking.Retrofit)
+    implementation(Libs.Networking.RetrofitMoshiConverter)
+
+    implementation(Libs.Networking.Moshi)
+    kapt(Libs.Networking.MoshiCodegen)
 }

@@ -85,6 +85,7 @@ const val COMPOSE_VERSION = "1.0.0-beta02"
 private const val ACCOMPANIST_VERSION = "0.6.2"
 private const val BLOCKSET_VERSION = "0.1.3"
 private const val RETROFIT_VERSION = "2.9.0"
+private const val MOSHI_VERSION = "1.12.0"
 
 object Libs {
 
@@ -187,8 +188,11 @@ object Libs {
     }
 
     object Networking {
-        const val Moshi = "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
+        const val Moshi = "com.squareup.moshi:moshi:$MOSHI_VERSION"
+        const val MoshiCodegen = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
+
         const val Retrofit = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+        const val RetrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
     }
 
     object Picasso {
