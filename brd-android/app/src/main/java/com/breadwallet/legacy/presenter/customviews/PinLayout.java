@@ -104,8 +104,7 @@ public class PinLayout extends LinearLayout implements BRKeyboard.OnInsertListen
 
         TypedValue pinDotColorValue = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.pin_dot_filled_background, pinDotColorValue, true);
-        mPinDotBackground = pinDotColorValue.resourceId;
-
+        mPinDotBackground = attributes.getResourceId(R.styleable.PinLayout_pinFilledDotResId, pinDotColorValue.resourceId);
     }
 
     private void useNewDigitLimit(boolean useNewLimit) {
