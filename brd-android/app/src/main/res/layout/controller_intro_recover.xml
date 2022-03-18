@@ -6,22 +6,19 @@
     android:id="@+id/layoutRecoverIntro"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_blue_fabriik">
+    android:background="@color/white">
 
-    <com.breadwallet.legacy.presenter.customviews.BRButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/send_button"
         android:layout_width="0dp"
-        android:layout_height="@dimen/button_height"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/bread_margin"
         android:layout_marginEnd="@dimen/bread_margin"
-        android:layout_marginBottom="32dp"
-        android:background="@android:color/transparent"
-        android:padding="10dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/b_fabriik_blue"
         android:text="@string/RecoverWallet.next"
         android:textColor="@color/white"
         android:textSize="@dimen/button_text_size"
-        app:buttonType="1"
-        app:isBreadButton="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
@@ -30,7 +27,6 @@
         android:id="@+id/relativeLayout"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:background="@drawable/recover_gradient"
         app:layout_constraintBaseline_toBaselineOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -48,7 +44,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/RecoverWallet.header"
-            android:textColor="@color/white"
+            android:textColor="@color/fabriik_black"
             android:textSize="@dimen/header"
             android:fontFamily="@font/mobile_font_bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="42dp"
             android:src="@drawable/ic_recover_intro_header"
+            app:tint="@color/fabriik_blue_700"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView2"/>
@@ -80,6 +77,7 @@
         android:text="@string/RecoverWallet.intro"
         android:textAlignment="center"
         android:textSize="@dimen/sub_header"
+        android:textColor="@color/fabriik_black"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout"/>
