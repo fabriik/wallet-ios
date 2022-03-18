@@ -10,15 +10,13 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/send_button"
+        style="@style/Fabriik.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/bread_margin"
         android:layout_marginEnd="@dimen/bread_margin"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/b_fabriik_blue"
         android:text="@string/RecoverWallet.next"
-        android:textColor="@color/white"
-        android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>

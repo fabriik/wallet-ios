@@ -99,13 +99,11 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/previous_button"
+            style="@style/Fabriik.Button.Washed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/b_fabriik_blue_washed"
-            android:textColor="@color/white"
             android:layout_weight="1"
-            android:text="@string/WritePaperPhrase.previous"
-            android:textSize="@dimen/button_text_size" />
+            android:text="@string/WritePaperPhrase.previous" />
 
         <View
             android:id="@+id/button_separator"
@@ -114,13 +112,11 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/next_button"
+            style="@style/Fabriik.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/b_fabriik_blue"
-            android:textColor="@color/white"
             android:layout_weight="1"
-            android:text="@string/RecoverWallet.next"
-            android:textSize="@dimen/button_text_size"/>
+            android:text="@string/RecoverWallet.next"/>
 
     </LinearLayout>
 

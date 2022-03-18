@@ -75,16 +75,14 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/submit_btn"
+            style="@style/Fabriik.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/b_fabriik_blue"
             android:layout_marginStart="@dimen/bread_margin"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="@dimen/bread_margin"
             android:layout_marginBottom="24dp"
             android:text="@string/Button.submit"
-            android:textColor="@color/white"
-            android:textSize="@dimen/button_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

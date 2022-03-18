@@ -69,15 +69,13 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_write_down"
+        style="@style/Fabriik.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/bread_margin"
         android:layout_marginEnd="@dimen/bread_margin"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/b_fabriik_blue"
-        android:text="@string/StartPaperPhrase.buttonTitle"
-        android:textColor="@color/white"
-        android:textSize="@dimen/button_text_size" />
+        android:text="@string/StartPaperPhrase.buttonTitle" />
 
 </RelativeLayout>
