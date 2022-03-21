@@ -41,7 +41,7 @@ import android.os.NetworkOnMainThreadException
 import androidx.annotation.VisibleForTesting
 
 import com.breadwallet.appcore.BuildConfig
-import com.breadwallet.breadbox.FabriikApiConstants
+import com.fabriik.buy.data.FabriikApiConstants
 import com.breadwallet.crypto.Key
 import com.breadwallet.logger.logDebug
 import com.breadwallet.logger.logError

@@ -3,6 +3,7 @@ package com.fabriik.buy.ui
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import com.fabriik.buy.BuildConfig
 import com.fabriik.buy.data.Resource
 import com.fabriik.buy.data.WyreApi
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,9 @@ class BuyWebViewViewModel(
         try {
             emit(
                 Resource.success(
-                    data = api.getPaymentUrl()
+                    data = api.getPaymentUrl(
+                        isTestNetwork = BuildConfig.DEBUG
+                    )
                 )
             )
         } catch (exception: Exception) {

@@ -46,7 +46,7 @@ class BuyWebViewActivity : AppCompatActivity() {
                 when {
                     trimmedUrl.startsWith("file://") ->
                         view.loadUrl(trimmedUrl)
-                    trimmedUrl == "${WyreApi.REDIRECT_URL}?" ->
+                    trimmedUrl.startsWith(WyreApi.REDIRECT_URL) ->
                         finish()
                     else ->
                         return false // Wyre links

@@ -1,6 +1,6 @@
-package com.breadwallet.breadbox
+package com.fabriik.buy.data
 
-import com.breadwallet.appcore.BuildConfig
+import com.fabriik.buy.BuildConfig
 
 object FabriikApiConstants {
 
@@ -9,10 +9,11 @@ object FabriikApiConstants {
         else -> "one-dev.moneybutton.io/blocksatoshi" //todo: change endpoint to production
     }
 
-    private val BASE_URL = "https://${HOST}"
+    private val BASE_URL = "https://$HOST"
 
+    val HOST_WYRE_API = "$BASE_URL/wyre/"
     val HOST_WALLET_API = "$BASE_URL/wallet"
     val HOST_BLOCKSATOSHI_API = "$BASE_URL/blocksatoshi"
 
-    val ENDPOINT_CURRENCIES = "${HOST_WALLET_API}/currencies"
+    val ENDPOINT_CURRENCIES = "$HOST_WALLET_API/currencies"
 }
