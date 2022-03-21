@@ -32,6 +32,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.net.toUri
+import cash.just.support.CashSupport
+import cash.just.support.pages.Topic
+import cash.just.ui.CashUI
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.breadwallet.R
@@ -42,6 +45,7 @@ import com.breadwallet.tools.util.TokenUtil
 import com.breadwallet.ui.BaseController
 import com.breadwallet.ui.navigation.NavigationTarget
 import com.breadwallet.ui.navigation.asSupportUrl
+import com.breadwallet.ui.navigation.fragmentManager
 import com.breadwallet.ui.web.WebController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
@@ -85,8 +89,9 @@ class IntroController : BaseController() {
                 )
             }
             faqButton.setOnClickListener {
-                val url = NavigationTarget.SupportPage(BRConstants.FAQ_START_VIEW).asSupportUrl()
-                router.pushController(RouterTransaction.with(WebController(url)))
+                router.fragmentManager()?.let {
+                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.GET_STARTED), it)
+                }
             }
         }
     }
@@ -150,14 +155,14 @@ class IntroController : BaseController() {
                 constraintSet.connect(
                     icon.id,
                     ConstraintSet.TOP,
-                    logoView.id,
+                    animationView.id,
                     ConstraintSet.TOP,
                     16
                 )
                 constraintSet.connect(
                     icon.id,
                     ConstraintSet.BOTTOM,
-                    logoView.id,
+                    animationView.id,
                     ConstraintSet.BOTTOM,
                     16
                 )

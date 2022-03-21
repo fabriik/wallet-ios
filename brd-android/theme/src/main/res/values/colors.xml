@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <item name="dark_blue_fabriik" type="color">#122348</item>
     <item name="white" type="color">#ffffff</item>
     <item name="white_transparent_75" type="color">#BFffffff</item>
     <item name="white_transparent_25" type="color">#40ffffff</item>
@@ -119,8 +119,8 @@
     <color name="add_wallets_border_color">#e5e5e5</color>
 
     // Dark Mode colors
-    <color name="primary_background">#251935</color>
-    <color name="secondary_background">#302442</color>
+    <color name="primary_background">#000000</color>
+    <color name="secondary_background">#0c0c0c</color>
     <color name="tertiary_background">#2E2540</color>
     <color name="prompt_background">#1E1C41</color>
     <color name="prompt_input">#f8f7fc</color>
@@ -178,4 +178,15 @@
     <color name="ui_error">#EA5A5A</color>
     <color name="ui_error_transparent">#29EA5A5A</color>
 
+    <!-- Fabriik colors -->
+    <color name="fabriik_background">#F9F9F9</color>
+    <color name="fabriik_blue_400">#82AFFC</color>
+    <color name="fabriik_blue_700">#0861FF</color>
+    <color name="fabriik_gray_300">#DADCE0</color>
+    <color name="fabriik_light_grey">#DADCE0</color>
+    <color name="fabriik_shuttle_grey">#5F6368</color>
+    <color name="fabriik_black">#2E3134</color>
+    <color name="fabriik_green">#00A86E</color>
+    <color name="fabriik_red">#D72431</color>
+    <color name="fabriik_gold_100">#F7F5F1</color>
 </resources>

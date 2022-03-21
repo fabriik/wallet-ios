@@ -34,6 +34,7 @@ private const val WALLETKIT_VERSION = "6.3.5"
 private const val FIREBASE_APPDIST_VERSION = "2.1.1"
 private const val FIREBASE_MESSAGING_VERSION = "21.0.1"
 private const val FIREBASE_ANALYTICS_VERSION = "18.0.2"
+private const val FIREBASE_FUNCTIONS_VERSION = "19.2.0"
 private const val FIREBASE_CONFIG_VERSION = "20.0.3"
 private const val CRASHLYTICS_VERSION = "17.4.1"
 private const val CRASHLYTICS_PLUGIN_VERSION = "2.5.2"
@@ -79,9 +80,12 @@ private const val BIOMETRIC_VERSION = "1.2.0-alpha02"
 private const val AGP_VERSION = "4.1.3"
 private const val SERVICES_PLUGIN_VERSION = "4.3.4"
 private const val AUTODESK_VERSION = "0.6.2"
+private const val CASH_UI_VERSION = "4.4-fabriik"
 const val COMPOSE_VERSION = "1.0.0-beta02"
 private const val ACCOMPANIST_VERSION = "0.6.2"
 private const val BLOCKSET_VERSION = "0.1.3"
+private const val RETROFIT_VERSION = "2.9.0"
+private const val MOSHI_VERSION = "1.12.0"
 
 object Libs {
 
@@ -100,8 +104,10 @@ object Libs {
     }
 
     object Androidx {
-        const val LifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$LIFECYCLE_EXT_VERSION"
         const val LifecycleScopeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$LIFECYCLE_EXT_VERSION"
+        const val LifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$LIFECYCLE_EXT_VERSION"
+        const val LifecycleLiveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE_EXT_VERSION"
+        const val LifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_EXT_VERSION"
         const val WorkManagerKtx = "androidx.work:work-runtime-ktx:$WORK_MANAGER_VERSION"
         const val WorkManagerTesting = "androidx.work:work-testing:$WORK_MANAGER_VERSION"
         const val CoreKtx = "androidx.core:core-ktx:$CORE_VERSION"
@@ -138,6 +144,7 @@ object Libs {
         const val Analytics = "com.google.firebase:firebase-analytics-ktx:$FIREBASE_ANALYTICS_VERSION"
         const val ConfigKtx = "com.google.firebase:firebase-config-ktx:$FIREBASE_CONFIG_VERSION"
         const val Crashlytics = "com.google.firebase:firebase-crashlytics-ndk:$CRASHLYTICS_VERSION"
+        const val FunctionsKtx = "com.google.firebase:firebase-functions-ktx:$FIREBASE_FUNCTIONS_VERSION"
         const val DistributionPlugin = "com.google.firebase:firebase-appdistribution-gradle:$FIREBASE_APPDIST_VERSION"
         const val CrashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_PLUGIN_VERSION"
     }
@@ -182,6 +189,14 @@ object Libs {
         const val Core = "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
         const val LoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION"
         const val MockWebServer = "com.squareup.okhttp3:mockwebserver:$OKHTTP_VERSION"
+    }
+
+    object Networking {
+        const val Moshi = "com.squareup.moshi:moshi:$MOSHI_VERSION"
+        const val MoshiCodegen = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
+
+        const val Retrofit = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+        const val RetrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
     }
 
     object Picasso {
@@ -273,6 +288,10 @@ object Libs {
 
     object AutoDesk {
         const val CoroutineWorker = "com.autodesk:coroutineworker:$AUTODESK_VERSION"
+    }
+
+    object Atmcoin {
+        const val CashUi = "com.github.atmcoin.cash-ui-android:cashUI:$CASH_UI_VERSION"
     }
 
     object Compose {

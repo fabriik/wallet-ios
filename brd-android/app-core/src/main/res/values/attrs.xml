@@ -18,6 +18,7 @@
     </declare-styleable>
     <declare-styleable name="PinLayout">
         <attr name="pinDigitsResId" format="reference"/>
+        <attr name="pinFilledDotResId" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="BRKeyboard">
