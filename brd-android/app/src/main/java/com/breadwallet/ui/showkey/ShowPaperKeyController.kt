@@ -125,48 +125,14 @@ class ShowPaperKeyController(args: Bundle) : BaseMobiusController<M, E, F>(args)
     /** Show or hide the "Previous" button used to navigate the ViewPager. */
     private fun updateButtons(showPrevious: Boolean) {
         with(binding) {
-            val nextButtonParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-
             if (!showPrevious) {
                 buttonsLayout.weightSum = BUTTONS_LAYOUT_WEIGHT_SUM_SINGLE
-
-                nextButtonParams.weight = NAVIGATION_BUTTONS_WEIGHT.toFloat()
-                nextButtonParams.gravity = Gravity.CENTER_HORIZONTAL
-                nextButtonParams.setMargins(
-                    resources!!.getDimension(R.dimen.margin).toInt(),
-                    0,
-                    resources!!.getDimension(R.dimen.margin).toInt(),
-                    0
-                )
-                nextButton.layoutParams = nextButtonParams
-                nextButton.height = resources!!.getDimension(R.dimen.large_button_height).toInt()
-
                 previousButton.visibility = View.GONE
+                buttonSeparator.visibility = View.GONE
             } else {
                 buttonsLayout.weightSum = BUTTONS_LAYOUT_WEIGHT_SUM_DEFAULT
-
-                nextButtonParams.weight = NAVIGATION_BUTTONS_WEIGHT.toFloat()
-                nextButtonParams.setMargins(0, 0, resources!!.getDimension(R.dimen.margin).toInt(), 0)
-                nextButton.layoutParams = nextButtonParams
-                nextButton.height = resources!!.getDimension(R.dimen.large_button_height).toInt()
-
-                val previousButtonParams = LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                previousButtonParams.weight = NAVIGATION_BUTTONS_WEIGHT.toFloat()
-                previousButtonParams.setMargins(
-                    resources!!.getDimension(R.dimen.margin).toInt(),
-                    0,
-                    0,
-                    0
-                )
-                previousButton.layoutParams = previousButtonParams
                 previousButton.visibility = View.VISIBLE
-                previousButton.height = resources!!.getDimension(R.dimen.large_button_height).toInt()
+                buttonSeparator.visibility = View.VISIBLE
             }
         }
     }

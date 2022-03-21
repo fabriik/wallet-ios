@@ -6,7 +6,7 @@
     android:id="@+id/layoutRecoverWallet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_blue_fabriik">
+    android:background="@color/white">
 
     <com.breadwallet.legacy.presenter.customviews.BaseTextView
         android:id="@+id/title"
@@ -16,6 +16,7 @@
         android:layout_marginTop="@dimen/bread_margin"
         android:text="@string/RecoverWallet.header"
         android:textSize="@dimen/header"
+        android:textColor="@color/fabriik_black"
         android:fontFamily="@font/mobile_font_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +28,7 @@
         android:layout_height="@dimen/faq_dimen"
         android:layout_marginTop="@dimen/bread_margin"
         android:background="?attr/faq_button_primary_color"
+        android:backgroundTint="@color/fabriik_black"
         android:layout_marginEnd="@dimen/bread_margin"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -42,26 +44,22 @@
         android:text="@string/RecoverWallet.subheader"
         android:textAlignment="center"
         android:textSize="@dimen/sub_header"
-        android:fontFamily="@font/mobile_font_bold"
+        android:textColor="@color/fabriik_black"
+        android:fontFamily="@font/mobile_font_book"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"/>
 
-    <com.breadwallet.legacy.presenter.customviews.BRButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/send_button"
+        style="@style/Fabriik.Button"
         android:layout_width="0dp"
-        android:layout_height="@dimen/button_height"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/b_blue"
-        android:padding="10dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/RecoverWallet.next"
-        android:textColor="@color/white"
-        android:textSize="@dimen/button_text_size"
-        app:buttonType="1"
-        app:isBreadButton="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
@@ -117,7 +115,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="1"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
 
             <LinearLayout
@@ -147,7 +145,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="2"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
 
             <LinearLayout
@@ -177,7 +175,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="3"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -213,7 +211,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="4"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
 
             <LinearLayout
@@ -243,7 +241,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="5"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
 
             <LinearLayout
@@ -273,7 +271,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="6"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -310,7 +308,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="7"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
 
             <LinearLayout
@@ -340,7 +338,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="8"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
 
             <LinearLayout
@@ -370,7 +368,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="9"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -409,7 +407,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="10"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
 
             <LinearLayout
@@ -440,7 +438,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="11"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
 
             <LinearLayout
@@ -470,7 +468,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="12"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/fabriik_black"/>
             </LinearLayout>
         </LinearLayout>
     </GridLayout>
@@ -495,7 +493,7 @@
         android:layout_marginEnd="16dp"
         android:background="@null"
         android:text="@string/Button.contactSupport.android"
-        android:textColor="@color/white"
+        android:textColor="@color/fabriik_shuttle_grey"
         android:visibility="gone"
         android:elevation="10dp"
         android:textSize="14sp"

@@ -82,10 +82,10 @@ class InputPinController(args: Bundle) : BaseMobiusController<M, E, F>(args) {
     override fun onCreateView(view: View) {
         super.onCreateView(view)
 
-        val pinDigitButtonColor = ContextCompat.getColor(view.context, R.color.white)
+        val pinDigitButtonColor = ContextCompat.getColor(view.context, R.color.fabriik_black)
         binding.brkeyboard.setButtonTextColor(pinDigitButtonColor)
         binding.brkeyboard.setShowDecimal(false)
-        binding.brkeyboard.setDeleteImage(R.drawable.ic_delete_white)
+        binding.brkeyboard.setDeleteImage(R.drawable.ic_delete_black)
     }
 
     override fun handleViewEffect(effect: ViewEffect) {

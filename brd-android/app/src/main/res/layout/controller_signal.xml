@@ -15,7 +15,7 @@
         android:layout_height="300dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:background="@drawable/signal_layout"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <com.breadwallet.legacy.presenter.customviews.BaseTextView
@@ -26,7 +26,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:textColor="@color/white"
+            android:textColor="@color/fabriik_black"
             android:textSize="@dimen/header"
             android:fontFamily="@font/mobile_font_bold"/>
 
@@ -45,7 +45,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_check_mark_white"/>
+            android:src="@drawable/ic_check_mark_white"
+            app:tint="@color/fabriik_green"/>
 
         <com.breadwallet.legacy.presenter.customviews.BaseTextView
             android:id="@+id/description"
@@ -55,11 +56,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            android:textColor="@color/white"
+            android:textColor="@color/fabriik_black"
             android:textSize="12sp"
             android:fontFamily="@font/mobile_font_book"/>
 
     </LinearLayout>
-
 
 </com.breadwallet.legacy.presenter.customviews.BRRelativeLayout>

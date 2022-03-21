@@ -115,7 +115,7 @@ class RecoveryKeyController(
 
         theme.resolveAttribute(R.attr.input_words_text_color, inputTextColorValue, true)
         errorTextColor = resources.getColor(R.color.red_text, theme)
-        normalTextColor = resources.getColor(inputTextColorValue.resourceId, theme)
+        normalTextColor = resources.getColor(R.color.fabriik_black, theme)
 
         // TODO: This needs a better home
         if (Utils.isUsingCustomInputMethod(applicationContext)) {
