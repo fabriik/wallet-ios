@@ -94,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginBottom="8dp"
-            app:backgroundColor="@color/button_primary_normal"
+            app:backgroundColor="@color/fabriik_blue_700"
             app:withStroke="false">
 
             <com.breadwallet.legacy.presenter.customviews.BaseTextView
@@ -110,24 +110,16 @@
                 android:textSize="@dimen/paragraph" />
         </com.breadwallet.legacy.presenter.customviews.BRLinearLayoutWithCaret>
 
-        <com.breadwallet.legacy.presenter.customviews.BRButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/share_button"
+            style="@style/Fabriik.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:drawableStart="@drawable/ic_share_vertical_gray"
-            android:paddingLeft="48dp"
-            android:paddingTop="12dp"
-            android:paddingRight="48dp"
-            android:paddingBottom="12dp"
-            android:text="@string/Receive.share"
-            android:textColor="@color/light_gray"
-            android:textSize="18sp"
-            app:buttonType="1"
-            app:hasShadow="false"
-            app:isBreadButton="true" />
+            android:layout_margin="16dp"
+            android:text="@string/Receive.share" />
 
     </LinearLayout>
 
