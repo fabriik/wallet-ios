@@ -1,227 +1,197 @@
+# Java Gradle CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
 version: 2.1
-
-orbs:
-  slack: circleci/slack@4.8.3
-
-workflows:
-  buildapp:
-    jobs:
-      - build-fabriik:
-          filters:
-            branches:
-              only: gvh/ci
-
 jobs:
-  build-fabriik:
-    macos:
-      xcode: 13.3 # Specify the Xcode version to use
+  build:
+    docker:
+      - image: circleci/android:api-29-ndk
+    resource_class: medium+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      SDK_FILENAME: sdk-tools-linux-4333796.zip
+      ANDROID_HOME: /opt/android/sdk
+
 
     steps:
       - checkout
 
-        # next four run commands to work around xcodebuild bug using private repos for swift pacakages
+      #Check init
       - run:
-          name: Use Default SCM (Work Around xCode bug)
-          command : |
-            sudo defaults write com.apple.dt.Xcode IDEPackageSupportUseBuiltinSCM YES
-
-      - run:
-          name: Renove ssh Key (Work Around xCode bug)
-          command : |
-            rm ~/.ssh/id_rsa || true
-
-      - run:
-          name: Set Known Host IPs for bitbucket (Work Around xCode bug)
-          command : |
-            for ip in $(dig @8.8.8.8 bitbucket.org +short); do ssh-keyscan bitbucket.org,$ip; ssh-keyscan $ip; done 2>/dev/null >> ~/.ssh/known_hosts || true
-
-      - run:
-          name: Set Known Host IPs for github (Work Around xCode bug)
-          command : |
-            for ip in $(dig @8.8.8.8 github.com +short); do ssh-keyscan github.com,$ip; ssh-keyscan $ip; done 2>/dev/null >> ~/.ssh/known_hosts || true
-
-      - run:
-          name: Pull Submodules
+          name: check init
           command: |
-            git submodule update --init --recursive
-
-      - run:
-          name: Check Init
-          command: |
-            swift --version
-            cat /etc/shells
-            ls -la
-
+            echo $PWD
+            ls -la .
+            ls -la $ANDROID_HOME
+      # Download and cache dependencies gradle
       - restore_cache:
           keys:
-            - v1-dependencies
+            - v4-dependencies-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
+
+      #Check init
+      - run:
+          name: check init Key
+          command: |
+            mkdir /home/circleci/key
+            echo $test_keystore > /home/circleci/key/base64
+            base64 -d /home/circleci/key/base64 > /home/circleci/key/keystore
+            ls -la /home/circleci/key
+      #Refresh gradle
+      - run:
+          name: Refresh gradle
+          command: |
+            ./gradlew   dependencies
+      #gradle build
+      - run:
+          name: gradle detekt
+          command: |
+            ./gradlew --console=plain detekt
+      #gradle build
+      - run:
+          name: gradle testBrdTestnetDebugUnitTest
+          command: |
+            ./gradlew  --console=plain  testBrdTestnetDebugUnitTest
+
+      #gradle build
+      #- run:
+      #    name: gradle testDebugUnitTest
+      #    command: |
+      #      ./gradlew  --console=plain  testDebugUnitTest
+
+      #gradle build
+      - run:
+          name: gradle jacoco
+          command: |
+            ./gradlew  --console=plain app:jacocoTestReport
+
+      #gradle build
+      - run:
+          name: gradle assembleRelease
+          command: |
+            ./gradlew --stacktrace  --console=plain app:bundleBrdTestnetRelease  -Pandroid.injected.signing.store.file='/home/circleci/key/keystore' -Pandroid.injected.signing.store.password=$test_password -Pandroid.injected.signing.key.alias='key0' -Pandroid.injected.signing.key.password=$test_sign_password
+      # SONAR
+      - run:
+          name:  sonar check
+          command: |
+            echo SonarStart
+            ./gradlew  --console=plain --stacktrace   sonarqube  -Dsonar.organization=$sonar_organization  -Dsonar.host.url=https://sonarcloud.io -Dsonar.projectName=atm-wallet-android -Dsonar.projectKey=atmcoin_atm-wallet-android -Dsonar.login=$sonar_login -Dsonar.branch.name=$CIRCLE_BRANCH  -Dsonar.coverage.jacoco.xmlReportPaths=/home/circleci/repo/app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml -Dsonar.junit.reportPaths=build/test-results/testBrdTestnetDebugUnitTest
+      # save cache
       - save_cache:
           paths:
-            - ~/Library/Caches/Homebrew
+            - ~/.gradle
 
-          key: v1-dependencies
+          key: v4-dependencies-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
+
+      # save tests!
       - run:
-          name: Check Key
+          name: Save test results
           command: |
-            mkdir -p ~/cert
-
-            echo $IOS_DISTRIBUTION_CERT > ~/cert/base64cert
-            base64 -d  ~/cert/base64cert > ~/cert/ios_distribution.cer
-
-            echo $IOS_DISTRIBUTION_P12 > ~/cert/base64p12
-            base64 -d  ~/cert/base64p12 > ~/cert/ios_distribution.p12
-            ls -la ~/cert
-
-      - run:
-          name: Install Key
-          command: |
-            security create-keychain -p test  ~/Library/Keychains/default.keychain
-            security unlock-keychain -p test ~/Library/Keychains/default.keychain
-            security set-keychain-settings -t 9999 -l ~/Library/Keychains/default.keychain
-
-            security -v import .circleci/cert/apple.cer                                         -k ~/Library/Keychains/default.keychain -T /usr/bin/codesign
-            security -v import ~/cert/ios_distribution.cer                                 -k ~/Library/Keychains/default.keychain -T /usr/bin/codesign
-            security -v import  ~/cert/ios_distribution.p12  -t agg -P $IOS_DISTRIBUTION_P12_PASS -k ~/Library/Keychains/default.keychain -T /usr/bin/codesign
-            security find-certificate -a  ~/Library/Keychains/default.keychain
-
-            security default-keychain -s ~/Library/Keychains/default.keychain
-
-      - run:
-          name: Install Prerequisites
-          command: |
-            brew --cache
-
-            brew tap adoptopenjdk/openjdk
-            brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
-            export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-            ls -la /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-
-            brew install ghostscript SwiftLint
-            brew install --cask android-commandlinetools
-
-      - run:
-          name: Copy SDK License
-          command: |
-            mkdir /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses
-            touch /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses/android-sdk-license
-            printf "8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee\n" > /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses/android-sdk-license
-
-      - run:
-          name: Check Key
-          command: |
-             security list-keychains -d user -s ~/Library/Keychains/default.keychain
-
-      - run:
-          name: Provisioning Profile
-          command: |
-            cd brd-ios
-            sed "s/PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one;/PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one;\                PROVISIONING_PROFILE_SPECIFIER = wallet-CNI-distribution2;\                CODE_SIGN_IDENTITY = \"iPhone Distribution\";\                CODE_SIGN_STYLE = Manual;/g"  breadwallet.xcodeproj/project.pbxproj  > breadwallet.xcodeproj/project.pbxproj.rnm
-            cp breadwallet.xcodeproj/project.pbxproj.rnm breadwallet.xcodeproj/project.pbxproj
-            mkdir test_output
-            cp breadwallet.xcodeproj/project.pbxproj.rnm test_output
-            cd ..
-            uuid=`grep UUID -A1 -a .circleci/mobileprovision/wallet-CNI-distribution2.mobileprovision | grep -io "[-A-F0-9]\{36\}"`
-            mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-            cp .circleci/mobileprovision/wallet-CNI-distribution2.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
-            ls -la ~/Library/MobileDevice/Provisioning\ Profiles
-
-            git status
-
-      - run:
-          name: Help and Project List
-          command: |
-            cd brd-ios
-            xcodebuild --help
-            xcodebuild -project breadwallet.xcodeproj -list
-
-      - run:
-          name: Build Clean
-          command: |
-            cd brd-ios
-            xcodebuild clean -workspace breadwallet.xcworkspace -scheme breadwallet | xcpretty
-
-
-      - run:
-          name: Create .env and local.properties and fix build.gradle
-          command: |
-            cd brd-ios
-            BRD_ENV=.env
-            touch $BRD_ENV
-            echo "API_TOKEN = $API_TOKEN" >> $BRD_ENV
-            echo "API_URL = $API_URL" >> $BRD_ENV
-            echo "DEBUG_TOKEN = $DEBUG_TOKEN" >> $BRD_ENV
-            echo "DEBUG_URL = $DEBUG_URL" >> $BRD_ENV
-            cd ..
-            echo "sdk.dir=/usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin" > ./local.properties
-
-      - run:
-          name: Build Walletkit Subproject
-          command: |
-            export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin
-            cp ./local.properties external/walletKit/walletKitJava/local.properties
-            ./gradlew cosmos-bundled:createXCFramework
-            sed -i '' '18i\'$'\n        ndkVersion \'21.1.6352462\'\n\n' external/walletkit/WalletKitJava/corenative-android/build.gradle
-
-      - run:
-          name: Run Build
-          command: |
-            security default-keychain
-            security set-keychain-settings -lut 9999
-            security unlock-keychain -p test ~/Library/Keychains/default.keychain
-            echo "Make Build Directory"
-            mkdir brd-ios/build
-
-            echo "Copy exportOptions.plist to build"
-            cp .circleci/config/exportOptions.plist brd-ios/build
-
-            echo "change to brd-ios directory and build"
-            cd brd-ios
-            ./scripts/makebuild.sh 4.11.0 ${CIRCLE_BUILD_NUM} ci
-
-      - run:
-          name: Export Build
-          command: |
-            security default-keychain
-            security set-keychain-settings -lut 9999
-            security unlock-keychain -p test ~/Library/Keychains/default.keychain
-
-            echo "Export build to archive"
-            cd brd-ios
-
-            scheme="breadwallet"
-            export_path="build"
-            archive_path="build/fabriik.xcarchive"
-
-            # Export the build
-            xcodebuild -exportArchive -archivePath "$archive_path" -exportOptionsPlist build/exportOptions.plist -exportPath $export_path
-
-      - run:
-          name: Upload Build
-          command: |
-            security default-keychain
-            security set-keychain-settings -lut 9999
-            security unlock-keychain -p test ~/Library/Keychains/default.keychain
-
-            echo "Upload build to testflight"
-            cd brd-ios
-
-            scheme="breadwallet"
-            export_path="build"
-            archive_path="build/fabriik.xcarchive"
-
-            # Upload if on a release branch
-            if [[ ${CIRCLE_BRANCH} == releases* ]]; then
-                echo "Release build detected . Will upload to TestFlight.  Branch is " ${CIRCLE_BRANCH}
-                xcrun altool --upload-app --type ios --file "$export_path/"$scheme".ipa" --username "$APPLE_BUILD_USER" --password "$APPLE_BUILD_PASSWORD"
-            else
-                echo "Not a releases build.  Will NOT upload. Branch is " ${CIRCLE_BRANCH}
-            fi
-
+            mkdir -p ~/atrifact
+            ls -l ./app/build
+            cp -r ./app/build/reports ~/atrifact;
+            cp -r ./app/build/test-results ~/atrifact;
+            cp -r ./app/build/outputs ~/atrifact;
+          when: always
       - store_test_results:
-          path: brd-ios/test_output
-
+          path: ./app/build/test-results
       - store_artifacts:
-          path: brd-ios/build
-          destination: arty
+          path: ~/atrifact
+  release:
+    docker:
+      - image: circleci/android:api-29-ndk
+    resource_class: medium+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      SDK_FILENAME: sdk-tools-linux-4333796.zip
+      ANDROID_HOME: /opt/android/sdk
+
+
+    steps:
+      - checkout
+
+      #Check init
+      - run:
+          name: check init
+          command: |
+            echo $PWD
+            ls -la .
+            ls -la $ANDROID_HOME
+      # Download and cache dependencies gradle
+      - restore_cache:
+          keys:
+            - v4-dependencies-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+
+
+      #Check init
+      - run:
+          name: check init Key
+          command: |
+            mkdir /home/circleci/key
+            echo $release_keystore > /home/circleci/key/base64
+            base64 -d /home/circleci/key/base64 > /home/circleci/key/keystore
+            ls -la /home/circleci/key
+      #Refresh gradle
+      - run:
+          name: Refresh gradle
+          command: |
+            ./gradlew   dependencies
+      #gradle build
+      - run:
+          name: gradle testBrdReleaseUnitTest
+          command: |
+            ./gradlew  --console=plain testBrdReleaseUnitTest
+
+      #gradle build
+      - run:
+          name: gradle assembleRelease
+          command: |
+            ./gradlew --stacktrace  --console=plain app:bundleBrdRelease  -Pandroid.injected.signing.store.file='/home/circleci/key/keystore' -Pandroid.injected.signing.store.password=$release_password -Pandroid.injected.signing.key.alias='key0' -Pandroid.injected.signing.key.password=$release_sign_password
+      # save cache
+      - save_cache:
+          paths:
+            - ~/.gradle
+
+          key: v4-dependencies-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+
+
+
+      # save tests!
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/atrifact
+            ls -l ./app/build
+            cp -r ./app/build/reports ~/atrifact;
+            cp -r ./app/build/test-results ~/atrifact;
+            cp -r ./app/build/outputs ~/atrifact;
+          when: always
+      - store_test_results:
+          path: ./app/build/test-results
+      - store_artifacts:
+          path: ~/atrifact
+
+
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build
+          filters:
+            branches:
+              only:
+                - rok/ci
+      - release:
+          filters:
+            branches:
+              only:
+                - /release\/.*/
+          requires:
+            - build
