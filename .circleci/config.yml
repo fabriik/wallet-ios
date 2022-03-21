@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Generate Jacoco report
           command: |
-            ./gradlew  --console=plain app:jacocoTestReport
+            ./gradlew  --console=plain brd-android:app:jacocoTestReport
 
       # save cache
       - save_cache:
