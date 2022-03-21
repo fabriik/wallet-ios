@@ -29,17 +29,23 @@ jobs:
           command: |
             git submodule update --init --recursive
 
-      #Refresh gradle
+      # Refresh gradle
       - run:
           name: Refresh gradle
           command: |
             ./gradlew   dependencies
 
-      #gradle build
+      # Unit tests
       - run:
-          name: gradle assembleBrdTestnetDebug
+          name: Run unit tests
           command: |
-            ./gradlew  --console=plain  assembleBrdTestnetDebug
+            ./gradlew  --console=plain  testBrdTestnetDebugUnitTest
+
+      # Generate Jacoco report
+      - run:
+          name: Generate Jacoco report
+          command: |
+            ./gradlew  --console=plain app:jacocoTestReport
 
       # save cache
       - save_cache:
