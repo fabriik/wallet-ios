@@ -21,7 +21,7 @@ jobs:
       # Download and cache dependencies gradle
       - restore_cache:
           keys:
-            - fabriik-dependencies-{{ checksum "brd-android/build.gradle" }}-{{ checksum "brd-android/app/build.gradle" }}
+            - fabriik-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
 
       # Pull submodules
       - run:
@@ -43,7 +43,7 @@ jobs:
 
       # save cache
       - save_cache:
-          key: fabriik-dependencies-{{ checksum "brd-android/build.gradle" }}-{{ checksum "brd-android/app/build.gradle" }}
+          key: fabriik-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
           paths:
             - ~/.gradle
 
