@@ -18,15 +18,16 @@ jobs:
     steps:
       - checkout
 
+      # Download and cache dependencies gradle
+      - restore_cache:
+          keys:
+            - fabriik-dependencies-{{ checksum "brd-android/build.gradle" }}-{{ checksum "brd-android/app/build.gradle" }}
+
+      # Pull submodules
       - run:
           name: Pull submodules
           command: |
             git submodule update --init --recursive
-
-      # Download and cache dependencies gradle
-      - restore_cache:
-          keys:
-            - v4-dependencies-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
       #Refresh gradle
       - run:
@@ -42,11 +43,9 @@ jobs:
 
       # save cache
       - save_cache:
+          key: fabriik-dependencies-{{ checksum "brd-android/build.gradle" }}-{{ checksum "brd-android/app/build.gradle" }}
           paths:
             - ~/.gradle
-
-          key: v4-dependencies-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-
 
 workflows:
   version: 2
