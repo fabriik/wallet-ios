@@ -25,11 +25,22 @@
 package com.breadwallet.ui.flowbind
 
 import android.widget.Switch
+import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 fun Switch.checked(): Flow<Boolean> =
+    callbackFlow {
+        setOnCheckedChangeListener { _, isChecked ->
+            offer(isChecked)
+        }
+        awaitClose {
+            setOnCheckedChangeListener(null)
+        }
+    }
+
+fun SwitchMaterial.checked(): Flow<Boolean> =
     callbackFlow {
         setOnCheckedChangeListener { _, isChecked ->
             offer(isChecked)

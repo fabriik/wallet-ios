@@ -54,8 +54,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.2"
-            app:layout_constraintWidth_percent="0.8"
-            tools:src="@drawable/brd_logo_gradient" />
+            app:layout_constraintWidth_percent="0.4"
+            tools:src="@drawable/ic_flower" />
 
         <com.breadwallet.legacy.presenter.customviews.BRButton
             android:id="@+id/notification_btn"
