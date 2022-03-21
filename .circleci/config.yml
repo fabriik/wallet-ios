@@ -18,7 +18,19 @@ jobs:
 
     steps:
       - checkout
-      - run: flutter doctor
+
+      # Setup Flutter SDK
+      - run:
+          name: Download Flutter SDK
+          command:
+            - git clone https://github.com/flutter/flutter.git /opt/flutter
+            - /opt/flutter/bin/flutter doctor
+
+      # Setup kyc-flutter module
+      - run:
+          name: Setup kyc-flutter module
+          command: |
+            git clone https://github.com/flutter/flutter.git /opt/flutter
 
       # Download and cache dependencies gradle
       - restore_cache:
