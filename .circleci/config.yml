@@ -18,6 +18,11 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          name: Pull submodules
+          command: |
+            git submodule update --init --recursive
+
       # Download and cache dependencies gradle
       - restore_cache:
           keys:
