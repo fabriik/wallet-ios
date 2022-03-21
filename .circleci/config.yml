@@ -6,7 +6,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/android:api-29-ndk
+      - image: circleci/android:api-30-ndk
     resource_class: medium+
     working_directory: ~/repo
 
@@ -53,6 +53,20 @@ jobs:
           paths:
             - ~/.gradle
 
+      # save reports
+      - run:
+          name: Save test reports
+          command: |
+            mkdir -p ~/reports
+            ls -l ./brd-android/app/build
+            cp -r ./brd-android/app/build/reports ~/reports;
+            cp -r ./brd-android/app/build/test-results ~/reports;
+            cp -r ./brd-android/app/build/outputs ~/reports;
+          when: always
+      - store_test_results:
+          path: ./brd-android/app/build/test-results
+      - store_artifacts:
+          path: ~/reports
 workflows:
   version: 2
   commit:
