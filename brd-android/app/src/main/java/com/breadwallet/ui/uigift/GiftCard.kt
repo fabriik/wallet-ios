@@ -109,8 +109,8 @@ internal object GiftCard {
 
         // Logo (do not update nextY)
         drawNext(nextY, 0f, cardMargin) { y, _ ->
-            val logo = ContextCompat.getDrawable(context, R.drawable.brd_logo_gradient)!!
-            canvas.drawBitmap(logo.toBitmap(240, 80), cardMargin, y, paint())
+            val logo = ContextCompat.getDrawable(context, R.drawable.ic_flower_black)!!
+            canvas.drawBitmap(logo.toBitmap(90, 90), cardMargin, y, paint())
         }
 
         // Approx label
