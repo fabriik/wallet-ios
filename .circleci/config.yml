@@ -7,7 +7,6 @@ jobs:
   build:
     docker:
       - image: circleci/android:api-30-ndk
-      - image: cirrusci/flutter
     resource_class: medium+
     working_directory: ~/repo
 
@@ -22,15 +21,11 @@ jobs:
       # Setup Flutter SDK
       - run:
           name: Download Flutter SDK
-          command:
-            - git clone https://github.com/flutter/flutter.git /opt/flutter
-            - /opt/flutter/bin/flutter doctor
-
-      # Setup kyc-flutter module
-      - run:
-          name: Setup kyc-flutter module
           command: |
             git clone https://github.com/flutter/flutter.git /opt/flutter
+
+      # Setup kyc-flutter module
+      - run: /opt/flutter/bin/flutter doctor
 
       # Download and cache dependencies gradle
       - restore_cache:
