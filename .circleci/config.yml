@@ -22,8 +22,8 @@ jobs:
       - run:
           name: Get last Flutter SDK commit
           command: |
-            export FLUTTER_SDK_LAST_COMMIT=$(git ls-remote https://github.com/flutter/flutter.git HEAD | awk '{ print $1}')
-            echo 'export $FLUTTER_SDK_LAST_COMMIT' >> $BASH_ENV
+            export TEMP_FLUTTER_SDK_LAST_COMMIT=$(git ls-remote https://github.com/flutter/flutter.git HEAD | awk '{ print $1}')
+            echo 'export FLUTTER_SDK_LAST_COMMIT=$TEMP_FLUTTER_SDK_LAST_COMMIT' >> $BASH_ENV
             source $BASH_ENV
 
       # Download and cache dependencies gradle
