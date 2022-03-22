@@ -26,6 +26,7 @@ jobs:
 
       # Restore cache - Flutter SDK
       - restore_cache:
+          name: Restoring cache - Flutter SDK
           keys:
             - v1-flutter-sdk-{{ checksum "brd-android/kyc-flutter/.metadata" }}
 
@@ -59,6 +60,7 @@ jobs:
 
       # Restore cache - Gradle
       - restore_cache:
+          name: Restoring cache - Gradle
           keys:
             - v1-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
 
