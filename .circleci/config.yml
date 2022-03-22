@@ -38,7 +38,7 @@ jobs:
 
             # check for flutter sdk folder
             if [ ! -d flutter-sdk ]; then
-              export TARGET_COMMIT = $(awk '/revision:/ {print $2}' brd-android/kyc-flutter/.metadata)
+              export TARGET_COMMIT=$(awk '/revision:/ {print $2}' brd-android/kyc-flutter/.metadata)
               git clone --branch $TARGET_COMMIT https://github.com/flutter/flutter.git flutter-sdk
               flutter precache
               flutter doctor
