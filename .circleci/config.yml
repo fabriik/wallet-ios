@@ -41,7 +41,11 @@ jobs:
             cd brd-android/kyc-flutter
             flutter clean
             flutter pub get
-            cd ../..
+            ls -a
+            cd .android
+            ls -a
+            pwd
+            cd ../../..
             ./gradlew --stacktrace dependencies
 
       # Unit tests
