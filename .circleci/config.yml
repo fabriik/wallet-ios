@@ -20,10 +20,13 @@ jobs:
 
       # Setup Flutter SDK
       - run:
-          name: Download Flutter SDK
+          name: Setup Flutter SDK
           command: |
             git clone https://github.com/flutter/flutter.git flutter-sdk
-            flutter-sdk/bin/flutter doctor
+            export PATH="$PATH:~/flutter-sdk/bin"
+            flutter doctor
+            cd brd-android/kyc-flutter
+            flutter pub get
 
       # Download and cache dependencies gradle
       - restore_cache:
