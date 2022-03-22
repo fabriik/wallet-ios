@@ -23,7 +23,7 @@ jobs:
           name: Setup Flutter SDK
           command: |
             git clone https://github.com/flutter/flutter.git flutter-sdk
-            export PATH="$PATH:~/flutter-sdk/bin"
+            export PATH="$PATH:$(pwd)/flutter-sdk/bin"
             flutter doctor
             cd brd-android/kyc-flutter
             flutter pub get
