@@ -22,7 +22,7 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
-            - v1-flutter-sdk-{{ checksum "brd-android/kyc-flutter/.metadata" }}
+            - test-flutter-sdk-{{ checksum "brd-android/kyc-flutter/.metadata" }}
 
       # Pull submodules
       - run:
@@ -38,8 +38,8 @@ jobs:
 
             # check for flutter sdk folder
             if [ ! -d flutter-sdk ]; then
-              FLUTTER_COMMIT = $(awk '/revision:/ {print $2}' brd-android/kyc-flutter/.metadata)
-              git clone --branch $FLUTTER_COMMIT https://github.com/flutter/flutter.git flutter-sdk
+              TARGET_COMMIT = $(awk '/revision:/ {print $2}' brd-android/kyc-flutter/.metadata)
+              git clone --branch $TARGET_COMMIT https://github.com/flutter/flutter.git flutter-sdk
               flutter precache
               flutter doctor
             fi
