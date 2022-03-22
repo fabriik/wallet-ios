@@ -45,12 +45,8 @@ jobs:
             ls -a
             cd .android
             ls -a
-
-      # Refresh gradle
-      - run:
-          name: Refresh gradle
-          command: |
-            ./gradlew   dependencies
+            d ../..
+            gradlew   dependencies
 
       # Unit tests
       - run:
