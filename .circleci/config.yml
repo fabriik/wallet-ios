@@ -45,7 +45,7 @@ jobs:
             ls -a
             cd .android
             ls -a
-            d ../..
+            cd ../..
             gradlew   dependencies
 
       # Unit tests
