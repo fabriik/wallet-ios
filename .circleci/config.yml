@@ -40,6 +40,15 @@ jobs:
             cd brd-android/kyc-flutter
             flutter clean
             flutter pub get
+
+      # Verify flutter files
+      - run:
+          name: Verify Flutter
+          command: |
+            cd brd-android/kyc-flutter
+            which flutter
+            ls -a
+            cd .android
             ls -a
 
       # Refresh gradle
