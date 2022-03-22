@@ -54,12 +54,6 @@ jobs:
           command: |
             ./gradlew  --console=plain  testBrdTestnetDebugUnitTest
 
-      # Unit tests
-      - run:
-          name: Run unit tests
-          command: |
-            ./gradlew  --console=plain  testBrdTestnetDebugUnitTest
-
       # Generate Jacoco report
       - run:
           name: Generate Jacoco report
