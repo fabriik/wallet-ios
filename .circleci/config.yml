@@ -34,10 +34,15 @@ jobs:
       - run:
           name: Setup Flutter SDK
           command: |
-            git clone https://github.com/flutter/flutter.git flutter-sdk
             export PATH="$PATH:$(pwd)/flutter-sdk/bin"
-            flutter precache
-            flutter doctor
+
+            # check for flutter sdk folder
+            if [ ! -d brd-android/flutter-sdk ]; then
+              git clone https://github.com/flutter/flutter.git flutter-sdk
+              flutter precache
+              flutter doctor
+            fi
+
             cd brd-android/kyc-flutter
             flutter clean
             flutter pub get
