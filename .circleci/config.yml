@@ -42,7 +42,7 @@ jobs:
             flutter clean
             flutter pub get
             cd ../..
-            gradlew   dependencies
+            ./gradlew   dependencies
 
       # Unit tests
       - run:
