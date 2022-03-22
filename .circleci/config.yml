@@ -18,17 +18,16 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies gradle
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
-            - v1-flutter-sdk-{{ checksum "brd-android/kyc-flutter/.metadata" }}
-
       # Pull submodules
       - run:
           name: Pull submodules
           command: |
             git submodule update --init --recursive
+
+      # Restore cache - Flutter SDK
+      - restore_cache:
+          keys:
+            - v1-flutter-sdk-{{ checksum "brd-android/kyc-flutter/.metadata" }}
 
       # Setup Flutter SDK
       - run:
@@ -57,6 +56,11 @@ jobs:
           key: v1-flutter-sdk-{{ checksum "brd-android/kyc-flutter/.metadata" }}
           paths:
             - flutter-sdk
+
+      # Restore cache - Gradle
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
 
       # Refresh gradle
       - run:
