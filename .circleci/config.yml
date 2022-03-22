@@ -41,7 +41,7 @@ jobs:
               export TARGET_SDK_COMMIT=$(awk '/revision:/ {print $2}' brd-android/kyc-flutter/.metadata)
               git clone https://github.com/flutter/flutter.git flutter-sdk
               cd flutter-sdk
-              git checkout TARGET_SDK_COMMIT
+              git checkout $TARGET_SDK_COMMIT
               cd ..
               flutter precache
               flutter doctor
