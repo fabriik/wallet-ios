@@ -73,7 +73,7 @@ private const val MOCKITO_VERSION = "2.25.0"
 private const val KASPRESSO_VERSION = "1.1.0"
 private const val KAKAO_VERSION = "2.3.2"
 private const val MATERIAL_VERSION = "1.3.0"
-const val REDACTED_VERSION = "0.8.0"
+const val JACOCO_VERSION = "0.8.6"
 private const val DETEKT_VERSION = "1.0.1"
 private const val COMMONS_COMPRESS_VERSION = "1.20"
 private const val BIOMETRIC_VERSION = "1.2.0-alpha02"
@@ -97,6 +97,10 @@ object Libs {
 
     object Android {
         const val GradlePlugin = "com.android.tools.build:gradle:$AGP_VERSION"
+    }
+
+    object Tests {
+        const val JacocoPlugin = "org.jacoco:org.jacoco.core:$JACOCO_VERSION"
     }
 
     object Androidx {
