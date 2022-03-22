@@ -18,11 +18,17 @@ jobs:
     steps:
       - checkout
 
+      # Get last Flutter SDK commit hash
+      - run:
+          name: Get last Flutter SDK commit
+          command: |
+            export FLUTTER_SDK_LAST_COMMIT=$(git ls-remote https://github.com/flutter/flutter.git HEAD | awk '{ print $1}')
+
       # Download and cache dependencies gradle
       - restore_cache:
           keys:
             - fabriik-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
-            - flutter-sdk
+            - flutter-sdk-$FLUTTER_SDK_LAST_COMMIT
 
       # Pull submodules
       - run:
@@ -41,6 +47,12 @@ jobs:
             cd brd-android/kyc-flutter
             flutter clean
             flutter pub get
+
+      # save cache
+      - save_cache:
+          key: flutter-sdk-$FLUTTER_SDK_LAST_COMMIT
+          paths:
+            - ~/flutter-sdk
 
       # Refresh gradle
       - run:
