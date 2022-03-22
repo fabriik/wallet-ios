@@ -18,20 +18,11 @@ jobs:
     steps:
       - checkout
 
-      # Get last Flutter SDK commit hash
-      - run:
-          name: Get last Flutter SDK commit
-          command: |
-            LAST_COMMIT=$(git ls-remote https://github.com/flutter/flutter.git HEAD | awk '{ print $1}')
-            echo 'export FLUTTER_SDK_LAST_COMMIT=$LAST_COMMIT' >> $BASH_ENV
-            source $BASH_ENV
-            echo $FLUTTER_SDK_LAST_COMMIT
-
       # Download and cache dependencies gradle
       - restore_cache:
           keys:
-            - fabriik-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
-            - flutter-sdk-{{ .Environment.FLUTTER_SDK_LAST_COMMIT }}
+            - v1-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
+            - v1-flutter-sdk-{{ checksum "brd-android/kyc-flutter/.metadata" }}
 
       # Pull submodules
       - run:
@@ -53,7 +44,7 @@ jobs:
 
       # save cache
       - save_cache:
-          key: flutter-sdk-{{ .Environment.FLUTTER_SDK_LAST_COMMIT }}
+          key: v1-flutter-sdk-{{ checksum "brd-android/kyc-flutter/.metadata" }}
           paths:
             - flutter-sdk
 
@@ -77,7 +68,7 @@ jobs:
 
       # save cache
       - save_cache:
-          key: fabriik-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
+          key: v1-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
           paths:
             - ~/.gradle
 
