@@ -51,7 +51,6 @@ jobs:
       - run:
           name: Verify Flutter
           command: |
-            cd brd-android/kyc-flutter
             which flutter
             ls -a
             cd .android
