@@ -37,20 +37,16 @@ jobs:
             git clone https://github.com/flutter/flutter.git flutter-sdk
             export PATH="$PATH:$(pwd)/flutter-sdk/bin"
             flutter precache
-            flutter doctor
+            flutter doctor --android-licenses
             cd brd-android/kyc-flutter
             flutter clean
             flutter pub get
-
-      - save_cache:
-          key: flutter-sdk
-          paths:
-            - ~/flutter-sdk
 
       # Verify flutter files
       - run:
           name: Verify Flutter
           command: |
+            export PATH="$PATH:$(pwd)/flutter-sdk/bin"
             which flutter
             ls -a
             cd .android
