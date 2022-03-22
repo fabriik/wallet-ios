@@ -40,6 +40,7 @@ jobs:
             cd brd-android/kyc-flutter
             flutter clean
             flutter pub get
+            ls -a
 
       # Refresh gradle
       - run:
