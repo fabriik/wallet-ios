@@ -22,7 +22,8 @@ jobs:
       - run:
           name: Download Flutter SDK
           command: |
-            git clone https://github.com/flutter/flutter.git /opt/flutter
+            mkdir -p flutter-sdk
+            git clone https://github.com/flutter/flutter.git flutter-sdk
 
       # Setup kyc-flutter module
       - run: /opt/flutter/bin/flutter doctor
