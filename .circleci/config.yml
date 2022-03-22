@@ -41,10 +41,6 @@ jobs:
             cd brd-android/kyc-flutter
             flutter clean
             flutter pub get
-            which flutter
-            ls -a
-            cd .android
-            ls -a
             cd ../..
             gradlew   dependencies
 
