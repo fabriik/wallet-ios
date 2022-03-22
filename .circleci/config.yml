@@ -28,7 +28,7 @@ jobs:
       - restore_cache:
           keys:
             - fabriik-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
-            - flutter-sdk-$FLUTTER_SDK_LAST_COMMIT
+            - flutter-sdk-{{ $FLUTTER_SDK_LAST_COMMIT }}
 
       # Pull submodules
       - run:
@@ -50,9 +50,9 @@ jobs:
 
       # save cache
       - save_cache:
-          key: flutter-sdk-$FLUTTER_SDK_LAST_COMMIT
+          key: flutter-sdk-{{ $FLUTTER_SDK_LAST_COMMIT }}
           paths:
-            - ~/flutter-sdk
+            - flutter-sdk
 
       # Refresh gradle
       - run:
