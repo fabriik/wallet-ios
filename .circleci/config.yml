@@ -18,6 +18,17 @@ jobs:
     steps:
       - checkout
 
+      # Download and cache dependencies gradle
+      - restore_cache:
+          keys:
+            - fabriik-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
+
+      # Pull submodules
+      - run:
+          name: Pull submodules
+          command: |
+            git submodule update --init --recursive
+
       # Setup Flutter SDK
       - run:
           name: Setup Flutter SDK
@@ -29,17 +40,6 @@ jobs:
             cd brd-android/kyc-flutter
             flutter clean
             flutter pub get
-
-      # Download and cache dependencies gradle
-      - restore_cache:
-          keys:
-            - fabriik-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
-
-      # Pull submodules
-      - run:
-          name: Pull submodules
-          command: |
-            git submodule update --init --recursive
 
       # Refresh gradle
       - run:
