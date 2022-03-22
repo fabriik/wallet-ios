@@ -22,6 +22,7 @@ jobs:
       - restore_cache:
           keys:
             - fabriik-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
+            - flutter-sdk
 
       # Pull submodules
       - run:
@@ -40,6 +41,11 @@ jobs:
             cd brd-android/kyc-flutter
             flutter clean
             flutter pub get
+
+      - save_cache:
+          key: flutter-sdk
+          paths:
+            - ~/flutter-sdk
 
       # Verify flutter files
       - run:
