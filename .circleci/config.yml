@@ -14,16 +14,16 @@ jobs:
       # Customize the JVM maximum heap limit
       SDK_FILENAME: sdk-tools-linux-4333796.zip
       ANDROID_HOME: /opt/android/sdk
-      FLUTTER_SDK_LAST_COMMIT: $(git ls-remote https://github.com/flutter/flutter.git HEAD | awk '{ print $1}')
 
     steps:
       - checkout
 
       # Get last Flutter SDK commit hash
-      #- run:
-      #    name: Get last Flutter SDK commit
-      #    command: |
-      #      export FLUTTER_SDK_LAST_COMMIT=$(git ls-remote https://github.com/flutter/flutter.git HEAD | awk '{ print $1}')
+      - run:
+          name: Get last Flutter SDK commit
+          command: |
+            export FLUTTER_SDK_LAST_COMMIT=$(git ls-remote https://github.com/flutter/flutter.git HEAD | awk '{ print $1}')
+            echo $FLUTTER_SDK_LAST_COMMIT
 
       # Download and cache dependencies gradle
       - restore_cache:
