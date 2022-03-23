@@ -111,12 +111,21 @@ jobs:
           command: |
             ./gradlew  --console=plain :brd-android:app:jacocoTestReport
 
-  # Release job (builds apk and aab)
+  # Release job (build apk and aab)
   release:
     <<: *defaults
     steps:
       # Setup project
       - default-project-setup
+
+      # Prepare keystore
+      - run:
+          name: Prepare keystore
+          command: |
+            mkdir /home/circleci/key
+            echo $release_keystore > /home/circleci/key/base64
+            base64 -d /home/circleci/key/base64 > /home/circleci/key/keystore
+            ls -la /home/circleci/key
 
       # Build apk
       - run:
@@ -140,3 +149,5 @@ workflows:
               only:
                 - /release\/.*/
                 - rok/circleci-setup
+          requires:
+            - test
