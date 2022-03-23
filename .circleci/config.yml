@@ -158,6 +158,5 @@ workflows:
             branches:
               only:
                 - /release\/.*/
-                - rok/circleci-setup
           requires:
             - test
