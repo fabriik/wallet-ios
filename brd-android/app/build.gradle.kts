@@ -16,6 +16,7 @@ plugins {
 }
 
 plugins.apply(AppetizePlugin::class)
+apply(from = rootProject.file("gradle/jacoco.gradle"))
 apply(from = rootProject.file("gradle/google-services.gradle"))
 apply(from = rootProject.file("gradle/copy-font-files.gradle"))
 
