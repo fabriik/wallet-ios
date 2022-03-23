@@ -151,3 +151,4 @@ workflows:
                 - rok/circleci-setup
           requires:
             - test
+
