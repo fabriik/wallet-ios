@@ -144,11 +144,9 @@ jobs:
           name: Upload artifacts
           command: |
             mkdir -p ~/atrifacts
-            cp -r ./app/build/outputs/apk/brd/release ~/atrifact;
-            cp -r ./app/build/outputs/bundle/brdRelease ~/atrifact;
+            cp -r ./app/build/outputs/apk/brd/release ~/atrifacts;
+            cp -r ./app/build/outputs/bundle/brdRelease ~/atrifacts;
           when: always
-      - store_test_results:
-          path: ./app/build/test-results
       - store_artifacts:
           path: ~/atrifacts
 workflows:
