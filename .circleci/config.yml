@@ -2,28 +2,53 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
+defaults: &defaults
+  docker:
+    - image: circleci/android:api-30-ndk
+  working_directory: ~/brd-mobile
+  resource_class: medium+
+
+  environment:
+    SDK_FILENAME: sdk-tools-linux-4333796.zip
+    ANDROID_HOME: /opt/android/sdk
+
 version: 2.1
-jobs:
-  test:
-    docker:
-      - image: circleci/android:api-30-ndk
-    resource_class: medium+
-    working_directory: ~/brd-mobile
 
-    environment:
-      # Customize the JVM maximum heap limit
-      SDK_FILENAME: sdk-tools-linux-4333796.zip
-      ANDROID_HOME: /opt/android/sdk
-
+commands:
+  # Pull submodules command
+  pull-submodules:
     steps:
-      - checkout
-
       # Pull submodules
       - run:
           name: Pull submodules
           command: |
             git submodule update --init --recursive
 
+  # Refresh gradle command
+  refresh-gradle:
+    steps:
+      # Restore cache - Gradle
+      - restore_cache:
+          name: Restoring cache - Gradle
+          keys:
+            - v1-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
+
+      # Refresh gradle
+      - run:
+          name: Refresh gradle
+          command: |
+            ./gradlew   dependencies
+
+      # save cache - Gradle
+      - save_cache:
+          name: Saving cache - Gradle
+          key: v1-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
+          paths:
+            - ~/.gradle
+
+  # Setup Flutter SDK command
+  setup-flutter:
+    steps:
       # Restore cache - Flutter SDK
       - restore_cache:
           name: Restoring cache - Flutter SDK
@@ -58,24 +83,15 @@ jobs:
           paths:
             - flutter-sdk
 
-      # Restore cache - Gradle
-      - restore_cache:
-          name: Restoring cache - Gradle
-          keys:
-            - v1-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
-
-      # Refresh gradle
-      - run:
-          name: Refresh gradle
-          command: |
-            ./gradlew   dependencies
-
-      # save cache - Gradle
-      - save_cache:
-          name: Saving cache - Gradle
-          key: v1-dependencies-{{ checksum "brd-android/build.gradle.kts" }}-{{ checksum "brd-android/app/build.gradle.kts" }}
-          paths:
-            - ~/.gradle
+jobs:
+  # Test job (run tests & generate Jacoco report)
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - pull-submodules
+      - setup-flutter
+      - refresh-gradle
 
       # Unit tests
       - run:
@@ -89,7 +105,34 @@ jobs:
           command: |
             ./gradlew  --console=plain :brd-android:app:jacocoTestReport
 
+  # Release job (builds apk and aab)
+  release:
+    <<: *defaults
+    steps:
+      - checkout
+      - pull-submodules
+      - setup-flutter
+      - refresh-gradle
+
+      # Build apk
+      - run:
+          name: Build release apk
+          command: |
+            ./gradlew --console=plain app:assembleBrdRelease  -Pandroid.injected.signing.store.file='/home/circleci/key/keystore' -Pandroid.injected.signing.store.password=$release_password -Pandroid.injected.signing.key.alias='key0' -Pandroid.injected.signing.key.password=$release_sign_password
+
+      # Build app bundles
+      - run:
+          name: Build release aab
+          command: |
+            ./gradlew --console=plain app:bundleBrdRelease  -Pandroid.injected.signing.store.file='/home/circleci/key/keystore' -Pandroid.injected.signing.store.password=$release_password -Pandroid.injected.signing.key.alias='key0' -Pandroid.injected.signing.key.password=$release_sign_password
+
 workflows:
-  test:
+  test_and_build:
     jobs:
       - test
+      - release:
+          filters:
+            branches:
+              only:
+                - /release\/.*/
+                - rok/circleci-setup
