@@ -117,8 +117,7 @@ class FabriikClient {
           throw MerapiSessionExpiredError();
         }
       } else {
-        // We have a session key, send it in headers.
-        //options.headers['Authorization'] = authToken;
+        // We have a session key, send it in query.
         options.queryParameters['sessionKey'] = sessionKey;
       }
     }
