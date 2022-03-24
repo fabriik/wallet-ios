@@ -76,6 +76,31 @@ class UserRepo {
     }
   }
 
+  Future<bool> confirmPhoneNumber(
+      String code,
+  ) async {
+    try {
+      final si = await _getSessionInfo();
+      final result = await _fabriikClient.verifyPhoneNumber(
+        code,
+        si.sessionKey!
+      );
+      if (result.data['result'] == 'ok') {
+        return true;
+      } else {
+        throw result.data['error'].toString();
+      }
+    } on DioError catch (e) {
+      if (e.response!.statusCode == 500) {
+        throw HttpException(
+          e.response!.data['error']['server_message'].toString(),
+        );
+      } else {
+        throw Exception(e);
+      }
+    }
+  }
+
   Future<void> logout() async {
     await _sessionManager.clearPrefData();
   }

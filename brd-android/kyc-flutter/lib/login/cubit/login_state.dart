@@ -59,3 +59,13 @@ class SignUpEventSuccessState extends LoginState {
     return '${(SignUpEventSuccessState).toString()}{}';
   }
 }
+
+class SignUpConfirmEventSuccessState extends LoginState {
+
+  SignUpConfirmEventSuccessState();
+
+  @override
+  String toString() {
+    return '${(SignUpConfirmEventSuccessState).toString()}{}';
+  }
+}

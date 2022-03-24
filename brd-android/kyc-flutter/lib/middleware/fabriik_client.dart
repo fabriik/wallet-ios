@@ -40,7 +40,25 @@ class FabriikClient {
           'last_name': lastName,
           'email': email,
           'phone': phone,
-          'encryptSHA512hex_password': password
+          'encryptsha512hex_password': password
+        },
+      );
+      return response;
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  Future<Response> verifyPhoneNumber(
+      String code,
+      String sessionKey,
+  ) async {
+    try {
+      final response = await _httpClient.post<dynamic>(
+        'auth/register/confirm',
+        queryParameters: {
+          'sessionKey': sessionKey,
+          'confirmation_code': code
         },
       );
       return response;
@@ -99,8 +117,8 @@ class FabriikClient {
           throw MerapiSessionExpiredError();
         }
       } else {
-        // We have a session key, send it in headers.
-        options.headers['sessionKey'] = sessionKey;
+        // We have a session key, send it in query.
+        options.queryParameters['sessionKey'] = sessionKey;
       }
     }
 
