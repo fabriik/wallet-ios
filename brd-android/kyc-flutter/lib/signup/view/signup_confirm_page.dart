@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kyc/kyc/view/kyc_page.dart';
 import 'package:kyc/login/login.dart';
 import 'package:kyc/utils/form_validator.dart';
@@ -65,8 +64,18 @@ class _SignUpConfirmPageState extends State<SignUpConfirmPage> {
       child: Column(
         children: <Widget>[
           Text(
-            l10n.signUpHeadline,
+            l10n.confirmEmailHeadline,
             style: Theme.of(context).textTheme.headline6,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 22),
+            child:Text(
+                l10n.confirmEmailDescription,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                    color: Color(0xFF696969)
+                ),
+              ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20),
@@ -77,16 +86,16 @@ class _SignUpConfirmPageState extends State<SignUpConfirmPage> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: FormValidator.formValidation,
               decoration: InputDecoration(
-                labelText: l10n.firstName,
-                hintText: l10n.firstNameHint,
+                labelText: l10n.confirmationCode,
+                hintText: l10n.confirmationCodeHint,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.only(top: 12),
             child: ElevatedButton(
               onPressed: _onSubmit,
-              child: Text(l10n.signUp),
+              child: Text(l10n.confirmButtonText),
             ),
           ),
         ],
