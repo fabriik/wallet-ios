@@ -47,15 +47,15 @@ class BuyWebViewActivity : AppCompatActivity() {
                     trimmedUrl.startsWith("file://") ->
                         view.loadUrl(trimmedUrl)
                     trimmedUrl == "${WyreApi.REDIRECT_URL}?" ->
-                        finish()
+                        finishWithResult(RESULT_CANCELED)
+                    trimmedUrl.startsWith(WyreApi.REDIRECT_URL) ->
+                        finishWithResult(RESULT_SUCCESS)
+                    trimmedUrl.startsWith(WyreApi.FAILURE_REDIRECT_URL) ->
+                        finishWithResult(RESULT_ERROR)
                     else ->
                         return false // Wyre links
                 }
                 return true
-            }
-
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                return super.shouldOverrideUrlLoading(view, url)
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
@@ -74,16 +74,18 @@ class BuyWebViewActivity : AppCompatActivity() {
                     }
                 }
                 Status.ERROR -> {
-                    loadingIndicator.isVisible = false
-                    Toast.makeText(
-                        this, it.message, Toast.LENGTH_LONG
-                    ).show()
+                    finishWithResult(RESULT_ERROR)
                 }
                 Status.LOADING -> {
                     loadingIndicator.isVisible = true
                 }
             }
         }
+    }
+
+    private fun finishWithResult(resultCode: Int) {
+        setResult(resultCode)
+        finish()
     }
 
     override fun onBackPressed() {
@@ -95,6 +97,10 @@ class BuyWebViewActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val RESULT_ERROR = 2131
+        const val RESULT_SUCCESS = 2132
+        const val RESULT_CANCELED = 2133
+
         fun getStartIntent(context: Context) = Intent(context, BuyWebViewActivity::class.java)
     }
 }
