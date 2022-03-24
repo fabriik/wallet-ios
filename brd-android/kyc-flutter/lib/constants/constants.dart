@@ -1,5 +1,6 @@
 // ignore: lines_longer_than_80_chars
-const String baseUrl = 'https://dev.just.cash/watch/watch/';
+const String baseUrl = 'https://one-dev.moneybutton.io/blocksatoshi/one/';
+const String authToken = 'd5ujuaaq5h1u3vhlkohteopqr0oe0r8umjimak1o';
 
 enum VsCurrency { usd, eur, chf, mxn, cad }
 

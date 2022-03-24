@@ -59,4 +59,20 @@ class LoginCubit extends Cubit<LoginState> {
       emit(LoginErrorState(error: e.toString()));
     }
   }
+
+  void handleSignUpConfirmEvent(code) async {
+    emit(LoginLoadingState());
+    try {
+      final completed = await userRepo.confirmPhoneNumber(
+        code,
+      );
+      if (completed) {
+        emit(SignUpConfirmEventSuccessState());
+      }
+    } on HttpException catch (e) {
+      emit(LoginErrorState(error: e.message));
+    } catch (e) {
+      emit(LoginErrorState(error: e.toString()));
+    }
+  }
 }
