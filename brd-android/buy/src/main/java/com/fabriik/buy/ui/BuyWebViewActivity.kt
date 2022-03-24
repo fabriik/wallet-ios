@@ -53,12 +53,20 @@ class BuyWebViewActivity : AppCompatActivity() {
                 }
                 return true
             }
+
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                return super.shouldOverrideUrlLoading(view, url)
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                loadingIndicator.isVisible = false
+            }
         }
 
         viewModel.getPaymentUrl().observe(this) {
             when (it.status) {
                 Status.SUCCESS -> {
-                    loadingIndicator.isVisible = false
                     it.data?.let { response ->
                         webView.loadUrl(
                             response.url
