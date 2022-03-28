@@ -163,6 +163,7 @@ dependencies {
     implementation(project(":cosmos-bundled"))
     implementation(project(":brd-android:app-core"))
     implementation(project(":brd-android:buy"))
+    implementation(project(":brd-android:swap"))
     implementation(Libs.WalletKit.CoreAndroid)
 
     // AndroidX

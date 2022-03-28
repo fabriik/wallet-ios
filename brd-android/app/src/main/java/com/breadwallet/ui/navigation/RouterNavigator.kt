@@ -81,6 +81,7 @@ import com.breadwallet.ui.uigift.ShareGiftController
 import com.breadwallet.util.CryptoUriParser
 import com.breadwallet.util.isBrd
 import com.fabriik.buy.ui.BuyWebViewActivity
+import com.fabriik.swap.ui.SwapActivity
 import com.platform.HTTPServer
 import com.platform.util.AppReviewPromptManager
 import io.flutter.embedding.android.FlutterActivity
@@ -167,13 +168,13 @@ class RouterNavigator(
     }
 
     override fun trade() {
-        val url = HTTPServer.getPlatformUrl(HTTPServer.URL_TRADE)
-        router.pushController(
-            WebController(url).asTransaction(
-                VerticalChangeHandler(),
-                VerticalChangeHandler()
+        router.activity?.let {
+            it.startActivity(
+                SwapActivity.getStartIntent(
+                    it
+                )
             )
-        )
+        }
     }
 
     override fun menu(effect: NavigationTarget.Menu) {
