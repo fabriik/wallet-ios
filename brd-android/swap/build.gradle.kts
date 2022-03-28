@@ -38,6 +38,8 @@ dependencies {
     implementation(Libs.Androidx.CoreKtx)
     implementation(Libs.Androidx.LifecycleLiveDataKtx)
     implementation(Libs.Androidx.LifecycleViewModelKtx)
+    implementation(Libs.Androidx.NavigationUI)
+    implementation(Libs.Androidx.NavigationFragment)
 
     implementation(Libs.Material.Core)
 

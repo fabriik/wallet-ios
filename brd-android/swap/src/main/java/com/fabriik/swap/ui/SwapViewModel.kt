@@ -3,15 +3,15 @@ package com.fabriik.swap.ui
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.fabriik.buy.data.Resource
-import com.fabriik.buy.data.WyreApi
+import com.fabriik.swap.data.Resource
+import com.fabriik.swap.data.SwapApi
 import kotlinx.coroutines.Dispatchers
 
 class SwapViewModel(
-    private val api: WyreApi = WyreApi.create()
+    private val api: SwapApi = SwapApi.create()
 ) : ViewModel(), LifecycleObserver {
 
-    fun getPaymentUrl() = liveData(Dispatchers.IO) {
+    fun getCurrencies() = liveData(Dispatchers.IO) {
         emit(
             Resource.loading(
                 data = null
@@ -21,7 +21,7 @@ class SwapViewModel(
         try {
             emit(
                 Resource.success(
-                    data = api.getPaymentUrl()
+                    data = api.getCurrencies()
                 )
             )
         } catch (exception: Exception) {
