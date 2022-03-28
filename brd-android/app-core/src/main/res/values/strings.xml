@@ -370,7 +370,7 @@
     <!-- Label for the total balance of all the user's assets (style is all lower case if your language permits) -->
     <string name="HomeScreen.totalAssets">Total Assets</string>
     <!-- (Tap here to) trade (your assets for other assets) -->
-    <string name="HomeScreen.trade">Trade</string>
+    <string name="HomeScreen.trade">Swap</string>
     <!-- Checking private key balance progress view text -->
     <string name="Import.checking">Checking private key balance...</string>
     <!-- Sweep private key confirmation message -->
