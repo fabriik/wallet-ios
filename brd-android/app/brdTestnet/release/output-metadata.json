@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.fabriik.app",
-  "variantName": "processBrdReleaseResources",
+  "applicationId": "com.fabriik.app.testnet",
+  "variantName": "processBrdTestnetReleaseResources",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 4110015,
+      "versionCode": 4110012,
       "versionName": "4.11.0",
-      "outputFile": "brd-release-4.11.0.15.apk"
+      "outputFile": "brdTestnet-release-4.11.0.12.apk"
     }
   ]
 }
