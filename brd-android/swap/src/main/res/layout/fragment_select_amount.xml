@@ -11,6 +11,7 @@
         android:hint="Pay with">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_pay_with"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal" />
@@ -25,6 +26,7 @@
         android:enabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_receive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal" />

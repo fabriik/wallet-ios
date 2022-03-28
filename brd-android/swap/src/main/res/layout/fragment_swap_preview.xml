@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="24dp">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Confirm" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_selling_currency"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@id/iv_arrow"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tv_selling_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/iv_selling_currency"
+        app:layout_constraintEnd_toEndOf="@id/iv_selling_currency"
+        app:layout_constraintStart_toStartOf="@id/iv_selling_currency"
+        tools:text="1.22 BTC"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_right"
+        app:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@id/iv_selling_currency"
+        app:layout_constraintEnd_toStartOf="@+id/iv_buying_currency"
+        app:layout_constraintStart_toEndOf="@id/iv_selling_currency"
+        app:layout_constraintTop_toTopOf="@id/iv_selling_currency" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_buying_currency"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_arrow"
+        app:layout_constraintTop_toTopOf="@id/iv_selling_currency" />
+
+    <TextView
+        android:id="@+id/tv_buying_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/iv_buying_currency"
+        app:layout_constraintEnd_toEndOf="@id/iv_buying_currency"
+        app:layout_constraintStart_toStartOf="@id/iv_buying_currency"
+        tools:text="13.22 ETH"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_selling_currency" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.fabriik.swap.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,5 +27,13 @@ class SwapPreviewFragment : Fragment() {
         binding = FragmentSwapPreviewBinding.bind(view)
         viewModel = ViewModelProvider(requireActivity())
             .get(SwapViewModel::class.java)
+
+        binding.apply {
+            ivBuyingCurrency.setBackgroundColor(Color.RED)
+            ivSellingCurrency.setBackgroundColor(Color.GREEN)
+
+            tvBuyingCurrency.text = "30.22 ETH"
+            tvSellingCurrency.text = "2.22 BTC"
+        }
     }
 }

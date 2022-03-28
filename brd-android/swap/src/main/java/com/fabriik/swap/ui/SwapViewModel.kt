@@ -74,4 +74,8 @@ class SwapViewModel(
     fun onSellingCurrencySelected(currency: SwapCurrency) {
         selectedSellingCurrency = currency
     }
+
+    fun onAmountChanged(amount: BigDecimal) {
+        selectedAmount = amount
+    }
 }
