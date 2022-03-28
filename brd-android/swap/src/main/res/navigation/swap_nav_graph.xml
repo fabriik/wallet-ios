@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swap_nav_graph"
+    app:startDestination="@id/selectSellingCurrency">
+
+    <fragment
+        android:id="@+id/selectSellingCurrency"
+        android:name="com.fabriik.swap.ui.SelectSellingCurrencyFragment"
+        tools:layout="@layout/fragment_select_currency">
+
+        <action android:id="@+id/action_buying_currency"
+            app:destination="@+id/selectBuyingCurrency"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/selectBuyingCurrency"
+        android:name="com.fabriik.swap.ui.SelectBuyingCurrencyFragment"
+        tools:layout="@layout/fragment_select_currency" >
+
+        <action android:id="@+id/action_select_amount"
+            app:destination="@+id/selectAmountFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/selectAmountFragment"
+        android:name="com.fabriik.swap.ui.SelectAmountFragment"
+        tools:layout="@layout/fragment_select_amount" />
+</navigation>
