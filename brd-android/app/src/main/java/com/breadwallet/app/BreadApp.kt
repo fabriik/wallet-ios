@@ -470,6 +470,7 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
             .put("flutter_kyc", flutterEngine)
 
         initMethodChannel()
+        CashUI.init(getServer())
     }
 
     private fun initMethodChannel() {
@@ -566,8 +567,6 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
         ratesFetcher.start(startedScope)
         
         conversionTracker.start(startedScope)
-
-        CashUI.init(getServer())
     }
 
     private fun getServer() = when {
