@@ -46,7 +46,7 @@ class KycFinishPage extends StatelessWidget {
                 const SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    SystemNavigator.pop();
                   },
                   child: Text(l10n.doneButtonText),
                 ),
