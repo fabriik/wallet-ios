@@ -140,7 +140,7 @@ object BRConstants {
     const val URL_TWITTER = "https://twitter.com/fabriik_market"
     const val URL_REDDIT = "https://www.reddit.com/r/Fabriik/"
     const val URL_BLOG = "https://brd.com/blog/"
-    const val URL_BRD_HOST = "brd.com"
+    const val URL_BRD_HOST = "fabriik.com"
     const val WALLET_PAIR_PATH = "wallet-pair"
     const val WALLET_LINK_PATH = "link-wallet"
     const val STRING_RESOURCES_FILENAME = "string"
