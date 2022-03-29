@@ -99,7 +99,7 @@ class OnBoardingController(
     override fun M.render() {
         with(binding) {
             ifChanged(M::page) { page ->
-                listOf(indicator1, indicator2, indicator3)
+                listOf(indicator1, indicator2, indicator3, indicator4)
                     .forEachIndexed { index, indicator ->
                         indicator.background = when (page) {
                             index + 1 -> activeIndicator

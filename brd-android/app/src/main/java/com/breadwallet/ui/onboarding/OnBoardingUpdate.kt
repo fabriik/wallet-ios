@@ -105,17 +105,7 @@ object OnBoardingUpdate : Update<M, E, F>, OnBoardingUpdateSpec {
         event: E.OnPageChanged
     ): Next<M, F> {
         return next(
-            model.copy(page = event.page),
-            setOf(
-                F.TrackEvent(
-                    when (event.page) {
-                        1 -> EventUtils.EVENT_GLOBE_PAGE_APPEARED
-                        2 -> EventUtils.EVENT_COINS_PAGE_APPEARED
-                        3 -> EventUtils.EVENT_FINAL_PAGE_APPEARED
-                        else -> error("Invalid page, expected 1-3")
-                    }
-                )
-            )
+            model.copy(page = event.page)
         )
     }
 
