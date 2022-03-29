@@ -14,6 +14,12 @@ class KycScanBackPage extends StatefulWidget {
   _KycScanBackPageState createState() => _KycScanBackPageState();
 }
 
+class KycScanBackPageArguments {
+  final String frontPicturePath;
+
+  KycScanBackPageArguments(this.frontPicturePath);
+}
+
 class _KycScanBackPageState extends State<KycScanBackPage> {
   @override
   Widget build(BuildContext context) {
@@ -27,13 +33,13 @@ class _KycScanBackPageState extends State<KycScanBackPage> {
 
   Future<void> onTaken(PhotoTakenDetails details) async {
     final docType = context.read<KycCubit>().state.docType;
-
     final photoPath = details.photo.path;
+    final arguments = ModalRoute.of(context)!.settings.arguments as KycScanBackPageArguments;
 
     try {
       await DependencyProvider.of(context)
           .userRepo
-          .setKycDocument(docType, KycDocSide.back, photoPath);
+          .setKycDocument(docType, photoPath, arguments.frontPicturePath);
 
       await Navigator.of(context).pushNamed(routeKycSelfie);
     } on MerapiError catch (error) {

@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:kyc/constants/constants.dart';
+import 'package:kyc/kyc/models/kyc_doc_type.dart';
 import 'package:kyc/kyc/models/kyc_status.dart';
 import 'package:kyc/middleware/models/get_auth_user.dart';
 import 'package:kyc/middleware/models/get_kyc_pi.dart';
 import 'package:kyc/middleware/models/merapi.dart';
 import 'package:kyc/middleware/models/post_kyc_pi.dart';
+import 'package:kyc/middleware/models/post_kyc_selfie.dart';
 import 'package:kyc/middleware/models/post_kyc_upload.dart';
 import 'package:kyc/models/login_response.dart';
 
@@ -93,6 +95,7 @@ class FabriikClient {
     MerapiInputData? data,
     bool sendSessionKey = true,
     String? sessionKey,
+    Map<String, dynamic>? queryParameters,
     SessionExpiredCallback? onExpired,
     bool useFormData = false,
   }) async {
@@ -102,6 +105,10 @@ class FabriikClient {
     if (data != null) {
       final dataMap = await data.toMap();
       options.data = useFormData ? FormData.fromMap(dataMap) : dataMap;
+    }
+
+    if (queryParameters != null) {
+      options.queryParameters = queryParameters;
     }
 
     // If we must send a session key
@@ -186,6 +193,23 @@ class FabriikClient {
       method: 'POST',
       useFormData: true,
       data: data,
+      queryParameters: <String, dynamic>{
+        "type": data.docType
+      },
+    );
+  }
+
+  Future<void> setKycSelfie(PostKycSelfieRequest data, SessionInfo si) async {
+    await _fetchJson(
+      sessionKey: si.sessionKey,
+      onExpired: si.onExpired,
+      path: 'kyc/upload',
+      method: 'POST',
+      useFormData: true,
+      data: data,
+      queryParameters: <String, dynamic>{
+        "type": KycDocType.selfie.toMerapiDocType()
+      },
     );
   }
 

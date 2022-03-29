@@ -11,37 +11,25 @@ enum KycDocSide {
   back,
 }
 
-const kycDocTypeDriversLicenseFront = 'DRIVERS_LICENSE_FRONT';
-const kycDocTypeDriversLicenseBack = 'DRIVERS_LICENSE_BACK';
-const kycDocTypeIdentityCardFront = 'ID_FRONT';
-const kycDocTypeIdentityCardBack = 'ID_BACK';
-const kycDocTypePassportFront = 'PASSPORT_FRONT';
-const kycDocTypePassportBack = 'PASSPORT_BACK';
-const kycDocTypeResidencePermitFront = 'RESIDENCE_PERMIT_FRONT';
-const kycDocTypeResidencePermitBack = 'RESIDENCE_PERMIT_BACK';
 const kycDocTypeSelfie = 'SELFIE';
+const kycDocTypePassport = 'PASSPORT';
+const kycDocTypeIdentityCard = 'ID';
+const kycDocTypeDriversLicense = 'DRIVERS_LICENSE';
+const kycDocTypeResidencePermit = 'RESIDENCE_PERMIT';
 
-String _getApiType(KycDocType type, KycDocSide side) {
+String _getApiType(KycDocType type) {
   switch (type) {
     case KycDocType.driversLicense:
-      return side == KycDocSide.front
-          ? kycDocTypeDriversLicenseFront
-          : kycDocTypeDriversLicenseBack;
+      return kycDocTypeDriversLicense;
 
     case KycDocType.identityCard:
-      return side == KycDocSide.front
-          ? kycDocTypeIdentityCardFront
-          : kycDocTypeIdentityCardBack;
+      return kycDocTypeIdentityCard;
 
     case KycDocType.passport:
-      return side == KycDocSide.front
-          ? kycDocTypePassportFront
-          : kycDocTypePassportBack;
+      return kycDocTypePassport;
 
     case KycDocType.residencePermit:
-      return side == KycDocSide.front
-          ? kycDocTypeResidencePermitFront
-          : kycDocTypeResidencePermitBack;
+      return kycDocTypeResidencePermit;
 
     case KycDocType.selfie:
       return kycDocTypeSelfie;
@@ -49,7 +37,7 @@ String _getApiType(KycDocType type, KycDocSide side) {
 }
 
 extension MerapiKycDocType on KycDocType {
-  String toMerapiDocType(KycDocSide side) {
-    return _getApiType(this, side);
+  String toMerapiDocType() {
+    return _getApiType(this);
   }
 }
