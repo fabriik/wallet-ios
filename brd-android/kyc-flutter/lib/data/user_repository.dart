@@ -6,6 +6,7 @@ import 'package:kyc/kyc/models/kyc_pi.dart';
 import 'package:kyc/kyc/models/kyc_status.dart';
 import 'package:kyc/middleware/fabriik_client.dart';
 import 'package:kyc/middleware/models/merapi.dart';
+import 'package:kyc/middleware/models/post_kyc_selfie.dart';
 import 'package:kyc/middleware/models/post_kyc_upload.dart';
 import 'package:kyc/models/login_credentials.dart';
 import 'package:kyc/models/user.dart';
@@ -159,14 +160,22 @@ class UserRepo {
     return KycPi.fromApi(response);
   }
 
-  Future<void> setKycDocument(
-      KycDocType docType, KycDocSide side, String filePath) async {
+  Future<void> setKycDocument(KycDocType docType, String frontFilePath, String backFilePath) async {
     final data = PostKycUploadRequest(
-      docType: docType.toMerapiDocType(side),
-      filePath: filePath,
+      docType: docType.toMerapiDocType(),
+      frontFilePath: frontFilePath,
+      backFilePath: backFilePath,
     );
     final si = await _getSessionInfo();
     await _fabriikClient.setKycDocument(data, si);
+  }
+
+  Future<void> setKycSelfie(String filePath) async {
+    final data = PostKycSelfieRequest(
+      filePath: filePath
+    );
+    final si = await _getSessionInfo();
+    await _fabriikClient.setKycSelfie(data, si);
   }
 
   Future<KycStatus> getKycStatus() async {
