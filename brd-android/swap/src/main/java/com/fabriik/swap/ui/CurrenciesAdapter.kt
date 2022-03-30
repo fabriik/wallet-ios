@@ -3,12 +3,19 @@ package com.fabriik.swap.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fabriik.swap.R
+import com.squareup.picasso.Picasso
 import com.fabriik.swap.data.responses.SwapCurrency
 import com.fabriik.swap.databinding.ListItemCurrencyBinding
+import com.fabriik.swap.utils.loadFromUrl
+import com.squareup.picasso.Callback
+import java.lang.Exception
+import java.util.*
 
 class CurrenciesAdapter(private val callback: (SwapCurrency) -> Unit) :
     ListAdapter<SwapCurrency, CurrenciesAdapter.CurrencyViewHolder>(
@@ -33,10 +40,12 @@ class CurrenciesAdapter(private val callback: (SwapCurrency) -> Unit) :
         private val binding = ListItemCurrencyBinding.bind(view)
 
         fun bind(item: SwapCurrency, callback: (SwapCurrency) -> Unit) {
-            //binding.ivIcon
-            binding.tvCurrency.text = item.fullName
-            binding.root.setOnClickListener {
-                callback(item)
+            binding.apply {
+                root.setOnClickListener { callback(item) }
+
+                ivIcon.loadFromUrl(item.image)
+                tvCurrency.text = item.fullName
+                tvCurrencyCode.text = item.name.toUpperCase(Locale.ROOT)
             }
         }
     }

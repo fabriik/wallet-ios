@@ -5,11 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.fabriik.swap.R
 import com.fabriik.swap.databinding.FragmentSelectAmountBinding
 import com.fabriik.swap.databinding.FragmentSwapPreviewBinding
+import com.fabriik.swap.utils.loadFromUrl
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 class SwapPreviewFragment : Fragment() {
 
@@ -29,8 +35,13 @@ class SwapPreviewFragment : Fragment() {
             .get(SwapViewModel::class.java)
 
         binding.apply {
-            ivBuyingCurrency.setBackgroundColor(Color.RED)
-            ivSellingCurrency.setBackgroundColor(Color.GREEN)
+            viewModel.selectedBuyingCurrency?.let {
+                ivBuyingCurrency.loadFromUrl(it.image)
+            }
+
+            viewModel.selectedSellingCurrency?.let {
+                ivSellingCurrency.loadFromUrl(it.image)
+            }
 
             tvBuyingCurrency.text = "30.22 ETH"
             tvSellingCurrency.text = "2.22 BTC"

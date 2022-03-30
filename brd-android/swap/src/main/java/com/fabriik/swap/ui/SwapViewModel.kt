@@ -15,9 +15,14 @@ class SwapViewModel(
 
     private val currencies = mutableListOf<SwapCurrency>()
 
-    private var selectedAmount: BigDecimal? = null
-    private var selectedBuyingCurrency: SwapCurrency? = null
-    private var selectedSellingCurrency: SwapCurrency? = null
+    var selectedAmount: BigDecimal? = null
+        private set
+
+    var selectedBuyingCurrency: SwapCurrency? = null
+        private set
+
+    var selectedSellingCurrency: SwapCurrency? = null
+        private set
 
     fun getCurrencies() = liveData(Dispatchers.IO) {
         // download data if list is empty

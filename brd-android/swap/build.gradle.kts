@@ -38,6 +38,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":brd-android:app-core"))
+
     implementation(Libs.Androidx.AppCompat)
     implementation(Libs.Androidx.CoreKtx)
     implementation(Libs.Androidx.LifecycleLiveDataKtx)
@@ -46,6 +48,8 @@ dependencies {
     implementation(Libs.Androidx.NavigationFragment)
 
     implementation(Libs.Material.Core)
+
+    implementation(Libs.Picasso.Core)
 
     implementation(Libs.Networking.Retrofit)
     implementation(Libs.Networking.RetrofitMoshiConverter)
