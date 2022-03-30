@@ -62,7 +62,7 @@
         android:layout_below="@id/toolbar"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="4"
-        tools:listitem="@layout/list_item_currency" />
+        tools:listitem="@layout/list_item_selling_currency" />
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/loading_bar"

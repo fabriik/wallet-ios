@@ -8,8 +8,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.fabriik.swap.R
 import com.fabriik.swap.data.Status
 import com.fabriik.swap.databinding.FragmentSelectCurrencyBinding
@@ -18,7 +16,7 @@ class SelectSellingCurrencyFragment : Fragment() {
 
     private lateinit var binding: FragmentSelectCurrencyBinding
     private lateinit var viewModel: SwapViewModel
-    private val adapter = CurrenciesAdapter {
+    private val adapter = SellingCurrenciesAdapter {
         viewModel.onSellingCurrencySelected(it)
         navigateToBuyingCurrency()
     }

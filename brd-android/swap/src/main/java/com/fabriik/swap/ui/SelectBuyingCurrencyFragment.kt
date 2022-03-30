@@ -16,7 +16,7 @@ class SelectBuyingCurrencyFragment : Fragment() {
 
     private lateinit var binding: FragmentSelectCurrencyBinding
     private lateinit var viewModel: SwapViewModel
-    private val adapter = CurrenciesAdapter {
+    private val adapter = BuyingCurrenciesAdapter {
         viewModel.onBuyingCurrencySelected(it)
         navigateToAmountSelection()
     }
