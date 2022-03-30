@@ -42,7 +42,7 @@ class BuyingCurrenciesAdapter(private val callback: (SwapCurrency) -> Unit) :
                 ivIcon.loadFromUrl(item.currency.image)
                 tvCurrency.text = item.currency.fullName
                 tvCurrencyCode.text = currencyCode
-                tvExchangeRate.text = "1 $currencyCode = ${item.rate.toPlainString()} ${item.currency.name}"
+                tvExchangeRate.text = "1 $currencyCode = ${item.rate.toPlainString()} $currencyCode"
             }
         }
     }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/fabriik_background">
+    android:background="@color/fabriik_background"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -51,40 +51,115 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Pay with">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/card_view_radius"
+        app:contentPaddingBottom="12dp"
+        app:contentPaddingTop="12dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_pay_with"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:text="0"/>
+            android:layout_height="match_parent">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <ImageView
+                android:id="@+id/iv_icon_pay_with"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="16dp" />
 
-    <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_pay_with"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_toStartOf="@id/iv_icon_pay_with"
+                android:layout_centerVertical="true"
+                android:hint="Pay with">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_pay_with"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:cursorVisible="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="0"
+                    android:textIsSelectable="false"
+                    android:textSize="24sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:hint="Receive"
-        android:enabled="false">
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/card_view_radius"
+        app:contentPaddingBottom="12dp"
+        app:contentPaddingTop="12dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_receive"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:layout_height="match_parent">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <ImageView
+                android:id="@+id/iv_icon_receive"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="16dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_receive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_toStartOf="@id/iv_icon_receive"
+                android:layout_centerVertical="true"
+                android:enabled="false"
+                android:hint="Receive">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_receive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="0"
+                    android:textIsSelectable="false"
+                    android:textSize="24sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
     <com.breadwallet.legacy.presenter.customviews.BRKeyboard
         android:id="@+id/keyboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/extra_light_gray"/>
+        android:layout_marginTop="32dp"
+        android:background="@color/extra_light_gray" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_continue"
@@ -92,6 +167,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:text="Continue"/>
+        android:text="Continue" />
 
 </LinearLayout>

@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.breadwallet.legacy.presenter.customviews.BRKeyboard
 import com.fabriik.swap.R
 import com.fabriik.swap.databinding.FragmentSelectAmountBinding
+import com.fabriik.swap.utils.loadFromUrl
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import java.math.BigDecimal
@@ -62,6 +63,14 @@ class SelectAmountFragment : Fragment() {
                 viewModel.onAmountChanged(
                     BigDecimal.TEN
                 )
+            }
+
+            viewModel.selectedBuyingCurrency?.let {
+                ivIconReceive.loadFromUrl(it.image)
+            }
+
+            viewModel.selectedSellingCurrency?.let {
+                ivIconPayWith.loadFromUrl(it.image)
             }
 
             keyboard.bindInput()
