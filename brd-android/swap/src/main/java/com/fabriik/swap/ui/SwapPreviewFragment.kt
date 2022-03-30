@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.fabriik.swap.R
 import com.fabriik.swap.databinding.FragmentSelectAmountBinding
 import com.fabriik.swap.databinding.FragmentSwapPreviewBinding
@@ -35,6 +36,14 @@ class SwapPreviewFragment : Fragment() {
             .get(SwapViewModel::class.java)
 
         binding.apply {
+            backButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
+            closeButton.setOnClickListener {
+                requireActivity().finish()
+            }
+
             viewModel.selectedBuyingCurrency?.let {
                 ivBuyingCurrency.loadFromUrl(it.image)
             }

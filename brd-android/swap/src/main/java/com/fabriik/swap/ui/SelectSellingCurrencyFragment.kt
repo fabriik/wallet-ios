@@ -35,8 +35,14 @@ class SelectSellingCurrencyFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())
             .get(SwapViewModel::class.java)
 
-        binding.rvCurrencies.adapter = adapter
-        binding.rvCurrencies.setHasFixedSize(true)
+        binding.apply {
+            rvCurrencies.adapter = adapter
+            rvCurrencies.setHasFixedSize(true)
+
+            closeButton.setOnClickListener {
+                requireActivity().finish()
+            }
+        }
 
         viewModel.getCurrencies().observe(viewLifecycleOwner) {
             when (it.status) {

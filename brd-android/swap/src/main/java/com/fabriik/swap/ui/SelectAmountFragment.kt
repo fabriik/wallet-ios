@@ -14,6 +14,7 @@ import com.fabriik.swap.databinding.FragmentSelectAmountBinding
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import java.math.BigDecimal
+import java.util.*
 
 class SelectAmountFragment : Fragment() {
 
@@ -32,19 +33,39 @@ class SelectAmountFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())
             .get(SwapViewModel::class.java)
 
-        binding.btnContinue.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_swap_preview
-            )
+        viewModel.selectedSellingCurrency?.let { sellingCurrency ->
+            viewModel.selectedBuyingCurrency?.let { buyingCurrency ->
+                binding.title.text = getString(
+                    R.string.Swap_swapFor2,
+                    sellingCurrency.name.toUpperCase(Locale.ROOT),
+                    buyingCurrency.name.toUpperCase(Locale.ROOT)
+                )
+            }
         }
 
-        binding.etPayWith.doAfterTextChanged {
-            viewModel.onAmountChanged(
-                BigDecimal.TEN
-            )
-        }
+        binding.apply {
+            backButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
 
-        binding.keyboard.bindInput()
+            closeButton.setOnClickListener {
+                requireActivity().finish()
+            }
+
+            btnContinue.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_swap_preview
+                )
+            }
+
+            etPayWith.doAfterTextChanged {
+                viewModel.onAmountChanged(
+                    BigDecimal.TEN
+                )
+            }
+
+            keyboard.bindInput()
+        }
     }
 
     private fun BRKeyboard.bindInput() {
@@ -63,7 +84,7 @@ class SelectAmountFragment : Fragment() {
             }
         }
     }
-    
+
     sealed class KeyboardOperation {
         abstract fun change(oldInput: String): String
 

@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.fabriik.swap.R
 import com.fabriik.swap.databinding.FragmentSelectCurrencyBinding
+import java.util.*
 
 class SelectBuyingCurrencyFragment : Fragment() {
 
@@ -35,8 +37,23 @@ class SelectBuyingCurrencyFragment : Fragment() {
             adapter.submitList(it)
         }
 
-        binding.rvCurrencies.adapter = adapter
-        binding.rvCurrencies.setHasFixedSize(true)
+        viewModel.selectedSellingCurrency?.let {
+            binding.title.text = getString(R.string.Swap_swapFor, it.name.toUpperCase(Locale.ROOT))
+        }
+
+        binding.apply {
+            rvCurrencies.adapter = adapter
+            rvCurrencies.setHasFixedSize(true)
+            backButton.isVisible = true
+
+            backButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
+            closeButton.setOnClickListener {
+                requireActivity().finish()
+            }
+        }
     }
 
     private fun navigateToAmountSelection() {

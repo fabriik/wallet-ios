@@ -1463,5 +1463,10 @@
     <!-- 1 of 3 -->
     <string name="WritePaperPhrase.step">%1$d of %2$d</string>
 
+    <string name="Swap.swapYour">Swap your:</string>
+    <string name="Swap.swapFor">Swap %s for:</string>
+    <string name="Swap.swapFor2">Swap %s for %s</string>
+    <string name="Swap.confirmSwap">Confirm swap</string>
+
     <string name="Scanner.noCamera" translatable="false">No camera found</string>
 </resources>
