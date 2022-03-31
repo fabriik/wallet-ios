@@ -43,6 +43,21 @@ class SwapViewModel(
     var selectedSellingCurrency: SwapCurrency? = null
         private set
 
+    fun getSellingCurrencies(query: String) = liveData(Dispatchers.IO) {
+        if (currencies.isEmpty()) {
+            getCurrencies()
+        }
+
+        val result = currencies.filter {
+            it.name.contains(query, ignoreCase = true) ||
+            it.fullName.contains(query, ignoreCase = true)
+        }
+
+        emit(
+            result
+        )
+    }
+
     fun getCurrencies() = liveData(Dispatchers.IO) {
         // download data if list is empty
         if (currencies.isEmpty()) {
@@ -86,11 +101,15 @@ class SwapViewModel(
                     .map {
                         SellingCurrencyData(
                             currency = currencies.find { currency -> currency.name == it.currency.code }!!,
-                            fiatBalance = ratesRepo.getFiatForCrypto(it.balance.toBigDecimal(), it.currency.code, fiatIso)
+                            fiatBalance = ratesRepo.getFiatForCrypto(
+                                it.balance.toBigDecimal(),
+                                it.currency.code,
+                                fiatIso
+                            )
                                 ?: BigDecimal.ZERO,
                             cryptoBalance = it.balance.toBigDecimal(),
                         )
-                }
+                    }
             }.first()
 
         emit(
