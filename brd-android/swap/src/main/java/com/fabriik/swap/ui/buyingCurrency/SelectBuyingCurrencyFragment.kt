@@ -127,7 +127,10 @@ class SelectBuyingCurrencyFragment : Fragment(),
 
     private fun navigateToAmountSelection(sellingCurrency: SwapCurrency, buyingCurrency: SwapCurrency) {
         findNavController().navigate(
-            R.id.action_select_amount
+            SelectBuyingCurrencyFragmentDirections.actionSelectAmount(
+                sellingCurrency = sellingCurrency,
+                buyingCurrency = buyingCurrency
+            )
         )
     }
 }
