@@ -1,4 +1,4 @@
-package com.fabriik.swap.ui
+package com.fabriik.swap.ui.buyingCurrency
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +13,8 @@ import com.fabriik.swap.databinding.ListItemBuyingCurrencyBinding
 import com.fabriik.swap.utils.loadFromUrl
 import java.util.*
 
-class BuyingCurrenciesAdapter(private val callback: (SwapCurrency) -> Unit) :
-    ListAdapter<BuyingCurrencyData, BuyingCurrenciesAdapter.CurrencyViewHolder>(
+class SelectBuyingCurrencyAdapter(private val callback: (BuyingCurrencyData) -> Unit) :
+    ListAdapter<BuyingCurrencyData, SelectBuyingCurrencyAdapter.CurrencyViewHolder>(
         CallbackDiff
     ) {
 
@@ -35,9 +35,9 @@ class BuyingCurrenciesAdapter(private val callback: (SwapCurrency) -> Unit) :
 
         private val binding = ListItemBuyingCurrencyBinding.bind(view)
 
-        fun bind(item: BuyingCurrencyData, callback: (SwapCurrency) -> Unit) {
+        fun bind(item: BuyingCurrencyData, callback: (BuyingCurrencyData) -> Unit) {
             binding.apply {
-                root.setOnClickListener { callback(item.currency) }
+                root.setOnClickListener { callback(item) }
 
                 val currencyCode = item.currency.name.toUpperCase(Locale.ROOT)
                 ivIcon.loadFromUrl(item.currency.image)

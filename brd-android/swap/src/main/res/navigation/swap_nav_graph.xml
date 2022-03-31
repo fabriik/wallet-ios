@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/selectBuyingCurrency"
-        android:name="com.fabriik.swap.ui.SelectBuyingCurrencyFragment"
+        android:name="com.fabriik.swap.ui.buyingCurrency.SelectBuyingCurrencyFragment"
         tools:layout="@layout/fragment_select_currency" >
 
         <action android:id="@+id/action_select_amount"

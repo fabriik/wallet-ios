@@ -1,39 +1,44 @@
-package com.fabriik.swap.ui.sellingcurrency
+package com.fabriik.swap.ui.buyingCurrency
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.fabriik.swap.R
 import com.fabriik.swap.data.SwapApi
+import com.fabriik.swap.data.model.BuyingCurrencyData
 import com.fabriik.swap.data.model.SellingCurrencyData
 import com.fabriik.swap.ui.base.SwapViewModel
-import com.fabriik.swap.ui.buyingCurrency.SelectBuyingCurrencyAction
-import com.fabriik.swap.ui.buyingCurrency.SelectBuyingCurrencyEffect
+import com.fabriik.swap.ui.sellingcurrency.SelectSellingCurrencyAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.util.*
 
-class SelectSellingCurrencyViewModel(
+class SelectBuyingCurrencyViewModel(
     application: Application
 ) : AndroidViewModel(application),
-    SwapViewModel<SelectSellingCurrencyState, SelectSellingCurrencyAction, SelectSellingCurrencyEffect?>,
+    SwapViewModel<SelectBuyingCurrencyState, SelectBuyingCurrencyAction, SelectBuyingCurrencyEffect?>,
     LifecycleObserver {
 
-    override val actions: Channel<SelectSellingCurrencyAction> = Channel(Channel.UNLIMITED)
+    override val actions: Channel<SelectBuyingCurrencyAction> = Channel(Channel.UNLIMITED)
 
-    override val state: LiveData<SelectSellingCurrencyState>
+    override val state: LiveData<SelectBuyingCurrencyState>
         get() = _state
 
-    override val effect: LiveData<SelectSellingCurrencyEffect?>
+    override val effect: LiveData<SelectBuyingCurrencyEffect?>
         get() = _effect
 
     private var searchQuery: String = ""
     private val api: SwapApi = SwapApi.create()
-    private val _state =
-        MutableLiveData<SelectSellingCurrencyState>().apply { value = SelectSellingCurrencyState() }
-    private val _effect = MutableLiveData<SelectSellingCurrencyEffect?>()
-    private var currencies: List<SellingCurrencyData> = mutableListOf()
+    private val _state = MutableLiveData<SelectBuyingCurrencyState>().apply {
+        value = SelectBuyingCurrencyState(
+            title = "test" //getString(R.string.Swap_swapFor, it.name.toUpperCase(Locale.ROOT))
+        )
+    }
+    private val _effect = MutableLiveData<SelectBuyingCurrencyEffect?>()
+    private var currencies: List<BuyingCurrencyData> = mutableListOf()
 
     init {
         handleAction()
@@ -43,14 +48,19 @@ class SelectSellingCurrencyViewModel(
         viewModelScope.launch {
             actions.consumeAsFlow().collect {
                 when (it) {
-                    is SelectSellingCurrencyAction.Close -> {
+                    is SelectBuyingCurrencyAction.Back -> {
                         _effect.postValue(
-                            SelectSellingCurrencyEffect.GoToHome
+                            SelectBuyingCurrencyEffect.GoBack
                         )
                     }
-                    is SelectSellingCurrencyAction.LoadCurrencies -> loadCurrencies()
-                    is SelectSellingCurrencyAction.SearchChanged -> onSearchChanged(it)
-                    is SelectSellingCurrencyAction.CurrencySelected -> onCurrencySelected(it)
+                    is SelectBuyingCurrencyAction.Close -> {
+                        _effect.postValue(
+                            SelectBuyingCurrencyEffect.GoToHome
+                        )
+                    }
+                    is SelectBuyingCurrencyAction.LoadCurrencies -> loadCurrencies()
+                    is SelectBuyingCurrencyAction.SearchChanged -> onSearchChanged(it)
+                    is SelectBuyingCurrencyAction.CurrencySelected -> onCurrencySelected(it)
                 }
             }
         }
@@ -68,10 +78,9 @@ class SelectSellingCurrencyViewModel(
                 }
 
                 currencies = api.getCurrencies().map { currency ->
-                    SellingCurrencyData(
+                    BuyingCurrencyData(
                         currency = currency,
-                        cryptoBalance = BigDecimal.ONE,
-                        fiatBalance = BigDecimal.TEN
+                        rate = BigDecimal.ONE
                     )
                 }
 
@@ -92,15 +101,16 @@ class SelectSellingCurrencyViewModel(
         }
     }
 
-    private fun onCurrencySelected(action: SelectSellingCurrencyAction.CurrencySelected) {
+    private fun onCurrencySelected(action: SelectBuyingCurrencyAction.CurrencySelected) {
         _effect.postValue(
-            SelectSellingCurrencyEffect.GoToBuyingCurrencySelection(
-                action.currency.currency
+            SelectBuyingCurrencyEffect.GoToAmountSelection(
+                buyingCurrency = action.currency.currency,
+                sellingCurrency = action.currency.currency //todo: read from args
             )
         )
     }
 
-    private fun onSearchChanged(action: SelectSellingCurrencyAction.SearchChanged) {
+    private fun onSearchChanged(action: SelectBuyingCurrencyAction.SearchChanged) {
         searchQuery = action.query
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -115,7 +125,7 @@ class SelectSellingCurrencyViewModel(
         }
     }
 
-    private suspend fun updateState(handler: suspend (intent: SelectSellingCurrencyState) -> SelectSellingCurrencyState) {
+    private suspend fun updateState(handler: suspend (intent: SelectBuyingCurrencyState) -> SelectBuyingCurrencyState) {
         _state.postValue(handler(state.value!!))
     }
 }

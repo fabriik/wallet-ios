@@ -1,4 +1,4 @@
-package com.fabriik.swap.ui.sellingcurrency
+package com.fabriik.swap.ui.buyingCurrency
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,25 +14,31 @@ import androidx.navigation.fragment.findNavController
 import com.fabriik.swap.R
 import com.fabriik.swap.data.responses.SwapCurrency
 import com.fabriik.swap.databinding.FragmentSelectCurrencyBinding
+import com.fabriik.swap.ui.SwapViewModel
 import com.fabriik.swap.ui.base.SwapView
+import com.fabriik.swap.ui.sellingcurrency.SelectSellingCurrencyAction
+import com.fabriik.swap.ui.sellingcurrency.SelectSellingCurrencyEffect
+import com.fabriik.swap.ui.sellingcurrency.SelectSellingCurrencyState
+import com.fabriik.swap.ui.sellingcurrency.SelectSellingCurrencyViewModel
 import kotlinx.coroutines.launch
+import java.util.*
 
-class SelectSellingCurrencyFragment : Fragment(),
-    SwapView<SelectSellingCurrencyState, SelectSellingCurrencyEffect> {
+class SelectBuyingCurrencyFragment : Fragment(),
+    SwapView<SelectBuyingCurrencyState, SelectBuyingCurrencyEffect> {
 
     private lateinit var binding: FragmentSelectCurrencyBinding
 
-    private val viewModel: SelectSellingCurrencyViewModel by lazy {
-        ViewModelProvider(this)
-            .get(SelectSellingCurrencyViewModel::class.java)
-    }
-
-    private val adapter = SelectSellingCurrencyAdapter {
+    private val adapter = SelectBuyingCurrencyAdapter {
         lifecycleScope.launch {
             viewModel.actions.send(
-                SelectSellingCurrencyAction.CurrencySelected(it)
+                SelectBuyingCurrencyAction.CurrencySelected(it)
             )
         }
+    }
+
+    private val viewModel: SelectBuyingCurrencyViewModel by lazy {
+        ViewModelProvider(this)
+            .get(SelectBuyingCurrencyViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -43,17 +49,25 @@ class SelectSellingCurrencyFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = FragmentSelectCurrencyBinding.bind(view)
 
         binding.apply {
             rvCurrencies.adapter = adapter
             rvCurrencies.setHasFixedSize(true)
+            backButton.isVisible = true
+
+            backButton.setOnClickListener {
+                lifecycleScope.launch {
+                    viewModel.actions.send(
+                        SelectBuyingCurrencyAction.Back
+                    )
+                }
+            }
 
             closeButton.setOnClickListener {
                 lifecycleScope.launch {
                     viewModel.actions.send(
-                        SelectSellingCurrencyAction.Close
+                        SelectBuyingCurrencyAction.Close
                     )
                 }
             }
@@ -61,7 +75,7 @@ class SelectSellingCurrencyFragment : Fragment(),
             searchEdit.addTextChangedListener {
                 lifecycleScope.launch {
                     viewModel.actions.send(
-                        SelectSellingCurrencyAction.SearchChanged(
+                        SelectBuyingCurrencyAction.SearchChanged(
                             it?.toString() ?: ""
                         )
                     )
@@ -79,14 +93,15 @@ class SelectSellingCurrencyFragment : Fragment(),
 
         lifecycleScope.launch {
             viewModel.actions.send(
-                SelectSellingCurrencyAction.LoadCurrencies
+                SelectBuyingCurrencyAction.LoadCurrencies
             )
         }
     }
 
-    override fun render(state: SelectSellingCurrencyState) {
+    override fun render(state: SelectBuyingCurrencyState) {
         with(state) {
             binding.loadingBar.isVisible = isLoading
+            binding.title.text = title
             adapter.submitList(currencies)
 
             if (errorMessage != null) {
@@ -96,18 +111,23 @@ class SelectSellingCurrencyFragment : Fragment(),
         }
     }
 
-    override fun handleEffect(effect: SelectSellingCurrencyEffect?) {
+    override fun handleEffect(effect: SelectBuyingCurrencyEffect?) {
         when (effect) {
-            SelectSellingCurrencyEffect.GoToHome ->
+            SelectBuyingCurrencyEffect.GoToHome ->
                 requireActivity().finish()
-            is SelectSellingCurrencyEffect.GoToBuyingCurrencySelection ->
-                navigateToBuyingCurrency(effect.sellingCurrency)
+            SelectBuyingCurrencyEffect.GoBack ->
+                findNavController().popBackStack()
+            is SelectBuyingCurrencyEffect.GoToAmountSelection ->
+                navigateToAmountSelection(
+                    sellingCurrency = effect.sellingCurrency,
+                    buyingCurrency = effect.buyingCurrency
+                )
         }
     }
 
-    private fun navigateToBuyingCurrency(currency: SwapCurrency) {
+    private fun navigateToAmountSelection(sellingCurrency: SwapCurrency, buyingCurrency: SwapCurrency) {
         findNavController().navigate(
-            R.id.action_buying_currency //todo: add currency
+            R.id.action_select_amount
         )
     }
 }

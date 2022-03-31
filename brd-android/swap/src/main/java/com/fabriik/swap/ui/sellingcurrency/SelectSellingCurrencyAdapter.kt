@@ -15,8 +15,8 @@ import com.fabriik.swap.databinding.ListItemSellingCurrencyBinding
 import com.fabriik.swap.utils.loadFromUrl
 import java.util.*
 
-class SelectSellingCurrenciesAdapter(private val callback: (SellingCurrencyData) -> Unit) :
-    ListAdapter<SellingCurrencyData, SelectSellingCurrenciesAdapter.CurrencyViewHolder>(
+class SelectSellingCurrencyAdapter(private val callback: (SellingCurrencyData) -> Unit) :
+    ListAdapter<SellingCurrencyData, SelectSellingCurrencyAdapter.CurrencyViewHolder>(
         CallbackDiff
     ) {
 
