@@ -111,7 +111,7 @@ class SelectBuyingCurrencyViewModel(
         _effect.postValue(
             SelectBuyingCurrencyEffect.GoToAmountSelection(
                 buyingCurrency = action.currency.currency,
-                sellingCurrency = action.currency.currency //todo: read from args
+                sellingCurrency = arguments.sellingCurrency
             )
         )
     }

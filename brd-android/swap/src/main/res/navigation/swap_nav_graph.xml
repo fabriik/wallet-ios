@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/selectAmountFragment"
-        android:name="com.fabriik.swap.ui.SelectAmountFragment"
+        android:name="com.fabriik.swap.ui.selectAmount.SelectAmountFragment"
         tools:layout="@layout/fragment_select_amount" >
 
         <argument
@@ -48,5 +48,19 @@
     <fragment
         android:id="@+id/swapPreviewFragment"
         android:name="com.fabriik.swap.ui.SwapPreviewFragment"
-        tools:layout="@layout/fragment_swap_preview" />
+        tools:layout="@layout/fragment_swap_preview">
+
+        <argument
+            android:name="amount"
+            app:argType="java.math.BigDecimal"/>
+
+        <argument
+            android:name="sellingCurrency"
+            app:argType="com.fabriik.swap.data.responses.SwapCurrency"/>
+
+        <argument
+            android:name="buyingCurrency"
+            app:argType="com.fabriik.swap.data.responses.SwapCurrency"/>
+
+    </fragment>
 </navigation>
