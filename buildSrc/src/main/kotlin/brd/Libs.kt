@@ -98,6 +98,7 @@ object Libs {
 
     object Android {
         const val GradlePlugin = "com.android.tools.build:gradle:$AGP_VERSION"
+        const val SafeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
     }
 
     object Tests {

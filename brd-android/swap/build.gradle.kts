@@ -7,6 +7,7 @@ plugins {
     id("kotlin-parcelize")
     id("dev.zacsweers.redacted")
     id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 redacted {

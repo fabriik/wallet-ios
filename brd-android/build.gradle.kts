@@ -9,6 +9,7 @@ buildscript {
     dependencies {
         classpath(brd.Libs.Redacted.Plugin)
         classpath(brd.Libs.Android.GradlePlugin)
+        classpath(brd.Libs.Android.SafeArgsPlugin)
         classpath(brd.Libs.Google.ServicesPlugin)
         classpath(brd.Libs.Kotlin.GradlePlugin)
         classpath(brd.Libs.Firebase.DistributionPlugin)

@@ -5,20 +5,19 @@ import androidx.lifecycle.*
 import com.fabriik.swap.R
 import com.fabriik.swap.data.SwapApi
 import com.fabriik.swap.data.model.BuyingCurrencyData
-import com.fabriik.swap.data.model.SellingCurrencyData
 import com.fabriik.swap.ui.base.SwapViewModel
-import com.fabriik.swap.ui.sellingcurrency.SelectSellingCurrencyAction
 import com.fabriik.swap.utils.SingleLiveEvent
+import com.fabriik.swap.utils.toBundle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-import java.util.*
 
 class SelectBuyingCurrencyViewModel(
-    application: Application
+    application: Application,
+    savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application),
     SwapViewModel<SelectBuyingCurrencyState, SelectBuyingCurrencyAction, SelectBuyingCurrencyEffect?>,
     LifecycleObserver {
@@ -31,11 +30,17 @@ class SelectBuyingCurrencyViewModel(
     override val effect: LiveData<SelectBuyingCurrencyEffect?>
         get() = _effect
 
+    private val arguments = SelectBuyingCurrencyFragmentArgs.fromBundle(
+        savedStateHandle.toBundle()
+    )
+
     private var searchQuery: String = ""
     private val api: SwapApi = SwapApi.create()
     private val _state = MutableLiveData<SelectBuyingCurrencyState>().apply {
         value = SelectBuyingCurrencyState(
-            title = "test" //getString(R.string.Swap_swapFor, it.name.toUpperCase(Locale.ROOT))
+            title = application.applicationContext.getString(
+                R.string.Swap_swapFor, arguments.sellingCurrency.formatCode()
+            )
         )
     }
     private val _effect = SingleLiveEvent<SelectBuyingCurrencyEffect?>()

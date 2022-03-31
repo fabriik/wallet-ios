@@ -19,14 +19,27 @@
         android:name="com.fabriik.swap.ui.buyingCurrency.SelectBuyingCurrencyFragment"
         tools:layout="@layout/fragment_select_currency" >
 
+        <argument
+            android:name="sellingCurrency"
+            app:argType="com.fabriik.swap.data.responses.SwapCurrency"/>
+
         <action android:id="@+id/action_select_amount"
             app:destination="@+id/selectAmountFragment"/>
+
     </fragment>
 
     <fragment
         android:id="@+id/selectAmountFragment"
         android:name="com.fabriik.swap.ui.SelectAmountFragment"
         tools:layout="@layout/fragment_select_amount" >
+
+        <argument
+            android:name="sellingCurrency"
+            app:argType="com.fabriik.swap.data.responses.SwapCurrency"/>
+
+        <argument
+            android:name="buyingCurrency"
+            app:argType="com.fabriik.swap.data.responses.SwapCurrency"/>
 
         <action android:id="@+id/action_swap_preview"
             app:destination="@+id/swapPreviewFragment"/>

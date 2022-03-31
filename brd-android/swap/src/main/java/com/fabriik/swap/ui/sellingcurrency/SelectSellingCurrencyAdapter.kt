@@ -41,7 +41,7 @@ class SelectSellingCurrencyAdapter(private val callback: (SellingCurrencyData) -
             binding.apply {
                 root.setOnClickListener { callback(item) }
 
-                val currencyCode = item.currency.name.toUpperCase(Locale.ROOT)
+                val currencyCode = item.currency.formatCode()
                 ivIcon.loadFromUrl(item.currency.image)
                 tvCurrency.text = item.currency.fullName
                 tvCurrencyCode.text = currencyCode

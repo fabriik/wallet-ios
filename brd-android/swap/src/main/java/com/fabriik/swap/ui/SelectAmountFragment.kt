@@ -38,8 +38,8 @@ class SelectAmountFragment : Fragment() {
             viewModel.selectedBuyingCurrency?.let { buyingCurrency ->
                 binding.title.text = getString(
                     R.string.Swap_swapFor2,
-                    sellingCurrency.name.toUpperCase(Locale.ROOT),
-                    buyingCurrency.name.toUpperCase(Locale.ROOT)
+                    sellingCurrency.formatCode(),
+                    buyingCurrency.formatCode()
                 )
             }
         }
