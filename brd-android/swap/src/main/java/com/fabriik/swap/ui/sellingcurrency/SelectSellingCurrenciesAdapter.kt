@@ -1,4 +1,4 @@
-package com.fabriik.swap.ui
+package com.fabriik.swap.ui.sellingcurrency
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +10,13 @@ import com.breadwallet.breadbox.formatCryptoForUi
 import com.breadwallet.tools.manager.BRSharedPrefs
 import com.breadwallet.ui.formatFiatForUi
 import com.fabriik.swap.R
-import com.fabriik.swap.data.responses.SwapCurrency
 import com.fabriik.swap.databinding.ListItemSellingCurrencyBinding
+import com.fabriik.swap.ui.SwapViewModel
 import com.fabriik.swap.utils.loadFromUrl
 import java.util.*
 
-class SellingCurrenciesAdapter(private val callback: (SwapCurrency) -> Unit) :
-    ListAdapter<SwapViewModel.SellingCurrencyData, SellingCurrenciesAdapter.CurrencyViewHolder>(
+class SelectSellingCurrenciesAdapter(private val callback: (SwapViewModel.SellingCurrencyData) -> Unit) :
+    ListAdapter<SwapViewModel.SellingCurrencyData, SelectSellingCurrenciesAdapter.CurrencyViewHolder>(
         CallbackDiff
     ) {
 
@@ -37,9 +37,9 @@ class SellingCurrenciesAdapter(private val callback: (SwapCurrency) -> Unit) :
 
         private val binding = ListItemSellingCurrencyBinding.bind(view)
 
-        fun bind(item: SwapViewModel.SellingCurrencyData, callback: (SwapCurrency) -> Unit) {
+        fun bind(item: SwapViewModel.SellingCurrencyData, callback: (SwapViewModel.SellingCurrencyData) -> Unit) {
             binding.apply {
-                root.setOnClickListener { callback(item.currency) }
+                root.setOnClickListener { callback(item) }
 
                 val currencyCode = item.currency.name.toUpperCase(Locale.ROOT)
                 ivIcon.loadFromUrl(item.currency.image)
