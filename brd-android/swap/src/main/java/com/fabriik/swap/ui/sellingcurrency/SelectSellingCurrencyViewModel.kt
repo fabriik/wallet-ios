@@ -7,6 +7,7 @@ import com.fabriik.swap.data.model.SellingCurrencyData
 import com.fabriik.swap.ui.base.SwapViewModel
 import com.fabriik.swap.ui.buyingCurrency.SelectBuyingCurrencyAction
 import com.fabriik.swap.ui.buyingCurrency.SelectBuyingCurrencyEffect
+import com.fabriik.swap.utils.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
@@ -32,7 +33,7 @@ class SelectSellingCurrencyViewModel(
     private val api: SwapApi = SwapApi.create()
     private val _state =
         MutableLiveData<SelectSellingCurrencyState>().apply { value = SelectSellingCurrencyState() }
-    private val _effect = MutableLiveData<SelectSellingCurrencyEffect?>()
+    private val _effect = SingleLiveEvent<SelectSellingCurrencyEffect?>()
     private var currencies: List<SellingCurrencyData> = mutableListOf()
 
     init {
