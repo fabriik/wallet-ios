@@ -10,13 +10,13 @@ import com.breadwallet.breadbox.formatCryptoForUi
 import com.breadwallet.tools.manager.BRSharedPrefs
 import com.breadwallet.ui.formatFiatForUi
 import com.fabriik.swap.R
+import com.fabriik.swap.data.model.SellingCurrencyData
 import com.fabriik.swap.databinding.ListItemSellingCurrencyBinding
-import com.fabriik.swap.ui.SwapViewModel
 import com.fabriik.swap.utils.loadFromUrl
 import java.util.*
 
-class SelectSellingCurrenciesAdapter(private val callback: (SwapViewModel.SellingCurrencyData) -> Unit) :
-    ListAdapter<SwapViewModel.SellingCurrencyData, SelectSellingCurrenciesAdapter.CurrencyViewHolder>(
+class SelectSellingCurrenciesAdapter(private val callback: (SellingCurrencyData) -> Unit) :
+    ListAdapter<SellingCurrencyData, SelectSellingCurrenciesAdapter.CurrencyViewHolder>(
         CallbackDiff
     ) {
 
@@ -37,7 +37,7 @@ class SelectSellingCurrenciesAdapter(private val callback: (SwapViewModel.Sellin
 
         private val binding = ListItemSellingCurrencyBinding.bind(view)
 
-        fun bind(item: SwapViewModel.SellingCurrencyData, callback: (SwapViewModel.SellingCurrencyData) -> Unit) {
+        fun bind(item: SellingCurrencyData, callback: (SellingCurrencyData) -> Unit) {
             binding.apply {
                 root.setOnClickListener { callback(item) }
 
@@ -55,12 +55,12 @@ class SelectSellingCurrenciesAdapter(private val callback: (SwapViewModel.Sellin
         }
     }
 
-    private object CallbackDiff : DiffUtil.ItemCallback<SwapViewModel.SellingCurrencyData>() {
+    private object CallbackDiff : DiffUtil.ItemCallback<SellingCurrencyData>() {
 
-        override fun areItemsTheSame(oldItem: SwapViewModel.SellingCurrencyData, newItem: SwapViewModel.SellingCurrencyData) =
+        override fun areItemsTheSame(oldItem: SellingCurrencyData, newItem: SellingCurrencyData) =
             newItem.currency.name == oldItem.currency.name
 
-        override fun areContentsTheSame(oldItem: SwapViewModel.SellingCurrencyData, newItem: SwapViewModel.SellingCurrencyData) =
+        override fun areContentsTheSame(oldItem: SellingCurrencyData, newItem: SellingCurrencyData) =
             newItem == oldItem
     }
 }

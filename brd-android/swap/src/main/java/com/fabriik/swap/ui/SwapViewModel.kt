@@ -11,6 +11,8 @@ import com.breadwallet.repository.RatesRepository
 import com.breadwallet.tools.manager.BRSharedPrefs
 import com.fabriik.swap.data.Resource
 import com.fabriik.swap.data.SwapApi
+import com.fabriik.swap.data.model.BuyingCurrencyData
+import com.fabriik.swap.data.model.SellingCurrencyData
 import com.fabriik.swap.data.responses.SwapCurrency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -148,17 +150,6 @@ class SwapViewModel(
     fun onAmountChanged(amount: BigDecimal) {
         selectedAmount = amount
     }
-
-    data class SellingCurrencyData(
-        val currency: SwapCurrency,
-        val fiatBalance: BigDecimal,
-        val cryptoBalance: BigDecimal
-    )
-
-    data class BuyingCurrencyData(
-        val currency: SwapCurrency,
-        val rate: BigDecimal
-    )
 
     companion object {
         private const val WALLET_UPDATE_THROTTLE = 2_000L

@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fabriik.swap.R
+import com.fabriik.swap.data.model.BuyingCurrencyData
 import com.fabriik.swap.data.responses.SwapCurrency
 import com.fabriik.swap.databinding.ListItemBuyingCurrencyBinding
 import com.fabriik.swap.utils.loadFromUrl
 import java.util.*
 
 class BuyingCurrenciesAdapter(private val callback: (SwapCurrency) -> Unit) :
-    ListAdapter<SwapViewModel.BuyingCurrencyData, BuyingCurrenciesAdapter.CurrencyViewHolder>(
+    ListAdapter<BuyingCurrencyData, BuyingCurrenciesAdapter.CurrencyViewHolder>(
         CallbackDiff
     ) {
 
@@ -34,7 +35,7 @@ class BuyingCurrenciesAdapter(private val callback: (SwapCurrency) -> Unit) :
 
         private val binding = ListItemBuyingCurrencyBinding.bind(view)
 
-        fun bind(item: SwapViewModel.BuyingCurrencyData, callback: (SwapCurrency) -> Unit) {
+        fun bind(item: BuyingCurrencyData, callback: (SwapCurrency) -> Unit) {
             binding.apply {
                 root.setOnClickListener { callback(item.currency) }
 
@@ -47,12 +48,12 @@ class BuyingCurrenciesAdapter(private val callback: (SwapCurrency) -> Unit) :
         }
     }
 
-    private object CallbackDiff : DiffUtil.ItemCallback<SwapViewModel.BuyingCurrencyData>() {
+    private object CallbackDiff : DiffUtil.ItemCallback<BuyingCurrencyData>() {
 
-        override fun areItemsTheSame(oldItem: SwapViewModel.BuyingCurrencyData, newItem: SwapViewModel.BuyingCurrencyData) =
+        override fun areItemsTheSame(oldItem: BuyingCurrencyData, newItem: BuyingCurrencyData) =
             newItem.currency.name == oldItem.currency.name
 
-        override fun areContentsTheSame(oldItem: SwapViewModel.BuyingCurrencyData, newItem: SwapViewModel.BuyingCurrencyData) =
+        override fun areContentsTheSame(oldItem: BuyingCurrencyData, newItem: BuyingCurrencyData) =
             newItem == oldItem
     }
 }

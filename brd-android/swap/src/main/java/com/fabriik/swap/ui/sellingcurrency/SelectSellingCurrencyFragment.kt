@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -13,9 +14,11 @@ import androidx.navigation.fragment.findNavController
 import com.fabriik.swap.R
 import com.fabriik.swap.data.responses.SwapCurrency
 import com.fabriik.swap.databinding.FragmentSelectCurrencyBinding
+import com.fabriik.swap.ui.base.SwapView
 import kotlinx.coroutines.launch
 
-class SelectSellingCurrencyFragment : Fragment() {
+class SelectSellingCurrencyFragment : Fragment(),
+    SwapView<SelectSellingCurrencyState, SelectSellingCurrencyEffect> {
 
     private lateinit var binding: FragmentSelectCurrencyBinding
 
@@ -50,6 +53,16 @@ class SelectSellingCurrencyFragment : Fragment() {
             closeButton.setOnClickListener {
                 requireActivity().finish()
             }
+
+            searchEdit.addTextChangedListener {
+                lifecycleScope.launch {
+                    viewModel.actions.send(
+                        SelectSellingCurrencyAction.SearchChanged(
+                            it?.toString() ?: ""
+                        )
+                    )
+                }
+            }
         }
 
         viewModel.state.observe(viewLifecycleOwner) {
@@ -67,16 +80,7 @@ class SelectSellingCurrencyFragment : Fragment() {
         }
     }
 
-    private fun handleEffect(effect: SelectSellingCurrencyEffect?) {
-        when (effect) {
-            SelectSellingCurrencyEffect.CloseScreen ->
-                requireActivity().finish()
-            is SelectSellingCurrencyEffect.NavigateToBuyingCurrencies ->
-                navigateToBuyingCurrency(effect.sellingCurrency)
-        }
-    }
-
-    private fun render(state: SelectSellingCurrencyState) {
+    override fun render(state: SelectSellingCurrencyState) {
         with(state) {
             binding.loadingBar.isVisible = isLoading
             adapter.submitList(currencies)
@@ -85,6 +89,15 @@ class SelectSellingCurrencyFragment : Fragment() {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT)
                     .show()
             }
+        }
+    }
+
+    override fun handleEffect(effect: SelectSellingCurrencyEffect?) {
+        when (effect) {
+            SelectSellingCurrencyEffect.CloseCompleteFlow ->
+                requireActivity().finish()
+            is SelectSellingCurrencyEffect.GoToBuyingCurrencySelection ->
+                navigateToBuyingCurrency(effect.sellingCurrency)
         }
     }
 
