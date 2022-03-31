@@ -46,6 +46,8 @@ class SelectAmountViewModel(
     }
     private val _effect = SingleLiveEvent<SelectAmountEffect?>()
 
+    private var amount: BigDecimal = BigDecimal.ZERO
+
     init {
         handleAction()
     }
@@ -67,7 +69,7 @@ class SelectAmountViewModel(
                     is SelectAmountAction.ConfirmClicked -> {
                         _effect.postValue(
                             SelectAmountEffect.GoToPreview(
-                                amount = BigDecimal.TEN, // todo: read from view
+                                amount = amount,
                                 buyingCurrency = arguments.buyingCurrency,
                                 sellingCurrency = arguments.sellingCurrency,
                             )
@@ -80,6 +82,7 @@ class SelectAmountViewModel(
     }
 
     private fun onInputChanged(action: SelectAmountAction.AmountChanged) {
+        amount = action.amount
         // todo: calculate new value
     }
 }

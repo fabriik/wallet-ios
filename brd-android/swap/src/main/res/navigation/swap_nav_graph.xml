@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/swapPreviewFragment"
-        android:name="com.fabriik.swap.ui.SwapPreviewFragment"
+        android:name="com.fabriik.swap.ui.preview.SwapPreviewFragment"
         tools:layout="@layout/fragment_swap_preview">
 
         <argument
