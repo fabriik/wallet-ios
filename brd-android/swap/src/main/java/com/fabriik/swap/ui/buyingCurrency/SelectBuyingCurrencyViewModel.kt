@@ -3,6 +3,7 @@ package com.fabriik.swap.ui.buyingCurrency
 import android.app.Application
 import androidx.lifecycle.*
 import com.breadwallet.repository.RatesRepository
+import com.breadwallet.tools.manager.BRSharedPrefs
 import com.fabriik.swap.R
 import com.fabriik.swap.data.SwapApi
 import com.fabriik.swap.data.model.BuyingCurrencyData
@@ -34,7 +35,9 @@ class SelectBuyingCurrencyViewModel(
     private val arguments = SelectBuyingCurrencyFragmentArgs.fromBundle(
         savedStateHandle.toBundle()
     )
-
+    private val ratesRepo = RatesRepository.getInstance(
+        application.applicationContext
+    )
     private var searchQuery: String = ""
     private val api: SwapApi = SwapApi.create()
     private val _state = MutableLiveData<SelectBuyingCurrencyState>().apply {
@@ -99,7 +102,11 @@ class SelectBuyingCurrencyViewModel(
                     BuyingCurrencyData(
                         sellingCurrency = arguments.sellingCurrency,
                         currency = currency,
-                        rate = exchangeData.result
+                        rate = exchangeData.result,
+                        fiatPricePerUnit = ratesRepo.getFiatPerCryptoUnit(
+                            cryptoCode = currency.name,
+                            fiatCode = BRSharedPrefs.getPreferredFiatIso()
+                        )
                     )
                 }
 

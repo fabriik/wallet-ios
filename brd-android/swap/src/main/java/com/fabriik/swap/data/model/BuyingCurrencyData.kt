@@ -6,5 +6,6 @@ import java.math.BigDecimal
 data class BuyingCurrencyData(
     val rate: BigDecimal,
     val currency: SwapCurrency,
-    val sellingCurrency: SwapCurrency
+    val sellingCurrency: SwapCurrency,
+    val fiatPricePerUnit: BigDecimal
 )
