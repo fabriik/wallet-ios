@@ -19,6 +19,7 @@ import com.fabriik.swap.R
 import com.fabriik.swap.databinding.FragmentSwapPreviewBinding
 import com.fabriik.swap.ui.base.SwapView
 import com.fabriik.swap.utils.loadFromUrl
+import com.fabriik.swap.utils.viewScope
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
@@ -91,12 +92,14 @@ class SwapPreviewFragment : Fragment(), SwapView<SwapPreviewState, SwapPreviewEf
 
             // load icon of selling currency
             binding.viewSellingIcon.loadIconForCurrency(
-                currencyCode = sellingCurrency.name
+                currencyCode = sellingCurrency.name,
+                scope = binding.viewSellingIcon.viewScope
             )
 
             // load icon of buying currency
             binding.viewBuyingIcon.loadIconForCurrency(
-                currencyCode = buyingCurrency.name
+                currencyCode = buyingCurrency.name,
+                scope = binding.viewSellingIcon.viewScope
             )
 
             exchangeData?.let {

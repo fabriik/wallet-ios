@@ -12,6 +12,10 @@ import com.breadwallet.util.formatFiatForUi
 import com.fabriik.swap.R
 import com.fabriik.swap.data.model.BuyingCurrencyData
 import com.fabriik.swap.databinding.ListItemBuyingCurrencyBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
 
 class SelectBuyingCurrencyAdapter(private val callback: (BuyingCurrencyData) -> Unit) :
     ListAdapter<BuyingCurrencyData, SelectBuyingCurrencyAdapter.CurrencyViewHolder>(
@@ -31,9 +35,15 @@ class SelectBuyingCurrencyAdapter(private val callback: (BuyingCurrencyData) -> 
         )
     }
 
+    override fun onViewRecycled(holder: SelectBuyingCurrencyAdapter.CurrencyViewHolder) {
+        super.onViewRecycled(holder)
+        holder.unbind()
+    }
+
     inner class CurrencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private val binding = ListItemBuyingCurrencyBinding.bind(view)
+        private val boundScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
         fun bind(item: BuyingCurrencyData, callback: (BuyingCurrencyData) -> Unit) {
             binding.apply {
@@ -51,9 +61,14 @@ class SelectBuyingCurrencyAdapter(private val callback: (BuyingCurrencyData) -> 
                 )
 
                 viewIcon.loadIconForCurrency(
-                    item.currency.name
+                    currencyCode = item.currency.name,
+                    scope = boundScope
                 )
             }
+        }
+
+        fun unbind() {
+            boundScope.coroutineContext.cancelChildren()
         }
     }
 

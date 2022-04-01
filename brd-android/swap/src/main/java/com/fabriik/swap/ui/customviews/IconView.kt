@@ -30,8 +30,8 @@ class IconView @JvmOverloads constructor(
         setBackgroundResource(R.drawable.token_icon_background_transparent)
     }
 
-    fun loadIconForCurrency(currencyCode: String) {
-        viewScope.launch {
+    fun loadIconForCurrency(scope: CoroutineScope, currencyCode: String) {
+        scope.launch {
             // Get icon for currency
             val tokenIconPath = Dispatchers.Default {
                 TokenUtil.getTokenIconPath(currencyCode, false)
@@ -52,12 +52,12 @@ class IconView @JvmOverloads constructor(
                     binding.tvLetter.isVisible = true
                     binding.tvLetter.text = currencyCode.take(1).toUpperCase(Locale.ROOT)
                 } else {
-                    binding.ivIcon.isVisible = true
-                    binding.tvLetter.isVisible = false
-
                     Picasso.get()
                         .load(File(tokenIconPath))
                         .into(binding.ivIcon)
+
+                    binding.ivIcon.isVisible = true
+                    binding.tvLetter.isVisible = false
                 }
 
                 // set icon color

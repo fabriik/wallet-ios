@@ -1,14 +1,9 @@
 package com.fabriik.swap.ui.selectAmount
 
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,20 +11,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.breadwallet.util.formatCryptoForUi
 import com.breadwallet.legacy.presenter.customviews.BRKeyboard
-import com.breadwallet.tools.util.TokenUtil
 import com.fabriik.swap.R
 import com.fabriik.swap.data.responses.SwapCurrency
 import com.fabriik.swap.databinding.FragmentSelectAmountBinding
 import com.fabriik.swap.ui.base.SwapView
-import com.fabriik.swap.ui.buyingCurrency.SelectBuyingCurrencyEffect
-import com.fabriik.swap.ui.buyingCurrency.SelectBuyingCurrencyFragmentDirections
-import com.fabriik.swap.utils.loadFromUrl
-import com.squareup.picasso.Picasso
-import kotlinx.coroutines.ensureActive
+import com.fabriik.swap.utils.viewScope
 import kotlinx.coroutines.launch
-import java.io.File
 import java.math.BigDecimal
-import java.util.*
 
 class SelectAmountFragment : Fragment(), SwapView<SelectAmountState, SelectAmountEffect> {
 
@@ -112,12 +100,14 @@ class SelectAmountFragment : Fragment(), SwapView<SelectAmountState, SelectAmoun
 
             // load icon of selling currency
             binding.viewSellingIcon.loadIconForCurrency(
-                currencyCode = sellingCurrency.name
+                currencyCode = sellingCurrency.name,
+                scope = binding.viewSellingIcon.viewScope
             )
 
             // load icon of buying currency
             binding.viewBuyingIcon.loadIconForCurrency(
-                currencyCode = buyingCurrency.name
+                currencyCode = buyingCurrency.name,
+                scope = binding.viewBuyingIcon.viewScope
             )
         }
     }
@@ -149,49 +139,6 @@ class SelectAmountFragment : Fragment(), SwapView<SelectAmountState, SelectAmoun
                 sellingCurrency = sellingCurrency
             )
         )
-    }
-
-    private fun loadTokenIcon(
-        currencyCode: String,
-        iconContainer: ViewGroup,
-        iconLetter: TextView,
-        iconWhite: ImageView
-    ) {
-        val defaultTokenColor = R.color.light_gray
-
-        lifecycleScope.launch {
-            // Get icon for currency
-            val tokenIconPath = TokenUtil.getTokenIconPath(currencyCode, false)
-
-            // Get icon color
-            val tokenColor = TokenUtil.getTokenStartColor(currencyCode)
-
-            ensureActive()
-
-            with(binding) {
-                val iconDrawable = iconContainer.background as GradientDrawable
-
-                if (tokenIconPath.isNullOrBlank()) {
-                    iconLetter.visibility = View.VISIBLE
-                    iconWhite.visibility = View.GONE
-                    iconLetter.text = currencyCode.take(1).toUpperCase(Locale.ROOT)
-                } else {
-                    val iconFile = File(tokenIconPath)
-                    Picasso.get().load(iconFile).into(iconWhite)
-                    iconLetter.visibility = View.GONE
-                    iconWhite.visibility = View.VISIBLE
-                }
-
-                // set icon color
-                iconDrawable.setColor(
-                    if (tokenColor.isNullOrBlank()) {
-                        ContextCompat.getColor(root.context, defaultTokenColor)
-                    } else {
-                        Color.parseColor(tokenColor)
-                    }
-                )
-            }
-        }
     }
 
     private fun BRKeyboard.bindInput() {
