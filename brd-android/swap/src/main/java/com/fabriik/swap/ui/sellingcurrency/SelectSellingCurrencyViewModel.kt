@@ -7,6 +7,7 @@ import com.breadwallet.breadbox.toBigDecimal
 import com.breadwallet.ext.throttleLatest
 import com.breadwallet.repository.RatesRepository
 import com.breadwallet.tools.manager.BRSharedPrefs
+import com.breadwallet.tools.util.TokenUtil
 import com.fabriik.swap.data.SwapApi
 import com.fabriik.swap.data.model.SellingCurrencyData
 import com.fabriik.swap.ui.base.SwapViewModel
@@ -96,7 +97,9 @@ class SelectSellingCurrencyViewModel(
                         } ?: return@mapNotNull null
 
                         SellingCurrencyData(
-                            currency = currency,
+                            currency = currency.copy(
+                                fullName = TokenUtil.tokenForCode(currency.name)?.name ?: currency.fullName
+                            ),
                             fiatBalance = ratesRepo.getFiatForCrypto(
                                 wallet.balance.toBigDecimal(),
                                 currency.name,

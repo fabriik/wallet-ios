@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.breadwallet.repository.RatesRepository
 import com.breadwallet.tools.manager.BRSharedPrefs
+import com.breadwallet.tools.util.TokenUtil
 import com.fabriik.swap.R
 import com.fabriik.swap.data.SwapApi
 import com.fabriik.swap.data.model.BuyingCurrencyData
@@ -101,7 +102,9 @@ class SelectBuyingCurrencyViewModel(
 
                     BuyingCurrencyData(
                         sellingCurrency = arguments.sellingCurrency,
-                        currency = currency,
+                        currency = currency.copy(
+                            fullName = TokenUtil.tokenForCode(currency.name)?.name ?: currency.fullName
+                        ),
                         rate = exchangeData.result,
                         fiatPricePerUnit = ratesRepo.getFiatPerCryptoUnit(
                             cryptoCode = currency.name,
