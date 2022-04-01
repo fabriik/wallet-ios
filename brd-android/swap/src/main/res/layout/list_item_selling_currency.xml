@@ -16,13 +16,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_icon"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/icon_container"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:background="@drawable/token_icon_background_transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/icon_letter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/mobile_font_bold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
+                android:id="@+id/currency_icon_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tv_currency"
@@ -36,7 +64,7 @@
             android:textColor="@color/fabriik_black"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/tv_trade_price"
-            app:layout_constraintStart_toEndOf="@id/iv_icon"
+            app:layout_constraintStart_toEndOf="@id/icon_container"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Currency" />
@@ -50,7 +78,7 @@
             android:textColor="@color/fabriik_shuttle_grey"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_icon"
+            app:layout_constraintStart_toEndOf="@id/icon_container"
             app:layout_constraintTop_toBottomOf="@id/tv_currency"
             tools:text="$31.222" />
 
