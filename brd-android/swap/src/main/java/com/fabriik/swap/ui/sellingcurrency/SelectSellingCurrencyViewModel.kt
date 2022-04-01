@@ -2,6 +2,11 @@ package com.fabriik.swap.ui.sellingcurrency
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.breadwallet.breadbox.BreadBox
+import com.breadwallet.breadbox.toBigDecimal
+import com.breadwallet.ext.throttleLatest
+import com.breadwallet.repository.RatesRepository
+import com.breadwallet.tools.manager.BRSharedPrefs
 import com.fabriik.swap.data.SwapApi
 import com.fabriik.swap.data.model.SellingCurrencyData
 import com.fabriik.swap.ui.base.SwapViewModel
@@ -12,15 +17,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.erased.instance
 import java.math.BigDecimal
 
 class SelectSellingCurrencyViewModel(
     application: Application
 ) : AndroidViewModel(application),
     SwapViewModel<SelectSellingCurrencyState, SelectSellingCurrencyAction, SelectSellingCurrencyEffect?>,
-    LifecycleObserver {
+    LifecycleObserver, KodeinAware {
 
+    override val kodein by closestKodein { application.applicationContext }
     override val actions: Channel<SelectSellingCurrencyAction> = Channel(Channel.UNLIMITED)
 
     override val state: LiveData<SelectSellingCurrencyState>
@@ -29,11 +40,17 @@ class SelectSellingCurrencyViewModel(
     override val effect: LiveData<SelectSellingCurrencyEffect?>
         get() = _effect
 
-    private var searchQuery: String = ""
+    private val breadBox by instance<BreadBox>()
     private val api: SwapApi = SwapApi.create()
-    private val _state =
-        MutableLiveData<SelectSellingCurrencyState>().apply { value = SelectSellingCurrencyState() }
+    private val ratesRepo = RatesRepository.getInstance(
+        application.applicationContext
+    )
+    private val _state = MutableLiveData<SelectSellingCurrencyState>().apply {
+        value = SelectSellingCurrencyState()
+    }
     private val _effect = SingleLiveEvent<SelectSellingCurrencyEffect?>()
+
+    private var searchQuery: String = ""
     private var currencies: List<SellingCurrencyData> = mutableListOf()
 
     init {
@@ -68,19 +85,34 @@ class SelectSellingCurrencyViewModel(
                     it.copy(isLoading = true)
                 }
 
-                currencies = api.getCurrencies().map { currency ->
-                    SellingCurrencyData(
-                        currency = currency,
-                        cryptoBalance = BigDecimal.ONE,
-                        fiatBalance = BigDecimal.TEN
-                    )
-                }
+                val fiatIso = BRSharedPrefs.getPreferredFiatIso()
 
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        currencies = currencies
-                    )
+                val data = api.getCurrencies()
+
+                breadBox.wallets().collect { wallets ->
+                    currencies = wallets.mapNotNull { wallet ->
+                        val currency = data.firstOrNull {
+                            it.name == wallet.currency.code
+                        } ?: return@mapNotNull null
+
+                        SellingCurrencyData(
+                            currency = currency,
+                            fiatBalance = ratesRepo.getFiatForCrypto(
+                                wallet.balance.toBigDecimal(),
+                                currency.name,
+                                fiatIso
+                            )
+                                ?: BigDecimal.ZERO,
+                            cryptoBalance = wallet.balance.toBigDecimal()
+                        )
+                    }
+
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            currencies = currencies
+                        )
+                    }
                 }
             } catch (e: Exception) {
                 updateState {
@@ -118,5 +150,9 @@ class SelectSellingCurrencyViewModel(
 
     private suspend fun updateState(handler: suspend (intent: SelectSellingCurrencyState) -> SelectSellingCurrencyState) {
         _state.postValue(handler(state.value!!))
+    }
+
+    companion object {
+        private const val WALLET_UPDATE_THROTTLE = 2_000L
     }
 }
