@@ -42,10 +42,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cash.just.support.CashSupport
-import cash.just.support.pages.Topic
-import cash.just.ui.CashUI
-import com.bluelinelabs.conductor.RouterTransaction
 import com.breadwallet.R
 import com.breadwallet.breadbox.WalletState
 import com.breadwallet.breadbox.formatCryptoForUi
@@ -56,7 +52,6 @@ import com.breadwallet.logger.logDebug
 import com.breadwallet.model.PriceDataPoint
 import com.breadwallet.tools.animation.UiUtils
 import com.breadwallet.tools.manager.BRSharedPrefs
-import com.breadwallet.tools.util.BRConstants
 import com.breadwallet.tools.util.TokenUtil
 import com.breadwallet.ui.BaseMobiusController
 import com.breadwallet.ui.controllers.AlertDialogController
@@ -72,9 +67,10 @@ import com.breadwallet.ui.wallet.WalletScreen.M
 import com.breadwallet.ui.wallet.spark.SparkAdapter
 import com.breadwallet.ui.wallet.spark.SparkView
 import com.breadwallet.ui.wallet.spark.animation.LineSparkAnimator
-import com.breadwallet.ui.web.WebController
 import com.breadwallet.util.isBitcoin
 import com.breadwallet.util.isTezos
+import com.fabriik.support.CashSupport
+import com.fabriik.support.pages.Topic
 import com.google.android.material.appbar.AppBarLayout
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericFastAdapter
@@ -153,7 +149,7 @@ open class WalletController(args: Bundle) : BaseMobiusController<M, E, F>(args),
             setPriceTags(BRSharedPrefs.isCryptoPreferred(), false)
             delistedTokenLayout.moreInfoButton.setOnClickListener {
                 router.fragmentManager()?.let {
-                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.FAQ_UNSUPPORTED_TOKEN), it)
+                    CashSupport.Builder().detail(Topic.FAQ_UNSUPPORTED_TOKEN).build().show(it)
                 }
             }
 

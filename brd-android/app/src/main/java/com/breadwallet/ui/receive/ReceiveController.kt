@@ -31,9 +31,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import cash.just.support.CashSupport
-import cash.just.support.pages.Topic
-import cash.just.ui.CashUI
 import com.breadwallet.R
 import com.breadwallet.databinding.ControllerReceiveBinding
 import com.breadwallet.legacy.presenter.customviews.BRKeyboard
@@ -54,6 +51,8 @@ import com.breadwallet.ui.receive.ReceiveScreen.M
 import com.breadwallet.ui.send.formatFiatForInputUi
 import com.breadwallet.util.CryptoUriParser
 import com.breadwallet.util.CurrencyCode
+import com.fabriik.support.CashSupport
+import com.fabriik.support.pages.Topic
 import com.spotify.mobius.First.first
 import com.spotify.mobius.Init
 import drewcarlson.mobius.flow.FlowTransformer
@@ -141,7 +140,7 @@ class ReceiveController(args: Bundle) : BaseMobiusController<M, E, F>(args) {
     override fun bindView(modelFlow: Flow<M>): Flow<E> {
         binding.faqButton.setOnClickListener {
             router.fragmentManager()?.let {
-                CashUI.showSupportPage(CashSupport.Builder().detail(Topic.RECEIVE), it)
+                CashSupport.Builder().detail(Topic.RECEIVE).build().show(it)
             }
         }
 

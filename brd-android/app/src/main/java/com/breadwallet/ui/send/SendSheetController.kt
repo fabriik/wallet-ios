@@ -176,7 +176,7 @@ class SendSheetController(args: Bundle? = null) :
         if (dialogId == DIALOG_PAYMENT_ERROR) {
             router.fragmentManager()?.let {
                 // check if fastsync is off to show error: could not publish transaction
-                CashUI.showSupportPage(CashSupport.Builder().detail(Topic.ERROR_PUBLISH_TRANSACTION_P2P), it)
+                CashSupport.Builder().detail(Topic.ERROR_PUBLISH_TRANSACTION_P2P).build().show(it)
             }
         } else {
             super.onHelpClicked(dialogId, controller)
@@ -187,11 +187,12 @@ class SendSheetController(args: Bundle? = null) :
         binding.buttonFaq.setOnClickListener {
             router.fragmentManager()?.let {
                 when(currencyCode) {
-                    "BTC" -> CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
-                    "ETH" -> CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
-                    "BTC-CASH" -> CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
-                    "USDT" -> CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
-                    else -> CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
+                    //TODO "bsv"
+                    "btc" -> CashSupport.Builder().detail(Topic.SEND).build().show(it)
+                    "eth" -> CashSupport.Builder().detail(Topic.SEND_ETHER).build().show(it)
+                    "bch" -> CashSupport.Builder().detail(Topic.SEND_BTC_CASH).build().show(it)
+                    "usdt" -> CashSupport.Builder().detail(Topic.WHAT_IS_ERC20).build().show(it)
+                    else -> CashSupport.Builder().detail(Topic.SEND).build().show(it)
                 }
             }
         }

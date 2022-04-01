@@ -1,5 +1,6 @@
 package com.fabriik.support
 
+import androidx.fragment.app.FragmentManager
 import com.fabriik.support.pages.Topic
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -30,6 +31,10 @@ class CashSupport private constructor(
                 DetailDialogFragment.newInstance(topic!!, fromIndex)
             }
         }
+    }
+
+    fun show(fragmentManager: FragmentManager, tag:String = "CASH_SUPPORT") {
+        createDialogFragment().show(fragmentManager, tag)
     }
 
     enum class PageType {
