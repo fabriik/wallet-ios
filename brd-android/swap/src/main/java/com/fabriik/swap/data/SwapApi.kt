@@ -1,12 +1,16 @@
 package com.fabriik.swap.data
 
 import com.fabriik.swap.data.responses.SwapCurrency
+import com.fabriik.swap.data.responses.SwapExchangeAmount
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.math.BigDecimal
+import java.util.*
 
 class SwapApi(private val service: SwapService) {
 
     suspend fun getCurrencies() : List<SwapCurrency> {
+        //todo: call api
         return listOf(
             SwapCurrency(
                 fullName = "Bitcoin",
@@ -38,6 +42,18 @@ class SwapApi(private val service: SwapService) {
                 name = "xrp"
             )
         )
+    }
+
+    suspend fun getExchangeAmounts(from: SwapCurrency, to: List<SwapCurrency>, amount: BigDecimal) : List<SwapExchangeAmount> {
+        //todo: call api
+        return to.map {
+            SwapExchangeAmount(
+                to = it.name,
+                from = from.name,
+                amount = amount,
+                result = BigDecimal(Random().nextDouble())
+            )
+        }
     }
 
     companion object {

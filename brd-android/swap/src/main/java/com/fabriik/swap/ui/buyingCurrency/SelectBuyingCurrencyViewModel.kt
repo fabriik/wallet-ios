@@ -2,6 +2,7 @@ package com.fabriik.swap.ui.buyingCurrency
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.breadwallet.repository.RatesRepository
 import com.fabriik.swap.R
 import com.fabriik.swap.data.SwapApi
 import com.fabriik.swap.data.model.BuyingCurrencyData
@@ -83,17 +84,29 @@ class SelectBuyingCurrencyViewModel(
                     it.copy(isLoading = true)
                 }
 
-                currencies = api.getCurrencies().map { currency ->
+                val currencies = api.getCurrencies()
+                    .filter { it.name != arguments.sellingCurrency.name }
+
+                val buyingCurrencies = api.getExchangeAmounts(
+                    from = arguments.sellingCurrency,
+                    to = currencies,
+                    amount = BigDecimal.ONE
+                ).mapNotNull { exchangeData ->
+                    val currency = currencies.firstOrNull {
+                        it.name == exchangeData.to
+                    } ?: return@mapNotNull null
+
                     BuyingCurrencyData(
+                        sellingCurrency = arguments.sellingCurrency,
                         currency = currency,
-                        rate = BigDecimal.ONE
+                        rate = exchangeData.result
                     )
                 }
 
                 updateState {
                     it.copy(
                         isLoading = false,
-                        currencies = currencies
+                        currencies = buyingCurrencies
                     )
                 }
             } catch (e: Exception) {

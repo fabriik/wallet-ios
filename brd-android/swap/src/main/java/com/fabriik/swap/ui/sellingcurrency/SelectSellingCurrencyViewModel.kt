@@ -101,8 +101,7 @@ class SelectSellingCurrencyViewModel(
                                 wallet.balance.toBigDecimal(),
                                 currency.name,
                                 fiatIso
-                            )
-                                ?: BigDecimal.ZERO,
+                            ) ?: BigDecimal.ZERO,
                             cryptoBalance = wallet.balance.toBigDecimal()
                         )
                     }
@@ -150,9 +149,5 @@ class SelectSellingCurrencyViewModel(
 
     private suspend fun updateState(handler: suspend (intent: SelectSellingCurrencyState) -> SelectSellingCurrencyState) {
         _state.postValue(handler(state.value!!))
-    }
-
-    companion object {
-        private const val WALLET_UPDATE_THROTTLE = 2_000L
     }
 }

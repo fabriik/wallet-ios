@@ -14,14 +14,8 @@ import androidx.navigation.fragment.findNavController
 import com.fabriik.swap.R
 import com.fabriik.swap.data.responses.SwapCurrency
 import com.fabriik.swap.databinding.FragmentSelectCurrencyBinding
-import com.fabriik.swap.ui.SwapViewModel
 import com.fabriik.swap.ui.base.SwapView
-import com.fabriik.swap.ui.sellingcurrency.SelectSellingCurrencyAction
-import com.fabriik.swap.ui.sellingcurrency.SelectSellingCurrencyEffect
-import com.fabriik.swap.ui.sellingcurrency.SelectSellingCurrencyState
-import com.fabriik.swap.ui.sellingcurrency.SelectSellingCurrencyViewModel
 import kotlinx.coroutines.launch
-import java.util.*
 
 class SelectBuyingCurrencyFragment : Fragment(),
     SwapView<SelectBuyingCurrencyState, SelectBuyingCurrencyEffect> {

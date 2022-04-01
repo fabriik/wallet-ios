@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.breadwallet.breadbox.formatCryptoForUi
 import com.fabriik.swap.R
 import com.fabriik.swap.data.model.BuyingCurrencyData
 import com.fabriik.swap.data.responses.SwapCurrency
@@ -40,10 +41,14 @@ class SelectBuyingCurrencyAdapter(private val callback: (BuyingCurrencyData) -> 
                 root.setOnClickListener { callback(item) }
 
                 val currencyCode = item.currency.formatCode()
+                val formattedAmount = item.rate.formatCryptoForUi(
+                    currencyCode = item.sellingCurrency.name
+                )
+
                 ivIcon.loadFromUrl(item.currency.image)
                 tvCurrency.text = item.currency.fullName
                 tvCurrencyCode.text = currencyCode
-                tvExchangeRate.text = "1 $currencyCode = ${item.rate.toPlainString()} $currencyCode"
+                tvExchangeRate.text = "1 $currencyCode = $formattedAmount"
             }
         }
     }

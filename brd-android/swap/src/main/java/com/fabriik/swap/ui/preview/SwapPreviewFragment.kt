@@ -11,12 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.breadwallet.breadbox.formatCryptoForUi
 import com.fabriik.swap.R
 import com.fabriik.swap.databinding.FragmentSwapPreviewBinding
-import com.fabriik.swap.ui.SwapViewModel
 import com.fabriik.swap.ui.base.SwapView
-import com.fabriik.swap.ui.selectAmount.SelectAmountAction
-import com.fabriik.swap.ui.selectAmount.SelectAmountEffect
-import com.fabriik.swap.ui.selectAmount.SelectAmountState
-import com.fabriik.swap.ui.selectAmount.SelectAmountViewModel
 import com.fabriik.swap.utils.loadFromUrl
 import kotlinx.coroutines.launch
 
