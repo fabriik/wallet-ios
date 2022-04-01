@@ -33,7 +33,7 @@ import androidx.core.view.isVisible
 import com.bluelinelabs.conductor.RouterTransaction
 import com.brd.bakerapi.models.Baker
 import com.breadwallet.R
-import com.breadwallet.breadbox.formatCryptoForUi
+import com.breadwallet.util.formatCryptoForUi
 import com.breadwallet.databinding.ControllerConfirmTxDetailsBinding
 import com.breadwallet.databinding.ControllerStakingBinding
 import com.breadwallet.tools.animation.SlideDetector

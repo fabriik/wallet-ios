@@ -123,6 +123,7 @@ class SelectBuyingCurrencyViewModel(
     private fun onCurrencySelected(action: SelectBuyingCurrencyAction.CurrencySelected) {
         _effect.postValue(
             SelectBuyingCurrencyEffect.GoToAmountSelection(
+                exchangeRate = action.currency.rate,
                 buyingCurrency = action.currency.currency,
                 sellingCurrency = arguments.sellingCurrency
             )

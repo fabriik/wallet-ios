@@ -45,7 +45,7 @@ import com.breadwallet.tools.animation.SpringAnimator
 import com.breadwallet.tools.manager.BRSharedPrefs
 import com.breadwallet.ui.BaseMobiusController
 import com.breadwallet.ui.controllers.AlertDialogController
-import com.breadwallet.ui.formatFiatForUi
+import com.breadwallet.util.formatFiatForUi
 import com.breadwallet.ui.home.HomeScreen.E
 import com.breadwallet.ui.home.HomeScreen.F
 import com.breadwallet.ui.home.HomeScreen.M

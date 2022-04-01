@@ -83,6 +83,13 @@ class SelectAmountViewModel(
 
     private fun onInputChanged(action: SelectAmountAction.AmountChanged) {
         amount = action.amount
-        // todo: calculate new value
+
+        _state.postValue(
+            _state.value!!.copy(
+                receivedAmount = amount.multiply(
+                    arguments.exchangeRate
+                )
+            )
+        )
     }
 }

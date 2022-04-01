@@ -36,7 +36,7 @@ import com.breadwallet.BuildConfig
 import com.breadwallet.R
 import com.breadwallet.databinding.ControllerShareGiftBinding
 import com.breadwallet.breadbox.BreadBox
-import com.breadwallet.breadbox.formatCryptoForUi
+import com.breadwallet.util.formatCryptoForUi
 import com.breadwallet.logger.logError
 import com.breadwallet.tools.qrcode.QRUtils
 import com.breadwallet.tools.util.BRConstants.USD
@@ -44,7 +44,7 @@ import com.breadwallet.tools.util.btc
 import com.breadwallet.ui.BaseMobiusController
 import com.breadwallet.ui.ViewEffect
 import com.breadwallet.ui.flowbind.clicks
-import com.breadwallet.ui.formatFiatForUi
+import com.breadwallet.util.formatFiatForUi
 import com.breadwallet.ui.uigift.ShareGift.E
 import com.breadwallet.ui.uigift.ShareGift.F
 import com.breadwallet.ui.uigift.ShareGift.M

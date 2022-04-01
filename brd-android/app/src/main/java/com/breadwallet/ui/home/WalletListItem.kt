@@ -1,6 +1,5 @@
 package com.breadwallet.ui.home
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
@@ -9,10 +8,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.breadwallet.R
-import com.breadwallet.breadbox.formatCryptoForUi
+import com.breadwallet.util.formatCryptoForUi
 import com.breadwallet.databinding.WalletListItemBinding
 import com.breadwallet.legacy.presenter.customviews.ShimmerLayout
-import com.breadwallet.ui.formatFiatForUi
+import com.breadwallet.util.formatFiatForUi
 import com.breadwallet.tools.manager.BRSharedPrefs
 import com.breadwallet.tools.util.TokenUtil
 import com.breadwallet.util.isBrd
@@ -30,7 +29,6 @@ import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
 import java.io.File
 import java.math.BigDecimal
-import java.text.NumberFormat
 import java.util.Locale
 
 class WalletListItem(

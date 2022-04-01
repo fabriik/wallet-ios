@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.breadwallet.util.formatCryptoForUi
 import com.breadwallet.legacy.presenter.customviews.BRKeyboard
 import com.fabriik.swap.R
 import com.fabriik.swap.data.responses.SwapCurrency
@@ -87,8 +88,15 @@ class SelectAmountFragment : Fragment(), SwapView<SelectAmountState, SelectAmoun
     }
 
     override fun render(state: SelectAmountState) {
-        with (state) {
+        with(state) {
             binding.title.text = title
+
+            binding.etReceive.setText(
+                receivedAmount.formatCryptoForUi(
+                    currencyCode = buyingCurrency.name,
+                    showCurrencyCode = false
+                )
+            )
 
             binding.ivIconPayWith.loadFromUrl(
                 sellingCurrency.image
@@ -115,7 +123,11 @@ class SelectAmountFragment : Fragment(), SwapView<SelectAmountState, SelectAmoun
         }
     }
 
-    private fun navigateToPreview(amount: BigDecimal, sellingCurrency: SwapCurrency, buyingCurrency: SwapCurrency) {
+    private fun navigateToPreview(
+        amount: BigDecimal,
+        sellingCurrency: SwapCurrency,
+        buyingCurrency: SwapCurrency
+    ) {
         findNavController().navigate(
             SelectAmountFragmentDirections.actionSwapPreview(
                 amount = amount,

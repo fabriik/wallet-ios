@@ -27,7 +27,7 @@ package com.breadwallet.ui.send
 import android.os.Parcelable
 import com.breadwallet.R
 import com.breadwallet.breadbox.TransferSpeed
-import com.breadwallet.breadbox.formatCryptoForUi
+import com.breadwallet.util.formatCryptoForUi
 import com.breadwallet.crypto.PaymentProtocolRequest
 import com.breadwallet.crypto.Transfer
 import com.breadwallet.crypto.TransferFeeBasis

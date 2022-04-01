@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.breadwallet.breadbox.formatCryptoForUi
+import com.breadwallet.util.formatCryptoForUi
 import com.fabriik.swap.R
 import com.fabriik.swap.databinding.FragmentSwapPreviewBinding
 import com.fabriik.swap.ui.base.SwapView

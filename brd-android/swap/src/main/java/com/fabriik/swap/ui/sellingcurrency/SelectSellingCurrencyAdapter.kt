@@ -6,14 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.breadwallet.breadbox.formatCryptoForUi
+import com.breadwallet.util.formatCryptoForUi
 import com.breadwallet.tools.manager.BRSharedPrefs
-import com.breadwallet.ui.formatFiatForUi
+import com.breadwallet.util.formatFiatForUi
 import com.fabriik.swap.R
 import com.fabriik.swap.data.model.SellingCurrencyData
 import com.fabriik.swap.databinding.ListItemSellingCurrencyBinding
 import com.fabriik.swap.utils.loadFromUrl
-import java.util.*
 
 class SelectSellingCurrencyAdapter(private val callback: (SellingCurrencyData) -> Unit) :
     ListAdapter<SellingCurrencyData, SelectSellingCurrencyAdapter.CurrencyViewHolder>(

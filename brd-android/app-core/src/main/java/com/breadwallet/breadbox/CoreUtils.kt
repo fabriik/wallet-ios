@@ -35,7 +35,6 @@ import com.breadwallet.crypto.TransferDirection
 import com.breadwallet.crypto.Wallet
 import com.breadwallet.crypto.WalletManager
 import com.breadwallet.crypto.WalletManagerState
-import com.breadwallet.tools.util.BRConstants
 import com.breadwallet.util.isBitcoin
 import com.breadwallet.util.isBitcoinCash
 import com.breadwallet.util.isEthereum
@@ -43,9 +42,6 @@ import com.breadwallet.util.isRipple
 import com.google.common.primitives.UnsignedInteger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import java.math.BigDecimal
-import java.text.DecimalFormat
-import java.util.Locale
 
 /** Default port for [NetworkPeer] */
 private const val DEFAULT_PORT = 8333L
@@ -66,25 +62,6 @@ fun Transfer.hashString(): String =
                 else -> hash.removePrefix("0x")
             }
         }
-
-// TODO: Move somewhere UI related
-fun BigDecimal.formatCryptoForUi(
-    currencyCode: String,
-    scale: Int = 5,
-    negate: Boolean = false
-): String {
-    val amount = if (negate) negate() else this
-
-    val currencyFormat = DecimalFormat.getCurrencyInstance(Locale.getDefault()) as DecimalFormat
-    val decimalFormatSymbols = currencyFormat.decimalFormatSymbols
-    currencyFormat.isGroupingUsed = true
-    currencyFormat.roundingMode = BRConstants.ROUNDING_MODE
-    decimalFormatSymbols.currencySymbol = ""
-    currencyFormat.decimalFormatSymbols = decimalFormatSymbols
-    currencyFormat.maximumFractionDigits = scale
-    currencyFormat.minimumFractionDigits = 0
-    return "${currencyFormat.format(amount)} ${currencyCode.toUpperCase()}"
-}
 
 val Wallet.currencyId: String
     get() = currency.uids

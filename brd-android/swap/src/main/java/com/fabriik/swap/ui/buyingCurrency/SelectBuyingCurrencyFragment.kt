@@ -16,6 +16,7 @@ import com.fabriik.swap.data.responses.SwapCurrency
 import com.fabriik.swap.databinding.FragmentSelectCurrencyBinding
 import com.fabriik.swap.ui.base.SwapView
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class SelectBuyingCurrencyFragment : Fragment(),
     SwapView<SelectBuyingCurrencyState, SelectBuyingCurrencyEffect> {
@@ -113,17 +114,19 @@ class SelectBuyingCurrencyFragment : Fragment(),
                 findNavController().popBackStack()
             is SelectBuyingCurrencyEffect.GoToAmountSelection ->
                 navigateToAmountSelection(
-                    sellingCurrency = effect.sellingCurrency,
-                    buyingCurrency = effect.buyingCurrency
+                    exchangeRate = effect.exchangeRate,
+                    buyingCurrency = effect.buyingCurrency,
+                    sellingCurrency = effect.sellingCurrency
                 )
         }
     }
 
-    private fun navigateToAmountSelection(sellingCurrency: SwapCurrency, buyingCurrency: SwapCurrency) {
+    private fun navigateToAmountSelection(exchangeRate: BigDecimal, sellingCurrency: SwapCurrency, buyingCurrency: SwapCurrency) {
         findNavController().navigate(
             SelectBuyingCurrencyFragmentDirections.actionSelectAmount(
-                sellingCurrency = sellingCurrency,
-                buyingCurrency = buyingCurrency
+                exchangeRate = exchangeRate,
+                buyingCurrency = buyingCurrency,
+                sellingCurrency = sellingCurrency
             )
         )
     }

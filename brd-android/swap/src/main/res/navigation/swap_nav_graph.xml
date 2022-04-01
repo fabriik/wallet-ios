@@ -34,6 +34,10 @@
         tools:layout="@layout/fragment_select_amount" >
 
         <argument
+            android:name="exchangeRate"
+            app:argType="java.math.BigDecimal"/>
+
+        <argument
             android:name="sellingCurrency"
             app:argType="com.fabriik.swap.data.responses.SwapCurrency"/>
 

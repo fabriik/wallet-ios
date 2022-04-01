@@ -29,7 +29,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import com.bluelinelabs.conductor.RouterTransaction
-import com.breadwallet.breadbox.formatCryptoForUi
+import com.breadwallet.util.formatCryptoForUi
 import com.breadwallet.databinding.ControllerCreateGiftBinding
 import com.breadwallet.databinding.ControllerConfirmGiftDetailsBinding
 import com.breadwallet.ui.BaseController
@@ -40,7 +40,7 @@ import com.breadwallet.ui.changehandlers.DialogChangeHandler
 import com.breadwallet.ui.controllers.AlertDialogController
 import com.breadwallet.ui.flowbind.clicks
 import com.breadwallet.ui.flowbind.textChanges
-import com.breadwallet.ui.formatFiatForUi
+import com.breadwallet.util.formatFiatForUi
 import com.breadwallet.ui.uigift.CreateGift.M
 import com.breadwallet.ui.uigift.CreateGift.E
 import com.breadwallet.ui.uigift.CreateGift.F

@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.breadwallet.ui
+package com.breadwallet.util
 
 import com.breadwallet.logger.logError
 import com.breadwallet.tools.util.BRConstants
@@ -49,4 +49,28 @@ fun BigDecimal.formatFiatForUi(currencyCode: String, scale: Int? = null): String
     }
 
     return currencyFormat.format(this)
+}
+
+fun BigDecimal.formatCryptoForUi(
+    currencyCode: String,
+    scale: Int = 5,
+    negate: Boolean = false,
+    showCurrencyCode: Boolean = true
+): String {
+    val amount = if (negate) negate() else this
+
+    val currencyFormat = DecimalFormat.getCurrencyInstance(Locale.getDefault()) as DecimalFormat
+    val decimalFormatSymbols = currencyFormat.decimalFormatSymbols
+    currencyFormat.isGroupingUsed = true
+    currencyFormat.roundingMode = BRConstants.ROUNDING_MODE
+    decimalFormatSymbols.currencySymbol = ""
+    currencyFormat.decimalFormatSymbols = decimalFormatSymbols
+    currencyFormat.maximumFractionDigits = scale
+    currencyFormat.minimumFractionDigits = 0
+
+    return if (showCurrencyCode) {
+        "${currencyFormat.format(amount)} ${currencyCode.toUpperCase()}"
+    } else {
+        currencyFormat.format(amount)
+    }
 }
