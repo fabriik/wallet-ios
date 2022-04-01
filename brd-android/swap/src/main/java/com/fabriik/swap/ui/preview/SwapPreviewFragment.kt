@@ -93,6 +93,20 @@ class SwapPreviewFragment : Fragment(), SwapView<SwapPreviewState, SwapPreviewEf
                 binding.tvBuyingCurrency.text = it.result.formatCryptoForUi(
                     buyingCurrency.name
                 )
+
+                binding.tvFee.text = it.fee.formatCryptoForUi(
+                    sellingCurrency.name
+                )
+
+                val formattedRateAmount = it.rate.formatCryptoForUi(
+                    currencyCode = buyingCurrency.name
+                )
+
+                binding.tvPrice.text =  "1 ${sellingCurrency.formatCode()} = $formattedRateAmount"
+
+                binding.tvTotalCharge.text = it.amount.formatCryptoForUi(
+                    sellingCurrency.name
+                )
             }
         }
     }

@@ -51,7 +51,9 @@ class SwapApi(private val service: SwapService) {
                 to = it.name,
                 from = from.name,
                 amount = amount,
-                result = BigDecimal(Random().nextDouble())
+                result = BigDecimal(Random().nextDouble()),
+                fee = BigDecimal.ONE,
+                rate = BigDecimal.TEN
             )
         }
     }

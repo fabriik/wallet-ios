@@ -18,5 +18,11 @@ data class SwapExchangeAmount(
     val amount: BigDecimal,
 
     @Json(name = "result")
-    val result: BigDecimal
+    val result: BigDecimal,
+
+    @Json(name = "fee")
+    val fee: BigDecimal,
+
+    @Json(name = "rate")
+    val rate: BigDecimal
 ) : Parcelable

@@ -56,12 +56,15 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_selling_currency"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="32dp"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/tv_selling_currency"
         app:layout_constraintEnd_toStartOf="@id/iv_arrow"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.3"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -69,7 +72,11 @@
         android:id="@+id/tv_selling_currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="18sp"
+        android:textColor="@color/fabriik_black"
         app:layout_constraintTop_toBottomOf="@id/iv_selling_currency"
+        app:layout_constraintBottom_toTopOf="@id/tv_price"
         app:layout_constraintEnd_toEndOf="@id/iv_selling_currency"
         app:layout_constraintStart_toStartOf="@id/iv_selling_currency"
         tools:text="1.22 BTC"/>
@@ -79,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_arrow_right"
-        app:tint="@android:color/white"
+        app:tint="@color/fabriik_shuttle_grey"
         app:layout_constraintBottom_toBottomOf="@id/iv_selling_currency"
         app:layout_constraintEnd_toStartOf="@+id/iv_buying_currency"
         app:layout_constraintStart_toEndOf="@id/iv_selling_currency"
@@ -87,8 +94,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_buying_currency"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_arrow"
@@ -98,9 +105,84 @@
         android:id="@+id/tv_buying_currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="18sp"
+        android:textColor="@color/fabriik_black"
         app:layout_constraintTop_toBottomOf="@id/iv_buying_currency"
         app:layout_constraintEnd_toEndOf="@id/iv_buying_currency"
         app:layout_constraintStart_toStartOf="@id/iv_buying_currency"
+        tools:text="13.22 ETH"/>
+
+    <TextView
+        android:id="@+id/tv_price_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/fabriik_shuttle_grey"
+        android:text="Price:"
+        app:layout_constraintStart_toStartOf="@id/tv_total_charge_title"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_price"/>
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/fabriik_black"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintEnd_toEndOf="@id/tv_fee"
+        app:layout_constraintStart_toEndOf="@id/tv_price_title"
+        app:layout_constraintBottom_toTopOf="@id/tv_fee"
+        tools:text="13.22 ETH"/>
+
+    <TextView
+        android:id="@+id/tv_fee_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/fabriik_shuttle_grey"
+        android:text="Fee:"
+        app:layout_constraintStart_toStartOf="@id/tv_total_charge_title"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_fee"/>
+
+    <TextView
+        android:id="@+id/tv_fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/fabriik_black"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintEnd_toEndOf="@id/tv_total_charge"
+        app:layout_constraintStart_toEndOf="@id/tv_fee_title"
+        app:layout_constraintBottom_toTopOf="@id/tv_total_charge"
+        tools:text="13.22 ETH"/>
+
+    <TextView
+        android:id="@+id/tv_total_charge_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/fabriik_shuttle_grey"
+        android:text="Total charge:"
+        app:layout_constraintStart_toStartOf="@id/btn_confirm"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_total_charge"/>
+
+    <TextView
+        android:id="@+id/tv_total_charge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/fabriik_black"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintEnd_toEndOf="@id/btn_confirm"
+        app:layout_constraintStart_toEndOf="@id/tv_total_charge_title"
+        app:layout_constraintBottom_toTopOf="@id/btn_confirm"
         tools:text="13.22 ETH"/>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -112,6 +194,6 @@
         android:text="Confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_selling_currency"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
