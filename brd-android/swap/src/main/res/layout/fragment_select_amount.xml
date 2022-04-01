@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +9,8 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -52,11 +53,15 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:id="@+id/cv_selling_currency"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/card_view_radius"
         app:contentPaddingBottom="12dp"
@@ -66,22 +71,55 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/iv_icon_pay_with"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/selling_icon_container"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="16dp" />
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/token_icon_background_transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/selling_icon_letter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/mobile_font_bold"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/selling_currency_icon_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_pay_with"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_toStartOf="@id/iv_icon_pay_with"
                 android:layout_centerVertical="true"
-                android:hint="Pay with">
+                android:layout_marginEnd="16dp"
+                android:layout_toStartOf="@id/selling_icon_container"
+                android:hint="Pay with"
+                android:textColorHint="@color/fabriik_black"
+                app:hintTextColor="@color/fabriik_black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_pay_with"
@@ -103,11 +141,15 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:id="@+id/cv_buying_currency"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_selling_currency"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/card_view_radius"
         app:contentPaddingBottom="12dp"
@@ -117,23 +159,56 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/iv_icon_receive"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/buying_icon_container"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="16dp" />
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/token_icon_background_transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/buying_icon_letter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/mobile_font_bold"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/buying_currency_icon_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_receive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_toStartOf="@id/iv_icon_receive"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:layout_toStartOf="@id/buying_icon_container"
                 android:enabled="false"
-                android:hint="Receive">
+                android:hint="Receive"
+                android:textColorHint="@color/fabriik_black"
+                app:hintTextColor="@color/fabriik_black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_receive"
@@ -156,17 +231,24 @@
 
     <com.breadwallet.legacy.presenter.customviews.BRKeyboard
         android:id="@+id/keyboard"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:background="@color/extra_light_gray" />
+        android:layout_marginBottom="24dp"
+        android:background="@color/extra_light_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_continue" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_continue"
         style="@style/Fabriik.Button"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:text="Continue" />
+        android:text="Continue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
