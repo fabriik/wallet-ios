@@ -4,9 +4,12 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.fabriik.swap.R
 import com.fabriik.swap.data.SwapApi
+import com.fabriik.swap.data.model.BuyingCurrencyData
 import com.fabriik.swap.ui.base.SwapViewModel
+import com.fabriik.swap.ui.buyingCurrency.SelectBuyingCurrencyState
 import com.fabriik.swap.utils.SingleLiveEvent
 import com.fabriik.swap.utils.toBundle
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -60,11 +63,49 @@ class SwapPreviewViewModel(
                             SwapPreviewEffect.GoToHome
                         )
                     }
-                    is SwapPreviewAction.ConfirmClicked -> {
-                        //todo: create transaction
-                    }
+                    is SwapPreviewAction.ConfirmClicked -> createTransaction()
+                    is SwapPreviewAction.LoadExchangeData -> loadExchangeData()
                 }
             }
         }
+    }
+
+    private fun createTransaction() {
+        // TODO: call API
+    }
+
+    private fun loadExchangeData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                updateState {
+                    it.copy(isLoading = true)
+                }
+
+                val data = api.getExchangeAmounts(
+                    from = arguments.sellingCurrency,
+                    to = listOf(arguments.buyingCurrency),
+                    amount = arguments.amount
+                ).firstOrNull()
+
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        exchangeData = data,
+                        errorMessage = if (data == null) "Error fetching exchange data" else null
+                    )
+                }
+            } catch (e: Exception) {
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = e.message
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun updateState(handler: suspend (intent: SwapPreviewState) -> SwapPreviewState) {
+        _state.postValue(handler(state.value!!))
     }
 }

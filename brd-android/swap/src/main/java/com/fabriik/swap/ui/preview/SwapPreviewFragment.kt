@@ -67,21 +67,33 @@ class SwapPreviewFragment : Fragment(), SwapView<SwapPreviewState, SwapPreviewEf
         viewModel.effect.observe(viewLifecycleOwner) {
             handleEffect(it)
         }
+
+        lifecycleScope.launch {
+            viewModel.actions.send(
+                SwapPreviewAction.LoadExchangeData
+            )
+        }
     }
 
     override fun render(state: SwapPreviewState) {
-        with (state) {
+        with(state) {
             binding.ivSellingCurrency.loadFromUrl(
                 sellingCurrency.image
-            )
-
-            binding.tvSellingCurrency.text = amount.formatCryptoForUi(
-                sellingCurrency.name
             )
 
             binding.ivBuyingCurrency.loadFromUrl(
                 buyingCurrency.image
             )
+
+            exchangeData?.let {
+                binding.tvSellingCurrency.text = it.amount.formatCryptoForUi(
+                    sellingCurrency.name
+                )
+
+                binding.tvBuyingCurrency.text = it.result.formatCryptoForUi(
+                    buyingCurrency.name
+                )
+            }
         }
     }
 

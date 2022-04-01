@@ -6,4 +6,5 @@ sealed class SwapPreviewAction : SwapAction {
     object Back : SwapPreviewAction()
     object Close : SwapPreviewAction()
     object ConfirmClicked : SwapPreviewAction()
+    object LoadExchangeData : SwapPreviewAction()
 }
