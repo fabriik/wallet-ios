@@ -34,9 +34,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import cash.just.support.CashSupport
-import cash.just.support.pages.Topic
-import cash.just.ui.CashUI
 import com.bluelinelabs.conductor.RouterTransaction
 import com.breadwallet.R
 import com.breadwallet.breadbox.TransferSpeed
@@ -68,6 +65,8 @@ import com.breadwallet.ui.send.SendSheet.F
 import com.breadwallet.ui.send.SendSheet.M
 import com.breadwallet.util.isErc20
 import com.breadwallet.util.isEthereum
+import com.fabriik.support.CashSupport
+import com.fabriik.support.pages.Topic
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -187,7 +186,13 @@ class SendSheetController(args: Bundle? = null) :
     override fun bindView(modelFlow: Flow<M>): Flow<E> {
         binding.buttonFaq.setOnClickListener {
             router.fragmentManager()?.let {
-                CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
+                when(currencyCode) {
+                    "BTC" -> CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
+                    "ETH" -> CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
+                    "BTC-CASH" -> CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
+                    "USDT" -> CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
+                    else -> CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
+                }
             }
         }
 

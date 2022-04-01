@@ -40,8 +40,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import cash.just.sdk.Cash
-import cash.just.ui.CashUI
 import com.bdb.api.AndroidBdbAuthProvider
 import com.brd.api.AndroidBRDAuthProvider
 import com.brd.api.BRDApiClient
@@ -467,7 +465,6 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
             .put("flutter_kyc", flutterEngine)
 
         initMethodChannel()
-        CashUI.init(getServer())
     }
 
     private fun initMethodChannel() {
@@ -564,11 +561,6 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
         ratesFetcher.start(startedScope)
         
         conversionTracker.start(startedScope)
-    }
-
-    private fun getServer() = when {
-        BuildConfig.BITCOIN_TESTNET -> Cash.BtcNetwork.TEST_NET
-        else -> Cash.BtcNetwork.MAIN_NET
     }
 
     private fun incrementAppForegroundedCounter() {

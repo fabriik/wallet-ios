@@ -267,7 +267,7 @@ class SettingsScreenHandler(
                 R.drawable.ic_camera
             ),
             SettingsItem(
-                "Kyc and Registration",
+                "Registration and Kyc",
                 SettingsOption.KYC,
                 R.drawable.ic_preferences
             ),

@@ -14,6 +14,7 @@ include(
     "brd-android:app-core",
     "brd-android:buy",
     "brd-android:trade",
+    "brd-android:support",
     "brd-android:theme"
 )
 

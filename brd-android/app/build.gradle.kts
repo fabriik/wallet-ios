@@ -164,6 +164,7 @@ dependencies {
     implementation(project(":brd-android:app-core"))
     implementation(project(":brd-android:buy"))
     implementation(project(":brd-android:trade"))
+    implementation(project(":brd-android:support"))
     implementation(Libs.WalletKit.CoreAndroid)
 
     // AndroidX
@@ -247,8 +248,7 @@ dependencies {
     implementation(Libs.Kodein.CoreErasedJvm)
     implementation(Libs.Kodein.FrameworkAndroidX)
 
-    // Atmcoin
-    implementation(Libs.Atmcoin.CashUi)
+//    api(Libs.Atmcoin.CashSdk)
 
     // Debugging/Monitoring
     debugImplementation(Libs.LeakCanary.Core)

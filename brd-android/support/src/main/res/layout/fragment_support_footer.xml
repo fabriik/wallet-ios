@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/footerGroup"
+        android:orientation="vertical"
+        android:background="#303030"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp">
+        <TextView
+            android:id="@+id/privacyLink"
+            android:text="Privacy Policy"
+            android:gravity="center_horizontal"
+            android:textColor="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:autoLink="phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+1 800-797-1404     |"
+                android:gravity="center"
+                android:textColorLink="#FFFFFF"
+                android:textColor="#FFFFFF" />
+
+
+            <TextView
+                android:id="@+id/email"
+                android:textColorLink="#FFFFFF"
+                android:autoLink="email"
+                android:gravity="center"
+                android:text="     victor@fabriik.com"
+                android:textColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="5.10.6 - English"
+            android:id="@+id/versionNumber"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+</merge>
