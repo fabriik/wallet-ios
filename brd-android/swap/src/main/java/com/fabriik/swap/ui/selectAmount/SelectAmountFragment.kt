@@ -111,19 +111,13 @@ class SelectAmountFragment : Fragment(), SwapView<SelectAmountState, SelectAmoun
             )
 
             // load icon of selling currency
-            loadTokenIcon(
-                iconWhite = binding.sellingCurrencyIconWhite,
-                iconLetter = binding.sellingIconLetter,
-                currencyCode = sellingCurrency.name,
-                iconContainer = binding.sellingIconContainer
+            binding.viewSellingIcon.loadIconForCurrency(
+                currencyCode = sellingCurrency.name
             )
 
             // load icon of buying currency
-            loadTokenIcon(
-                iconWhite = binding.buyingCurrencyIconWhite,
-                iconLetter = binding.buyingIconLetter,
-                currencyCode = buyingCurrency.name,
-                iconContainer = binding.buyingIconContainer
+            binding.viewBuyingIcon.loadIconForCurrency(
+                currencyCode = buyingCurrency.name
             )
         }
     }

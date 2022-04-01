@@ -90,19 +90,13 @@ class SwapPreviewFragment : Fragment(), SwapView<SwapPreviewState, SwapPreviewEf
         with(state) {
 
             // load icon of selling currency
-            loadTokenIcon(
-                iconWhite = binding.currencyIconSellingCurrency,
-                iconLetter = binding.iconLetterSellingCurrency,
-                currencyCode = sellingCurrency.name,
-                iconContainer = binding.iconContainerSellingCurrency
+            binding.viewSellingIcon.loadIconForCurrency(
+                currencyCode = sellingCurrency.name
             )
 
             // load icon of buying currency
-            loadTokenIcon(
-                iconWhite = binding.currencyIconBuyingCurrency,
-                iconLetter = binding.iconLetterBuyingCurrency,
-                currencyCode = buyingCurrency.name,
-                iconContainer = binding.iconContainerBuyingCurrency
+            binding.viewBuyingIcon.loadIconForCurrency(
+                currencyCode = buyingCurrency.name
             )
 
             exchangeData?.let {

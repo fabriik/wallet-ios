@@ -54,46 +54,18 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/icon_container_selling_currency"
+    <com.fabriik.swap.ui.customviews.IconView
+        android:id="@+id/view_selling_icon"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/token_icon_background_transparent"
         app:layout_constraintBottom_toTopOf="@+id/tv_selling_currency"
         app:layout_constraintEnd_toStartOf="@id/iv_arrow"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.4"
-        app:layout_constraintVertical_chainStyle="packed">
-
-        <TextView
-            android:id="@+id/icon_letter_selling_currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/mobile_font_bold"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/currency_icon_selling_currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintVertical_chainStyle="packed"/>
 
     <TextView
         android:id="@+id/tv_selling_currency"
@@ -103,9 +75,9 @@
         android:textColor="@color/fabriik_black"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/tv_price"
-        app:layout_constraintEnd_toEndOf="@id/icon_container_selling_currency"
-        app:layout_constraintStart_toStartOf="@id/icon_container_selling_currency"
-        app:layout_constraintTop_toBottomOf="@id/icon_container_selling_currency"
+        app:layout_constraintEnd_toEndOf="@id/view_selling_icon"
+        app:layout_constraintStart_toStartOf="@id/view_selling_icon"
+        app:layout_constraintTop_toBottomOf="@id/view_selling_icon"
         tools:text="1.22 BTC" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -113,48 +85,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_arrow_right"
-        app:layout_constraintBottom_toBottomOf="@id/icon_container_selling_currency"
-        app:layout_constraintEnd_toStartOf="@+id/icon_container_buying_currency"
-        app:layout_constraintStart_toEndOf="@id/icon_container_selling_currency"
-        app:layout_constraintTop_toTopOf="@id/icon_container_selling_currency"
+        app:layout_constraintBottom_toBottomOf="@id/view_selling_icon"
+        app:layout_constraintEnd_toStartOf="@+id/view_buying_icon"
+        app:layout_constraintStart_toEndOf="@id/view_selling_icon"
+        app:layout_constraintTop_toTopOf="@id/view_selling_icon"
         app:tint="@color/fabriik_shuttle_grey" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/icon_container_buying_currency"
+    <com.fabriik.swap.ui.customviews.IconView
+        android:id="@+id/view_buying_icon"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
-        android:background="@drawable/token_icon_background_transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_arrow"
-        app:layout_constraintTop_toTopOf="@id/icon_container_selling_currency">
-
-        <TextView
-            android:id="@+id/icon_letter_buying_currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/mobile_font_bold"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/currency_icon_buying_currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="@id/view_selling_icon"/>
 
     <TextView
         android:id="@+id/tv_buying_currency"
@@ -163,9 +107,9 @@
         android:layout_marginTop="4dp"
         android:textColor="@color/fabriik_black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@id/icon_container_buying_currency"
-        app:layout_constraintStart_toStartOf="@id/icon_container_buying_currency"
-        app:layout_constraintTop_toBottomOf="@id/icon_container_buying_currency"
+        app:layout_constraintEnd_toEndOf="@id/view_buying_icon"
+        app:layout_constraintStart_toStartOf="@id/view_buying_icon"
+        app:layout_constraintTop_toBottomOf="@id/view_buying_icon"
         tools:text="13.22 ETH" />
 
     <TextView
