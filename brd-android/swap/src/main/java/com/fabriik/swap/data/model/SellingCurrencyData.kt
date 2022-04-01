@@ -6,5 +6,6 @@ import java.math.BigDecimal
 data class SellingCurrencyData(
     val currency: SwapCurrency,
     val fiatBalance: BigDecimal,
-    val cryptoBalance: BigDecimal
+    val cryptoBalance: BigDecimal,
+    val fiatPricePerUnit: BigDecimal
 )

@@ -102,7 +102,10 @@ class SelectSellingCurrencyViewModel(
                                 currency.name,
                                 fiatIso
                             ) ?: BigDecimal.ZERO,
-                            cryptoBalance = wallet.balance.toBigDecimal()
+                            cryptoBalance = wallet.balance.toBigDecimal(),
+                            fiatPricePerUnit = ratesRepo.getFiatPerCryptoUnit(
+                                wallet.currency.code, fiatIso
+                            )
                         )
                     }
 

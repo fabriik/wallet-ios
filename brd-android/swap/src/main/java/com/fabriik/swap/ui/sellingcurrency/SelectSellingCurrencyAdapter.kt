@@ -40,15 +40,18 @@ class SelectSellingCurrencyAdapter(private val callback: (SellingCurrencyData) -
             binding.apply {
                 root.setOnClickListener { callback(item) }
 
-                val currencyCode = item.currency.formatCode()
                 ivIcon.loadFromUrl(item.currency.image)
                 tvCurrency.text = item.currency.fullName
-                tvCurrencyCode.text = currencyCode
+
+                val fiatIso = BRSharedPrefs.getPreferredFiatIso()
                 tvCryptoBalance.text = item.cryptoBalance.formatCryptoForUi(
                     currencyCode = item.currency.name
                 )
                 tvFiatBalance.text = item.fiatBalance.formatFiatForUi(
-                    currencyCode = BRSharedPrefs.getPreferredFiatIso()
+                    currencyCode = fiatIso
+                )
+                tvTradePrice.text = item.fiatPricePerUnit.formatFiatForUi(
+                    currencyCode = fiatIso
                 )
             }
         }
@@ -59,7 +62,10 @@ class SelectSellingCurrencyAdapter(private val callback: (SellingCurrencyData) -
         override fun areItemsTheSame(oldItem: SellingCurrencyData, newItem: SellingCurrencyData) =
             newItem.currency.name == oldItem.currency.name
 
-        override fun areContentsTheSame(oldItem: SellingCurrencyData, newItem: SellingCurrencyData) =
+        override fun areContentsTheSame(
+            oldItem: SellingCurrencyData,
+            newItem: SellingCurrencyData
+        ) =
             newItem == oldItem
     }
 }
