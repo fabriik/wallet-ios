@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/fabriik_background">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -54,136 +54,191 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_selling_currency"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/icon_container_selling_currency"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:background="@drawable/token_icon_background_transparent"
         app:layout_constraintBottom_toTopOf="@+id/tv_selling_currency"
         app:layout_constraintEnd_toStartOf="@id/iv_arrow"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintVertical_bias="0.3"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+            android:id="@+id/icon_letter_selling_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/mobile_font_bold"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/currency_icon_selling_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_selling_currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textSize="18sp"
         android:textColor="@color/fabriik_black"
-        app:layout_constraintTop_toBottomOf="@id/iv_selling_currency"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/tv_price"
-        app:layout_constraintEnd_toEndOf="@id/iv_selling_currency"
-        app:layout_constraintStart_toStartOf="@id/iv_selling_currency"
-        tools:text="1.22 BTC"/>
+        app:layout_constraintEnd_toEndOf="@id/icon_container_selling_currency"
+        app:layout_constraintStart_toStartOf="@id/icon_container_selling_currency"
+        app:layout_constraintTop_toBottomOf="@id/icon_container_selling_currency"
+        tools:text="1.22 BTC" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_arrow_right"
-        app:tint="@color/fabriik_shuttle_grey"
-        app:layout_constraintBottom_toBottomOf="@id/iv_selling_currency"
-        app:layout_constraintEnd_toStartOf="@+id/iv_buying_currency"
-        app:layout_constraintStart_toEndOf="@id/iv_selling_currency"
-        app:layout_constraintTop_toTopOf="@id/iv_selling_currency" />
+        app:layout_constraintBottom_toBottomOf="@id/icon_container_selling_currency"
+        app:layout_constraintEnd_toStartOf="@+id/icon_container_buying_currency"
+        app:layout_constraintStart_toEndOf="@id/icon_container_selling_currency"
+        app:layout_constraintTop_toTopOf="@id/icon_container_selling_currency"
+        app:tint="@color/fabriik_shuttle_grey" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_buying_currency"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/icon_container_buying_currency"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
+        android:background="@drawable/token_icon_background_transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_arrow"
-        app:layout_constraintTop_toTopOf="@id/iv_selling_currency" />
+        app:layout_constraintTop_toTopOf="@id/icon_container_selling_currency">
+
+        <TextView
+            android:id="@+id/icon_letter_buying_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/mobile_font_bold"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/currency_icon_buying_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_buying_currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textSize="18sp"
         android:textColor="@color/fabriik_black"
-        app:layout_constraintTop_toBottomOf="@id/iv_buying_currency"
-        app:layout_constraintEnd_toEndOf="@id/iv_buying_currency"
-        app:layout_constraintStart_toStartOf="@id/iv_buying_currency"
-        tools:text="13.22 ETH"/>
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@id/icon_container_buying_currency"
+        app:layout_constraintStart_toStartOf="@id/icon_container_buying_currency"
+        app:layout_constraintTop_toBottomOf="@id/icon_container_buying_currency"
+        tools:text="13.22 ETH" />
 
     <TextView
         android:id="@+id/tv_price_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/fabriik_shuttle_grey"
         android:text="Price:"
-        app:layout_constraintStart_toStartOf="@id/tv_total_charge_title"
-        app:layout_constraintBaseline_toBaselineOf="@id/tv_price"/>
+        android:textColor="@color/fabriik_shuttle_grey"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_price"
+        app:layout_constraintStart_toStartOf="@id/tv_total_charge_title" />
 
     <TextView
         android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/fabriik_black"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintEnd_toEndOf="@id/tv_fee"
-        app:layout_constraintStart_toEndOf="@id/tv_price_title"
+        android:textColor="@color/fabriik_black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/tv_fee"
-        tools:text="13.22 ETH"/>
+        app:layout_constraintEnd_toEndOf="@id/tv_fee"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toEndOf="@id/tv_price_title"
+        tools:text="13.22 ETH" />
 
     <TextView
         android:id="@+id/tv_fee_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/fabriik_shuttle_grey"
         android:text="Fee:"
-        app:layout_constraintStart_toStartOf="@id/tv_total_charge_title"
-        app:layout_constraintBaseline_toBaselineOf="@id/tv_fee"/>
+        android:textColor="@color/fabriik_shuttle_grey"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_fee"
+        app:layout_constraintStart_toStartOf="@id/tv_total_charge_title" />
 
     <TextView
         android:id="@+id/tv_fee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/fabriik_black"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintEnd_toEndOf="@id/tv_total_charge"
-        app:layout_constraintStart_toEndOf="@id/tv_fee_title"
+        android:textColor="@color/fabriik_black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/tv_total_charge"
-        tools:text="13.22 ETH"/>
+        app:layout_constraintEnd_toEndOf="@id/tv_total_charge"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toEndOf="@id/tv_fee_title"
+        tools:text="13.22 ETH" />
 
     <TextView
         android:id="@+id/tv_total_charge_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/fabriik_shuttle_grey"
         android:text="Total charge:"
-        app:layout_constraintStart_toStartOf="@id/btn_confirm"
-        app:layout_constraintBaseline_toBaselineOf="@id/tv_total_charge"/>
+        android:textColor="@color/fabriik_shuttle_grey"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_total_charge"
+        app:layout_constraintStart_toStartOf="@id/btn_confirm" />
 
     <TextView
         android:id="@+id/tv_total_charge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/fabriik_black"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="40dp"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintEnd_toEndOf="@id/btn_confirm"
-        app:layout_constraintStart_toEndOf="@id/tv_total_charge_title"
+        android:textColor="@color/fabriik_black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/btn_confirm"
-        tools:text="13.22 ETH"/>
+        app:layout_constraintEnd_toEndOf="@id/btn_confirm"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toEndOf="@id/tv_total_charge_title"
+        tools:text="13.22 ETH" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_confirm"
@@ -192,8 +247,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:text="Confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

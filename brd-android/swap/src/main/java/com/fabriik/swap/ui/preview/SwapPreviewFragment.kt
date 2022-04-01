@@ -1,19 +1,30 @@
 package com.fabriik.swap.ui.preview
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.breadwallet.tools.util.TokenUtil
 import com.breadwallet.util.formatCryptoForUi
 import com.fabriik.swap.R
 import com.fabriik.swap.databinding.FragmentSwapPreviewBinding
 import com.fabriik.swap.ui.base.SwapView
 import com.fabriik.swap.utils.loadFromUrl
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
+import java.io.File
+import java.util.*
 
 class SwapPreviewFragment : Fragment(), SwapView<SwapPreviewState, SwapPreviewEffect> {
 
@@ -77,12 +88,21 @@ class SwapPreviewFragment : Fragment(), SwapView<SwapPreviewState, SwapPreviewEf
 
     override fun render(state: SwapPreviewState) {
         with(state) {
-            binding.ivSellingCurrency.loadFromUrl(
-                sellingCurrency.image
+
+            // load icon of selling currency
+            loadTokenIcon(
+                iconWhite = binding.currencyIconSellingCurrency,
+                iconLetter = binding.iconLetterSellingCurrency,
+                currencyCode = sellingCurrency.name,
+                iconContainer = binding.iconContainerSellingCurrency
             )
 
-            binding.ivBuyingCurrency.loadFromUrl(
-                buyingCurrency.image
+            // load icon of buying currency
+            loadTokenIcon(
+                iconWhite = binding.currencyIconBuyingCurrency,
+                iconLetter = binding.iconLetterBuyingCurrency,
+                currencyCode = buyingCurrency.name,
+                iconContainer = binding.iconContainerBuyingCurrency
             )
 
             exchangeData?.let {
@@ -102,7 +122,7 @@ class SwapPreviewFragment : Fragment(), SwapView<SwapPreviewState, SwapPreviewEf
                     currencyCode = buyingCurrency.name
                 )
 
-                binding.tvPrice.text =  "1 ${sellingCurrency.formatCode()} = $formattedRateAmount"
+                binding.tvPrice.text = "1 ${sellingCurrency.formatCode()} = $formattedRateAmount"
 
                 binding.tvTotalCharge.text = it.amount.formatCryptoForUi(
                     sellingCurrency.name
@@ -117,6 +137,49 @@ class SwapPreviewFragment : Fragment(), SwapView<SwapPreviewState, SwapPreviewEf
                 requireActivity().finish()
             SwapPreviewEffect.GoBack ->
                 findNavController().popBackStack()
+        }
+    }
+
+    private fun loadTokenIcon(
+        currencyCode: String,
+        iconContainer: ViewGroup,
+        iconLetter: TextView,
+        iconWhite: ImageView
+    ) {
+        val defaultTokenColor = R.color.light_gray
+
+        lifecycleScope.launch {
+            // Get icon for currency
+            val tokenIconPath = TokenUtil.getTokenIconPath(currencyCode, false)
+
+            // Get icon color
+            val tokenColor = TokenUtil.getTokenStartColor(currencyCode)
+
+            ensureActive()
+
+            with(binding) {
+                val iconDrawable = iconContainer.background as GradientDrawable
+
+                if (tokenIconPath.isNullOrBlank()) {
+                    iconLetter.visibility = View.VISIBLE
+                    iconWhite.visibility = View.GONE
+                    iconLetter.text = currencyCode.take(1).toUpperCase(Locale.ROOT)
+                } else {
+                    val iconFile = File(tokenIconPath)
+                    Picasso.get().load(iconFile).into(iconWhite)
+                    iconLetter.visibility = View.GONE
+                    iconWhite.visibility = View.VISIBLE
+                }
+
+                // set icon color
+                iconDrawable.setColor(
+                    if (tokenColor.isNullOrBlank()) {
+                        ContextCompat.getColor(root.context, defaultTokenColor)
+                    } else {
+                        Color.parseColor(tokenColor)
+                    }
+                )
+            }
         }
     }
 }
