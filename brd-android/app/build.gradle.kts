@@ -248,8 +248,6 @@ dependencies {
     implementation(Libs.Kodein.CoreErasedJvm)
     implementation(Libs.Kodein.FrameworkAndroidX)
 
-//    api(Libs.Atmcoin.CashSdk)
-
     // Debugging/Monitoring
     debugImplementation(Libs.LeakCanary.Core)
     debugImplementation(Libs.AnrWatchdog.Core)
