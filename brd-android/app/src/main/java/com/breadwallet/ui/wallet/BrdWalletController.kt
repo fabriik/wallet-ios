@@ -30,9 +30,6 @@ import android.os.Handler
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
-import cash.just.support.CashSupport
-import cash.just.support.pages.Topic
-import cash.just.ui.CashUI
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.VerticalChangeHandler
 import com.breadwallet.BuildConfig
@@ -42,6 +39,8 @@ import com.breadwallet.tools.manager.BRSharedPrefs
 import com.breadwallet.tools.util.EventUtils
 import com.breadwallet.ui.navigation.fragmentManager
 import com.breadwallet.ui.web.WebController
+import com.fabriik.support.CashSupport
+import com.fabriik.support.pages.Topic
 import com.google.android.material.appbar.AppBarLayout
 import com.platform.HTTPServer
 import java.io.File
@@ -71,7 +70,7 @@ class BrdWalletController : WalletController("BRD") {
             mAppBarLayoutRoot!!.setExpanded(false, true)
             val rewardsUrl = HTTPServer.getPlatformUrl(HTTPServer.URL_REWARDS)
             router.fragmentManager()?.let {
-                CashUI.showSupportPage(CashSupport.Builder().detail(Topic.BRD_REWARDS), it)
+                CashSupport.Builder().detail(Topic.BRD_REWARDS).build().show(it)
             }
         }
 

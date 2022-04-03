@@ -34,9 +34,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import cash.just.support.CashSupport
-import cash.just.support.pages.Topic
-import cash.just.ui.CashUI
 import com.bluelinelabs.conductor.RouterTransaction
 import com.breadwallet.R
 import com.breadwallet.breadbox.TransferSpeed
@@ -68,6 +65,8 @@ import com.breadwallet.ui.send.SendSheet.F
 import com.breadwallet.ui.send.SendSheet.M
 import com.breadwallet.util.isErc20
 import com.breadwallet.util.isEthereum
+import com.fabriik.support.CashSupport
+import com.fabriik.support.pages.Topic
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -177,7 +176,7 @@ class SendSheetController(args: Bundle? = null) :
         if (dialogId == DIALOG_PAYMENT_ERROR) {
             router.fragmentManager()?.let {
                 // check if fastsync is off to show error: could not publish transaction
-                CashUI.showSupportPage(CashSupport.Builder().detail(Topic.ERROR_PUBLISH_TRANSACTION_P2P), it)
+                CashSupport.Builder().detail(Topic.ERROR_PUBLISH_TRANSACTION_P2P).build().show(it)
             }
         } else {
             super.onHelpClicked(dialogId, controller)
@@ -187,7 +186,14 @@ class SendSheetController(args: Bundle? = null) :
     override fun bindView(modelFlow: Flow<M>): Flow<E> {
         binding.buttonFaq.setOnClickListener {
             router.fragmentManager()?.let {
-                CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SEND), it)
+                when(currencyCode) {
+                    //TODO "bsv"
+                    "btc" -> CashSupport.Builder().detail(Topic.SEND).build().show(it)
+                    "eth" -> CashSupport.Builder().detail(Topic.SEND_ETHER).build().show(it)
+                    "bch" -> CashSupport.Builder().detail(Topic.SEND_BTC_CASH).build().show(it)
+                    "usdt" -> CashSupport.Builder().detail(Topic.WHAT_IS_ERC20).build().show(it)
+                    else -> CashSupport.Builder().detail(Topic.SEND).build().show(it)
+                }
             }
         }
 

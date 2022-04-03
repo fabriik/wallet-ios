@@ -25,9 +25,6 @@
 package com.breadwallet.ui.navigation
 
 import android.content.Intent
-import cash.just.support.CashSupport
-import cash.just.support.pages.Topic
-import cash.just.ui.CashUI
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.Router
@@ -82,8 +79,9 @@ import com.breadwallet.ui.uigift.ShareGiftController
 import com.breadwallet.util.CryptoUriParser
 import com.breadwallet.util.isBrd
 import com.fabriik.buy.ui.BuyWebViewActivity
+import com.fabriik.support.CashSupport
+import com.fabriik.support.pages.Topic
 import com.fabriik.trade.ui.TradeWebViewActivity
-import com.platform.HTTPServer
 import com.platform.util.AppReviewPromptManager
 import io.flutter.embedding.android.FlutterActivity
 import kotlinx.coroutines.CoroutineScope
@@ -139,7 +137,7 @@ class RouterNavigator(
 
     override fun brdRewards() {
         router.fragmentManager()?.let {
-            CashUI.showSupportPage(CashSupport.Builder().detail(Topic.BRD_REWARDS), it)
+            CashSupport.Builder().detail(Topic.BRD_REWARDS).build().show(it)
         }
     }
 
@@ -241,21 +239,21 @@ class RouterNavigator(
         router.fragmentManager()?.let {
             when(effect.articleId) {
                 BRConstants.FAQ_SET_PIN -> {
-                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.PIN), it)
+                    CashSupport.Builder().detail(Topic.PIN).build().show(it)
                 }
                 BRConstants.FAQ_IMPORT_WALLET -> {
-                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.IMPORT_WALLET), it)
+                    CashSupport.Builder().detail(Topic.IMPORT_WALLET).build().show(it)
                 }
                 BRConstants.FAQ_ENABLE_FINGERPRINT -> {
-                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.FINGERPRINT), it)
+                    CashSupport.Builder().detail(Topic.FINGERPRINT).build().show(it)
                 }
                 BRConstants.FAQ_RESCAN -> {
-                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.SYNC_BITCOIN_BLOCK_CHAIN), it)
+                    CashSupport.Builder().detail(Topic.SYNC_BITCOIN_BLOCK_CHAIN).build().show(it)
                 }
                 BRConstants.FAQ_PAPER_KEY -> {
-                    CashUI.showSupportPage(CashSupport.Builder().detail(Topic.RECOVERY_KEY), it)
+                    CashSupport.Builder().detail(Topic.RECOVERY_KEY).build().show(it)
                 } else -> {
-                    CashUI.showSupportPage(CashSupport.Builder(), it)
+                    CashSupport.Builder().build().show(it)
                 }
             }
         }
