@@ -130,6 +130,10 @@
     "@signInButtonText": {
         "description": "Sign In button text shown on login screen"
     },
+    "confirmButtonText": "CONFIRM",
+    "@confirmButtonText": {
+        "description": "Confirm button text shown on confirmation code screen"
+    },
     "signInSignUpPrompt1": "Don't have an account?",
     "@signInSignUpPrompt1": {
         "description": "Shown on the login screen, first part (inactive)"
@@ -157,6 +161,26 @@
     "name": "NAME",
     "@name": {
         "description": "Name label text shown on profile screen"
+    },
+    "confirmEmailHeadline": "CONFIRM EMAIL",
+    "@confirmEmailHeadline": {
+        "description": "Confirm email page title"
+    },
+    "confirmEmailDescription": "We’ve sent a confirmation code to your email. Click on it on this device to confirm your email address.\n\nYou can also copy and paste the code here:",
+    "@confirmEmailDescription": {
+        "description": "Confirm email page description"
+    },
+    "confirmationCode": "CONFIRMATION CODE",
+    "@confirmationCode": {
+        "description": "Confirmation code label text shown on registration screen"
+    },
+    "confirmationCodeHint": "Enter valid code",
+    "@confirmationCodeHint": {
+        "description": "hint text shown on registration screen for Confirmation code field"
+    },
+    "firstNameHint": "Enter valid first name",
+    "@firstNameHint": {
+        "description": "hint text shown on registration screen for First Name field"
     },
     "firstName": "FIRST NAME",
     "@firstName": {

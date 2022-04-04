@@ -12,7 +12,6 @@
         android:id="@+id/notification_bar"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:background="@drawable/bread_gradient"
         android:contentInsetStart="0dp"
         android:contentInsetLeft="0dp"
         android:translationZ="2dp"

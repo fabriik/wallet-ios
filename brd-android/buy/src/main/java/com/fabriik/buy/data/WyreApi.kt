@@ -14,6 +14,7 @@ class WyreApi(private val service: WyreService) {
     companion object {
 
         const val REDIRECT_URL = "https://fabriikw.com"
+        const val FAILURE_REDIRECT_URL = "https://fabriikw.com"
 
         fun create() = WyreApi(
             Retrofit.Builder()

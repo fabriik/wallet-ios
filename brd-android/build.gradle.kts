@@ -13,6 +13,7 @@ buildscript {
         classpath(brd.Libs.Kotlin.GradlePlugin)
         classpath(brd.Libs.Firebase.DistributionPlugin)
         classpath(brd.Libs.Firebase.CrashlyticsPlugin)
+        classpath(brd.Libs.Tests.JacocoPlugin)
     }
 }
 

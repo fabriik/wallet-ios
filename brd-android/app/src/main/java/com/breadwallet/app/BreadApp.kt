@@ -40,8 +40,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import cash.just.sdk.Cash
-import cash.just.ui.CashUI
 import com.bdb.api.AndroidBdbAuthProvider
 import com.brd.api.AndroidBRDAuthProvider
 import com.brd.api.BRDApiClient
@@ -147,14 +145,11 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
         fun getDefaultEnabledWallets() = when {
             BuildConfig.BITCOIN_TESTNET -> listOf(
                 "bitcoin-testnet:__native__",
-                "ethereum-goerli:__native__",
-                "ethereum-ropsten:0x558ec3152e2eb2174905cd19aea4e34a23de9ad6"
+                "ethereum-goerli:__native__"
             )
             else -> listOf(
                 "bitcoin-mainnet:__native__",
-                "ethereum-mainnet:__native__",
-                "ethereum-mainnet:0x558ec3152e2eb2174905cd19aea4e34a23de9ad6",
-                "ethereum-mainnet:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+                "ethereum-mainnet:__native__"
             )
         }
 
@@ -567,13 +562,6 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
         ratesFetcher.start(startedScope)
         
         conversionTracker.start(startedScope)
-
-        CashUI.init(getServer())
-    }
-
-    private fun getServer() = when {
-        BuildConfig.BITCOIN_TESTNET -> Cash.BtcNetwork.TEST_NET
-        else -> Cash.BtcNetwork.MAIN_NET
     }
 
     private fun incrementAppForegroundedCounter() {

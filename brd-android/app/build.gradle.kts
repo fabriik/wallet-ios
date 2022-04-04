@@ -16,6 +16,7 @@ plugins {
 }
 
 plugins.apply(AppetizePlugin::class)
+apply(from = rootProject.file("gradle/jacoco.gradle"))
 apply(from = rootProject.file("gradle/google-services.gradle"))
 apply(from = rootProject.file("gradle/copy-font-files.gradle"))
 
@@ -162,6 +163,8 @@ dependencies {
     implementation(project(":cosmos-bundled"))
     implementation(project(":brd-android:app-core"))
     implementation(project(":brd-android:buy"))
+    implementation(project(":brd-android:trade"))
+    implementation(project(":brd-android:support"))
     implementation(Libs.WalletKit.CoreAndroid)
 
     // AndroidX
@@ -244,9 +247,6 @@ dependencies {
     // Kodein DI
     implementation(Libs.Kodein.CoreErasedJvm)
     implementation(Libs.Kodein.FrameworkAndroidX)
-
-    // Atmcoin
-    implementation(Libs.Atmcoin.CashUi)
 
     // Debugging/Monitoring
     debugImplementation(Libs.LeakCanary.Core)

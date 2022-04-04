@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:kyc/constants/constants.dart';
+import 'package:kyc/kyc/models/kyc_doc_type.dart';
 import 'package:kyc/kyc/models/kyc_status.dart';
 import 'package:kyc/middleware/models/get_auth_user.dart';
 import 'package:kyc/middleware/models/get_kyc_pi.dart';
 import 'package:kyc/middleware/models/merapi.dart';
 import 'package:kyc/middleware/models/post_kyc_pi.dart';
+import 'package:kyc/middleware/models/post_kyc_selfie.dart';
 import 'package:kyc/middleware/models/post_kyc_upload.dart';
 import 'package:kyc/models/login_response.dart';
 
@@ -40,7 +42,25 @@ class FabriikClient {
           'last_name': lastName,
           'email': email,
           'phone': phone,
-          'encryptSHA512hex_password': password
+          'encryptsha512hex_password': password
+        },
+      );
+      return response;
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  Future<Response> verifyPhoneNumber(
+      String code,
+      String sessionKey,
+  ) async {
+    try {
+      final response = await _httpClient.post<dynamic>(
+        'auth/register/confirm',
+        queryParameters: {
+          'sessionKey': sessionKey,
+          'confirmation_code': code
         },
       );
       return response;
@@ -75,6 +95,7 @@ class FabriikClient {
     MerapiInputData? data,
     bool sendSessionKey = true,
     String? sessionKey,
+    Map<String, dynamic>? queryParameters,
     SessionExpiredCallback? onExpired,
     bool useFormData = false,
   }) async {
@@ -84,6 +105,10 @@ class FabriikClient {
     if (data != null) {
       final dataMap = await data.toMap();
       options.data = useFormData ? FormData.fromMap(dataMap) : dataMap;
+    }
+
+    if (queryParameters != null) {
+      options.queryParameters = queryParameters;
     }
 
     // If we must send a session key
@@ -99,8 +124,8 @@ class FabriikClient {
           throw MerapiSessionExpiredError();
         }
       } else {
-        // We have a session key, send it in headers.
-        options.headers['sessionKey'] = sessionKey;
+        // We have a session key, send it in query.
+        options.queryParameters['sessionKey'] = sessionKey;
       }
     }
 
@@ -168,6 +193,23 @@ class FabriikClient {
       method: 'POST',
       useFormData: true,
       data: data,
+      queryParameters: <String, dynamic>{
+        "type": data.docType
+      },
+    );
+  }
+
+  Future<void> setKycSelfie(PostKycSelfieRequest data, SessionInfo si) async {
+    await _fetchJson(
+      sessionKey: si.sessionKey,
+      onExpired: si.onExpired,
+      path: 'kyc/upload',
+      method: 'POST',
+      useFormData: true,
+      data: data,
+      queryParameters: <String, dynamic>{
+        "type": KycDocType.selfie.toMerapiDocType()
+      },
     );
   }
 

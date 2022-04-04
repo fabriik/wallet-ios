@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
@@ -46,19 +45,27 @@ class BuyWebViewActivity : AppCompatActivity() {
                 when {
                     trimmedUrl.startsWith("file://") ->
                         view.loadUrl(trimmedUrl)
+                    trimmedUrl == "${WyreApi.REDIRECT_URL}?" ->
+                        finishWithResult(RESULT_CANCELED)
                     trimmedUrl.startsWith(WyreApi.REDIRECT_URL) ->
-                        finish()
+                        finishWithResult(RESULT_SUCCESS)
+                    trimmedUrl.startsWith(WyreApi.FAILURE_REDIRECT_URL) ->
+                        finishWithResult(RESULT_ERROR)
                     else ->
                         return false // Wyre links
                 }
                 return true
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                loadingIndicator.isVisible = false
             }
         }
 
         viewModel.getPaymentUrl().observe(this) {
             when (it.status) {
                 Status.SUCCESS -> {
-                    loadingIndicator.isVisible = false
                     it.data?.let { response ->
                         webView.loadUrl(
                             response.url
@@ -66,16 +73,18 @@ class BuyWebViewActivity : AppCompatActivity() {
                     }
                 }
                 Status.ERROR -> {
-                    loadingIndicator.isVisible = false
-                    Toast.makeText(
-                        this, it.message, Toast.LENGTH_LONG
-                    ).show()
+                    finishWithResult(RESULT_ERROR)
                 }
                 Status.LOADING -> {
                     loadingIndicator.isVisible = true
                 }
             }
         }
+    }
+
+    private fun finishWithResult(resultCode: Int) {
+        setResult(resultCode)
+        finish()
     }
 
     override fun onBackPressed() {
@@ -87,6 +96,10 @@ class BuyWebViewActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val RESULT_ERROR = 2131
+        const val RESULT_SUCCESS = 2132
+        const val RESULT_CANCELED = 2133
+
         fun getStartIntent(context: Context) = Intent(context, BuyWebViewActivity::class.java)
     }
 }

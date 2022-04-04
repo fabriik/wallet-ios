@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:kyc/common/dependency_provider.dart';
 import 'package:kyc/kyc/view/kyc_page.dart';
 import 'package:kyc/login/login.dart';
+import 'package:kyc/signup/signup.dart';
 import 'package:kyc/utils/form_validator.dart';
 import 'package:kyc/widgets/bloc_screen.dart';
 import 'package:kyc/l10n/l10n.dart';
@@ -209,13 +210,8 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _handleRegisterSuccess() async {
-    ScaffoldMessenger.of(_formKey.currentContext!).removeCurrentSnackBar();
-    ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
-      SnackBar(content: Text(l10n.registrationSuccessful)),
-    );
-    final kycPi = await DependencyProvider.of(context).userRepo.getKycPi();
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => KycPage(kycPi: kycPi)),
+      MaterialPageRoute(builder: (context) => SignUpConfirmPage(loginCubit: loginCubit,)),
     );
   }
 

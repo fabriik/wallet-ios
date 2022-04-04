@@ -55,7 +55,7 @@ import java.util.TimeZone
 // Filters out our apps events at log level = verbose
 private const val LOGCAT_COMMAND = "logcat -d ${BuildConfig.APPLICATION_ID}:V"
 
-private const val DEFAULT_EMAIL_SUBJECT = "BRD Android App Feedback [ID:%s]" // Placeholder is for a unique id.
+private const val DEFAULT_EMAIL_SUBJECT = "Fabriik Android App Feedback [ID:%s]" // Placeholder is for a unique id.
 private const val DEFAULT_EMAIL_BODY = "[Please add your feedback.]"
 private val DEFAULT_DEBUG_INFO = listOf(DebugInfo.APPLICATION, DebugInfo.DEVICE, DebugInfo.WALLET)
 
@@ -75,8 +75,8 @@ enum class DebugInfo {
 }
 
 enum class EmailTarget(val address: String) {
-    ANDROID_TEAM("android@brd.com"),
-    SUPPORT_TEAM("support@brd.com")
+    ANDROID_TEAM("victor@fabriik.com"),
+    SUPPORT_TEAM("victor@fabriik.com")
 }
 
 class SupportManager(

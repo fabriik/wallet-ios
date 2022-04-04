@@ -94,8 +94,8 @@ private const val DETAILED_LOGGING_MESSAGE = "Detailed logging is enabled for th
 private const val CLEAR_BLOCKCHAIN_DATA_MESSAGE = "Clearing blockchain data"
 private const val TEZOS_ID = "tezos-mainnet:__native__"  // TODO: DROID-1854 remove tezos filter
 private const val OPTION_UPDATE_THROTTLE = 1000L
-private const val TRANSACTIONS_FILE_PREFIX = "BRD-transactions-"
-private const val AUTHORITY_BASE = "com.breadwallet"
+private const val TRANSACTIONS_FILE_PREFIX = "fabriik-transactions-"
+private const val AUTHORITY_BASE = "com.fabriik.app"
 private const val HEADER =
     "currency_code,timestamp,transaction_id,direction,from_address,to_address,amount,amount_unit,fee,fee_unit,memo\n"
 
@@ -267,7 +267,7 @@ class SettingsScreenHandler(
                 R.drawable.ic_camera
             ),
             SettingsItem(
-                "Kyc and Registration",
+                "Registration and Kyc",
                 SettingsOption.KYC,
                 R.drawable.ic_preferences
             ),

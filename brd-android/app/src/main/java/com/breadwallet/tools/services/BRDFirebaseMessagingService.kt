@@ -197,7 +197,7 @@ class BRDFirebaseMessagingService : FirebaseMessagingService() {
     private fun buildFirebaseNotification(remoteMessage: RemoteMessage): Pair<Int, Notification> {
         val notificationBuilder =
             NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.brd_logo_gradient)
+                .setSmallIcon(R.drawable.ic_flower_black)
                 .setContentTitle(remoteMessage.notification?.title.orEmpty())
                 .setContentText(remoteMessage.notification?.body.orEmpty())
                 .setContentIntent(getHomePendingIntent())
@@ -210,7 +210,7 @@ class BRDFirebaseMessagingService : FirebaseMessagingService() {
         val notificationBody = remoteMessage.data[MP_NOTIFICATION_MESSAGE]
         val notificationBuilder =
             NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.brd_logo_gradient)
+                .setSmallIcon(R.drawable.ic_flower_black)
                 .setContentText(notificationBody)
                 .setStyle(
                     NotificationCompat.BigTextStyle()
@@ -225,7 +225,7 @@ class BRDFirebaseMessagingService : FirebaseMessagingService() {
     private fun buildSecureCheckoutNotification(remoteMessage: RemoteMessage): Pair<Int, Notification> {
         val notificationBuilder =
             NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.brd_logo_gradient)
+                .setSmallIcon(R.drawable.ic_flower_black)
                 .setContentTitle(remoteMessage.data[NOTIFICATION_TITLE])
                 .setContentText(remoteMessage.data[NOTIFICATION_BODY])
                 .setContentIntent(getHomePendingIntent())

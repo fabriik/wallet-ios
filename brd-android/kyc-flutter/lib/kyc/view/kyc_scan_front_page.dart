@@ -10,6 +10,8 @@ import 'package:kyc/middleware/models/merapi.dart';
 import 'package:kyc/widgets/camera_photo_taker.dart';
 import 'package:kyc/widgets/error_snackbar.dart';
 
+import 'kyc_scan_back_page.dart';
+
 class KycScanFrontPage extends StatefulWidget {
   @override
   _KycScanFrontPageState createState() => _KycScanFrontPageState();
@@ -28,16 +30,18 @@ class _KycScanFrontPageState extends State<KycScanFrontPage> {
   }
 
   Future<void> onTaken(PhotoTakenDetails details) async {
-    final docType = context.read<KycCubit>().state.docType;
-
     final photoPath = details.photo.path;
-
+    await Navigator.of(context).pushNamed(
+        routeKycScanBack, arguments: KycScanBackPageArguments(photoPath)
+    );
+    /*
     try {
       await DependencyProvider.of(context)
           .userRepo
           .setKycDocument(docType, KycDocSide.front, photoPath);
 
-      await Navigator.of(context).pushNamed(routeKycScanBack);
+
+
     } on MerapiError catch (error) {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
@@ -48,6 +52,6 @@ class _KycScanFrontPageState extends State<KycScanFrontPage> {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(ErrorSnackBar.fromException(error));
-    }
+    }*/
   }
 }

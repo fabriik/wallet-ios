@@ -31,7 +31,7 @@ class _KycSelfiePageState extends State<KycSelfiePage> {
     try {
       await DependencyProvider.of(context)
           .userRepo
-          .setKycDocument(KycDocType.selfie, KycDocSide.front, photoPath);
+          .setKycSelfie(photoPath);
 
       await Navigator.of(context).pushNamed(routeKycFinish);
     } on MerapiError catch (error) {

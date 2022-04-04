@@ -73,14 +73,14 @@ private const val MOCKITO_VERSION = "2.25.0"
 private const val KASPRESSO_VERSION = "1.1.0"
 private const val KAKAO_VERSION = "2.3.2"
 private const val MATERIAL_VERSION = "1.3.0"
-const val REDACTED_VERSION = "0.8.0"
+const val JACOCO_VERSION = "0.8.6"
 private const val DETEKT_VERSION = "1.0.1"
 private const val COMMONS_COMPRESS_VERSION = "1.20"
 private const val BIOMETRIC_VERSION = "1.2.0-alpha02"
 private const val AGP_VERSION = "4.1.3"
 private const val SERVICES_PLUGIN_VERSION = "4.3.4"
 private const val AUTODESK_VERSION = "0.6.2"
-private const val CASH_UI_VERSION = "4.4-fabriik"
+private const val CASH_UI_VERSION = "4.5-fabriik"
 const val COMPOSE_VERSION = "1.0.0-beta02"
 private const val ACCOMPANIST_VERSION = "0.6.2"
 private const val BLOCKSET_VERSION = "0.1.3"
@@ -97,6 +97,10 @@ object Libs {
 
     object Android {
         const val GradlePlugin = "com.android.tools.build:gradle:$AGP_VERSION"
+    }
+
+    object Tests {
+        const val JacocoPlugin = "org.jacoco:org.jacoco.core:$JACOCO_VERSION"
     }
 
     object Androidx {
@@ -284,10 +288,6 @@ object Libs {
 
     object AutoDesk {
         const val CoroutineWorker = "com.autodesk:coroutineworker:$AUTODESK_VERSION"
-    }
-
-    object Atmcoin {
-        const val CashUi = "com.github.atmcoin.cash-ui-android:cashUI:$CASH_UI_VERSION"
     }
 
     object Compose {

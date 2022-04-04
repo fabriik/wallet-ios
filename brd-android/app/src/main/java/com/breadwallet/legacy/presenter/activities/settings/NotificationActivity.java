@@ -7,10 +7,11 @@ import android.widget.ToggleButton;
 import com.breadwallet.R;
 import com.breadwallet.legacy.presenter.activities.util.BRActivity;
 import com.breadwallet.tools.manager.BRSharedPrefs;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class NotificationActivity extends BRActivity {
     private static final String TAG = NotificationActivity.class.getName();
-    private ToggleButton toggleButton;
+    private SwitchMaterial toggleButton;
     public static boolean appVisible = false;
     private static NotificationActivity app;
 
@@ -23,15 +24,11 @@ public class NotificationActivity extends BRActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
-        toggleButton = (ToggleButton) findViewById(R.id.toggleButton);
+        toggleButton = findViewById(R.id.toggleButton);
         toggleButton.setChecked(BRSharedPrefs.getShowNotification());
-        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                BRSharedPrefs.putShowNotification(isChecked);
-            }
-        });
-
+        toggleButton.setOnCheckedChangeListener((buttonView, isChecked) ->
+                BRSharedPrefs.putShowNotification(isChecked)
+        );
     }
 
     @Override

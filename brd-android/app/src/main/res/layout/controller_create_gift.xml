@@ -34,7 +34,7 @@
                 android:id="@+id/layoutSheetBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btc_gradient_bottom"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="0dp"
                 app:layout_constraintBottom_toBottomOf="parent">
@@ -51,7 +51,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="@string/CreateGift.title"
                         style="?attr/textAppearanceSubtitle1"
-                        android:textColor="@color/white"
+                        android:textColor="@color/fabriik_black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -65,6 +65,7 @@
                         android:layout_marginTop="0dp"
                         android:layout_marginBottom="0dp"
                         android:background="@drawable/ic_close_white_24dp"
+                        android:backgroundTint="@color/fabriik_black"
                         app:layout_constraintBottom_toBottomOf="@+id/title"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/title"/>
@@ -88,7 +89,8 @@
                     android:layout_height="32dp"
                     android:layout_margin="16dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_qrcode_white"/>
+                    android:src="@drawable/ic_qrcode_white"
+                    app:tint="@color/fabriik_black"/>
 
                 <TextView
                     android:id="@+id/subtitle"
@@ -101,7 +103,7 @@
                     android:gravity="center"
                     android:text="@string/CreateGift.subtitle"
                     style="?attr/textAppearanceSubtitle2"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/fabriik_black"/>
 
                 <TextView
                     android:id="@+id/description"
@@ -114,7 +116,7 @@
                     android:gravity="center"
                     android:text="@string/CreateGift.description"
                     style="?attr/textAppearanceBody1"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/fabriik_black"/>
 
                 <TextView
                     android:id="@+id/amountLabel"
@@ -125,7 +127,7 @@
                     android:gravity="center"
                     android:text="@string/CreateGift.amountLabel"
                     style="?attr/textAppearanceBody2"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/fabriik_black"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/amountGroup"
@@ -142,8 +144,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:checkable="true"
-                        android:backgroundTint="@color/gift_button_background"
-                        android:textColor="@color/gift_button_text"
+                        android:backgroundTint="@color/dark_blue_fabriik"
+                        android:textColor="@color/white"
                         android:padding="0dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -157,8 +159,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:checkable="true"
-                        android:backgroundTint="@color/gift_button_background"
-                        android:textColor="@color/gift_button_text"
+                        android:backgroundTint="@color/dark_blue_fabriik"
+                        android:textColor="@color/white"
                         android:padding="0dp"
                         app:layout_constraintStart_toEndOf="@+id/amountChoice1"
                         app:layout_constraintEnd_toStartOf="@+id/amountChoice3"
@@ -172,8 +174,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:checkable="true"
-                        android:backgroundTint="@color/gift_button_background"
-                        android:textColor="@color/gift_button_text"
+                        android:backgroundTint="@color/dark_blue_fabriik"
+                        android:textColor="@color/white"
                         android:padding="0dp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -187,8 +189,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:checkable="true"
-                        android:backgroundTint="@color/gift_button_background"
-                        android:textColor="@color/gift_button_text"
+                        android:backgroundTint="@color/dark_blue_fabriik"
+                        android:textColor="@color/white"
                         android:padding="0dp"
                         app:layout_constraintStart_toEndOf="@+id/amountChoice3"
                         app:layout_constraintEnd_toStartOf="@+id/amountChoice5"
@@ -202,8 +204,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:checkable="true"
-                        android:backgroundTint="@color/gift_button_background"
-                        android:textColor="@color/gift_button_text"
+                        android:backgroundTint="@color/dark_blue_fabriik"
+                        android:textColor="@color/white"
                         android:padding="0dp"
                         app:layout_constraintStart_toEndOf="@+id/amountChoice4"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -244,9 +246,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:textColor="@color/gift_button_text"
+                    android:textColor="@color/white"
                     app:strokeWidth="2dp"
-                    app:backgroundTint="@color/gift_button_background"
+                    app:backgroundTint="@color/dark_blue_fabriik"
                     style="?attr/materialButtonOutlinedStyle"
                     android:text="@string/CreateGift.create"/>
 

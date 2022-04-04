@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ImageButton
         android:id="@+id/back_btn"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_margin="@dimen/bread_margin"
         android:layout_centerVertical="true"
+        android:layout_margin="@dimen/bread_margin"
         android:background="?attr/toolbar_back_arrow"
+        android:backgroundTint="@color/fabriik_black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,10 +23,10 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginTop="16dp"
-        android:text="@string/WalletConnectionSettings.viewTitle"
-        android:textColor="@color/white"
-        android:textSize="20sp"
         android:fontFamily="@font/mobile_font_bold"
+        android:text="@string/WalletConnectionSettings.viewTitle"
+        android:textColor="@color/fabriik_black"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +38,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:background="@color/secondary_background"
+        android:background="@color/fabriik_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title">
@@ -57,11 +59,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/mobile_font_bold"
             android:text="@string/WalletConnectionSettings.header"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/fabriik_black"
             android:textSize="24sp"
-            android:fontFamily="@font/mobile_font_bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView5" />
@@ -75,27 +77,23 @@
             android:layout_marginEnd="40dp"
             android:clickable="true"
             android:focusable="true"
+            android:fontFamily="@font/mobile_font_bold"
             android:text="@string/WalletConnectionSettings.explanatoryText"
             android:textAlignment="center"
-            android:textColor="@color/text_secondary"
+            android:textColor="@color/fabriik_shuttle_grey"
             android:textColorLink="@color/ui_accent"
             android:textSize="16sp"
-            android:fontFamily="@font/mobile_font_bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switch_fast_sync"
             android:layout_width="60dp"
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:thumbTint="@color/ui_accent"
-            android:trackTint="@color/ui_accent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,34 +106,21 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/WalletConnectionSettings.footerTitle"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
         app:layout_constraintVertical_bias="1.0" />
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@color/secondary_background"
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_flower_blue"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:src="@drawable/blockset_logo_white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
