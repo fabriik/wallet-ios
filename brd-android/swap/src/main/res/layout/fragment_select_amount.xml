@@ -52,126 +52,143 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_selling_currency"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/card_view_radius"
-        app:contentPaddingBottom="12dp"
-        app:contentPaddingTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:clipToPadding="false">
 
-            <com.fabriik.swap.ui.customviews.IconView
-                android:id="@+id/view_selling_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_pay_with"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_selling_currency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_toStartOf="@id/view_selling_icon"
-                android:hint="Pay with"
-                android:textColorHint="@color/fabriik_black"
-                app:hintTextColor="@color/fabriik_black">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_pay_with"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:cursorVisible="false"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:inputType="numberDecimal"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:text="0"
-                    android:textIsSelectable="false"
-                    android:textSize="24sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_buying_currency"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/card_view_radius"
-        app:contentPaddingBottom="12dp"
-        app:contentPaddingTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cv_selling_currency">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.fabriik.swap.ui.customviews.IconView
-                android:id="@+id/view_buying_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/card_view_radius"
+                app:contentPaddingBottom="12dp"
+                app:contentPaddingTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_receive"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.fabriik.swap.ui.customviews.IconView
+                        android:id="@+id/view_selling_icon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_pay_with"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toStartOf="@id/view_selling_icon"
+                        android:hint="Pay with"
+                        android:textColorHint="@color/fabriik_black"
+                        app:hintTextColor="@color/fabriik_black">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_pay_with"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:cursorVisible="false"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="0"
+                            android:textIsSelectable="false"
+                            android:textSize="24sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_buying_currency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_toStartOf="@id/view_buying_icon"
-                android:enabled="false"
-                android:hint="Receive"
-                android:textColorHint="@color/fabriik_black"
-                app:hintTextColor="@color/fabriik_black">
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/card_view_radius"
+                app:contentPaddingBottom="12dp"
+                app:contentPaddingTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_selling_currency">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_receive"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:inputType="numberDecimal"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:text="0"
-                    android:textIsSelectable="false"
-                    android:textSize="24sp" />
+                    android:layout_height="match_parent">
 
-            </com.google.android.material.textfield.TextInputLayout>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+                    <com.fabriik.swap.ui.customviews.IconView
+                        android:id="@+id/view_buying_icon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_receive"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toStartOf="@id/view_buying_icon"
+                        android:enabled="false"
+                        android:hint="Receive"
+                        android:textColorHint="@color/fabriik_black"
+                        app:hintTextColor="@color/fabriik_black">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_receive"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="0"
+                            android:textIsSelectable="false"
+                            android:textSize="24sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
 
     <com.breadwallet.legacy.presenter.customviews.BRKeyboard
         android:id="@+id/keyboard"
@@ -191,16 +208,16 @@
         android:background="@color/extra_light_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/keyboard"/>
+        app:layout_constraintTop_toTopOf="@+id/keyboard" />
 
     <View
         android:id="@+id/separator2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/extra_light_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/keyboard"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/keyboard"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_continue"
