@@ -78,7 +78,10 @@ class SwapPreviewViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 updateState {
-                    it.copy(isLoading = true)
+                    it.copy(
+                        isLoading = true,
+                        isContentVisible = false
+                    )
                 }
 
                 val data = api.getExchangeAmounts(
@@ -90,6 +93,7 @@ class SwapPreviewViewModel(
                 updateState {
                     it.copy(
                         isLoading = false,
+                        isContentVisible = true,
                         exchangeData = data,
                         errorMessage = if (data == null) "Error fetching exchange data" else null
                     )
@@ -98,6 +102,7 @@ class SwapPreviewViewModel(
                 updateState {
                     it.copy(
                         isLoading = false,
+                        isContentVisible = false,
                         errorMessage = e.message
                     )
                 }

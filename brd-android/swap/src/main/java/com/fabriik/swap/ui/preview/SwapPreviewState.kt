@@ -8,6 +8,7 @@ import java.math.BigDecimal
 data class SwapPreviewState(
     val amount: BigDecimal,
     val isLoading: Boolean = false,
+    val isContentVisible: Boolean = false,
     val buyingCurrency: SwapCurrency,
     val sellingCurrency: SwapCurrency,
     val errorMessage: String? = null,

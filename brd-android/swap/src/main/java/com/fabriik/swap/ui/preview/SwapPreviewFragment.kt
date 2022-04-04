@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -101,6 +102,9 @@ class SwapPreviewFragment : Fragment(), SwapView<SwapPreviewState, SwapPreviewEf
                 currencyCode = buyingCurrency.name,
                 scope = binding.viewSellingIcon.viewScope
             )
+
+            binding.content.isVisible = state.isContentVisible
+            binding.loadingBar.isVisible = state.isLoading
 
             exchangeData?.let {
                 binding.tvSellingCurrency.text = it.amount.formatCryptoForUi(
