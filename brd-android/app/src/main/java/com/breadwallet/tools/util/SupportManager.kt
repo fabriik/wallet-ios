@@ -75,8 +75,8 @@ enum class DebugInfo {
 }
 
 enum class EmailTarget(val address: String) {
-    ANDROID_TEAM("victor@fabriik.com"),
-    SUPPORT_TEAM("victor@fabriik.com")
+    ANDROID_TEAM("support@fabriik.com"),
+    SUPPORT_TEAM("support@fabriik.com")
 }
 
 class SupportManager(
