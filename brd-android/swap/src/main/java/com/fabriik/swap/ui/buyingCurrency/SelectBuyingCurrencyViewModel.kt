@@ -7,6 +7,7 @@ import com.breadwallet.tools.manager.BRSharedPrefs
 import com.breadwallet.tools.util.TokenUtil
 import com.fabriik.swap.R
 import com.fabriik.swap.data.SwapApi
+import com.fabriik.swap.data.SwapCurrenciesRepository
 import com.fabriik.swap.data.model.BuyingCurrencyData
 import com.fabriik.swap.ui.base.SwapViewModel
 import com.fabriik.swap.utils.SingleLiveEvent
@@ -16,6 +17,10 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.direct
+import org.kodein.di.erased.instance
 import java.math.BigDecimal
 
 class SelectBuyingCurrencyViewModel(
@@ -23,8 +28,9 @@ class SelectBuyingCurrencyViewModel(
     savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application),
     SwapViewModel<SelectBuyingCurrencyState, SelectBuyingCurrencyAction, SelectBuyingCurrencyEffect?>,
-    LifecycleObserver {
+    LifecycleObserver, KodeinAware {
 
+    override val kodein by closestKodein { application.applicationContext }
     override val actions: Channel<SelectBuyingCurrencyAction> = Channel(Channel.UNLIMITED)
 
     override val state: LiveData<SelectBuyingCurrencyState>
@@ -36,11 +42,13 @@ class SelectBuyingCurrencyViewModel(
     private val arguments = SelectBuyingCurrencyFragmentArgs.fromBundle(
         savedStateHandle.toBundle()
     )
-    private val ratesRepo = RatesRepository.getInstance(
-        application.applicationContext
+
+    private val currenciesRepository = SwapCurrenciesRepository(
+        swapApi = SwapApi.create(),
+        breadBox = direct.instance(),
+        ratesRepository = direct.instance()
     )
-    private var searchQuery: String = ""
-    private val api: SwapApi = SwapApi.create()
+
     private val _state = MutableLiveData<SelectBuyingCurrencyState>().apply {
         value = SelectBuyingCurrencyState(
             title = application.applicationContext.getString(
@@ -48,7 +56,10 @@ class SelectBuyingCurrencyViewModel(
             )
         )
     }
+
     private val _effect = SingleLiveEvent<SelectBuyingCurrencyEffect?>()
+
+    private var searchQuery: String = ""
     private var currencies: List<BuyingCurrencyData> = mutableListOf()
 
     init {
@@ -88,35 +99,14 @@ class SelectBuyingCurrencyViewModel(
                     it.copy(isLoading = true)
                 }
 
-                val currencies = api.getCurrencies()
-                    .filter { it.name != arguments.sellingCurrency.name }
-
-                val buyingCurrencies = api.getExchangeAmounts(
-                    from = arguments.sellingCurrency,
-                    to = currencies,
-                    amount = BigDecimal.ONE
-                ).mapNotNull { exchangeData ->
-                    val currency = currencies.firstOrNull {
-                        it.name == exchangeData.to
-                    } ?: return@mapNotNull null
-
-                    BuyingCurrencyData(
-                        sellingCurrency = arguments.sellingCurrency,
-                        currency = currency.copy(
-                            fullName = TokenUtil.tokenForCode(currency.name)?.name ?: currency.fullName
-                        ),
-                        rate = exchangeData.result,
-                        fiatPricePerUnit = ratesRepo.getFiatPerCryptoUnit(
-                            cryptoCode = currency.name,
-                            fiatCode = BRSharedPrefs.getPreferredFiatIso()
-                        )
-                    )
-                }
+                currencies = currenciesRepository.getBuyingCurrenciesData(
+                    arguments.sellingCurrency
+                )
 
                 updateState {
                     it.copy(
                         isLoading = false,
-                        currencies = buyingCurrencies
+                        currencies = currencies
                     )
                 }
             } catch (e: Exception) {

@@ -2,29 +2,20 @@ package com.fabriik.swap.ui.sellingcurrency
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.breadwallet.breadbox.BreadBox
-import com.breadwallet.breadbox.toBigDecimal
-import com.breadwallet.ext.throttleLatest
-import com.breadwallet.repository.RatesRepository
-import com.breadwallet.tools.manager.BRSharedPrefs
-import com.breadwallet.tools.util.TokenUtil
 import com.fabriik.swap.data.SwapApi
+import com.fabriik.swap.data.SwapCurrenciesRepository
 import com.fabriik.swap.data.model.SellingCurrencyData
 import com.fabriik.swap.ui.base.SwapViewModel
-import com.fabriik.swap.ui.buyingCurrency.SelectBuyingCurrencyAction
-import com.fabriik.swap.ui.buyingCurrency.SelectBuyingCurrencyEffect
 import com.fabriik.swap.utils.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
+import org.kodein.di.direct
 import org.kodein.di.erased.instance
-import java.math.BigDecimal
 
 class SelectSellingCurrencyViewModel(
     application: Application
@@ -41,11 +32,12 @@ class SelectSellingCurrencyViewModel(
     override val effect: LiveData<SelectSellingCurrencyEffect?>
         get() = _effect
 
-    private val breadBox by instance<BreadBox>()
-    private val api: SwapApi = SwapApi.create()
-    private val ratesRepo = RatesRepository.getInstance(
-        application.applicationContext
+    private val currenciesRepository = SwapCurrenciesRepository(
+        swapApi = SwapApi.create(),
+        breadBox = direct.instance(),
+        ratesRepository = direct.instance()
     )
+
     private val _state = MutableLiveData<SelectSellingCurrencyState>().apply {
         value = SelectSellingCurrencyState()
     }
@@ -86,38 +78,13 @@ class SelectSellingCurrencyViewModel(
                     it.copy(isLoading = true)
                 }
 
-                val fiatIso = BRSharedPrefs.getPreferredFiatIso()
+                currencies = currenciesRepository.getSellingCurrenciesData()
 
-                val data = api.getCurrencies()
-
-                breadBox.wallets().collect { wallets ->
-                    currencies = wallets.mapNotNull { wallet ->
-                        val currency = data.firstOrNull {
-                            it.name == wallet.currency.code
-                        } ?: return@mapNotNull null
-
-                        SellingCurrencyData(
-                            currency = currency.copy(
-                                fullName = TokenUtil.tokenForCode(currency.name)?.name ?: currency.fullName
-                            ),
-                            fiatBalance = ratesRepo.getFiatForCrypto(
-                                wallet.balance.toBigDecimal(),
-                                currency.name,
-                                fiatIso
-                            ) ?: BigDecimal.ZERO,
-                            cryptoBalance = wallet.balance.toBigDecimal(),
-                            fiatPricePerUnit = ratesRepo.getFiatPerCryptoUnit(
-                                wallet.currency.code, fiatIso
-                            )
-                        )
-                    }
-
-                    updateState {
-                        it.copy(
-                            isLoading = false,
-                            currencies = currencies
-                        )
-                    }
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        currencies = currencies
+                    )
                 }
             } catch (e: Exception) {
                 updateState {

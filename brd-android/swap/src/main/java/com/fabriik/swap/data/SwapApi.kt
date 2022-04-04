@@ -6,10 +6,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.math.BigDecimal
 import java.util.*
+import java.lang.Thread
 
-class SwapApi(private val service: SwapService) {
+internal class SwapApi(private val service: SwapService) {
 
     suspend fun getCurrencies() : List<SwapCurrency> {
+
+        Thread.sleep(500)
+
         //todo: call api
         return listOf(
             SwapCurrency(
@@ -45,6 +49,8 @@ class SwapApi(private val service: SwapService) {
     }
 
     suspend fun getExchangeAmounts(from: SwapCurrency, to: List<SwapCurrency>, amount: BigDecimal) : List<SwapExchangeAmount> {
+        Thread.sleep(500)
+
         //todo: call api
         return to.map {
             SwapExchangeAmount(
