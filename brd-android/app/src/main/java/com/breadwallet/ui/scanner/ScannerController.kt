@@ -60,6 +60,7 @@ import kotlinx.coroutines.flow.transformLatest
 import org.kodein.di.erased.instance
 import java.util.concurrent.Executors
 
+const val EXTRA_TARGET_CURRENCY = "target_currency"
 private const val CAMERA_UI_UPDATE_MS = 100L
 
 class ScannerController(
@@ -142,7 +143,8 @@ class ScannerController(
                         text to text.asLink(
                             breadBox,
                             uriParser,
-                            scanned = true
+                            scanned = true,
+                            targetCurrencyCode = args.getString(EXTRA_TARGET_CURRENCY)
                         )
                     }
                     .flowOn(Default)

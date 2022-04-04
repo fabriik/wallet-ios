@@ -462,7 +462,9 @@ object SendSheet {
                 val currencyCode: CurrencyCode
             ) : Nav(NavigationTarget.ReceiveSheet(currencyCode))
 
-            object GoToScan : Nav(NavigationTarget.QRScanner)
+            data class GoToScan(
+                val currencyCode: String?
+            ) : Nav(NavigationTarget.QRScanner(currencyCode))
             object CloseSheet : Nav(NavigationTarget.Back)
             object GoToEthWallet : Nav(NavigationTarget.Wallet(eth))
             object GoToTransactionComplete : Nav(NavigationTarget.TransactionComplete)

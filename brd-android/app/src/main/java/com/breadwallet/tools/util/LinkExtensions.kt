@@ -58,24 +58,27 @@ const val GIFT_BASE_URL = "$BRD_PROTOCOL://$BRD_HOST$GIFT_PATH_PREFIX"
 suspend fun String.asLink(
     breadBox: BreadBox,
     uriParser: CryptoUriParser,
-    scanned: Boolean = false
+    scanned: Boolean = false,
+    targetCurrencyCode: String? = null
 ): Link? {
     if (isBlank()) return null
     val uri = Uri.parse(this)
-    val (address, currencyCode) =
-        breadBox.networks(true)
-            .first()
-            .mapNotNull { network ->
-                Address.create(this, network)
-                    .orNull()
-                    ?.let { address ->
-                        address to network.currency.code
-                    }
-            }
-            .firstOrNull() ?: null to null
+    val addresses = breadBox.networks(true)
+        .first()
+        .mapNotNull { network ->
+            Address.create(this, network)
+                .orNull()
+                ?.let { address ->
+                    address to network.currency.code
+                }
+        }
+
+    val (address, currencyCode) = addresses.firstOrNull {
+        targetCurrencyCode == it.second
+    } ?: null to null
 
     return when {
-        address != null && currencyCode != null ->
+        address != null && currencyCode != null && currencyCode == targetCurrencyCode ->
             Link.CryptoRequestUrl(
                 currencyCode = currencyCode,
                 address = address.toString()

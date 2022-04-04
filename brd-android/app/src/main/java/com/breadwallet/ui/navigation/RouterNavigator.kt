@@ -25,6 +25,8 @@
 package com.breadwallet.ui.navigation
 
 import android.content.Intent
+import android.os.Bundle
+import androidx.core.os.bundleOf
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.Router
@@ -51,6 +53,7 @@ import com.breadwallet.ui.onboarding.OnBoardingController
 import com.breadwallet.ui.pin.InputPinController
 import com.breadwallet.ui.provekey.PaperKeyProveController
 import com.breadwallet.ui.receive.ReceiveController
+import com.breadwallet.ui.scanner.EXTRA_TARGET_CURRENCY
 import com.breadwallet.ui.scanner.ScannerController
 import com.breadwallet.ui.send.SendSheetController
 import com.breadwallet.ui.settings.SettingsController
@@ -324,8 +327,12 @@ class RouterNavigator(
         )
     }
 
-    override fun qRScanner() {
-        val controller = ScannerController()
+    override fun qRScanner(targetCurrency: String?) {
+        val controller = ScannerController(
+            bundleOf(
+                Pair(EXTRA_TARGET_CURRENCY, targetCurrency)
+            )
+        )
         controller.targetController = router.backstack.lastOrNull()?.controller
         router.pushController(
             RouterTransaction.with(controller)

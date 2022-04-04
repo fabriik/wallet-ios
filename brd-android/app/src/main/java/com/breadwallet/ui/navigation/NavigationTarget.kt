@@ -47,7 +47,9 @@ sealed class NavigationTarget : INavigationTarget {
     object Back : NavigationTarget()
     object BrdRewards : NavigationTarget()
     object ReviewBrd : NavigationTarget()
-    object QRScanner : NavigationTarget()
+    data class QRScanner(
+        val targetCurrencyCode: String? = null
+    ) : NavigationTarget()
     object LogcatViewer : NavigationTarget()
     object MetadataViewer : NavigationTarget()
 

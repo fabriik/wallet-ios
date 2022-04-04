@@ -226,7 +226,7 @@ object Import {
         ) : F(), NavigationEffect {
             object GoBack : Nav(NavigationTarget.Back)
             object GoToFaq : Nav(NavigationTarget.SupportPage(FAQ_IMPORT_WALLET))
-            object GoToScan : Nav(NavigationTarget.QRScanner)
+            object GoToScan : Nav(NavigationTarget.QRScanner())
         }
 
         sealed class EstimateImport : F() {

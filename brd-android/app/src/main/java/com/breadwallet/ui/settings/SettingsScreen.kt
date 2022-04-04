@@ -120,7 +120,7 @@ object SettingsScreen {
         }
 
         object GoToQrScan : F(), NavigationEffect {
-            override val navigationTarget = NavigationTarget.QRScanner
+            override val navigationTarget = NavigationTarget.QRScanner()
         }
 
         object GoToBrdRewards : F(), NavigationEffect {

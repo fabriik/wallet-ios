@@ -31,7 +31,7 @@ interface NavigationTargetHandlerSpec {
         NavigationTarget.Back -> back()
         NavigationTarget.BrdRewards -> brdRewards()
         NavigationTarget.ReviewBrd -> reviewBrd()
-        NavigationTarget.QRScanner -> qRScanner()
+        is NavigationTarget.QRScanner -> qRScanner(effect.targetCurrencyCode)
         NavigationTarget.BrdLogin -> brdLogin()
         NavigationTarget.Home -> home()
         NavigationTarget.Buy -> buy()
@@ -92,7 +92,7 @@ interface NavigationTargetHandlerSpec {
 
     fun reviewBrd(): Unit
 
-    fun qRScanner(): Unit
+    fun qRScanner(targetCurrency: String?): Unit
 
     fun brdLogin(): Unit
 

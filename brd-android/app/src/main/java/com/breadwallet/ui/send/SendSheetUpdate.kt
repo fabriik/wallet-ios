@@ -224,7 +224,7 @@ object SendSheetUpdate : Update<M, E, F>, SendSheetUpdateSpec {
     override fun onScanClicked(model: M): Next<M, F> {
         return when {
             model.isConfirmingTx -> noChange()
-            else -> dispatch(setOf(F.Nav.GoToScan))
+            else -> dispatch(setOf(F.Nav.GoToScan(model.currencyCode)))
         }
     }
 
