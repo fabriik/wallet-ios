@@ -83,6 +83,7 @@ class SelectAmountFragment : Fragment(), SwapView<SelectAmountState, SelectAmoun
                 handleEffect(it)
             }
 
+            keyboard.setDeleteImage(R.drawable.ic_delete_black)
             keyboard.bindInput()
         }
     }
