@@ -48,6 +48,7 @@ class SelectSellingCurrencyFragment : Fragment(),
 
         binding.apply {
             rvCurrencies.adapter = adapter
+            rvCurrencies.itemAnimator = null
             rvCurrencies.setHasFixedSize(true)
 
             closeButton.setOnClickListener {

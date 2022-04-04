@@ -49,6 +49,8 @@ class SelectBuyingCurrencyFragment : Fragment(),
         binding.apply {
             rvCurrencies.adapter = adapter
             rvCurrencies.setHasFixedSize(true)
+            rvCurrencies.itemAnimator = null
+
             backButton.isVisible = true
 
             backButton.setOnClickListener {
