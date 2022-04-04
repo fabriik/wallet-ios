@@ -55,7 +55,6 @@ object WalletScreen {
         val isCryptoPreferred: Boolean = false,
         val isShowingDelistedBanner: Boolean = false,
         val isShowingSearch: Boolean = false,
-        val isShowingBrdRewards: Boolean = false,
         val isShowingReviewPrompt: Boolean = false,
         val showReviewPrompt: Boolean = false,
         @Redacted val filterQuery: String = "",
@@ -97,7 +96,6 @@ object WalletScreen {
         data class OnQueryChanged(@Redacted val query: String) : E()
 
         data class OnCurrencyNameUpdated(val name: String, val currencyId: String) : E()
-        data class OnBrdRewardsUpdated(val showing: Boolean) : E()
         data class OnBalanceUpdated(val balance: BigDecimal, val fiatBalance: BigDecimal) : E()
 
         data class OnFiatPricePerUpdated(val pricePerUnit: String, val priceChange: PriceChange?) :
@@ -146,8 +144,6 @@ object WalletScreen {
         object OnReceiveClicked : E()
 
         data class OnTransactionClicked(@Redacted val txHash: String) : E()
-
-        object OnBrdRewardsClicked : E()
 
         data class OnIsCryptoPreferredLoaded(val isCryptoPreferred: Boolean) : E()
 
@@ -199,10 +195,6 @@ object WalletScreen {
 
             object GoBack : Nav() {
                 override val navigationTarget = NavigationTarget.Back
-            }
-
-            object GoToBrdRewards : Nav() {
-                override val navigationTarget = NavigationTarget.BrdRewards
             }
 
             data class GoToStaking(

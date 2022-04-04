@@ -32,7 +32,6 @@ enum class SettingsOption {
     SECURITY_SETTINGS,
     SUPPORT,
     SUBMIT_REVIEW,
-    REWARDS,
     ABOUT,
     ATM_FINDER,
     EXPORT_TRANSACTIONS,

@@ -292,11 +292,6 @@ class SettingsScreenHandler(
                 R.drawable.ic_review
             ),
             SettingsItem(
-                context.getString(R.string.Settings_rewards),
-                SettingsOption.REWARDS,
-                R.drawable.ic_reward
-            ),
-            SettingsItem(
                 context.getString(R.string.Settings_about),
                 SettingsOption.ABOUT,
                 R.drawable.ic_about

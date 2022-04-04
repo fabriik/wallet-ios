@@ -123,10 +123,6 @@ object SettingsScreen {
             override val navigationTarget = NavigationTarget.QRScanner
         }
 
-        object GoToBrdRewards : F(), NavigationEffect {
-            override val navigationTarget = NavigationTarget.BrdRewards
-        }
-
         object GoToGooglePlay : F(), NavigationEffect {
             override val navigationTarget = NavigationTarget.ReviewBrd
         }

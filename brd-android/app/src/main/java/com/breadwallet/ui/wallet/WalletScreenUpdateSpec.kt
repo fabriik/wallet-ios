@@ -38,7 +38,6 @@ interface WalletScreenUpdateSpec {
         WalletScreen.E.OnChangeDisplayCurrencyClicked -> onChangeDisplayCurrencyClicked(model)
         WalletScreen.E.OnSendClicked -> onSendClicked(model)
         WalletScreen.E.OnReceiveClicked -> onReceiveClicked(model)
-        WalletScreen.E.OnBrdRewardsClicked -> onBrdRewardsClicked(model)
         WalletScreen.E.OnChartDataPointReleased -> onChartDataPointReleased(model)
         WalletScreen.E.OnCreateAccountClicked -> onCreateAccountClicked(model)
         WalletScreen.E.OnCreateAccountConfirmationClicked -> onCreateAccountConfirmationClicked(model)
@@ -46,7 +45,6 @@ interface WalletScreenUpdateSpec {
         is WalletScreen.E.OnSyncProgressUpdated -> onSyncProgressUpdated(model, event)
         is WalletScreen.E.OnQueryChanged -> onQueryChanged(model, event)
         is WalletScreen.E.OnCurrencyNameUpdated -> onCurrencyNameUpdated(model, event)
-        is WalletScreen.E.OnBrdRewardsUpdated -> onBrdRewardsUpdated(model, event)
         is WalletScreen.E.OnBalanceUpdated -> onBalanceUpdated(model, event)
         is WalletScreen.E.OnFiatPricePerUpdated -> onFiatPricePerUpdated(model, event)
         is WalletScreen.E.OnTransactionsUpdated -> onTransactionsUpdated(model, event)
@@ -89,8 +87,6 @@ interface WalletScreenUpdateSpec {
 
     fun onReceiveClicked(model: WalletScreen.M): Next<WalletScreen.M, WalletScreen.F>
 
-    fun onBrdRewardsClicked(model: WalletScreen.M): Next<WalletScreen.M, WalletScreen.F>
-
     fun onChartDataPointReleased(model: WalletScreen.M): Next<WalletScreen.M, WalletScreen.F>
 
     fun onCreateAccountClicked(model: WalletScreen.M): Next<WalletScreen.M, WalletScreen.F>
@@ -104,8 +100,6 @@ interface WalletScreenUpdateSpec {
     fun onQueryChanged(model: WalletScreen.M, event: WalletScreen.E.OnQueryChanged): Next<WalletScreen.M, WalletScreen.F>
 
     fun onCurrencyNameUpdated(model: WalletScreen.M, event: WalletScreen.E.OnCurrencyNameUpdated): Next<WalletScreen.M, WalletScreen.F>
-
-    fun onBrdRewardsUpdated(model: WalletScreen.M, event: WalletScreen.E.OnBrdRewardsUpdated): Next<WalletScreen.M, WalletScreen.F>
 
     fun onBalanceUpdated(model: WalletScreen.M, event: WalletScreen.E.OnBalanceUpdated): Next<WalletScreen.M, WalletScreen.F>
 
