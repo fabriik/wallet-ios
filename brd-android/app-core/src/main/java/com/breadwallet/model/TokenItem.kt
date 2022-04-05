@@ -24,10 +24,7 @@
  */
 package com.breadwallet.model
 
-import com.breadwallet.util.isBitcoin
-import com.breadwallet.util.isBitcoinCash
-import com.breadwallet.util.isEthereum
-import com.breadwallet.util.isRipple
+import com.breadwallet.util.*
 
 data class TokenItem(
     val address: String?,
@@ -48,6 +45,7 @@ data class TokenItem(
         symbol.isEthereum() || type == "erc20" -> "ethereum"
         symbol.isRipple() -> "xrp"
         symbol.isBitcoin() -> "bitcoin"
+        symbol.isBitcoinSV() -> "bitcoinsv"
         symbol.isBitcoinCash() -> when {
             testnet -> "bchtest"
             else -> "bitcoincash"
