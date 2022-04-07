@@ -135,12 +135,6 @@ class RouterNavigator(
         }
     }
 
-    override fun brdRewards() {
-        router.fragmentManager()?.let {
-            CashSupport.Builder().detail(Topic.BRD_REWARDS).build().show(it)
-        }
-    }
-
     override fun reviewBrd() {
         EventUtils.pushEvent(EventUtils.EVENT_REVIEW_PROMPT_GOOGLE_PLAY_TRIGGERED)
         AppReviewPromptManager.openGooglePlay(checkNotNull(router.activity))

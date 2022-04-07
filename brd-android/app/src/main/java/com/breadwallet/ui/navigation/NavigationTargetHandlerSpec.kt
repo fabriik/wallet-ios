@@ -29,7 +29,6 @@ import android.util.Log
 interface NavigationTargetHandlerSpec {
     fun patch(effect: NavigationTarget): Unit = when (effect) {
         NavigationTarget.Back -> back()
-        NavigationTarget.BrdRewards -> brdRewards()
         NavigationTarget.ReviewBrd -> reviewBrd()
         NavigationTarget.QRScanner -> qRScanner()
         NavigationTarget.BrdLogin -> brdLogin()
@@ -87,8 +86,6 @@ interface NavigationTargetHandlerSpec {
     fun logcatViewer()
 
     fun back(): Unit
-
-    fun brdRewards(): Unit
 
     fun reviewBrd(): Unit
 

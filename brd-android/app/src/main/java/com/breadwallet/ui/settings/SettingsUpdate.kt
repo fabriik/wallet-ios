@@ -126,7 +126,6 @@ object SettingsUpdate : Update<M, E, F>, SettingsScreenUpdateSpec {
                     SettingsOption.SECURITY_SETTINGS -> F.GoToSection(SettingsSection.SECURITY)
                     SettingsOption.SUPPORT -> F.GoToSupport
                     SettingsOption.SUBMIT_REVIEW -> F.GoToGooglePlay
-                    SettingsOption.REWARDS -> F.GoToBrdRewards
                     SettingsOption.ABOUT -> F.GoToAbout
                     SettingsOption.ATM_FINDER -> F.SendAtmFinderRequest
                     SettingsOption.DEVELOPER_OPTIONS -> F.GoToSection(SettingsSection.DEVELOPER_OPTION)

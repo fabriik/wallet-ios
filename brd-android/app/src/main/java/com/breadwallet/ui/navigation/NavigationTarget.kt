@@ -45,7 +45,6 @@ sealed class NavigationTarget : INavigationTarget {
     ) : NavigationTarget()
 
     object Back : NavigationTarget()
-    object BrdRewards : NavigationTarget()
     object ReviewBrd : NavigationTarget()
     object QRScanner : NavigationTarget()
     object LogcatViewer : NavigationTarget()

@@ -178,13 +178,6 @@ object WalletUpdate : Update<M, E, F>, WalletScreenUpdateSpec {
             )
         )
 
-    override fun onBrdRewardsClicked(
-        model: M
-    ): Next<M, F> =
-        if (model.isShowingBrdRewards)
-            dispatch(effects(F.Nav.GoToBrdRewards))
-        else noChange()
-
     override fun onChartDataPointReleased(
         model: M
     ): Next<M, F> =
@@ -235,16 +228,6 @@ object WalletUpdate : Update<M, E, F>, WalletScreenUpdateSpec {
             model.copy(
                 currencyName = event.name,
                 currencyId = event.currencyId
-            )
-        )
-
-    override fun onBrdRewardsUpdated(
-        model: M,
-        event: E.OnBrdRewardsUpdated
-    ): Next<M, F> =
-        next(
-            model.copy(
-                isShowingBrdRewards = event.showing
             )
         )
 
