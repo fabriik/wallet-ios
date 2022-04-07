@@ -16,7 +16,7 @@ object SupportFooterHelper {
         textView(view, R.id.versionNumber).text = "$version ($verCode))"
 
         textView(view, R.id.privacyLink).setOnClickListener {
-            lifecycleOwner.launchWebsite("https://www.just.cash/terms-of-use.html")
+            lifecycleOwner.launchWebsite("https://fabriik.com/privacy-policy/")
         }
     }
 
