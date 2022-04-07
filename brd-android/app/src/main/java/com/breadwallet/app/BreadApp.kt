@@ -281,11 +281,11 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
             KVStoreManager(this@BreadApp)
         }
 
-        val metaDataManager by lazy { MetaDataManager(direct.instance()) }
+        val localMetadataManager by lazy { MetaDataManager(direct.instance()) }
 
-        bind<WalletProvider>() with singleton { metaDataManager }
+        bind<WalletProvider>() with singleton { localMetadataManager }
 
-        bind<AccountMetaDataProvider>() with singleton { metaDataManager }
+        bind<AccountMetaDataProvider>() with singleton { localMetadataManager }
 
         bind<OkHttpClient>() with singleton { OkHttpClient() }
 

@@ -1,5 +1,7 @@
 package com.fabriik.trade.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -11,6 +13,15 @@ import com.fabriik.trade.R
 
 class TradeWebViewActivity : AppCompatActivity() {
 
+     companion object {
+         private const val LIST_COINS_SUPPORTED = "LIST_COINS_SUPPORTED"
+
+         public fun newIntent(context: Context, coins: List<String>) : Intent {
+            val intent = Intent(context, TradeWebViewActivity::class.java)
+             intent.putStringArrayListExtra(LIST_COINS_SUPPORTED, ArrayList(coins))
+             return intent
+        }
+    }
     private lateinit var webView: WebView
     private lateinit var loadingIndicator: ContentLoadingProgressBar
 

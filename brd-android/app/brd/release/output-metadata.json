@@ -10,9 +10,9 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 4110017,
+      "versionCode": 4110018,
       "versionName": "4.11.0",
-      "outputFile": "brd-release-4.11.0.17.apk"
+      "outputFile": "brd-release-4.11.0.18.apk"
     }
   ]
 }

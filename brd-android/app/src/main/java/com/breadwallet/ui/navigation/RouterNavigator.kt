@@ -25,6 +25,7 @@
 package com.breadwallet.ui.navigation
 
 import android.content.Intent
+import android.util.Log
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.Router
@@ -33,9 +34,11 @@ import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.bluelinelabs.conductor.changehandler.VerticalChangeHandler
 import com.breadwallet.R
+import com.breadwallet.app.BreadApp
 import com.breadwallet.breadbox.BreadBox
 import com.breadwallet.legacy.presenter.settings.NotificationSettingsController
 import com.breadwallet.logger.logError
+import com.breadwallet.platform.interfaces.AccountMetaDataProvider
 import com.breadwallet.tools.util.*
 import com.breadwallet.ui.addwallets.AddWalletsController
 import com.breadwallet.ui.auth.AuthenticationController
@@ -82,11 +85,13 @@ import com.fabriik.buy.ui.BuyWebViewActivity
 import com.fabriik.support.CashSupport
 import com.fabriik.support.pages.Topic
 import com.fabriik.trade.ui.TradeWebViewActivity
+import com.platform.interfaces.MetaDataManager
 import com.platform.util.AppReviewPromptManager
 import io.flutter.embedding.android.FlutterActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -106,6 +111,7 @@ class RouterNavigator(
 
     private val breadBox by instance<BreadBox>()
     private val uriParser by instance<CryptoUriParser>()
+    private val metaDataManager by instance<AccountMetaDataProvider>()
 
     override fun navigateTo(target: INavigationTarget) =
         patch(target as NavigationTarget)
@@ -162,10 +168,13 @@ class RouterNavigator(
 
     override fun trade() {
         router.activity?.let {
-            it.startActivity(
-                Intent(it, TradeWebViewActivity::class.java)
-            )
+            BreadApp.applicationScope.launch { Log.d("david", getCoins().toString())}
+            it.startActivity(TradeWebViewActivity.newIntent(it, ArrayList()))
         }
+    }
+
+    suspend fun getCoins():Any {
+        return metaDataManager.enabledWallets().first()
     }
 
     override fun menu(effect: NavigationTarget.Menu) {
