@@ -1,6 +1,7 @@
 package com.breadwallet.breadbox
 
 import com.breadwallet.BuildConfig
+import com.fabriik.buy.data.FabriikApiConstants
 import okhttp3.Interceptor
 import okhttp3.Response
 
