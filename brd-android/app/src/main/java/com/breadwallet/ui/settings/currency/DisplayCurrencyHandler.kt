@@ -61,23 +61,12 @@ fun createDisplayCurrencyHandler(
     addTransformer<F.LoadCurrencies> { effects ->
         effects.transform {
             val selectedCurrency = BRSharedPrefs.getPreferredFiatIso()
-            val localCacheFile = File(context.filesDir, FIAT_CURRENCIES_FILENAME)
-            val fiatCurrencies = if (localCacheFile.exists()) {
-                localCacheFile.readText()
-            } else {
-                context.resources
-                    .openRawResource(R.raw.fiatcurrencies)
-                    .use { it.reader().readText() }
-                    .also { localCacheFile.writeText(it) }
-            }.toFiatCurrencies()
+            val fiatCurrencies = context.resources
+                .openRawResource(R.raw.fiatcurrencies)
+                .use { it.reader().readText() }
+                .toFiatCurrencies()
 
             emit(E.OnCurrenciesLoaded(selectedCurrency, fiatCurrencies))
-
-            if (localCacheFile.isExpired()) {
-                val selected = BRSharedPrefs.getPreferredFiatIso()
-                val updatedCurrencies = http.fetchCurrencies(localCacheFile)
-                emit(E.OnCurrenciesLoaded(selected, updatedCurrencies))
-            }
         }
     }
 }
