@@ -241,7 +241,7 @@ class RouterNavigator(
 
     override fun supportPage(effect: NavigationTarget.SupportPage) {
         if (effect.articleId.isBlank()) {
-            val supportPage = "https://app-support.fabriik.com/"
+            val supportPage = BRConstants.URL_SUPPORT_PAGE
             router.pushController(
                 WebController(supportPage).asTransaction(
                     BottomSheetChangeHandler(),

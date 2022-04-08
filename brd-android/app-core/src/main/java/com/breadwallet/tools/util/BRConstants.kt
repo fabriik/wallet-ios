@@ -136,6 +136,7 @@ object BRConstants {
     /**
      * Social media links and privacy policy URLS
      */
+    const val URL_SUPPORT_PAGE = "https://app-support.fabriik.com/"
     const val URL_PRIVACY_POLICY = "https://fabriik.com/privacy-policy/"
     const val URL_TWITTER = "https://twitter.com/fabriik_market"
     const val URL_REDDIT = "https://www.reddit.com/r/Fabriik/"
