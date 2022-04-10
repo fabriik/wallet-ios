@@ -31,6 +31,7 @@ import android.text.Editable
 import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -78,6 +79,8 @@ class RecoveryKeyController(
 
     private var launchPhrase: String? = null
     private val mode = arg("mode", RecoveryKey.Mode.RECOVER.name)
+
+    override val windowSoftInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
 
     override val defaultModel
         get() = M.createWithOptionalPhrase(

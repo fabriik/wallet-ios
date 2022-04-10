@@ -29,6 +29,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.viewbinding.ViewBinding
 import com.bluelinelabs.conductor.Controller
@@ -46,6 +47,8 @@ import kotlin.reflect.KProperty
 abstract class BaseController(
     args: Bundle? = null
 ) : Controller(args), KodeinAware {
+
+    protected open val windowSoftInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
 
     protected val controllerScope = CoroutineScope(
         SupervisorJob() + Dispatchers.Default + errorHandler("controllerScope")
@@ -74,6 +77,8 @@ abstract class BaseController(
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedViewState: Bundle?): View {
+        activity?.window?.setSoftInputMode(windowSoftInputMode)
+
         val viewBindingDelegates = resettableDelegates.filterIsInstance<ViewBindingDelegate<ViewBinding>>()
 
         return if (viewBindingDelegates.isEmpty()) {
