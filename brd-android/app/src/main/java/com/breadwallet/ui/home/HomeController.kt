@@ -25,6 +25,7 @@
 package com.breadwallet.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
@@ -153,10 +154,17 @@ class HomeController(
         super.onDestroyView(view)
     }
 
+    fun hola(m:M) {
+        walletAdapter?.setNewList(m.wallets.values.toList())
+        Log.d("david", m.wallets.toString())
+    }
+
     override fun bindView(modelFlow: Flow<M>): Flow<E> {
         modelFlow.distinctUntilChangedBy { it.wallets.values }
             .flowOn(Dispatchers.Default)
-            .onEach { m -> walletAdapter?.setNewList(m.wallets.values.toList()) }
+            .onEach {
+                m -> hola(m)
+            }
             .launchIn(uiBindScope)
         return emptyFlow()
     }

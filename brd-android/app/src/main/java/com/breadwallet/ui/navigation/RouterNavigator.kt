@@ -38,6 +38,7 @@ import com.breadwallet.app.BreadApp
 import com.breadwallet.breadbox.BreadBox
 import com.breadwallet.legacy.presenter.settings.NotificationSettingsController
 import com.breadwallet.logger.logError
+import com.breadwallet.platform.entities.WalletInfoData
 import com.breadwallet.platform.interfaces.AccountMetaDataProvider
 import com.breadwallet.tools.util.*
 import com.breadwallet.ui.addwallets.AddWalletsController
@@ -168,13 +169,17 @@ class RouterNavigator(
 
     override fun trade() {
         router.activity?.let {
-            BreadApp.applicationScope.launch { Log.d("david", getCoins().toString())}
+            var coins: WalletInfoData? = null
+            BreadApp.applicationScope.launch {
+                coins = getCoins()
+                Log.d("david", coins.toString())
+            }
             it.startActivity(TradeWebViewActivity.newIntent(it, ArrayList()))
         }
     }
 
-    suspend fun getCoins():Any {
-        return metaDataManager.enabledWallets().first()
+    suspend fun getCoins():WalletInfoData {
+        return metaDataManager.walletInfo().first()
     }
 
     override fun menu(effect: NavigationTarget.Menu) {

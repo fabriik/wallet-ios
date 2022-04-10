@@ -23,7 +23,7 @@ class BuyWebViewViewModel(
             emit(
                 Resource.success(
                     data = api.getPaymentUrl(
-                        isTestNetwork = BuildConfig.DEBUG
+                        false
                     )
                 )
             )
