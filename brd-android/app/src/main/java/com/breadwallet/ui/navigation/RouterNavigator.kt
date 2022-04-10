@@ -42,6 +42,7 @@ import com.breadwallet.platform.interfaces.AccountMetaDataProvider
 import com.breadwallet.tools.util.*
 import com.breadwallet.ui.addwallets.AddWalletsController
 import com.breadwallet.ui.auth.AuthenticationController
+import com.breadwallet.ui.changehandlers.BottomSheetChangeHandler
 import com.breadwallet.ui.changehandlers.DialogChangeHandler
 import com.breadwallet.ui.controllers.AlertDialogController
 import com.breadwallet.ui.controllers.SignalController
@@ -239,6 +240,17 @@ class RouterNavigator(
     }
 
     override fun supportPage(effect: NavigationTarget.SupportPage) {
+        if (effect.articleId.isBlank()) {
+            val supportPage = BRConstants.URL_SUPPORT_PAGE
+            router.pushController(
+                WebController(supportPage).asTransaction(
+                    BottomSheetChangeHandler(),
+                    BottomSheetChangeHandler()
+                )
+            )
+            return
+        }
+
         router.fragmentManager()?.let {
             when(effect.articleId) {
                 BRConstants.FAQ_SET_PIN -> {
