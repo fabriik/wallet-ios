@@ -83,6 +83,7 @@ import com.breadwallet.ui.uigift.CreateGiftController
 import com.breadwallet.ui.uigift.ShareGiftController
 import com.breadwallet.util.CryptoUriParser
 import com.breadwallet.util.isBrd
+import com.fabriik.buy.data.FabriikApiConstants
 import com.fabriik.buy.ui.BuyWebViewActivity
 import com.fabriik.support.CashSupport
 import com.fabriik.support.pages.Topic
@@ -170,8 +171,11 @@ class RouterNavigator(
 
     override fun trade() {
         router.activity?.let {
-            var coins: WalletInfoData? = null
-            it.startActivity(TradeWebViewActivity.newIntent(it, ArrayList()))
+            it.startActivity(
+                TradeWebViewActivity.newIntent(
+                    it, FabriikApiConstants.SUPPORTED_SWAP_CURRENCIES
+                )
+            )
         }
     }
 
