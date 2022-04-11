@@ -46,6 +46,7 @@ class TradeWebViewActivity : AppCompatActivity() {
                 view: WebView,
                 request: WebResourceRequest
             ): Boolean {
+                view.loadUrl(request.url.toString())
                 return true
             }
 
