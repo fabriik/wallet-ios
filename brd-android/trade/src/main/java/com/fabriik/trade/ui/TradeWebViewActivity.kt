@@ -2,6 +2,7 @@ package com.fabriik.trade.ui
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -10,18 +11,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import com.fabriik.trade.R
+import java.lang.IllegalStateException
+import java.lang.StringBuilder
 
 class TradeWebViewActivity : AppCompatActivity() {
 
-     companion object {
-         private const val LIST_COINS_SUPPORTED = "LIST_COINS_SUPPORTED"
+    companion object {
+        private const val LIST_COINS_SUPPORTED = "LIST_COINS_SUPPORTED"
 
-         public fun newIntent(context: Context, coins: List<String>) : Intent {
+        fun newIntent(context: Context, coins: List<String>): Intent {
             val intent = Intent(context, TradeWebViewActivity::class.java)
-             intent.putStringArrayListExtra(LIST_COINS_SUPPORTED, ArrayList(coins))
-             return intent
+            intent.putStringArrayListExtra(LIST_COINS_SUPPORTED, ArrayList(coins))
+            return intent
         }
     }
+
     private lateinit var webView: WebView
     private lateinit var loadingIndicator: ContentLoadingProgressBar
 
@@ -51,7 +55,7 @@ class TradeWebViewActivity : AppCompatActivity() {
             }
         }
 
-        webView.loadUrl("https://widget.changelly.com?from=btc&to=eth&amount=1&address=&fromDefault=btc&toDefault=eth&theme=default&merchant_id=NGVQYXnFp13iKtj1&payment_id=&v=3")
+        loadWidget()
     }
 
     override fun onBackPressed() {
@@ -60,5 +64,36 @@ class TradeWebViewActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun loadWidget() {
+        val currencies = intent?.extras?.getStringArrayList(
+            LIST_COINS_SUPPORTED
+        ) ?: emptyList()
+
+        if (currencies.isEmpty()) {
+            throw IllegalStateException("List of supported currencies is empty")
+        }
+
+        val url = buildUrl(currencies)
+        webView.loadUrl(url.toString())
+    }
+
+    private fun buildUrl(supportedCurrencies: List<String>): Uri {
+        val merchantId = "NGVQYXnFp13iKtj1"
+        val currencies = supportedCurrencies.joinToString(",")
+
+        return Uri.Builder()
+            .scheme("https")
+            .authority("widget.changelly.com")
+            .appendQueryParameter("to", currencies)
+            .appendQueryParameter("from", currencies)
+            .appendQueryParameter("toDefault", "eth")
+            .appendQueryParameter("fromDefault", "btc")
+            .appendQueryParameter("amount", "1")
+            .appendQueryParameter("theme", "default")
+            .appendQueryParameter("merchant_id", merchantId)
+            .appendQueryParameter("v", "3")
+            .build()
     }
 }

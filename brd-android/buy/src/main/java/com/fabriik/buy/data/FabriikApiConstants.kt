@@ -11,4 +11,8 @@ object FabriikApiConstants {
     const val HOST_BLOCKSATOSHI_API = "$BASE_URL/blocksatoshi"
 
     const val ENDPOINT_CURRENCIES = "$HOST_WALLET_API/currencies"
+
+    val SUPPORTED_SWAP_CURRENCIES = arrayListOf(
+        "eth", "btc", "bch", "bsv", "usdt20"
+    )
 }
