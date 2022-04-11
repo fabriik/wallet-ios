@@ -2,7 +2,7 @@ package com.fabriik.buy.data
 
 object FabriikApiConstants {
 
-    const val HOST = "one-dev.moneybutton.io/blocksatoshi/wyre/reserve"
+    const val HOST = "one-dev.moneybutton.io/blocksatoshi"
 
     private const val BASE_URL = "https://$HOST"
 
