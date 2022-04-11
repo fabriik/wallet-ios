@@ -171,16 +171,8 @@ class RouterNavigator(
     override fun trade() {
         router.activity?.let {
             var coins: WalletInfoData? = null
-            BreadApp.applicationScope.launch {
-                coins = getCoins()
-                Log.d("david", coins.toString())
-            }
             it.startActivity(TradeWebViewActivity.newIntent(it, ArrayList()))
         }
-    }
-
-    suspend fun getCoins():WalletInfoData {
-        return metaDataManager.walletInfo().first()
     }
 
     override fun menu(effect: NavigationTarget.Menu) {
