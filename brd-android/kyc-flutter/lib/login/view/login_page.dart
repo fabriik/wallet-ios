@@ -50,10 +50,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _onLoginSuccess(String sessionKey) async {
-    final kycPi = await DependencyProvider.of(context).userRepo.getKycPi();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => KycPage(kycPi: kycPi),
+        builder: (context) => const KycPage(kycPi: null),
       ),
     );
   }
