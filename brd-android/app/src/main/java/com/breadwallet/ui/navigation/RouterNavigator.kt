@@ -26,6 +26,7 @@ package com.breadwallet.ui.navigation
 
 import android.content.Intent
 import android.util.Log
+import android.net.Uri
 import android.widget.Toast
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
@@ -163,7 +164,8 @@ class RouterNavigator(
     override fun openFeedback() {
         val activity = checkNotNull(router.activity)
 
-        val intent = Intent(Intent.ACTION_SEND).apply {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
             putExtra(Intent.EXTRA_EMAIL, "feedback@fabriik.com")
             putExtra(Intent.EXTRA_SUBJECT, activity.getString(R.string.Feedback_subject))
         }
