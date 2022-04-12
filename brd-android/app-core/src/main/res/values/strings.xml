@@ -465,6 +465,8 @@
     <!-- (press here to) scan (a) QR code -->
     <string name="MenuButton.scan">Scan QR Code</string>
     <!-- Menu button title -->
+    <string name="MenuButton.registrationKyc">Registration and KYC</string>
+    <!-- Menu button title -->
     <string name="MenuButton.security">Security Settings</string>
     <!-- Menu button title -->
     <string name="MenuButton.settings">Settings</string>
