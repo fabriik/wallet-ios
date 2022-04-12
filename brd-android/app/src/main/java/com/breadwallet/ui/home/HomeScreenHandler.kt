@@ -188,6 +188,25 @@ fun createHomeScreenHandler(
             }
     }
 
+    addTransformer<F.LoadSwapCurrencies> { effects ->
+        effects.flatMapLatest { breadBox.system() }
+            .throttleLatest(WALLET_UPDATE_THROTTLE)
+            .mapLatest { system ->
+                val networks = system.networks
+                val currencies = TokenUtil.getTokenItems()
+                    .filter { token ->
+                        val hasNetwork = networks.any { it.containsCurrency(token.currencyId) }
+                        val isErc20 = token.type == "erc20"
+                        (token.isSupported && (isErc20 || hasNetwork))
+                    }
+                    .map {
+                        if (it.symbol == "usdt") "${it.symbol}20" else it.symbol
+                    }
+
+                E.OnSwapCurrenciesLoaded(currencies)
+            }
+    }
+
     addAction<F.ClearRateAppPrompt> {
         AppReviewPromptManager.dismissPrompt()
     }

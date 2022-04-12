@@ -62,6 +62,8 @@ object HomeScreen {
 
         data class OnWalletsUpdated(@Redacted val wallets: List<Wallet>) : E()
 
+        data class OnSwapCurrenciesLoaded(val currencies: List<String>) : E()
+
         data class OnWalletDisplayOrderUpdated(@Redacted val displayOrder: List<String>) : E()
 
         data class OnBuyBellNeededLoaded(val isBuyBellNeeded: Boolean) : E()
@@ -101,6 +103,7 @@ object HomeScreen {
     sealed class F {
 
         object LoadWallets : F()
+        object LoadSwapCurrencies : F()
         object LoadEnabledWallets : F()
         object LoadIsBuyBellNeeded : F()
         object LoadPrompt : F()
@@ -128,8 +131,8 @@ object HomeScreen {
             override val navigationTarget = NavigationTarget.Buy
         }
 
-        object GoToTrade : F(), NavigationEffect {
-            override val navigationTarget = NavigationTarget.Trade
+        data class GoToTrade(val currencies: List<String>) : F(), NavigationEffect {
+            override val navigationTarget = NavigationTarget.Trade(currencies)
         }
 
         object GoToMenu : F(), NavigationEffect {

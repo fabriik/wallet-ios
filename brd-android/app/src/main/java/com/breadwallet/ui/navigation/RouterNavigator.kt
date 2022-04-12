@@ -24,8 +24,6 @@
  */
 package com.breadwallet.ui.navigation
 
-import android.content.Intent
-import android.util.Log
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.Router
@@ -34,11 +32,10 @@ import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.bluelinelabs.conductor.changehandler.VerticalChangeHandler
 import com.breadwallet.R
-import com.breadwallet.app.BreadApp
 import com.breadwallet.breadbox.BreadBox
+import com.breadwallet.breadbox.containsCurrency
 import com.breadwallet.legacy.presenter.settings.NotificationSettingsController
 import com.breadwallet.logger.logError
-import com.breadwallet.platform.entities.WalletInfoData
 import com.breadwallet.platform.interfaces.AccountMetaDataProvider
 import com.breadwallet.tools.util.*
 import com.breadwallet.ui.addwallets.AddWalletsController
@@ -83,12 +80,10 @@ import com.breadwallet.ui.uigift.CreateGiftController
 import com.breadwallet.ui.uigift.ShareGiftController
 import com.breadwallet.util.CryptoUriParser
 import com.breadwallet.util.isBrd
-import com.fabriik.buy.data.FabriikApiConstants
 import com.fabriik.buy.ui.BuyWebViewActivity
 import com.fabriik.support.CashSupport
 import com.fabriik.support.pages.Topic
 import com.fabriik.trade.ui.TradeWebViewActivity
-import com.platform.interfaces.MetaDataManager
 import com.platform.util.AppReviewPromptManager
 import io.flutter.embedding.android.FlutterActivity
 import kotlinx.coroutines.CoroutineScope
@@ -169,11 +164,11 @@ class RouterNavigator(
         }
     }
 
-    override fun trade() {
+    override fun trade(currencies: List<String>) {
         router.activity?.let {
             it.startActivity(
                 TradeWebViewActivity.newIntent(
-                    it, FabriikApiConstants.SUPPORTED_SWAP_CURRENCIES
+                    it, currencies
                 )
             )
         }

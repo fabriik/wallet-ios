@@ -87,7 +87,7 @@ val HomeScreenUpdate = Update<M, E, F> { model, event ->
         }
         is E.OnAddWalletsClicked -> dispatch(effects(F.GoToAddWallet))
         E.OnBuyClicked -> dispatch(effects(F.GoToBuy))
-        E.OnTradeClicked -> dispatch(effects(F.GoToTrade))
+        E.OnTradeClicked -> { dispatch(effects(F.LoadSwapCurrencies)) }
         E.OnMenuClicked -> dispatch(effects(F.GoToMenu))
         is E.OnPromptLoaded -> next(model.copy(promptId = event.promptId))
         is E.OnDeepLinkProvided -> dispatch(
@@ -213,6 +213,9 @@ val HomeScreenUpdate = Update<M, E, F> { model, event ->
         }
         is E.OnSupportFormSubmitted -> dispatch(
             effects(F.SubmitSupportForm(event.feedback))
+        )
+        is E.OnSwapCurrenciesLoaded -> dispatch(
+            effects(F.GoToTrade(event.currencies))
         )
     }
 }

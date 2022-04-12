@@ -91,7 +91,9 @@ sealed class NavigationTarget : INavigationTarget {
 
     object Home : NavigationTarget()
     object Buy : NavigationTarget()
-    object Trade : NavigationTarget()
+    data class Trade(
+        val currencies: List<String>
+    ) : NavigationTarget()
     object AddWallet : NavigationTarget()
     object DisabledScreen : NavigationTarget()
     object NativeApiExplorer : NavigationTarget()
