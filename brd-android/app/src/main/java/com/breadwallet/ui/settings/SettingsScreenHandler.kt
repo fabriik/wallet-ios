@@ -452,10 +452,6 @@ class SettingsScreenHandler(
     private val btcOptions: List<SettingsItem> =
         mutableListOf(
             SettingsItem(
-                context.getString(R.string.WalletConnectionSettings_menuTitle),
-                SettingsOption.FAST_SYNC_BTC
-            ),
-            SettingsItem(
                 context.getString(R.string.Settings_importTitle),
                 SettingsOption.REDEEM_PRIVATE_KEY
             ),
