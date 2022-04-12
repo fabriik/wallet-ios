@@ -26,6 +26,7 @@ package com.breadwallet.ui.navigation
 
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.Router
@@ -159,6 +160,23 @@ class RouterNavigator(
         }
     }
 
+    override fun openFeedback() {
+        val activity = checkNotNull(router.activity)
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_EMAIL, "feedback@fabriik.com")
+            putExtra(Intent.EXTRA_SUBJECT, activity.getString(R.string.Feedback_subject))
+        }
+
+        if (intent.resolveActivity(activity.packageManager) != null) {
+            activity.startActivity(intent)
+        } else {
+            Toast.makeText(
+                activity, activity.getString(R.string.Feedback_noEmailClient), Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
     override fun buy() {
         router.activity?.let {
             it.startActivity(
@@ -253,7 +271,7 @@ class RouterNavigator(
         }
 
         router.fragmentManager()?.let {
-            when(effect.articleId) {
+            when (effect.articleId) {
                 BRConstants.FAQ_SET_PIN -> {
                     CashSupport.Builder().detail(Topic.PIN).build().show(it)
                 }
@@ -268,7 +286,8 @@ class RouterNavigator(
                 }
                 BRConstants.FAQ_PAPER_KEY -> {
                     CashSupport.Builder().detail(Topic.RECOVERY_KEY).build().show(it)
-                } else -> {
+                }
+                else -> {
                     CashSupport.Builder().build().show(it)
                 }
             }
@@ -660,8 +679,8 @@ class RouterNavigator(
             pricePerUnit = effect.pricePerUnit
         )
         val transaction = RouterTransaction.with(controller)
-                .popChangeHandler(DialogChangeHandler())
-                .pushChangeHandler(DialogChangeHandler())
+            .popChangeHandler(DialogChangeHandler())
+            .pushChangeHandler(DialogChangeHandler())
         if (effect.replaceTop) {
             router.replaceTopController(transaction)
         } else {

@@ -28,6 +28,7 @@ enum class SettingsOption {
     // HOME
     SCAN_QR,
     KYC,
+    FEEDBACK,
     PREFERENCES,
     SECURITY_SETTINGS,
     SUPPORT,
@@ -74,6 +75,7 @@ enum class SettingsOption {
     ENABLE_SEG_WIT,
     VIEW_LEGACY_ADDRESS,
     FAST_SYNC_BTC,
+
     // Hidden
     CLEAR_BLOCKCHAIN_DATA,
     REFRESH_TOKENS,

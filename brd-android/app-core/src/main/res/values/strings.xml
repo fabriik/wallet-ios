@@ -929,6 +929,8 @@
     <string name="Send.UsedAddress.title">Address Already Used</string>
     <!-- About label -->
     <string name="Settings.about">About</string>
+    <!-- Feedback label -->
+    <string name="Settings.feedback">Feedback</string>
     <!-- Advanced settings header -->
     <string name="Settings.advanced">Advanced</string>
     <!-- Advanced Settings title -->
@@ -1464,4 +1466,7 @@
     <string name="WritePaperPhrase.step">%1$d of %2$d</string>
 
     <string name="Scanner.noCamera" translatable="false">No camera found</string>
+
+    <string name="Feedback.subject">Fabriik - Feedback</string>
+    <string name="Feedback.noEmailClient">Email client not found</string>
 </resources>

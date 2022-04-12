@@ -116,7 +116,11 @@ object SettingsScreen {
         }
 
         object GoToKyc : F(), NavigationEffect {
-            override val navigationTarget = NavigationTarget.GoToKYC()
+            override val navigationTarget = NavigationTarget.GoToKYC
+        }
+
+        object GoToFeedback : F(), NavigationEffect {
+            override val navigationTarget = NavigationTarget.GoToFeedback
         }
 
         object GoToQrScan : F(), NavigationEffect {
