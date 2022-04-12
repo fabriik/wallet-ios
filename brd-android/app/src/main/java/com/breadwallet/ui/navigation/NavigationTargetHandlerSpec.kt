@@ -32,7 +32,7 @@ interface NavigationTargetHandlerSpec {
         NavigationTarget.BrdLogin -> brdLogin()
         NavigationTarget.Home -> home()
         NavigationTarget.Buy -> buy()
-        NavigationTarget.Trade -> trade()
+        is NavigationTarget.Trade -> trade(effect.currencies)
         NavigationTarget.AddWallet -> addWallet()
         NavigationTarget.DisabledScreen -> disabledScreen()
         NavigationTarget.NativeApiExplorer -> nativeApiExplorer()
@@ -96,7 +96,7 @@ interface NavigationTargetHandlerSpec {
 
     fun buy(): Unit
 
-    fun trade(): Unit
+    fun trade(currencies: List<String>): Unit
 
     fun addWallet(): Unit
 

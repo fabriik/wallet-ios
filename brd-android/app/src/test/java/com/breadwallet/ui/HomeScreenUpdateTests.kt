@@ -177,7 +177,7 @@ class HomeScreenUpdateTests {
             )
             .then(
                 assertThatNext(
-                    hasEffects(F.GoToTrade as F)
+                    hasEffects(F.LoadSwapCurrencies as F)
                 )
             )
     }
