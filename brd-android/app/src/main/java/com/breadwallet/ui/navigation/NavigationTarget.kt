@@ -46,6 +46,8 @@ sealed class NavigationTarget : INavigationTarget {
 
     object Back : NavigationTarget()
     object ReviewBrd : NavigationTarget()
+    object GoToKYC : NavigationTarget()
+    object GoToFeedback : NavigationTarget()
     object QRScanner : NavigationTarget()
     object LogcatViewer : NavigationTarget()
     object MetadataViewer : NavigationTarget()
@@ -133,8 +135,6 @@ sealed class NavigationTarget : INavigationTarget {
     object BitcoinNodeSelector : NavigationTarget()
     object EnableSegWit : NavigationTarget()
     object LegacyAddress : NavigationTarget()
-
-    class GoToKYC() : NavigationTarget()
 
     data class SyncBlockchain(
         val currencyCode: String

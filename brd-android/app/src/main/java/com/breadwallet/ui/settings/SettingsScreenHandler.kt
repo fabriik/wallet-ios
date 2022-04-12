@@ -267,11 +267,6 @@ class SettingsScreenHandler(
                 R.drawable.ic_camera
             ),
             SettingsItem(
-                "Registration and Kyc",
-                SettingsOption.KYC,
-                R.drawable.ic_preferences
-            ),
-            SettingsItem(
                 context.getString(R.string.Settings_preferences),
                 SettingsOption.PREFERENCES,
                 R.drawable.ic_preferences
@@ -280,6 +275,11 @@ class SettingsScreenHandler(
                 context.getString(R.string.MenuButton_security),
                 SettingsOption.SECURITY_SETTINGS,
                 R.drawable.ic_security_settings
+            ),
+            SettingsItem(
+                context.getString(R.string.Settings_feedback),
+                SettingsOption.FEEDBACK,
+                R.drawable.ic_feedback
             ),
             SettingsItem(
                 context.getString(R.string.MenuButton_support),
@@ -451,10 +451,6 @@ class SettingsScreenHandler(
 
     private val btcOptions: List<SettingsItem> =
         mutableListOf(
-            SettingsItem(
-                context.getString(R.string.WalletConnectionSettings_menuTitle),
-                SettingsOption.FAST_SYNC_BTC
-            ),
             SettingsItem(
                 context.getString(R.string.Settings_importTitle),
                 SettingsOption.REDEEM_PRIVATE_KEY

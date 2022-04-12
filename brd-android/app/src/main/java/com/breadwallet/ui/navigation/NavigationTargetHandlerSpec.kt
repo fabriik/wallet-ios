@@ -72,12 +72,13 @@ interface NavigationTargetHandlerSpec {
         is NavigationTarget.CreateGift -> createGift(effect)
         is NavigationTarget.ShareGift -> shareGift(effect)
         is NavigationTarget.SelectBakerScreen -> selectBaker(effect)
-        is NavigationTarget.GoToKYC -> {
-            openKyc()
-        }
+        is NavigationTarget.GoToKYC -> openKyc()
+        is NavigationTarget.GoToFeedback -> openFeedback()
     }
 
-    fun openKyc()
+    fun openKyc(): Unit
+
+    fun openFeedback(): Unit
 
     fun metadataViewer()
 
