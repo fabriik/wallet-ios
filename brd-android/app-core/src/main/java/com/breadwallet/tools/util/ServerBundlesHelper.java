@@ -380,7 +380,7 @@ public final class ServerBundlesHelper {
                 .url(String.format(BUNDLES_URL_VERSIONS_PATH, APIClient.getBaseWalletApiURL(), bundleName))
                 .build();
 
-        APIClient.BRResponse response = APIClient.getInstance(context).sendRequest(request, true);
+        APIClient.BRResponse response = APIClient.getInstance(context).sendRequest(request, false);
 
         try {
             JSONObject versionsJson = new JSONObject(response.getBodyText());
