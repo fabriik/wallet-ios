@@ -78,9 +78,8 @@ public final class ServerBundlesHelper {
     private static final String BUNDLES_URL_VERSIONS_PATH = "%s/assets/bundles/%s/versions";
     private static final String BUNDLES_URL_DOWNLOAD_PATH = "%s/assets/bundles/%s/download";
 
-    private static final String WEB_BUNDLE_NAME = BuildConfig.DEBUG ? BRD_WEB_STAGING : BRD_WEB;
-    private static final String TOKEN_ASSETS_BUNDLE_NAME = BuildConfig.DEBUG
-            ? BRD_TOKEN_ASSETS_STAGING : BRD_TOKEN_ASSETS;
+    private static final String WEB_BUNDLE_NAME = BRD_WEB;
+    private static final String TOKEN_ASSETS_BUNDLE_NAME = BRD_TOKEN_ASSETS;
     private static final String[] BUNDLE_NAMES = {WEB_BUNDLE_NAME, TOKEN_ASSETS_BUNDLE_NAME};
 
     /**
@@ -224,9 +223,7 @@ public final class ServerBundlesHelper {
                         tryExtractTar(context, bundleName);
                     } else {
                         Log.d(TAG, bundleFile + ": updateBundles: don't have the most recent version, download diff");
-                        downloadDiff(context, bundleName, currentTarVersion);
-                        tryExtractTar(context, bundleName);
-                        BRSharedPrefs.putBundleHash(bundleName, latestVersion);
+                        downloadTarFile(context, bundleName, bundleFile);
                     }
                 } else {
                     Log.d(TAG, bundleFile + ": updateBundles: latestVersion is null");
@@ -234,32 +231,35 @@ public final class ServerBundlesHelper {
 
             } else {
                 Log.d(TAG, bundleFile + ": updateBundles: bundle doesn't exist, downloading new copy");
-                long startTime = System.currentTimeMillis();
-                Request request = new Request.Builder()
-                        .url(String.format(BUNDLES_URL_DOWNLOAD_PATH, APIClient.getBaseURL(), bundleName))
-                        .get().build();
-                byte[] body;
-                APIClient.BRResponse response = APIClient.getInstance(context).sendRequest(request, false);
-                Log.d(TAG, bundleFile + ": updateBundles: Downloaded, took: " + (System.currentTimeMillis() - startTime));
-                body = writeBundleToFile(context, bundleName, response.getBody());
-                if (Utils.isNullOrEmpty(body)) {
-                    Log.e(TAG, "updateBundles: body is null, returning.");
-                    return;
-                }
-
-                boolean extracted = tryExtractTar(context, bundleName);
-                if (!extracted) {
-                    Log.e(TAG, "updateBundles: Failed to extract tar");
-                } else {
-                    String currentBundleVersion = getCurrentBundleVersion(bundleFile);
-                    if (!Utils.isNullOrEmpty(currentBundleVersion)) {
-                        BRSharedPrefs.putBundleHash(bundleName, currentBundleVersion);
-                    }
-                }
-
+                downloadTarFile(context, bundleName, bundleFile);
             }
 
             logFiles("updateBundles after", bundleName, context);
+        }
+    }
+
+    private static void downloadTarFile(Context context, String bundleName, File bundleFile) {
+        long startTime = System.currentTimeMillis();
+        Request request = new Request.Builder()
+                .url(String.format(BUNDLES_URL_DOWNLOAD_PATH, APIClient.getBaseWalletApiURL(), bundleName))
+                .get().build();
+        byte[] body;
+        APIClient.BRResponse response = APIClient.getInstance(context).sendRequest(request, false);
+        Log.d(TAG, bundleFile + ": updateBundles: Downloaded, took: " + (System.currentTimeMillis() - startTime));
+        body = writeBundleToFile(context, bundleName, response.getBody());
+        if (Utils.isNullOrEmpty(body)) {
+            Log.e(TAG, "updateBundles: body is null, returning.");
+            return;
+        }
+
+        boolean extracted = tryExtractTar(context, bundleName);
+        if (!extracted) {
+            Log.e(TAG, "updateBundles: Failed to extract tar");
+        } else {
+            String currentBundleVersion = getCurrentBundleVersion(bundleFile);
+            if (!Utils.isNullOrEmpty(currentBundleVersion)) {
+                BRSharedPrefs.putBundleHash(bundleName, currentBundleVersion);
+            }
         }
     }
 
@@ -377,10 +377,10 @@ public final class ServerBundlesHelper {
         String latestVersion = null;
         Request request = new Request.Builder()
                 .get()
-                .url(String.format(BUNDLES_URL_VERSIONS_PATH, APIClient.getBaseURL(), bundleName))
+                .url(String.format(BUNDLES_URL_VERSIONS_PATH, APIClient.getBaseWalletApiURL(), bundleName))
                 .build();
 
-        APIClient.BRResponse response = APIClient.getInstance(context).sendRequest(request, false);
+        APIClient.BRResponse response = APIClient.getInstance(context).sendRequest(request, true);
 
         try {
             JSONObject versionsJson = new JSONObject(response.getBodyText());
@@ -394,46 +394,6 @@ public final class ServerBundlesHelper {
             Log.e(TAG, "fetchBundleVersion: ", e);
         }
         return latestVersion;
-    }
-
-
-    private static void downloadDiff(Context context, String bundleName, String currentTarVersion) {
-        Request diffRequest = new Request.Builder().url(String.format(BUNDLES_FORMAT, APIClient.getBaseURL(), bundleName, currentTarVersion)).get().build();
-        APIClient.BRResponse resp = APIClient.getInstance(context).sendRequest(diffRequest, false);
-        if (Utils.isNullOrEmpty(resp.getBodyText())) {
-            Log.e(TAG, "downloadDiff: no response");
-            return;
-        }
-        File patchFile = null;
-        File tempFile = null;
-        try {
-            patchFile = new File(getBundleResource(context, bundleName + "-patch.diff"));
-            byte[] patchBytes = resp.getBody();
-            Log.i(TAG, "downloadDiff: trying to write to file");
-            FileUtils.writeByteArrayToFile(patchFile, patchBytes);
-            tempFile = new File(getBundleResource(context, bundleName + "-2temp.tar"));
-            tempFile.createNewFile();
-            File bundleFile = new File(getBundleResource(context, bundleName + "." + TAR));
-            FileUI.patch(bundleFile, tempFile, patchFile);
-            byte[] updatedBundleBytes = IOUtils.toByteArray(new FileInputStream(tempFile));
-            if (Utils.isNullOrEmpty(updatedBundleBytes)) {
-                Log.e(TAG, "downloadDiff: failed to get bytes from the updatedBundle: " + tempFile.getAbsolutePath());
-            }
-            FileUtils.writeByteArrayToFile(bundleFile, updatedBundleBytes);
-
-        } catch (IOException | InvalidHeaderException | CompressorException | NullPointerException e) {
-            Log.e(TAG, "downloadDiff: ", e);
-            new File(getBundleResource(context, bundleName + "." + TAR)).delete();
-        } finally {
-            if (patchFile != null) {
-                patchFile.delete();
-            }
-            if (tempFile != null) {
-                tempFile.delete();
-            }
-        }
-
-        logFiles("downloadDiff", bundleName, context);
     }
 
     private static byte[] writeBundleToFile(Context context, String bundleName, byte[] response) {
