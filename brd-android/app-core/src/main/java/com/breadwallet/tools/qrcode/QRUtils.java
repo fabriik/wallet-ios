@@ -9,6 +9,8 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.provider.MediaStore;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -21,9 +23,12 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.EnumMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static android.graphics.Color.BLACK;
@@ -56,9 +61,6 @@ import static android.graphics.Color.WHITE;
 public class QRUtils {
     private static final String TAG = QRUtils.class.getName();
     private static final String SHARE_IMAGE_TYPE = "image/jpeg";
-    private static final String INTENT_TYPE = "image/*";
-    private static final String SHARE_TITLE = "QrCodeTitle";
-    public static final int WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_ID = 1133;
     private static final int BITMAP_SIZE = 500;
     private static final int BITMAP_QUALITY = 100;
     private static String mQrDataToShare; // TODO to fix this later in the code.
@@ -145,8 +147,34 @@ public class QRUtils {
 
     @Nullable
     public static Intent share(Context context, String walletName) {
+        String filename = String.format(Locale.getDefault(), "image_%d.jpeg", System.currentTimeMillis());
         Bitmap qrImage = QRUtils.encodeAsBitmap(mQrDataToShare, BITMAP_SIZE);
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        File imageFile = new File(context.getCacheDir(), filename);
+
+        Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName(), imageFile);
+        if (fileUri != null) {
+            try {
+                FileOutputStream outputStream = new FileOutputStream(imageFile.getAbsolutePath()); // overwrites this image every time
+                qrImage.compress(Bitmap.CompressFormat.JPEG, BITMAP_QUALITY, outputStream);
+                outputStream.close();
+            } catch (IOException e) {
+                Log.e(TAG, "share: ", e);
+            }
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, mTextToShare);
+            shareIntent.setDataAndType(fileUri, SHARE_IMAGE_TYPE);
+
+            String emailSubject = context.getString(R.string.Email_address_subject, walletName);
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            Intent chooserIntent = Intent.createChooser(shareIntent, context.getString(R.string.Receive_share));
+            chooserIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            return chooserIntent;
+        }
+
+        /*Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType(SHARE_IMAGE_TYPE);
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, SHARE_TITLE);
@@ -165,7 +193,7 @@ public class QRUtils {
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             return Intent.createChooser(shareIntent, context.getString(R.string.Receive_share));
-        }
+        }*/
         return null;
     }
 

@@ -87,27 +87,20 @@ class LegacyAddressHandler(
             is F.ShareAddress -> {
                 launch(Dispatchers.Main) {
                     val context = checkNotNull(controller.applicationContext)
-                    val writePerm = checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    if (writePerm == PackageManager.PERMISSION_GRANTED) {
-                        val cryptoRequest = CryptoRequest.Builder()
-                            .setAddress(effect.address)
-                            .build()
-                        cryptoUriParser.createUrl(btc, cryptoRequest)
-                            ?.let { cryptoUri ->
-                                QRUtils.sendShareIntent(
-                                    context,
-                                    cryptoUri.toString(),
-                                    effect.address,
-                                    effect.walletName
-                                )
-                            }
-                            ?.run(controller::startActivity)
-                    } else {
-                        controller.requestPermissions(
-                            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                            QRUtils.WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_ID
-                        )
-                    }
+                    val cryptoRequest = CryptoRequest.Builder()
+                        .setAddress(effect.address)
+                        .build()
+
+                    cryptoUriParser.createUrl(btc, cryptoRequest)
+                        ?.let { cryptoUri ->
+                            QRUtils.sendShareIntent(
+                                context,
+                                cryptoUri.toString(),
+                                effect.address,
+                                effect.walletName
+                            )
+                        }
+                        ?.run(controller::startActivity)
                 }
             }
         }

@@ -249,19 +249,6 @@ class ReceiveController(args: Bundle) : BaseMobiusController<M, E, F>(args) {
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == QRUtils.WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_ID) {
-            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                eventConsumer.accept(E.OnShareClicked)
-            }
-        }
-    }
-
     private fun showCopiedMessage() {
         viewCreatedScope.launch(Dispatchers.Main) {
             with(binding) {
@@ -279,29 +266,21 @@ class ReceiveController(args: Bundle) : BaseMobiusController<M, E, F>(args) {
 
     private fun shareAddress(effect: F.ShareRequest) {
         val context = checkNotNull(applicationContext)
-        val writePerm =
-            ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        if (writePerm == PackageManager.PERMISSION_GRANTED) {
-            val cryptoRequest = CryptoRequest.Builder()
-                .setAddress(effect.address)
-                .setAmount(effect.amount)
-                .build()
-            viewAttachScope.launch(Dispatchers.Main) {
-                cryptoUriParser.createUrl(currencyCode, cryptoRequest)
-                    ?.let { cryptoUri ->
-                        QRUtils.sendShareIntent(
-                            context,
-                            cryptoUri.toString(),
-                            effect.address,
-                            effect.walletName
-                        )
-                    }?.run(::startActivity)
-            }
-        } else {
-            requestPermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                QRUtils.WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_ID
-            )
+        val cryptoRequest = CryptoRequest.Builder()
+            .setAddress(effect.address)
+            .setAmount(effect.amount)
+            .build()
+
+        viewAttachScope.launch(Dispatchers.Main) {
+            cryptoUriParser.createUrl(currencyCode, cryptoRequest)
+                ?.let { cryptoUri ->
+                    QRUtils.sendShareIntent(
+                        context,
+                        cryptoUri.toString(),
+                        effect.address,
+                        effect.walletName
+                    )
+                }?.run(::startActivity)
         }
     }
 }
