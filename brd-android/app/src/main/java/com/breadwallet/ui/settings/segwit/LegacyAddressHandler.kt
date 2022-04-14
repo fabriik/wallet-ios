@@ -26,6 +26,7 @@ package com.breadwallet.ui.settings.segwit
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.core.content.ContextCompat.checkSelfPermission
 import com.bluelinelabs.conductor.Controller
 import com.breadwallet.breadbox.BreadBox
@@ -88,7 +89,10 @@ class LegacyAddressHandler(
                 launch(Dispatchers.Main) {
                     val context = checkNotNull(controller.applicationContext)
                     val writePerm = checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    if (writePerm == PackageManager.PERMISSION_GRANTED) {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q || // no permission required for android 10 or newer
+                        writePerm == PackageManager.PERMISSION_GRANTED
+                    ) {
                         val cryptoRequest = CryptoRequest.Builder()
                             .setAddress(effect.address)
                             .build()
