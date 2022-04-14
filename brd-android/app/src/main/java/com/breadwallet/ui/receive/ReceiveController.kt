@@ -26,6 +26,7 @@ package com.breadwallet.ui.receive
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -279,9 +280,11 @@ class ReceiveController(args: Bundle) : BaseMobiusController<M, E, F>(args) {
 
     private fun shareAddress(effect: F.ShareRequest) {
         val context = checkNotNull(applicationContext)
-        val writePerm =
-            ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        if (writePerm == PackageManager.PERMISSION_GRANTED) {
+        val writePerm = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q || // no permission required for android 10 or newer
+            writePerm == PackageManager.PERMISSION_GRANTED
+        ) {
             val cryptoRequest = CryptoRequest.Builder()
                 .setAddress(effect.address)
                 .setAmount(effect.amount)

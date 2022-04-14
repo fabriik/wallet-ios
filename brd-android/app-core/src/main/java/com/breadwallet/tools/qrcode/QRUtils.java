@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import androidx.annotation.Nullable;
 import android.util.Log;
@@ -151,7 +152,15 @@ public class QRUtils {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, SHARE_TITLE);
         values.put(MediaStore.Images.Media.MIME_TYPE, SHARE_IMAGE_TYPE);
-        Uri fileUri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        Uri collectionUri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collectionUri = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        } else {
+            collectionUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        }
+
+        Uri fileUri = context.getContentResolver().insert(collectionUri, values);
         if (fileUri != null) {
             try (OutputStream outputStream = context.getContentResolver().openOutputStream(fileUri)) {
                 qrImage.compress(Bitmap.CompressFormat.JPEG, BITMAP_QUALITY, outputStream);
