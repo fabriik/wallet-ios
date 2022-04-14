@@ -88,6 +88,7 @@ import com.fabriik.buy.ui.BuyWebViewActivity
 import com.fabriik.support.CashSupport
 import com.fabriik.support.pages.Topic
 import com.fabriik.trade.ui.TradeWebViewActivity
+import com.fabriik.trade.ui.TradeWebViewLauncher
 import com.platform.util.AppReviewPromptManager
 import io.flutter.embedding.android.FlutterActivity
 import kotlinx.coroutines.CoroutineScope
@@ -188,10 +189,9 @@ class RouterNavigator(
 
     override fun trade(currencies: List<String>) {
         router.activity?.let {
-            it.startActivity(
-                TradeWebViewActivity.newIntent(
-                    it, currencies
-                )
+            TradeWebViewLauncher.launch(
+                activity = it,
+                currencies = currencies
             )
         }
     }
