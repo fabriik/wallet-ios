@@ -86,6 +86,7 @@ private const val ACCOMPANIST_VERSION = "0.6.2"
 private const val BLOCKSET_VERSION = "0.1.3"
 private const val RETROFIT_VERSION = "2.9.0"
 private const val MOSHI_VERSION = "1.12.0"
+private const val BROWSER_VERSION = "1.4.0"
 
 object Libs {
 
@@ -119,6 +120,7 @@ object Libs {
         const val Security = "androidx.security:security-crypto:$SECURITY_VERSION"
         const val LegacyV13 = "androidx.legacy:legacy-support-v13:$LEGACY_V13"
         const val Biometric = "androidx.biometric:biometric-ktx:$BIOMETRIC_VERSION"
+        const val Browser = "androidx.browser:browser:$BROWSER_VERSION"
     }
 
     object AndroidxTest {

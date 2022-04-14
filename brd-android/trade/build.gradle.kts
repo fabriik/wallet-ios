@@ -35,6 +35,7 @@ android {
 
 dependencies {
     implementation(Libs.Androidx.AppCompat)
+    implementation(Libs.Androidx.Browser)
     implementation(Libs.Androidx.CoreKtx)
     implementation(Libs.Androidx.LifecycleLiveDataKtx)
     implementation(Libs.Androidx.LifecycleViewModelKtx)

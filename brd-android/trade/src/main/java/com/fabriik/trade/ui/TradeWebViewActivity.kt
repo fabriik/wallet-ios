@@ -2,7 +2,6 @@ package com.fabriik.trade.ui
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -12,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import com.fabriik.trade.R
 import java.lang.IllegalStateException
-import java.lang.StringBuilder
 
 class TradeWebViewActivity : AppCompatActivity() {
 
@@ -76,25 +74,7 @@ class TradeWebViewActivity : AppCompatActivity() {
             throw IllegalStateException("List of supported currencies is empty")
         }
 
-        val url = buildUrl(currencies)
+        val url = TradeUrlBuilder.build(currencies)
         webView.loadUrl(url.toString())
-    }
-
-    private fun buildUrl(supportedCurrencies: List<String>): Uri {
-        val merchantId = "NGVQYXnFp13iKtj1"
-        val currencies = supportedCurrencies.joinToString(",")
-
-        return Uri.Builder()
-            .scheme("https")
-            .authority("widget.changelly.com")
-            .appendQueryParameter("to", currencies)
-            .appendQueryParameter("from", currencies)
-            .appendQueryParameter("toDefault", "eth")
-            .appendQueryParameter("fromDefault", "btc")
-            .appendQueryParameter("amount", "1")
-            .appendQueryParameter("theme", "default")
-            .appendQueryParameter("merchant_id", merchantId)
-            .appendQueryParameter("v", "3")
-            .build()
     }
 }
