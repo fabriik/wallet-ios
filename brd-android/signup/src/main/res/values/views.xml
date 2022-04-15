@@ -16,4 +16,11 @@
         <item name="android:textColor">@color/fabriik_black</item>
         <item name="fontFamily">@font/mobile_font_bold</item>
     </style>
+
+    <style name="Fragment.Footer" parent="">
+        <item name="android:src">@drawable/ic_fabriik_footer</item>
+        <item name="android:layout_marginBottom">42dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>

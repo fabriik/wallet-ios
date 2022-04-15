@@ -9,7 +9,7 @@
     <string name="LogIn.EmailHint">Email address</string>
     <string name="LogIn.Password">Password</string>
     <string name="LogIn.PasswordHint">Minimum 8 characters</string>
-    <string name="LogIn.ForgotPassword">Minimum 8 characters</string>
+    <string name="LogIn.ForgotPassword">Forgot Password?</string>
     <string name="LogIn.Submit">Submit</string>
     <string name="LogIn.NoAccount">Don’t have an account? %s</string>
     <string name="LogIn.SignUp">Sign Up</string>
