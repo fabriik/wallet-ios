@@ -4,18 +4,31 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
+import androidx.core.view.isVisible
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.ActivitySignupBinding
 
 class SignupActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignupBinding
+    private lateinit var navHostFragment: NavHostFragment
+    private val topLevelDestinations = arrayOf(
+        R.id.fragmentLogIn
+    )
+
+    private val navigationListener = NavController.OnDestinationChangedListener { _, destination, _ ->
+        val isTopLevelDestination = topLevelDestinations.contains(destination.id)
+        binding.btnBack.isVisible = !isTopLevelDestination
+        binding.btnDismiss.isVisible = isTopLevelDestination
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         with(binding) {
             btnBack.setOnClickListener {
@@ -23,6 +36,18 @@ class SignupActivity : AppCompatActivity() {
             }
             btnDismiss.setOnClickListener { finish() }
         }
+
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+    }
+
+    override fun onResume() {
+        super.onResume()
+        navHostFragment.navController.addOnDestinationChangedListener(navigationListener)
+    }
+
+    override fun onPause() {
+        navHostFragment.navController.removeOnDestinationChangedListener(navigationListener)
+        super.onPause()
     }
 
     companion object {
