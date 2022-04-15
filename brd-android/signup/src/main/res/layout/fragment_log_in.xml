@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Fragment.RootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:background="@drawable/bg_signup_fragment"
@@ -71,15 +72,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_email" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_submit"
+        style="@style/Fragment.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/LogIn.Submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_password_title" />
+        app:layout_constraintTop_toBottomOf="@id/et_password" />
 
     <TextView
         android:id="@+id/tv_no_account"

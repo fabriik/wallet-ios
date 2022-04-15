@@ -7,8 +7,31 @@
         <item name="fontFamily">@font/mobile_font</item>
     </style>
 
+    <style name="Fragment.RootView" parent="">
+        <item name="android:paddingEnd">32dp</item>
+        <item name="android:paddingTop">32dp</item>
+        <item name="android:paddingStart">32dp</item>
+        <item name="android:paddingBottom">42dp</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+
+    <style name="Fragment.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/black</item>
+        <item name="materialThemeOverlay">@style/YellowButtonThemeOverlay</item>
+        <item name="textAppearanceButton">@style/textAppearanceButton</item>
+        <item name="cornerRadius">10dp</item>
+    </style>
+
+    <style name="YellowButtonThemeOverlay">
+        <item name="colorPrimary">@color/fabriik_yellow</item>
+    </style>
+
+    <style name="YellowButton.TextAppearance" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/mobile_font</item>
+    </style>
+
     <style name="Fragment.Title" parent="">
-        <item name="android:layout_marginTop">32dp</item>
         <item name="android:layout_marginEnd">24dp</item>
         <item name="android:layout_marginStart">24dp</item>
         <item name="android:textAllCaps">true</item>
@@ -19,8 +42,8 @@
 
     <style name="Fragment.Footer" parent="">
         <item name="android:src">@drawable/ic_fabriik_footer</item>
-        <item name="android:layout_marginBottom">42dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
 </resources>
