@@ -178,6 +178,14 @@ class RouterNavigator(
     }
 
     override fun buy() {
+        val controller = router.backstack.lastOrNull()?.controller
+        if (controller !is HomeController) {
+            router.setBackstack(
+                listOf(HomeController().asTransaction()),
+                null
+            )
+        }
+
         router.activity?.let {
             it.startActivity(
                 BuyWebViewActivity.getStartIntent(
