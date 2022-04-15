@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph_signup">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_signup"
+    app:startDestination="@id/fragmentLogIn">
 
+    <fragment
+        android:id="@+id/fragmentLogIn"
+        android:name="com.fabriik.signup.ui.login.LogInFragment"
+        tools:layout="@layout/fragment_log_in">
+
+        <action
+            android:id="@+id/action_sign_up"
+            app:destination="@+id/fragmentSignUp" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentSignUp"
+        android:name="com.fabriik.signup.ui.signup.SignUpFragment"
+        tools:layout="@layout/fragment_sign_up">
+
+        <action
+            android:id="@+id/action_confirm_email"
+            app:destination="@+id/fragmentConfirmEmail" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentConfirmEmail"
+        android:name="com.fabriik.signup.ui.confirmemail.ConfirmEmailFragment"
+        tools:layout="@layout/fragment_confirm_email">
+
+    </fragment>
 </navigation>
