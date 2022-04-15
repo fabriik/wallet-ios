@@ -184,6 +184,8 @@
     <color name="fabriik_blue_400">#82AFFC</color>
     <color name="fabriik_blue_700">#0861FF</color>
     <color name="fabriik_gray_300">#DADCE0</color>
+    <color name="fabriik_gray_1">#696969</color>
+    <color name="fabriik_gray_2">#A0A0A0</color>
     <color name="fabriik_light_grey">#DADCE0</color>
     <color name="fabriik_shuttle_grey">#5F6368</color>
     <color name="fabriik_black">#2E3134</color>

@@ -19,5 +19,10 @@
 
     <!-- Confirm email screen -->
     <string name="ConfirmEmail.Title">Confirm email</string>
+    <string name="ConfirmEmail.Description">We’ve sent a confirmation code to your email. Click on it on this device to confirm your email address.\n\nYou can also copy and paste the code here:</string>
+    <string name="ConfirmEmail.ConfirmationCode">Confirmation code</string>
+    <string name="ConfirmEmail.ConfirmationCodeHint">000–000</string>
+    <string name="ConfirmEmail.ResendCode">Resend code</string>
+    <string name="ConfirmEmail.Confirm">Confirm</string>
 
 </resources>

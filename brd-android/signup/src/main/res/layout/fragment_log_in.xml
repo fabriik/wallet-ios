@@ -21,10 +21,11 @@
 
     <TextView
         android:id="@+id/tv_email_title"
+        style="@style/Input.Hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:hint="@string/LogIn.Email"
+        android:text="@string/LogIn.Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,6 +33,7 @@
 
     <EditText
         android:id="@+id/et_email"
+        style="@style/Input.EditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/LogIn.EmailHint"
@@ -42,10 +44,11 @@
 
     <TextView
         android:id="@+id/tv_password_title"
+        style="@style/Input.Hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="@string/LogIn.Password"
+        android:text="@string/LogIn.Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,16 +56,18 @@
 
     <EditText
         android:id="@+id/et_password"
+        style="@style/Input.EditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/LogIn.EmailHint"
+        android:hint="@string/LogIn.PasswordHint"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_password_title" />
 
     <TextView
-        android:id="@+id/tv_forgot_passowrd"
+        android:id="@+id/tv_forgot_password"
+        style="@style/Input.Hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -70,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_email" />
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_password_title" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_submit"

@@ -32,8 +32,6 @@
     </style>
 
     <style name="Fragment.Title" parent="">
-        <item name="android:layout_marginEnd">24dp</item>
-        <item name="android:layout_marginStart">24dp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/fabriik_black</item>
@@ -44,6 +42,25 @@
         <item name="android:src">@drawable/ic_fabriik_footer</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Input.Hint" parent="">
+        <item name="android:textColor">@color/fabriik_gray_2</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/mobile_font_medium</item>
+    </style>
+
+    <style name="Input.EditText" parent="">
+        <item name="android:background">@drawable/fabriik_edittext_border</item>
+        <item name="android:layout_marginTop">4dp</item>
+    </style>
+
+    <style name="ConfirmEmail.Description" parent="">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/fabriik_gray_1</item>
+        <item name="fontFamily">@font/mobile_font</item>
     </style>
 
 </resources>
