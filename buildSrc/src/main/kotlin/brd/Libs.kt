@@ -77,10 +77,11 @@ const val JACOCO_VERSION = "0.8.6"
 private const val DETEKT_VERSION = "1.0.1"
 private const val COMMONS_COMPRESS_VERSION = "1.20"
 private const val BIOMETRIC_VERSION = "1.2.0-alpha02"
+private const val NAVIGATION_VERSION = "2.3.5"
 private const val AGP_VERSION = "4.1.3"
 private const val SERVICES_PLUGIN_VERSION = "4.3.4"
 private const val AUTODESK_VERSION = "0.6.2"
-private const val CASH_UI_VERSION = "4.5-fabriik"
+private const val CASH_UI_VERSION = "4.4-fabriik"
 const val COMPOSE_VERSION = "1.0.0-beta02"
 private const val ACCOMPANIST_VERSION = "0.6.2"
 private const val BLOCKSET_VERSION = "0.1.3"
@@ -98,6 +99,7 @@ object Libs {
 
     object Android {
         const val GradlePlugin = "com.android.tools.build:gradle:$AGP_VERSION"
+        const val SafeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
     }
 
     object Tests {
@@ -120,6 +122,8 @@ object Libs {
         const val Security = "androidx.security:security-crypto:$SECURITY_VERSION"
         const val LegacyV13 = "androidx.legacy:legacy-support-v13:$LEGACY_V13"
         const val Biometric = "androidx.biometric:biometric-ktx:$BIOMETRIC_VERSION"
+        const val NavigationUI = "androidx.navigation:navigation-ui-ktx:$NAVIGATION_VERSION"
+        const val NavigationFragment = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
         const val Browser = "androidx.browser:browser:$BROWSER_VERSION"
     }
 
@@ -290,6 +294,10 @@ object Libs {
 
     object AutoDesk {
         const val CoroutineWorker = "com.autodesk:coroutineworker:$AUTODESK_VERSION"
+    }
+
+    object Atmcoin {
+        const val CashUi = "com.github.atmcoin.cash-ui-android:cashUI:$CASH_UI_VERSION"
     }
 
     object Compose {

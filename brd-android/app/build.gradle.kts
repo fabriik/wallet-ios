@@ -165,6 +165,7 @@ dependencies {
     implementation(project(":brd-android:buy"))
     implementation(project(":brd-android:trade"))
     implementation(project(":brd-android:support"))
+    implementation(project(":brd-android:signup"))
     implementation(Libs.WalletKit.CoreAndroid)
 
     // AndroidX
