@@ -21,7 +21,7 @@
     <string name="SignUp.Email">@string/LogIn.Email</string>
     <string name="SignUp.EmailHint">@string/LogIn.EmailHint</string>
     <string name="SignUp.Phone">Phone</string>
-    <string name="SignUp.PhoneHint">(000)–000–0000</string>
+    <string name="SignUp.PhoneHint">(000)–000-0000</string>
     <string name="SignUp.Password">@string/LogIn.Password</string>
     <string name="SignUp.PasswordHint">@string/LogIn.PasswordHint</string>
     <string name="SignUp.Terms">I certify that I am 18 years of age or older, and I agree to the %s and %s</string>

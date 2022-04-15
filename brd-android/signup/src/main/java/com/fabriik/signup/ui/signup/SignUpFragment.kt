@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentSignUpBinding
 
@@ -21,5 +22,11 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSignUpBinding.bind(view)
+
+        binding.btnSubmit.setOnClickListener {
+            findNavController().navigate(
+                SignUpFragmentDirections.actionConfirmEmail()
+            )
+        }
     }
 }

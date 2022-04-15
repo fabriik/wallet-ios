@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentLogInBinding
+import com.fabriik.signup.utils.clickableSpan
+import com.fabriik.signup.utils.underline
 
 class LogInFragment : Fragment() {
 
@@ -21,5 +24,20 @@ class LogInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLogInBinding.bind(view)
+
+        binding.tvForgotPassword.underline()
+        binding.tvNoAccount.clickableSpan(
+            fullTextRes = R.string.LogIn_NoAccount,
+            clickableTextRes = R.string.LogIn_SignUp,
+            callback = {
+                findNavController().navigate(
+                    LogInFragmentDirections.actionSignUp()
+                )
+            }
+        )
+
+        binding.btnSubmit.setOnClickListener {
+
+        }
     }
 }
