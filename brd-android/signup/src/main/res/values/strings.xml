@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Registration.Back">Back</string>
-    <string name="Registration.Dismiss">Dismiss</string>
+    <string name="Navigation.Back">Back</string>
+    <string name="Navigation.Dismiss">Dismiss</string>
+
+    <!-- Log in screen -->
+    <string name="LogIn.Title">Log In</string>
+    <string name="LogIn.Email">Email</string>
+    <string name="LogIn.EmailHint">Email address</string>
+    <string name="LogIn.Password">Password</string>
+    <string name="LogIn.PasswordHint">Minimum 8 characters</string>
+    <string name="LogIn.ForgotPassword">Minimum 8 characters</string>
+    <string name="LogIn.Submit">Submit</string>
+    <string name="LogIn.NoAccount">Don’t have an account? %s</string>
+    <string name="LogIn.SignUp">Sign Up</string>
+
+    <!-- Sign Up screen -->
+    <string name="SignUp.Title">Sign up Information</string>
+
+    <!-- Confirm email screen -->
+    <string name="ConfirmEmail.Title">Confirm email</string>
+
 </resources>

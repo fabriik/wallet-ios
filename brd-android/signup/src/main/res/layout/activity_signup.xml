@@ -20,7 +20,7 @@
             style="@style/Toolbar.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Registration.Back"
+            android:text="@string/Navigation.Back"
             android:visibility="invisible"
             app:drawableStartCompat="@drawable/ic_chevron_left"
             tools:visibility="invisible" />
@@ -30,7 +30,7 @@
             style="@style/Toolbar.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Registration.Dismiss" />
+            android:text="@string/Navigation.Dismiss" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"

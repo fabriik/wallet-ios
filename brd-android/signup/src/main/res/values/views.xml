@@ -6,4 +6,14 @@
         <item name="android:drawablePadding">8dp</item>
         <item name="fontFamily">@font/mobile_font</item>
     </style>
+
+    <style name="Fragment.Title" parent="">
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/fabriik_black</item>
+        <item name="fontFamily">@font/mobile_font_bold</item>
+    </style>
 </resources>
