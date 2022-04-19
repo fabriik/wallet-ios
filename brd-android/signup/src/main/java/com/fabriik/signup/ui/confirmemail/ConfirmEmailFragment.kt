@@ -44,6 +44,14 @@ class ConfirmEmailFragment : Fragment(), FabriikView<ConfirmEmailViewState, Conf
                     ConfirmEmailViewAction.ResendCodeClicked
                 )
             }
+
+            viewModel.state.observe(viewLifecycleOwner) {
+                render(it)
+            }
+
+            viewModel.effect.observe(viewLifecycleOwner) {
+                handleEffect(it)
+            }
         }
     }
 

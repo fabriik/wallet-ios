@@ -8,6 +8,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentLogInBinding
 import com.fabriik.signup.ui.base.FabriikView
@@ -76,6 +77,14 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
                 it?.length ?: 0 > 8
             )
         }
+
+        viewModel.state.observe(viewLifecycleOwner) {
+            render(it)
+        }
+
+        viewModel.effect.observe(viewLifecycleOwner) {
+            handleEffect(it)
+        }
     }
 
     override fun render(state: LogInViewState) {
@@ -83,6 +92,17 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
     }
 
     override fun handleEffect(effect: LogInViewEffect?) {
-        TODO("Not yet implemented")
+        when (effect) {
+            LogInViewEffect.GoToSignUp -> {
+                findNavController().navigate(
+                    LogInFragmentDirections.actionSignUp()
+                )
+            }
+            LogInViewEffect.GoToForgotPassword -> {
+                /*findNavController().navigate(
+                    LogInFragmentDirections.actionForgotPassword()
+                )*/ //todo: enable when forgot password is ready
+            }
+        }
     }
 }

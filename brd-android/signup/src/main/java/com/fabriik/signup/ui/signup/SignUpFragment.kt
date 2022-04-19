@@ -63,6 +63,14 @@ class SignUpFragment : Fragment(), FabriikView<SignUpViewState, SignUpViewEffect
                 }
             )
         )
+
+        viewModel.state.observe(viewLifecycleOwner) {
+            render(it)
+        }
+
+        viewModel.effect.observe(viewLifecycleOwner) {
+            handleEffect(it)
+        }
     }
 
     override fun render(state: SignUpViewState) {

@@ -1,13 +1,12 @@
 package com.fabriik.signup.ui.login
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.*
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.SingleLiveEvent
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
 
 class LogInViewModel(
     application: Application,
@@ -32,12 +31,26 @@ class LogInViewModel(
     }
 
     private fun handleAction() {
-        /*viewModelScope.launch {
+        viewModelScope.launch {
             actions.consumeAsFlow().collect {
                 when (it) {
-
+                    is LogInViewAction.SubmitClicked -> login()
+                    is LogInViewAction.SignUpClicked -> {
+                        _effect.postValue(
+                            LogInViewEffect.GoToSignUp
+                        )
+                    }
+                    is LogInViewAction.ForgotPasswordClicked -> {
+                        _effect.postValue(
+                            LogInViewEffect.GoToForgotPassword
+                        )
+                    }
                 }
             }
-        }*/
+        }
+    }
+
+    private fun login() {
+
     }
 }
