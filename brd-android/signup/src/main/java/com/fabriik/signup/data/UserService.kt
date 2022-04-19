@@ -3,6 +3,7 @@ package com.fabriik.signup.data
 import com.fabriik.signup.data.requests.ConfirmRegistrationRequest
 import com.fabriik.signup.data.requests.LoginRequest
 import com.fabriik.signup.data.requests.RegisterRequest
+import com.fabriik.signup.data.responses.ConfirmRegistrationResponse
 import com.fabriik.signup.data.responses.LoginResponse
 import com.fabriik.signup.data.responses.RegisterResponse
 import com.fabriik.signup.data.responses.UserApiResponse
@@ -24,5 +25,5 @@ interface UserService {
     @POST("register/confirm")
     suspend fun confirmRegistration(
         @Body request: ConfirmRegistrationRequest
-    ) : UserApiResponse<JSONObject>
+    ) : UserApiResponse<ConfirmRegistrationResponse>
 }

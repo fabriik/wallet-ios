@@ -32,5 +32,9 @@
         android:name="com.fabriik.signup.ui.confirmemail.ConfirmEmailFragment"
         tools:layout="@layout/fragment_confirm_email">
 
+        <argument
+            android:name="sessionKey"
+            app:argType="string"/>
+
     </fragment>
 </navigation>

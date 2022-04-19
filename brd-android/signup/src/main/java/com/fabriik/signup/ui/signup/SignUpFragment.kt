@@ -39,7 +39,13 @@ class SignUpFragment : Fragment(), FabriikView<SignUpViewState, SignUpViewEffect
         binding.btnSubmit.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.actions.send(
-                    SignUpViewAction.SubmitClicked
+                    SignUpViewAction.SubmitClicked(
+                        email = binding.etEmail.text.toString(),
+                        phone = binding.etPhone.text.toString(),
+                        password = binding.etPassword.text.toString(),
+                        lastName = binding.etLastName.text.toString(),
+                        firstName = binding.etFirstName.text.toString(),
+                    )
                 )
             }
         }
@@ -75,7 +81,7 @@ class SignUpFragment : Fragment(), FabriikView<SignUpViewState, SignUpViewEffect
 
     override fun render(state: SignUpViewState) {
         with(state) {
-
+            //todo: loading
         }
     }
 
@@ -83,7 +89,9 @@ class SignUpFragment : Fragment(), FabriikView<SignUpViewState, SignUpViewEffect
         when (effect) {
             is SignUpViewEffect.GoToConfirmation -> {
                 findNavController().navigate(
-                    SignUpFragmentDirections.actionConfirmEmail()
+                    SignUpFragmentDirections.actionConfirmEmail(
+                        effect.sessionKey
+                    )
                 )
             }
             is SignUpViewEffect.OpenWebsite -> {

@@ -2,10 +2,13 @@ package com.fabriik.signup.ui.signup
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.fabriik.signup.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.ui.login.LogInViewEffect
+import com.fabriik.signup.ui.login.LogInViewState
 import com.fabriik.signup.utils.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -41,8 +44,12 @@ class SignUpViewModel(
             actions.consumeAsFlow().collect {
                 when(it) {
                     is SignUpViewAction.SubmitClicked -> {
-                        _effect.postValue(
-                            SignUpViewEffect.GoToConfirmation
+                        register(
+                            email = it.email,
+                            phone = it.phone,
+                            password = it.password,
+                            lastName = it.lastName,
+                            firstName = it.firstName,
                         )
                     }
                     is SignUpViewAction.PrivacyPolicyClicked -> {
@@ -58,5 +65,58 @@ class SignUpViewModel(
                 }
             }
         }
+    }
+
+    private fun register(email: String, password: String, firstName: String, lastName: String, phone: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                updateState {
+                    it.copy(isLoading = true)
+                }
+
+                val response = userApi.register(
+                    email = email,
+                    phone = phone,
+                    password = password,
+                    lastName = lastName,
+                    firstName = firstName
+                )
+
+                when (response.status) {
+                    Status.SUCCESS -> {
+                        updateState {
+                            it.copy(
+                                isLoading = false
+                            )
+                        }
+
+                        _effect.postValue(
+                            SignUpViewEffect.GoToConfirmation(
+                                response.data!!.sessionKey
+                            )
+                        )
+                    }
+                    else -> {
+                        updateState {
+                            it.copy(
+                                isLoading = false,
+                                errorMessage = response.message
+                            )
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = e.message
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun updateState(handler: suspend (intent: SignUpViewState) -> SignUpViewState) {
+        _state.postValue(handler(state.value!!))
     }
 }

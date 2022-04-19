@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -33,7 +34,9 @@ class ConfirmEmailFragment : Fragment(), FabriikView<ConfirmEmailViewState, Conf
         binding.btnConfirm.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.actions.send(
-                    ConfirmEmailViewAction.ConfirmClicked
+                    ConfirmEmailViewAction.ConfirmClicked(
+                        binding.etCode.text.toString()
+                    )
                 )
             }
         }
@@ -44,26 +47,31 @@ class ConfirmEmailFragment : Fragment(), FabriikView<ConfirmEmailViewState, Conf
                     ConfirmEmailViewAction.ResendCodeClicked
                 )
             }
+        }
 
-            viewModel.state.observe(viewLifecycleOwner) {
-                render(it)
-            }
+        viewModel.state.observe(viewLifecycleOwner) {
+            render(it)
+        }
 
-            viewModel.effect.observe(viewLifecycleOwner) {
-                handleEffect(it)
-            }
+        viewModel.effect.observe(viewLifecycleOwner) {
+            handleEffect(it)
         }
     }
 
     override fun render(state: ConfirmEmailViewState) {
         with(state) {
-
+            //todo: loading
         }
     }
 
     override fun handleEffect(effect: ConfirmEmailViewEffect?) {
         when (effect) {
-
+            is ConfirmEmailViewEffect.FinishWithToastMessage -> {
+                Toast.makeText(
+                    context, effect.message, Toast.LENGTH_LONG
+                ).show()
+                requireActivity().finish()
+            }
         }
     }
 }

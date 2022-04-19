@@ -10,8 +10,16 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.text.toSpannable
+import androidx.lifecycle.SavedStateHandle
 import com.fabriik.signup.R
+
+internal fun SavedStateHandle.toBundle() = bundleOf(
+    *keys().map {
+        Pair(it, get(it) as Any?)
+    }.toTypedArray()
+)
 
 internal fun TextView.underline() {
     paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG

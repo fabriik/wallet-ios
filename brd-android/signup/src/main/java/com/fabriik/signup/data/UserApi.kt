@@ -3,6 +3,7 @@ package com.fabriik.signup.data
 import com.fabriik.signup.data.requests.ConfirmRegistrationRequest
 import com.fabriik.signup.data.requests.LoginRequest
 import com.fabriik.signup.data.requests.RegisterRequest
+import com.fabriik.signup.data.responses.ConfirmRegistrationResponse
 import com.fabriik.signup.data.responses.LoginResponse
 import com.fabriik.signup.data.responses.RegisterResponse
 import com.fabriik.signup.data.responses.UserApiResponse
@@ -37,7 +38,7 @@ class UserApi(private val service: UserService) {
         return mapToResource(response)
     }
 
-    suspend fun confirmRegistration(sessionKey: String, confirmationCode: String) : Resource<JSONObject> {
+    suspend fun confirmRegistration(sessionKey: String, confirmationCode: String) : Resource<ConfirmRegistrationResponse> {
         val response = service.confirmRegistration(
             ConfirmRegistrationRequest(
                 sessionKey = sessionKey,
