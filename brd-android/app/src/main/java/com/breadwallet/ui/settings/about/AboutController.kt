@@ -83,6 +83,9 @@ class AboutController(args: Bundle? = null) : BaseController(args) {
             policyText.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BRConstants.URL_PRIVACY_POLICY)))
             }
+            termsText.setOnClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BRConstants.URL_TERMS_AND_CONDITIONS)))
+            }
         }
     }
 

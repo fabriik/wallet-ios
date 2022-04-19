@@ -145,7 +145,6 @@ class PageOneController(args: Bundle? = null) : BaseController(args) {
     override fun onCreateView(view: View) {
         super.onCreateView(view)
         binding.primaryText.setText(R.string.OnboardingPageTwo_title)
-        binding.secondaryText.setText(R.string.OnboardingPageTwo_subtitle)
         binding.imageView.setImageResource(R.drawable.page1)
     }
 }
