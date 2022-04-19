@@ -138,6 +138,7 @@ object BRConstants {
      */
     const val URL_SUPPORT_PAGE = "https://app-support.fabriik.com/"
     const val URL_PRIVACY_POLICY = "https://fabriik.com/privacy-policy/"
+    const val URL_TERMS_AND_CONDITIONS = "https://fabriik.com/terms-and-conditions/"
     const val URL_TWITTER = "https://twitter.com/fabriik_market"
     const val URL_REDDIT = "https://www.reddit.com/r/Fabriik/"
     const val URL_BLOG = "https://brd.com/blog/"
