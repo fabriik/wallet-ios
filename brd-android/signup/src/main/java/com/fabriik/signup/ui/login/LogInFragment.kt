@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -59,7 +60,10 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
         binding.btnSubmit.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.actions.send(
-                    LogInViewAction.SubmitClicked
+                    LogInViewAction.SubmitClicked(
+                        email = binding.etEmail.text.toString(),
+                        password = binding.etPassword.text.toString(),
+                    )
                 )
             }
         }
@@ -89,7 +93,7 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
 
     override fun render(state: LogInViewState) {
         with(state) {
-            
+            //todo: loading
         }
     }
 
@@ -104,6 +108,11 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
                 /*findNavController().navigate(
                     LogInFragmentDirections.actionForgotPassword()
                 )*/ //todo: enable when forgot password is ready
+            }
+            is LogInViewEffect.ShowToast -> {
+                Toast.makeText(
+                    context, effect.message, Toast.LENGTH_LONG
+                ).show()
             }
         }
     }

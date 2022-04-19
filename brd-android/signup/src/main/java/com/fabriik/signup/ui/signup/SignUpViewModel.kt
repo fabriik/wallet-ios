@@ -2,6 +2,7 @@ package com.fabriik.signup.ui.signup
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.ui.login.LogInViewEffect
 import com.fabriik.signup.utils.SingleLiveEvent
@@ -28,6 +29,8 @@ class SignUpViewModel(
         value = SignUpViewState()
     }
     private val _effect = SingleLiveEvent<SignUpViewEffect?>()
+
+    private val userApi = UserApi.create()
 
     init {
         handleAction()

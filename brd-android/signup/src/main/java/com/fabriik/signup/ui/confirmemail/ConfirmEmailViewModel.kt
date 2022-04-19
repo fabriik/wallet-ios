@@ -2,6 +2,7 @@ package com.fabriik.signup.ui.confirmemail
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.SingleLiveEvent
 import kotlinx.coroutines.channels.Channel
@@ -26,6 +27,8 @@ class ConfirmEmailViewModel(
         value = ConfirmEmailViewState()
     }
     private val _effect = SingleLiveEvent<ConfirmEmailViewEffect?>()
+
+    private val userApi = UserApi.create()
 
     init {
         handleAction()
