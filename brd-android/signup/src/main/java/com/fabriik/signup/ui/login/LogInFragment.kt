@@ -7,15 +7,14 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentLogInBinding
 import com.fabriik.signup.ui.base.FabriikView
-import com.fabriik.signup.ui.confirmemail.ConfirmEmailViewEffect
-import com.fabriik.signup.ui.confirmemail.ConfirmEmailViewState
 import com.fabriik.signup.utils.clickableSpan
 import com.fabriik.signup.utils.setInputValid
 import com.fabriik.signup.utils.underline
+import kotlinx.coroutines.launch
 
 class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
 
@@ -35,19 +34,33 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
         binding = FragmentLogInBinding.bind(view)
 
         binding.tvForgotPassword.underline()
+        binding.tvForgotPassword.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.actions.send(
+                    LogInViewAction.ForgotPasswordClicked
+                )
+            }
+        }
+
         binding.tvNoAccount.clickableSpan(
             fullTextRes = R.string.LogIn_NoAccount,
             clickableParts = mapOf(
                 R.string.LogIn_SignUp to {
-                    findNavController().navigate(
-                        LogInFragmentDirections.actionSignUp()
-                    )
+                    lifecycleScope.launch {
+                        viewModel.actions.send(
+                            LogInViewAction.SignUpClicked
+                        )
+                    }
                 }
             )
         )
 
         binding.btnSubmit.setOnClickListener {
-
+            lifecycleScope.launch {
+                viewModel.actions.send(
+                    LogInViewAction.SubmitClicked
+                )
+            }
         }
 
         //todo: remove
