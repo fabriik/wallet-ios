@@ -56,10 +56,14 @@ class ConfirmEmailFragment : Fragment(), FabriikView<ConfirmEmailViewState, Conf
     }
 
     override fun render(state: ConfirmEmailViewState) {
-        TODO("Not yet implemented")
+        with(state) {
+
+        }
     }
 
     override fun handleEffect(effect: ConfirmEmailViewEffect?) {
-        TODO("Not yet implemented")
+        when (effect) {
+
+        }
     }
 }

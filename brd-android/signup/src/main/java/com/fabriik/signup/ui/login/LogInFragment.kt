@@ -88,7 +88,9 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
     }
 
     override fun render(state: LogInViewState) {
-        TODO("Not yet implemented")
+        with(state) {
+            
+        }
     }
 
     override fun handleEffect(effect: LogInViewEffect?) {

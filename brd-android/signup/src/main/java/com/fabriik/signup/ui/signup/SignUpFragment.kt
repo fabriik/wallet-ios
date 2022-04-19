@@ -74,10 +74,21 @@ class SignUpFragment : Fragment(), FabriikView<SignUpViewState, SignUpViewEffect
     }
 
     override fun render(state: SignUpViewState) {
-        TODO("Not yet implemented")
+        with(state) {
+
+        }
     }
 
     override fun handleEffect(effect: SignUpViewEffect?) {
-        TODO("Not yet implemented")
+        when (effect) {
+            is SignUpViewEffect.GoToConfirmation -> {
+                findNavController().navigate(
+                    SignUpFragmentDirections.actionConfirmEmail()
+                )
+            }
+            is SignUpViewEffect.OpenWebsite -> {
+                //todo
+            }
+        }
     }
 }

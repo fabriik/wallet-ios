@@ -1,13 +1,13 @@
 package com.fabriik.signup.ui.confirmemail
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.*
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.SingleLiveEvent
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
 
 class ConfirmEmailViewModel(
     application: Application,
@@ -32,12 +32,12 @@ class ConfirmEmailViewModel(
     }
 
     private fun handleAction() {
-        /*viewModelScope.launch {
+        viewModelScope.launch {
             actions.consumeAsFlow().collect {
-                when (it) {
+                when(it) {
 
                 }
             }
-        }*/
+        }
     }
 }

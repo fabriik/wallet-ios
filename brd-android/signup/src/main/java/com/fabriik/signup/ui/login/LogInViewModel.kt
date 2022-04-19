@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.SingleLiveEvent
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 

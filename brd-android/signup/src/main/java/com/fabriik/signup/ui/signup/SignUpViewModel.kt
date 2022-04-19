@@ -3,8 +3,10 @@ package com.fabriik.signup.ui.signup
 import android.app.Application
 import androidx.lifecycle.*
 import com.fabriik.signup.ui.base.FabriikViewModel
+import com.fabriik.signup.ui.login.LogInViewEffect
 import com.fabriik.signup.utils.SingleLiveEvent
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
@@ -32,12 +34,26 @@ class SignUpViewModel(
     }
 
     private fun handleAction() {
-        /*viewModelScope.launch {
+        viewModelScope.launch {
             actions.consumeAsFlow().collect {
-                when (it) {
-
+                when(it) {
+                    is SignUpViewAction.SubmitClicked -> {
+                        _effect.postValue(
+                            SignUpViewEffect.GoToConfirmation
+                        )
+                    }
+                    is SignUpViewAction.PrivacyPolicyClicked -> {
+                        _effect.postValue(
+                            SignUpViewEffect.OpenWebsite("https://www.google.com")
+                        )
+                    }
+                    is SignUpViewAction.UserAgreementClicked -> {
+                        _effect.postValue(
+                            SignUpViewEffect.OpenWebsite("https://www.google.com")
+                        )
+                    }
                 }
             }
-        }*/
+        }
     }
 }
