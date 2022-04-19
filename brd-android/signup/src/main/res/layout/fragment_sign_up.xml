@@ -139,9 +139,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColorLink="@color/fabriik_yellow"
+        android:textColorHighlight="#00FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_password"
+        app:layout_constraintTop_toBottomOf="@id/et_password"/>
+
+    <TextView
+        android:id="@+id/tv_terms"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/fabriik_gray_1"
+        android:textColorLink="@color/fabriik_gray_1"
+        android:textColorHighlight="#00FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/cb_terms"
+        app:layout_constraintTop_toTopOf="@id/cb_terms"
         tools:text="@string/SignUp.Terms" />
 
     <com.google.android.material.button.MaterialButton
@@ -155,7 +169,7 @@
         app:layout_constraintVertical_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cb_terms"
+        app:layout_constraintTop_toBottomOf="@id/tv_terms"
         app:layout_constraintBottom_toTopOf="@id/iv_footer"/>
 
     <androidx.appcompat.widget.AppCompatImageView

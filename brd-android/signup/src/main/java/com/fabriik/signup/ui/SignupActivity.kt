@@ -23,6 +23,8 @@ class SignupActivity : AppCompatActivity() {
         val isTopLevelDestination = topLevelDestinations.contains(destination.id)
         binding.btnBack.isVisible = !isTopLevelDestination
         binding.btnDismiss.isVisible = isTopLevelDestination
+
+        binding.appBar.setExpanded(true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

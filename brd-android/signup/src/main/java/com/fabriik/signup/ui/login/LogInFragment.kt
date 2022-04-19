@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentLogInBinding
 import com.fabriik.signup.utils.clickableSpan
+import com.fabriik.signup.utils.setInputValid
 import com.fabriik.signup.utils.underline
 
 class LogInFragment : Fragment() {
@@ -28,16 +30,31 @@ class LogInFragment : Fragment() {
         binding.tvForgotPassword.underline()
         binding.tvNoAccount.clickableSpan(
             fullTextRes = R.string.LogIn_NoAccount,
-            clickableTextRes = R.string.LogIn_SignUp,
-            callback = {
-                findNavController().navigate(
-                    LogInFragmentDirections.actionSignUp()
-                )
-            }
+            clickableParts = mapOf(
+                R.string.LogIn_SignUp to {
+                    findNavController().navigate(
+                        LogInFragmentDirections.actionSignUp()
+                    )
+                }
+            )
         )
 
         binding.btnSubmit.setOnClickListener {
 
+        }
+
+        //todo: remove
+        binding.etEmail.doAfterTextChanged {
+            binding.etEmail.setInputValid(
+                it?.length ?: 0 > 4
+            )
+        }
+
+        //todo: remove
+        binding.etPassword.doAfterTextChanged {
+            binding.etPassword.setInputValid(
+                it?.length ?: 0 > 8
+            )
         }
     }
 }
