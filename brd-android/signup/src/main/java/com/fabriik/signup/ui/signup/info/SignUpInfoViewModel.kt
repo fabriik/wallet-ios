@@ -4,9 +4,11 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.fabriik.signup.data.FabriikApiConstants
 import com.fabriik.signup.data.Status
+import com.fabriik.signup.R
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.SingleLiveEvent
+import com.fabriik.signup.utils.getString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
@@ -16,7 +18,8 @@ import kotlinx.coroutines.launch
 class SignUpInfoViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle
-) : AndroidViewModel(application), FabriikViewModel<SignUpInfoViewState, SignUpInfoViewAction, SignUpInfoViewEffect>,
+) : AndroidViewModel(application),
+    FabriikViewModel<SignUpInfoViewState, SignUpInfoViewAction, SignUpInfoViewEffect>,
     LifecycleObserver {
 
     override val actions: Channel<SignUpInfoViewAction> = Channel(Channel.UNLIMITED)
@@ -32,7 +35,7 @@ class SignUpInfoViewModel(
     }
     private val _effect = SingleLiveEvent<SignUpInfoViewEffect?>()
 
-    private val userApi = UserApi.create()
+    private val userApi = UserApi.create(application.applicationContext)
 
     init {
         handleAction()
@@ -41,7 +44,7 @@ class SignUpInfoViewModel(
     private fun handleAction() {
         viewModelScope.launch {
             actions.consumeAsFlow().collect {
-                when(it) {
+                when (it) {
                     is SignUpInfoViewAction.SubmitClicked -> {
                         register(
                             email = it.email,
@@ -70,49 +73,43 @@ class SignUpInfoViewModel(
         }
     }
 
-    private fun register(email: String, password: String, firstName: String, lastName: String, phone: String) {
+    private fun register(
+        email: String,
+        password: String,
+        firstName: String,
+        lastName: String,
+        phone: String
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                updateState {
-                    it.copy(isLoading = true)
-                }
+            updateState {
+                it.copy(isLoading = true)
+            }
 
-                val response = userApi.register(
-                    email = email,
-                    phone = phone,
-                    password = password,
-                    lastName = lastName,
-                    firstName = firstName
-                )
+            val response = userApi.register(
+                email = email,
+                phone = phone,
+                password = password,
+                lastName = lastName,
+                firstName = firstName
+            )
 
-                when (response.status) {
-                    Status.SUCCESS -> {
-                        updateState {
-                            it.copy(
-                                isLoading = false
-                            )
-                        }
+            updateState {
+                it.copy(isLoading = false)
+            }
 
-                        _effect.postValue(
-                            SignUpInfoViewEffect.GoToConfirmation(
-                                response.data!!.sessionKey
-                            )
+            when (response.status) {
+                Status.SUCCESS -> {
+                    _effect.postValue(
+                        SignUpInfoViewEffect.GoToConfirmation(
+                            response.data!!.sessionKey
                         )
-                    }
-                    else -> {
-                        updateState {
-                            it.copy(
-                                isLoading = false,
-                                errorMessage = response.message
-                            )
-                        }
-                    }
+                    )
                 }
-            } catch (e: Exception) {
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = e.message
+                else -> {
+                    _effect.postValue(
+                        SignUpInfoViewEffect.ShowSnackBar(
+                            response.message!!
+                        )
                     )
                 }
             }

@@ -13,6 +13,7 @@
     <string name="LogIn.Submit">Submit</string>
     <string name="LogIn.NoAccount">Don’t have an account? %s</string>
     <string name="LogIn.SignUp">Sign Up</string>
+    <string name="LogIn.Completed">Login successfully completed</string>
 
     <!-- Sign Up screen -->
     <string name="SignUp.Title">Sign up Information</string>
@@ -28,6 +29,9 @@
     <string name="SignUp.Terms.Link1">User Agreement</string>
     <string name="SignUp.Terms.Link2">Privacy Policy</string>
     <string name="SignUp.Submit">Submit</string>
+    <string name="SignUp.BrowserNotInstalled">Browser not installed!</string>
+    <string name="SignUp.DefaultErrorMessage">Something went wrong! Please try again later.</string>
+    <string name="SignUp.Completed">Registration successfully completed!!</string>
 
     <!-- Confirm email screen -->
     <string name="ConfirmEmail.Title">Confirm email</string>

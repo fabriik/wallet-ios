@@ -2,11 +2,12 @@ package com.fabriik.signup.ui.login
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.fabriik.signup.data.Resource
+import com.fabriik.signup.R
 import com.fabriik.signup.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.SingleLiveEvent
+import com.fabriik.signup.utils.getString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
@@ -32,7 +33,7 @@ class LogInViewModel(
     }
     private val _effect = SingleLiveEvent<LogInViewEffect?>()
 
-    private val userApi = UserApi.create()
+    private val userApi = UserApi.create(application.applicationContext)
 
     init {
         handleAction()
@@ -63,44 +64,32 @@ class LogInViewModel(
 
     private fun login(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                updateState {
-                    it.copy(isLoading = true)
-                }
+            updateState {
+                it.copy(isLoading = true)
+            }
 
-                val response = userApi.login(
-                    username = email,
-                    password = password
-                )
+            val response = userApi.login(
+                username = email,
+                password = password
+            )
 
-                when (response.status) {
-                    Status.SUCCESS -> {
-                        updateState {
-                            it.copy(
-                                isLoading = false
-                            )
-                        }
+            updateState {
+                it.copy(isLoading = false)
+            }
 
-                        _effect.postValue(
-                            LogInViewEffect.ShowToast(
-                                "Login successfully completed"
-                            )
+            when (response.status) {
+                Status.SUCCESS -> {
+                    _effect.postValue(
+                        LogInViewEffect.ShowSnackBar(
+                            getString(R.string.LogIn_Completed)
                         )
-                    }
-                    else -> {
-                        updateState {
-                            it.copy(
-                                isLoading = false,
-                                errorMessage = response.message
-                            )
-                        }
-                    }
+                    )
                 }
-            } catch (e: Exception) {
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = e.message
+                else -> {
+                    _effect.postValue(
+                        LogInViewEffect.ShowSnackBar(
+                            response.message!!
+                        )
                     )
                 }
             }

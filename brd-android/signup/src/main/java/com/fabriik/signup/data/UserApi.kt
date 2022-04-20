@@ -1,5 +1,7 @@
 package com.fabriik.signup.data
 
+import android.content.Context
+import com.fabriik.signup.R
 import com.fabriik.signup.data.requests.ConfirmRegistrationRequest
 import com.fabriik.signup.data.requests.LoginRequest
 import com.fabriik.signup.data.requests.RegisterRequest
@@ -7,46 +9,65 @@ import com.fabriik.signup.data.responses.ConfirmRegistrationResponse
 import com.fabriik.signup.data.responses.LoginResponse
 import com.fabriik.signup.data.responses.RegisterResponse
 import com.fabriik.signup.data.responses.UserApiResponse
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import org.json.JSONObject
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.lang.Exception
+import kotlin.reflect.KClass
 
-class UserApi(private val service: UserService) {
+class UserApi(
+    private val context: Context,
+    private val service: UserService
+) {
+
+    private val moshi = Moshi.Builder().build()
 
     suspend fun login(username: String, password: String) : Resource<LoginResponse> {
-        val response = service.login(
-            LoginRequest(
-                username = username,
-                password = password
+        return try {
+            val response = service.login(
+                LoginRequest(
+                    username = username,
+                    password = password
+                )
             )
-        )
-
-        return mapToResource(response)
+            mapToResource(response)
+        } catch (ex: Exception) {
+            mapToResource(ex, LoginResponse::class)
+        }
     }
 
     suspend fun register(email: String, phone: String, firstName: String, lastName: String, password: String) : Resource<RegisterResponse> {
-        val response = service.register(
-            RegisterRequest(
-                email = email,
-                phone = phone,
-                password = password,
-                lastName = lastName,
-                firstName = firstName
+        return try {
+            val response = service.register(
+                RegisterRequest(
+                    email = email,
+                    phone = phone,
+                    password = password,
+                    lastName = lastName,
+                    firstName = firstName
+                )
             )
-        )
-
-        return mapToResource(response)
+            mapToResource(response)
+        } catch (ex: Exception) {
+            mapToResource(ex, RegisterResponse::class)
+        }
     }
 
     suspend fun confirmRegistration(sessionKey: String, confirmationCode: String) : Resource<ConfirmRegistrationResponse> {
-        val response = service.confirmRegistration(
-            ConfirmRegistrationRequest(
-                sessionKey = sessionKey,
-                confirmationCode = confirmationCode
+        return try {
+            val response = service.confirmRegistration(
+                ConfirmRegistrationRequest(
+                    sessionKey = sessionKey,
+                    confirmationCode = confirmationCode
+                )
             )
-        )
-
-        return mapToResource(response)
+            mapToResource(response)
+        } catch (ex: Exception) {
+            mapToResource(ex, ConfirmRegistrationResponse::class)
+        }
     }
 
     private fun <T> mapToResource(response: UserApiResponse<T>) : Resource<T> {
@@ -60,10 +81,32 @@ class UserApi(private val service: UserService) {
         }
     }
 
+    private fun <T> mapToResource(ex: Exception, kClass: KClass<*>) : Resource<T> {
+        var errorMessage: String? = null
+
+        if (ex is HttpException) {
+            ex.response()?.errorBody()?.let {
+                val responseType = Types.newParameterizedType(UserApiResponse::class.java, kClass.java)
+                val responseAdapter = moshi.adapter<UserApiResponse<Any>>(responseType)
+
+                val response = responseAdapter.fromJson(
+                    it.source()
+                )
+
+                errorMessage = response?.error?.message
+            }
+        }
+
+        return Resource.error(
+            message = errorMessage ?: context.getString(R.string.SignUp_DefaultErrorMessage)
+        )
+    }
+
     companion object {
 
-        fun create() = UserApi(
-            Retrofit.Builder()
+        fun create(context: Context) = UserApi(
+            context = context.applicationContext,
+            service = Retrofit.Builder()
                 .baseUrl(FabriikApiConstants.HOST_AUTH_API)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()

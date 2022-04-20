@@ -8,9 +8,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentSignUpConfirmEmailBinding
 import com.fabriik.signup.ui.base.FabriikView
+import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.setValidator
 import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
 import kotlinx.coroutines.launch
@@ -69,11 +71,16 @@ class SignUpConfirmEmailFragment : Fragment(), FabriikView<SignUpConfirmEmailVie
 
     override fun handleEffect(effect: SignUpConfirmEmailViewEffect?) {
         when (effect) {
-            is SignUpConfirmEmailViewEffect.FinishWithToastMessage -> {
-                Toast.makeText(
-                    context, effect.message, Toast.LENGTH_LONG
-                ).show()
-                requireActivity().finish()
+            is SignUpConfirmEmailViewEffect.GoToLogin -> {
+                findNavController().navigate(
+                    SignUpConfirmEmailFragmentDirections.actionLogIn()
+                )
+            }
+            is SignUpConfirmEmailViewEffect.ShowSnackBar -> {
+                SnackBarUtils.showLong(
+                    view = binding.root,
+                    text = effect.message
+                )
             }
         }
     }

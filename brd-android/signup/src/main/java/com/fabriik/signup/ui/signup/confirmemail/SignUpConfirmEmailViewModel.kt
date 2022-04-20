@@ -2,10 +2,12 @@ package com.fabriik.signup.ui.signup.confirmemail
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.fabriik.signup.R
 import com.fabriik.signup.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.SingleLiveEvent
+import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.toBundle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -16,7 +18,8 @@ import kotlinx.coroutines.launch
 class SignUpConfirmEmailViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle
-) : AndroidViewModel(application), FabriikViewModel<SignUpConfirmEmailViewState, SignUpConfirmEmailViewAction, SignUpConfirmEmailViewEffect> {
+) : AndroidViewModel(application),
+    FabriikViewModel<SignUpConfirmEmailViewState, SignUpConfirmEmailViewAction, SignUpConfirmEmailViewEffect> {
 
     override val actions: Channel<SignUpConfirmEmailViewAction> = Channel(Channel.UNLIMITED)
 
@@ -35,7 +38,7 @@ class SignUpConfirmEmailViewModel(
         savedStateHandle.toBundle()
     )
 
-    private val userApi = UserApi.create()
+    private val userApi = UserApi.create(application.applicationContext)
 
     init {
         handleAction()
@@ -44,7 +47,7 @@ class SignUpConfirmEmailViewModel(
     private fun handleAction() {
         viewModelScope.launch {
             actions.consumeAsFlow().collect {
-                when(it) {
+                when (it) {
                     is SignUpConfirmEmailViewAction.ConfirmClicked -> {
                         confirmRegistration(it.confirmationCode)
                     }
@@ -55,44 +58,36 @@ class SignUpConfirmEmailViewModel(
 
     private fun confirmRegistration(confirmationCode: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                updateState {
-                    it.copy(isLoading = true)
-                }
+            updateState {
+                it.copy(isLoading = true)
+            }
 
-                val response = userApi.confirmRegistration(
-                    sessionKey = arguments.sessionKey,
-                    confirmationCode = confirmationCode
-                )
+            val response = userApi.confirmRegistration(
+                sessionKey = arguments.sessionKey,
+                confirmationCode = confirmationCode
+            )
 
-                when (response.status) {
-                    Status.SUCCESS -> {
-                        updateState {
-                            it.copy(
-                                isLoading = false
-                            )
-                        }
+            updateState {
+                it.copy(isLoading = false)
+            }
 
-                        _effect.postValue(
-                            SignUpConfirmEmailViewEffect.FinishWithToastMessage(
-                                "Registration successfully completed!!"
-                            )
+            when (response.status) {
+                Status.SUCCESS -> {
+                    _effect.postValue(
+                        SignUpConfirmEmailViewEffect.ShowSnackBar(
+                            getString(R.string.SignUp_Completed)
                         )
-                    }
-                    else -> {
-                        updateState {
-                            it.copy(
-                                isLoading = false,
-                                errorMessage = response.message
-                            )
-                        }
-                    }
+                    )
+
+                    _effect.postValue(
+                        SignUpConfirmEmailViewEffect.GoToLogin
+                    )
                 }
-            } catch (e: Exception) {
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = e.message
+                else -> {
+                    _effect.postValue(
+                        SignUpConfirmEmailViewEffect.ShowSnackBar(
+                            response.message!!
+                        )
                     )
                 }
             }

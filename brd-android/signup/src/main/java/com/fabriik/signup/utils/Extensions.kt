@@ -1,5 +1,6 @@
 package com.fabriik.signup.utils
 
+import android.app.Application
 import android.graphics.Paint
 import android.text.Spanned
 import android.text.TextPaint
@@ -8,9 +9,11 @@ import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.core.text.toSpannable
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import com.fabriik.signup.R
 import com.fabriik.signup.utils.validators.Validator
@@ -86,4 +89,8 @@ private fun EditText.setValidationState(valid: Boolean) {
     setCompoundDrawablesRelativeWithIntrinsicBounds(
         0, 0, drawable ?: 0, 0
     )
+}
+
+internal fun AndroidViewModel.getString(@StringRes string: Int) : String {
+    return getApplication<Application>().applicationContext.getString(string)
 }

@@ -15,12 +15,14 @@ import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentSignUpInfoBinding
 import com.fabriik.signup.ui.base.FabriikView
+import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.clickableSpan
 import com.fabriik.signup.utils.setValidator
 import com.fabriik.signup.utils.validators.EmailValidator
 import com.fabriik.signup.utils.validators.PasswordValidator
 import com.fabriik.signup.utils.validators.PhoneNumberValidator
 import com.fabriik.signup.utils.validators.TextValidator
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -111,8 +113,17 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpIn
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                 } catch (ex: ActivityNotFoundException) {
-                    Toast.makeText(context, "Browser not installed!", Toast.LENGTH_LONG).show()
+                    SnackBarUtils.showLong(
+                        view = binding.root,
+                        text = R.string.SignUp_BrowserNotInstalled
+                    )
                 }
+            }
+            is SignUpInfoViewEffect.ShowSnackBar -> {
+                SnackBarUtils.showLong(
+                    view = binding.root,
+                    text = effect.message
+                )
             }
         }
     }

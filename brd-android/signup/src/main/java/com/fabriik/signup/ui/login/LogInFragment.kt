@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentLogInBinding
 import com.fabriik.signup.ui.base.FabriikView
+import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.clickableSpan
 import com.fabriik.signup.utils.setValidator
 import com.fabriik.signup.utils.underline
@@ -99,10 +100,11 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
                     LogInFragmentDirections.actionForgotPassword()
                 )*/ //todo: enable when forgot password is ready
             }
-            is LogInViewEffect.ShowToast -> {
-                Toast.makeText(
-                    context, effect.message, Toast.LENGTH_LONG
-                ).show()
+            is LogInViewEffect.ShowSnackBar -> {
+                SnackBarUtils.showLong(
+                    view = binding.root,
+                    text = effect.message
+                )
             }
         }
     }

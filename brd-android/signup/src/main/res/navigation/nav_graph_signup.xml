@@ -36,5 +36,11 @@
             android:name="sessionKey"
             app:argType="string"/>
 
+        <action
+            android:id="@+id/action_log_in"
+            app:destination="@+id/fragmentLogIn"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph_signup"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
