@@ -12,6 +12,11 @@ import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentSignUpInfoBinding
 import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.clickableSpan
+import com.fabriik.signup.utils.setValidator
+import com.fabriik.signup.utils.validators.EmailValidator
+import com.fabriik.signup.utils.validators.PasswordValidator
+import com.fabriik.signup.utils.validators.PhoneNumberValidator
+import com.fabriik.signup.utils.validators.TextValidator
 import kotlinx.coroutines.launch
 
 class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpInfoViewEffect> {
@@ -30,6 +35,12 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpIn
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSignUpInfoBinding.bind(view)
+
+        binding.etEmail.setValidator(EmailValidator)
+        binding.etPhone.setValidator(PhoneNumberValidator)
+        binding.etPassword.setValidator(PasswordValidator)
+        binding.etLastName.setValidator(TextValidator)
+        binding.etFirstName.setValidator(TextValidator)
 
         binding.btnSubmit.setOnClickListener {
             lifecycleScope.launch {
