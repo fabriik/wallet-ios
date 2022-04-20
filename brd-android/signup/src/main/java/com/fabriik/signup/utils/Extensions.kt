@@ -25,7 +25,11 @@ internal fun TextView.underline() {
     paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
 }
 
-internal fun TextView.clickableSpan(fullTextRes: Int, clickableParts: Map<Int, () -> Unit>, underline: Boolean = true) {
+internal fun TextView.clickableSpan(
+    fullTextRes: Int,
+    clickableParts: Map<Int, () -> Unit>,
+    underline: Boolean = true
+) {
     val clickablePartsAsStrings = clickableParts.map {
         context.getString(it.key) to it.value
     }.toMap()
@@ -38,7 +42,7 @@ internal fun TextView.clickableSpan(fullTextRes: Int, clickableParts: Map<Int, (
         val startIndex = fullText.indexOf(it.key)
         val endIndex = startIndex + it.key.length
 
-        val clickableSpan = object: ClickableSpan() {
+        val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 it.value()
             }
@@ -59,24 +63,20 @@ internal fun TextView.clickableSpan(fullTextRes: Int, clickableParts: Map<Int, (
 }
 
 internal fun EditText.setInputValid(valid: Boolean) {
-    backgroundTintList = ColorStateList.valueOf(
-        if (valid) {
-            R.color.fabriik_green
-        } else {
-            R.color.fabriik_gray_1
-        }
-    )
-
+    val background = if (valid) {
+        R.drawable.fabriik_edittext_border_green
+    } else {
+        R.drawable.fabriik_edittext_border
+    }
 
     val drawable = if (valid) {
-        ContextCompat.getDrawable(
-            context, R.drawable.ic_check_mark_blue
-        )
+        R.drawable.ic_green_check_small
     } else {
         null
     }
 
+    setBackgroundResource(background)
     setCompoundDrawablesRelativeWithIntrinsicBounds(
-        null, null, drawable, null
+        0, 0, drawable ?: 0, 0
     )
 }
