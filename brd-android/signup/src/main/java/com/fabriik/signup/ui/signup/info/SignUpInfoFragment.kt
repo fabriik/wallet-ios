@@ -14,7 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentSignUpInfoBinding
+import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
+import com.fabriik.signup.ui.login.LogInViewEffect
 import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.clickableSpan
 import com.fabriik.signup.utils.hideKeyboard
@@ -96,9 +98,7 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpIn
     }
 
     override fun render(state: SignUpInfoViewState) {
-        with(state) {
-            //todo: loading
-        }
+        //empty
     }
 
     override fun handleEffect(effect: SignUpInfoViewEffect?) {
@@ -121,6 +121,10 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpIn
                         text = R.string.SignUp_BrowserNotInstalled
                     )
                 }
+            }
+            is SignUpInfoViewEffect.ShowLoading -> {
+                val activity = activity as SignupActivity?
+                activity?.showLoading(effect.show)
             }
             is SignUpInfoViewEffect.ShowSnackBar -> {
                 SnackBarUtils.showLong(

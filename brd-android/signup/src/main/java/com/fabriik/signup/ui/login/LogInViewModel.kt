@@ -12,6 +12,7 @@ import com.fabriik.signup.utils.validators.EmailValidator
 import com.fabriik.signup.utils.validators.PasswordValidator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
@@ -66,7 +67,7 @@ class LogInViewModel(
 
     private fun login(email: String, password: String) {
         // validate input data
-        val emailValidation = EmailValidator(email)
+        /*val emailValidation = EmailValidator(email)
         val passwordValidation = PasswordValidator(password)
 
         if (!emailValidation || !passwordValidation) {
@@ -76,22 +77,22 @@ class LogInViewModel(
                 )
             )
             return
-        }
+        }*/
 
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
-            updateState {
-                it.copy(isLoading = true)
-            }
+            _effect.postValue(
+                LogInViewEffect.ShowLoading(true)
+            )
 
             val response = userApi.login(
                 username = email,
                 password = password
             )
 
-            updateState {
-                it.copy(isLoading = false)
-            }
+            _effect.postValue(
+                LogInViewEffect.ShowLoading(false)
+            )
 
             when (response.status) {
                 Status.SUCCESS -> {

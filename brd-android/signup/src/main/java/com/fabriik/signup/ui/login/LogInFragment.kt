@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentLogInBinding
+import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.*
 import com.fabriik.signup.utils.clickableSpan
@@ -84,9 +85,7 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
     }
 
     override fun render(state: LogInViewState) {
-        with(state) {
-            //todo: loading
-        }
+        //empty
     }
 
     override fun handleEffect(effect: LogInViewEffect?) {
@@ -100,6 +99,10 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
                 /*findNavController().navigate(
                     LogInFragmentDirections.actionForgotPassword()
                 )*/ //todo: enable when forgot password is ready
+            }
+            is LogInViewEffect.ShowLoading -> {
+                val activity = activity as SignupActivity?
+                activity?.showLoading(effect.show)
             }
             is LogInViewEffect.ShowSnackBar -> {
                 SnackBarUtils.showLong(

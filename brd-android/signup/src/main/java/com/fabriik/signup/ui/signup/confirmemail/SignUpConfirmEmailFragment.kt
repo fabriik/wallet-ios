@@ -11,7 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentSignUpConfirmEmailBinding
+import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
+import com.fabriik.signup.ui.signup.info.SignUpInfoViewEffect
 import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.hideKeyboard
 import com.fabriik.signup.utils.setValidator
@@ -66,9 +68,7 @@ class SignUpConfirmEmailFragment : Fragment(), FabriikView<SignUpConfirmEmailVie
     }
 
     override fun render(state: SignUpConfirmEmailViewState) {
-        with(state) {
-            //todo: loading
-        }
+        //empty
     }
 
     override fun handleEffect(effect: SignUpConfirmEmailViewEffect?) {
@@ -77,6 +77,10 @@ class SignUpConfirmEmailFragment : Fragment(), FabriikView<SignUpConfirmEmailVie
                 findNavController().navigate(
                     SignUpConfirmEmailFragmentDirections.actionLogIn()
                 )
+            }
+            is SignUpConfirmEmailViewEffect.ShowLoading -> {
+                val activity = activity as SignupActivity?
+                activity?.showLoading(effect.show)
             }
             is SignUpConfirmEmailViewEffect.ShowSnackBar -> {
                 SnackBarUtils.showLong(

@@ -7,6 +7,7 @@ import com.fabriik.signup.data.Status
 import com.fabriik.signup.R
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
+import com.fabriik.signup.ui.signup.confirmemail.SignUpConfirmEmailViewEffect
 import com.fabriik.signup.utils.SingleLiveEvent
 import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.validators.*
@@ -96,9 +97,9 @@ class SignUpInfoViewModel(
 
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
-            updateState {
-                it.copy(isLoading = true)
-            }
+            _effect.postValue(
+                SignUpInfoViewEffect.ShowLoading(true)
+            )
 
             val response = userApi.register(
                 email = email,
@@ -108,9 +109,9 @@ class SignUpInfoViewModel(
                 firstName = firstName
             )
 
-            updateState {
-                it.copy(isLoading = false)
-            }
+            _effect.postValue(
+                SignUpInfoViewEffect.ShowLoading(false)
+            )
 
             when (response.status) {
                 Status.SUCCESS -> {

@@ -73,4 +73,14 @@
             app:navGraph="@navigation/nav_graph_signup" />
 
     </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/loading_view"
+        layout="@layout/view_fabriik_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

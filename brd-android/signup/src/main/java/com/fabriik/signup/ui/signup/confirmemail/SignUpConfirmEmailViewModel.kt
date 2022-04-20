@@ -73,18 +73,18 @@ class SignUpConfirmEmailViewModel(
 
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
-            updateState {
-                it.copy(isLoading = true)
-            }
+            _effect.postValue(
+                SignUpConfirmEmailViewEffect.ShowLoading(true)
+            )
 
             val response = userApi.confirmRegistration(
                 sessionKey = arguments.sessionKey,
                 confirmationCode = confirmationCode
             )
 
-            updateState {
-                it.copy(isLoading = false)
-            }
+            _effect.postValue(
+                SignUpConfirmEmailViewEffect.ShowLoading(false)
+            )
 
             when (response.status) {
                 Status.SUCCESS -> {
