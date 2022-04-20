@@ -8,6 +8,8 @@ import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.SingleLiveEvent
 import com.fabriik.signup.utils.getString
+import com.fabriik.signup.utils.validators.EmailValidator
+import com.fabriik.signup.utils.validators.PasswordValidator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
@@ -63,6 +65,20 @@ class LogInViewModel(
     }
 
     private fun login(email: String, password: String) {
+        // validate input data
+        val emailValidation = EmailValidator(email)
+        val passwordValidation = PasswordValidator(password)
+
+        if (!emailValidation || !passwordValidation) {
+            _effect.postValue(
+                LogInViewEffect.ShowSnackBar(
+                    getString(R.string.LogIn_EnterValidData)
+                )
+            )
+            return
+        }
+
+        // execute API call
         viewModelScope.launch(Dispatchers.IO) {
             updateState {
                 it.copy(isLoading = true)

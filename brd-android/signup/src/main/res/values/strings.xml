@@ -14,6 +14,7 @@
     <string name="LogIn.NoAccount">Don’t have an account? %s</string>
     <string name="LogIn.SignUp">Sign Up</string>
     <string name="LogIn.Completed">Login successfully completed</string>
+    <string name="LogIn.EnterValidData">Please enter valid data</string>
 
     <!-- Sign Up screen -->
     <string name="SignUp.Title">Sign up Information</string>
@@ -32,6 +33,7 @@
     <string name="SignUp.BrowserNotInstalled">Browser not installed!</string>
     <string name="SignUp.DefaultErrorMessage">Something went wrong! Please try again later.</string>
     <string name="SignUp.Completed">Registration successfully completed!!</string>
+    <string name="SignUp.EnterValidData">Please enter valid data</string>
 
     <!-- Confirm email screen -->
     <string name="ConfirmEmail.Title">Confirm email</string>
@@ -40,5 +42,6 @@
     <string name="ConfirmEmail.ConfirmationCodeHint">000–000</string>
     <string name="ConfirmEmail.ResendCode">Resend code</string>
     <string name="ConfirmEmail.Confirm">Confirm</string>
+    <string name="ConfirmEmail.EnterValidData">Please enter valid data</string>
 
 </resources>

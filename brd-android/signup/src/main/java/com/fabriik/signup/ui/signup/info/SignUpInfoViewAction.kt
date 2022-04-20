@@ -3,7 +3,6 @@ package com.fabriik.signup.ui.signup.info
 import com.fabriik.signup.ui.base.FabriikViewAction
 
 sealed class SignUpInfoViewAction : FabriikViewAction {
-    object InputChanged: SignUpInfoViewAction()
     object UserAgreementClicked: SignUpInfoViewAction()
     object PrivacyPolicyClicked: SignUpInfoViewAction()
     class SubmitClicked(
@@ -12,5 +11,6 @@ sealed class SignUpInfoViewAction : FabriikViewAction {
         val firstName: String,
         val lastName: String,
         val phone: String,
+        val termsAccepted: Boolean
     ): SignUpInfoViewAction()
 }

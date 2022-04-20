@@ -6,9 +6,13 @@ import com.fabriik.signup.R
 import com.fabriik.signup.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
+import com.fabriik.signup.ui.login.LogInViewEffect
 import com.fabriik.signup.utils.SingleLiveEvent
 import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.toBundle
+import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
+import com.fabriik.signup.utils.validators.EmailValidator
+import com.fabriik.signup.utils.validators.PasswordValidator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
@@ -57,6 +61,17 @@ class SignUpConfirmEmailViewModel(
     }
 
     private fun confirmRegistration(confirmationCode: String) {
+        // validate input data
+        if (!ConfirmationCodeValidator(confirmationCode)) {
+            _effect.postValue(
+                SignUpConfirmEmailViewEffect.ShowSnackBar(
+                    getString(R.string.ConfirmEmail_EnterValidData)
+                )
+            )
+            return
+        }
+
+        // execute API call
         viewModelScope.launch(Dispatchers.IO) {
             updateState {
                 it.copy(isLoading = true)

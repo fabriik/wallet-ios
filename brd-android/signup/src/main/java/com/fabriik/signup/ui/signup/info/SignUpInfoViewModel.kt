@@ -9,6 +9,7 @@ import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.SingleLiveEvent
 import com.fabriik.signup.utils.getString
+import com.fabriik.signup.utils.validators.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
@@ -52,6 +53,7 @@ class SignUpInfoViewModel(
                             password = it.password,
                             lastName = it.lastName,
                             firstName = it.firstName,
+                            termsAccepted = it.termsAccepted
                         )
                     }
                     is SignUpInfoViewAction.PrivacyPolicyClicked -> {
@@ -74,12 +76,25 @@ class SignUpInfoViewModel(
     }
 
     private fun register(
-        email: String,
-        password: String,
-        firstName: String,
-        lastName: String,
-        phone: String
+        email: String, password: String, firstName: String, lastName: String, phone: String, termsAccepted: Boolean
     ) {
+        // validate input data
+        val emailValidation = EmailValidator(email)
+        val phoneValidation = PhoneNumberValidator(phone)
+        val passwordValidation = PasswordValidator(password)
+        val firstNameValidation = TextValidator(firstName)
+        val lastNameValidation = TextValidator(lastName)
+
+        if (!emailValidation || !phoneValidation || !passwordValidation || !firstNameValidation || !lastNameValidation || !termsAccepted) {
+            _effect.postValue(
+                SignUpInfoViewEffect.ShowSnackBar(
+                    getString(R.string.SignUp_EnterValidData)
+                )
+            )
+            return
+        }
+
+        // execute API call
         viewModelScope.launch(Dispatchers.IO) {
             updateState {
                 it.copy(isLoading = true)

@@ -17,6 +17,7 @@ import com.fabriik.signup.databinding.FragmentSignUpInfoBinding
 import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.clickableSpan
+import com.fabriik.signup.utils.hideKeyboard
 import com.fabriik.signup.utils.setValidator
 import com.fabriik.signup.utils.validators.EmailValidator
 import com.fabriik.signup.utils.validators.PasswordValidator
@@ -50,6 +51,7 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpIn
         binding.etFirstName.setValidator(TextValidator)
 
         binding.btnSubmit.setOnClickListener {
+            hideKeyboard()
             lifecycleScope.launch {
                 viewModel.actions.send(
                     SignUpInfoViewAction.SubmitClicked(
@@ -58,6 +60,7 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpIn
                         password = binding.etPassword.text.toString(),
                         lastName = binding.etLastName.text.toString(),
                         firstName = binding.etFirstName.text.toString(),
+                        termsAccepted = binding.cbTerms.isChecked
                     )
                 )
             }

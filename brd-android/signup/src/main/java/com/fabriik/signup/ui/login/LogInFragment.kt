@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentLogInBinding
 import com.fabriik.signup.ui.base.FabriikView
-import com.fabriik.signup.utils.SnackBarUtils
+import com.fabriik.signup.utils.*
 import com.fabriik.signup.utils.clickableSpan
 import com.fabriik.signup.utils.setValidator
 import com.fabriik.signup.utils.underline
@@ -60,6 +60,7 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
         )
 
         binding.btnSubmit.setOnClickListener {
+            hideKeyboard()
             lifecycleScope.launch {
                 viewModel.actions.send(
                     LogInViewAction.SubmitClicked(
