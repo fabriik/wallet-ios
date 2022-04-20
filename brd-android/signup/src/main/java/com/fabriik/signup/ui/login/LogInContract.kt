@@ -1,12 +1,10 @@
 package com.fabriik.signup.ui.login
 
-import com.fabriik.signup.ui.base.FabriikUiEffect
-import com.fabriik.signup.ui.base.FabriikUiEvent
-import com.fabriik.signup.ui.base.FabriikUiState
+import com.fabriik.signup.ui.base.FabriikContract
 
 interface LogInContract {
 
-    sealed class Event : FabriikUiEvent {
+    sealed class Event : FabriikContract.Event {
         object SignUpClicked : Event()
         object ForgotPasswordClicked : Event()
         class SubmitClicked(
@@ -15,12 +13,12 @@ interface LogInContract {
         ) : Event()
     }
 
-    sealed class Effect : FabriikUiEffect {
+    sealed class Effect : FabriikContract.Effect {
         object GoToSignUp : Effect()
         object GoToForgotPassword : Effect()
         class ShowLoading(val show: Boolean) : Effect()
         class ShowSnackBar(val message: String) : Effect()
     }
 
-    class State : FabriikUiState
+    class State : FabriikContract.State
 }

@@ -7,24 +7,15 @@ import com.fabriik.signup.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.getString
+import com.fabriik.signup.utils.validators.EmailValidator
+import com.fabriik.signup.utils.validators.PasswordValidator
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class LogInViewModel(
     application: Application
-) : AndroidViewModel(application),
-    FabriikViewModel<LogInContract.State, LogInContract.Event, LogInContract.Effect> {
-
-    private val _event: MutableSharedFlow<LogInContract.Event> = MutableSharedFlow()
-    override val event = _event.asSharedFlow()
-
-    private val _state = MutableStateFlow(LogInContract.State())
-    override val state = _state.asStateFlow()
-
-    private val _effect = Channel<LogInContract.Effect>()
-    override val effect = _effect.receiveAsFlow()
+) : FabriikViewModel<LogInContract.State, LogInContract.Event, LogInContract.Effect>(application) {
 
     private val userApi = UserApi.create(application.applicationContext)
 
@@ -32,11 +23,7 @@ class LogInViewModel(
         subscribeEvents()
     }
 
-    fun setEvent(event: LogInContract.Event) {
-        viewModelScope.launch {
-            _event.emit(event)
-        }
-    }
+    override fun createInitialState() = LogInContract.State()
 
     private fun subscribeEvents() {
         viewModelScope.launch {
@@ -47,13 +34,13 @@ class LogInViewModel(
                         password = it.password
                     )
                     is LogInContract.Event.SignUpClicked -> {
-                        viewModelScope.launch {
-                            _effect.send(LogInContract.Effect.GoToSignUp)
+                        setEffect {
+                            LogInContract.Effect.GoToSignUp
                         }
                     }
                     is LogInContract.Event.ForgotPasswordClicked -> {
-                        viewModelScope.launch {
-                            _effect.send(LogInContract.Effect.GoToForgotPassword)
+                        setEffect {
+                            LogInContract.Effect.GoToForgotPassword
                         }
                     }
                 }
@@ -63,47 +50,47 @@ class LogInViewModel(
 
     private fun login(email: String, password: String) {
         // validate input data
-        /*val emailValidation = EmailValidator(email)
+        val emailValidation = EmailValidator(email)
         val passwordValidation = PasswordValidator(password)
 
         if (!emailValidation || !passwordValidation) {
-            _effect.postValue(
-                LogInViewEffect.ShowSnackBar(
+            setEffect {
+                LogInContract.Effect.ShowSnackBar(
                     getString(R.string.LogIn_EnterValidData)
                 )
-            )
+            }
             return
-        }*/
+        }
 
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
-            _effect.send(
+            setEffect {
                 LogInContract.Effect.ShowLoading(true)
-            )
+            }
 
             val response = userApi.login(
                 username = email,
                 password = password
             )
 
-            _effect.send(
+            setEffect {
                 LogInContract.Effect.ShowLoading(false)
-            )
+            }
 
             when (response.status) {
                 Status.SUCCESS -> {
-                    _effect.send(
+                    setEffect {
                         LogInContract.Effect.ShowSnackBar(
                             getString(R.string.LogIn_Completed)
                         )
-                    )
+                    }
                 }
                 else -> {
-                    _effect.send(
+                    setEffect {
                         LogInContract.Effect.ShowSnackBar(
                             response.message!!
                         )
-                    )
+                    }
                 }
             }
         }

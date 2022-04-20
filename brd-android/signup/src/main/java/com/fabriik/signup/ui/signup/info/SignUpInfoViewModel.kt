@@ -10,24 +10,14 @@ import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.validators.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class SignUpInfoViewModel(
     application: Application
-) : AndroidViewModel(application),
-    FabriikViewModel<SignUpInfoContract.State, SignUpInfoContract.Event, SignUpInfoContract.Effect>,
-    LifecycleObserver {
-
-    private val _event: MutableSharedFlow<SignUpInfoContract.Event> = MutableSharedFlow()
-    override val event = _event.asSharedFlow()
-
-    private val _state = MutableStateFlow(SignUpInfoContract.State())
-    override val state = _state.asStateFlow()
-
-    private val _effect = Channel<SignUpInfoContract.Effect>()
-    override val effect = _effect.receiveAsFlow()
+) : FabriikViewModel<SignUpInfoContract.State, SignUpInfoContract.Event, SignUpInfoContract.Effect>(
+    application
+) {
 
     private val userApi = UserApi.create(application.applicationContext)
 
@@ -35,11 +25,7 @@ class SignUpInfoViewModel(
         subscribeEvents()
     }
 
-    fun setEvent(event: SignUpInfoContract.Event) {
-        viewModelScope.launch {
-            _event.emit(event)
-        }
-    }
+    override fun createInitialState() = SignUpInfoContract.State()
 
     private fun subscribeEvents() {
         viewModelScope.launch {
@@ -56,18 +42,18 @@ class SignUpInfoViewModel(
                         )
                     }
                     is SignUpInfoContract.Event.PrivacyPolicyClicked -> {
-                        _effect.send(
+                        setEffect {
                             SignUpInfoContract.Effect.OpenWebsite(
                                 FabriikApiConstants.URL_PRIVACY_POLICY
                             )
-                        )
+                        }
                     }
                     is SignUpInfoContract.Event.UserAgreementClicked -> {
-                        _effect.send(
+                        setEffect {
                             SignUpInfoContract.Effect.OpenWebsite(
                                 FabriikApiConstants.URL_TERMS_AND_CONDITIONS
                             )
-                        )
+                        }
                     }
                 }
             }
@@ -90,11 +76,9 @@ class SignUpInfoViewModel(
         val lastNameValidation = TextValidator(lastName)
 
         if (!emailValidation || !phoneValidation || !passwordValidation || !firstNameValidation || !lastNameValidation || !termsAccepted) {
-            viewModelScope.launch {
-                _effect.send(
-                    SignUpInfoContract.Effect.ShowSnackBar(
-                        getString(R.string.SignUp_EnterValidData)
-                    )
+            setEffect {
+                SignUpInfoContract.Effect.ShowSnackBar(
+                    getString(R.string.SignUp_EnterValidData)
                 )
             }
             return
@@ -102,9 +86,9 @@ class SignUpInfoViewModel(
 
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
-            _effect.send(
+            setEffect {
                 SignUpInfoContract.Effect.ShowLoading(true)
-            )
+            }
 
             val response = userApi.register(
                 email = email,
@@ -114,24 +98,24 @@ class SignUpInfoViewModel(
                 firstName = firstName
             )
 
-            _effect.send(
+            setEffect {
                 SignUpInfoContract.Effect.ShowLoading(false)
-            )
+            }
 
             when (response.status) {
                 Status.SUCCESS -> {
-                    _effect.send(
+                    setEffect {
                         SignUpInfoContract.Effect.GoToConfirmation(
                             response.data!!.sessionKey
                         )
-                    )
+                    }
                 }
                 else -> {
-                    _effect.send(
+                    setEffect {
                         SignUpInfoContract.Effect.ShowSnackBar(
                             response.message!!
                         )
-                    )
+                    }
                 }
             }
         }

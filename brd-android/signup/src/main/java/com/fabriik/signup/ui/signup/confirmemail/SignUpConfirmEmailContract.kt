@@ -1,23 +1,21 @@
 package com.fabriik.signup.ui.signup.confirmemail
 
-import com.fabriik.signup.ui.base.FabriikUiEffect
-import com.fabriik.signup.ui.base.FabriikUiEvent
-import com.fabriik.signup.ui.base.FabriikUiState
+import com.fabriik.signup.ui.base.FabriikContract
 
 interface SignUpConfirmEmailContract {
 
-    sealed class Event : FabriikUiEvent {
+    sealed class Event : FabriikContract.Event {
         object ResendCodeClicked: Event()
         class ConfirmClicked(
             val confirmationCode: String
         ): Event()
     }
 
-    sealed class Effect : FabriikUiEffect {
+    sealed class Effect : FabriikContract.Effect {
         object GoToLogin : Effect()
         class ShowLoading(val show: Boolean) : Effect()
         class ShowSnackBar(val message: String) : Effect()
     }
 
-    class State: FabriikUiState
+    class State: FabriikContract.State
 }
