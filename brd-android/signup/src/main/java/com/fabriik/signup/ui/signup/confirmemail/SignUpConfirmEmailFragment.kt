@@ -11,6 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentSignUpConfirmEmailBinding
 import com.fabriik.signup.ui.base.FabriikView
+import com.fabriik.signup.utils.setValidator
+import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
 import kotlinx.coroutines.launch
 
 class SignUpConfirmEmailFragment : Fragment(), FabriikView<SignUpConfirmEmailViewState, SignUpConfirmEmailViewEffect> {
@@ -29,6 +31,8 @@ class SignUpConfirmEmailFragment : Fragment(), FabriikView<SignUpConfirmEmailVie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSignUpConfirmEmailBinding.bind(view)
+
+        binding.etCode.setValidator(ConfirmationCodeValidator)
 
         binding.btnConfirm.setOnClickListener {
             lifecycleScope.launch {
