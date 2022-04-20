@@ -16,4 +16,7 @@ object FabriikApiConstants {
     val SUPPORTED_SWAP_CURRENCIES = arrayListOf(
         "eth", "btc", "bch", "bsv", "usdt20"
     )
+
+    const val URL_PRIVACY_POLICY = "https://fabriik.com/privacy-policy/"
+    const val URL_TERMS_AND_CONDITIONS = "https://fabriik.com/terms-and-conditions/"
 }

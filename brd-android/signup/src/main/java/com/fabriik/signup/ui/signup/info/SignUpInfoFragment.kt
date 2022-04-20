@@ -1,9 +1,13 @@
 package com.fabriik.signup.ui.signup.info
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +22,7 @@ import com.fabriik.signup.utils.validators.PasswordValidator
 import com.fabriik.signup.utils.validators.PhoneNumberValidator
 import com.fabriik.signup.utils.validators.TextValidator
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpInfoViewEffect> {
 
@@ -101,7 +106,13 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpIn
                 )
             }
             is SignUpInfoViewEffect.OpenWebsite -> {
-                //todo
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(effect.url))
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                } catch (ex: ActivityNotFoundException) {
+                    Toast.makeText(context, "Browser not installed!", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

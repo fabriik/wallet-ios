@@ -136,6 +136,7 @@
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/cb_terms"
+        style="@style/Input.Checkbox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -149,7 +150,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:layout_marginStart="16dp"
         android:textColor="@color/fabriik_gray_1"
         android:textColorLink="@color/fabriik_gray_1"
         android:textColorHighlight="#00FFFFFF"

@@ -2,6 +2,7 @@ package com.fabriik.signup.ui.signup.info
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.fabriik.signup.data.FabriikApiConstants
 import com.fabriik.signup.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
@@ -52,12 +53,16 @@ class SignUpInfoViewModel(
                     }
                     is SignUpInfoViewAction.PrivacyPolicyClicked -> {
                         _effect.postValue(
-                            SignUpInfoViewEffect.OpenWebsite("https://www.google.com")
+                            SignUpInfoViewEffect.OpenWebsite(
+                                FabriikApiConstants.URL_PRIVACY_POLICY
+                            )
                         )
                     }
                     is SignUpInfoViewAction.UserAgreementClicked -> {
                         _effect.postValue(
-                            SignUpInfoViewEffect.OpenWebsite("https://www.google.com")
+                            SignUpInfoViewEffect.OpenWebsite(
+                                FabriikApiConstants.URL_TERMS_AND_CONDITIONS
+                            )
                         )
                     }
                 }

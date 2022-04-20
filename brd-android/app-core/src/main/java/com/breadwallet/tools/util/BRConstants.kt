@@ -24,6 +24,7 @@
  */
 package com.breadwallet.tools.util
 
+import com.fabriik.buy.data.FabriikApiConstants
 import java.math.RoundingMode
 
 const val btc = "btc"
@@ -137,7 +138,8 @@ object BRConstants {
      * Social media links and privacy policy URLS
      */
     const val URL_SUPPORT_PAGE = "https://app-support.fabriik.com/"
-    const val URL_PRIVACY_POLICY = "https://fabriik.com/privacy-policy/"
+    const val URL_PRIVACY_POLICY = FabriikApiConstants.URL_PRIVACY_POLICY
+    const val URL_TERMS_AND_CONDITIONS = FabriikApiConstants.URL_TERMS_AND_CONDITIONS
     const val URL_TWITTER = "https://twitter.com/fabriik_market"
     const val URL_REDDIT = "https://www.reddit.com/r/Fabriik/"
     const val URL_BLOG = "https://brd.com/blog/"
