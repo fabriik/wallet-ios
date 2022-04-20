@@ -10,7 +10,6 @@ import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.validators.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class SignUpInfoViewModel(
@@ -21,40 +20,32 @@ class SignUpInfoViewModel(
 
     private val userApi = UserApi.create(application.applicationContext)
 
-    init {
-        subscribeEvents()
-    }
-
     override fun createInitialState() = SignUpInfoContract.State()
 
-    private fun subscribeEvents() {
-        viewModelScope.launch {
-            event.collect {
-                when (it) {
-                    is SignUpInfoContract.Event.SubmitClicked -> {
-                        register(
-                            email = it.email,
-                            phone = it.phone,
-                            password = it.password,
-                            lastName = it.lastName,
-                            firstName = it.firstName,
-                            termsAccepted = it.termsAccepted
-                        )
-                    }
-                    is SignUpInfoContract.Event.PrivacyPolicyClicked -> {
-                        setEffect {
-                            SignUpInfoContract.Effect.OpenWebsite(
-                                FabriikApiConstants.URL_PRIVACY_POLICY
-                            )
-                        }
-                    }
-                    is SignUpInfoContract.Event.UserAgreementClicked -> {
-                        setEffect {
-                            SignUpInfoContract.Effect.OpenWebsite(
-                                FabriikApiConstants.URL_TERMS_AND_CONDITIONS
-                            )
-                        }
-                    }
+    override fun handleEvent(event: SignUpInfoContract.Event) {
+        when (event) {
+            is SignUpInfoContract.Event.SubmitClicked -> {
+                register(
+                    email = event.email,
+                    phone = event.phone,
+                    password = event.password,
+                    lastName = event.lastName,
+                    firstName = event.firstName,
+                    termsAccepted = event.termsAccepted
+                )
+            }
+            is SignUpInfoContract.Event.PrivacyPolicyClicked -> {
+                setEffect {
+                    SignUpInfoContract.Effect.OpenWebsite(
+                        FabriikApiConstants.URL_PRIVACY_POLICY
+                    )
+                }
+            }
+            is SignUpInfoContract.Event.UserAgreementClicked -> {
+                setEffect {
+                    SignUpInfoContract.Effect.OpenWebsite(
+                        FabriikApiConstants.URL_TERMS_AND_CONDITIONS
+                    )
                 }
             }
         }

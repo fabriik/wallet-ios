@@ -25,6 +25,10 @@ abstract class FabriikViewModel<State : FabriikContract.State, Event : FabriikCo
     val currentState: State
         get() = state.value
 
+    init {
+        subscribeEvents()
+    }
+
     fun setEvent(event: Event) {
         val newEvent = event
         viewModelScope.launch { _event.emit(newEvent) }
@@ -40,5 +44,15 @@ abstract class FabriikViewModel<State : FabriikContract.State, Event : FabriikCo
         _state.value = newState
     }
 
+    private fun subscribeEvents() {
+        viewModelScope.launch {
+            event.collect {
+                handleEvent(it)
+            }
+        }
+    }
+
     protected abstract fun createInitialState() : State
+
+    protected abstract fun handleEvent(event: Event)
 }

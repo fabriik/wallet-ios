@@ -10,7 +10,6 @@ import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.validators.EmailValidator
 import com.fabriik.signup.utils.validators.PasswordValidator
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class LogInViewModel(
@@ -19,30 +18,22 @@ class LogInViewModel(
 
     private val userApi = UserApi.create(application.applicationContext)
 
-    init {
-        subscribeEvents()
-    }
-
     override fun createInitialState() = LogInContract.State()
 
-    private fun subscribeEvents() {
-        viewModelScope.launch {
-            event.collect {
-                when (it) {
-                    is LogInContract.Event.SubmitClicked -> login(
-                        email = it.email,
-                        password = it.password
-                    )
-                    is LogInContract.Event.SignUpClicked -> {
-                        setEffect {
-                            LogInContract.Effect.GoToSignUp
-                        }
-                    }
-                    is LogInContract.Event.ForgotPasswordClicked -> {
-                        setEffect {
-                            LogInContract.Effect.GoToForgotPassword
-                        }
-                    }
+    override fun handleEvent(event: LogInContract.Event) {
+        when (event) {
+            is LogInContract.Event.SubmitClicked -> login(
+                email = event.email,
+                password = event.password
+            )
+            is LogInContract.Event.SignUpClicked -> {
+                setEffect {
+                    LogInContract.Effect.GoToSignUp
+                }
+            }
+            is LogInContract.Event.ForgotPasswordClicked -> {
+                setEffect {
+                    LogInContract.Effect.GoToForgotPassword
                 }
             }
         }

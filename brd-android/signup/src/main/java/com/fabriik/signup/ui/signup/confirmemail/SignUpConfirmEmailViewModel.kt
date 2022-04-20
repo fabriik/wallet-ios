@@ -10,7 +10,6 @@ import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.toBundle
 import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class SignUpConfirmEmailViewModel(
@@ -24,23 +23,15 @@ class SignUpConfirmEmailViewModel(
 
     private val userApi = UserApi.create(application.applicationContext)
 
-    init {
-        subscribeEvents()
-    }
-
     override fun createInitialState() = SignUpConfirmEmailContract.State()
 
-    private fun subscribeEvents() {
-        viewModelScope.launch {
-            event.collect {
-                when (it) {
-                    is SignUpConfirmEmailContract.Event.ConfirmClicked -> {
-                        confirmRegistration(it.confirmationCode)
-                    }
-                    is SignUpConfirmEmailContract.Event.ResendCodeClicked -> {
-
-                    }
-                }
+    override fun handleEvent(event: SignUpConfirmEmailContract.Event) {
+        when (event) {
+            is SignUpConfirmEmailContract.Event.ConfirmClicked -> {
+                confirmRegistration(event.confirmationCode)
+            }
+            is SignUpConfirmEmailContract.Event.ResendCodeClicked -> {
+                //todo
             }
         }
     }
