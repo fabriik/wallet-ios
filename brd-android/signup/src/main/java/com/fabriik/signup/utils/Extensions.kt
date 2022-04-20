@@ -1,6 +1,5 @@
 package com.fabriik.signup.utils
 
-import android.content.res.ColorStateList
 import android.graphics.Paint
 import android.text.Spanned
 import android.text.TextPaint
@@ -9,11 +8,12 @@ import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.text.toSpannable
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.SavedStateHandle
 import com.fabriik.signup.R
+import com.fabriik.signup.utils.validators.Validator
 
 internal fun SavedStateHandle.toBundle() = bundleOf(
     *keys().map {
@@ -62,7 +62,14 @@ internal fun TextView.clickableSpan(
     movementMethod = LinkMovementMethod.getInstance()
 }
 
-internal fun EditText.setInputValid(valid: Boolean) {
+internal fun EditText.setValidator(validator: Validator) {
+    doAfterTextChanged {
+        val valid = validator(it?.toString() ?: "")
+        setValidationState(valid)
+    }
+}
+
+private fun EditText.setValidationState(valid: Boolean) {
     val background = if (valid) {
         R.drawable.fabriik_edittext_border_green
     } else {
