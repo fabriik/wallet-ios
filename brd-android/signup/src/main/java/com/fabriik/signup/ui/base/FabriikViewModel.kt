@@ -1,10 +1,11 @@
 package com.fabriik.signup.ui.base
 
-import androidx.lifecycle.LiveData
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 
-internal interface FabriikViewModel<S : FabriikViewState, A : FabriikViewAction, E : FabriikViewEffect?> {
-    val actions: Channel<A>
-    val state: LiveData<S>
-    val effect: LiveData<E?>
+internal interface FabriikViewModel<State : FabriikUiState, Event : FabriikUiEvent, Effect : FabriikUiEffect?> {
+    val event: SharedFlow<Event>
+    val state: StateFlow<State>
+    val effect: Flow<Effect>
 }

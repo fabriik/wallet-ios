@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +15,6 @@ import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentSignUpInfoBinding
 import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
-import com.fabriik.signup.ui.login.LogInViewEffect
 import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.clickableSpan
 import com.fabriik.signup.utils.hideKeyboard
@@ -25,11 +23,10 @@ import com.fabriik.signup.utils.validators.EmailValidator
 import com.fabriik.signup.utils.validators.PasswordValidator
 import com.fabriik.signup.utils.validators.PhoneNumberValidator
 import com.fabriik.signup.utils.validators.TextValidator
-import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
-class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpInfoViewEffect> {
+class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoUiState, SignUpInfoUiEffect> {
 
     private lateinit var binding: FragmentSignUpInfoBinding
     private val viewModel: SignUpInfoViewModel by lazy {
@@ -46,17 +43,21 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpIn
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSignUpInfoBinding.bind(view)
 
-        binding.etEmail.setValidator(EmailValidator)
-        binding.etPhone.setValidator(PhoneNumberValidator)
-        binding.etPassword.setValidator(PasswordValidator)
-        binding.etLastName.setValidator(TextValidator)
-        binding.etFirstName.setValidator(TextValidator)
+        with(binding) {
 
-        binding.btnSubmit.setOnClickListener {
-            hideKeyboard()
-            lifecycleScope.launch {
-                viewModel.actions.send(
-                    SignUpInfoViewAction.SubmitClicked(
+            // setup input fields
+            etEmail.setValidator(EmailValidator)
+            etPhone.setValidator(PhoneNumberValidator)
+            etPassword.setValidator(PasswordValidator)
+            etLastName.setValidator(TextValidator)
+            etFirstName.setValidator(TextValidator)
+
+            // setup "Submit" button
+            btnSubmit.setOnClickListener {
+                hideKeyboard()
+
+                viewModel.setEvent(
+                    SignUpInfoUiEvent.SubmitClicked(
                         email = binding.etEmail.text.toString(),
                         phone = binding.etPhone.text.toString(),
                         password = binding.etPassword.text.toString(),
@@ -66,51 +67,54 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpIn
                     )
                 )
             }
-        }
 
-        binding.tvTerms.clickableSpan(
-            fullTextRes = R.string.SignUp_Terms,
-            clickableParts = mapOf(
-                R.string.SignUp_Terms_Link1 to {
-                    lifecycleScope.launch {
-                        viewModel.actions.send(
-                            SignUpInfoViewAction.UserAgreementClicked
+            // setup "T&C / Privacy Policy" checkbox
+            tvTerms.clickableSpan(
+                fullTextRes = R.string.SignUp_Terms,
+                clickableParts = mapOf(
+                    R.string.SignUp_Terms_Link1 to {
+                        viewModel.setEvent(
+                            SignUpInfoUiEvent.UserAgreementClicked
+                        )
+                    },
+                    R.string.SignUp_Terms_Link2 to {
+                        viewModel.setEvent(
+                            SignUpInfoUiEvent.PrivacyPolicyClicked
                         )
                     }
-                },
-                R.string.SignUp_Terms_Link2 to {
-                    lifecycleScope.launch {
-                        viewModel.actions.send(
-                            SignUpInfoViewAction.PrivacyPolicyClicked
-                        )
-                    }
-                }
+                )
             )
-        )
-
-        viewModel.state.observe(viewLifecycleOwner) {
-            render(it)
         }
 
-        viewModel.effect.observe(viewLifecycleOwner) {
-            handleEffect(it)
+        // collect UI state
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect {
+                render(it)
+            }
+        }
+
+        // collect UI effect
+        lifecycleScope.launchWhenStarted {
+            viewModel.effect.collect {
+                handleEffect(it)
+            }
         }
     }
 
-    override fun render(state: SignUpInfoViewState) {
+    override fun render(state: SignUpInfoUiState) {
         //empty
     }
 
-    override fun handleEffect(effect: SignUpInfoViewEffect?) {
+    override fun handleEffect(effect: SignUpInfoUiEffect?) {
         when (effect) {
-            is SignUpInfoViewEffect.GoToConfirmation -> {
+            is SignUpInfoUiEffect.GoToConfirmation -> {
                 findNavController().navigate(
                     SignUpInfoFragmentDirections.actionConfirmEmail(
                         effect.sessionKey
                     )
                 )
             }
-            is SignUpInfoViewEffect.OpenWebsite -> {
+            is SignUpInfoUiEffect.OpenWebsite -> {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(effect.url))
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -122,11 +126,11 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoViewState, SignUpIn
                     )
                 }
             }
-            is SignUpInfoViewEffect.ShowLoading -> {
+            is SignUpInfoUiEffect.ShowLoading -> {
                 val activity = activity as SignupActivity?
                 activity?.showLoading(effect.show)
             }
-            is SignUpInfoViewEffect.ShowSnackBar -> {
+            is SignUpInfoUiEffect.ShowSnackBar -> {
                 SnackBarUtils.showLong(
                     view = binding.root,
                     text = effect.message

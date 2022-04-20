@@ -42,6 +42,8 @@ dependencies {
     implementation(Libs.Androidx.NavigationUI)
     implementation(Libs.Androidx.NavigationFragment)
 
+    implementation(Libs.Coroutines.Core)
+
     implementation(Libs.Material.Core)
 
     // Kodein DI

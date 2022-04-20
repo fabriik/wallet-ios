@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -19,9 +18,10 @@ import com.fabriik.signup.utils.setValidator
 import com.fabriik.signup.utils.underline
 import com.fabriik.signup.utils.validators.EmailValidator
 import com.fabriik.signup.utils.validators.PasswordValidator
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
+class LogInFragment : Fragment(), FabriikView<LogInUiState, LogInUiEffect> {
 
     private lateinit var binding: FragmentLogInBinding
     private val viewModel: LogInViewModel by lazy {
@@ -38,73 +38,81 @@ class LogInFragment : Fragment(), FabriikView<LogInViewState, LogInViewEffect> {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLogInBinding.bind(view)
 
-        binding.tvForgotPassword.underline()
-        binding.tvForgotPassword.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.actions.send(
-                    LogInViewAction.ForgotPasswordClicked
+        with(binding) {
+            // setup "Forgot password?" button
+            tvForgotPassword.underline()
+            tvForgotPassword.setOnClickListener {
+                viewModel.setEvent(
+                    LogInUiEvent.ForgotPasswordClicked
                 )
             }
-        }
 
-        binding.tvNoAccount.clickableSpan(
-            fullTextRes = R.string.LogIn_NoAccount,
-            clickableParts = mapOf(
-                R.string.LogIn_SignUp to {
-                    lifecycleScope.launch {
-                        viewModel.actions.send(
-                            LogInViewAction.SignUpClicked
+            // setup "Don't have an account" view
+            tvNoAccount.clickableSpan(
+                fullTextRes = R.string.LogIn_NoAccount,
+                clickableParts = mapOf(
+                    R.string.LogIn_SignUp to {
+                        viewModel.setEvent(
+                            LogInUiEvent.SignUpClicked
                         )
                     }
-                }
+                )
             )
-        )
 
-        binding.btnSubmit.setOnClickListener {
-            hideKeyboard()
-            lifecycleScope.launch {
-                viewModel.actions.send(
-                    LogInViewAction.SubmitClicked(
+            // setup "Submit" button
+            btnSubmit.setOnClickListener {
+                hideKeyboard()
+
+                viewModel.setEvent(
+                    LogInUiEvent.SubmitClicked(
                         email = binding.etEmail.text.toString(),
                         password = binding.etPassword.text.toString(),
                     )
                 )
             }
+
+            // setup input fields
+            etEmail.setValidator(EmailValidator)
+            etPassword.setValidator(PasswordValidator)
         }
 
-        binding.etEmail.setValidator(EmailValidator)
-        binding.etPassword.setValidator(PasswordValidator)
 
-        viewModel.state.observe(viewLifecycleOwner) {
-            render(it)
+        // collect UI state
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect {
+                render(it)
+            }
         }
 
-        viewModel.effect.observe(viewLifecycleOwner) {
-            handleEffect(it)
+        // collect UI effect
+        lifecycleScope.launchWhenStarted {
+            viewModel.effect.collect {
+                handleEffect(it)
+            }
         }
     }
 
-    override fun render(state: LogInViewState) {
+    override fun render(state: LogInUiState) {
         //empty
     }
 
-    override fun handleEffect(effect: LogInViewEffect?) {
+    override fun handleEffect(effect: LogInUiEffect?) {
         when (effect) {
-            LogInViewEffect.GoToSignUp -> {
+            LogInUiEffect.GoToSignUp -> {
                 findNavController().navigate(
                     LogInFragmentDirections.actionSignUp()
                 )
             }
-            LogInViewEffect.GoToForgotPassword -> {
+            LogInUiEffect.GoToForgotPassword -> {
                 /*findNavController().navigate(
                     LogInFragmentDirections.actionForgotPassword()
                 )*/ //todo: enable when forgot password is ready
             }
-            is LogInViewEffect.ShowLoading -> {
+            is LogInUiEffect.ShowLoading -> {
                 val activity = activity as SignupActivity?
                 activity?.showLoading(effect.show)
             }
-            is LogInViewEffect.ShowSnackBar -> {
+            is LogInUiEffect.ShowSnackBar -> {
                 SnackBarUtils.showLong(
                     view = binding.root,
                     text = effect.message

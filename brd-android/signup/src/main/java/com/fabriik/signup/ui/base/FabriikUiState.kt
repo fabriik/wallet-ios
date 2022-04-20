@@ -1,3 +1,3 @@
 package com.fabriik.signup.ui.base
 
-internal interface FabriikViewEffect
+internal interface FabriikUiState

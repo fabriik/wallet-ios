@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -13,14 +12,15 @@ import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentSignUpConfirmEmailBinding
 import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
-import com.fabriik.signup.ui.signup.info.SignUpInfoViewEffect
 import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.hideKeyboard
 import com.fabriik.signup.utils.setValidator
 import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class SignUpConfirmEmailFragment : Fragment(), FabriikView<SignUpConfirmEmailViewState, SignUpConfirmEmailViewEffect> {
+class SignUpConfirmEmailFragment : Fragment(),
+    FabriikView<SignUpConfirmEmailUiState, SignUpConfirmEmailUiEffect> {
 
     private lateinit var binding: FragmentSignUpConfirmEmailBinding
     private val viewModel: SignUpConfirmEmailViewModel by lazy {
@@ -37,52 +37,61 @@ class SignUpConfirmEmailFragment : Fragment(), FabriikView<SignUpConfirmEmailVie
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSignUpConfirmEmailBinding.bind(view)
 
-        binding.etCode.setValidator(ConfirmationCodeValidator)
+        with(binding) {
 
-        binding.btnConfirm.setOnClickListener {
-            hideKeyboard()
-            lifecycleScope.launch {
-                viewModel.actions.send(
-                    SignUpConfirmEmailViewAction.ConfirmClicked(
+            // setup input field
+            etCode.setValidator(ConfirmationCodeValidator)
+
+            // setup "Confirm" button
+            btnConfirm.setOnClickListener {
+                hideKeyboard()
+
+                viewModel.setEvent(
+                    SignUpConfirmEmailUiEvent.ConfirmClicked(
                         binding.etCode.text.toString()
                     )
                 )
             }
-        }
 
-        binding.tvResend.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.actions.send(
-                    SignUpConfirmEmailViewAction.ResendCodeClicked
+            // setup "Resend code" button
+            tvResend.setOnClickListener {
+                viewModel.setEvent(
+                    SignUpConfirmEmailUiEvent.ResendCodeClicked
                 )
             }
         }
 
-        viewModel.state.observe(viewLifecycleOwner) {
-            render(it)
+        // collect UI state
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect {
+                render(it)
+            }
         }
 
-        viewModel.effect.observe(viewLifecycleOwner) {
-            handleEffect(it)
+        // collect UI effect
+        lifecycleScope.launchWhenStarted {
+            viewModel.effect.collect {
+                handleEffect(it)
+            }
         }
     }
 
-    override fun render(state: SignUpConfirmEmailViewState) {
+    override fun render(state: SignUpConfirmEmailUiState) {
         //empty
     }
 
-    override fun handleEffect(effect: SignUpConfirmEmailViewEffect?) {
+    override fun handleEffect(effect: SignUpConfirmEmailUiEffect?) {
         when (effect) {
-            is SignUpConfirmEmailViewEffect.GoToLogin -> {
+            is SignUpConfirmEmailUiEffect.GoToLogin -> {
                 findNavController().navigate(
                     SignUpConfirmEmailFragmentDirections.actionLogIn()
                 )
             }
-            is SignUpConfirmEmailViewEffect.ShowLoading -> {
+            is SignUpConfirmEmailUiEffect.ShowLoading -> {
                 val activity = activity as SignupActivity?
                 activity?.showLoading(effect.show)
             }
-            is SignUpConfirmEmailViewEffect.ShowSnackBar -> {
+            is SignUpConfirmEmailUiEffect.ShowSnackBar -> {
                 SnackBarUtils.showLong(
                     view = binding.root,
                     text = effect.message

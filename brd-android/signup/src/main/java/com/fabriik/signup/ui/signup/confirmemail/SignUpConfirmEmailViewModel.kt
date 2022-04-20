@@ -6,37 +6,29 @@ import com.fabriik.signup.R
 import com.fabriik.signup.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
-import com.fabriik.signup.ui.login.LogInViewEffect
-import com.fabriik.signup.utils.SingleLiveEvent
+import com.fabriik.signup.ui.login.LogInUiEvent
 import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.toBundle
 import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
-import com.fabriik.signup.utils.validators.EmailValidator
-import com.fabriik.signup.utils.validators.PasswordValidator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class SignUpConfirmEmailViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application),
-    FabriikViewModel<SignUpConfirmEmailViewState, SignUpConfirmEmailViewAction, SignUpConfirmEmailViewEffect> {
+    FabriikViewModel<SignUpConfirmEmailUiState, SignUpConfirmEmailUiEvent, SignUpConfirmEmailUiEffect> {
 
-    override val actions: Channel<SignUpConfirmEmailViewAction> = Channel(Channel.UNLIMITED)
+    private val _event: MutableSharedFlow<SignUpConfirmEmailUiEvent> = MutableSharedFlow()
+    override val event = _event.asSharedFlow()
 
-    override val state: LiveData<SignUpConfirmEmailViewState>
-        get() = _state
+    private val _state = MutableStateFlow(SignUpConfirmEmailUiState())
+    override val state = _state.asStateFlow()
 
-    override val effect: LiveData<SignUpConfirmEmailViewEffect?>
-        get() = _effect
-
-    private val _state = MutableLiveData<SignUpConfirmEmailViewState>().apply {
-        value = SignUpConfirmEmailViewState()
-    }
-    private val _effect = SingleLiveEvent<SignUpConfirmEmailViewEffect?>()
+    private val _effect = Channel<SignUpConfirmEmailUiEffect>()
+    override val effect = _effect.receiveAsFlow()
 
     private val arguments = SignUpConfirmEmailFragmentArgs.fromBundle(
         savedStateHandle.toBundle()
@@ -45,15 +37,24 @@ class SignUpConfirmEmailViewModel(
     private val userApi = UserApi.create(application.applicationContext)
 
     init {
-        handleAction()
+        subscribeEvents()
     }
 
-    private fun handleAction() {
+    fun setEvent(event: SignUpConfirmEmailUiEvent) {
         viewModelScope.launch {
-            actions.consumeAsFlow().collect {
+            _event.emit(event)
+        }
+    }
+
+    private fun subscribeEvents() {
+        viewModelScope.launch {
+            event.collect {
                 when (it) {
-                    is SignUpConfirmEmailViewAction.ConfirmClicked -> {
+                    is SignUpConfirmEmailUiEvent.ConfirmClicked -> {
                         confirmRegistration(it.confirmationCode)
+                    }
+                    is SignUpConfirmEmailUiEvent.ResendCodeClicked -> {
+
                     }
                 }
             }
@@ -63,18 +64,20 @@ class SignUpConfirmEmailViewModel(
     private fun confirmRegistration(confirmationCode: String) {
         // validate input data
         if (!ConfirmationCodeValidator(confirmationCode)) {
-            _effect.postValue(
-                SignUpConfirmEmailViewEffect.ShowSnackBar(
-                    getString(R.string.ConfirmEmail_EnterValidData)
+            viewModelScope.launch {
+                _effect.send(
+                    SignUpConfirmEmailUiEffect.ShowSnackBar(
+                        getString(R.string.ConfirmEmail_EnterValidData)
+                    )
                 )
-            )
+            }
             return
         }
 
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
-            _effect.postValue(
-                SignUpConfirmEmailViewEffect.ShowLoading(true)
+            _effect.send(
+                SignUpConfirmEmailUiEffect.ShowLoading(true)
             )
 
             val response = userApi.confirmRegistration(
@@ -82,34 +85,30 @@ class SignUpConfirmEmailViewModel(
                 confirmationCode = confirmationCode
             )
 
-            _effect.postValue(
-                SignUpConfirmEmailViewEffect.ShowLoading(false)
+            _effect.send(
+                SignUpConfirmEmailUiEffect.ShowLoading(false)
             )
 
             when (response.status) {
                 Status.SUCCESS -> {
-                    _effect.postValue(
-                        SignUpConfirmEmailViewEffect.ShowSnackBar(
+                    _effect.send(
+                        SignUpConfirmEmailUiEffect.ShowSnackBar(
                             getString(R.string.SignUp_Completed)
                         )
                     )
 
-                    _effect.postValue(
-                        SignUpConfirmEmailViewEffect.GoToLogin
+                    _effect.send(
+                        SignUpConfirmEmailUiEffect.GoToLogin
                     )
                 }
                 else -> {
-                    _effect.postValue(
-                        SignUpConfirmEmailViewEffect.ShowSnackBar(
+                    _effect.send(
+                        SignUpConfirmEmailUiEffect.ShowSnackBar(
                             response.message!!
                         )
                     )
                 }
             }
         }
-    }
-
-    private suspend fun updateState(handler: suspend (intent: SignUpConfirmEmailViewState) -> SignUpConfirmEmailViewState) {
-        _state.postValue(handler(state.value!!))
     }
 }
