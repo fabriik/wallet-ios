@@ -103,9 +103,9 @@ class LogInFragment : Fragment(), FabriikView<LogInContract.State, LogInContract
                 )
             }
             LogInContract.Effect.GoToForgotPassword -> {
-                /*findNavController().navigate(
+                findNavController().navigate(
                     LogInFragmentDirections.actionForgotPassword()
-                )*/ //todo: enable when forgot password is ready
+                )
             }
             is LogInContract.Effect.ShowLoading -> {
                 val activity = activity as SignupActivity?

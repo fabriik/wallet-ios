@@ -44,4 +44,10 @@
     <string name="ConfirmEmail.Confirm">Confirm</string>
     <string name="ConfirmEmail.EnterValidData">Please enter valid data</string>
 
+    <!-- Forgot password - Enter email screen -->
+    <string name="ForgotPassword.EnterEmail.Title">Password recovery</string>
+    <string name="ForgotPassword.EnterEmail.Description">Please enter an email below that you have used to register with Fabriik Wallet.</string>
+    <string name="ForgotPassword.EnterEmail.Email">Email</string>
+    <string name="ForgotPassword.EnterEmail.EmailHint">Email address</string>
+    <string name="ForgotPassword.EnterEmail.Confirm">Confirm</string>
 </resources>
