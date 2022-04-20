@@ -26,7 +26,7 @@ import com.fabriik.signup.utils.validators.TextValidator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoUiState, SignUpInfoUiEffect> {
+class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoContract.State, SignUpInfoContract.Effect> {
 
     private lateinit var binding: FragmentSignUpInfoBinding
     private val viewModel: SignUpInfoViewModel by lazy {
@@ -57,7 +57,7 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoUiState, SignUpInfo
                 hideKeyboard()
 
                 viewModel.setEvent(
-                    SignUpInfoUiEvent.SubmitClicked(
+                    SignUpInfoContract.Event.SubmitClicked(
                         email = binding.etEmail.text.toString(),
                         phone = binding.etPhone.text.toString(),
                         password = binding.etPassword.text.toString(),
@@ -74,12 +74,12 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoUiState, SignUpInfo
                 clickableParts = mapOf(
                     R.string.SignUp_Terms_Link1 to {
                         viewModel.setEvent(
-                            SignUpInfoUiEvent.UserAgreementClicked
+                            SignUpInfoContract.Event.UserAgreementClicked
                         )
                     },
                     R.string.SignUp_Terms_Link2 to {
                         viewModel.setEvent(
-                            SignUpInfoUiEvent.PrivacyPolicyClicked
+                            SignUpInfoContract.Event.PrivacyPolicyClicked
                         )
                     }
                 )
@@ -101,20 +101,20 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoUiState, SignUpInfo
         }
     }
 
-    override fun render(state: SignUpInfoUiState) {
+    override fun render(state: SignUpInfoContract.State) {
         //empty
     }
 
-    override fun handleEffect(effect: SignUpInfoUiEffect?) {
+    override fun handleEffect(effect: SignUpInfoContract.Effect) {
         when (effect) {
-            is SignUpInfoUiEffect.GoToConfirmation -> {
+            is SignUpInfoContract.Effect.GoToConfirmation -> {
                 findNavController().navigate(
                     SignUpInfoFragmentDirections.actionConfirmEmail(
                         effect.sessionKey
                     )
                 )
             }
-            is SignUpInfoUiEffect.OpenWebsite -> {
+            is SignUpInfoContract.Effect.OpenWebsite -> {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(effect.url))
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -126,11 +126,11 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoUiState, SignUpInfo
                     )
                 }
             }
-            is SignUpInfoUiEffect.ShowLoading -> {
+            is SignUpInfoContract.Effect.ShowLoading -> {
                 val activity = activity as SignupActivity?
                 activity?.showLoading(effect.show)
             }
-            is SignUpInfoUiEffect.ShowSnackBar -> {
+            is SignUpInfoContract.Effect.ShowSnackBar -> {
                 SnackBarUtils.showLong(
                     view = binding.root,
                     text = effect.message

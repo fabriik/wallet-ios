@@ -17,10 +17,9 @@ import com.fabriik.signup.utils.hideKeyboard
 import com.fabriik.signup.utils.setValidator
 import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class SignUpConfirmEmailFragment : Fragment(),
-    FabriikView<SignUpConfirmEmailUiState, SignUpConfirmEmailUiEffect> {
+    FabriikView<SignUpConfirmEmailContract.State, SignUpConfirmEmailContract.Effect> {
 
     private lateinit var binding: FragmentSignUpConfirmEmailBinding
     private val viewModel: SignUpConfirmEmailViewModel by lazy {
@@ -47,7 +46,7 @@ class SignUpConfirmEmailFragment : Fragment(),
                 hideKeyboard()
 
                 viewModel.setEvent(
-                    SignUpConfirmEmailUiEvent.ConfirmClicked(
+                    SignUpConfirmEmailContract.Event.ConfirmClicked(
                         binding.etCode.text.toString()
                     )
                 )
@@ -56,7 +55,7 @@ class SignUpConfirmEmailFragment : Fragment(),
             // setup "Resend code" button
             tvResend.setOnClickListener {
                 viewModel.setEvent(
-                    SignUpConfirmEmailUiEvent.ResendCodeClicked
+                    SignUpConfirmEmailContract.Event.ResendCodeClicked
                 )
             }
         }
@@ -76,22 +75,22 @@ class SignUpConfirmEmailFragment : Fragment(),
         }
     }
 
-    override fun render(state: SignUpConfirmEmailUiState) {
+    override fun render(state: SignUpConfirmEmailContract.State) {
         //empty
     }
 
-    override fun handleEffect(effect: SignUpConfirmEmailUiEffect?) {
+    override fun handleEffect(effect: SignUpConfirmEmailContract.Effect) {
         when (effect) {
-            is SignUpConfirmEmailUiEffect.GoToLogin -> {
+            is SignUpConfirmEmailContract.Effect.GoToLogin -> {
                 findNavController().navigate(
                     SignUpConfirmEmailFragmentDirections.actionLogIn()
                 )
             }
-            is SignUpConfirmEmailUiEffect.ShowLoading -> {
+            is SignUpConfirmEmailContract.Effect.ShowLoading -> {
                 val activity = activity as SignupActivity?
                 activity?.showLoading(effect.show)
             }
-            is SignUpConfirmEmailUiEffect.ShowSnackBar -> {
+            is SignUpConfirmEmailContract.Effect.ShowSnackBar -> {
                 SnackBarUtils.showLong(
                     view = binding.root,
                     text = effect.message

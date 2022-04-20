@@ -6,7 +6,6 @@ import com.fabriik.signup.R
 import com.fabriik.signup.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
-import com.fabriik.signup.ui.login.LogInUiEvent
 import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.toBundle
 import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
@@ -19,15 +18,15 @@ class SignUpConfirmEmailViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application),
-    FabriikViewModel<SignUpConfirmEmailUiState, SignUpConfirmEmailUiEvent, SignUpConfirmEmailUiEffect> {
+    FabriikViewModel<SignUpConfirmEmailContract.State, SignUpConfirmEmailContract.Event, SignUpConfirmEmailContract.Effect> {
 
-    private val _event: MutableSharedFlow<SignUpConfirmEmailUiEvent> = MutableSharedFlow()
+    private val _event: MutableSharedFlow<SignUpConfirmEmailContract.Event> = MutableSharedFlow()
     override val event = _event.asSharedFlow()
 
-    private val _state = MutableStateFlow(SignUpConfirmEmailUiState())
+    private val _state = MutableStateFlow(SignUpConfirmEmailContract.State())
     override val state = _state.asStateFlow()
 
-    private val _effect = Channel<SignUpConfirmEmailUiEffect>()
+    private val _effect = Channel<SignUpConfirmEmailContract.Effect>()
     override val effect = _effect.receiveAsFlow()
 
     private val arguments = SignUpConfirmEmailFragmentArgs.fromBundle(
@@ -40,7 +39,7 @@ class SignUpConfirmEmailViewModel(
         subscribeEvents()
     }
 
-    fun setEvent(event: SignUpConfirmEmailUiEvent) {
+    fun setEvent(event: SignUpConfirmEmailContract.Event) {
         viewModelScope.launch {
             _event.emit(event)
         }
@@ -50,10 +49,10 @@ class SignUpConfirmEmailViewModel(
         viewModelScope.launch {
             event.collect {
                 when (it) {
-                    is SignUpConfirmEmailUiEvent.ConfirmClicked -> {
+                    is SignUpConfirmEmailContract.Event.ConfirmClicked -> {
                         confirmRegistration(it.confirmationCode)
                     }
-                    is SignUpConfirmEmailUiEvent.ResendCodeClicked -> {
+                    is SignUpConfirmEmailContract.Event.ResendCodeClicked -> {
 
                     }
                 }
@@ -66,7 +65,7 @@ class SignUpConfirmEmailViewModel(
         if (!ConfirmationCodeValidator(confirmationCode)) {
             viewModelScope.launch {
                 _effect.send(
-                    SignUpConfirmEmailUiEffect.ShowSnackBar(
+                    SignUpConfirmEmailContract.Effect.ShowSnackBar(
                         getString(R.string.ConfirmEmail_EnterValidData)
                     )
                 )
@@ -77,7 +76,7 @@ class SignUpConfirmEmailViewModel(
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
             _effect.send(
-                SignUpConfirmEmailUiEffect.ShowLoading(true)
+                SignUpConfirmEmailContract.Effect.ShowLoading(true)
             )
 
             val response = userApi.confirmRegistration(
@@ -86,24 +85,24 @@ class SignUpConfirmEmailViewModel(
             )
 
             _effect.send(
-                SignUpConfirmEmailUiEffect.ShowLoading(false)
+                SignUpConfirmEmailContract.Effect.ShowLoading(false)
             )
 
             when (response.status) {
                 Status.SUCCESS -> {
                     _effect.send(
-                        SignUpConfirmEmailUiEffect.ShowSnackBar(
+                        SignUpConfirmEmailContract.Effect.ShowSnackBar(
                             getString(R.string.SignUp_Completed)
                         )
                     )
 
                     _effect.send(
-                        SignUpConfirmEmailUiEffect.GoToLogin
+                        SignUpConfirmEmailContract.Effect.GoToLogin
                     )
                 }
                 else -> {
                     _effect.send(
-                        SignUpConfirmEmailUiEffect.ShowSnackBar(
+                        SignUpConfirmEmailContract.Effect.ShowSnackBar(
                             response.message!!
                         )
                     )

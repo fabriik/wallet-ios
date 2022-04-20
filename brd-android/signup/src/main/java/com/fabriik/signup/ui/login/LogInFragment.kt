@@ -19,9 +19,8 @@ import com.fabriik.signup.utils.underline
 import com.fabriik.signup.utils.validators.EmailValidator
 import com.fabriik.signup.utils.validators.PasswordValidator
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
-class LogInFragment : Fragment(), FabriikView<LogInUiState, LogInUiEffect> {
+class LogInFragment : Fragment(), FabriikView<LogInContract.State, LogInContract.Effect> {
 
     private lateinit var binding: FragmentLogInBinding
     private val viewModel: LogInViewModel by lazy {
@@ -43,7 +42,7 @@ class LogInFragment : Fragment(), FabriikView<LogInUiState, LogInUiEffect> {
             tvForgotPassword.underline()
             tvForgotPassword.setOnClickListener {
                 viewModel.setEvent(
-                    LogInUiEvent.ForgotPasswordClicked
+                    LogInContract.Event.ForgotPasswordClicked
                 )
             }
 
@@ -53,7 +52,7 @@ class LogInFragment : Fragment(), FabriikView<LogInUiState, LogInUiEffect> {
                 clickableParts = mapOf(
                     R.string.LogIn_SignUp to {
                         viewModel.setEvent(
-                            LogInUiEvent.SignUpClicked
+                            LogInContract.Event.SignUpClicked
                         )
                     }
                 )
@@ -64,7 +63,7 @@ class LogInFragment : Fragment(), FabriikView<LogInUiState, LogInUiEffect> {
                 hideKeyboard()
 
                 viewModel.setEvent(
-                    LogInUiEvent.SubmitClicked(
+                    LogInContract.Event.SubmitClicked(
                         email = binding.etEmail.text.toString(),
                         password = binding.etPassword.text.toString(),
                     )
@@ -92,27 +91,27 @@ class LogInFragment : Fragment(), FabriikView<LogInUiState, LogInUiEffect> {
         }
     }
 
-    override fun render(state: LogInUiState) {
+    override fun render(state: LogInContract.State) {
         //empty
     }
 
-    override fun handleEffect(effect: LogInUiEffect?) {
+    override fun handleEffect(effect: LogInContract.Effect) {
         when (effect) {
-            LogInUiEffect.GoToSignUp -> {
+            LogInContract.Effect.GoToSignUp -> {
                 findNavController().navigate(
                     LogInFragmentDirections.actionSignUp()
                 )
             }
-            LogInUiEffect.GoToForgotPassword -> {
+            LogInContract.Effect.GoToForgotPassword -> {
                 /*findNavController().navigate(
                     LogInFragmentDirections.actionForgotPassword()
                 )*/ //todo: enable when forgot password is ready
             }
-            is LogInUiEffect.ShowLoading -> {
+            is LogInContract.Effect.ShowLoading -> {
                 val activity = activity as SignupActivity?
                 activity?.showLoading(effect.show)
             }
-            is LogInUiEffect.ShowSnackBar -> {
+            is LogInContract.Effect.ShowSnackBar -> {
                 SnackBarUtils.showLong(
                     view = binding.root,
                     text = effect.message

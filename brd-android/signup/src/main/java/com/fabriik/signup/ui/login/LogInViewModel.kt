@@ -13,18 +13,17 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class LogInViewModel(
-    application: Application,
-    savedStateHandle: SavedStateHandle
+    application: Application
 ) : AndroidViewModel(application),
-    FabriikViewModel<LogInUiState, LogInUiEvent, LogInUiEffect> {
+    FabriikViewModel<LogInContract.State, LogInContract.Event, LogInContract.Effect> {
 
-    private val _event: MutableSharedFlow<LogInUiEvent> = MutableSharedFlow()
+    private val _event: MutableSharedFlow<LogInContract.Event> = MutableSharedFlow()
     override val event = _event.asSharedFlow()
 
-    private val _state = MutableStateFlow(LogInUiState())
+    private val _state = MutableStateFlow(LogInContract.State())
     override val state = _state.asStateFlow()
 
-    private val _effect = Channel<LogInUiEffect>()
+    private val _effect = Channel<LogInContract.Effect>()
     override val effect = _effect.receiveAsFlow()
 
     private val userApi = UserApi.create(application.applicationContext)
@@ -33,7 +32,7 @@ class LogInViewModel(
         subscribeEvents()
     }
 
-    fun setEvent(event: LogInUiEvent) {
+    fun setEvent(event: LogInContract.Event) {
         viewModelScope.launch {
             _event.emit(event)
         }
@@ -43,18 +42,18 @@ class LogInViewModel(
         viewModelScope.launch {
             event.collect {
                 when (it) {
-                    is LogInUiEvent.SubmitClicked -> login(
+                    is LogInContract.Event.SubmitClicked -> login(
                         email = it.email,
                         password = it.password
                     )
-                    is LogInUiEvent.SignUpClicked -> {
+                    is LogInContract.Event.SignUpClicked -> {
                         viewModelScope.launch {
-                            _effect.send(LogInUiEffect.GoToSignUp)
+                            _effect.send(LogInContract.Effect.GoToSignUp)
                         }
                     }
-                    is LogInUiEvent.ForgotPasswordClicked -> {
+                    is LogInContract.Event.ForgotPasswordClicked -> {
                         viewModelScope.launch {
-                            _effect.send(LogInUiEffect.GoToForgotPassword)
+                            _effect.send(LogInContract.Effect.GoToForgotPassword)
                         }
                     }
                 }
@@ -79,7 +78,7 @@ class LogInViewModel(
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
             _effect.send(
-                LogInUiEffect.ShowLoading(true)
+                LogInContract.Effect.ShowLoading(true)
             )
 
             val response = userApi.login(
@@ -88,20 +87,20 @@ class LogInViewModel(
             )
 
             _effect.send(
-                LogInUiEffect.ShowLoading(false)
+                LogInContract.Effect.ShowLoading(false)
             )
 
             when (response.status) {
                 Status.SUCCESS -> {
                     _effect.send(
-                        LogInUiEffect.ShowSnackBar(
+                        LogInContract.Effect.ShowSnackBar(
                             getString(R.string.LogIn_Completed)
                         )
                     )
                 }
                 else -> {
                     _effect.send(
-                        LogInUiEffect.ShowSnackBar(
+                        LogInContract.Effect.ShowSnackBar(
                             response.message!!
                         )
                     )
