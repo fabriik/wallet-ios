@@ -1,12 +1,10 @@
-package com.fabriik.signup.ui.signup
+package com.fabriik.signup.ui.signup.info
 
 import android.app.Application
 import androidx.lifecycle.*
 import com.fabriik.signup.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
-import com.fabriik.signup.ui.login.LogInViewEffect
-import com.fabriik.signup.ui.login.LogInViewState
 import com.fabriik.signup.utils.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -14,24 +12,24 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class SignUpViewModel(
+class SignUpInfoViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle
-) : AndroidViewModel(application), FabriikViewModel<SignUpViewState, SignUpViewAction, SignUpViewEffect>,
+) : AndroidViewModel(application), FabriikViewModel<SignUpInfoViewState, SignUpInfoViewAction, SignUpInfoViewEffect>,
     LifecycleObserver {
 
-    override val actions: Channel<SignUpViewAction> = Channel(Channel.UNLIMITED)
+    override val actions: Channel<SignUpInfoViewAction> = Channel(Channel.UNLIMITED)
 
-    override val state: LiveData<SignUpViewState>
+    override val state: LiveData<SignUpInfoViewState>
         get() = _state
 
-    override val effect: LiveData<SignUpViewEffect?>
+    override val effect: LiveData<SignUpInfoViewEffect?>
         get() = _effect
 
-    private val _state = MutableLiveData<SignUpViewState>().apply {
-        value = SignUpViewState()
+    private val _state = MutableLiveData<SignUpInfoViewState>().apply {
+        value = SignUpInfoViewState()
     }
-    private val _effect = SingleLiveEvent<SignUpViewEffect?>()
+    private val _effect = SingleLiveEvent<SignUpInfoViewEffect?>()
 
     private val userApi = UserApi.create()
 
@@ -43,7 +41,7 @@ class SignUpViewModel(
         viewModelScope.launch {
             actions.consumeAsFlow().collect {
                 when(it) {
-                    is SignUpViewAction.SubmitClicked -> {
+                    is SignUpInfoViewAction.SubmitClicked -> {
                         register(
                             email = it.email,
                             phone = it.phone,
@@ -52,14 +50,14 @@ class SignUpViewModel(
                             firstName = it.firstName,
                         )
                     }
-                    is SignUpViewAction.PrivacyPolicyClicked -> {
+                    is SignUpInfoViewAction.PrivacyPolicyClicked -> {
                         _effect.postValue(
-                            SignUpViewEffect.OpenWebsite("https://www.google.com")
+                            SignUpInfoViewEffect.OpenWebsite("https://www.google.com")
                         )
                     }
-                    is SignUpViewAction.UserAgreementClicked -> {
+                    is SignUpInfoViewAction.UserAgreementClicked -> {
                         _effect.postValue(
-                            SignUpViewEffect.OpenWebsite("https://www.google.com")
+                            SignUpInfoViewEffect.OpenWebsite("https://www.google.com")
                         )
                     }
                 }
@@ -91,7 +89,7 @@ class SignUpViewModel(
                         }
 
                         _effect.postValue(
-                            SignUpViewEffect.GoToConfirmation(
+                            SignUpInfoViewEffect.GoToConfirmation(
                                 response.data!!.sessionKey
                             )
                         )
@@ -116,7 +114,7 @@ class SignUpViewModel(
         }
     }
 
-    private suspend fun updateState(handler: suspend (intent: SignUpViewState) -> SignUpViewState) {
+    private suspend fun updateState(handler: suspend (intent: SignUpInfoViewState) -> SignUpInfoViewState) {
         _state.postValue(handler(state.value!!))
     }
 }

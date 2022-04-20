@@ -18,8 +18,8 @@
 
     <fragment
         android:id="@+id/fragmentSignUp"
-        android:name="com.fabriik.signup.ui.signup.SignUpFragment"
-        tools:layout="@layout/fragment_sign_up">
+        android:name="com.fabriik.signup.ui.signup.info.SignUpInfoFragment"
+        tools:layout="@layout/fragment_sign_up_info">
 
         <action
             android:id="@+id/action_confirm_email"
@@ -29,8 +29,8 @@
 
     <fragment
         android:id="@+id/fragmentConfirmEmail"
-        android:name="com.fabriik.signup.ui.confirmemail.ConfirmEmailFragment"
-        tools:layout="@layout/fragment_confirm_email">
+        android:name="com.fabriik.signup.ui.signup.confirmemail.SignUpConfirmEmailFragment"
+        tools:layout="@layout/fragment_sign_up_confirm_email">
 
         <argument
             android:name="sessionKey"

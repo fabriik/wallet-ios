@@ -1,4 +1,4 @@
-package com.fabriik.signup.ui.confirmemail
+package com.fabriik.signup.ui.signup.confirmemail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,32 +9,31 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.fabriik.signup.R
-import com.fabriik.signup.databinding.FragmentConfirmEmailBinding
+import com.fabriik.signup.databinding.FragmentSignUpConfirmEmailBinding
 import com.fabriik.signup.ui.base.FabriikView
-import com.fabriik.signup.ui.login.LogInViewAction
 import kotlinx.coroutines.launch
 
-class ConfirmEmailFragment : Fragment(), FabriikView<ConfirmEmailViewState, ConfirmEmailViewEffect> {
+class SignUpConfirmEmailFragment : Fragment(), FabriikView<SignUpConfirmEmailViewState, SignUpConfirmEmailViewEffect> {
 
-    private lateinit var binding: FragmentConfirmEmailBinding
-    private val viewModel: ConfirmEmailViewModel by lazy {
-        ViewModelProvider(this).get(ConfirmEmailViewModel::class.java)
+    private lateinit var binding: FragmentSignUpConfirmEmailBinding
+    private val viewModel: SignUpConfirmEmailViewModel by lazy {
+        ViewModelProvider(this).get(SignUpConfirmEmailViewModel::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_confirm_email, container, false)
+        return inflater.inflate(R.layout.fragment_sign_up_confirm_email, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentConfirmEmailBinding.bind(view)
+        binding = FragmentSignUpConfirmEmailBinding.bind(view)
 
         binding.btnConfirm.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.actions.send(
-                    ConfirmEmailViewAction.ConfirmClicked(
+                    SignUpConfirmEmailViewAction.ConfirmClicked(
                         binding.etCode.text.toString()
                     )
                 )
@@ -44,7 +43,7 @@ class ConfirmEmailFragment : Fragment(), FabriikView<ConfirmEmailViewState, Conf
         binding.tvResend.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.actions.send(
-                    ConfirmEmailViewAction.ResendCodeClicked
+                    SignUpConfirmEmailViewAction.ResendCodeClicked
                 )
             }
         }
@@ -58,15 +57,15 @@ class ConfirmEmailFragment : Fragment(), FabriikView<ConfirmEmailViewState, Conf
         }
     }
 
-    override fun render(state: ConfirmEmailViewState) {
+    override fun render(state: SignUpConfirmEmailViewState) {
         with(state) {
             //todo: loading
         }
     }
 
-    override fun handleEffect(effect: ConfirmEmailViewEffect?) {
+    override fun handleEffect(effect: SignUpConfirmEmailViewEffect?) {
         when (effect) {
-            is ConfirmEmailViewEffect.FinishWithToastMessage -> {
+            is SignUpConfirmEmailViewEffect.FinishWithToastMessage -> {
                 Toast.makeText(
                     context, effect.message, Toast.LENGTH_LONG
                 ).show()

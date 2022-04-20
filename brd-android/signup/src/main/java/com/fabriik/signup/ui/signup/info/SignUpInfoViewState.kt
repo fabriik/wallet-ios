@@ -1,8 +1,8 @@
-package com.fabriik.signup.ui.confirmemail
+package com.fabriik.signup.ui.signup.info
 
 import com.fabriik.signup.ui.base.FabriikViewState
 
-data class ConfirmEmailViewState(
+data class SignUpInfoViewState(
     private val isLoading: Boolean = false,
     private val errorMessage: String? = null
 ) : FabriikViewState
