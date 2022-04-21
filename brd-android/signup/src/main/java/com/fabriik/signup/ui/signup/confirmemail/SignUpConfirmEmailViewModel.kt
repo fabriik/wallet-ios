@@ -79,7 +79,7 @@ class SignUpConfirmEmailViewModel(
                 else -> {
                     setEffect {
                         SignUpConfirmEmailContract.Effect.ShowSnackBar(
-                            response.message!!
+                            response.message ?: getString(R.string.SignUp_DefaultErrorMessage)
                         )
                     }
                 }

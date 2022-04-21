@@ -79,7 +79,7 @@ class LogInViewModel(
                 else -> {
                     setEffect {
                         LogInContract.Effect.ShowSnackBar(
-                            response.message!!
+                            response.message ?: getString(R.string.SignUp_DefaultErrorMessage)
                         )
                     }
                 }

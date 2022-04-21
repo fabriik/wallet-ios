@@ -50,6 +50,7 @@
     <string name="ForgotPassword.Email">Email</string>
     <string name="ForgotPassword.EmailHint">Email address</string>
     <string name="ForgotPassword.Confirm">Confirm</string>
+    <string name="ForgotPassword.EnterValidEmail">Please enter valid email address</string>
 
     <!-- Reset password screen -->
     <string name="ResetPassword.Title">Password recovery</string>
@@ -60,9 +61,10 @@
     <string name="ResetPassword.ConfirmNewPassword">Confirm new password</string>
     <string name="ResetPassword.PasswordHint">Minimum 8 characters</string>
     <string name="ResetPassword.Confirm">Confirm</string>
+    <string name="ResetPassword.EnterValidData">Please enter valid data</string>
 
     <!-- Reset password completed screen -->
     <string name="ResetPasswordCompleted.Title">Password recovery</string>
     <string name="ResetPasswordCompleted.Description">Password recovery was successful. Use your new password to log in.</string>
-    <string name="ResetPasswordCompleted.Login">Login</string>h
+    <string name="ResetPasswordCompleted.Login">Login</string>
 </resources>

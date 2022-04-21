@@ -93,18 +93,18 @@ class SignUpInfoViewModel(
                 SignUpInfoContract.Effect.ShowLoading(false)
             }
 
-            when (response.status) {
-                Status.SUCCESS -> {
+            when {
+                response.status == Status.SUCCESS && response.data != null -> {
                     setEffect {
                         SignUpInfoContract.Effect.GoToConfirmation(
-                            response.data!!.sessionKey
+                            response.data.sessionKey
                         )
                     }
                 }
                 else -> {
                     setEffect {
                         SignUpInfoContract.Effect.ShowSnackBar(
-                            response.message!!
+                            response.message ?: getString(R.string.SignUp_DefaultErrorMessage)
                         )
                     }
                 }

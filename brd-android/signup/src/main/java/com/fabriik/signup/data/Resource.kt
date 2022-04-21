@@ -2,7 +2,7 @@ package com.fabriik.signup.data
 
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
     companion object {
-        fun <T> success(data: T): Resource<T> =
+        fun <T> success(data: T?): Resource<T?> =
             Resource(status = Status.SUCCESS, data = data, message = null)
 
         fun <T> error(data: T? = null, message: String): Resource<T> =

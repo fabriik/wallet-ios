@@ -12,17 +12,17 @@ interface UserService {
     @POST("login")
     suspend fun login(
         @Body request: LoginRequest
-    ) : UserApiResponse<LoginResponse>
+    ) : UserApiResponse<LoginResponse?>
 
     @POST("register")
     suspend fun register(
         @Body request: RegisterRequest
-    ) : UserApiResponse<RegisterResponse>
+    ) : UserApiResponse<RegisterResponse?>
 
     @POST("register/confirm")
     suspend fun confirmRegistration(
         @Body request: ConfirmRegistrationRequest
-    ) : UserApiResponse<ConfirmRegistrationResponse>
+    ) : UserApiResponse<ConfirmRegistrationResponse?>
 
     @POST("password/start")
     suspend fun startPasswordReset(

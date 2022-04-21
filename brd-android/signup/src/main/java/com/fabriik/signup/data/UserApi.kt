@@ -9,7 +9,6 @@ import com.fabriik.signup.data.responses.RegisterResponse
 import com.fabriik.signup.data.responses.UserApiResponse
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import org.json.JSONObject
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -23,7 +22,7 @@ class UserApi(
 
     private val moshi = Moshi.Builder().build()
 
-    suspend fun login(username: String, password: String) : Resource<LoginResponse> {
+    suspend fun login(username: String, password: String) : Resource<LoginResponse?> {
         return try {
             val response = service.login(
                 LoginRequest(
@@ -37,7 +36,7 @@ class UserApi(
         }
     }
 
-    suspend fun register(email: String, phone: String, firstName: String, lastName: String, password: String) : Resource<RegisterResponse> {
+    suspend fun register(email: String, phone: String, firstName: String, lastName: String, password: String) : Resource<RegisterResponse?> {
         return try {
             val response = service.register(
                 RegisterRequest(
@@ -54,7 +53,7 @@ class UserApi(
         }
     }
 
-    suspend fun confirmRegistration(sessionKey: String, confirmationCode: String) : Resource<ConfirmRegistrationResponse> {
+    suspend fun confirmRegistration(sessionKey: String, confirmationCode: String) : Resource<ConfirmRegistrationResponse?> {
         return try {
             val response = service.confirmRegistration(
                 ConfirmRegistrationRequest(
@@ -87,15 +86,16 @@ class UserApi(
                     password = password
                 )
             )
+
             mapToResource(response)
         } catch (ex: Exception) {
             mapToResource(ex, String::class)
         }
     }
 
-    private fun <T> mapToResource(response: UserApiResponse<T>) : Resource<T> {
+    private fun <T> mapToResource(response: UserApiResponse<T?>) : Resource<T?> {
         return when {
-            response.result == "ok" && response.data != null ->
+            response.result == "ok" ->
                 Resource.success(response.data)
             response.result == "error" && response.error != null ->
                 Resource.error(message = response.error.code)
@@ -104,7 +104,7 @@ class UserApi(
         }
     }
 
-    private fun <T> mapToResource(ex: Exception, kClass: KClass<*>) : Resource<T> {
+    private fun <T> mapToResource(ex: Exception, kClass: KClass<*>) : Resource<T?> {
         var errorMessage: String? = null
 
         if (ex is HttpException) {
