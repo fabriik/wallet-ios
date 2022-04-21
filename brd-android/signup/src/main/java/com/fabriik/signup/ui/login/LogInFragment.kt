@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -63,16 +64,29 @@ class LogInFragment : Fragment(), FabriikView<LogInContract.State, LogInContract
                 hideKeyboard()
 
                 viewModel.setEvent(
-                    LogInContract.Event.SubmitClicked(
-                        email = binding.etEmail.text.toString(),
-                        password = binding.etPassword.text.toString(),
+                    LogInContract.Event.SubmitClicked
+                )
+            }
+
+            // setup Email input field
+            etEmail.setValidator(EmailValidator)
+            etEmail.doAfterTextChanged {
+                viewModel.setEvent(
+                    LogInContract.Event.EmailChanged(
+                        it.toString()
                     )
                 )
             }
 
-            // setup input fields
-            etEmail.setValidator(EmailValidator)
+            // setup Password input field
             etPassword.setValidator(PasswordValidator)
+            etPassword.doAfterTextChanged {
+                viewModel.setEvent(
+                    LogInContract.Event.PasswordChanged(
+                        it.toString()
+                    )
+                )
+            }
         }
 
 

@@ -18,13 +18,22 @@ class LogInViewModel(
 
     private val userApi = UserApi.create(application.applicationContext)
 
-    override fun createInitialState() = LogInContract.State()
+    override fun createInitialState() = LogInContract.State(
+        email = "",
+        password = ""
+    )
 
     override fun handleEvent(event: LogInContract.Event) {
         when (event) {
+            is LogInContract.Event.EmailChanged -> setState {
+                copy(email = event.email)
+            }
+            is LogInContract.Event.PasswordChanged -> setState {
+                copy(password = event.password)
+            }
             is LogInContract.Event.SubmitClicked -> login(
-                email = event.email,
-                password = event.password
+                email = currentState.email,
+                password = currentState.password
             )
             is LogInContract.Event.SignUpClicked -> {
                 setEffect {

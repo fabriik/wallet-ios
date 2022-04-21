@@ -6,11 +6,10 @@ interface LogInContract {
 
     sealed class Event : FabriikContract.Event {
         object SignUpClicked : Event()
+        object SubmitClicked : Event()
         object ForgotPasswordClicked : Event()
-        class SubmitClicked(
-            val email: String,
-            val password: String
-        ) : Event()
+        class EmailChanged(val email: String) : Event()
+        class PasswordChanged(val password: String) : Event()
     }
 
     sealed class Effect : FabriikContract.Effect {
@@ -20,5 +19,8 @@ interface LogInContract {
         class ShowSnackBar(val message: String) : Effect()
     }
 
-    class State : FabriikContract.State
+    data class State(
+        val email: String,
+        val password: String,
+    ) : FabriikContract.State
 }
