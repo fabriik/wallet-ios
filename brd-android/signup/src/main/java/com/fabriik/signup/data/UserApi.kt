@@ -2,9 +2,7 @@ package com.fabriik.signup.data
 
 import android.content.Context
 import com.fabriik.signup.R
-import com.fabriik.signup.data.requests.ConfirmRegistrationRequest
-import com.fabriik.signup.data.requests.LoginRequest
-import com.fabriik.signup.data.requests.RegisterRequest
+import com.fabriik.signup.data.requests.*
 import com.fabriik.signup.data.responses.ConfirmRegistrationResponse
 import com.fabriik.signup.data.responses.LoginResponse
 import com.fabriik.signup.data.responses.RegisterResponse
@@ -67,6 +65,31 @@ class UserApi(
             mapToResource(response)
         } catch (ex: Exception) {
             mapToResource(ex, ConfirmRegistrationResponse::class)
+        }
+    }
+
+    suspend fun startPasswordReset(email: String) : Resource<String?> {
+        return try {
+            val response = service.startPasswordReset(
+                StartPasswordResetRequest(email)
+            )
+            mapToResource(response)
+        } catch (ex: Exception) {
+            mapToResource(ex, String::class)
+        }
+    }
+
+    suspend fun resetPassword(code: String, password: String) : Resource<String?> {
+        return try {
+            val response = service.resetPassword(
+                PasswordResetRequest(
+                    key = code,
+                    password = password
+                )
+            )
+            mapToResource(response)
+        } catch (ex: Exception) {
+            mapToResource(ex, String::class)
         }
     }
 
