@@ -5,16 +5,15 @@ import com.fabriik.signup.ui.base.FabriikContract
 interface SignUpInfoContract {
 
     sealed class Event : FabriikContract.Event {
-        object UserAgreementClicked: Event()
-        object PrivacyPolicyClicked: Event()
-        class SubmitClicked(
-            val email: String,
-            val password: String,
-            val firstName: String,
-            val lastName: String,
-            val phone: String,
-            val termsAccepted: Boolean
-        ): Event()
+        object UserAgreementClicked : Event()
+        object PrivacyPolicyClicked : Event()
+        object SubmitClicked : Event()
+        class EmailChanged(val email: String) : Event()
+        class PhoneChanged(val phone: String) : Event()
+        class PasswordChanged(val password: String) : Event()
+        class LastNameChanged(val lastName: String) : Event()
+        class FirstNameChanged(val firstName: String) : Event()
+        class TermsChanged(val checked: Boolean) : Event()
     }
 
     sealed class Effect : FabriikContract.Effect {
@@ -24,5 +23,17 @@ interface SignUpInfoContract {
         class ShowSnackBar(val message: String) : Effect()
     }
 
-    class State : FabriikContract.State
+    data class State(
+        val email: String = "",
+        val emailValid: Boolean = false,
+        val phone: String = "",
+        val phoneValid: Boolean = false,
+        val password: String = "",
+        val passwordValid: Boolean = false,
+        val lastName: String = "",
+        val lastNameValid: Boolean = false,
+        val firstName: String = "",
+        val firstNameValid: Boolean = false,
+        val termsAccepted: Boolean = false
+    ) : FabriikContract.State
 }

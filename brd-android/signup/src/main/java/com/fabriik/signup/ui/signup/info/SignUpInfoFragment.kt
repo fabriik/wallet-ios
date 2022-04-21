@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -18,13 +19,8 @@ import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.clickableSpan
 import com.fabriik.signup.utils.hideKeyboard
-import com.fabriik.signup.utils.setValidator
-import com.fabriik.signup.utils.validators.EmailValidator
-import com.fabriik.signup.utils.validators.PasswordValidator
-import com.fabriik.signup.utils.validators.PhoneNumberValidator
-import com.fabriik.signup.utils.validators.TextValidator
+import com.fabriik.signup.utils.setValidationState
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoContract.State, SignUpInfoContract.Effect> {
 
@@ -45,30 +41,69 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoContract.State, Sig
 
         with(binding) {
 
-            // setup input fields
-            etEmail.setValidator(EmailValidator)
-            etPhone.setValidator(PhoneNumberValidator)
-            etPassword.setValidator(PasswordValidator)
-            etLastName.setValidator(TextValidator)
-            etFirstName.setValidator(TextValidator)
+            // setup "Email" input fields
+            etEmail.doAfterTextChanged {
+                viewModel.setEvent(
+                    SignUpInfoContract.Event.EmailChanged(
+                        it.toString()
+                    )
+                )
+            }
+
+            // setup "Phone" input fields
+            etPhone.doAfterTextChanged {
+                viewModel.setEvent(
+                    SignUpInfoContract.Event.PhoneChanged(
+                        it.toString()
+                    )
+                )
+            }
+
+            // setup "Password" input fields
+            etPassword.doAfterTextChanged {
+                viewModel.setEvent(
+                    SignUpInfoContract.Event.PasswordChanged(
+                        it.toString()
+                    )
+                )
+            }
+
+            // setup "Last name" input fields
+            etLastName.doAfterTextChanged {
+                viewModel.setEvent(
+                    SignUpInfoContract.Event.LastNameChanged(
+                        it.toString()
+                    )
+                )
+            }
+
+            // setup "First name" input fields
+            etFirstName.doAfterTextChanged {
+                viewModel.setEvent(
+                    SignUpInfoContract.Event.FirstNameChanged(
+                        it.toString()
+                    )
+                )
+            }
 
             // setup "Submit" button
             btnSubmit.setOnClickListener {
                 hideKeyboard()
 
                 viewModel.setEvent(
-                    SignUpInfoContract.Event.SubmitClicked(
-                        email = binding.etEmail.text.toString(),
-                        phone = binding.etPhone.text.toString(),
-                        password = binding.etPassword.text.toString(),
-                        lastName = binding.etLastName.text.toString(),
-                        firstName = binding.etFirstName.text.toString(),
-                        termsAccepted = binding.cbTerms.isChecked
-                    )
+                    SignUpInfoContract.Event.SubmitClicked
                 )
             }
 
             // setup "T&C / Privacy Policy" checkbox
+            cbTerms.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.setEvent(
+                    SignUpInfoContract.Event.TermsChanged(
+                        isChecked
+                    )
+                )
+            }
+
             tvTerms.clickableSpan(
                 fullTextRes = R.string.SignUp_Terms,
                 clickableParts = mapOf(
@@ -102,7 +137,13 @@ class SignUpInfoFragment : Fragment(), FabriikView<SignUpInfoContract.State, Sig
     }
 
     override fun render(state: SignUpInfoContract.State) {
-        //empty
+        with(binding) {
+            etEmail.setValidationState(state.emailValid)
+            etPhone.setValidationState(state.phoneValid)
+            etPassword.setValidationState(state.passwordValid)
+            etLastName.setValidationState(state.lastNameValid)
+            etFirstName.setValidationState(state.firstNameValid)
+        }
     }
 
     override fun handleEffect(effect: SignUpInfoContract.Effect) {

@@ -5,8 +5,9 @@ import com.fabriik.signup.ui.base.FabriikContract
 interface SignUpConfirmEmailContract {
 
     sealed class Event : FabriikContract.Event {
+        object ConfirmClicked: Event()
         object ResendCodeClicked: Event()
-        class ConfirmClicked(
+        class ConfirmationCodeChanged(
             val confirmationCode: String
         ): Event()
     }
@@ -17,5 +18,8 @@ interface SignUpConfirmEmailContract {
         class ShowSnackBar(val message: String) : Effect()
     }
 
-    class State: FabriikContract.State
+    data class State(
+        val confirmationCode: String = "",
+        val confirmationCodeValid: Boolean = false
+    ): FabriikContract.State
 }

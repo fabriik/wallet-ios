@@ -20,7 +20,7 @@ interface LogInContract {
     }
 
     data class State(
-        val email: String,
-        val password: String,
+        val email: String = "",
+        val password: String = "",
     ) : FabriikContract.State
 }

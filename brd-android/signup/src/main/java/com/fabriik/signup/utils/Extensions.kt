@@ -82,7 +82,7 @@ internal fun EditText.setValidator(validator: Validator) {
     }
 }
 
-private fun EditText.setValidationState(valid: Boolean) {
+internal fun EditText.setValidationState(valid: Boolean) {
     val background = if (valid) {
         R.drawable.fabriik_edittext_border_green
     } else {

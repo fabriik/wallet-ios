@@ -24,57 +24,89 @@ class SignUpInfoViewModel(
 
     override fun handleEvent(event: SignUpInfoContract.Event) {
         when (event) {
-            is SignUpInfoContract.Event.SubmitClicked -> {
-                register(
-                    email = event.email,
-                    phone = event.phone,
-                    password = event.password,
-                    lastName = event.lastName,
-                    firstName = event.firstName,
-                    termsAccepted = event.termsAccepted
-                )
-            }
-            is SignUpInfoContract.Event.PrivacyPolicyClicked -> {
+            is SignUpInfoContract.Event.EmailChanged ->
+                setState {
+                    copy(
+                        email = event.email,
+                        emailValid = EmailValidator(event.email)
+                    )
+                }
+            is SignUpInfoContract.Event.PhoneChanged ->
+                setState {
+                    copy(
+                        phone = event.phone,
+                        phoneValid = PhoneNumberValidator(event.phone)
+                    )
+                }
+            is SignUpInfoContract.Event.PasswordChanged ->
+                setState {
+                    copy(
+                        password = event.password,
+                        passwordValid = PasswordValidator(event.password)
+                    )
+                }
+            is SignUpInfoContract.Event.LastNameChanged ->
+                setState {
+                    copy(
+                        lastName = event.lastName,
+                        lastNameValid = TextValidator(event.lastName)
+                    )
+                }
+            is SignUpInfoContract.Event.FirstNameChanged ->
+                setState {
+                    copy(
+                        firstName = event.firstName,
+                        firstNameValid = TextValidator(event.firstName)
+                    )
+                }
+            is SignUpInfoContract.Event.TermsChanged ->
+                setState {
+                    copy(
+                        termsAccepted = event.checked
+                    )
+                }
+            is SignUpInfoContract.Event.PrivacyPolicyClicked ->
                 setEffect {
                     SignUpInfoContract.Effect.OpenWebsite(
                         FabriikApiConstants.URL_PRIVACY_POLICY
                     )
                 }
-            }
-            is SignUpInfoContract.Event.UserAgreementClicked -> {
+            is SignUpInfoContract.Event.UserAgreementClicked ->
                 setEffect {
                     SignUpInfoContract.Effect.OpenWebsite(
                         FabriikApiConstants.URL_TERMS_AND_CONDITIONS
                     )
                 }
-            }
+            is SignUpInfoContract.Event.SubmitClicked ->
+                validateRegistrationData()
         }
     }
 
-    private fun register(
-        email: String,
-        password: String,
-        firstName: String,
-        lastName: String,
-        phone: String,
-        termsAccepted: Boolean
-    ) {
-        // validate input data
-        val emailValidation = EmailValidator(email)
-        val phoneValidation = PhoneNumberValidator(phone)
-        val passwordValidation = PasswordValidator(password)
-        val firstNameValidation = TextValidator(firstName)
-        val lastNameValidation = TextValidator(lastName)
+    private fun validateRegistrationData() {
+        val validData = currentState.emailValid && currentState.phoneValid
+                && currentState.passwordValid && currentState.lastNameValid
+                && currentState.firstNameValid && currentState.termsAccepted
 
-        if (!emailValidation || !phoneValidation || !passwordValidation || !firstNameValidation || !lastNameValidation || !termsAccepted) {
+        if (validData) {
+            register(
+                email = currentState.email,
+                phone = currentState.phone,
+                password = currentState.password,
+                lastName = currentState.lastName,
+                firstName = currentState.firstName
+            )
+        } else {
             setEffect {
                 SignUpInfoContract.Effect.ShowSnackBar(
                     getString(R.string.SignUp_EnterValidData)
                 )
             }
-            return
         }
+    }
 
+    private fun register(
+        email: String, password: String, firstName: String, lastName: String, phone: String
+    ) {
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
             setEffect {

@@ -18,10 +18,7 @@ class LogInViewModel(
 
     private val userApi = UserApi.create(application.applicationContext)
 
-    override fun createInitialState() = LogInContract.State(
-        email = "",
-        password = ""
-    )
+    override fun createInitialState() = LogInContract.State()
 
     override fun handleEvent(event: LogInContract.Event) {
         when (event) {

@@ -15,7 +15,9 @@ import kotlinx.coroutines.launch
 class SignUpConfirmEmailViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle
-) : FabriikViewModel<SignUpConfirmEmailContract.State, SignUpConfirmEmailContract.Event, SignUpConfirmEmailContract.Effect>(application) {
+) : FabriikViewModel<SignUpConfirmEmailContract.State, SignUpConfirmEmailContract.Event, SignUpConfirmEmailContract.Effect>(
+    application
+) {
 
     private val arguments = SignUpConfirmEmailFragmentArgs.fromBundle(
         savedStateHandle.toBundle()
@@ -27,28 +29,38 @@ class SignUpConfirmEmailViewModel(
 
     override fun handleEvent(event: SignUpConfirmEmailContract.Event) {
         when (event) {
-            is SignUpConfirmEmailContract.Event.ConfirmClicked -> {
-                confirmRegistration(event.confirmationCode)
-            }
+            is SignUpConfirmEmailContract.Event.ConfirmationCodeChanged ->
+                setState {
+                    copy(
+                        confirmationCode = event.confirmationCode,
+                        confirmationCodeValid = ConfirmationCodeValidator(event.confirmationCode)
+                    )
+                }
+            is SignUpConfirmEmailContract.Event.ConfirmClicked ->
+                validateConfirmationData()
             is SignUpConfirmEmailContract.Event.ResendCodeClicked -> {
                 //todo
             }
         }
     }
 
-    private fun confirmRegistration(confirmationCode: String) {
-        // validate input data
-        if (!ConfirmationCodeValidator(confirmationCode)) {
-            viewModelScope.launch {
-                setEffect {
-                    SignUpConfirmEmailContract.Effect.ShowSnackBar(
-                        getString(R.string.SignUpConfirm_EnterValidData)
-                    )
-                }
-            }
-            return
-        }
+    private fun validateConfirmationData() {
+        val validData = currentState.confirmationCodeValid
 
+        if (validData) {
+            confirmRegistration(
+                confirmationCode = currentState.confirmationCode
+            )
+        } else {
+            setEffect {
+                SignUpConfirmEmailContract.Effect.ShowSnackBar(
+                    getString(R.string.SignUpConfirm_EnterValidData)
+                )
+            }
+        }
+    }
+
+    private fun confirmRegistration(confirmationCode: String) {
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
             setEffect {
