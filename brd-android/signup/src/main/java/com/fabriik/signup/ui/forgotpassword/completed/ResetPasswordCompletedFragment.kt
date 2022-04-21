@@ -1,4 +1,4 @@
-package com.fabriik.signup.ui.forgotpassword.enteremail
+package com.fabriik.signup.ui.forgotpassword.completed
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentForgotPasswordEnterEmailBinding
+import com.fabriik.signup.databinding.FragmentResetPasswordCompletedBinding
 import com.fabriik.signup.databinding.FragmentSignUpConfirmEmailBinding
 import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
@@ -20,37 +21,35 @@ import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
 import com.fabriik.signup.utils.validators.EmailValidator
 import kotlinx.coroutines.flow.collect
 
-class ForgotPasswordEnterEmailFragment : Fragment(),
-    FabriikView<ForgotPasswordEnterEmailContract.State, ForgotPasswordEnterEmailContract.Effect> {
+class ResetPasswordCompletedFragment : Fragment(),
+    FabriikView<ResetPasswordCompletedContract.State, ResetPasswordCompletedContract.Effect> {
 
-    private lateinit var binding: FragmentForgotPasswordEnterEmailBinding
-    private val viewModel: ForgotPasswordEnterEmailViewModel by lazy {
-        ViewModelProvider(this).get(ForgotPasswordEnterEmailViewModel::class.java)
+    private lateinit var binding: FragmentResetPasswordCompletedBinding
+    private val viewModel: ResetPasswordCompletedViewModel by lazy {
+        ViewModelProvider(this).get(ResetPasswordCompletedViewModel::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_forgot_password_enter_email, container, false)
+        return inflater.inflate(R.layout.fragment_reset_password_completed, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentForgotPasswordEnterEmailBinding.bind(view)
+        binding = FragmentResetPasswordCompletedBinding.bind(view)
 
         with(binding) {
 
             // setup input field
             etEmail.setValidator(EmailValidator)
 
-            // setup "Confirm" button
-            btnConfirm.setOnClickListener {
+            // setup "Submit" button
+            btnSubmit.setOnClickListener {
                 hideKeyboard()
 
                 viewModel.setEvent(
-                    ForgotPasswordEnterEmailContract.Event.ConfirmClicked(
-                        binding.etEmail.text.toString()
-                    )
+                    ResetPasswordCompletedContract.Event.LoginClicked
                 )
             }
         }
@@ -70,25 +69,15 @@ class ForgotPasswordEnterEmailFragment : Fragment(),
         }
     }
 
-    override fun render(state: ForgotPasswordEnterEmailContract.State) {
+    override fun render(state: ResetPasswordCompletedContract.State) {
         //empty
     }
 
-    override fun handleEffect(effect: ForgotPasswordEnterEmailContract.Effect) {
+    override fun handleEffect(effect: ResetPasswordCompletedContract.Effect) {
         when (effect) {
-            is ForgotPasswordEnterEmailContract.Effect.GoToResetPassword -> {
+            is ResetPasswordCompletedContract.Effect.GoToLogin -> {
                 findNavController().navigate(
-                    ForgotPasswordEnterEmailFragmentDirections.actionResetPassword()
-                )
-            }
-            is ForgotPasswordEnterEmailContract.Effect.ShowLoading -> {
-                val activity = activity as SignupActivity?
-                activity?.showLoading(effect.show)
-            }
-            is ForgotPasswordEnterEmailContract.Effect.ShowSnackBar -> {
-                SnackBarUtils.showLong(
-                    view = binding.root,
-                    text = effect.message
+                    ResetPasswordCompletedFragmentDirections.actionLogIn()
                 )
             }
         }

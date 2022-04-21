@@ -16,8 +16,10 @@ class SignupActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignupBinding
     private lateinit var navHostFragment: NavHostFragment
+
     private val topLevelDestinations = arrayOf(
-        R.id.fragmentLogIn
+        R.id.fragmentLogIn,
+        R.id.fragmentResetCompleted
     )
 
     private val navigationListener = NavController.OnDestinationChangedListener { _, destination, _ ->

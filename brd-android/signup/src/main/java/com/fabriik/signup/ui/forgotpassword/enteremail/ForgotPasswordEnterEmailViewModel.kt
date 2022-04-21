@@ -15,7 +15,10 @@ class ForgotPasswordEnterEmailViewModel(
     override fun handleEvent(event: ForgotPasswordEnterEmailContract.Event) {
         when (event) {
             is ForgotPasswordEnterEmailContract.Event.ConfirmClicked -> {
-                // todo
+                // todo: API call
+                setEffect {
+                    ForgotPasswordEnterEmailContract.Effect.GoToResetPassword
+                }
             }
         }
     }

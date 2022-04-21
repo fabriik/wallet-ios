@@ -53,9 +53,34 @@
         android:name="com.fabriik.signup.ui.forgotpassword.enteremail.ForgotPasswordEnterEmailFragment"
         tools:layout="@layout/fragment_forgot_password_enter_email">
 
-        <!--<action
-            android:id="@+id/action_confirm_email"
-            app:destination="@+id/fragmentConfirmEmail" />-->
+        <action
+            android:id="@+id/action_reset_password"
+            app:destination="@+id/fragmentResetPassword" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentResetPassword"
+        android:name="com.fabriik.signup.ui.forgotpassword.changepassword.ResetPasswordFragment"
+        tools:layout="@layout/fragment_reset_password">
+
+        <action
+            android:id="@+id/action_reset_completed"
+            app:destination="@+id/fragmentResetCompleted" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentResetCompleted"
+        android:name="com.fabriik.signup.ui.forgotpassword.completed.ResetPasswordCompletedFragment"
+        tools:layout="@layout/fragment_reset_password_completed">
+
+        <action
+            android:id="@+id/action_log_in"
+            app:destination="@+id/fragmentLogIn"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph_signup"
+            app:popUpToInclusive="true" />
 
     </fragment>
 </navigation>

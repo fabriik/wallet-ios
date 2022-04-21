@@ -1,4 +1,4 @@
-package com.fabriik.signup.ui.forgotpassword.enteremail
+package com.fabriik.signup.ui.forgotpassword.changepassword
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,12 +20,12 @@ import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
 import com.fabriik.signup.utils.validators.EmailValidator
 import kotlinx.coroutines.flow.collect
 
-class ForgotPasswordEnterEmailFragment : Fragment(),
-    FabriikView<ForgotPasswordEnterEmailContract.State, ForgotPasswordEnterEmailContract.Effect> {
+class ResetPasswordFragment : Fragment(),
+    FabriikView<ResetPasswordContract.State, ResetPasswordContract.Effect> {
 
     private lateinit var binding: FragmentForgotPasswordEnterEmailBinding
-    private val viewModel: ForgotPasswordEnterEmailViewModel by lazy {
-        ViewModelProvider(this).get(ForgotPasswordEnterEmailViewModel::class.java)
+    private val viewModel: ResetPasswordViewModel by lazy {
+        ViewModelProvider(this).get(ResetPasswordViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -48,8 +48,10 @@ class ForgotPasswordEnterEmailFragment : Fragment(),
                 hideKeyboard()
 
                 viewModel.setEvent(
-                    ForgotPasswordEnterEmailContract.Event.ConfirmClicked(
-                        binding.etEmail.text.toString()
+                    ResetPasswordContract.Event.ConfirmClicked(
+                        code = binding.etEmail.text.toString(),
+                        password = binding.etEmail.text.toString(),
+                        passwordConfirm = binding.etEmail.text.toString()
                     )
                 )
             }
@@ -70,22 +72,22 @@ class ForgotPasswordEnterEmailFragment : Fragment(),
         }
     }
 
-    override fun render(state: ForgotPasswordEnterEmailContract.State) {
+    override fun render(state: ResetPasswordContract.State) {
         //empty
     }
 
-    override fun handleEffect(effect: ForgotPasswordEnterEmailContract.Effect) {
+    override fun handleEffect(effect: ResetPasswordContract.Effect) {
         when (effect) {
-            is ForgotPasswordEnterEmailContract.Effect.GoToResetPassword -> {
+            is ResetPasswordContract.Effect.GoToResetCompleted -> {
                 findNavController().navigate(
-                    ForgotPasswordEnterEmailFragmentDirections.actionResetPassword()
+                    ResetPasswordFragmentDirections.actionResetCompleted()
                 )
             }
-            is ForgotPasswordEnterEmailContract.Effect.ShowLoading -> {
+            is ResetPasswordContract.Effect.ShowLoading -> {
                 val activity = activity as SignupActivity?
                 activity?.showLoading(effect.show)
             }
-            is ForgotPasswordEnterEmailContract.Effect.ShowSnackBar -> {
+            is ResetPasswordContract.Effect.ShowSnackBar -> {
                 SnackBarUtils.showLong(
                     view = binding.root,
                     text = effect.message
