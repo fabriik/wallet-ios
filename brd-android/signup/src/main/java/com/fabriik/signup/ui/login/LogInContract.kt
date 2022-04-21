@@ -21,6 +21,8 @@ interface LogInContract {
 
     data class State(
         val email: String = "",
+        val emailValid: Boolean = false,
         val password: String = "",
+        val passwordValid: Boolean = false,
     ) : FabriikContract.State
 }

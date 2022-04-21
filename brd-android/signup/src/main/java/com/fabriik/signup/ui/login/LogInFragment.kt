@@ -17,8 +17,6 @@ import com.fabriik.signup.utils.*
 import com.fabriik.signup.utils.clickableSpan
 import com.fabriik.signup.utils.setValidator
 import com.fabriik.signup.utils.underline
-import com.fabriik.signup.utils.validators.EmailValidator
-import com.fabriik.signup.utils.validators.PasswordValidator
 import kotlinx.coroutines.flow.collect
 
 class LogInFragment : Fragment(), FabriikView<LogInContract.State, LogInContract.Effect> {
@@ -69,7 +67,6 @@ class LogInFragment : Fragment(), FabriikView<LogInContract.State, LogInContract
             }
 
             // setup Email input field
-            etEmail.setValidator(EmailValidator)
             etEmail.doAfterTextChanged {
                 viewModel.setEvent(
                     LogInContract.Event.EmailChanged(
@@ -79,7 +76,6 @@ class LogInFragment : Fragment(), FabriikView<LogInContract.State, LogInContract
             }
 
             // setup Password input field
-            etPassword.setValidator(PasswordValidator)
             etPassword.doAfterTextChanged {
                 viewModel.setEvent(
                     LogInContract.Event.PasswordChanged(
@@ -106,7 +102,10 @@ class LogInFragment : Fragment(), FabriikView<LogInContract.State, LogInContract
     }
 
     override fun render(state: LogInContract.State) {
-        //empty
+        with(binding) {
+            etEmail.setValidationState(state.emailValid)
+            etPassword.setValidationState(state.passwordValid)
+        }
     }
 
     override fun handleEffect(effect: LogInContract.Effect) {

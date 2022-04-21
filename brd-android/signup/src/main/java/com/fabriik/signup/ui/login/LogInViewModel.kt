@@ -6,6 +6,7 @@ import com.fabriik.signup.R
 import com.fabriik.signup.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
+import com.fabriik.signup.ui.signup.confirmemail.SignUpConfirmEmailContract
 import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.validators.EmailValidator
 import com.fabriik.signup.utils.validators.PasswordValidator
@@ -22,43 +23,55 @@ class LogInViewModel(
 
     override fun handleEvent(event: LogInContract.Event) {
         when (event) {
-            is LogInContract.Event.EmailChanged -> setState {
-                copy(email = event.email)
-            }
-            is LogInContract.Event.PasswordChanged -> setState {
-                copy(password = event.password)
-            }
-            is LogInContract.Event.SubmitClicked -> login(
-                email = currentState.email,
-                password = currentState.password
-            )
-            is LogInContract.Event.SignUpClicked -> {
+            is LogInContract.Event.EmailChanged ->
+                setState {
+                    copy(
+                        email = event.email,
+                        emailValid = EmailValidator(event.email)
+                    )
+                }
+
+            is LogInContract.Event.PasswordChanged ->
+                setState {
+                    copy(
+                        password = event.password,
+                        passwordValid = PasswordValidator(event.password)
+                    )
+                }
+
+            is LogInContract.Event.SubmitClicked ->
+                validateLoginData()
+
+            is LogInContract.Event.SignUpClicked ->
                 setEffect {
                     LogInContract.Effect.GoToSignUp
                 }
-            }
-            is LogInContract.Event.ForgotPasswordClicked -> {
+
+            is LogInContract.Event.ForgotPasswordClicked ->
                 setEffect {
                     LogInContract.Effect.GoToForgotPassword
                 }
-            }
         }
     }
 
-    private fun login(email: String, password: String) {
-        // validate input data
-        val emailValidation = EmailValidator(email)
-        val passwordValidation = PasswordValidator(password)
+    private fun validateLoginData() {
+        val validData = currentState.emailValid && currentState.passwordValid
 
-        if (!emailValidation || !passwordValidation) {
+        if (validData) {
+            login(
+                email = currentState.email,
+                password = currentState.password
+            )
+        } else {
             setEffect {
                 LogInContract.Effect.ShowSnackBar(
                     getString(R.string.LogIn_EnterValidData)
                 )
             }
-            return
         }
+    }
 
+    private fun login(email: String, password: String) {
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
             setEffect {

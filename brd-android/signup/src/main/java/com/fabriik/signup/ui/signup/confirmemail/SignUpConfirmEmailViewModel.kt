@@ -36,8 +36,10 @@ class SignUpConfirmEmailViewModel(
                         confirmationCodeValid = ConfirmationCodeValidator(event.confirmationCode)
                     )
                 }
+
             is SignUpConfirmEmailContract.Event.ConfirmClicked ->
                 validateConfirmationData()
+
             is SignUpConfirmEmailContract.Event.ResendCodeClicked -> {
                 //todo
             }

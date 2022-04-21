@@ -31,6 +31,7 @@ class SignUpInfoViewModel(
                         emailValid = EmailValidator(event.email)
                     )
                 }
+
             is SignUpInfoContract.Event.PhoneChanged ->
                 setState {
                     copy(
@@ -38,6 +39,7 @@ class SignUpInfoViewModel(
                         phoneValid = PhoneNumberValidator(event.phone)
                     )
                 }
+
             is SignUpInfoContract.Event.PasswordChanged ->
                 setState {
                     copy(
@@ -45,6 +47,7 @@ class SignUpInfoViewModel(
                         passwordValid = PasswordValidator(event.password)
                     )
                 }
+
             is SignUpInfoContract.Event.LastNameChanged ->
                 setState {
                     copy(
@@ -52,6 +55,7 @@ class SignUpInfoViewModel(
                         lastNameValid = TextValidator(event.lastName)
                     )
                 }
+
             is SignUpInfoContract.Event.FirstNameChanged ->
                 setState {
                     copy(
@@ -59,24 +63,28 @@ class SignUpInfoViewModel(
                         firstNameValid = TextValidator(event.firstName)
                     )
                 }
+
             is SignUpInfoContract.Event.TermsChanged ->
                 setState {
                     copy(
                         termsAccepted = event.checked
                     )
                 }
+
             is SignUpInfoContract.Event.PrivacyPolicyClicked ->
                 setEffect {
                     SignUpInfoContract.Effect.OpenWebsite(
                         FabriikApiConstants.URL_PRIVACY_POLICY
                     )
                 }
+
             is SignUpInfoContract.Event.UserAgreementClicked ->
                 setEffect {
                     SignUpInfoContract.Effect.OpenWebsite(
                         FabriikApiConstants.URL_TERMS_AND_CONDITIONS
                     )
                 }
+
             is SignUpInfoContract.Event.SubmitClicked ->
                 validateRegistrationData()
         }
