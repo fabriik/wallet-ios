@@ -34,6 +34,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":brd-android:fabriik-common"))
+
     implementation(Libs.Androidx.AppCompat)
     implementation(Libs.Androidx.Browser)
     implementation(Libs.Androidx.CoreKtx)

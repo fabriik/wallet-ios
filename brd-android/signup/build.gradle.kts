@@ -34,7 +34,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":brd-android:theme"))
+    implementation(project(":brd-android:fabriik-common"))
+
     implementation(Libs.Androidx.AppCompat)
     implementation(Libs.Androidx.CoreKtx)
     implementation(Libs.Androidx.LifecycleLiveDataKtx)

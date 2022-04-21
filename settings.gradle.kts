@@ -16,7 +16,8 @@ include(
     "brd-android:trade",
     "brd-android:signup",
     "brd-android:support",
-    "brd-android:theme"
+    "brd-android:theme",
+    "brd-android:fabriik-common"
 )
 
 includeBuild("external/walletkit/WalletKitJava") {

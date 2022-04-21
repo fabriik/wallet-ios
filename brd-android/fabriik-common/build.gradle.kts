@@ -5,15 +5,9 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("kotlin-parcelize")
-    id("dev.zacsweers.redacted")
     id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
-
-redacted {
-    replacementString.set("***")
-}
-
-val FABRIIK_CLIENT_TOKEN: String by project
 
 android {
     compileSdkVersion(BrdRelease.ANDROID_COMPILE_SDK)
@@ -21,7 +15,6 @@ android {
     defaultConfig {
         minSdkVersion(BrdRelease.ANDROID_MINIMUM_SDK)
         buildConfigField("int", "VERSION_CODE", "${BrdRelease.versionCode}")
-        buildConfigField("String", "FABRIIC_CLIENT_TOKEN", FABRIIK_CLIENT_TOKEN)
     }
     lintOptions {
         isAbortOnError = false
@@ -37,18 +30,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":brd-android:fabriik-common"))
-
-    implementation(Libs.Androidx.AppCompat)
-    implementation(Libs.Androidx.CoreKtx)
-    implementation(Libs.Androidx.LifecycleLiveDataKtx)
-    implementation(Libs.Androidx.LifecycleViewModelKtx)
-
-    implementation(Libs.Material.Core)
-
-    implementation(Libs.Networking.Retrofit)
-    implementation(Libs.Networking.RetrofitMoshiConverter)
-
-    implementation(Libs.Networking.Moshi)
-    kapt(Libs.Networking.MoshiCodegen)
+    implementation(project(":brd-android:theme"))
 }
