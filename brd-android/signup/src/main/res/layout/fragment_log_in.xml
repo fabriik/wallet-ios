@@ -67,10 +67,11 @@
 
     <TextView
         android:id="@+id/tv_forgot_password"
-        style="@style/Input.Hint"
+        style="@style/Fragment.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:textSize="14sp"
         android:hint="@string/LogIn.ForgotPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
@@ -90,13 +91,12 @@
 
     <TextView
         android:id="@+id/tv_no_account"
+        style="@style/Fragment.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
-        android:textColor="@color/fabriik_gray_2"
         android:textColorLink="@color/fabriik_yellow"
-        android:textColorHighlight="#00FFFFFF"
         app:layout_constraintBottom_toTopOf="@id/iv_footer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

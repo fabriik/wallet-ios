@@ -4,7 +4,7 @@
         <item name="android:layout_gravity">bottom</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:drawablePadding">8dp</item>
-        <item name="fontFamily">@font/mobile_font</item>
+        <item name="fontFamily">@font/fabriik_font_medium</item>
     </style>
 
     <style name="Fragment.RootView" parent="">
@@ -18,24 +18,31 @@
     <style name="Fragment.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/black</item>
         <item name="materialThemeOverlay">@style/YellowButtonThemeOverlay</item>
-        <item name="textAppearanceButton">@style/textAppearanceButton</item>
+        <item name="textAppearanceButton">@style/Fragment.Button.TextAppearance</item>
         <item name="cornerRadius">10dp</item>
+    </style>
+
+    <style name="Fragment.Button.TextAppearance" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/fabriik_font_bold</item>
     </style>
 
     <style name="YellowButtonThemeOverlay">
         <item name="colorPrimary">@color/fabriik_yellow</item>
     </style>
 
-    <style name="YellowButton.TextAppearance" parent="TextAppearance.MaterialComponents.Button">
-        <item name="android:textSize">14sp</item>
-        <item name="fontFamily">@font/mobile_font</item>
-    </style>
-
     <style name="Fragment.Title" parent="">
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/fabriik_black</item>
-        <item name="fontFamily">@font/mobile_font_bold</item>
+        <item name="fontFamily">@font/fabriik_font_bold</item>
+    </style>
+
+    <style name="Fragment.TextButton" parent="">
+        <item name="android:textColor">@color/fabriik_gray_2</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColorHighlight">#00FFFFFF</item>
+        <item name="fontFamily">@font/fabriik_font_regular</item>
     </style>
 
     <style name="Fragment.Footer" parent="">
@@ -48,7 +55,7 @@
         <item name="android:textColor">@color/fabriik_gray_2</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">12sp</item>
-        <item name="fontFamily">@font/mobile_font_medium</item>
+        <item name="fontFamily">@font/fabriik_font_medium</item>
     </style>
 
     <style name="Input.EditText" parent="">
@@ -56,17 +63,25 @@
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:textColorHint">@color/fabriik_gray_1</item>
         <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/fabriik_font_medium</item>
     </style>
 
     <style name="Input.Checkbox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
         <item name="buttonTint">@color/fabriik_checkbox_tint</item>
     </style>
 
+    <style name="Input.Checkbox.Text" parent="">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/fabriik_gray_1</item>
+        <item name="android:textColorHighlight">#00FFFFFF</item>
+        <item name="fontFamily">@font/fabriik_font_regular</item>
+    </style>
+
     <style name="ConfirmEmail.Description" parent="">
         <item name="android:gravity">center</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/fabriik_gray_1</item>
-        <item name="fontFamily">@font/mobile_font</item>
+        <item name="fontFamily">@font/fabriik_font_regular</item>
     </style>
 
 </resources>

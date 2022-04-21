@@ -67,7 +67,7 @@
 
     <TextView
         android:id="@+id/tv_resend"
-        style="@style/Input.Hint"
+        style="@style/Fragment.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

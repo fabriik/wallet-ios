@@ -147,12 +147,11 @@
 
     <TextView
         android:id="@+id/tv_terms"
+        style="@style/Input.Checkbox.Text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textColor="@color/fabriik_gray_1"
         android:textColorLink="@color/fabriik_gray_1"
-        android:textColorHighlight="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/cb_terms"
         app:layout_constraintTop_toTopOf="@id/cb_terms"
