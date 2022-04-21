@@ -35,19 +35,34 @@
     <string name="SignUp.Completed">Registration successfully completed!!</string>
     <string name="SignUp.EnterValidData">Please enter valid data</string>
 
-    <!-- Confirm email screen -->
-    <string name="ConfirmEmail.Title">Confirm email</string>
-    <string name="ConfirmEmail.Description">We’ve sent a confirmation code to your email. Click on it on this device to confirm your email address.\n\nYou can also copy and paste the code here:</string>
-    <string name="ConfirmEmail.ConfirmationCode">Confirmation code</string>
-    <string name="ConfirmEmail.ConfirmationCodeHint">000–000</string>
-    <string name="ConfirmEmail.ResendCode">Resend code</string>
-    <string name="ConfirmEmail.Confirm">Confirm</string>
-    <string name="ConfirmEmail.EnterValidData">Please enter valid data</string>
+    <!-- Sign up - Confirm email screen -->
+    <string name="SignUpConfirm.Title">Confirm email</string>
+    <string name="SignUpConfirm.Description">We’ve sent a confirmation code to your email. Click on it on this device to confirm your email address.\n\nYou can also copy and paste the code here:</string>
+    <string name="SignUpConfirm.ConfirmationCode">Confirmation code</string>
+    <string name="SignUpConfirm.ConfirmationCodeHint">000–000</string>
+    <string name="SignUpConfirm.ResendCode">Resend code</string>
+    <string name="SignUpConfirm.Confirm">Confirm</string>
+    <string name="SignUpConfirm.EnterValidData">Please enter valid data</string>
 
     <!-- Forgot password - Enter email screen -->
-    <string name="ForgotPassword.EnterEmail.Title">Password recovery</string>
-    <string name="ForgotPassword.EnterEmail.Description">Please enter an email below that you have used to register with Fabriik Wallet.</string>
-    <string name="ForgotPassword.EnterEmail.Email">Email</string>
-    <string name="ForgotPassword.EnterEmail.EmailHint">Email address</string>
-    <string name="ForgotPassword.EnterEmail.Confirm">Confirm</string>
+    <string name="ForgotPassword.Title">Password recovery</string>
+    <string name="ForgotPassword.Description">Please enter an email below that you have used to register with Fabriik Wallet.</string>
+    <string name="ForgotPassword.Email">Email</string>
+    <string name="ForgotPassword.EmailHint">Email address</string>
+    <string name="ForgotPassword.Confirm">Confirm</string>
+
+    <!-- Reset password screen -->
+    <string name="ResetPassword.Title">Password recovery</string>
+    <string name="ResetPassword.Description">An email containing a 6-digit code has been sent to your email. Please copy it from the email and paste it below, then setup a new password.</string>
+    <string name="ResetPassword.Code">Recovery code</string>
+    <string name="ResetPassword.CodeHint">000–000</string>
+    <string name="ResetPassword.NewPassword">New password</string>
+    <string name="ResetPassword.ConfirmNewPassword">Confirm new password</string>
+    <string name="ResetPassword.PasswordHint">Minimum 8 characters</string>
+    <string name="ResetPassword.Confirm">Confirm</string>
+
+    <!-- Reset password completed screen -->
+    <string name="ResetPasswordCompleted.Title">Password recovery</string>
+    <string name="ResetPasswordCompleted.Description">Password recovery was successful. Use your new password to log in.</string>
+    <string name="ResetPasswordCompleted.Login">Login</string>h
 </resources>

@@ -1,4 +1,4 @@
-package com.fabriik.signup.ui.forgotpassword.completed
+package com.fabriik.signup.ui.forgotpassword.resetcompleted
 
 import com.fabriik.signup.ui.base.FabriikContract
 

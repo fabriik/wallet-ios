@@ -1,4 +1,4 @@
-package com.fabriik.signup.ui.forgotpassword.changepassword
+package com.fabriik.signup.ui.forgotpassword.reset
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +15,8 @@ import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.hideKeyboard
 import com.fabriik.signup.utils.setValidator
-import com.fabriik.signup.utils.validators.EmailValidator
+import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
+import com.fabriik.signup.utils.validators.PasswordValidator
 import kotlinx.coroutines.flow.collect
 
 class ResetPasswordFragment : Fragment(),
@@ -38,18 +39,20 @@ class ResetPasswordFragment : Fragment(),
 
         with(binding) {
 
-            // setup input field
-            etEmail.setValidator(EmailValidator)
+            // setup input fields
+            etCode.setValidator(ConfirmationCodeValidator)
+            etNewPassword.setValidator(PasswordValidator)
+            etConfirmPassword.setValidator(PasswordValidator)
 
-            // setup "Submit" button
-            btnSubmit.setOnClickListener {
+            // setup "Confirm" button
+            btnConfirm.setOnClickListener {
                 hideKeyboard()
 
                 viewModel.setEvent(
                     ResetPasswordContract.Event.ConfirmClicked(
-                        code = binding.etEmail.text.toString(),
-                        password = binding.etEmail.text.toString(),
-                        passwordConfirm = binding.etEmail.text.toString()
+                        code = binding.etCode.text.toString(),
+                        password = binding.etNewPassword.text.toString(),
+                        passwordConfirm = binding.etConfirmPassword.text.toString()
                     )
                 )
             }

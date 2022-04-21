@@ -1,4 +1,4 @@
-package com.fabriik.signup.ui.forgotpassword.completed
+package com.fabriik.signup.ui.forgotpassword.resetcompleted
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,12 +35,8 @@ class ResetPasswordCompletedFragment : Fragment(),
         binding = FragmentResetPasswordCompletedBinding.bind(view)
 
         with(binding) {
-
-            // setup input field
-            etEmail.setValidator(EmailValidator)
-
-            // setup "Submit" button
-            btnSubmit.setOnClickListener {
+            // setup "Login" button
+            btnLogin.setOnClickListener {
                 hideKeyboard()
 
                 viewModel.setEvent(

@@ -1,4 +1,4 @@
-package com.fabriik.signup.ui.forgotpassword.changepassword
+package com.fabriik.signup.ui.forgotpassword.reset
 
 import android.app.Application
 import com.fabriik.signup.data.UserApi

@@ -61,7 +61,7 @@
 
     <fragment
         android:id="@+id/fragmentResetPassword"
-        android:name="com.fabriik.signup.ui.forgotpassword.changepassword.ResetPasswordFragment"
+        android:name="com.fabriik.signup.ui.forgotpassword.reset.ResetPasswordFragment"
         tools:layout="@layout/fragment_reset_password">
 
         <action
@@ -72,7 +72,7 @@
 
     <fragment
         android:id="@+id/fragmentResetCompleted"
-        android:name="com.fabriik.signup.ui.forgotpassword.completed.ResetPasswordCompletedFragment"
+        android:name="com.fabriik.signup.ui.forgotpassword.resetcompleted.ResetPasswordCompletedFragment"
         tools:layout="@layout/fragment_reset_password_completed">
 
         <action

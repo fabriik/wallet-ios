@@ -1,4 +1,4 @@
-package com.fabriik.signup.ui.forgotpassword.completed
+package com.fabriik.signup.ui.forgotpassword.resetcompleted
 
 import android.app.Application
 import com.fabriik.signup.ui.base.FabriikViewModel

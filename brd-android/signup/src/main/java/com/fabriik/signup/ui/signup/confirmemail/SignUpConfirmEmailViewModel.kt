@@ -42,7 +42,7 @@ class SignUpConfirmEmailViewModel(
             viewModelScope.launch {
                 setEffect {
                     SignUpConfirmEmailContract.Effect.ShowSnackBar(
-                        getString(R.string.ConfirmEmail_EnterValidData)
+                        getString(R.string.SignUpConfirm_EnterValidData)
                     )
                 }
             }
