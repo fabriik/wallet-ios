@@ -21,25 +21,36 @@ class ForgotPasswordViewModel(
 
     override fun handleEvent(event: ForgotPasswordContract.Event) {
         when (event) {
-            is ForgotPasswordContract.Event.ConfirmClicked -> {
-                requestPasswordReset(event.email)
+            is ForgotPasswordContract.Event.ConfirmClicked ->
+                validateForgotPasswordData()
+
+            is ForgotPasswordContract.Event.EmailChanged ->
+                setState {
+                    copy(
+                        email = event.email,
+                        emailValid = EmailValidator(event.email)
+                    )
+                }
+        }
+    }
+
+    private fun validateForgotPasswordData() {
+        val validData = currentState.emailValid
+
+        if (validData) {
+            requestPasswordReset(
+                email = currentState.email
+            )
+        } else {
+            setEffect {
+                ForgotPasswordContract.Effect.ShowSnackBar(
+                    getString(R.string.ForgotPassword_EnterValidEmail)
+                )
             }
         }
     }
 
     private fun requestPasswordReset(email: String) {
-        // validate input data
-        if (!EmailValidator(email)) {
-            viewModelScope.launch {
-                setEffect {
-                    ForgotPasswordContract.Effect.ShowSnackBar(
-                        getString(R.string.ForgotPassword_EnterValidEmail)
-                    )
-                }
-            }
-            return
-        }
-
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
             setEffect {

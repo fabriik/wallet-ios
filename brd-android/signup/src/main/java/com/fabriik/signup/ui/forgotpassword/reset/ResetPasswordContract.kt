@@ -5,11 +5,10 @@ import com.fabriik.signup.ui.base.FabriikContract
 interface ResetPasswordContract {
 
     sealed class Event : FabriikContract.Event {
-        class ConfirmClicked(
-            val code: String,
-            val password: String,
-            val passwordConfirm: String
-        ): Event()
+        object ConfirmClicked: Event()
+        class NewPasswordChanged(val password: String): Event()
+        class ConfirmPasswordChanged(val password: String): Event()
+        class ConfirmationCodeChanged(val code: String): Event()
     }
 
     sealed class Effect : FabriikContract.Effect {
@@ -18,5 +17,12 @@ interface ResetPasswordContract {
         class ShowSnackBar(val message: String) : Effect()
     }
 
-    class State: FabriikContract.State
+    data class State(
+        val code: String = "",
+        val codeValid: Boolean = false,
+        val password: String = "",
+        val passwordValid: Boolean = false,
+        val passwordConfirm: String = "",
+        val passwordConfirmValid: Boolean = false,
+    ): FabriikContract.State
 }

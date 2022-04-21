@@ -12,8 +12,6 @@ import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentResetPasswordCompletedBinding
 import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.hideKeyboard
-import com.fabriik.signup.utils.setValidator
-import com.fabriik.signup.utils.validators.EmailValidator
 import kotlinx.coroutines.flow.collect
 
 class ResetPasswordCompletedFragment : Fragment(),

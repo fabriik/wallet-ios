@@ -5,9 +5,8 @@ import com.fabriik.signup.ui.base.FabriikContract
 interface ForgotPasswordContract {
 
     sealed class Event : FabriikContract.Event {
-        class ConfirmClicked(
-            val email: String
-        ): Event()
+        object ConfirmClicked: Event()
+        class EmailChanged(val email: String): Event()
     }
 
     sealed class Effect : FabriikContract.Effect {
@@ -16,5 +15,8 @@ interface ForgotPasswordContract {
         class ShowSnackBar(val message: String) : Effect()
     }
 
-    class State: FabriikContract.State
+    data class State(
+        val email: String = "",
+        val emailValid: Boolean = false
+    ): FabriikContract.State
 }

@@ -15,7 +15,6 @@ import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.*
 import com.fabriik.signup.utils.clickableSpan
-import com.fabriik.signup.utils.setValidator
 import com.fabriik.signup.utils.underline
 import kotlinx.coroutines.flow.collect
 

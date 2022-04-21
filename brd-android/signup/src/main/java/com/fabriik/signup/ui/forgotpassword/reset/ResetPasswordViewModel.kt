@@ -14,7 +14,9 @@ import kotlinx.coroutines.launch
 
 class ResetPasswordViewModel(
     application: Application
-) : FabriikViewModel<ResetPasswordContract.State, ResetPasswordContract.Event, ResetPasswordContract.Effect>(application) {
+) : FabriikViewModel<ResetPasswordContract.State, ResetPasswordContract.Event, ResetPasswordContract.Effect>(
+    application
+) {
 
     private val userApi = UserApi.create(application.applicationContext)
 
@@ -22,31 +24,55 @@ class ResetPasswordViewModel(
 
     override fun handleEvent(event: ResetPasswordContract.Event) {
         when (event) {
-            is ResetPasswordContract.Event.ConfirmClicked -> {
-                resetPassword(
-                    code = event.code,
-                    password = event.password
+            is ResetPasswordContract.Event.NewPasswordChanged ->
+                setState {
+                    copy(
+                        password = event.password,
+                        passwordValid = PasswordValidator(event.password)
+                    )
+                }
+
+            is ResetPasswordContract.Event.ConfirmPasswordChanged ->
+                setState {
+                    copy(
+                        passwordConfirm = event.password,
+                        passwordConfirmValid = PasswordValidator(event.password)
+                                && event.password == this.password
+                    )
+                }
+
+            is ResetPasswordContract.Event.ConfirmationCodeChanged ->
+                setState {
+                    copy(
+                        code = event.code,
+                        codeValid = ConfirmationCodeValidator(event.code)
+                    )
+                }
+
+            is ResetPasswordContract.Event.ConfirmClicked ->
+                validateResetPasswordData()
+        }
+    }
+
+    private fun validateResetPasswordData() {
+        val validData = currentState.codeValid && currentState.passwordValid
+                && currentState.passwordConfirmValid
+
+        if (validData) {
+            resetPassword(
+                code = currentState.code,
+                password = currentState.password
+            )
+        } else {
+            setEffect {
+                ResetPasswordContract.Effect.ShowSnackBar(
+                    getString(R.string.ResetPassword_EnterValidData)
                 )
             }
         }
     }
 
     private fun resetPassword(code: String, password: String) {
-        // validate input data
-        val codeValidation = ConfirmationCodeValidator(code)
-        val passwordValidation = PasswordValidator(password)
-
-        if (!codeValidation || !passwordValidation) {
-            viewModelScope.launch {
-                setEffect {
-                    ResetPasswordContract.Effect.ShowSnackBar(
-                        getString(R.string.ResetPassword_EnterValidData)
-                    )
-                }
-            }
-            return
-        }
-
         // execute API call
         viewModelScope.launch(Dispatchers.IO) {
             setEffect {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -14,9 +15,7 @@ import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.hideKeyboard
-import com.fabriik.signup.utils.setValidator
-import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
-import com.fabriik.signup.utils.validators.PasswordValidator
+import com.fabriik.signup.utils.setValidationState
 import kotlinx.coroutines.flow.collect
 
 class ResetPasswordFragment : Fragment(),
@@ -39,21 +38,39 @@ class ResetPasswordFragment : Fragment(),
 
         with(binding) {
 
-            // setup input fields
-            etCode.setValidator(ConfirmationCodeValidator)
-            etNewPassword.setValidator(PasswordValidator)
-            etConfirmPassword.setValidator(PasswordValidator)
+            // setup "Confirmation code" input field
+            etCode.doAfterTextChanged {
+                viewModel.setEvent(
+                    ResetPasswordContract.Event.ConfirmationCodeChanged(
+                        it.toString()
+                    )
+                )
+            }
+
+            // setup "New password" input field
+            etNewPassword.doAfterTextChanged {
+                viewModel.setEvent(
+                    ResetPasswordContract.Event.NewPasswordChanged(
+                        it.toString()
+                    )
+                )
+            }
+
+            // setup "Confirm password" input field
+            etConfirmPassword.doAfterTextChanged {
+                viewModel.setEvent(
+                    ResetPasswordContract.Event.ConfirmPasswordChanged(
+                        it.toString()
+                    )
+                )
+            }
 
             // setup "Confirm" button
             btnConfirm.setOnClickListener {
                 hideKeyboard()
 
                 viewModel.setEvent(
-                    ResetPasswordContract.Event.ConfirmClicked(
-                        code = binding.etCode.text.toString(),
-                        password = binding.etNewPassword.text.toString(),
-                        passwordConfirm = binding.etConfirmPassword.text.toString()
-                    )
+                    ResetPasswordContract.Event.ConfirmClicked
                 )
             }
         }
@@ -74,7 +91,11 @@ class ResetPasswordFragment : Fragment(),
     }
 
     override fun render(state: ResetPasswordContract.State) {
-        //empty
+        with(binding) {
+            etCode.setValidationState(state.codeValid)
+            etNewPassword.setValidationState(state.passwordValid)
+            etConfirmPassword.setValidationState(state.passwordConfirmValid)
+        }
     }
 
     override fun handleEffect(effect: ResetPasswordContract.Effect) {

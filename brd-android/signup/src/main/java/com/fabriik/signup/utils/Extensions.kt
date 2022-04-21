@@ -75,13 +75,6 @@ internal fun Fragment.hideKeyboard()  {
         ?.hide(WindowInsetsCompat.Type.ime())
 }
 
-internal fun EditText.setValidator(validator: Validator) {
-    doAfterTextChanged {
-        val valid = validator(it?.toString() ?: "")
-        setValidationState(valid)
-    }
-}
-
 internal fun EditText.setValidationState(valid: Boolean) {
     val background = if (valid) {
         R.drawable.fabriik_edittext_border_green

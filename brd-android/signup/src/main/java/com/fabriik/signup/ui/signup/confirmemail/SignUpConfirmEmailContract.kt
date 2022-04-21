@@ -7,9 +7,7 @@ interface SignUpConfirmEmailContract {
     sealed class Event : FabriikContract.Event {
         object ConfirmClicked: Event()
         object ResendCodeClicked: Event()
-        class ConfirmationCodeChanged(
-            val confirmationCode: String
-        ): Event()
+        class ConfirmationCodeChanged(val confirmationCode: String): Event()
     }
 
     sealed class Effect : FabriikContract.Effect {
