@@ -9,21 +9,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
-import com.fabriik.signup.databinding.FragmentForgotPasswordEnterEmailBinding
-import com.fabriik.signup.databinding.FragmentSignUpConfirmEmailBinding
+import com.fabriik.signup.databinding.FragmentResetPasswordBinding
 import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.hideKeyboard
 import com.fabriik.signup.utils.setValidator
-import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
 import com.fabriik.signup.utils.validators.EmailValidator
 import kotlinx.coroutines.flow.collect
 
 class ResetPasswordFragment : Fragment(),
     FabriikView<ResetPasswordContract.State, ResetPasswordContract.Effect> {
 
-    private lateinit var binding: FragmentForgotPasswordEnterEmailBinding
+    private lateinit var binding: FragmentResetPasswordBinding
     private val viewModel: ResetPasswordViewModel by lazy {
         ViewModelProvider(this).get(ResetPasswordViewModel::class.java)
     }
@@ -31,20 +29,20 @@ class ResetPasswordFragment : Fragment(),
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_forgot_password_enter_email, container, false)
+        return inflater.inflate(R.layout.fragment_reset_password, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentForgotPasswordEnterEmailBinding.bind(view)
+        binding = FragmentResetPasswordBinding.bind(view)
 
         with(binding) {
 
             // setup input field
             etEmail.setValidator(EmailValidator)
 
-            // setup "Confirm" button
-            btnConfirm.setOnClickListener {
+            // setup "Submit" button
+            btnSubmit.setOnClickListener {
                 hideKeyboard()
 
                 viewModel.setEvent(

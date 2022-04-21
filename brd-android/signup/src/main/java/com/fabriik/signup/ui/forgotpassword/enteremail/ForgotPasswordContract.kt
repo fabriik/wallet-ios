@@ -2,7 +2,7 @@ package com.fabriik.signup.ui.forgotpassword.enteremail
 
 import com.fabriik.signup.ui.base.FabriikContract
 
-interface ForgotPasswordEnterEmailContract {
+interface ForgotPasswordContract {
 
     sealed class Event : FabriikContract.Event {
         class ConfirmClicked(

@@ -9,34 +9,32 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
-import com.fabriik.signup.databinding.FragmentForgotPasswordEnterEmailBinding
-import com.fabriik.signup.databinding.FragmentSignUpConfirmEmailBinding
+import com.fabriik.signup.databinding.FragmentForgotPasswordBinding
 import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.hideKeyboard
 import com.fabriik.signup.utils.setValidator
-import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
 import com.fabriik.signup.utils.validators.EmailValidator
 import kotlinx.coroutines.flow.collect
 
-class ForgotPasswordEnterEmailFragment : Fragment(),
-    FabriikView<ForgotPasswordEnterEmailContract.State, ForgotPasswordEnterEmailContract.Effect> {
+class ForgotPasswordFragment : Fragment(),
+    FabriikView<ForgotPasswordContract.State, ForgotPasswordContract.Effect> {
 
-    private lateinit var binding: FragmentForgotPasswordEnterEmailBinding
-    private val viewModel: ForgotPasswordEnterEmailViewModel by lazy {
-        ViewModelProvider(this).get(ForgotPasswordEnterEmailViewModel::class.java)
+    private lateinit var binding: FragmentForgotPasswordBinding
+    private val viewModel: ForgotPasswordViewModel by lazy {
+        ViewModelProvider(this).get(ForgotPasswordViewModel::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_forgot_password_enter_email, container, false)
+        return inflater.inflate(R.layout.fragment_forgot_password, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentForgotPasswordEnterEmailBinding.bind(view)
+        binding = FragmentForgotPasswordBinding.bind(view)
 
         with(binding) {
 
@@ -48,7 +46,7 @@ class ForgotPasswordEnterEmailFragment : Fragment(),
                 hideKeyboard()
 
                 viewModel.setEvent(
-                    ForgotPasswordEnterEmailContract.Event.ConfirmClicked(
+                    ForgotPasswordContract.Event.ConfirmClicked(
                         binding.etEmail.text.toString()
                     )
                 )
@@ -70,22 +68,22 @@ class ForgotPasswordEnterEmailFragment : Fragment(),
         }
     }
 
-    override fun render(state: ForgotPasswordEnterEmailContract.State) {
+    override fun render(state: ForgotPasswordContract.State) {
         //empty
     }
 
-    override fun handleEffect(effect: ForgotPasswordEnterEmailContract.Effect) {
+    override fun handleEffect(effect: ForgotPasswordContract.Effect) {
         when (effect) {
-            is ForgotPasswordEnterEmailContract.Effect.GoToResetPassword -> {
+            is ForgotPasswordContract.Effect.GoToResetPassword -> {
                 findNavController().navigate(
-                    ForgotPasswordEnterEmailFragmentDirections.actionResetPassword()
+                    ForgotPasswordFragmentDirections.actionResetPassword()
                 )
             }
-            is ForgotPasswordEnterEmailContract.Effect.ShowLoading -> {
+            is ForgotPasswordContract.Effect.ShowLoading -> {
                 val activity = activity as SignupActivity?
                 activity?.showLoading(effect.show)
             }
-            is ForgotPasswordEnterEmailContract.Effect.ShowSnackBar -> {
+            is ForgotPasswordContract.Effect.ShowSnackBar -> {
                 SnackBarUtils.showLong(
                     view = binding.root,
                     text = effect.message

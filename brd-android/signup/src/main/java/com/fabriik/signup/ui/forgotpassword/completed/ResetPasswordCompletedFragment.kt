@@ -9,15 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
-import com.fabriik.signup.databinding.FragmentForgotPasswordEnterEmailBinding
 import com.fabriik.signup.databinding.FragmentResetPasswordCompletedBinding
-import com.fabriik.signup.databinding.FragmentSignUpConfirmEmailBinding
-import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
-import com.fabriik.signup.utils.SnackBarUtils
 import com.fabriik.signup.utils.hideKeyboard
 import com.fabriik.signup.utils.setValidator
-import com.fabriik.signup.utils.validators.ConfirmationCodeValidator
 import com.fabriik.signup.utils.validators.EmailValidator
 import kotlinx.coroutines.flow.collect
 

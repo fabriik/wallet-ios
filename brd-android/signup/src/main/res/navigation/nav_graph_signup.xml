@@ -16,7 +16,7 @@
 
         <action
             android:id="@+id/action_forgot_password"
-            app:destination="@+id/fragmentForgotPasswordEnterEmail" />
+            app:destination="@+id/fragmentForgotPassword" />
 
     </fragment>
 
@@ -49,9 +49,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/fragmentForgotPasswordEnterEmail"
-        android:name="com.fabriik.signup.ui.forgotpassword.enteremail.ForgotPasswordEnterEmailFragment"
-        tools:layout="@layout/fragment_forgot_password_enter_email">
+        android:id="@+id/fragmentForgotPassword"
+        android:name="com.fabriik.signup.ui.forgotpassword.enteremail.ForgotPasswordFragment"
+        tools:layout="@layout/fragment_forgot_password">
 
         <action
             android:id="@+id/action_reset_password"
