@@ -11,8 +11,8 @@ import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.lifecycle.ViewModelProvider
 import com.fabriik.buy.R
-import com.fabriik.buy.data.Status
 import com.fabriik.buy.data.WyreApi
+import com.fabriik.common.data.Status
 
 class BuyWebViewActivity : AppCompatActivity() {
 

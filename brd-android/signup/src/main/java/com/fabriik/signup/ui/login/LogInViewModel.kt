@@ -3,10 +3,9 @@ package com.fabriik.signup.ui.login
 import android.app.Application
 import androidx.lifecycle.*
 import com.fabriik.signup.R
-import com.fabriik.signup.data.Status
+import com.fabriik.common.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
-import com.fabriik.signup.ui.signup.confirmemail.SignUpConfirmEmailContract
 import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.validators.EmailValidator
 import com.fabriik.signup.utils.validators.PasswordValidator

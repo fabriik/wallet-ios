@@ -24,7 +24,7 @@
  */
 package com.breadwallet.tools.util
 
-import com.fabriik.buy.data.FabriikApiConstants
+import com.fabriik.common.data.FabriikApiConstants
 import java.math.RoundingMode
 
 const val btc = "btc"

@@ -1,4 +1,4 @@
-package com.fabriik.signup.data
+package com.fabriik.common.data
 
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
     companion object {

@@ -3,7 +3,7 @@ package com.fabriik.signup.ui.forgotpassword.reset
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.fabriik.signup.R
-import com.fabriik.signup.data.Status
+import com.fabriik.common.data.Status
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.getString

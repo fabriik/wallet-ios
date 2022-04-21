@@ -2,8 +2,8 @@ package com.fabriik.signup.ui.signup.info
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.fabriik.signup.data.FabriikApiConstants
-import com.fabriik.signup.data.Status
+import com.fabriik.common.data.FabriikApiConstants
+import com.fabriik.common.data.Status
 import com.fabriik.signup.R
 import com.fabriik.signup.data.UserApi
 import com.fabriik.signup.ui.base.FabriikViewModel
@@ -137,7 +137,7 @@ class SignUpInfoViewModel(
                 response.status == Status.SUCCESS && response.data != null -> {
                     setEffect {
                         SignUpInfoContract.Effect.GoToConfirmation(
-                            response.data.sessionKey
+                            response.data!!.sessionKey
                         )
                     }
                 }

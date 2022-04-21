@@ -1,6 +1,7 @@
 package com.fabriik.buy.data
 
 import com.fabriik.buy.BuildConfig
+import com.fabriik.common.data.FabriikApiConstants
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 

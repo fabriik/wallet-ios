@@ -1,4 +1,4 @@
-package com.fabriik.buy.data
+package com.fabriik.common.data
 
 enum class Status {
     SUCCESS,

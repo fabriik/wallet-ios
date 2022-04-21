@@ -1,4 +1,4 @@
-package com.fabriik.signup.data
+package com.fabriik.common.data
 
 object FabriikApiConstants {
 

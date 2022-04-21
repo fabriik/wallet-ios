@@ -3,9 +3,8 @@ package com.fabriik.buy.ui
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.fabriik.buy.BuildConfig
-import com.fabriik.buy.data.Resource
 import com.fabriik.buy.data.WyreApi
+import com.fabriik.common.data.Resource
 import kotlinx.coroutines.Dispatchers
 
 class BuyWebViewViewModel(

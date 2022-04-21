@@ -41,7 +41,6 @@ import android.os.NetworkOnMainThreadException
 import androidx.annotation.VisibleForTesting
 
 import com.breadwallet.appcore.BuildConfig
-import com.fabriik.buy.data.FabriikApiConstants
 import com.breadwallet.crypto.Key
 import com.breadwallet.logger.logDebug
 import com.breadwallet.logger.logError
@@ -75,6 +74,7 @@ import okio.Buffer
 import com.breadwallet.tools.util.BRConstants.CONTENT_TYPE_JSON_CHARSET_UTF8
 import com.breadwallet.tools.util.BRConstants.DATE
 import com.breadwallet.tools.util.BRConstants.HEADER_ACCEPT
+import com.fabriik.common.data.FabriikApiConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import okhttp3.*

@@ -1,6 +1,8 @@
 package com.fabriik.signup.data
 
 import android.content.Context
+import com.fabriik.common.data.FabriikApiConstants
+import com.fabriik.common.data.Resource
 import com.fabriik.signup.R
 import com.fabriik.signup.data.requests.*
 import com.fabriik.signup.data.responses.ConfirmRegistrationResponse
