@@ -61,6 +61,7 @@
     <style name="Input.EditText" parent="">
         <item name="android:background">@drawable/fabriik_edittext_border</item>
         <item name="android:layout_marginTop">4dp</item>
+        <item name="android:textColor">@color/fabriik_black</item>
         <item name="android:textColorHint">@color/fabriik_gray_1</item>
         <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/fabriik_font_medium</item>

@@ -39,13 +39,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pb_indicator" />
 
-    <EditText
+    <TextView
         android:id="@+id/et_date_of_birth"
         style="@style/Input.EditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/KycPersonalInfo.DateOfBirthHint"
-        android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_date_of_birth_title" />

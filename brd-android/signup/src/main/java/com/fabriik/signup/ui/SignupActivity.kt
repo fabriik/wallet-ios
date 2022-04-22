@@ -19,6 +19,7 @@ class SignupActivity : AppCompatActivity() {
 
     private val topLevelDestinations = arrayOf(
         R.id.fragmentLogIn,
+        R.id.fragmentKycCompleted,
         R.id.fragmentResetCompleted
     )
 
