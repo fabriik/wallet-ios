@@ -109,6 +109,11 @@ class LogInFragment : Fragment(), FabriikView<LogInContract.State, LogInContract
 
     override fun handleEffect(effect: LogInContract.Effect) {
         when (effect) {
+            LogInContract.Effect.GoToKyc -> {
+                findNavController().navigate(
+                    LogInFragmentDirections.actionKyc()
+                )
+            }
             LogInContract.Effect.GoToSignUp -> {
                 findNavController().navigate(
                     LogInFragmentDirections.actionSignUp()

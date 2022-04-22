@@ -13,6 +13,7 @@ interface LogInContract {
     }
 
     sealed class Effect : FabriikContract.Effect {
+        object GoToKyc : Effect()
         object GoToSignUp : Effect()
         object GoToForgotPassword : Effect()
         class ShowLoading(val show: Boolean) : Effect()

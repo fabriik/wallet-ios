@@ -18,6 +18,10 @@
             android:id="@+id/action_forgot_password"
             app:destination="@+id/fragmentForgotPassword" />
 
+        <action
+            android:id="@+id/action_kyc"
+            app:destination="@+id/fragmentKycCompleted" /> <!-- TODO: replace with correct destination -->
+
     </fragment>
 
     <fragment
@@ -74,6 +78,20 @@
         android:id="@+id/fragmentResetCompleted"
         android:name="com.fabriik.signup.ui.forgotpassword.resetcompleted.ResetPasswordCompletedFragment"
         tools:layout="@layout/fragment_reset_password_completed">
+
+        <action
+            android:id="@+id/action_log_in"
+            app:destination="@+id/fragmentLogIn"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph_signup"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentKycCompleted"
+        android:name="com.fabriik.signup.ui.kyc.completed.KycCompletedFragment"
+        tools:layout="@layout/fragment_kyc_complete">
 
         <action
             android:id="@+id/action_log_in"

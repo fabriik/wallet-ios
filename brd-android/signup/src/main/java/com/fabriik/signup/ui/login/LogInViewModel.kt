@@ -39,7 +39,9 @@ class LogInViewModel(
                 }
 
             is LogInContract.Event.SubmitClicked ->
-                validateLoginData()
+                setEffect {
+                    LogInContract.Effect.GoToKyc
+                } //validateLoginData() //todo: revert
 
             is LogInContract.Event.SignUpClicked ->
                 setEffect {
@@ -89,9 +91,7 @@ class LogInViewModel(
             when (response.status) {
                 Status.SUCCESS -> {
                     setEffect {
-                        LogInContract.Effect.ShowSnackBar(
-                            getString(R.string.LogIn_Completed)
-                        )
+                        LogInContract.Effect.GoToKyc
                     }
                 }
                 else -> {
