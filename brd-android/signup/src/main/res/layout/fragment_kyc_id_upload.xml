@@ -14,10 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constrainedWidth="true"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/KycIdUploadFront.Title"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/KycIdUploadFront.Title" />
 
     <ProgressBar
         android:id="@+id/pb_indicator"
@@ -33,54 +33,45 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/ForgotPassword.Description"
+        android:textSize="14sp"
         app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pb_indicator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        tools:text="@string/KycIdUploadFront.Description" />
 
-    <TextView
-        android:id="@+id/tv_email_title"
-        style="@style/Input.Hint"
+    <ImageView
+        android:id="@+id/iv_preview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/ForgotPassword.Email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_description" />
-
-    <EditText
-        android:id="@+id/et_email"
-        style="@style/Input.EditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/ForgotPassword.EmailHint"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_email_title" />
+        android:layout_height="wrap_content" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_confirm"
-        style="@style/Fragment.Button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/ForgotPassword.Confirm"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_email"
-        app:layout_constraintBottom_toTopOf="@id/iv_footer"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_footer"
-        style="@style/Fragment.Footer"
+        android:id="@+id/btn_take_photo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:icon="@drawable/ic_add_wallets"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/KycIdUpload.Retry"
+        app:layout_constraintBottom_toBottomOf="@id/btn_take_photo"
+        app:layout_constraintEnd_toStartOf="@id/btn_take_photo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_take_photo" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/KycIdUpload.Next"
+        app:layout_constraintBottom_toBottomOf="@id/btn_take_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_take_photo"
+        app:layout_constraintTop_toTopOf="@id/btn_take_photo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

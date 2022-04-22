@@ -91,14 +91,21 @@
     <string name="KycPersonalInfo.DateOfBirthHint">DD/MM/YYYY</string>
     <string name="KycPersonalInfo.Next">Next</string>
 
+    <!-- KYC ID upload screens - common -->
+    <string name="KycIdUpload.Next">Next</string>
+    <string name="KycIdUpload.Retry">Retry</string>
+
     <!-- KYC ID upload front screen -->
     <string name="KycIdUploadFront.Title">ID upload - front</string>
+    <string name="KycIdUploadFront.Description">Take a photo of the front of your driver’s licence or government issued ID.\n\nMake sure to take a clear and readable photo to avoid delays or failed verification.</string>
 
     <!-- KYC ID upload back screen -->
     <string name="KycIdUploadBack.Title">ID upload - back</string>
+    <string name="KycIdUploadBack.Description">Take a photo of the back of your driver’s licence or government issued ID.\n\nMake sure to take a clear and readable photo to avoid delays or failed verification.</string>
 
     <!-- KYC ID verification screen -->
     <string name="KycIdVerification.Title">ID verification</string>
+    <string name="KycIdVerification.Description">Take a quick face photo to confirm you are the person on your ID.\n\nMake sure your face is clear and well lit to avoid delays or failed verification.</string>
 
     <!-- KYC complete screen -->
     <string name="KycComplete.Title">KYC complete!</string>
