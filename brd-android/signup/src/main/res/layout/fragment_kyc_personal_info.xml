@@ -13,114 +13,79 @@
         style="@style/Fragment.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ResetPassword.Title"
+        android:text="@string/KycPersonalInfo.Title"
         app:layout_constrainedWidth="true"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <ProgressBar
         android:id="@+id/pb_indicator"
-        style="@style/ProgressIndicator.ForgotPassword"
+        style="@style/ProgressIndicator.Kyc"
         android:progress="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <TextView
-        android:id="@+id/tv_description"
-        style="@style/ConfirmEmail.Description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/ResetPassword.Description"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintTop_toBottomOf="@id/pb_indicator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <TextView
-        android:id="@+id/tv_code_title"
+        android:id="@+id/tv_date_of_birth_title"
         style="@style/Input.Hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/ResetPassword.Code"
+        android:text="@string/KycPersonalInfo.DateOfBirth"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_description" />
+        app:layout_constraintTop_toBottomOf="@id/pb_indicator" />
 
     <EditText
-        android:id="@+id/et_code"
+        android:id="@+id/et_date_of_birth"
         style="@style/Input.EditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/ResetPassword.CodeHint"
-        android:inputType="number"
+        android:hint="@string/KycPersonalInfo.DateOfBirthHint"
+        android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_code_title" />
+        app:layout_constraintTop_toBottomOf="@id/tv_date_of_birth_title" />
 
     <TextView
-        android:id="@+id/tv_new_password_title"
+        android:id="@+id/tv_tax_id_title"
         style="@style/Input.Hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="@string/ResetPassword.NewPassword"
+        android:text="@string/KycPersonalInfo.TaxId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_code" />
+        app:layout_constraintTop_toBottomOf="@id/et_date_of_birth" />
 
     <EditText
-        android:id="@+id/et_new_password"
+        android:id="@+id/et_tax_id"
         style="@style/Input.EditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/ResetPassword.PasswordHint"
-        android:inputType="textPassword"
+        android:hint="@string/KycPersonalInfo.TaxIdHint"
+        android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_new_password_title" />
-
-    <TextView
-        android:id="@+id/tv_confirm_password_title"
-        style="@style/Input.Hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/ResetPassword.ConfirmNewPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_new_password" />
-
-    <EditText
-        android:id="@+id/et_confirm_password"
-        style="@style/Input.EditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/ResetPassword.PasswordHint"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_confirm_password_title" />
+        app:layout_constraintTop_toBottomOf="@id/tv_tax_id_title" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_confirm"
+        android:id="@+id/btn_next"
         style="@style/Fragment.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="32dp"
-        android:text="@string/ResetPassword.Confirm"
+        android:text="@string/KycPersonalInfo.Next"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_confirm_password"
-        app:layout_constraintBottom_toTopOf="@+id/iv_footer"/>
+        app:layout_constraintTop_toBottomOf="@id/et_tax_id"
+        app:layout_constraintBottom_toTopOf="@id/iv_footer"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_footer"

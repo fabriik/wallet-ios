@@ -84,4 +84,19 @@
         <item name="fontFamily">@font/fabriik_font_regular</item>
     </style>
 
+    <style name="ProgressIndicator" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">6dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:indeterminate">false</item>
+        <item name="android:progressDrawable">@drawable/indicator_password_recovery</item>
+    </style>
+
+    <style name="ProgressIndicator.ForgotPassword">
+        <item name="android:max">2</item>
+    </style>
+
+    <style name="ProgressIndicator.Kyc">
+        <item name="android:max">6</item>
+    </style>
 </resources>
