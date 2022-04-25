@@ -20,7 +20,7 @@
 
         <action
             android:id="@+id/action_kyc"
-            app:destination="@+id/fragmentKycAddress" />
+            app:destination="@+id/fragmentKycFrontSideIdUpload" /> <!-- todo: revert -->
 
     </fragment>
 
@@ -128,7 +128,40 @@
 
         <action
             android:id="@+id/action_id_upload"
-            app:destination="@+id/fragmentKycCompleted" /> <!-- todo: Change to photo upload screens -->
+            app:destination="@+id/fragmentKycFrontSideIdUpload" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentKycFrontSideIdUpload"
+        android:name="com.fabriik.signup.ui.kyc.idupload.front.KycIdUploadFrontFragment"
+        tools:layout="@layout/fragment_kyc_id_upload">
+
+        <action
+            android:id="@+id/action_id_upload_back"
+            app:destination="@+id/fragmentKycBackSideIdUpload" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentKycBackSideIdUpload"
+        android:name="com.fabriik.signup.ui.kyc.idupload.back.KycIdUploadBackFragment"
+        tools:layout="@layout/fragment_kyc_id_upload">
+
+        <action
+            android:id="@+id/action_id_verification"
+            app:destination="@+id/fragmentKycIdVerification" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentKycIdVerification"
+        android:name="com.fabriik.signup.ui.kyc.idupload.verification.KycIdVerificationFragment"
+        tools:layout="@layout/fragment_kyc_id_upload">
+
+        <action
+            android:id="@+id/action_kyc_completed"
+            app:destination="@+id/fragmentKycCompleted" />
 
     </fragment>
 

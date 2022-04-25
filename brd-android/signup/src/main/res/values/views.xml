@@ -45,6 +45,28 @@
         <item name="fontFamily">@font/fabriik_font_regular</item>
     </style>
 
+    <style name="Fragment.Button.Circle" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="shapeAppearanceOverlay">@style/Fragment.Button.Circle.ShapeOverlay</item>
+    </style>
+
+    <style name="Fragment.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="Fragment.Button.Circle.ShapeOverlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="Fragment.Footer" parent="">
         <item name="android:src">@drawable/ic_fabriik_footer</item>
         <item name="android:layout_width">wrap_content</item>
@@ -99,5 +121,25 @@
 
     <style name="ProgressIndicator.Kyc">
         <item name="android:max">6</item>
+    </style>
+
+    <style name="UploadId.Button.Next" parent="Fragment.Button.Outlined">
+        <item name="android:textColor">@color/fabriik_photo_green_button_tint</item>
+        <item name="icon">@drawable/ic_photo_next</item>
+        <item name="iconTint">@color/fabriik_photo_green_button_tint</item>
+        <item name="strokeColor">@color/fabriik_photo_green_button_tint</item>
+    </style>
+
+    <style name="UploadId.Button.Retry" parent="Fragment.Button.Outlined">
+        <item name="android:textColor">@color/fabriik_photo_red_button_tint</item>
+        <item name="icon">@drawable/ic_photo_retry</item>
+        <item name="iconTint">@color/fabriik_photo_red_button_tint</item>
+        <item name="strokeColor">@color/fabriik_photo_red_button_tint</item>
+    </style>
+
+    <style name="UploadId.Button.TakePhoto" parent="Fragment.Button.Circle">
+        <item name="android:backgroundTint">@color/fabriik_signup_background</item>
+        <item name="icon">@drawable/ic_take_photo</item>
+        <item name="iconTint">@color/white</item>
     </style>
 </resources>

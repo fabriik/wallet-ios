@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,15 +47,16 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_take_photo"
+        style="@style/UploadId.Button.TakePhoto"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        app:icon="@drawable/ic_add_wallets"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_retry"
+        style="@style/UploadId.Button.Retry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/KycIdUpload.Retry"
@@ -66,6 +67,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_next"
+        style="@style/UploadId.Button.Next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/KycIdUpload.Next"
