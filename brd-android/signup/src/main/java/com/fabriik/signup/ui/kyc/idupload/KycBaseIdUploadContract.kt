@@ -10,12 +10,16 @@ interface KycBaseIdUploadContract {
         object NextClicked: Event()
         object RetryClicked: Event()
         object TakePhotoClicked: Event()
+        object SwitchCameraClicked: Event()
         object TakePhotoFailed: Event()
         class TakePhotoCompleted(val uri: Uri): Event()
     }
 
     sealed class Effect : FabriikContract.Effect {
+        object SwitchCamera : Effect()
+        object TakePhoto : Effect()
         object ShowCameraPreview : Effect()
+        class ShowSnackBar(val message: String) : Effect()
         class ShowImagePreview(val imageUri: Uri) : Effect()
         class GoToNextStep(val imageUri: Uri) : Effect()
     }
@@ -24,6 +28,7 @@ interface KycBaseIdUploadContract {
         val imageUri: Uri? = null,
         val nextEnabled: Boolean = false,
         val retryEnabled: Boolean = false,
-        val takePhotoEnabled: Boolean = true
+        val takePhotoEnabled: Boolean = true,
+        val switchCameraVisible: Boolean = false // todo: set value
     ): FabriikContract.State
 }

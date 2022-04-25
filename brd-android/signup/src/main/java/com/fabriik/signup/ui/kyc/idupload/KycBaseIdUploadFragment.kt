@@ -1,6 +1,7 @@
 package com.fabriik.signup.ui.kyc.idupload
 
 import android.content.ContentValues
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,15 +16,16 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.fabriik.signup.R
-import com.fabriik.signup.databinding.FragmentKycCompleteBinding
 import com.fabriik.signup.databinding.FragmentKycIdUploadBinding
 import com.fabriik.signup.ui.base.FabriikView
-import com.fabriik.signup.utils.hideKeyboard
+import com.fabriik.signup.utils.SnackBarUtils
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
 import java.util.*
@@ -74,6 +76,13 @@ abstract class KycBaseIdUploadFragment : Fragment(),
                 )
             }
 
+            // setup "Switch camera" button
+            btnSwitchCamera.setOnClickListener {
+                viewModel.setEvent(
+                    KycBaseIdUploadContract.Event.SwitchCameraClicked
+                )
+            }
+
             // setup Progress indicator
             pbIndicator.progress = getKycFlowStep()
 
@@ -119,17 +128,43 @@ abstract class KycBaseIdUploadFragment : Fragment(),
             btnNext.isEnabled = state.nextEnabled
             btnRetry.isEnabled = state.retryEnabled
             btnTakePhoto.isEnabled = state.takePhotoEnabled
+            btnSwitchCamera.isVisible = state.switchCameraVisible
         }
     }
 
     override fun handleEffect(effect: KycBaseIdUploadContract.Effect) {
         when (effect) {
-            is KycBaseIdUploadContract.Effect.GoToNextStep -> goToNextStep()
-            is KycBaseIdUploadContract.Effect.ShowPreview -> startCamera()
+            is KycBaseIdUploadContract.Effect.GoToNextStep ->
+                goToNextStep()
+
+            is KycBaseIdUploadContract.Effect.ShowImagePreview ->
+                loadImagePreview(effect.imageUri)
+
+            is KycBaseIdUploadContract.Effect.ShowCameraPreview ->
+                startCamera()
+
+            is KycBaseIdUploadContract.Effect.TakePhoto ->
+                takePhoto()
+
+            is KycBaseIdUploadContract.Effect.SwitchCamera ->
+                switchCamera()
+
+            is KycBaseIdUploadContract.Effect.ShowSnackBar ->
+                SnackBarUtils.showLong(
+                    view = binding.root,
+                    text = effect.message
+                )
         }
     }
 
+    private fun switchCamera() {
+        // todo:
+    }
+
     private fun startCamera() {
+        binding.ivImage.isVisible = false
+        binding.viewFinder.isVisible = true
+
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
         cameraProviderFuture.addListener({
@@ -162,9 +197,18 @@ abstract class KycBaseIdUploadFragment : Fragment(),
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
+    private fun loadImagePreview(uri: Uri) {
+        binding.ivImage.isVisible = true
+        binding.viewFinder.isInvisible = true
+
+        Picasso.get()
+            .load(uri)
+            .into(binding.ivImage)
+    }
+
     private fun takePhoto() {
-        val name = SimpleDateFormat("image_%d", Locale.US)
-            .format(System.currentTimeMillis())
+        // todo: save to cache
+        val name = "image_${System.currentTimeMillis()}"
 
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)

@@ -94,6 +94,7 @@
     <!-- KYC ID upload screens - common -->
     <string name="KycIdUpload.Next">Next</string>
     <string name="KycIdUpload.Retry">Retry</string>
+    <string name="KycIdUpload.DefaultErrorMessage">Something went wrong! Please try again later.</string>
 
     <!-- KYC ID upload front screen -->
     <string name="KycIdUploadFront.Title">ID upload - front</string>

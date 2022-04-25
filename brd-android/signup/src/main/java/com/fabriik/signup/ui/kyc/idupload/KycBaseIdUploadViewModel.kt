@@ -2,7 +2,9 @@ package com.fabriik.signup.ui.kyc.idupload
 
 import android.app.Application
 import android.net.Uri
+import com.fabriik.signup.R
 import com.fabriik.signup.ui.base.FabriikViewModel
+import com.fabriik.signup.utils.getString
 
 class KycBaseIdUploadViewModel(
     application: Application
@@ -16,7 +18,7 @@ class KycBaseIdUploadViewModel(
 
     override fun handleEvent(event: KycBaseIdUploadContract.Event) {
         when (event) {
-            is KycBaseIdUploadContract.Event.FragmentStarted -> {
+            is KycBaseIdUploadContract.Event.FragmentStarted ->
                 setEffect {
                     if (currentState.imageUri == null) {
                         KycBaseIdUploadContract.Effect.ShowCameraPreview
@@ -26,13 +28,13 @@ class KycBaseIdUploadViewModel(
                         )
                     }
                 }
-            }
 
-            is KycBaseIdUploadContract.Event.TakePhotoFailed -> {
+            is KycBaseIdUploadContract.Event.TakePhotoFailed ->
                 setEffect {
-                    KycBaseIdUploadContract.
+                    KycBaseIdUploadContract.Effect.ShowSnackBar(
+                        getString(R.string.KycIdUpload_DefaultErrorMessage)
+                    )
                 }
-            }
 
             is KycBaseIdUploadContract.Event.TakePhotoCompleted ->
                 setState {
@@ -44,14 +46,22 @@ class KycBaseIdUploadViewModel(
                     )
                 }
 
-            is KycBaseIdUploadContract.Event.NextClicked -> {
-                setEffect {
-                    KycBaseIdUploadContract.Effect.GoToNextStep(
-                        //todo: get uri
-                        Uri.parse("file://test.jpg")
-                    )
-                }
+            is KycBaseIdUploadContract.Event.SwitchCameraClicked -> {
+                //todo
             }
+
+            is KycBaseIdUploadContract.Event.NextClicked ->
+                setEffect {
+                    if (currentState.imageUri == null) {
+                        KycBaseIdUploadContract.Effect.ShowSnackBar(
+                            getString(R.string.KycIdUpload_DefaultErrorMessage)
+                        )
+                    } else {
+                        KycBaseIdUploadContract.Effect.GoToNextStep(
+                            currentState.imageUri!!
+                        )
+                    }
+                }
 
             is KycBaseIdUploadContract.Event.RetryClicked -> {
                 setState {
@@ -68,18 +78,10 @@ class KycBaseIdUploadViewModel(
                 }
             }
 
-            is KycBaseIdUploadContract.Event.TakePhotoClicked -> {
-                //todo: get uri
-                val imageUri = Uri.parse("file://test.jpg")
-
-                setState {
-                    copy(
-                        nextEnabled = imageUri != null,
-                        retryEnabled = imageUri != null,
-                        takePhotoEnabled = imageUri == null,
-                    )
+            is KycBaseIdUploadContract.Event.TakePhotoClicked ->
+                setEffect {
+                    KycBaseIdUploadContract.Effect.TakePhoto
                 }
-            }
         }
     }
 }

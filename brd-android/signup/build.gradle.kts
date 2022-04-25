@@ -53,6 +53,8 @@ dependencies {
 
     implementation(Libs.Material.Core)
 
+    implementation(Libs.Picasso.Core)
+
     // Kodein DI
     implementation(Libs.Kodein.CoreErasedJvm)
     implementation(Libs.Kodein.FrameworkAndroidX)
