@@ -139,6 +139,7 @@ object Libs {
         const val Camera2 = "androidx.camera:camera-camera2:$CAMERAX_VERSION"
         const val Lifecycle = "androidx.camera:camera-lifecycle:$CAMERAX_VERSION"
         const val View = "androidx.camera:camera-view:$CAMERAX_VIEW_VERSION"
+        const val Extensions = "androidx.camera:camera-extensions:$CAMERAX_VIEW_VERSION"
     }
 
     object Google {

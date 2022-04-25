@@ -6,12 +6,44 @@ import com.fabriik.signup.ui.base.FabriikViewModel
 
 class KycBaseIdUploadViewModel(
     application: Application
-) : FabriikViewModel<KycBaseIdUploadContract.State, KycBaseIdUploadContract.Event, KycBaseIdUploadContract.Effect>(application) {
+) : FabriikViewModel<KycBaseIdUploadContract.State, KycBaseIdUploadContract.Event, KycBaseIdUploadContract.Effect>(
+    application
+) {
 
     override fun createInitialState() = KycBaseIdUploadContract.State()
 
+    // todo: request camera permission
+
     override fun handleEvent(event: KycBaseIdUploadContract.Event) {
         when (event) {
+            is KycBaseIdUploadContract.Event.FragmentStarted -> {
+                setEffect {
+                    if (currentState.imageUri == null) {
+                        KycBaseIdUploadContract.Effect.ShowCameraPreview
+                    } else {
+                        KycBaseIdUploadContract.Effect.ShowImagePreview(
+                            currentState.imageUri!!
+                        )
+                    }
+                }
+            }
+
+            is KycBaseIdUploadContract.Event.TakePhotoFailed -> {
+                setEffect {
+                    KycBaseIdUploadContract.
+                }
+            }
+
+            is KycBaseIdUploadContract.Event.TakePhotoCompleted ->
+                setState {
+                    copy(
+                        imageUri = event.uri,
+                        nextEnabled = false,
+                        retryEnabled = false,
+                        takePhotoEnabled = true
+                    )
+                }
+
             is KycBaseIdUploadContract.Event.NextClicked -> {
                 setEffect {
                     KycBaseIdUploadContract.Effect.GoToNextStep(
@@ -22,14 +54,17 @@ class KycBaseIdUploadViewModel(
             }
 
             is KycBaseIdUploadContract.Event.RetryClicked -> {
-                //todo: clear current uri
-
                 setState {
                     copy(
+                        imageUri = null,
                         nextEnabled = false,
                         retryEnabled = false,
                         takePhotoEnabled = true,
                     )
+                }
+
+                setEffect {
+                    KycBaseIdUploadContract.Effect.ShowCameraPreview
                 }
             }
 
