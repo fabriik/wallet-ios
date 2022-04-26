@@ -1,10 +1,12 @@
 package com.fabriik.signup.ui.kyc.idupload
 
 import android.app.Application
-import android.net.Uri
+import androidx.lifecycle.viewModelScope
 import com.fabriik.signup.R
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.getString
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class KycBaseIdUploadViewModel(
     application: Application
@@ -41,17 +43,7 @@ class KycBaseIdUploadViewModel(
                 }
 
             is KycBaseIdUploadContract.Event.NextClicked ->
-                setEffect {
-                    if (currentState.imageUri == null) {
-                        KycBaseIdUploadContract.Effect.ShowSnackBar(
-                            getString(R.string.KycIdUpload_DefaultErrorMessage)
-                        )
-                    } else {
-                        KycBaseIdUploadContract.Effect.GoToNextStep(
-                            currentState.imageUri!!
-                        )
-                    }
-                }
+                onNextClicked()
 
             is KycBaseIdUploadContract.Event.RetryClicked ->
                 setState {
@@ -67,6 +59,30 @@ class KycBaseIdUploadViewModel(
                 setEffect {
                     KycBaseIdUploadContract.Effect.TakePhoto
                 }
+        }
+    }
+
+    private fun onNextClicked() {
+        viewModelScope.launch(Dispatchers.IO) {
+            setEffect {
+                KycBaseIdUploadContract.Effect.ShowLoading(true)
+            }
+
+            Thread.sleep(2000) // todo: call API
+
+            setEffect {
+                KycBaseIdUploadContract.Effect.ShowLoading(false)
+            }
+
+            setEffect {
+                if (currentState.imageUri == null) {
+                    KycBaseIdUploadContract.Effect.ShowSnackBar(
+                        getString(R.string.KycIdUpload_DefaultErrorMessage)
+                    )
+                } else {
+                    KycBaseIdUploadContract.Effect.GoToNextStep
+                }
+            }
         }
     }
 }

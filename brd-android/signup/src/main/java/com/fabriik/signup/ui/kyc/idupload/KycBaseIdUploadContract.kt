@@ -17,8 +17,9 @@ interface KycBaseIdUploadContract {
     sealed class Effect : FabriikContract.Effect {
         object SwitchCamera : Effect()
         object TakePhoto : Effect()
+        object GoToNextStep : Effect()
         class ShowSnackBar(val message: String) : Effect()
-        class GoToNextStep(val imageUri: Uri) : Effect()
+        class ShowLoading(val show: Boolean) : Effect()
     }
 
     data class State(

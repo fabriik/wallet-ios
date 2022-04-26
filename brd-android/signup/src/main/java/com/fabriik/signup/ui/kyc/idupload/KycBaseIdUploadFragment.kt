@@ -2,7 +2,6 @@ package com.fabriik.signup.ui.kyc.idupload
 
 import android.content.ContentValues
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -22,9 +21,9 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentKycIdUploadBinding
+import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.SnackBarUtils
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collect
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -157,6 +156,11 @@ abstract class KycBaseIdUploadFragment : Fragment(),
 
             is KycBaseIdUploadContract.Effect.SwitchCamera ->
                 switchCamera()
+
+            is KycBaseIdUploadContract.Effect.ShowLoading -> {
+                val activity = activity as SignupActivity?
+                activity?.showLoading(effect.show)
+            }
 
             is KycBaseIdUploadContract.Effect.ShowSnackBar ->
                 SnackBarUtils.showLong(

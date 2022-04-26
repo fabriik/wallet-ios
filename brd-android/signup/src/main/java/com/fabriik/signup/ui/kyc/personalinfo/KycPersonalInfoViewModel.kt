@@ -2,10 +2,13 @@ package com.fabriik.signup.ui.kyc.personalinfo
 
 import android.app.Application
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.fabriik.signup.R
 import com.fabriik.signup.ui.base.FabriikViewModel
 import com.fabriik.signup.utils.getString
 import com.fabriik.signup.utils.toBundle
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 class KycPersonalInfoViewModel(
@@ -82,10 +85,20 @@ class KycPersonalInfoViewModel(
         taxId: String,
         dateOfBirth: Date
     ) {
-        // TODO: API call
+        viewModelScope.launch(Dispatchers.IO) {
+            setEffect {
+                KycPersonalInfoContract.Effect.ShowLoading(true)
+            }
 
-        setEffect {
-            KycPersonalInfoContract.Effect.GoToIdUpload
+            Thread.sleep(2000) // TODO: API call
+
+            setEffect {
+                KycPersonalInfoContract.Effect.ShowLoading(false)
+            }
+
+            setEffect {
+                KycPersonalInfoContract.Effect.GoToIdUpload
+            }
         }
     }
 }
