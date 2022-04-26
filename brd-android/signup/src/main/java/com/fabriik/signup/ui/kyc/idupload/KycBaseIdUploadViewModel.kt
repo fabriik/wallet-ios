@@ -40,9 +40,9 @@ class KycBaseIdUploadViewModel(
                 setState {
                     copy(
                         imageUri = event.uri,
-                        nextEnabled = false,
-                        retryEnabled = false,
-                        takePhotoEnabled = true
+                        nextEnabled = true,
+                        retryEnabled = true,
+                        takePhotoEnabled = false
                     )
                 }
 
