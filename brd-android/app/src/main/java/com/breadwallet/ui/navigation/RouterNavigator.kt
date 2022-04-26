@@ -25,7 +25,6 @@
 package com.breadwallet.ui.navigation
 
 import android.content.Intent
-import android.util.Log
 import android.net.Uri
 import android.widget.Toast
 import com.bluelinelabs.conductor.Controller
@@ -37,7 +36,6 @@ import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.bluelinelabs.conductor.changehandler.VerticalChangeHandler
 import com.breadwallet.R
 import com.breadwallet.breadbox.BreadBox
-import com.breadwallet.breadbox.containsCurrency
 import com.breadwallet.legacy.presenter.settings.NotificationSettingsController
 import com.breadwallet.logger.logError
 import com.breadwallet.platform.interfaces.AccountMetaDataProvider
@@ -88,14 +86,11 @@ import com.fabriik.buy.ui.BuyWebViewActivity
 import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.support.CashSupport
 import com.fabriik.support.pages.Topic
-import com.fabriik.trade.ui.TradeWebViewActivity
 import com.fabriik.trade.ui.TradeWebViewLauncher
 import com.platform.util.AppReviewPromptManager
-import io.flutter.embedding.android.FlutterActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein

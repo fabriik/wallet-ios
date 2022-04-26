@@ -154,17 +154,10 @@ class HomeController(
         super.onDestroyView(view)
     }
 
-    fun hola(m:M) {
-        walletAdapter?.setNewList(m.wallets.values.toList())
-        Log.d("david", m.wallets.toString())
-    }
-
     override fun bindView(modelFlow: Flow<M>): Flow<E> {
         modelFlow.distinctUntilChangedBy { it.wallets.values }
             .flowOn(Dispatchers.Default)
-            .onEach {
-                m -> hola(m)
-            }
+            .onEach { m -> walletAdapter?.setNewList(m.wallets.values.toList()) }
             .launchIn(uiBindScope)
         return emptyFlow()
     }
