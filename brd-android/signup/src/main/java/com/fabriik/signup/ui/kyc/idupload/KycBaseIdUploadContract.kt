@@ -1,6 +1,7 @@
 package com.fabriik.signup.ui.kyc.idupload
 
 import android.net.Uri
+import androidx.camera.lifecycle.ProcessCameraProvider
 import com.fabriik.signup.ui.base.FabriikContract
 
 interface KycBaseIdUploadContract {
@@ -11,6 +12,7 @@ interface KycBaseIdUploadContract {
         object TakePhotoClicked: Event()
         object SwitchCameraClicked: Event()
         object TakePhotoFailed: Event()
+        class CameraStarted(val provider: ProcessCameraProvider): Event()
         class TakePhotoCompleted(val uri: Uri): Event()
         class CameraPermissionResult(val granted: Boolean): Event()
     }
@@ -34,6 +36,6 @@ interface KycBaseIdUploadContract {
         val nextEnabled: Boolean = false,
         val retryEnabled: Boolean = false,
         val takePhotoEnabled: Boolean = true,
-        val switchCameraVisible: Boolean = false // todo: set value
+        val switchCameraVisible: Boolean = false
     ): FabriikContract.State
 }

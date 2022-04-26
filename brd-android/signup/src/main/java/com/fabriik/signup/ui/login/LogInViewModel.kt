@@ -39,9 +39,7 @@ class LogInViewModel(
                 }
 
             is LogInContract.Event.SubmitClicked ->
-                setEffect {
-                    LogInContract.Effect.GoToKyc
-                } //validateLoginData() //todo: revert
+                validateLoginData()
 
             is LogInContract.Event.SignUpClicked ->
                 setEffect {
@@ -91,7 +89,9 @@ class LogInViewModel(
             when (response.status) {
                 Status.SUCCESS -> {
                     setEffect {
-                        LogInContract.Effect.GoToKyc
+                        LogInContract.Effect.ShowSnackBar( // todo: replace with "LogInContract.Effect.GoToKyc" when KYC is ready
+                            getString(R.string.LogIn_Completed)
+                        )
                     }
                 }
                 else -> {

@@ -10,7 +10,7 @@ class KycIdVerificationFragment : KycBaseIdUploadFragment<KycIdVerificationViewM
         ViewModelProvider(this).get(KycIdVerificationViewModel::class.java)
     }
 
-    override fun goToNextStep() {
+    override fun goToNextScreen() {
         findNavController().navigate(
             KycIdVerificationFragmentDirections.actionKycCompleted()
         )

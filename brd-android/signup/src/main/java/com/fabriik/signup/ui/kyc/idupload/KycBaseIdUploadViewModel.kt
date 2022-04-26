@@ -3,6 +3,9 @@ package com.fabriik.signup.ui.kyc.idupload
 import android.Manifest
 import android.app.Application
 import android.content.pm.PackageManager
+import androidx.camera.core.CameraInfoUnavailableException
+import androidx.camera.core.CameraSelector
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -29,6 +32,17 @@ abstract class KycBaseIdUploadViewModel(
                     } else {
                         KycBaseIdUploadContract.Effect.RequestCameraPermission
                     }
+                }
+
+            is KycBaseIdUploadContract.Event.CameraStarted ->
+                setState {
+                    copy(
+                        switchCameraVisible = try {
+                            hasBackCamera(event.provider) && hasFrontCamera(event.provider)
+                        } catch (ex: CameraInfoUnavailableException) {
+                            false
+                        }
+                    )
                 }
 
             is KycBaseIdUploadContract.Event.TakePhotoFailed ->
@@ -76,8 +90,7 @@ abstract class KycBaseIdUploadViewModel(
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     protected open fun onLifecycleStart() {
         val cameraPerm = ContextCompat.checkSelfPermission(
-            getApplication<Application>().applicationContext,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            getApplication<Application>().applicationContext, Manifest.permission.CAMERA
         )
 
         setEffect {
@@ -111,5 +124,13 @@ abstract class KycBaseIdUploadViewModel(
                 }
             }
         }
+    }
+
+    internal fun hasBackCamera(cameraProvider: ProcessCameraProvider?): Boolean {
+        return cameraProvider?.hasCamera(CameraSelector.DEFAULT_BACK_CAMERA) ?: false
+    }
+
+    internal fun hasFrontCamera(cameraProvider: ProcessCameraProvider?): Boolean {
+        return cameraProvider?.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA) ?: false
     }
 }

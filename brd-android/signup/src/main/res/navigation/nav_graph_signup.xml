@@ -20,7 +20,7 @@
 
         <action
             android:id="@+id/action_kyc"
-            app:destination="@+id/fragmentKycFrontSideIdUpload" /> <!-- todo: revert -->
+            app:destination="@+id/fragmentKycAddress" />
 
     </fragment>
 

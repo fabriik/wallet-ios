@@ -10,7 +10,7 @@ class KycIdUploadFrontFragment : KycBaseIdUploadFragment<KycIdUploadFrontViewMod
         ViewModelProvider(this).get(KycIdUploadFrontViewModel::class.java)
     }
 
-    override fun goToNextStep() {
+    override fun goToNextScreen() {
         findNavController().navigate(
             KycIdUploadFrontFragmentDirections.actionIdUploadBack()
         )
