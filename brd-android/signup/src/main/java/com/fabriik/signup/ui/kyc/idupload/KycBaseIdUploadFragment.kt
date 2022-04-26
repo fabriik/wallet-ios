@@ -187,7 +187,7 @@ abstract class KycBaseIdUploadFragment : Fragment(),
 
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview
+                    this, cameraSelector, preview, imageCapture
                 )
 
             } catch (exc: Exception) {
