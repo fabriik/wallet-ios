@@ -1,6 +1,12 @@
 package com.fabriik.signup.ui.kyc.idupload
 
+import android.Manifest
 import android.app.Application
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.viewModelScope
 import com.fabriik.signup.R
 import com.fabriik.signup.ui.base.FabriikViewModel
@@ -12,12 +18,19 @@ abstract class KycBaseIdUploadViewModel(
     application: Application
 ) : FabriikViewModel<KycBaseIdUploadContract.State, KycBaseIdUploadContract.Event, KycBaseIdUploadContract.Effect>(
     application
-) {
-
-    // todo: request camera permission
+), LifecycleObserver {
 
     override fun handleEvent(event: KycBaseIdUploadContract.Event) {
         when (event) {
+            is KycBaseIdUploadContract.Event.CameraPermissionResult ->
+                setEffect {
+                    if (event.granted) {
+                        KycBaseIdUploadContract.Effect.SetupCamera
+                    } else {
+                        KycBaseIdUploadContract.Effect.RequestCameraPermission
+                    }
+                }
+
             is KycBaseIdUploadContract.Event.TakePhotoFailed ->
                 setEffect {
                     KycBaseIdUploadContract.Effect.ShowSnackBar(
@@ -57,6 +70,22 @@ abstract class KycBaseIdUploadViewModel(
                 setEffect {
                     KycBaseIdUploadContract.Effect.TakePhoto(currentState.photoType)
                 }
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    protected open fun onLifecycleStart() {
+        val cameraPerm = ContextCompat.checkSelfPermission(
+            getApplication<Application>().applicationContext,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
+        setEffect {
+            if (cameraPerm == PackageManager.PERMISSION_GRANTED) {
+                KycBaseIdUploadContract.Effect.SetupCamera
+            } else {
+                KycBaseIdUploadContract.Effect.RequestCameraPermission
+            }
         }
     }
 

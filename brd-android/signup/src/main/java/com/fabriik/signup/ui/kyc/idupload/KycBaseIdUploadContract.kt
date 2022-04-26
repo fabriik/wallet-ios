@@ -12,11 +12,14 @@ interface KycBaseIdUploadContract {
         object SwitchCameraClicked: Event()
         object TakePhotoFailed: Event()
         class TakePhotoCompleted(val uri: Uri): Event()
+        class CameraPermissionResult(val granted: Boolean): Event()
     }
 
     sealed class Effect : FabriikContract.Effect {
+        object SetupCamera : Effect()
         object SwitchCamera : Effect()
         object GoToNextStep : Effect()
+        object RequestCameraPermission : Effect()
         class ShowSnackBar(val message: String) : Effect()
         class ShowLoading(val show: Boolean) : Effect()
         class TakePhoto(val type: KycUploadPhotoType) : Effect()

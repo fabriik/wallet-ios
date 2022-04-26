@@ -1,5 +1,6 @@
 package com.fabriik.signup.ui.kyc.idupload
 
+import android.Manifest
 import android.content.ContentValues
 import android.content.res.Configuration
 import android.os.Build
@@ -8,6 +9,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
@@ -34,6 +36,14 @@ abstract class KycBaseIdUploadFragment<ViewModel: KycBaseIdUploadViewModel> : Fr
     private var lensFacing = CameraSelector.LENS_FACING_BACK
     private var imageCapture: ImageCapture? = null
     private var cameraProvider: ProcessCameraProvider? = null
+
+    private val permissionsLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        viewModel.setEvent(
+            KycBaseIdUploadContract.Event.CameraPermissionResult(it)
+        )
+    }
 
     protected abstract val viewModel: ViewModel
 
@@ -77,11 +87,6 @@ abstract class KycBaseIdUploadFragment<ViewModel: KycBaseIdUploadViewModel> : Fr
                     KycBaseIdUploadContract.Event.SwitchCameraClicked
                 )
             }
-
-            // setup PreviewView
-            viewFinder.post {
-                setUpCamera()
-            }
         }
 
         // collect UI state
@@ -97,6 +102,8 @@ abstract class KycBaseIdUploadFragment<ViewModel: KycBaseIdUploadViewModel> : Fr
                 handleEffect(it)
             }
         }
+
+        lifecycle.addObserver(viewModel)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -138,6 +145,12 @@ abstract class KycBaseIdUploadFragment<ViewModel: KycBaseIdUploadViewModel> : Fr
 
     override fun handleEffect(effect: KycBaseIdUploadContract.Effect) {
         when (effect) {
+            is KycBaseIdUploadContract.Effect.RequestCameraPermission ->
+                permissionsLauncher.launch(Manifest.permission.CAMERA)
+
+            is KycBaseIdUploadContract.Effect.SetupCamera ->
+                binding.viewFinder.post { setUpCamera() }
+
             is KycBaseIdUploadContract.Effect.GoToNextStep ->
                 goToNextStep()
 
