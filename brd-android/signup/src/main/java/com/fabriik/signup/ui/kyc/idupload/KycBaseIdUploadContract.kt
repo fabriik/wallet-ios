@@ -6,7 +6,6 @@ import com.fabriik.signup.ui.base.FabriikContract
 interface KycBaseIdUploadContract {
 
     sealed class Event : FabriikContract.Event {
-        object FragmentStarted: Event()
         object NextClicked: Event()
         object RetryClicked: Event()
         object TakePhotoClicked: Event()
@@ -18,9 +17,7 @@ interface KycBaseIdUploadContract {
     sealed class Effect : FabriikContract.Effect {
         object SwitchCamera : Effect()
         object TakePhoto : Effect()
-        object ShowCameraPreview : Effect()
         class ShowSnackBar(val message: String) : Effect()
-        class ShowImagePreview(val imageUri: Uri) : Effect()
         class GoToNextStep(val imageUri: Uri) : Effect()
     }
 

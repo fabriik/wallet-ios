@@ -59,7 +59,8 @@ dependencies {
     implementation(Libs.Kodein.CoreErasedJvm)
     implementation(Libs.Kodein.FrameworkAndroidX)
 
-    implementation(Libs.Picasso.Core)
+    implementation(Libs.Glide.Core)
+    kapt(Libs.Glide.Compiler)
 
     implementation(Libs.Networking.Retrofit)
     implementation(Libs.Networking.RetrofitMoshiConverter)

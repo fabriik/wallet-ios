@@ -19,6 +19,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentKycIdUploadBinding
 import com.fabriik.signup.ui.base.FabriikView
@@ -38,9 +39,8 @@ abstract class KycBaseIdUploadFragment : Fragment(),
         ViewModelProvider(this).get(KycBaseIdUploadViewModel::class.java)
     }
 
-    private val imageCapture = ImageCapture.Builder().build()
-
     private var lensFacing = CameraSelector.LENS_FACING_BACK
+    private var imageCapture: ImageCapture? = null
     private var cameraProvider: ProcessCameraProvider? = null
 
     override fun onCreateView(
@@ -121,14 +121,6 @@ abstract class KycBaseIdUploadFragment : Fragment(),
         updateCameraSwitchButton()
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        /*viewModel.setEvent(
-            KycBaseIdUploadContract.Event.FragmentStarted
-        )*/
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         cameraExecutor.shutdown()
@@ -140,6 +132,18 @@ abstract class KycBaseIdUploadFragment : Fragment(),
             btnRetry.isEnabled = state.retryEnabled
             btnTakePhoto.isEnabled = state.takePhotoEnabled
             //btnSwitchCamera.isVisible = state.switchCameraVisible
+
+            if (state.imageUri != null) {
+                ivImage.isVisible = true
+                viewFinder.isInvisible = true
+
+                Glide.with(root.context)
+                    .load(state.imageUri)
+                    .into(ivImage)
+            } else {
+                ivImage.isVisible = false
+                viewFinder.isVisible = true
+            }
         }
     }
 
@@ -147,12 +151,6 @@ abstract class KycBaseIdUploadFragment : Fragment(),
         when (effect) {
             is KycBaseIdUploadContract.Effect.GoToNextStep ->
                 goToNextStep()
-
-            is KycBaseIdUploadContract.Effect.ShowImagePreview ->
-                loadImagePreview(effect.imageUri)
-
-            is KycBaseIdUploadContract.Effect.ShowCameraPreview ->
-                startCamera()
 
             is KycBaseIdUploadContract.Effect.TakePhoto ->
                 takePhoto()
@@ -194,11 +192,18 @@ abstract class KycBaseIdUploadFragment : Fragment(),
         val cameraProvider = cameraProvider
             ?: throw IllegalStateException("Camera initialization failed.")
 
+        val rotation = binding.viewFinder.display.rotation
+
         val preview = Preview.Builder()
+            .setTargetRotation(rotation)
             .build()
             .also {
                 it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
             }
+
+        imageCapture = ImageCapture.Builder()
+            .setTargetRotation(rotation)
+            .build()
 
         val cameraSelector = CameraSelector.Builder()
             .requireLensFacing(lensFacing)
@@ -235,34 +240,8 @@ abstract class KycBaseIdUploadFragment : Fragment(),
         bindCameraUseCases()
     }
 
-    private fun startCamera() {
-        binding.ivImage.isVisible = false
-        binding.viewFinder.isVisible = true
-
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-
-        cameraProviderFuture.addListener({
-            // Used to bind the lifecycle of cameras to the lifecycle owner
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-            cameraProvider.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA)
-
-            // Preview
-
-        }, ContextCompat.getMainExecutor(requireContext()))
-    }
-
-    private fun loadImagePreview(uri: Uri) {
-        binding.ivImage.isVisible = true
-        binding.viewFinder.isInvisible = true
-
-        Picasso.get()
-            .load(uri)
-            .into(binding.ivImage)
-    }
-
     private fun takePhoto() {
-        // todo: save to cache
-        val name = "image_${System.currentTimeMillis()}"
+        val name = "image_${getPhotoType().id}"
 
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
@@ -281,7 +260,7 @@ abstract class KycBaseIdUploadFragment : Fragment(),
 
         // Set up image capture listener, which is triggered after photo has
         // been taken
-        imageCapture.takePicture(
+        imageCapture?.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {

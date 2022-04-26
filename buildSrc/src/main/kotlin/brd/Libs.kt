@@ -88,6 +88,7 @@ private const val BLOCKSET_VERSION = "0.1.3"
 private const val RETROFIT_VERSION = "2.9.0"
 private const val MOSHI_VERSION = "1.12.0"
 private const val BROWSER_VERSION = "1.4.0"
+private const val GLIDE_VERSION = "4.13.0"
 
 object Libs {
 
@@ -208,6 +209,11 @@ object Libs {
 
     object Picasso {
         const val Core = "com.squareup.picasso:picasso:$PICASSO_VERSION"
+    }
+
+    object Glide {
+        const val Core = "com.github.bumptech.glide:glide:$GLIDE_VERSION"
+        const val Compiler = "com.github.bumptech.glide:compiler:$GLIDE_VERSION"
     }
 
     object Coroutines {

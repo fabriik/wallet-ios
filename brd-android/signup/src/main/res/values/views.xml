@@ -151,4 +151,9 @@
         <item name="icon">@drawable/ic_switch_camera</item>
         <item name="iconTint">#282828</item>
     </style>
+
+    <style name="UploadId.PreviewCardView" parent="">
+        <item name="cardElevation">0dp</item>
+        <item name="cardCornerRadius">16dp</item>
+    </style>
 </resources>

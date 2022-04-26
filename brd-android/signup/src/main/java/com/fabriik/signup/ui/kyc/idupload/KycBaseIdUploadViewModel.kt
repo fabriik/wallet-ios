@@ -18,17 +18,6 @@ class KycBaseIdUploadViewModel(
 
     override fun handleEvent(event: KycBaseIdUploadContract.Event) {
         when (event) {
-            is KycBaseIdUploadContract.Event.FragmentStarted ->
-                setEffect {
-                    if (currentState.imageUri == null) {
-                        KycBaseIdUploadContract.Effect.ShowCameraPreview
-                    } else {
-                        KycBaseIdUploadContract.Effect.ShowImagePreview(
-                            currentState.imageUri!!
-                        )
-                    }
-                }
-
             is KycBaseIdUploadContract.Event.TakePhotoFailed ->
                 setEffect {
                     KycBaseIdUploadContract.Effect.ShowSnackBar(
@@ -64,7 +53,7 @@ class KycBaseIdUploadViewModel(
                     }
                 }
 
-            is KycBaseIdUploadContract.Event.RetryClicked -> {
+            is KycBaseIdUploadContract.Event.RetryClicked ->
                 setState {
                     copy(
                         imageUri = null,
@@ -73,11 +62,6 @@ class KycBaseIdUploadViewModel(
                         takePhotoEnabled = true,
                     )
                 }
-
-                setEffect {
-                    KycBaseIdUploadContract.Effect.ShowCameraPreview
-                }
-            }
 
             is KycBaseIdUploadContract.Event.TakePhotoClicked ->
                 setEffect {
