@@ -269,7 +269,7 @@ class SettingsScreenHandler(
             SettingsItem(
                 "Registration",
                 SettingsOption.KYC,
-                R.drawable.ic_preferences
+                R.drawable.ic_account_plus
             ),
             SettingsItem(
                 context.getString(R.string.Settings_preferences),
