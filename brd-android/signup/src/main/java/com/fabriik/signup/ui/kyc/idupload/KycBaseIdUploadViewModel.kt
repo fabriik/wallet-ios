@@ -46,9 +46,10 @@ class KycBaseIdUploadViewModel(
                     )
                 }
 
-            is KycBaseIdUploadContract.Event.SwitchCameraClicked -> {
-                //todo
-            }
+            is KycBaseIdUploadContract.Event.SwitchCameraClicked ->
+                setEffect {
+                    KycBaseIdUploadContract.Effect.SwitchCamera
+                }
 
             is KycBaseIdUploadContract.Event.NextClicked ->
                 setEffect {

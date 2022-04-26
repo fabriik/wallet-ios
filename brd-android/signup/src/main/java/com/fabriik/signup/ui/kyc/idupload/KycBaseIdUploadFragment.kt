@@ -1,6 +1,7 @@
 package com.fabriik.signup.ui.kyc.idupload
 
 import android.content.ContentValues
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -10,10 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IntRange
 import androidx.annotation.StringRes
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
@@ -27,8 +25,6 @@ import com.fabriik.signup.ui.base.FabriikView
 import com.fabriik.signup.utils.SnackBarUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collect
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -44,6 +40,9 @@ abstract class KycBaseIdUploadFragment : Fragment(),
 
     private val imageCapture = ImageCapture.Builder().build()
 
+    private var lensFacing = CameraSelector.LENS_FACING_BACK
+    private var cameraProvider: ProcessCameraProvider? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -52,7 +51,9 @@ abstract class KycBaseIdUploadFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding = FragmentKycIdUploadBinding.bind(view)
+        cameraExecutor = Executors.newSingleThreadExecutor()
 
         with(binding) {
             // setup "Next" button
@@ -91,6 +92,11 @@ abstract class KycBaseIdUploadFragment : Fragment(),
 
             // setup description
             tvDescription.setText(getUploadDescription())
+
+            // setup PreviewView
+            viewFinder.post {
+                setUpCamera()
+            }
         }
 
         // collect UI state
@@ -106,20 +112,25 @@ abstract class KycBaseIdUploadFragment : Fragment(),
                 handleEffect(it)
             }
         }
+    }
 
-        cameraExecutor = Executors.newSingleThreadExecutor()
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        bindCameraUseCases()
+        updateCameraSwitchButton()
     }
 
     override fun onStart() {
         super.onStart()
 
-        viewModel.setEvent(
+        /*viewModel.setEvent(
             KycBaseIdUploadContract.Event.FragmentStarted
-        )
+        )*/
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         cameraExecutor.shutdown()
     }
 
@@ -128,7 +139,7 @@ abstract class KycBaseIdUploadFragment : Fragment(),
             btnNext.isEnabled = state.nextEnabled
             btnRetry.isEnabled = state.retryEnabled
             btnTakePhoto.isEnabled = state.takePhotoEnabled
-            btnSwitchCamera.isVisible = state.switchCameraVisible
+            //btnSwitchCamera.isVisible = state.switchCameraVisible
         }
     }
 
@@ -157,8 +168,71 @@ abstract class KycBaseIdUploadFragment : Fragment(),
         }
     }
 
+    private fun setUpCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        cameraProviderFuture.addListener({
+
+            // CameraProvider
+            cameraProvider = cameraProviderFuture.get()
+
+            // Select lensFacing depending on the available cameras
+            lensFacing = when {
+                hasBackCamera() -> CameraSelector.LENS_FACING_BACK
+                hasFrontCamera() -> CameraSelector.LENS_FACING_FRONT
+                else -> throw IllegalStateException("Back and front camera are unavailable")
+            }
+
+            // Enable or disable switching between cameras
+            updateCameraSwitchButton()
+
+            // Build and bind the camera use cases
+            bindCameraUseCases()
+        }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    private fun bindCameraUseCases() {
+        val cameraProvider = cameraProvider
+            ?: throw IllegalStateException("Camera initialization failed.")
+
+        val preview = Preview.Builder()
+            .build()
+            .also {
+                it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+            }
+
+        val cameraSelector = CameraSelector.Builder()
+            .requireLensFacing(lensFacing)
+            .build()
+
+        try {
+            // Unbind use cases before rebinding
+            cameraProvider.unbindAll()
+
+            // Bind use cases to camera
+            cameraProvider.bindToLifecycle(
+                this, cameraSelector, preview, imageCapture
+            )
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+    }
+
+    private fun updateCameraSwitchButton() {
+        binding.btnSwitchCamera.isVisible = try {
+            hasBackCamera() && hasFrontCamera()
+        } catch (ex: CameraInfoUnavailableException) {
+            false
+        }
+    }
+
     private fun switchCamera() {
-        // todo:
+        lensFacing = if (CameraSelector.LENS_FACING_FRONT == lensFacing) {
+            CameraSelector.LENS_FACING_BACK
+        } else {
+            CameraSelector.LENS_FACING_FRONT
+        }
+
+        bindCameraUseCases()
     }
 
     private fun startCamera() {
@@ -170,29 +244,9 @@ abstract class KycBaseIdUploadFragment : Fragment(),
         cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+            cameraProvider.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA)
 
             // Preview
-            val preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
-                }
-
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-            try {
-                // Unbind use cases before rebinding
-                cameraProvider.unbindAll()
-
-                // Bind use cases to camera
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture
-                )
-
-            } catch (exc: Exception) {
-                //Log.e(TAG, "Use case binding failed", exc)
-            }
 
         }, ContextCompat.getMainExecutor(requireContext()))
     }
@@ -250,6 +304,14 @@ abstract class KycBaseIdUploadFragment : Fragment(),
                 }
             }
         )
+    }
+
+    private fun hasBackCamera(): Boolean {
+        return cameraProvider?.hasCamera(CameraSelector.DEFAULT_BACK_CAMERA) ?: false
+    }
+
+    private fun hasFrontCamera(): Boolean {
+        return cameraProvider?.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA) ?: false
     }
 
     @IntRange(from = 3, to = 5)
