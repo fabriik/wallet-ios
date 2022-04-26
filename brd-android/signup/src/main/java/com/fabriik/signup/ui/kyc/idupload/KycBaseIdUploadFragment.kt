@@ -8,15 +8,12 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IntRange
-import androidx.annotation.StringRes
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.fabriik.signup.R
@@ -28,19 +25,17 @@ import kotlinx.coroutines.flow.collect
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-abstract class KycBaseIdUploadFragment : Fragment(),
+abstract class KycBaseIdUploadFragment<ViewModel: KycBaseIdUploadViewModel> : Fragment(),
     FabriikView<KycBaseIdUploadContract.State, KycBaseIdUploadContract.Effect> {
 
     private lateinit var binding: FragmentKycIdUploadBinding
     private lateinit var cameraExecutor: ExecutorService
 
-    private val viewModel: KycBaseIdUploadViewModel by lazy {
-        ViewModelProvider(this).get(KycBaseIdUploadViewModel::class.java)
-    }
-
     private var lensFacing = CameraSelector.LENS_FACING_BACK
     private var imageCapture: ImageCapture? = null
     private var cameraProvider: ProcessCameraProvider? = null
+
+    protected abstract val viewModel: ViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -83,15 +78,6 @@ abstract class KycBaseIdUploadFragment : Fragment(),
                 )
             }
 
-            // setup Progress indicator
-            pbIndicator.progress = getKycFlowStep()
-
-            // setup title
-            tvTitle.setText(getUploadTitle())
-
-            // setup description
-            tvDescription.setText(getUploadDescription())
-
             // setup PreviewView
             viewFinder.post {
                 setUpCamera()
@@ -127,6 +113,10 @@ abstract class KycBaseIdUploadFragment : Fragment(),
 
     override fun render(state: KycBaseIdUploadContract.State) {
         with(binding) {
+            tvTitle.setText(state.title)
+            tvDescription.setText(state.description)
+            pbIndicator.progress = state.kycStepProgress
+
             btnNext.isEnabled = state.nextEnabled
             btnRetry.isEnabled = state.retryEnabled
             btnTakePhoto.isEnabled = state.takePhotoEnabled
@@ -152,7 +142,7 @@ abstract class KycBaseIdUploadFragment : Fragment(),
                 goToNextStep()
 
             is KycBaseIdUploadContract.Effect.TakePhoto ->
-                takePhoto()
+                takePhoto(effect.type)
 
             is KycBaseIdUploadContract.Effect.SwitchCamera ->
                 switchCamera()
@@ -244,8 +234,8 @@ abstract class KycBaseIdUploadFragment : Fragment(),
         bindCameraUseCases()
     }
 
-    private fun takePhoto() {
-        val name = "image_${getPhotoType().id}"
+    private fun takePhoto(type: KycUploadPhotoType) {
+        val name = "image_${type.id}"
 
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
@@ -296,17 +286,6 @@ abstract class KycBaseIdUploadFragment : Fragment(),
     private fun hasFrontCamera(): Boolean {
         return cameraProvider?.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA) ?: false
     }
-
-    @IntRange(from = 3, to = 5)
-    protected abstract fun getKycFlowStep(): Int
-
-    protected abstract fun getPhotoType(): KycUploadPhotoType
-
-    @StringRes
-    protected abstract fun getUploadTitle(): Int
-
-    @StringRes
-    protected abstract fun getUploadDescription(): Int
 
     protected abstract fun goToNextStep()
 }

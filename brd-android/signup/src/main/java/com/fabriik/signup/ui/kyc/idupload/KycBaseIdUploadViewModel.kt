@@ -8,13 +8,11 @@ import com.fabriik.signup.utils.getString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class KycBaseIdUploadViewModel(
+abstract class KycBaseIdUploadViewModel(
     application: Application
 ) : FabriikViewModel<KycBaseIdUploadContract.State, KycBaseIdUploadContract.Event, KycBaseIdUploadContract.Effect>(
     application
 ) {
-
-    override fun createInitialState() = KycBaseIdUploadContract.State()
 
     // todo: request camera permission
 
@@ -57,7 +55,7 @@ class KycBaseIdUploadViewModel(
 
             is KycBaseIdUploadContract.Event.TakePhotoClicked ->
                 setEffect {
-                    KycBaseIdUploadContract.Effect.TakePhoto
+                    KycBaseIdUploadContract.Effect.TakePhoto(currentState.photoType)
                 }
         }
     }

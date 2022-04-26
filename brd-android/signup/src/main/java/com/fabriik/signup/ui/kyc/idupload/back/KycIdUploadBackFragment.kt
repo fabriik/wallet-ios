@@ -1,22 +1,14 @@
 package com.fabriik.signup.ui.kyc.idupload.back
 
-import androidx.annotation.StringRes
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.fabriik.signup.R
 import com.fabriik.signup.ui.kyc.idupload.KycBaseIdUploadFragment
-import com.fabriik.signup.ui.kyc.idupload.KycUploadPhotoType
 
-class KycIdUploadBackFragment : KycBaseIdUploadFragment(){
+class KycIdUploadBackFragment : KycBaseIdUploadFragment<KycIdUploadBackViewModel>(){
 
-    override fun getKycFlowStep() = 4
-
-    override fun getPhotoType() = KycUploadPhotoType.BACK_SIDE
-
-    @StringRes
-    override fun getUploadTitle() = R.string.KycIdUploadBack_Title
-
-    @StringRes
-    override fun getUploadDescription() = R.string.KycIdUploadBack_Description
+    override val viewModel: KycIdUploadBackViewModel by lazy {
+        ViewModelProvider(this).get(KycIdUploadBackViewModel::class.java)
+    }
 
     override fun goToNextStep() {
         findNavController().navigate(
