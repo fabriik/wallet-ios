@@ -29,7 +29,7 @@ import com.breadwallet.logger.logError
 import com.breadwallet.model.TokenItem
 import com.breadwallet.theme.R
 import com.breadwallet.tools.manager.BRReportsManager
-import com.fabriik.buy.data.FabriikApiConstants
+import com.fabriik.common.data.FabriikApiConstants
 import com.platform.APIClient.BRResponse
 import com.platform.APIClient.Companion.getInstance
 import com.platform.util.getBooleanOrDefault

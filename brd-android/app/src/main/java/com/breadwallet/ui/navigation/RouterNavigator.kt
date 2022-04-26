@@ -85,6 +85,7 @@ import com.breadwallet.ui.uigift.ShareGiftController
 import com.breadwallet.util.CryptoUriParser
 import com.breadwallet.util.isBrd
 import com.fabriik.buy.ui.BuyWebViewActivity
+import com.fabriik.signup.ui.SignupActivity
 import com.fabriik.support.CashSupport
 import com.fabriik.support.pages.Topic
 import com.fabriik.trade.ui.TradeWebViewActivity
@@ -151,11 +152,9 @@ class RouterNavigator(
 
     override fun openKyc() {
         router.activity?.let {
-            val intent = FlutterActivity
-                .withCachedEngine("flutter_kyc")
-                .build(it)
-
-            it.startActivity(intent)
+            it.startActivity(
+                SignupActivity.getStartIntent(it)
+            )
         }
     }
 

@@ -179,14 +179,19 @@
     <color name="ui_error_transparent">#29EA5A5A</color>
 
     <!-- Fabriik colors -->
+    <color name="fabriik_signup_background">#282828</color>
     <color name="fabriik_background">#F9F9F9</color>
     <color name="fabriik_blue_400">#82AFFC</color>
     <color name="fabriik_blue_700">#0861FF</color>
     <color name="fabriik_gray_300">#DADCE0</color>
+    <color name="fabriik_gray_1">#696969</color>
+    <color name="fabriik_gray_2">#A0A0A0</color>
+    <color name="fabriik_gray_3">#C9C9C9</color>
     <color name="fabriik_light_grey">#DADCE0</color>
     <color name="fabriik_shuttle_grey">#5F6368</color>
     <color name="fabriik_black">#2E3134</color>
     <color name="fabriik_green">#00A86E</color>
     <color name="fabriik_red">#D72431</color>
     <color name="fabriik_gold_100">#F7F5F1</color>
+    <color name="fabriik_yellow">#F8BA37</color>
 </resources>

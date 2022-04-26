@@ -35,6 +35,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":brd-android:fabriik-common"))
     implementation(project(":brd-android:theme"))
     implementation(project(":brd-android:buy"))
     implementation(Libs.Kotlin.StdLibJdk8)
