@@ -159,7 +159,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":flutter"))
     implementation(project(":cosmos-bundled"))
     implementation(project(":brd-android:app-core"))
     implementation(project(":brd-android:buy"))
