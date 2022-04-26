@@ -32,8 +32,6 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.breadwallet.BuildConfig
 import com.breadwallet.R
 import com.breadwallet.databinding.ControllerAboutBinding
-import com.breadwallet.tools.manager.BRClipboardManager
-import com.breadwallet.tools.manager.BRSharedPrefs
 import com.breadwallet.tools.util.BRConstants
 import com.breadwallet.tools.util.EmailTarget
 import com.breadwallet.tools.util.SupportManager
@@ -74,14 +72,12 @@ class AboutController(args: Bundle? = null) : BaseController(args) {
                 }
             }
 
-            redditShareButton.setOnClickListener {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BRConstants.URL_REDDIT)))
-            }
-            twitterShareButton.setOnClickListener {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BRConstants.URL_TWITTER)))
-            }
             policyText.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BRConstants.URL_PRIVACY_POLICY)))
+            }
+
+            termsText.setOnClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BRConstants.URL_TERMS_AND_CONDITIONS)))
             }
         }
     }

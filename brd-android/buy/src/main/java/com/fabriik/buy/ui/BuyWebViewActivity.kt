@@ -3,6 +3,7 @@ package com.fabriik.buy.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -50,7 +51,7 @@ class BuyWebViewActivity : AppCompatActivity() {
                     trimmedUrl.startsWith(WyreApi.REDIRECT_URL) ->
                         finishWithResult(RESULT_SUCCESS)
                     trimmedUrl.startsWith(WyreApi.FAILURE_REDIRECT_URL) ->
-                        finishWithResult(RESULT_ERROR)
+                        Log.d("wyre", "Wyre flow failed: $trimmedUrl")
                     else ->
                         return false // Wyre links
                 }

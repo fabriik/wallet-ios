@@ -159,7 +159,7 @@ internal class CoreBreadBox(
             configure()
         }
 
-        system = (system ?: newSystem()).also { system ->
+        system = newSystem().also { system ->
             logDebug("Dispatching initial System values")
 
             system.resume()
