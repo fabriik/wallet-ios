@@ -2,7 +2,7 @@ package com.fabriik.common.data
 
 object FabriikApiConstants {
 
-    const val HOST = "one-dev.moneybutton.io/blocksatoshi"
+    const val HOST = "api.fabriikw.com/blocksatoshi"
 
     private const val BASE_URL = "https://$HOST"
 
