@@ -30,4 +30,6 @@ android {
 
 dependencies {
     implementation(project(":brd-android:theme"))
+    implementation(brd.Libs.Androidx.AppCompat)
+    implementation(brd.Libs.Material.Core)
 }

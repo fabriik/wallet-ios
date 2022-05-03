@@ -1467,6 +1467,10 @@
     <!-- 1 of 3 -->
     <string name="WritePaperPhrase.step">%1$d of %2$d</string>
 
+    <string name="AddWallet.footer">Trouble finding assets?</string>
+    <string name="AddWallet.limitedAssetsDialogTitle">Limited assets</string>
+    <string name="AddWallet.limitedAssetsDialogMessage">We currently support BSV, BTC, BCH, ETH, and USDT. Other assets cannot be accessed through this wallet at the moment.</string>
+
     <string name="Scanner.noCamera" translatable="false">No camera found</string>
 
     <string name="Feedback.subject">Fabriik - Feedback</string>
