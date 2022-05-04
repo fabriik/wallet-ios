@@ -145,18 +145,20 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
             )
             else -> listOf(
                 "bitcoin-mainnet:__native__",
-                "ethereum-mainnet:__native__"
+                "ethereum-mainnet:__native__",
+                "bitcoinsv-mainnet:__native__"
             )
         }
 
         fun getDefaultWalletModes() = when {
             BuildConfig.BITCOIN_TESTNET -> mapOf(
                 "bitcoin-testnet:__native__" to WalletManagerMode.API_ONLY,
-                "bitcoincash-testnet:__native__" to WalletManagerMode.API_ONLY
+                "ethereum-goerli:__native__" to WalletManagerMode.API_ONLY
             )
             else -> mapOf(
                 "bitcoin-mainnet:__native__" to WalletManagerMode.API_ONLY,
-                "bitcoincash-mainnet:__native__" to WalletManagerMode.API_ONLY,
+                "ethereum-mainnet:__native__" to WalletManagerMode.API_ONLY,
+                "bitcoinsv-mainnet:__native__" to WalletManagerMode.API_ONLY,
             )
         }
 
