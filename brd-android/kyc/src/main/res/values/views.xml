@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="Toolbar.Title" parent="">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/fabriik_black</item>
+    </style>
+
     <style name="Common.Info" parent="">
         <item name="android:drawableStart">@drawable/ic_info_blue</item>
         <item name="android:drawablePadding">4dp</item>
