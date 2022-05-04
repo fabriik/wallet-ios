@@ -19,12 +19,12 @@ import com.bumptech.glide.Glide
 import com.fabriik.signup.R
 import com.fabriik.signup.databinding.FragmentKycIdUploadBinding
 import com.fabriik.signup.ui.SignupActivity
-import com.fabriik.signup.ui.base.FabriikView
+import com.fabriik.common.ui.base.FabriikView
 import com.fabriik.signup.utils.SnackBarUtils
-import kotlinx.coroutines.flow.collect
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlinx.coroutines.flow.collect
 
 abstract class KycBaseIdUploadFragment<ViewModel: KycBaseIdUploadViewModel> : Fragment(),
     FabriikView<KycBaseIdUploadContract.State, KycBaseIdUploadContract.Effect> {
