@@ -8,10 +8,10 @@
 
     <TextView
         android:id="@+id/tv_info"
+        style="@style/Common.Info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_info_blue"
-        android:drawablePadding="4dp"
+        android:layout_marginTop="8dp"
         android:text="@string/AccountVerification.InfoText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
