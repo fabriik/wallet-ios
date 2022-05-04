@@ -31,7 +31,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Build
-import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.CameraXConfig
