@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="AccountVerification.Title">Account Verification</string>
+    <string name="AccountVerification.InfoText">What is this?</string>
+    <string name="AccountVerification.BasicPlan.Title">Basic</string>
+    <string name="AccountVerification.BasicPlan.CheckListItem1">Personal information</string>
+    <string name="AccountVerification.BasicPlan.Tag">Account limit: $1,000/day ($10,000 lifetime)</string>
+    <string name="AccountVerification.UnlimitedPlan.Title">Unlimited</string>
+    <string name="AccountVerification.UnlimitedPlan.CheckListItem1">Identity verification</string>
+    <string name="AccountVerification.UnlimitedPlan.CheckListItem2">Address verification</string>
+    <string name="AccountVerification.UnlimitedPlan.CheckListItem3">Two-factor authentication</string>
+    <string name="AccountVerification.UnlimitedPlan.Tag">Unlimited transaction amounts</string>
+    <string name="AccountVerification.UnlimitedPlan.BulletPoints">\u2022  Unlimited deposits/withdraws\n\u2022  Full asset support\n\u2022  Buy crypto with card/bank</string>
+</resources>

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_info_blue"
         android:drawablePadding="4dp"
-        android:text="What is this?"
+        android:text="@string/AccountVerification.InfoText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,21 +38,21 @@
                 style="@style/AccountVerification.CardView.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Basic" />
+                android:text="@string/AccountVerification.BasicPlan.Title" />
 
             <TextView
                 style="@style/AccountVerification.CardView.CheckListItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:text="Personal information" />
+                android:text="@string/AccountVerification.BasicPlan.CheckListItem1" />
 
             <TextView
                 style="@style/AccountVerification.CardView.Tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Account limit: $1,000/day ($10,000 lifetime)" />
+                android:text="@string/AccountVerification.BasicPlan.Tag" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -77,35 +77,35 @@
                 style="@style/AccountVerification.CardView.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Unlimited" />
+                android:text="@string/AccountVerification.UnlimitedPlan.Title" />
 
             <TextView
                 style="@style/AccountVerification.CardView.CheckListItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:text="Identity verification" />
+                android:text="@string/AccountVerification.UnlimitedPlan.CheckListItem1" />
 
             <TextView
                 style="@style/AccountVerification.CardView.CheckListItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Address verification" />
+                android:text="@string/AccountVerification.UnlimitedPlan.CheckListItem2" />
 
             <TextView
                 style="@style/AccountVerification.CardView.CheckListItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Two-factor authentification" />
+                android:text="@string/AccountVerification.UnlimitedPlan.CheckListItem3" />
 
             <TextView
                 style="@style/AccountVerification.CardView.Tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Unlimited transaction amounts" />
+                android:text="@string/AccountVerification.UnlimitedPlan.Tag" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_toStartOf="@+id/iv_stars"
-                    android:text="  \u2022  Unlimited deposits/withdraws\n  \u2022  Full asset support\n  \u2022  Buy crypto with card/bank" />
+                    android:text="@string/AccountVerification.UnlimitedPlan.BulletPoints" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_stars"
