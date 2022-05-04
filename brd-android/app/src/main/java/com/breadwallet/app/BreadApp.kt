@@ -144,9 +144,9 @@ class BreadApp : Application(), KodeinAware, CameraXConfig.Provider {
                 "ethereum-goerli:__native__"
             )
             else -> listOf(
+                "bitcoinsv-mainnet:__native__",
                 "bitcoin-mainnet:__native__",
-                "ethereum-mainnet:__native__",
-                "bitcoinsv-mainnet:__native__"
+                "ethereum-mainnet:__native__"
             )
         }
 
