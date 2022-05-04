@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AccountVerification.CardView" parent="">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="contentPadding">16dp</item>
+    </style>
+
+    <style name="AccountVerification.CardView.Border">
+        <item name="strokeWidth">1.5dp</item>
+    </style>
+
+    <style name="AccountVerification.CardView.Title" parent="">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/fabriik_black</item>
+    </style>
+
+    <style name="AccountVerification.CardView.CheckListItem" parent="">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/fabriik_shuttle_grey</item>
+        <item name="android:drawableStart">@drawable/ic_check_gray</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="AccountVerification.CardView.Tag" parent="">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_tag_black</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingBottom">2dp</item>
+    </style>
+
+    <style name="AccountVerification.CardView.BulletPoints" parent="">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/fabriik_black</item>
+    </style>
+</resources>

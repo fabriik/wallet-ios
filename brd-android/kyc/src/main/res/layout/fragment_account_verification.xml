@@ -20,17 +20,14 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_basic"
+        style="@style/AccountVerification.CardView.Border"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="12dp"
-        app:contentPadding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_info"
-        app:strokeColor="#F7AE14"
-        app:strokeWidth="1.5dp">
+        app:strokeColor="#F7AE14">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,29 +35,23 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/AccountVerification.CardView.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Basic" />
 
             <TextView
+                style="@style/AccountVerification.CardView.CheckListItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:drawableStart="@drawable/ic_check_gray"
-                android:drawablePadding="8dp"
-                android:gravity="center"
                 android:text="Personal information" />
 
             <TextView
+                style="@style/AccountVerification.CardView.Tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/bg_tag_black"
-                android:gravity="center"
-                android:paddingStart="8dp"
-                android:paddingTop="2dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="2dp"
                 android:text="Account limit: $1,000/day ($10,000 lifetime)" />
 
         </LinearLayout>
@@ -68,17 +59,14 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_unlimited"
+        style="@style/AccountVerification.CardView.Border"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="12dp"
-        app:contentPadding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cv_basic"
-        app:strokeColor="#2C78FF"
-        app:strokeWidth="1.5dp">
+        app:strokeColor="#2C78FF">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,47 +74,37 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/AccountVerification.CardView.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Unlimited" />
 
             <TextView
+                style="@style/AccountVerification.CardView.CheckListItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:drawableStart="@drawable/ic_check_gray"
-                android:drawablePadding="8dp"
-                android:gravity="center"
                 android:text="Identity verification" />
 
             <TextView
+                style="@style/AccountVerification.CardView.CheckListItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:drawableStart="@drawable/ic_check_gray"
-                android:drawablePadding="8dp"
-                android:gravity="center"
                 android:text="Address verification" />
 
             <TextView
+                style="@style/AccountVerification.CardView.CheckListItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:drawableStart="@drawable/ic_check_gray"
-                android:drawablePadding="8dp"
-                android:gravity="center"
                 android:text="Two-factor authentification" />
 
             <TextView
+                style="@style/AccountVerification.CardView.Tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/bg_tag_black"
-                android:gravity="center"
-                android:paddingStart="8dp"
-                android:paddingTop="2dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="2dp"
                 android:text="Unlimited transaction amounts" />
 
             <RelativeLayout
@@ -138,8 +116,11 @@
 
                 <TextView
                     android:id="@+id/tv_unlimited_bullet_points"
+                    style="@style/AccountVerification.CardView.BulletPoints"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@+id/iv_stars"
                     android:text="  \u2022  Unlimited deposits/withdraws\n  \u2022  Full asset support\n  \u2022  Buy crypto with card/bank" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -151,8 +132,6 @@
                     android:src="@drawable/ic_stars_green" />
 
             </RelativeLayout>
-
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
