@@ -60,7 +60,7 @@
                         android:text="@string/AccountVerification.BasicPlan.CheckListItem1" />
 
                     <TextView
-                        style="@style/AccountVerification.CardView.Tag"
+                        style="@style/Common.Tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -110,7 +110,7 @@
                         android:text="@string/AccountVerification.UnlimitedPlan.CheckListItem3" />
 
                     <TextView
-                        style="@style/AccountVerification.CardView.Tag"
+                        style="@style/Common.Tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"

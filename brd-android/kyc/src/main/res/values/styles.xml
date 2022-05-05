@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="AppTheme.Kyc" parent="AppTheme.Light">
-        <item name="android:windowBackground">@color/white</item>
-    </style>
-
-</resources>
