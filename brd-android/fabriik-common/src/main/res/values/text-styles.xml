@@ -34,27 +34,27 @@
 
     <style name="TextStyle.Subtitle1">
         <item name="android:textSize">16sp</item>
-        <!-- todo: font family -->
+        <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
     <style name="TextStyle.Subtitle2">
         <item name="android:textSize">14sp</item>
-        <!-- todo: font family -->
+        <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
     <style name="TextStyle.Body1">
         <item name="android:textSize">16sp</item>
-        <!-- todo: font family -->
+        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="TextStyle.Body2">
         <item name="android:textSize">14sp</item>
-        <!-- todo: font family -->
+        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="TextStyle.Caption">
         <item name="android:textSize">12sp</item>
-        <!-- todo: font family -->
+        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="TextStyle.Button">
@@ -64,7 +64,7 @@
 
     <style name="TextStyle.Overline">
         <item name="android:textSize">12sp</item>
-        <!-- todo: font family -->
+        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
 </resources>
