@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Account verification screen -->
     <string name="AccountVerification.Title">Account Verification</string>
     <string name="AccountVerification.InfoText"><u>What is this?</u></string>
     <string name="AccountVerification.BasicPlan.Title">Basic</string>
@@ -12,6 +13,7 @@
     <string name="AccountVerification.UnlimitedPlan.Tag">Unlimited transaction amounts</string>
     <string name="AccountVerification.UnlimitedPlan.BulletPoints">\u2022  Unlimited deposits/withdraws\n\u2022  Full asset support\n\u2022  Buy crypto with card/bank</string>
 
+    <!-- Personal information screen -->
     <string name="PersonalInformation.Title">Personal Information</string>
     <string name="PersonalInformation.InfoText"><u>Why are we asking this?</u></string>
     <string name="PersonalInformation.Section1">What’s your name?</string>
@@ -25,4 +27,10 @@
     <string name="PersonalInformation.Section3.Yes">Yes</string>
     <string name="PersonalInformation.Section3.No">No</string>
     <string name="PersonalInformation.Confirm">Confirm</string>
+
+    <!-- Politically exposed person screen -->
+    <string name="ExposedPerson.Title">We’re sorry!</string>
+    <string name="ExposedPerson.Description">Currently, we can’t register anyone who is politically exposed or who works in a high profile role. If you enter your email below, we will invite you back to Fabriik as soon as we can.</string>
+    <string name="ExposedPerson.Email">Email</string>
+    <string name="ExposedPerson.Confirm">Confirm</string>
 </resources>
