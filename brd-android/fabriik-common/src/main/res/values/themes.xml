@@ -4,12 +4,13 @@
     <style name="AppTheme.Fabriik" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">#FFFFFF</item>
         <item name="android:textColor">@color/light_text_01</item>
-        <item name="radioButtonStyle">@style/DefaultRadioButtonStyle</item>
-        <item name="materialButtonStyle">@style/DefaultButtonStyle</item>
-        <item name="materialCardViewStyle">@style/DefaultCardViewStyle</item>
+        <item name="textInputStyle">@style/FabriikTextInputStyle</item>
+        <item name="radioButtonStyle">@style/FabriikRadioButtonStyle</item>
+        <item name="materialButtonStyle">@style/FabriikButtonStyle</item>
+        <item name="materialCardViewStyle">@style/FabriikCardViewStyle</item>
     </style>
 
-    <style name="DefaultButtonStyle" parent="Widget.MaterialComponents.Button">
+    <style name="FabriikButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:padding">12dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
@@ -21,21 +22,25 @@
         <item name="elevation">0dp</item>
     </style>
 
-    <style name="DefaultRadioButtonStyle" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
-        <item name="materialThemeOverlay">@style/DefaultRadioButton.ThemeOverlay</item>
+    <style name="FabriikRadioButtonStyle" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/FabriikRadioButton.ThemeOverlay</item>
         <item name="android:textColor">@color/light_text_01</item>
         <item name="android:textAppearance">@style/TextStyle.Caption</item>
     </style>
 
-    <style name="DefaultRadioButton.ThemeOverlay" parent="">
+    <style name="FabriikRadioButton.ThemeOverlay" parent="">
         <item name="colorOnSurface">@color/light_icons_01</item>
         <item name="colorSecondary">@color/light_interaction_primary_focused</item>
     </style>
 
-    <style name="DefaultCardViewStyle" parent="Widget.MaterialComponents.CardView">
+    <style name="FabriikCardViewStyle" parent="Widget.MaterialComponents.CardView">
         <item name="contentPadding">16dp</item>
         <item name="cardCornerRadius">@dimen/radius_l</item>
         <item name="cardBackgroundColor">@color/white</item>
         <item name="cardElevation">36dp</item>
+    </style>
+
+    <style name="FabriikTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
     </style>
 </resources>
