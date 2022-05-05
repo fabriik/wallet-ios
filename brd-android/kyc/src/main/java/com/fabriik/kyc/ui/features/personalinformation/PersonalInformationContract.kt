@@ -1,4 +1,4 @@
-package com.fabriik.kyc.ui.personalinformation
+package com.fabriik.kyc.ui.features.personalinformation
 
 import com.fabriik.common.ui.base.FabriikContract
 

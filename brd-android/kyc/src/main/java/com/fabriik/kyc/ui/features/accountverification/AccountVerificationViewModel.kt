@@ -1,4 +1,4 @@
-package com.fabriik.kyc.ui.accountverification
+package com.fabriik.kyc.ui.features.accountverification
 
 import android.app.Application
 import com.fabriik.common.ui.base.FabriikViewModel

@@ -1,4 +1,4 @@
-package com.fabriik.kyc.ui.personalinformation
+package com.fabriik.kyc.ui.features.accountverification
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,25 +10,24 @@ import androidx.lifecycle.lifecycleScope
 import com.fabriik.common.ui.base.FabriikView
 import com.fabriik.kyc.R
 import com.fabriik.kyc.databinding.FragmentAccountVerificationBinding
-import com.fabriik.kyc.databinding.FragmentPersonalInformationBinding
 import kotlinx.coroutines.flow.collect
 
-class PersonalInformationFragment : Fragment(), FabriikView<PersonalInformationContract.State, PersonalInformationContract.Effect> {
+class AccountVerificationFragment : Fragment(), FabriikView<AccountVerificationContract.State, AccountVerificationContract.Effect> {
 
-    private lateinit var binding: FragmentPersonalInformationBinding
-    private val viewModel: PersonalInformationViewModel by lazy {
-        ViewModelProvider(this).get(PersonalInformationViewModel::class.java)
+    private lateinit var binding: FragmentAccountVerificationBinding
+    private val viewModel: AccountVerificationViewModel by lazy {
+        ViewModelProvider(this).get(AccountVerificationViewModel::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_personal_information, container, false)
+        return inflater.inflate(R.layout.fragment_account_verification, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentPersonalInformationBinding.bind(view)
+        binding = FragmentAccountVerificationBinding.bind(view)
 
         with(binding) {
             // todo: setuo
@@ -50,13 +49,13 @@ class PersonalInformationFragment : Fragment(), FabriikView<PersonalInformationC
         }
     }
 
-    override fun render(state: PersonalInformationContract.State) {
+    override fun render(state: AccountVerificationContract.State) {
         with(binding) {
 
         }
     }
 
-    override fun handleEffect(effect: PersonalInformationContract.Effect) {
+    override fun handleEffect(effect: AccountVerificationContract.Effect) {
         when (effect) {
 
         }

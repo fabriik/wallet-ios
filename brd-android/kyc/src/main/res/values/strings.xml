@@ -12,5 +12,6 @@
     <string name="AccountVerification.UnlimitedPlan.Tag">Unlimited transaction amounts</string>
     <string name="AccountVerification.UnlimitedPlan.BulletPoints">\u2022  Unlimited deposits/withdraws\n\u2022  Full asset support\n\u2022  Buy crypto with card/bank</string>
 
+    <string name="PersonalInformation.Title">Personal Information</string>
     <string name="PersonalInformation.InfoText"><u>Why are we asking this?</u></string>
 </resources>
