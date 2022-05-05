@@ -4,5 +4,18 @@
     <style name="AppTheme.Fabriik" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">#E5E5E5</item>
         <item name="android:textColor">@color/light_text_01</item>
+        <item name="materialButtonStyle">@style/DefaultButtonStyle</item>
+    </style>
+
+    <style name="DefaultButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:padding">12dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textColor">@color/light_contrast_02</item>
+        <item name="android:textAppearance">@style/TextStyle.Button</item>
+        <item name="backgroundTint">@color/bg_button_tint</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="rippleColor">@null</item>
+        <item name="elevation">0dp</item>
     </style>
 </resources>
