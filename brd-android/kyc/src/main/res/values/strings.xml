@@ -14,4 +14,15 @@
 
     <string name="PersonalInformation.Title">Personal Information</string>
     <string name="PersonalInformation.InfoText"><u>Why are we asking this?</u></string>
+    <string name="PersonalInformation.Section1">What’s your name?</string>
+    <string name="PersonalInformation.Section1.Subtitle">Write your name as it appears on your ID</string>
+    <string name="PersonalInformation.Name">*Name</string>
+    <string name="PersonalInformation.LastName">*Last Name</string>
+    <string name="PersonalInformation.Section2">Where do you live?</string>
+    <string name="PersonalInformation.Country">*Country</string>
+    <string name="PersonalInformation.Section3">Are you a politically exposed person?</string>
+    <string name="PersonalInformation.Section3.InfoText"><u>What is this?</u></string>
+    <string name="PersonalInformation.Section3.Yes">Yes</string>
+    <string name="PersonalInformation.Section3.No">No</string>
+    <string name="PersonalInformation.Confirm">Confirm</string>
 </resources>
