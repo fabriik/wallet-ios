@@ -2,9 +2,10 @@
 <resources>
 
     <style name="AppTheme.Fabriik" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:windowBackground">#E5E5E5</item>
+        <item name="android:windowBackground">#FFFFFF</item>
         <item name="android:textColor">@color/light_text_01</item>
         <item name="materialButtonStyle">@style/DefaultButtonStyle</item>
+        <item name="materialCardViewStyle">@style/DefaultCardViewStyle</item>
     </style>
 
     <style name="DefaultButtonStyle" parent="Widget.MaterialComponents.Button">
@@ -17,5 +18,12 @@
         <item name="cornerRadius">12dp</item>
         <item name="rippleColor">@null</item>
         <item name="elevation">0dp</item>
+    </style>
+
+    <style name="DefaultCardViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="contentPadding">16dp</item>
+        <item name="cardCornerRadius">@dimen/radius_l</item>
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardElevation">36dp</item>
     </style>
 </resources>

@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Common.Info" parent="TextStyle.Body2">
-        <item name="android:drawableStart">@drawable/ic_info_blue</item>
+        <item name="android:drawableStart">@drawable/ic_info_black</item>
         <item name="android:drawablePadding">4dp</item>
     </style>
 
@@ -16,13 +16,7 @@
         <item name="android:paddingBottom">2dp</item>
     </style>
 
-    <style name="AccountVerification.CardView" parent="">
-        <item name="cardBackgroundColor">@color/white</item>
-        <item name="cardCornerRadius">12dp</item>
-        <item name="contentPadding">16dp</item>
-    </style>
-
-    <style name="AccountVerification.CardView.Border">
+    <style name="AccountVerification.CardView.Border" parent="">
         <item name="strokeWidth">1.5dp</item>
     </style>
 
