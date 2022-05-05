@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf_8"?>
 <resources>
+    <!-- Light colors -->
     <color name="light_background_01">#FFFFFF</color>
     <color name="light_background_02">#F8F9F9</color>
     <color name="light_background_03">#FFFFFF</color>
@@ -21,6 +22,21 @@
     <color name="light_icons_01">#3C4043</color>
     <color name="light_icons_02">#5F6368</color>
 
+    <!-- Inverse colors -->
+    <color name="light_inverse_background_01">#2E3134</color>
+    <color name="light_inverse_text_01">#FFFFFF</color>
+    <color name="light_inverse_text_02">#DADCE0</color>
+    <color name="light_inverse_error">#4AB059</color>
+    <color name="light_inverse_success">#00A86E</color>
+    <color name="light_inverse_contrast_03">#2E3134</color>
+    <color name="light_inverse_link_01">#FFFFFF</color>
+    <color name="light_inverse_outline_01">#80868B</color>
+    <color name="light_inverse_outline_02">#5F6368</color>
+    <color name="light_inverse_outline_03">#9AA0A6</color>
+    <color name="light_inverse_icons_01">#FFFFFF</color>
+    <color name="light_inverse_icons_02">#DADCE0</color>
+
+    <!-- Interaction colors -->
     <color name="light_interaction_primary_hover">#0861FF</color>
     <color name="light_interaction_primary_pressed">#0053E7</color>
     <color name="light_interaction_primary_selected">#0053E7</color>
