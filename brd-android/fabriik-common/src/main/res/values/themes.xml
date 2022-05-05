@@ -4,6 +4,7 @@
     <style name="AppTheme.Fabriik" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">#FFFFFF</item>
         <item name="android:textColor">@color/light_text_01</item>
+        <item name="radioButtonStyle">@style/DefaultRadioButtonStyle</item>
         <item name="materialButtonStyle">@style/DefaultButtonStyle</item>
         <item name="materialCardViewStyle">@style/DefaultCardViewStyle</item>
     </style>
@@ -18,6 +19,17 @@
         <item name="cornerRadius">12dp</item>
         <item name="rippleColor">@null</item>
         <item name="elevation">0dp</item>
+    </style>
+
+    <style name="DefaultRadioButtonStyle" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/DefaultRadioButton.ThemeOverlay</item>
+        <item name="android:textColor">@color/light_text_01</item>
+        <item name="android:textAppearance">@style/TextStyle.Caption</item>
+    </style>
+
+    <style name="DefaultRadioButton.ThemeOverlay" parent="">
+        <item name="colorOnSurface">@color/light_icons_01</item>
+        <item name="colorSecondary">@color/light_interaction_primary_focused</item>
     </style>
 
     <style name="DefaultCardViewStyle" parent="Widget.MaterialComponents.CardView">
