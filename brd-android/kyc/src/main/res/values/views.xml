@@ -1,16 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Toolbar.Title" parent="">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/fabriik_black</item>
+    <style name="TextStyle"/>
+
+    <style name="TextStyle.Title1">
+        <item name="android:textSize">36sp</item>
+        <!-- todo: font family -->
     </style>
 
-    <style name="Common.Info" parent="">
+    <style name="TextStyle.Title2">
+        <item name="android:textSize">32sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="TextStyle.Title3">
+        <item name="android:textSize">28sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="TextStyle.Title4">
+        <item name="android:textSize">24sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="TextStyle.Title5">
+        <item name="android:textSize">20sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="TextStyle.Title6">
+        <item name="android:textSize">16sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="TextStyle.Subtitle1">
+        <item name="android:textSize">16sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="TextStyle.Subtitle2">
+        <item name="android:textSize">14sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="TextStyle.Body1">
+        <item name="android:textSize">16sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="TextStyle.Body2">
+        <item name="android:textSize">14sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="TextStyle.Caption">
+        <item name="android:textSize">12sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="TextStyle.Button">
+        <item name="android:textSize">16sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="TextStyle.Overline">
+        <item name="android:textSize">12sp</item>
+        <!-- todo: font family -->
+    </style>
+
+    <style name="Common.Info" parent="TextStyle.Body2">
         <item name="android:drawableStart">@drawable/ic_info_blue</item>
         <item name="android:drawablePadding">4dp</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/fabriik_black</item>
     </style>
 
     <style name="AccountVerification.CardView" parent="">
@@ -23,21 +83,14 @@
         <item name="strokeWidth">1.5dp</item>
     </style>
 
-    <style name="AccountVerification.CardView.Title" parent="">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/fabriik_black</item>
-    </style>
-
-    <style name="AccountVerification.CardView.CheckListItem" parent="">
-        <item name="android:textSize">14sp</item>
+    <style name="AccountVerification.CardView.CheckListItem" parent="TextStyle.Body2">
         <item name="android:textColor">@color/fabriik_shuttle_grey</item>
         <item name="android:drawableStart">@drawable/ic_check_gray</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="AccountVerification.CardView.Tag" parent="">
-        <item name="android:textSize">14sp</item>
+    <style name="AccountVerification.CardView.Tag" parent="TextStyle.Body2">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_tag_black</item>
         <item name="android:gravity">center</item>
@@ -47,9 +100,7 @@
         <item name="android:paddingBottom">2dp</item>
     </style>
 
-    <style name="AccountVerification.CardView.BulletPoints" parent="">
+    <style name="AccountVerification.CardView.BulletPoints" parent="TextStyle.Body2">
         <item name="android:paddingStart">4dp</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/fabriik_black</item>
     </style>
 </resources>

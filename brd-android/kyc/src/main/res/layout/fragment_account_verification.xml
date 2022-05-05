@@ -47,7 +47,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/AccountVerification.CardView.Title"
+                        style="@style/TextStyle.Title5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/AccountVerification.BasicPlan.Title" />
@@ -83,7 +83,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/AccountVerification.CardView.Title"
+                        style="@style/TextStyle.Title5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/AccountVerification.UnlimitedPlan.Title" />

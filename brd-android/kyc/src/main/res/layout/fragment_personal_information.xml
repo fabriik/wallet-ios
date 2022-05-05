@@ -48,6 +48,7 @@
 
                     <TextView
                         android:id="@+id/tv_section_1"
+                        style="@style/TextStyle.Body2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/PersonalInformation.Section1"
@@ -59,9 +60,11 @@
 
                     <TextView
                         android:id="@+id/tv_section_1_subtitle"
+                        style="@style/TextStyle.Body2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
+                        android:textColor="@color/fabriik_gray_2"
                         android:text="@string/PersonalInformation.Section1.Subtitle"
                         app:layout_constrainedWidth="true"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -90,6 +93,7 @@
 
                     <TextView
                         android:id="@+id/tv_section_2"
+                        style="@style/TextStyle.Body2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -112,6 +116,7 @@
 
                     <TextView
                         android:id="@+id/tv_section_3"
+                        style="@style/TextStyle.Title6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
