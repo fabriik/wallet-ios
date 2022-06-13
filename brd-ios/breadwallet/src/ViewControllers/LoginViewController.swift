@@ -323,14 +323,17 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
             self.pinView.alpha = 0.0
             self.view.layoutIfNeeded()
         }, completion: { _ in
-            self.dismiss(animated: true, completion: {
-                Store.perform(action: LoginSuccess())
-                if case .initialLaunch(let loginHandler) = self.context {
-                    guard let account = account else { return assertionFailure() }
-                    loginHandler(account)
-                }
-            })
-            Store.trigger(name: .showStatusBar)
+            self.checkUserSession { isSuccess in
+                guard isSuccess else { return }
+                self.dismiss(animated: true, completion: {
+                    Store.perform(action: LoginSuccess())
+                    if case .initialLaunch(let loginHandler) = self.context {
+                        guard let account = account else { return assertionFailure() }
+                        loginHandler(account)
+                    }
+                })
+                Store.trigger(name: .showStatusBar)
+            }
         })
     }
 
@@ -346,6 +349,23 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
             self.lockIfNeeded()
         }
         updateDebugLabel()
+    }
+    
+    private func checkUserSession(completed: @escaping ((Bool) -> Void)) {
+        guard UserDefaults.email == nil else { return completed(true) }
+        
+        ProfileWorker().execute { profile, error in
+            guard let email = profile?.email, error == nil else {
+                // show verification screen
+                ResendConfirmationWorker().execute { error in
+                    print("\(error)")
+                }
+                return
+            }
+            
+            UserDefaults.email = email
+            completed(true)
+        }
     }
 
     private var shouldUseBiometrics: Bool {

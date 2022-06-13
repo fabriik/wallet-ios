@@ -28,10 +28,9 @@ class RegistrationConfirmationInteractor: NSObject, Interactor, RegistrationConf
         let data = RegistrationConfirmationRequestData(code: dataStore?.code)
         RegistrationConfirmationWorker().execute(requestData: data) { [weak self] error in
             guard error == nil else {
-                // TODO: error handling
+                self?.presenter?.presentError(actionResponse: .init(error: error))
                 return
             }
-            // TODO: confirmed
             UserDefaults.emailConfirmed = true
             self?.presenter?.presentConfirm(actionResponse: .init())
         }
@@ -40,7 +39,7 @@ class RegistrationConfirmationInteractor: NSObject, Interactor, RegistrationConf
     func resend(viewAction: RegistrationConfirmationModels.Resend.ViewAction) {
         ResendConfirmationWorker().execute { [weak self] error in
             guard error == nil else {
-                // TODO: error handling
+                self?.presenter?.presentError(actionResponse: .init(error: error))
                 return
             }
             self?.presenter?.presentResend(actionResponse: .init())
