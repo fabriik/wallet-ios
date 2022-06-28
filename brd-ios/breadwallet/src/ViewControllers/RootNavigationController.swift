@@ -34,7 +34,7 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         let item = SimpleBackBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         viewController.navigationItem.backBarButtonItem = item
         
-        navigationController.interactivePopGestureRecognizer?.delegate = self
+        interactivePopGestureRecognizer?.delegate = self
     }
     
     func setNormalNavigationBar(normalBackgroundColor: UIColor = LightColors.Contrast.two,
