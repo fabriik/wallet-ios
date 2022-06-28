@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RootNavigationController: UINavigationController, UINavigationControllerDelegate {
+class RootNavigationController: UINavigationController, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         guard let vc = topViewController else { return .default }
         return vc.preferredStatusBarStyle
@@ -30,6 +30,11 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         } else {
             setNormalNavigationBar()
         }
+        
+        let item = SimpleBackBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        viewController.navigationItem.backBarButtonItem = item
+        
+        navigationController.interactivePopGestureRecognizer?.delegate = self
     }
     
     func setNormalNavigationBar(normalBackgroundColor: UIColor = LightColors.Contrast.two,
@@ -65,14 +70,5 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         ]
         
         view.backgroundColor = LightColors.Contrast.two
-    }
-    
-    // MARK: - UINavigationControllerDelegate
-    
-    func navigationController(_ navigationController: UINavigationController,
-                              willShow viewController: UIViewController,
-                              animated: Bool) {
-        let item = SimpleBackBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        viewController.navigationItem.backBarButtonItem = item
     }
 }
