@@ -46,7 +46,6 @@ class MenuViewController: UITableViewController, Subscriber {
         tableView.backgroundColor = Theme.primaryBackground
         
         navigationController?.navigationBar.backgroundColor = Theme.primaryBackground
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         if let button = faqButton {
             button.tintColor = .navigationTint
