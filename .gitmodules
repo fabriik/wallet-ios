@@ -1,4 +1,9 @@
 [submodule "external/walletkit"]
-	path = external/walletkit
-	url = https://github.com/fabriik/walletkit
-	fetchRecurseSubmodules = true
+path = external/walletkit
+url = https://github.com/fabriik/walletkit
+fetchRecurseSubmodules = true
+
+[submodule "external/redacted-compiler-plugin"]
+path = external/redacted-compiler-plugin
+url = https://github.com/ZacSweers/redacted-compiler-plugin.git
+fetchRecurseSubmodules = true
