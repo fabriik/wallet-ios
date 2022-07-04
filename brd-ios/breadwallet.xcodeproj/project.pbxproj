@@ -741,8 +741,6 @@
 		CEA362681E00EE320061FC0E /* CameraGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA362671E00EE320061FC0E /* CameraGuideView.swift */; };
 		CEA3626A1E01150D0061FC0E /* CGContext+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA362691E01150D0061FC0E /* CGContext+Additions.swift */; };
 		CEA7E6761F057D77001F8C27 /* WalletInfoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA7E6751F057D77001F8C27 /* WalletInfoTest.swift */; };
-		CEA7E67E1F09A9D2001F8C27 /* Screenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA7E67D1F09A9D2001F8C27 /* Screenshots.swift */; };
-		CEA7E6871F09AB00001F8C27 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA7E6861F09AB00001F8C27 /* SnapshotHelper.swift */; };
 		CEA9178620C07FBB00F29B31 /* SyncingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA9178520C07FBB00F29B31 /* SyncingHeaderView.swift */; };
 		CEAA9E911DC0FDFE0066731D /* UIViewPropertyAnimator+BRWAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA9E901DC0FDFE0066731D /* UIViewPropertyAnimator+BRWAdditions.swift */; };
 		CEAA9E951DC1659F0066731D /* UILabel+BRWAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA9E941DC1659F0066731D /* UILabel+BRWAdditions.swift */; };
@@ -865,13 +863,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 9FB0CA0E25D5AD180057DD11;
 			remoteInfo = breadwalletWidgetExtension;
-		};
-		CEA7E6801F09A9D2001F8C27 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 75A2A7881DA5934300A983D8 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 75A2A78F1DA5934300A983D8;
-			remoteInfo = breadwallet;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1628,7 +1619,6 @@
 		CEA362671E00EE320061FC0E /* CameraGuideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraGuideView.swift; path = src/Views/CameraGuideView.swift; sourceTree = "<group>"; };
 		CEA362691E01150D0061FC0E /* CGContext+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGContext+Additions.swift"; path = "src/Extensions/CGContext+Additions.swift"; sourceTree = "<group>"; };
 		CEA7E6751F057D77001F8C27 /* WalletInfoTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletInfoTest.swift; sourceTree = "<group>"; };
-		CEA7E67B1F09A9D2001F8C27 /* Screenshots.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Screenshots.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA7E67D1F09A9D2001F8C27 /* Screenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screenshots.swift; sourceTree = "<group>"; };
 		CEA7E67F1F09A9D2001F8C27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEA7E6861F09AB00001F8C27 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
@@ -1778,13 +1768,6 @@
 			files = (
 				9FB0CA1225D5AD180057DD11 /* SwiftUI.framework in Frameworks */,
 				9FB0CA1125D5AD180057DD11 /* WidgetKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CEA7E6781F09A9D2001F8C27 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2057,7 +2040,6 @@
 				75A2A7A41DA5934300A983D8 /* breadwalletTests.xctest */,
 				75A2A7AF1DA5934300A983D8 /* breadwalletUITests.xctest */,
 				22A9A9961DF63426000F0016 /* libbz2.framework */,
-				CEA7E67B1F09A9D2001F8C27 /* Screenshots.xctest */,
 				9FB0CA0F25D5AD180057DD11 /* breadwalletWidgetExtension.appex */,
 				9F29A99A25D5C605000FEB40 /* breadwalletIntentHandler.appex */,
 			);
@@ -3547,23 +3529,6 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
-/* Begin PBXLegacyTarget section */
-		759DA0D71DAC8668008CC49B /* submodules */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "-c 'git submodule init && git submodule update && git -C Modules/breadwallet-core submodule init && git -C Modules/breadwallet-core submodule update'";
-			buildConfigurationList = 759DA0DA1DAC8668008CC49B /* Build configuration list for PBXLegacyTarget "submodules" */;
-			buildPhases = (
-			);
-			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "";
-			dependencies = (
-			);
-			name = submodules;
-			passBuildSettingsInEnvironment = 1;
-			productName = submodules;
-		};
-/* End PBXLegacyTarget section */
-
 /* Begin PBXNativeTarget section */
 		22A9A9951DF63426000F0016 /* libbz2 */ = {
 			isa = PBXNativeTarget;
@@ -3691,24 +3656,6 @@
 			productReference = 9FB0CA0F25D5AD180057DD11 /* breadwalletWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		CEA7E67A1F09A9D2001F8C27 /* Screenshots */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CEA7E6851F09A9D2001F8C27 /* Build configuration list for PBXNativeTarget "Screenshots" */;
-			buildPhases = (
-				CEA7E6771F09A9D2001F8C27 /* Sources */,
-				CEA7E6781F09A9D2001F8C27 /* Frameworks */,
-				CEA7E6791F09A9D2001F8C27 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				CEA7E6811F09A9D2001F8C27 /* PBXTargetDependency */,
-			);
-			name = Screenshots;
-			productName = Screenshots;
-			productReference = CEA7E67B1F09A9D2001F8C27 /* Screenshots.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -3722,10 +3669,6 @@
 				TargetAttributes = {
 					22A9A9951DF63426000F0016 = {
 						CreatedOnToolsVersion = 8.1;
-						ProvisioningStyle = Automatic;
-					};
-					759DA0D71DAC8668008CC49B = {
-						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
 					};
 					75A2A78F1DA5934300A983D8 = {
@@ -3773,12 +3716,6 @@
 					9FB0CA0E25D5AD180057DD11 = {
 						CreatedOnToolsVersion = 12.4;
 					};
-					CEA7E67A1F09A9D2001F8C27 = {
-						CreatedOnToolsVersion = 8.3.3;
-						LastSwiftMigration = 1020;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 75A2A78F1DA5934300A983D8;
-					};
 				};
 			};
 			buildConfigurationList = 75A2A78B1DA5934300A983D8 /* Build configuration list for PBXProject "breadwallet" */;
@@ -3811,9 +3748,7 @@
 				75A2A78F1DA5934300A983D8 /* breadwallet */,
 				75A2A7A31DA5934300A983D8 /* breadwalletTests */,
 				75A2A7AE1DA5934300A983D8 /* breadwalletUITests */,
-				759DA0D71DAC8668008CC49B /* submodules */,
 				22A9A9951DF63426000F0016 /* libbz2 */,
-				CEA7E67A1F09A9D2001F8C27 /* Screenshots */,
 				9FB0CA0E25D5AD180057DD11 /* breadwalletWidgetExtension */,
 				9F29A99925D5C605000FEB40 /* breadwalletIntentHandler */,
 				7E390A2027F57D10003C929D /* syncResources */,
@@ -4057,13 +3992,6 @@
 				9FDDE5AC25D5B96000E42BE3 /* mock-candles.json in Resources */,
 				9FB0CA1825D5AD190057DD11 /* Assets.xcassets in Resources */,
 				9F13F5C925DDD73A0031AEC7 /* fiatcurrencies.json in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CEA7E6791F09A9D2001F8C27 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4803,15 +4731,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CEA7E6771F09A9D2001F8C27 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CEA7E67E1F09A9D2001F8C27 /* Screenshots.swift in Sources */,
-				CEA7E6871F09AB00001F8C27 /* SnapshotHelper.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -4839,11 +4758,6 @@
 			isa = PBXTargetDependency;
 			target = 9FB0CA0E25D5AD180057DD11 /* breadwalletWidgetExtension */;
 			targetProxy = 9FB0CA1C25D5AD190057DD11 /* PBXContainerItemProxy */;
-		};
-		CEA7E6811F09A9D2001F8C27 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 75A2A78F1DA5934300A983D8 /* breadwallet */;
-			targetProxy = CEA7E6801F09A9D2001F8C27 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4964,18 +4878,6 @@
 				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		759DA0D81DAC8668008CC49B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		759DA0D91DAC8668008CC49B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
 			};
 			name = Release;
 		};
@@ -5482,12 +5384,6 @@
 			};
 			name = Staging;
 		};
-		7ECCA9882872FD1000F99368 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Staging;
-		};
 		7ECCA9892872FD1000F99368 /* Staging */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5514,30 +5410,6 @@
 				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-			};
-			name = Staging;
-		};
-		7ECCA98A2872FD1000F99368 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(BUILD_DIR)/$(BRCORE_CONFIGURATION)-$(PLATFORM_NAME)",
-					"$(SRCROOT)/Modules",
-				);
-				INFOPLIST_FILE = Screenshots/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one.Screenshots;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = breadwallet;
 			};
 			name = Staging;
 		};
@@ -5745,73 +5617,6 @@
 			};
 			name = Release;
 		};
-		CEA7E6821F09A9D2001F8C27 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(BUILD_DIR)/$(BRCORE_CONFIGURATION)-$(PLATFORM_NAME)",
-					"$(SRCROOT)/Modules",
-				);
-				INFOPLIST_FILE = Screenshots/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one.Screenshots;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = breadwallet;
-			};
-			name = Debug;
-		};
-		CEA7E6831F09A9D2001F8C27 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(BUILD_DIR)/$(BRCORE_CONFIGURATION)-$(PLATFORM_NAME)",
-					"$(SRCROOT)/Modules",
-				);
-				INFOPLIST_FILE = Screenshots/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one.Screenshots;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = breadwallet;
-			};
-			name = Release;
-		};
-		CEA7E6971F09AC6A001F8C27 /* Release-Testflight */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
-				INFOPLIST_FILE = breadwalletUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one.breadwalletUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = breadwallet;
-			};
-			name = "Release-Testflight";
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -5821,16 +5626,6 @@
 				22A9A9A01DF63426000F0016 /* Debug */,
 				22A9A9A11DF63426000F0016 /* Release */,
 				7ECCA9892872FD1000F99368 /* Staging */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		759DA0DA1DAC8668008CC49B /* Build configuration list for PBXLegacyTarget "submodules" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				759DA0D81DAC8668008CC49B /* Debug */,
-				759DA0D91DAC8668008CC49B /* Release */,
-				7ECCA9882872FD1000F99368 /* Staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -5901,17 +5696,6 @@
 				9FB0CA1F25D5AD190057DD11 /* Debug */,
 				9FB0CA2325D5AD190057DD11 /* Release */,
 				7ECCA98B2872FD1000F99368 /* Staging */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CEA7E6851F09A9D2001F8C27 /* Build configuration list for PBXNativeTarget "Screenshots" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CEA7E6821F09A9D2001F8C27 /* Debug */,
-				CEA7E6971F09AC6A001F8C27 /* Release-Testflight */,
-				CEA7E6831F09A9D2001F8C27 /* Release */,
-				7ECCA98A2872FD1000F99368 /* Staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
