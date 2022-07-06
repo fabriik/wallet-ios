@@ -10,7 +10,17 @@
 
 import UIKit
 
-class SwapCurrencyView: FEView<MainSwapConfiguration, MainSwapViewModel> {
+struct SwapCurrencyConfiguration: Configurable {
+    var shadow: ShadowConfiguration?
+    var background: BackgroundConfiguration?
+}
+
+struct SwapCurrencyViewModel: ViewModel {
+    var fiatAmountString: String?
+    var cryptoAmountString: String?
+}
+
+class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel> {
     var didChangeFiatAmount: ((String?) -> Void)?
     var didChangeCryptoAmount: ((String?) -> Void)?
     
@@ -235,16 +245,26 @@ class SwapCurrencyView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         didChangeCryptoAmount?(textField.text)
     }
     
-    override func configure(with config: MainSwapConfiguration?) {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        configure(background: config?.background)
+        configure(shadow: config?.shadow)
+    }
+    
+    override func configure(with config: SwapCurrencyConfiguration?) {
         guard let config = config else { return }
         super.configure(with: config)
         
         configure(shadow: config.shadow)
     }
     
-    override func setup(with viewModel: MainSwapViewModel?) {
+    override func setup(with viewModel: SwapCurrencyViewModel?) {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
+        
+        fiatAmountField.text = viewModel.fiatAmountString
+        currencyAmountTitleLabel.text = viewModel.cryptoAmountString
     }
 }
 

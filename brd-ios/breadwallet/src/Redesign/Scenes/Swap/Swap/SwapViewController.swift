@@ -101,6 +101,15 @@ class SwapViewController: BaseTableViewController<KYCCoordinator,
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
         
         cell.wrappedView.isEnabled = responseDisplay.shouldEnableConfirm
+        
+        guard let section = sections.firstIndex(of: Models.Sections.swapCard),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<MainSwapView> else { return }
+        
+        let model = responseDisplay.amounts
+        
+        cell.setup { view in
+            view.setup(with: model)
+        }
     }
     
     // MARK: - Additional Helpers

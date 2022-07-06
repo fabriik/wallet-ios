@@ -18,16 +18,16 @@ struct MainSwapConfiguration: Configurable {
 
 struct MainSwapViewModel: ViewModel {
     var fromFiatAmount: NSNumber
-    var fromFiatAmountString: String
+    var fromFiatAmountString: String?
     
     var fromCryptoAmount: NSNumber
-    var fromCryptoAmountString: String
+    var fromCryptoAmountString: String?
     
     var toFiatAmount: NSNumber
-    var toFiatAmountString: String
+    var toFiatAmountString: String?
     
     var toCryptoAmount: NSNumber
-    var toCryptoAmountString: String
+    var toCryptoAmountString: String?
 }
 
 class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
@@ -145,6 +145,12 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     override func setup(with viewModel: MainSwapViewModel?) {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
+        
+        topSwapCurrencyView.setup(with: .init(fiatAmountString: viewModel.fromFiatAmountString,
+                                              cryptoAmountString: viewModel.fromCryptoAmountString))
+        
+        bottomSwapCurrencyView.setup(with: .init(fiatAmountString: viewModel.toFiatAmountString,
+                                                 cryptoAmountString: viewModel.toCryptoAmountString))
     }
     
     // MARK: - User interaction

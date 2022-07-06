@@ -30,10 +30,10 @@ enum SwapModels {
         }
         
         struct ActionResponse {
-            var fromFiatAmount: NSNumber?
-            var fromCryptoAmount: NSNumber?
-            var toFiatAmount: NSNumber?
-            var toCryptoAmount: NSNumber?
+            var fromFiatAmount: String?
+            var fromCryptoAmount: String?
+            var toFiatAmount: String?
+            var toCryptoAmount: String?
         }
         
         struct ResponseDisplay {

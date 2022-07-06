@@ -23,15 +23,15 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
-        dataStore?.fromFiatAmount = NSNumber(value: (((viewAction.fromFiatAmount as? NSString)?.doubleValue ?? 0) / 100))
-        dataStore?.fromCryptoAmount = NSNumber(value: (((viewAction.fromCryptoAmount as? NSString)?.doubleValue ?? 0) / 100))
-        dataStore?.toFiatAmount = NSNumber(value: (((viewAction.toFiatAmount as? NSString)?.doubleValue ?? 0) / 100))
-        dataStore?.toCryptoAmount = NSNumber(value: (((viewAction.toCryptoAmount as? NSString)?.doubleValue ?? 0) / 100))
+        dataStore?.fromFiatAmount = SwapPresenter.currencyInputFormatting(numberString: viewAction.fromFiatAmount).1
+        dataStore?.fromCryptoAmount = SwapPresenter.currencyInputFormatting(numberString: viewAction.fromCryptoAmount).1
+        dataStore?.toFiatAmount = SwapPresenter.currencyInputFormatting(numberString: viewAction.toFiatAmount).1
+        dataStore?.toCryptoAmount = SwapPresenter.currencyInputFormatting(numberString: viewAction.toCryptoAmount).1
         
-        presenter?.presentSetAmount(actionResponse: .init(fromFiatAmount: dataStore?.fromFiatAmount,
-                                                          fromCryptoAmount: dataStore?.fromCryptoAmount,
-                                                          toFiatAmount: dataStore?.toFiatAmount,
-                                                          toCryptoAmount: dataStore?.toCryptoAmount))
+        presenter?.presentSetAmount(actionResponse: .init(fromFiatAmount: viewAction.fromFiatAmount,
+                                                          fromCryptoAmount: viewAction.fromCryptoAmount,
+                                                          toFiatAmount: viewAction.toFiatAmount,
+                                                          toCryptoAmount: viewAction.toCryptoAmount))
     }
     
     // MARK: - Aditional helpers

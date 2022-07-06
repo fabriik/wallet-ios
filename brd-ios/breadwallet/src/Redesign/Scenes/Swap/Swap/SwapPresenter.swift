@@ -43,28 +43,34 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         var fieldValidationIsAllowed = [String?: Bool]()
         
-        fieldValidationIsAllowed["toFiatAmount"] = actionResponse.toFiatAmount?.doubleValue ?? 0 > 0
-        fieldValidationIsAllowed["toCryptoAmount"] = actionResponse.toCryptoAmount?.doubleValue ?? 0 > 0
-        fieldValidationIsAllowed["fromFiatAmount"] = actionResponse.fromFiatAmount?.doubleValue ?? 0 > 0
-        fieldValidationIsAllowed["fromCryptoAmount"] = actionResponse.fromCryptoAmount?.doubleValue ?? 0 > 0
+        let fromFiatAmount = SwapPresenter.currencyInputFormatting(numberString: actionResponse.fromFiatAmount)
+        let fromCryptoAmount = SwapPresenter.currencyInputFormatting(numberString: actionResponse.fromCryptoAmount)
+        let toFiatAmount = SwapPresenter.currencyInputFormatting(numberString: actionResponse.toFiatAmount)
+        let toCryptoAmount = SwapPresenter.currencyInputFormatting(numberString: actionResponse.toCryptoAmount)
+        
+        fieldValidationIsAllowed["fromFiatAmount"] = fromFiatAmount.1.floatValue > 0
+        fieldValidationIsAllowed["fromCryptoAmount"] = fromCryptoAmount.1.floatValue > 0
+        fieldValidationIsAllowed["toFiatAmount"] = toFiatAmount.1.floatValue > 0
+        fieldValidationIsAllowed["toCryptoAmount"] = toCryptoAmount.1.floatValue > 0
         
         let isValid = fieldValidationIsAllowed.values.contains(where: { $0 == true }) == true
         
-        viewController?.displaySetAmount(responseDisplay: .init(amounts:
-                .init(fromFiatAmount: actionResponse.fromFiatAmount ?? 0,
-                      fromFiatAmountString: currencyInputFormatting(numberString: actionResponse.fromFiatAmount?.stringValue),
-                      fromCryptoAmount: actionResponse.fromCryptoAmount ?? 0,
-                      fromCryptoAmountString: currencyInputFormatting(numberString: actionResponse.fromCryptoAmount?.stringValue),
-                      toFiatAmount: actionResponse.toFiatAmount ?? 0,
-                      toFiatAmountString: currencyInputFormatting(numberString: actionResponse.toFiatAmount?.stringValue),
-                      toCryptoAmount: actionResponse.toCryptoAmount ?? 0,
-                      toCryptoAmountString: currencyInputFormatting(numberString: actionResponse.toCryptoAmount?.stringValue)),
-                                                                shouldEnableConfirm: isValid))
+        viewController?
+            .displaySetAmount(responseDisplay:
+                    .init(amounts: .init(fromFiatAmount: fromFiatAmount.1,
+                                         fromFiatAmountString: fromFiatAmount.0 == "0" ? nil : fromFiatAmount.0,
+                                         fromCryptoAmount: fromCryptoAmount.1,
+                                         fromCryptoAmountString: fromCryptoAmount.0 == "0" ? nil : fromCryptoAmount.0,
+                                         toFiatAmount: toFiatAmount.1,
+                                         toFiatAmountString: toFiatAmount.0 == "0" ? nil : toFiatAmount.0,
+                                         toCryptoAmount: toCryptoAmount.1,
+                                         toCryptoAmountString: toCryptoAmount.0 == "0" ? nil : toCryptoAmount.0),
+                          shouldEnableConfirm: isValid))
     }
     
     // MARK: - Additional Helpers
     
-    func currencyInputFormatting(numberString: String?) -> String {
+    static func currencyInputFormatting(numberString: String?) -> (String, NSNumber) {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.maximumIntegerDigits = 10
@@ -79,6 +85,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let double = (numberString as NSString).doubleValue
         let number = NSNumber(value: (double / 100))
         
-        return formatter.string(from: number) ?? ""
+        return (formatter.string(from: number) ?? "", number)
     }
 }
