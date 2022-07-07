@@ -10,26 +10,26 @@
 
 import UIKit
 
-struct ExchangeRadeConfiguration: Configurable {
+struct ExchangeRateConfiguration: Configurable {
     var title = LabelConfiguration(font: Fonts.Subtitle.two, textColor: LightColors.Text.one)
     var value = LabelConfiguration(font: Fonts.Body.two, textColor: LightColors.Text.one)
     var background = BackgroundConfiguration()
     var timer = Presets.Timer.one
 }
 
-struct ExchamgeRateViewModel: ViewModel {
+struct ExchangeRateViewModel: ViewModel {
     var firstCurrency: String
     var secondCurrency: String
     var exchangeRate: Double
     var timer = TimerViewModel(duration: 15, image: .imageName("timelapse"), repeats: true)
 }
 
-class ExchangeRateView: FEView<ExchangeRadeConfiguration, ExchamgeRateViewModel> {
+class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel> {
     
     private lazy var titleLabel: FELabel = {
         let view = FELabel()
         // TODO: localize
-        view.setup(with: .text("Rate"))
+        view.setup(with: .text("Rate:"))
         return view
     }()
     
@@ -53,19 +53,18 @@ class ExchangeRateView: FEView<ExchangeRadeConfiguration, ExchamgeRateViewModel>
         
         content.addSubview(valueLabel)
         valueLabel.snp.makeConstraints { make in
-            make.leading.equalTo(titleLabel.snp.trailing).offset(Margins.small.rawValue)
+            make.leading.equalTo(titleLabel.snp.trailing).offset(Margins.extraSmall.rawValue)
             make.centerY.equalToSuperview()
         }
         
         content.addSubview(timerView)
         timerView.snp.makeConstraints { make in
-            make.trailing.equalTo(content.snp.trailingMargin)
-            make.centerY.equalToSuperview()
+            make.trailing.centerY.equalToSuperview()
             make.leading.greaterThanOrEqualTo(valueLabel.snp.trailing)
         }
     }
     
-    override func configure(with config: ExchangeRadeConfiguration?) {
+    override func configure(with config: ExchangeRateConfiguration?) {
         guard let config = config else { return }
         super.configure(with: config)
         
@@ -75,7 +74,7 @@ class ExchangeRateView: FEView<ExchangeRadeConfiguration, ExchamgeRateViewModel>
         timerView.configure(with: config.timer)
     }
     
-    override func setup(with viewModel: ExchamgeRateViewModel?) {
+    override func setup(with viewModel: ExchangeRateViewModel?) {
         guard let viewModel = viewModel else { return }
 
         super.setup(with: viewModel)

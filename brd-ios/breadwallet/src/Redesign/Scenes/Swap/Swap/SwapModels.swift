@@ -14,6 +14,7 @@ enum SwapModels {
     typealias Item = ()
     
     enum Sections: Sectionable {
+        case rateAndTimer
         case swapCard
         case amountSegment
         case confirm

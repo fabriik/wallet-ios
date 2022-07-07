@@ -92,22 +92,6 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
         return cell
     }
     
-    func tableView(_ tableView: UITableView, timerCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = sections[indexPath.section]
-        guard let cell: WrapperTableViewCell<ExchangeRateView> = tableView.dequeueReusableCell(for: indexPath),
-              let model = sectionRows[section]?[indexPath.row] as? ExchamgeRateViewModel
-        else {
-            return UITableViewCell()
-        }
-        
-        cell.setup { view in
-            view.configure(with: .init())
-            view.setup(with: model)
-        }
-        
-        return cell
-    }
-    
     func tableView(_ tableView: UITableView, assetCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         guard let cell: WrapperTableViewCell<AssetView> = tableView.dequeueReusableCell(for: indexPath),
@@ -198,9 +182,7 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
             self?.hideInfo()
         }
         
-        popup.buttonCallbacks = [
-            { print("Donated 10$! Thanks!") }
-        ]
+        popup.buttonCallbacks = [ { print("Donated 10$! Thanks!") } ]
         
         UIView.animate(withDuration: Presets.Animation.duration) {
             popup.alpha = 1

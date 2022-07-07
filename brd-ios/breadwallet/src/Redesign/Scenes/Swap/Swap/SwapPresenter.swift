@@ -19,12 +19,17 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         let sections: [Models.Sections] = [
+            .rateAndTimer,
             .swapCard,
             .amountSegment,
             .confirm
         ]
         
         let sectionRows: [Models.Sections: [Any]] = [
+            .rateAndTimer: [
+                // TODO: Populate
+                ExchangeRateViewModel(firstCurrency: "USD", secondCurrency: "AZN", exchangeRate: 1.72)
+            ],
             .swapCard: [
                 // TODO: Populate
                 MainSwapViewModel(fromFiatAmount: 0, fromFiatAmountString: "",

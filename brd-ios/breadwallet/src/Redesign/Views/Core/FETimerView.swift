@@ -55,7 +55,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         
         content.addSubview(stack)
         stack.snp.makeConstraints { make in
-            make.edges.equalTo(content.snp.margins)
+            make.leading.trailing.top.bottom.equalToSuperview()
             make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         

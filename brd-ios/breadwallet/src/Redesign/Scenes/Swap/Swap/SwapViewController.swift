@@ -35,6 +35,9 @@ class SwapViewController: BaseTableViewController<KYCCoordinator,
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch sections[indexPath.section] as? Models.Sections {
+        case .rateAndTimer:
+            cell = self.tableView(tableView, timerCellForRowAt: indexPath)
+            
         case .swapCard:
             cell = self.tableView(tableView, swapMainCellForRowAt: indexPath)
         
@@ -64,7 +67,7 @@ class SwapViewController: BaseTableViewController<KYCCoordinator,
         
         cell.setup { view in
             view.configure(with: .init(shadow: Presets.Shadow.light,
-                                       background: .init(backgroundColor: LightColors.Background.three,
+                                       background: .init(backgroundColor: LightColors.Background.two,
                                                          tintColor: LightColors.Text.one,
                                                          border: Presets.Border.zero)))
             view.setup(with: model)

@@ -33,6 +33,7 @@ struct MainSwapViewModel: ViewModel {
 class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     private lazy var containerStackView: UIStackView = {
         let stack = UIStackView()
+        stack.backgroundColor = .clear
         stack.axis = .vertical
         stack.distribution = .fill
         return stack
@@ -120,7 +121,6 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         
         topSwapCurrencyView.toggleFeeAndAmountsStackView(state: .hidden, animated: false)
         bottomSwapCurrencyView.toggleFeeAndAmountsStackView(state: .hidden, animated: false)
-//        contentSizeChanged?()
     }
     
     private func getAmounts() {
