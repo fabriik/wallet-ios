@@ -81,6 +81,11 @@ class SwapViewController: BaseTableViewController<KYCCoordinator,
             view.didChangeToCryptoAmount = { [weak self] amount in
                 self?.interactor?.setAmount(viewAction: .init(toCryptoAmount: amount))
             }
+            
+            view.contentSizeChanged = { [weak self] in
+                self?.tableView.beginUpdates()
+                self?.tableView.endUpdates()
+            }
         }
         
         return cell

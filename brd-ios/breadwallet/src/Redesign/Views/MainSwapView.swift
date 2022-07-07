@@ -71,6 +71,8 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     var didChangeToFiatAmount: ((String?) -> Void)?
     var didChangeToCryptoAmount: ((String?) -> Void)?
     
+    var contentSizeChanged: (() -> Void)?
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -115,6 +117,10 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
                                                          action: #selector(bottomCurrencyTapped(_:))))
         
         getAmounts()
+        
+        topSwapCurrencyView.toggleFeeAndAmountsStackView(state: .hidden, animated: false)
+        bottomSwapCurrencyView.toggleFeeAndAmountsStackView(state: .hidden, animated: false)
+//        contentSizeChanged?()
     }
     
     private func getAmounts() {
@@ -169,5 +175,10 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         SwapCurrencyView.animateSwitchPlaces(sender: sender,
                                              topSwapCurrencyView: topSwapCurrencyView,
                                              bottomSwapCurrencyView: bottomSwapCurrencyView)
+        
+        // Will be used..
+//        topSwapCurrencyView.toggleFeeAndAmountsStackView(state: .shown, animated: true)
+//        bottomSwapCurrencyView.toggleFeeAndAmountsStackView(state: .shown, animated: true)
+//        contentSizeChanged?()
     }
 }

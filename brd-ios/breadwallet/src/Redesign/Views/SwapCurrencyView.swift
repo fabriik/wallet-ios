@@ -21,6 +21,10 @@ struct SwapCurrencyViewModel: ViewModel {
 }
 
 class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel> {
+    enum FeeAndAmountsStackViewState {
+        case shown, hidden
+    }
+    
     var didChangeFiatAmount: ((String?) -> Void)?
     var didChangeCryptoAmount: ((String?) -> Void)?
     
@@ -119,7 +123,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         return view
     }()
     
-    private lazy var currencyAmountTitleLabel: UITextField = {
+    private lazy var cryptoAmountLabel: UITextField = {
         let view = UITextField()
         view.textColor = LightColors.Icons.one
         view.font = Fonts.Title.four
@@ -182,7 +186,9 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         currencyContainerView.addSubview(currencyHeaderStackView)
         currencyHeaderStackView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview().inset(Margins.large.rawValue)
+            make.top.equalToSuperview().inset(Margins.large.rawValue).priority(.required)
+            make.height.equalTo(ViewSizes.small.rawValue)
+            make.leading.trailing.equalToSuperview().inset(Margins.large.rawValue)
         }
         
         fiatTitleStackView.addArrangedSubview(fiatAmountField)
@@ -212,15 +218,15 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         currencySelectorStackView.addArrangedSubview(currencyIconTitleLabel)
         currencySelectorStackView.addArrangedSubview(currencySelectionArrowIconView)
         
-        currencyContainerView.addSubview(currencyAmountTitleLabel)
-        currencyAmountTitleLabel.snp.makeConstraints { make in
+        currencyContainerView.addSubview(cryptoAmountLabel)
+        cryptoAmountLabel.snp.makeConstraints { make in
             make.top.equalTo(currencySelectorStackView.snp.top)
             make.trailing.equalTo(currencyHeaderStackView)
             make.leading.lessThanOrEqualTo(currencySelectorStackView).offset(Margins.small.rawValue).priority(.low)
             make.height.equalTo(currencySelectorStackView.snp.height)
         }
         
-        currencyAmountTitleLabel.addSubview(currencyAmountTitleLineView)
+        cryptoAmountLabel.addSubview(currencyAmountTitleLineView)
         currencyAmountTitleLineView.snp.makeConstraints { make in
             make.height.equalTo(1)
             make.leading.trailing.bottom.equalToSuperview()
@@ -228,13 +234,29 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         currencyContainerView.addSubview(feeAndAmountsStackView)
         feeAndAmountsStackView.snp.makeConstraints { make in
-            make.top.equalTo(currencySelectorStackView.snp.bottom).offset(Margins.huge.rawValue)
+            make.top.equalTo(currencySelectorStackView.snp.bottom).offset(Margins.huge.rawValue).priority(.required)
             make.leading.trailing.equalTo(currencyHeaderStackView)
             make.bottom.equalToSuperview().inset(Margins.huge.rawValue)
         }
         
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
         feeAndAmountsStackView.addArrangedSubview(fromToConversionLabel)
+    }
+    
+    func toggleFeeAndAmountsStackView(state: FeeAndAmountsStackViewState, animated: Bool = true) {
+        UIView.animate(withDuration: animated ? Presets.Animation.duration : 0,
+                       delay: 0,
+                       options: .curveEaseOut) { [weak self] in
+            self?.feeAndAmountsStackView.alpha = state == .hidden ? 0.0 : 1.0
+            
+            self?.feeAndAmountsStackView.snp.updateConstraints { make in
+                let bottomInset = state == .hidden ? -Margins.huge.rawValue : Margins.huge.rawValue
+                make.bottom.equalToSuperview().inset(bottomInset)
+            }
+            
+            guard animated else { return }
+            self?.feeAndAmountsStackView.layoutIfNeeded()
+        }
     }
     
     @objc func fiatAmountDidChange(_ textField: UITextField) {
@@ -264,7 +286,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         super.setup(with: viewModel)
         
         fiatAmountField.text = viewModel.fiatAmountString
-        currencyAmountTitleLabel.text = viewModel.cryptoAmountString
+        cryptoAmountLabel.text = viewModel.cryptoAmountString
     }
 }
 
@@ -305,7 +327,7 @@ extension SwapCurrencyView {
         topSwapCurrencyView.fiatTitleStackView.alpha = value
         topSwapCurrencyView.fiatAmountField.alpha = value
         topSwapCurrencyView.fiatCurrencySignLabel.alpha = value
-        topSwapCurrencyView.currencyAmountTitleLabel.alpha = value
+        topSwapCurrencyView.cryptoAmountLabel.alpha = value
         topSwapCurrencyView.feeLabel.alpha = value
         topSwapCurrencyView.fromToConversionLabel.alpha = value
         
@@ -313,7 +335,7 @@ extension SwapCurrencyView {
         bottomSwapCurrencyView.fiatTitleStackView.alpha = value
         bottomSwapCurrencyView.fiatAmountField.alpha = value
         bottomSwapCurrencyView.fiatCurrencySignLabel.alpha = value
-        bottomSwapCurrencyView.currencyAmountTitleLabel.alpha = value
+        bottomSwapCurrencyView.cryptoAmountLabel.alpha = value
         bottomSwapCurrencyView.feeLabel.alpha = value
         bottomSwapCurrencyView.fromToConversionLabel.alpha = value
     }
