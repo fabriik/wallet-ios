@@ -20,6 +20,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         let sections: [Models.Sections] = [
             .swapCard,
+            .amountSegment,
             .confirm
         ]
         
@@ -30,6 +31,9 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                   fromCryptoAmount: 0, fromCryptoAmountString: "",
                                   toFiatAmount: 0, toFiatAmountString: "",
                                   toCryptoAmount: 0, toCryptoAmountString: "")
+            ],
+            .amountSegment: [
+                SegmentControlViewModel(selectedIndex: nil)
             ],
             .confirm: [
                 // TODO: Localize

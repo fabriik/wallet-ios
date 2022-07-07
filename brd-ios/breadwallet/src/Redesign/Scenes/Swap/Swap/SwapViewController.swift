@@ -11,10 +11,10 @@
 import UIKit
 
 class SwapViewController: BaseTableViewController<KYCCoordinator,
-                              SwapInteractor,
-                              SwapPresenter,
-                              SwapStore>,
-                              SwapResponseDisplays {
+                          SwapInteractor,
+                          SwapPresenter,
+                          SwapStore>,
+                          SwapResponseDisplays {
     
     typealias Models = SwapModels
     
@@ -38,6 +38,9 @@ class SwapViewController: BaseTableViewController<KYCCoordinator,
         case .swapCard:
             cell = self.tableView(tableView, swapMainCellForRowAt: indexPath)
         
+        case .amountSegment:
+            cell = self.tableView(tableView, segmentControlCellForRowAt: indexPath)
+            
         case .confirm:
             cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
             (cell as? WrapperTableViewCell<FEButton>)?.wrappedView.isEnabled = false
