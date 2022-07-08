@@ -14,10 +14,20 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     // MARK: - SwapDataStore
     
     var itemId: String?
+    
     var fromFiatAmount: NSNumber?
     var fromCryptoAmount: NSNumber?
     var toFiatAmount: NSNumber?
     var toCryptoAmount: NSNumber?
+    
+    var baseCurrencies: [String] = []
+    var termCurrencies: [String] = []
+    var baseAndTermCurrencies: [[String]] = []
+    
+    var selectedBaseCurrency: String?
+    var selectedTermCurrency: String?
+    
+    var currencies: [CurrencyMetaData] = []
     
     // MARK: - Aditional helpers
 }

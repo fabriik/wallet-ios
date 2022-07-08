@@ -17,6 +17,12 @@ struct MainSwapConfiguration: Configurable {
 }
 
 struct MainSwapViewModel: ViewModel {
+    var selectedBaseCurrency: String
+    var selectedBaseCurrencyIcon: UIImage?
+    
+    var selectedTermCurrency: String
+    var selectedTermCurrencyIcon: UIImage?
+    
     var fromFiatAmount: NSNumber
     var fromFiatAmountString: String?
     
@@ -152,10 +158,14 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
-        topSwapCurrencyView.setup(with: .init(fiatAmountString: viewModel.fromFiatAmountString,
+        topSwapCurrencyView.setup(with: .init(selectedCurrency: viewModel.selectedBaseCurrency,
+                                              selectedCurrencyIcon: viewModel.selectedBaseCurrencyIcon,
+                                              fiatAmountString: viewModel.fromFiatAmountString,
                                               cryptoAmountString: viewModel.fromCryptoAmountString))
         
-        bottomSwapCurrencyView.setup(with: .init(fiatAmountString: viewModel.toFiatAmountString,
+        bottomSwapCurrencyView.setup(with: .init(selectedCurrency: viewModel.selectedTermCurrency,
+                                                 selectedCurrencyIcon: viewModel.selectedTermCurrencyIcon,
+                                                 fiatAmountString: viewModel.toFiatAmountString,
                                                  cryptoAmountString: viewModel.toCryptoAmountString))
     }
     

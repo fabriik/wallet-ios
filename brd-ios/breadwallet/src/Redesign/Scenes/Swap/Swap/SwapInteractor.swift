@@ -13,13 +13,38 @@ import UIKit
 class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     typealias Models = SwapModels
-
+    
     var presenter: SwapPresenter?
     var dataStore: SwapStore?
 
     // MARK: - SwapViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        presenter?.presentData(actionResponse: .init(item: Models.Item()))
+        SupportedCurrenciesWorker().execute { [weak self] result in
+            switch result {
+            case .success(let currencies):
+                self?.dataStore?.baseCurrencies = Array(Set(currencies.compactMap({ $0.baseCurrency })))
+                self?.dataStore?.termCurrencies = Array(Set(currencies.compactMap({ $0.termCurrency })))
+                self?.dataStore?.baseAndTermCurrencies = currencies.compactMap({ [$0.baseCurrency, $0.termCurrency] })
+                
+                // TODO: REMOVE THIS. FOR REAL. THIS IS FOR TESTING.
+                self?.dataStore?.selectedBaseCurrency = self?.dataStore?.baseAndTermCurrencies[0][0]
+                self?.dataStore?.selectedTermCurrency = self?.dataStore?.baseAndTermCurrencies[0][1]
+                
+                self?.presenter?.presentData(actionResponse: .init(item:
+                                                                    Models.Item(selectedBaseCurrency: self?.dataStore?.selectedBaseCurrency,
+                                                                                selectedBaseCurrencyIcon: self?.dataStore?.currencies.first(where: {
+                    $0.code == self?.dataStore?.selectedBaseCurrency?.lowercased() ?? ""
+                })?.imageSquareBackground,
+                                                                                selectedTermCurrency: self?.dataStore?.selectedTermCurrency,
+                                                                                selectedTermCurrencyIcon: self?.dataStore?.currencies.first(where: {
+                    $0.code == self?.dataStore?.selectedTermCurrency?.lowercased() ?? ""
+                })?.imageSquareBackground)))
+                
+            case .failure(let error):
+                dump(error)
+                
+            }
+        }
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {

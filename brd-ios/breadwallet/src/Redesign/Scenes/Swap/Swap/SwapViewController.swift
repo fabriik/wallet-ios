@@ -23,6 +23,11 @@ class SwapViewController: BaseTableViewController<KYCCoordinator,
         return "Swap"
     }
     
+    lazy var confirmButton: FEButton = {
+        let button = FEButton()
+        return button
+    }()
+    
     // MARK: - Overrides
     
     override func setupSubviews() {
@@ -30,6 +35,25 @@ class SwapViewController: BaseTableViewController<KYCCoordinator,
         
         tableView.register(WrapperTableViewCell<MainSwapView>.self)
         tableView.delaysContentTouches = false
+        
+        // TODO: Same code as CheckListViewController. Refactor
+        view.addSubview(confirmButton)
+        confirmButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.snp.bottomMargin)
+            make.leading.equalToSuperview().inset(Margins.large.rawValue)
+            make.height.equalTo(ButtonHeights.common.rawValue)
+        }
+        
+        tableView.snp.remakeConstraints { make in
+            make.leading.trailing.top.equalToSuperview()
+            make.bottom.equalTo(confirmButton.snp.top)
+        }
+        confirmButton.configure(with: Presets.Button.primary)
+        confirmButton.setup(with: .init(title: "Confirm"))
+        confirmButton.isEnabled = false
+        
+        confirmButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -44,10 +68,6 @@ class SwapViewController: BaseTableViewController<KYCCoordinator,
         case .amountSegment:
             cell = self.tableView(tableView, segmentControlCellForRowAt: indexPath)
             
-        case .confirm:
-            cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
-            (cell as? WrapperTableViewCell<FEButton>)?.wrappedView.isEnabled = false
-            
         default:
             cell = UITableViewCell()
         }
@@ -58,12 +78,12 @@ class SwapViewController: BaseTableViewController<KYCCoordinator,
     }
     
     func tableView(_ tableView: UITableView, swapMainCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: WrapperTableViewCell<MainSwapView> = tableView.dequeueReusableCell(for: indexPath)
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<MainSwapView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? MainSwapViewModel
         else {
             return super.tableView(tableView, cellForRowAt: indexPath)
         }
-        
-        let model = sectionRows[sections]?[indexPath.row] as? MainSwapViewModel
         
         cell.setup { view in
             view.configure(with: .init(shadow: Presets.Shadow.light,
@@ -108,10 +128,7 @@ class SwapViewController: BaseTableViewController<KYCCoordinator,
     // MARK: - SwapResponseDisplay
     
     func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
-        guard let section = sections.firstIndex(of: Models.Sections.confirm),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
-        
-        cell.wrappedView.isEnabled = responseDisplay.shouldEnableConfirm
+        confirmButton.isEnabled = responseDisplay.shouldEnableConfirm
         
         guard let section = sections.firstIndex(of: Models.Sections.swapCard),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<MainSwapView> else { return }

@@ -11,13 +11,15 @@
 import UIKit
 
 enum SwapModels {
-    typealias Item = ()
+    typealias Item = (selectedBaseCurrency: String?,
+                      selectedBaseCurrencyIcon: UIImage?,
+                      selectedTermCurrency: String?,
+                      selectedTermCurrencyIcon: UIImage?)
     
     enum Sections: Sectionable {
         case rateAndTimer
         case swapCard
         case amountSegment
-        case confirm
         
         var header: AccessoryType? { return nil }
         var footer: AccessoryType? { return nil }

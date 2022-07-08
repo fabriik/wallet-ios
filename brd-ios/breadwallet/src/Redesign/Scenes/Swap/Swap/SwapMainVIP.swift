@@ -31,6 +31,15 @@ protocol SwapDataStore: BaseDataStore, FetchDataStore {
     var fromCryptoAmount: NSNumber? { get set }
     var toFiatAmount: NSNumber? { get set }
     var toCryptoAmount: NSNumber? { get set }
+    
+    var baseCurrencies: [String] { get set }
+    var termCurrencies: [String] { get set }
+    var baseAndTermCurrencies: [[String]] { get set }
+    
+    var selectedBaseCurrency: String? { get set }
+    var selectedTermCurrency: String? { get set }
+    
+    var currencies: [CurrencyMetaData] { get set }
 }
 
 protocol SwapDataPassing {

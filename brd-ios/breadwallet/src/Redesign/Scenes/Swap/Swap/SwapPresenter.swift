@@ -15,15 +15,27 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     weak var viewController: SwapViewController?
     
+    private var mainSwapModel: MainSwapViewModel?
+    
     // MARK: - SwapActionResponses
     
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
+        guard let item = actionResponse.item as? Models.Item else { return }
+        
         let sections: [Models.Sections] = [
             .rateAndTimer,
             .swapCard,
-            .amountSegment,
-            .confirm
+            .amountSegment
         ]
+        
+        mainSwapModel = MainSwapViewModel(selectedBaseCurrency: item.selectedBaseCurrency ?? "",
+                                          selectedBaseCurrencyIcon: item.selectedBaseCurrencyIcon,
+                                          selectedTermCurrency: item.selectedTermCurrency ?? "",
+                                          selectedTermCurrencyIcon: item.selectedTermCurrencyIcon,
+                                          fromFiatAmount: 0, fromFiatAmountString: "",
+                                          fromCryptoAmount: 0, fromCryptoAmountString: "",
+                                          toFiatAmount: 0, toFiatAmountString: "",
+                                          toCryptoAmount: 0, toCryptoAmountString: "")
         
         let sectionRows: [Models.Sections: [Any]] = [
             .rateAndTimer: [
@@ -31,18 +43,10 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 ExchangeRateViewModel(firstCurrency: "USD", secondCurrency: "AZN", exchangeRate: 1.72)
             ],
             .swapCard: [
-                // TODO: Populate
-                MainSwapViewModel(fromFiatAmount: 0, fromFiatAmountString: "",
-                                  fromCryptoAmount: 0, fromCryptoAmountString: "",
-                                  toFiatAmount: 0, toFiatAmountString: "",
-                                  toCryptoAmount: 0, toCryptoAmountString: "")
+                mainSwapModel ?? []
             ],
             .amountSegment: [
                 SegmentControlViewModel(selectedIndex: nil)
-            ],
-            .confirm: [
-                // TODO: Localize
-                ButtonViewModel(title: "Confirm")
             ]
         ]
         
@@ -64,16 +68,22 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         let isValid = fieldValidationIsAllowed.values.contains(where: { $0 == true }) == true
         
+        mainSwapModel?.fromFiatAmount = fromFiatAmount.1
+        mainSwapModel?.fromFiatAmountString = fromFiatAmount.0 == "0" ? nil : fromFiatAmount.0
+        mainSwapModel?.fromCryptoAmount = fromCryptoAmount.1
+        mainSwapModel?.fromCryptoAmountString = fromCryptoAmount.0 == "0" ? nil : fromCryptoAmount.0
+        mainSwapModel?.toFiatAmount = toFiatAmount.1
+        mainSwapModel?.toFiatAmountString = toFiatAmount.0 == "0" ? nil : toFiatAmount.0
+        mainSwapModel?.toCryptoAmount = toCryptoAmount.1
+        mainSwapModel?.toCryptoAmountString = toCryptoAmount.0 == "0" ? nil : toCryptoAmount.0
+        
+        guard let mainSwapModel = mainSwapModel else {
+            return
+        }
+        
         viewController?
             .displaySetAmount(responseDisplay:
-                    .init(amounts: .init(fromFiatAmount: fromFiatAmount.1,
-                                         fromFiatAmountString: fromFiatAmount.0 == "0" ? nil : fromFiatAmount.0,
-                                         fromCryptoAmount: fromCryptoAmount.1,
-                                         fromCryptoAmountString: fromCryptoAmount.0 == "0" ? nil : fromCryptoAmount.0,
-                                         toFiatAmount: toFiatAmount.1,
-                                         toFiatAmountString: toFiatAmount.0 == "0" ? nil : toFiatAmount.0,
-                                         toCryptoAmount: toCryptoAmount.1,
-                                         toCryptoAmountString: toCryptoAmount.0 == "0" ? nil : toCryptoAmount.0),
+                    .init(amounts: mainSwapModel,
                           shouldEnableConfirm: isValid))
     }
     
