@@ -19,6 +19,13 @@ class AssetSelectionInteractor: NSObject, Interactor, AssetSelectionViewActions 
     func getData(viewAction: FetchModels.Get.ViewAction) {
         presenter?.presentData(actionResponse: .init(item: Models.Item()))
     }
+    
+    func search(viewAction: Models.Search.ViewAction) {
+        guard let assets = dataStore?.assets,
+              let searchText = viewAction.text?.lowercased() else { return }
+        
+        presenter?.presentData(actionResponse: .init(item: Models.Item()))
+    }
 
     // MARK: - Aditional helpers
 }

@@ -35,4 +35,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     // MARK: - Aditional helpers
+    
+    func assetSelected(viewAction: SwapModels.SelectedAsset.ViewAction) {}
 }
