@@ -19,14 +19,26 @@ extension Presets {
                                                                               border: Presets.Border.zero),
                                                imageConfig: .init(backgroundColor: LightColors.pending, tintColor: .white, border: .init(borderWidth: 0, cornerRadius: .medium)),
                                                imageSize: .small)
+        
+        static var Enabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one),
+                                                bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two),
+                                                topRightConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one, textAlignment: .right),
+                                                bottomRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right))
+        
+        static var Disabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one.withAlphaComponent(0.5)),
+                                                 bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two.withAlphaComponent(0.5)),
+                                                 topRightConfiguration: .init(font: Fonts.Title.six,
+                                                                              textColor: LightColors.Text.one.withAlphaComponent(0.5), textAlignment: .right),
+                                                 bottomRightConfiguration: .init(font: Fonts.Subtitle.two,
+                                                                                 textColor: LightColors.Text.two.withAlphaComponent(0.5), textAlignment: .right))
     }
 }
 
 struct AssetConfiguration: Configurable {
-    var topConfiguration = LabelConfiguration(font: Fonts.Title.six, textColor: LightColors.Text.one)
-    var bottomConfiguration = LabelConfiguration(font: Fonts.Subtitle.two, textColor: LightColors.Text.two)
-    var topRightConfiguration = LabelConfiguration(font: Fonts.Title.six, textColor: LightColors.Text.one, textAlignment: .right)
-    var bottomRightConfiguration = LabelConfiguration(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right)
+    var topConfiguration: LabelConfiguration?
+    var bottomConfiguration: LabelConfiguration?
+    var topRightConfiguration: LabelConfiguration?
+    var bottomRightConfiguration: LabelConfiguration?
     var backgroundConfiguration: BackgroundConfiguration?
     var imageConfig: BackgroundConfiguration?
     var imageSize: ViewSizes = .medium

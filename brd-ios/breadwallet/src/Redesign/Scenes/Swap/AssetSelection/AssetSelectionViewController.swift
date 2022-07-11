@@ -69,7 +69,7 @@ class AssetSelectionViewController: BaseTableViewController<SwapCoordinator,
         }
         
         cell.setup { view in
-            view.configure(with: .init())
+            view.configure(with: Presets.Asset.Enabled)
             view.setup(with: model)
         }
         
