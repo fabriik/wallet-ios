@@ -86,7 +86,7 @@ jobs:
           name: Install Prerequisites
           command: |
             brew --cache
-            brew install ghostscript SwiftLint
+            brew install SwiftLint
 
       - run:
           name: Check Key
