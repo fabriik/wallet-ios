@@ -8,7 +8,7 @@ workflows:
 jobs:
   build-one-ios:
     macos:
-      xcode: 13.3 # Specify the Xcode version to use
+      xcode: 13.4.1 # Specify the Xcode version to use
 
     steps:
       - checkout
@@ -86,21 +86,7 @@ jobs:
           name: Install Prerequisites
           command: |
             brew --cache
-
-            brew tap adoptopenjdk/openjdk
-            brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
-            export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-            ls -la /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-
             brew install ghostscript SwiftLint
-            brew install --cask android-commandlinetools
-
-      - run:
-          name: Copy SDK License
-          command: |
-            mkdir /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses
-            touch /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses/android-sdk-license
-            printf "8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee\n" > /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses/android-sdk-license
 
       - run:
           name: Check Key
@@ -162,14 +148,6 @@ jobs:
                 mkdir -pv brd-ios/build
                 cp .circleci/config/exportOptions.plist brd-ios/build/exportOptions.plist
             fi
-
-      - run:
-          name: Build Walletkit Subproject
-          command: |
-            export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin
-            cp ./local.properties external/walletKit/walletKitJava/local.properties
-            ./gradlew cosmos-bundled:createXCFramework
-            sed -i '' '18i\'$'\n        ndkVersion \'21.1.6352462\'\n\n' external/walletkit/WalletKitJava/corenative-android/build.gradle
 
       - run:
           name: Set Versions
