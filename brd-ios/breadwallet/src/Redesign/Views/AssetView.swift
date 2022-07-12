@@ -28,9 +28,11 @@ extension Presets {
         static var Disabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one.withAlphaComponent(0.5)),
                                                  bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two.withAlphaComponent(0.5)),
                                                  topRightConfiguration: .init(font: Fonts.Title.six,
-                                                                              textColor: LightColors.Text.one.withAlphaComponent(0.5), textAlignment: .right),
+                                                                              textColor: LightColors.Text.one.withAlphaComponent(0.5),
+                                                                              textAlignment: .right),
                                                  bottomRightConfiguration: .init(font: Fonts.Subtitle.two,
-                                                                                 textColor: LightColors.Text.two.withAlphaComponent(0.5), textAlignment: .right))
+                                                                                 textColor: LightColors.Text.two.withAlphaComponent(0.5),
+                                                                                 textAlignment: .right))
     }
 }
 
@@ -50,6 +52,7 @@ struct AssetViewModel: ViewModel {
     var subtitle: String?
     var topRightText: String?
     var bottomRightText: String?
+    var isDisabled: Bool? = false
 }
 
 class AssetView: FEView<AssetConfiguration, AssetViewModel> {

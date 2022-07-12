@@ -9,7 +9,7 @@
 import UIKit
 
 enum AssetSelectionModels {
-    typealias Item = ()
+    typealias Item = [AssetViewModel]
     
     enum Sections: Sectionable {
         case items

@@ -68,8 +68,9 @@ class AssetSelectionViewController: BaseTableViewController<SwapCoordinator,
             return UITableViewCell()
         }
         
+        let isDisabled = model.isDisabled ?? false
         cell.setup { view in
-            view.configure(with: Presets.Asset.Enabled)
+            isDisabled ? view.configure(with: Presets.Asset.Disabled) : view.configure(with: Presets.Asset.Enabled)
             view.setup(with: model)
         }
         
@@ -78,7 +79,11 @@ class AssetSelectionViewController: BaseTableViewController<SwapCoordinator,
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = sections[indexPath.section]
-        guard let model = sectionRows[section]?[indexPath.row] else { return }
+        guard let model = sectionRows[section]?[indexPath.row] as? AssetViewModel else { return }
+        
+        let isDisabled = model.isDisabled ?? false
+        guard !isDisabled else { return }
+        
         itemSelected?(model)
         coordinator?.goBack()
     }
