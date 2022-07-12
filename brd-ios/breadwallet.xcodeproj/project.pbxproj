@@ -591,8 +591,6 @@
 		9F1143BE261B04E900848E7B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDDE55025D5B79D00E42BE3 /* Date+Extension.swift */; };
 		9F13F5C925DDD73A0031AEC7 /* fiatcurrencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 71014F7B2327E49400DA1373 /* fiatcurrencies.json */; };
 		9F13F5D025DDD73B0031AEC7 /* fiatcurrencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 71014F7B2327E49400DA1373 /* fiatcurrencies.json */; };
-		9F18E567261630EB00698ADB /* Cosmos.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F18E566261630EB00698ADB /* Cosmos.xcframework */; };
-		9F18E568261630EB00698ADB /* Cosmos.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F18E566261630EB00698ADB /* Cosmos.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F2118AC25DD74EA00ABD2C8 /* CoinGecko+Extesions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2118AB25DD74EA00ABD2C8 /* CoinGecko+Extesions.swift */; };
 		9F2118C025DD7D7D00ABD2C8 /* CoinGecko+Extesions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2118AB25DD74EA00ABD2C8 /* CoinGecko+Extesions.swift */; };
 		9F2118F525DDBC6200ABD2C8 /* Formatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2118F425DDBC6200ABD2C8 /* Formatter+Extensions.swift */; };
@@ -651,6 +649,8 @@
 		A243978083345DAFD36DA7A4 /* MarketInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24399A172C828ECD708E17D /* MarketInfo.swift */; };
 		A2439D019C08106D6E14D70A /* MarketInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24399A172C828ECD708E17D /* MarketInfo.swift */; };
 		A2439D7BB746E6CFC3F9B64A /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2439F5D8263945E73EFF4A3 /* CacheService.swift */; };
+		B8E73E39287D5A7A00B0C5E1 /* Cosmos.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8E73E38287D5A7A00B0C5E1 /* Cosmos.xcframework */; };
+		B8E73E3A287D5A7A00B0C5E1 /* Cosmos.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B8E73E38287D5A7A00B0C5E1 /* Cosmos.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C416BE0628509C4E0020ACCD /* KYCLevelTwoPostValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C416BE0528509C4E0020ACCD /* KYCLevelTwoPostValidation.swift */; };
 		C4520F0B2875C726003FFB7F /* AssetSelectionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4520F042875C726003FFB7F /* AssetSelectionCoordinator.swift */; };
 		C4520F0C2875C726003FFB7F /* AssetSelectionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4520F052875C726003FFB7F /* AssetSelectionStore.swift */; };
@@ -912,7 +912,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				754AE0B71DFCA870007FD001 /* libbz2.framework in Embed Frameworks */,
-				9F18E568261630EB00698ADB /* Cosmos.xcframework in Embed Frameworks */,
+				B8E73E3A287D5A7A00B0C5E1 /* Cosmos.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1508,7 +1508,6 @@
 		9F00EAAF25DDF15200A99218 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		9F0EA16325E2902700D4225E /* WidgetDataShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataShareService.swift; sourceTree = "<group>"; };
 		9F0EA17325E29DC500D4225E /* breadwalletWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = breadwalletWidgetExtension.entitlements; sourceTree = "<group>"; };
-		9F18E566261630EB00698ADB /* Cosmos.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Cosmos.xcframework; path = "../cosmos-bundled/build-frameworks/Cosmos.xcframework"; sourceTree = "<group>"; };
 		9F2118AB25DD74EA00ABD2C8 /* CoinGecko+Extesions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoinGecko+Extesions.swift"; sourceTree = "<group>"; };
 		9F2118F425DDBC6200ABD2C8 /* Formatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Formatter+Extensions.swift"; sourceTree = "<group>"; };
 		9F29A99A25D5C605000FEB40 /* breadwalletIntentHandler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = breadwalletIntentHandler.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1556,6 +1555,7 @@
 		A243988A5DA12A405BFEB9F6 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		A24399A172C828ECD708E17D /* MarketInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketInfo.swift; sourceTree = "<group>"; };
 		A2439F5D8263945E73EFF4A3 /* CacheService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
+		B8E73E38287D5A7A00B0C5E1 /* Cosmos.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Cosmos.xcframework; path = Frameworks/Cosmos.xcframework; sourceTree = "<group>"; };
 		C416BE0528509C4E0020ACCD /* KYCLevelTwoPostValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCLevelTwoPostValidation.swift; sourceTree = "<group>"; };
 		C4520F042875C726003FFB7F /* AssetSelectionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetSelectionCoordinator.swift; sourceTree = "<group>"; };
 		C4520F052875C726003FFB7F /* AssetSelectionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetSelectionStore.swift; sourceTree = "<group>"; };
@@ -1798,11 +1798,11 @@
 				7E5CB32D2834E63400EC787E /* SnapKit in Frameworks */,
 				22A9A9641DF61FE7000F0016 /* Security.framework in Frameworks */,
 				22A9A9621DF61FE0000F0016 /* SystemConfiguration.framework in Frameworks */,
+				B8E73E39287D5A7A00B0C5E1 /* Cosmos.xcframework in Frameworks */,
 				9F1143AD261B035300848E7B /* WalletKit in Frameworks */,
 				22A9A9601DF61FD8000F0016 /* CoreLocation.framework in Frameworks */,
 				22A9A95E1DF61FD0000F0016 /* PushKit.framework in Frameworks */,
 				7B2C9AFC27D9270B00D5135C /* IQKeyboardManagerSwift in Frameworks */,
-				9F18E567261630EB00698ADB /* Cosmos.xcframework in Frameworks */,
 				22717B062315D3E300F77F4E /* CloudKit.framework in Frameworks */,
 				223DB21B1DF69F0F0076A151 /* libbz2.framework in Frameworks */,
 			);
@@ -2221,7 +2221,7 @@
 		75A2A7F11DA5935F00A983D8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9F18E566261630EB00698ADB /* Cosmos.xcframework */,
+				B8E73E38287D5A7A00B0C5E1 /* Cosmos.xcframework */,
 				3ABD8D0D24E1CF1500EC4C91 /* SwiftUI.framework */,
 				22717B052315D3E300F77F4E /* CloudKit.framework */,
 				7C4D64CA222C511900DE2C2B /* libresolv.tbd */,
