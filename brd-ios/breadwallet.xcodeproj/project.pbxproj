@@ -666,6 +666,13 @@
 		C45E0BAA2845F4C40083F028 /* AccountVerificationVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E0BA32845F4C40083F028 /* AccountVerificationVIP.swift */; };
 		C45E0BAB2845F4C40083F028 /* AccountVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E0BA42845F4C40083F028 /* AccountVerificationViewController.swift */; };
 		C45E0BAC2845F4C40083F028 /* AccountVerificationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E0BA52845F4C40083F028 /* AccountVerificationInteractor.swift */; };
+		C46C28FD287EBF4F0035C843 /* SwapInfoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28F6287EBF4F0035C843 /* SwapInfoCoordinator.swift */; };
+		C46C28FE287EBF4F0035C843 /* SwapInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28F7287EBF4F0035C843 /* SwapInfoStore.swift */; };
+		C46C28FF287EBF4F0035C843 /* SwapInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28F8287EBF4F0035C843 /* SwapInfoPresenter.swift */; };
+		C46C2900287EBF4F0035C843 /* SwapInfoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28F9287EBF4F0035C843 /* SwapInfoModels.swift */; };
+		C46C2901287EBF4F0035C843 /* SwapInfoVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28FA287EBF4F0035C843 /* SwapInfoVIP.swift */; };
+		C46C2902287EBF4F0035C843 /* SwapInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28FB287EBF4F0035C843 /* SwapInfoViewController.swift */; };
+		C46C2903287EBF4F0035C843 /* SwapInfoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28FC287EBF4F0035C843 /* SwapInfoInteractor.swift */; };
 		C47BD4FD282E3CE600FAA903 /* Degular-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C47BD4FA282E3CE600FAA903 /* Degular-Semibold.otf */; };
 		C47BD4FE282E3CE600FAA903 /* Degular-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C47BD4FB282E3CE600FAA903 /* Degular-Bold.otf */; };
 		C47BD4FF282E3CE600FAA903 /* Degular-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C47BD4FC282E3CE600FAA903 /* Degular-Regular.otf */; };
@@ -1571,6 +1578,13 @@
 		C45E0BA32845F4C40083F028 /* AccountVerificationVIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerificationVIP.swift; sourceTree = "<group>"; };
 		C45E0BA42845F4C40083F028 /* AccountVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerificationViewController.swift; sourceTree = "<group>"; };
 		C45E0BA52845F4C40083F028 /* AccountVerificationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerificationInteractor.swift; sourceTree = "<group>"; };
+		C46C28F6287EBF4F0035C843 /* SwapInfoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoCoordinator.swift; sourceTree = "<group>"; };
+		C46C28F7287EBF4F0035C843 /* SwapInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoStore.swift; sourceTree = "<group>"; };
+		C46C28F8287EBF4F0035C843 /* SwapInfoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoPresenter.swift; sourceTree = "<group>"; };
+		C46C28F9287EBF4F0035C843 /* SwapInfoModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoModels.swift; sourceTree = "<group>"; };
+		C46C28FA287EBF4F0035C843 /* SwapInfoVIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoVIP.swift; sourceTree = "<group>"; };
+		C46C28FB287EBF4F0035C843 /* SwapInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoViewController.swift; sourceTree = "<group>"; };
+		C46C28FC287EBF4F0035C843 /* SwapInfoInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoInteractor.swift; sourceTree = "<group>"; };
 		C47BD4FA282E3CE600FAA903 /* Degular-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Degular-Semibold.otf"; path = "Fonts/Degular-Semibold.otf"; sourceTree = "<group>"; };
 		C47BD4FB282E3CE600FAA903 /* Degular-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Degular-Bold.otf"; path = "Fonts/Degular-Bold.otf"; sourceTree = "<group>"; };
 		C47BD4FC282E3CE600FAA903 /* Degular-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Degular-Regular.otf"; path = "Fonts/Degular-Regular.otf"; sourceTree = "<group>"; };
@@ -2421,6 +2435,7 @@
 				7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */,
 				7ED427E628755C9B00AA19A8 /* Details */,
 				C4520F032875C613003FFB7F /* AssetSelection */,
+				C46C28F5287EBEAC0035C843 /* SwapInfo */,
 			);
 			path = Swap;
 			sourceTree = "<group>";
@@ -3177,6 +3192,20 @@
 				C4520F0A2875C726003FFB7F /* AssetSelectionInteractor.swift */,
 			);
 			path = AssetSelection;
+			sourceTree = "<group>";
+		};
+		C46C28F5287EBEAC0035C843 /* SwapInfo */ = {
+			isa = PBXGroup;
+			children = (
+				C46C28F6287EBF4F0035C843 /* SwapInfoCoordinator.swift */,
+				C46C28F7287EBF4F0035C843 /* SwapInfoStore.swift */,
+				C46C28F8287EBF4F0035C843 /* SwapInfoPresenter.swift */,
+				C46C28F9287EBF4F0035C843 /* SwapInfoModels.swift */,
+				C46C28FA287EBF4F0035C843 /* SwapInfoVIP.swift */,
+				C46C28FB287EBF4F0035C843 /* SwapInfoViewController.swift */,
+				C46C28FC287EBF4F0035C843 /* SwapInfoInteractor.swift */,
+			);
+			path = SwapInfo;
 			sourceTree = "<group>";
 		};
 		C47F46F2286A28E7002287F1 /* ResetPin */ = {
@@ -4396,6 +4425,7 @@
 				7E5CB38E2835090E00EC787E /* UIColor+init.swift in Sources */,
 				CEAA9EA81DC3342E0066731D /* PinView.swift in Sources */,
 				7117305B220CE7B8001931B3 /* BRAPIClient+Announcements.swift in Sources */,
+				C46C2902287EBF4F0035C843 /* SwapInfoViewController.swift in Sources */,
 				CE5E6C961EB8CCF500A476DB /* SimpleWebViewController.swift in Sources */,
 				7E5CB3A42835090E00EC787E /* StateDisplayable.swift in Sources */,
 				CE4B6C1A1E219CA600CF935B /* RescanCoordinator.swift in Sources */,
@@ -4457,6 +4487,7 @@
 				CE274A611FD7C902000A4E62 /* RootNavigationController.swift in Sources */,
 				3A6C1406257D594A00EA0689 /* ShareGiftViewController.swift in Sources */,
 				7E5CB3B42835090E00EC787E /* FEButton.swift in Sources */,
+				C46C28FE287EBF4F0035C843 /* SwapInfoStore.swift in Sources */,
 				CE4C1CC81ED88B600063E184 /* URLController.swift in Sources */,
 				CE20C9171DBE6F2A00C8397A /* UIButton+BRWAdditions.swift in Sources */,
 				CE3CDB9720D443CE007059F6 /* CutoutLabel.swift in Sources */,
@@ -4521,6 +4552,7 @@
 				7E52B7A22872CD1E003D2249 /* SupportedCurrenciesWorker.swift in Sources */,
 				7E5CB3982835090E00EC787E /* Controller.swift in Sources */,
 				3A6FD42F24E4570900068ECE /* KeyStore+CloudBackup.swift in Sources */,
+				C46C2901287EBF4F0035C843 /* SwapInfoVIP.swift in Sources */,
 				7E5CB3872835090E00EC787E /* BorderConfiguration.swift in Sources */,
 				7B54E5A627F4A2B0002DD1E4 /* HTTPRequestHelpers.swift in Sources */,
 				7E5CB38D2835090E00EC787E /* Configurable.swift in Sources */,
@@ -4547,6 +4579,7 @@
 				75A2A7941DA5934300A983D8 /* AppDelegate.swift in Sources */,
 				711730572204FDFB001931B3 /* HomeScreenHiglightableCell.swift in Sources */,
 				CEEC70901E95D5C100EF788E /* PushNotificationsViewController.swift in Sources */,
+				C46C2903287EBF4F0035C843 /* SwapInfoInteractor.swift in Sources */,
 				3AFB571524E2E0BA00087527 /* UIHelpers.swift in Sources */,
 				4F3AB11B25D53F4300B378DC /* ExternalAPIRequest.swift in Sources */,
 				222C42501E90492800078EB5 /* BRAPIClient+KV.swift in Sources */,
@@ -4588,6 +4621,7 @@
 				3A93890A22A303800081FCF9 /* CubicCurveAlgorithm.swift in Sources */,
 				7141BB5B2245271800F7ECF2 /* WriteRecoveryKeyViewController.swift in Sources */,
 				CEE65DF01E39056F0002994D /* Rate.swift in Sources */,
+				C46C2900287EBF4F0035C843 /* SwapInfoModels.swift in Sources */,
 				7BDB4A0D2806F54B0031F015 /* StakingCell.swift in Sources */,
 				CEDB09331FEAA21C001AF56A /* TxDetailViewModel.swift in Sources */,
 				7BDB49E42806CB980031F015 /* ImageStorageService.swift in Sources */,
@@ -4680,6 +4714,7 @@
 				7C7F18ED1FED9A3B0030230E /* TxStatusIndicator.swift in Sources */,
 				7E5CB3992835090E00EC787E /* Interactor.swift in Sources */,
 				7B54E5A927F4A2B0002DD1E4 /* BaseApiWorker.swift in Sources */,
+				C46C28FD287EBF4F0035C843 /* SwapInfoCoordinator.swift in Sources */,
 				7E9B13FC2857404600BD9EF5 /* DocumentReviewModels.swift in Sources */,
 				C45E0BA62845F4C40083F028 /* AccountVerificationCoordinator.swift in Sources */,
 				7C787AE221ED89510017EA7E /* KeyStore.swift in Sources */,
@@ -4804,6 +4839,7 @@
 				C4520F112875C726003FFB7F /* AssetSelectionInteractor.swift in Sources */,
 				713CD88A2240198A004657D4 /* RecoveryKeyIntroViewController.swift in Sources */,
 				7ED83AE8284F384F00261565 /* KYCDocumentPickerStore.swift in Sources */,
+				C46C28FF287EBF4F0035C843 /* SwapInfoPresenter.swift in Sources */,
 				CE6D0F971DE8B73A00BD4BCF /* ModalTransitionDelegate.swift in Sources */,
 				7E5CB3A72835090E00EC787E /* Fonts.swift in Sources */,
 				1B1AFFA01FB7EF7C00E61908 /* BiometricsSettingsViewController.swift in Sources */,
