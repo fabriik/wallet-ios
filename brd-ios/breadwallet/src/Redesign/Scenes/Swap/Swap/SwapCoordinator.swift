@@ -17,8 +17,20 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes {
         open(scene: Scenes.Swap)
     }
     
-    func openAssetSelection() {
-        open(scene: Scenes.AssetSelection)
+    override func goBack() {
+        parentCoordinator?.childDidFinish(child: self)
+        navigationController.dismiss(animated: true)
+    }
+    
+    func showAssetSelector(selected: ((Any?) -> Void)?) {
+        let nvc = RootNavigationController()
+        let coordinator = AssetSelectionCoordinator(navigationController: nvc)
+        coordinator.start()
+        coordinator.parentCoordinator = self
+        nvc.modalPresentationStyle = .formSheet
+        (nvc.topViewController as? AssetSelectionViewController)?.itemSelected = selected
+        childCoordinators.append(coordinator)
+        navigationController.present(nvc, animated: true)
     }
     
     // MARK: - Aditional helpers

@@ -31,8 +31,6 @@ class AssetSelectionViewController: BaseTableViewController<SwapCoordinator,
         setupSearchBar()
     }
     
-    override var closeImage: UIImage? { return nil }
-    
     func setupSearchBar() {
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -70,8 +68,9 @@ class AssetSelectionViewController: BaseTableViewController<SwapCoordinator,
             return UITableViewCell()
         }
         
+        let isDisabled = model.isDisabled ?? false
         cell.setup { view in
-            view.configure(with: .init())
+            isDisabled ? view.configure(with: Presets.Asset.Disabled) : view.configure(with: Presets.Asset.Enabled)
             view.setup(with: model)
         }
         
@@ -80,13 +79,29 @@ class AssetSelectionViewController: BaseTableViewController<SwapCoordinator,
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = sections[indexPath.section]
-        guard let model = sectionRows[section]?[indexPath.row] else { return }
+        guard let model = sectionRows[section]?[indexPath.row] as? AssetViewModel else { return }
+        
+        let isDisabled = model.isDisabled ?? false
+        guard !isDisabled else { return }
+        
         itemSelected?(model)
         coordinator?.goBack()
     }
     
-    func updateSearchResults(for searchController: UISearchController) {
-        //
+    // MARK: - Search View Delegate
+    func updateSearchResults(for searchController: UISearchController) {}
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            interactor?.getData(viewAction: .init())
+            return
+        }
+        
+        search(searchText)
+    }
+    
+    func search(_ text: String) {
+        interactor?.search(viewAction: .init(text: text))
     }
 
     // MARK: - User Interaction

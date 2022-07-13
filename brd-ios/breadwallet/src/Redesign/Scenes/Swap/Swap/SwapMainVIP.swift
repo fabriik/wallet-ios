@@ -38,4 +38,5 @@ protocol SwapDataPassing {
 }
 
 protocol SwapRoutes: CoordinatableRoutes {
+    func showAssetSelector(selected: ((Any?) -> Void)?)
 }
