@@ -41,4 +41,9 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var keyStore: KeyStore?
     
     // MARK: - Aditional helpers
+    var quoteTerm: String? {
+        guard let from = selectedBaseCurrency,
+              let to = selectedTermCurrency else { return nil }
+        return "\(from)-\(to)"
+    }
 }

@@ -54,16 +54,18 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         mainSwapModel.fromFiatAmount = actionResponse.fromFiatAmount
-        mainSwapModel.fromFiatAmountString = actionResponse.fromFiatAmountString ?? SwapPresenter.currencyInputFormatting(number: actionResponse.fromFiatAmount)
+        mainSwapModel.fromFiatAmountString = "\(actionResponse.fromFiatAmount?.doubleValue ?? 0.00)"
+        //actionResponse.fromFiatAmountString ?? SwapPresenter.currencyInputFormatting(number: actionResponse.fromFiatAmount)
         
         mainSwapModel.fromCryptoAmount = actionResponse.fromCryptoAmount
-        mainSwapModel.fromCryptoAmountString = actionResponse.fromCryptoAmountString ?? SwapPresenter.currencyInputFormatting(number: actionResponse.fromCryptoAmount)
+        mainSwapModel.fromCryptoAmountString = "\(actionResponse.fromCryptoAmount?.doubleValue ?? 0.00)"
         
         mainSwapModel.toFiatAmount = actionResponse.toFiatAmount
-        mainSwapModel.toFiatAmountString = actionResponse.toFiatAmountString ?? SwapPresenter.currencyInputFormatting(number: actionResponse.toFiatAmount)
+        mainSwapModel.toFiatAmountString = "\(actionResponse.toFiatAmount?.doubleValue ?? 0.00)"
         
         mainSwapModel.toCryptoAmount = actionResponse.toCryptoAmount
-        mainSwapModel.toCryptoAmountString = actionResponse.toCryptoAmountString ?? SwapPresenter.currencyInputFormatting(number: actionResponse.toCryptoAmount)
+        mainSwapModel.toCryptoAmountString = "\(actionResponse.toCryptoAmount?.doubleValue ?? 0.00)"
+        //actionResponse.toCryptoAmountString ?? SwapPresenter.currencyInputFormatting(number: actionResponse.toCryptoAmount)
         
         mainSwapModel.selectedBaseCurrency = actionResponse.baseCurrency ?? ""
         mainSwapModel.selectedBaseCurrencyIcon = actionResponse.baseCurrencyIcon
