@@ -1,12 +1,14 @@
 //
-// Created by Equaleyes Solutions Ltd
+//  SwapInfoModels.swift
+//  breadwallet
+//
+//  Created by Dijana Angelovska on 13.7.22.
+//
 //
 
 import UIKit
-import SwiftUI
 
-enum VerifyAccountModels {
-    
+enum SwapInfoModels {
     enum Section: Sectionable {
         case image
         case title
@@ -15,5 +17,4 @@ enum VerifyAccountModels {
         var header: AccessoryType? { return nil }
         var footer: AccessoryType? { return nil }
     }
-    
 }

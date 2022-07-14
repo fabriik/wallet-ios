@@ -109,7 +109,11 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             }
             
             view.assetsSelectionCallback = { [weak self] in
-                self?.coordinator?.openAssetSelection()
+                self?.coordinator?.showAssetSelector { [weak self] model in
+                    guard model != nil else { return }
+                    
+                    self?.interactor?.assetSelected(viewAction: .init())
+                }
             }
             
             view.contentSizeChanged = { [weak self] in

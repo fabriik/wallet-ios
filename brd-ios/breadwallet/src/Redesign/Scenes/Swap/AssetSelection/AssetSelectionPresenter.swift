@@ -15,14 +15,12 @@ final class AssetSelectionPresenter: NSObject, Presenter, AssetSelectionActionRe
 
     // MARK: - AssetSelectionActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
-        let image = TokenImageSquareBackground(code: "BTC", color: .red).renderedImage ?? UIImage()
+        guard let item = actionResponse.item as? Models.Item else { return }
         
         let sections = [Models.Sections.items]
+        
         let sectionRows = [
-            Models.Sections.items: [
-                AssetViewModel(icon: .image(image), title: "Bitcoin", subtitle: "BTC", topRightText: "3 BTC", bottomRightText: "$2.523"),
-                AssetViewModel(icon: .image(image), title: "Ethereum", subtitle: "ETH", topRightText: "0.5612 ETH", bottomRightText: "$220.52")
-            ]
+            Models.Sections.items: item
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))

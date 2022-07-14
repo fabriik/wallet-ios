@@ -45,4 +45,10 @@ enum SwapModels {
             var shouldEnableConfirm: Bool
         }
     }
+    
+    struct SelectedAsset {
+        struct ViewAction {
+            var name: String?
+        }
+    }
 }
