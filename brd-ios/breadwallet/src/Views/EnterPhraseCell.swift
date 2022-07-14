@@ -35,6 +35,7 @@ class EnterPhraseCell: UICollectionViewCell {
     }
     
     private(set) var text: String?
+    var didEndEditing: (() -> Void)?
     
     var didTapPrevious: (() -> Void)? {
         didSet {
@@ -173,6 +174,8 @@ extension EnterPhraseCell: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         setColors(textField: textField)
+        didEndEditing?()
+        
         if let text = textField.text, let isValid = isWordValid, (isValid(text) || text.isEmpty) {
             hideFocusBar()
         }
@@ -215,6 +218,7 @@ extension EnterPhraseCell: UITextFieldDelegate {
         if isWordValid(word) || word.isEmpty {
             textField.textColor = Theme.primaryText
             focusBar.backgroundColor = Theme.accent
+            contentView.layer.borderColor = UIColor.almostBlack.cgColor
         } else {
             contentView.layer.borderColor = Theme.error.cgColor
             hasDisplayedInvalidState = true
