@@ -20,8 +20,8 @@ struct ExchangeRateConfiguration: Configurable {
 struct ExchangeRateViewModel: ViewModel {
     var firstCurrency: String
     var secondCurrency: String
-    var exchangeRate: Double
-    var timer = TimerViewModel(duration: 15, image: .imageName("timelapse"), repeats: true)
+    var exchangeRate: String?
+    var timer = TimerViewModel(till: 0, image: .imageName("timelapse"), repeats: true)
 }
 
 class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel> {
@@ -45,9 +45,10 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
     
     override func setupSubviews() {
         super.setupSubviews()
+        
         content.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(content.snp.leadingMargin)
+            make.leading.equalTo(content)
             make.centerY.equalToSuperview()
         }
         
@@ -78,7 +79,7 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         guard let viewModel = viewModel else { return }
 
         super.setup(with: viewModel)
-        valueLabel.text = "1 \(viewModel.firstCurrency) = \(viewModel.exchangeRate) \(viewModel.secondCurrency)"
+        valueLabel.text = "1 \(viewModel.firstCurrency) = \(viewModel.exchangeRate ?? "") \(viewModel.secondCurrency)"
         timerView.setup(with: viewModel.timer)
     }
 }

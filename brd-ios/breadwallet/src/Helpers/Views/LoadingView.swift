@@ -19,7 +19,7 @@ class LoadingView: UIView {
     }()
     
     private lazy var blurView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .dark)
+        let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
         let view = UIVisualEffectView(effect: blurEffect)
         backgroundColor = UIColor.black.withAlphaComponent(0.2)
         

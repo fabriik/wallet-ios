@@ -22,9 +22,9 @@ struct TimerConfiguration: Configurable {
 }
 
 struct TimerViewModel: ViewModel {
-    var duration: Double = 15
+    var till: Double = 0
     var image = ImageViewModel.imageName("timelapse")
-    var repeats = true
+    var repeats = false
     var finished: (() -> Void)?
 }
 
@@ -38,7 +38,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
     
     private lazy var titleLabel: FELabel = {
         let view = FELabel()
-        view.setup(with: .text("00:00s"))
+        view.setup(with: .text("00:15s"))
         return view
     }()
     
@@ -87,9 +87,15 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
     override func setup(with viewModel: TimerViewModel?) {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
-        triggerDate = Date().advanced(by: viewModel.duration)
+        
+        let dateValue = TimeInterval(viewModel.till) / 1000.0
+        triggerDate = Date(timeIntervalSince1970: dateValue)
+        
         // TODO: replace with animation
         iconView.setup(with: viewModel.image)
+        
+        timer?.invalidate()
+        timer = nil
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }

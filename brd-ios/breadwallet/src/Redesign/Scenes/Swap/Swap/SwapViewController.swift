@@ -56,6 +56,14 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         confirmButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
+    override func prepareData() {
+        super.prepareData()
+        
+        DispatchQueue.main.async {
+            LoadingView.show()
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch sections[indexPath.section] as? Models.Sections {
@@ -73,6 +81,26 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
         
         cell.setupCustomMargins(all: .large)
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, segmentControlCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<FESegmentControl> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? SegmentControlViewModel
+        else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+            
+            view.didChangeValue = { [weak self] segment in
+                self?.interactor?.setAmount(viewAction: .init(minMaxToggleValue: segment))
+            }
+        }
         
         return cell
     }
@@ -108,12 +136,16 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 self?.interactor?.setAmount(viewAction: .init(toCryptoAmount: amount))
             }
             
-            view.assetsSelectionCallback = { [weak self] in
+            view.didTapAssetsSelection = { [weak self] in
                 self?.coordinator?.showAssetSelector { [weak self] model in
                     guard model != nil else { return }
                     
                     self?.interactor?.assetSelected(viewAction: .init())
                 }
+            }
+            
+            view.didChangePlaces = { [weak self] in
+                self?.interactor?.switchPlaces(viewAction: .init())
             }
             
             view.contentSizeChanged = { [weak self] in
@@ -141,9 +173,16 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         guard let section = sections.firstIndex(of: Models.Sections.swapCard),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<MainSwapView> else { return }
         
-        let model = responseDisplay.amounts
+        cell.setup { view in
+            let model = responseDisplay.amounts
+            view.setup(with: model)
+        }
+        
+        guard let section = sections.firstIndex(of: Models.Sections.amountSegment),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FESegmentControl> else { return }
         
         cell.setup { view in
+            let model = responseDisplay.minMaxToggleValue
             view.setup(with: model)
         }
     }

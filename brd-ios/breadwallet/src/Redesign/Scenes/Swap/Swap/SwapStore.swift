@@ -15,10 +15,19 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     
     var itemId: String?
     
-    var fromFiatAmount: NSNumber?
-    var fromCryptoAmount: NSNumber?
-    var toFiatAmount: NSNumber?
-    var toCryptoAmount: NSNumber?
+    var fromFiatAmount: Decimal?
+    var fromCryptoAmount: Decimal?
+    var toFiatAmount: Decimal?
+    var toCryptoAmount: Decimal?
+    
+    var fromBaseFiatFee: Double?
+    var fromBaseCryptoFee: Double?
+    
+    var fromTermFiatFee: Double?
+    var fromTermCryptoFee: Double?
+    
+    var minMaxToggleValue: FESegmentControl.Values?
+    var defaultCurrencyCode: String?
     
     var baseCurrencies: [String] = []
     var termCurrencies: [String] = []
@@ -27,7 +36,9 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var selectedBaseCurrency: String?
     var selectedTermCurrency: String?
     
-    var currencies: [CurrencyMetaData] = []
+    var currencies: [Currency] = []
+    var coreSystem: CoreSystem?
+    var keyStore: KeyStore?
     
     // MARK: - Aditional helpers
 }

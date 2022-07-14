@@ -18,19 +18,26 @@ struct SegmentControlConfiguration: Configurable {
 
 struct SegmentControlViewModel: ViewModel {
     /// Passing 'nil' leaves the control deselected
-    var selectedIndex: Int?
+    var selectedIndex: FESegmentControl.Values?
 }
 
 class FESegmentControl: UISegmentedControl, ViewProtocol {
+    enum Values: String, CaseIterable {
+        // TODO: localize
+        
+        case min = "Min"
+        case max = "Max"
+    }
     
     var config: SegmentControlConfiguration?
     var viewModel: SegmentControlViewModel?
     
+    var didChangeValue: ((Values) -> Void)?
+    
     convenience init() {
         let items = [
-            // TODO: localize
-            "Min",
-            "Max"
+            Values.min.rawValue,
+            Values.max.rawValue
         ]
         
         self.init(items: items)
@@ -82,14 +89,19 @@ class FESegmentControl: UISegmentedControl, ViewProtocol {
                         rightSegmentState: .normal,
                         barMetrics: .default)
         
+        valueChanged = { [weak self] in
+            guard let selectedSegmentIndex = self?.selectedSegmentIndex, selectedSegmentIndex >= 0 else { return }
+            self?.didChangeValue?(Values.allCases[selectedSegmentIndex])
+        }
     }
     
     func setup(with viewModel: SegmentControlViewModel?) {
-        guard let index = viewModel?.selectedIndex else {
+        guard let index = viewModel?.selectedIndex,
+              let filteredIndex = Values.allCases.firstIndex(where: { $0 == index }) else {
             selectedSegmentIndex = UISegmentedControl.noSegment
             return
         }
         
-        selectedSegmentIndex = index
+        selectedSegmentIndex = filteredIndex
     }
 }

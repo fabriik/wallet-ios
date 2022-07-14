@@ -91,10 +91,15 @@ class BaseCoordinator: NSObject,
         navigationController.show(coordinator.navigationController, sender: nil)
     }
     
-    func showSwap(currencies: [CurrencyMetaData]) {
-        openModally(coordinator: SwapCoordinator.self, scene: Scenes.Swap) { vc in
-            vc?.dataStore?.currencies = currencies
-            vc?.prepareData()
+    func showSwap(currencies: [Currency], coreSystem: CoreSystem, keyStore: KeyStore) {
+        upgradeAccountOrShowPopup(checkForKyc: false) { [weak self] _ in
+            self?.openModally(coordinator: SwapCoordinator.self, scene: Scenes.Swap) { vc in
+                vc?.dataStore?.currencies = currencies
+                vc?.dataStore?.coreSystem = coreSystem
+                vc?.dataStore?.keyStore = keyStore
+                vc?.dataStore?.defaultCurrencyCode = Store.state.defaultCurrencyCode
+                vc?.prepareData()
+            }
         }
     }
     

@@ -353,7 +353,7 @@
 		7EC3790B281C09AE00028CA1 /* ErrorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */; };
 		7ECCA9642875A77300617067 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9632875A77300617067 /* OrderView.swift */; };
 		7ECCA98F2873059300F99368 /* SwapEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA98E2873059300F99368 /* SwapEndpoints.swift */; };
-		7ECCA9912873079100F99368 /* QuotaWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9902873079100F99368 /* QuotaWorker.swift */; };
+		7ECCA9912873079100F99368 /* QuoteWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9902873079100F99368 /* QuoteWorker.swift */; };
 		7ECCA9952874266200F99368 /* FESegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9942874266200F99368 /* FESegmentControl.swift */; };
 		7ECCA99728742E1700F99368 /* UIApplication+ActiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */; };
 		7ECCA9992874342C00F99368 /* FETimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9982874342C00F99368 /* FETimerView.swift */; };
@@ -1296,7 +1296,7 @@
 		7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorRequest.swift; sourceTree = "<group>"; };
 		7ECCA9632875A77300617067 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		7ECCA98E2873059300F99368 /* SwapEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapEndpoints.swift; sourceTree = "<group>"; };
-		7ECCA9902873079100F99368 /* QuotaWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaWorker.swift; sourceTree = "<group>"; };
+		7ECCA9902873079100F99368 /* QuoteWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteWorker.swift; sourceTree = "<group>"; };
 		7ECCA9942874266200F99368 /* FESegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FESegmentControl.swift; sourceTree = "<group>"; };
 		7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+ActiveWindow.swift"; sourceTree = "<group>"; };
 		7ECCA9982874342C00F99368 /* FETimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FETimerView.swift; sourceTree = "<group>"; };
@@ -2444,7 +2444,7 @@
 			isa = PBXGroup;
 			children = (
 				7E52B7A12872CD1E003D2249 /* SupportedCurrenciesWorker.swift */,
-				7ECCA9902873079100F99368 /* QuotaWorker.swift */,
+				7ECCA9902873079100F99368 /* QuoteWorker.swift */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
@@ -4602,7 +4602,7 @@
 				E89C0613216D79550012CE0D /* BRAPIClient+EmailSubscription.swift in Sources */,
 				7B02D6282859201500C5C384 /* KYCCameraViewController.swift in Sources */,
 				7BBBF4DC287421CF00E4D36B /* SwapModels.swift in Sources */,
-				7ECCA9912873079100F99368 /* QuotaWorker.swift in Sources */,
+				7ECCA9912873079100F99368 /* QuoteWorker.swift in Sources */,
 				7CBABD9C20181D890077CB55 /* NSMutableAttributedString+Additions.swift in Sources */,
 				3A69885E24591F890084953D /* PayId.swift in Sources */,
 				7B08D2262860574F00D65ED9 /* SimpleBackBarButtonItem.swift in Sources */,
