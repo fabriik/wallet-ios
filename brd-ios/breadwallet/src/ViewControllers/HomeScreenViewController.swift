@@ -424,7 +424,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func attemptShowKYCPrompt() {
-        ProfileWorker().execute { [weak self] profileResult in
+        UserManager.shared.refresh { [weak self] profileResult in
             self?.profileResult = profileResult
             
             switch profileResult {
@@ -445,6 +445,9 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
                 }
                 
                 self?.setupKYCPrompt(result: self?.profileResult)
+            default:
+                self?.hidePrompt(self?.kycStatusPromptView)
+                self?.attemptShowGeneralPrompt()
             }
         }
     }
