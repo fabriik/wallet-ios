@@ -10,23 +10,36 @@ import UIKit
 
 class RegistrationCoordinator: BaseCoordinator, RegistrationRoutes {
     // MARK: - RegistrationRoutes
-    var fromProfile = false
+    
     override func start() {
         guard UserDefaults.email != nil else {
             return open(scene: Scenes.Registration)
         }
         
-        showRegistrationConfirmation(callAsociate: fromProfile)
+        let vc = navigationController.children.first(where: { $0 is RegistrationViewController }) as? RegistrationViewController
+        let shouldShowProfile = vc?.dataStore?.shouldShowProfile ?? false
+        showRegistrationConfirmation(shouldShowProfile: shouldShowProfile)
     }
     
-    func showRegistrationConfirmation(callAsociate: Bool = false) {
-        open(scene: Scenes.RegistrationConfirmation)
+    func showRegistrationConfirmation(shouldShowProfile: Bool = false) {
+        open(scene: Scenes.RegistrationConfirmation) { vc in
+            vc.dataStore?.shouldShowProfile = shouldShowProfile
+            vc.prepareData()
+        }
     }
     
     func showChangeEmail() {
         open(scene: Scenes.Registration) { vc in
             vc.dataStore?.type = .resend
             vc.prepareData()
+        }
+    }
+    
+    override func showProfile() {
+        upgradeAccountOrShowPopup(checkForKyc: false) { [weak self] _ in
+            self?.set(coordinator: ProfileCoordinator.self, scene: Scenes.Profile) { vc in
+                vc?.prepareData()
+            }
         }
     }
     

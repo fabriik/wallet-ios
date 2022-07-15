@@ -123,7 +123,15 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         setInitialData()
         setupSubscriptions()
         attemptShowKYCPrompt()
-        attemptShowGeneralPrompt()
+        
+        isInitialLaunch = false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard isInitialLaunch == false else { return }
+        attemptShowKYCPrompt()
     }
     
     override func viewDidLoad() {
@@ -294,13 +302,13 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         // prompts
         Store.subscribe(self, name: .didUpgradePin, callback: { _ in
             if self.generalPromptView.type == .upgradePin {
-                self.hide(self.generalPromptView)
+                self.hidePrompt(self.generalPromptView)
 
             }
         })
         Store.subscribe(self, name: .didWritePaperKey, callback: { _ in
             if self.generalPromptView.type == .paperKey {
-                self.hide(self.generalPromptView)
+                self.hidePrompt(self.generalPromptView)
             }
         })
         
@@ -373,10 +381,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     // MARK: - Prompt
     
-    var shouldShowKYCPrompt: Bool {
-        return UserDefaults.hasShownKYCVerifyPrompt == false
-    }
-    
     private lazy var promptContainerStack: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -387,11 +391,14 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     private var kycStatusPromptView = FEInfoView()
     private var generalPromptView = PromptView()
+    private var showPromptFactoryPrompts = false
+    private var isInitialLaunch = true
+    private var profileResult: Result<Profile, Error>?
     
     private func attemptShowGeneralPrompt() {
-        guard let nextPrompt = PromptFactory.nextPrompt(walletAuthenticator: walletAuthenticator),
-              promptContainerStack.arrangedSubviews.contains(where: { $0 is PromptView }) == false,
-              shouldShowKYCPrompt == false else { return }
+        guard promptContainerStack.arrangedSubviews.isEmpty == true,
+              showPromptFactoryPrompts == true,
+              let nextPrompt = PromptFactory.nextPrompt(walletAuthenticator: walletAuthenticator) else { return }
         
         generalPromptView = PromptFactory.createPromptView(prompt: nextPrompt, presenter: self)
         
@@ -401,7 +408,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         generalPromptView.dismissButton.tap = { [unowned self] in
             self.saveEvent("prompt.\(nextPrompt.name).dismissed")
             
-            self.hide(self.generalPromptView)
+            self.hidePrompt(self.generalPromptView)
         }
         
         if !generalPromptView.shouldHandleTap {
@@ -411,25 +418,43 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
                 }
                 self.saveEvent("prompt.\(nextPrompt.name).trigger")
                 
-                self.hide(self.generalPromptView)
+                self.hidePrompt(self.generalPromptView)
             }
         }
         
-        layout(generalPromptView)
+        layoutPrompts(generalPromptView)
     }
     
     private func attemptShowKYCPrompt() {
-        guard shouldShowKYCPrompt else { return }
-        
-        ProfileWorker().execute { [weak self] result in
-            self?.setupKYCPrompt(result: result)
+        ProfileWorker().execute { [weak self] profileResult in
+            self?.profileResult = profileResult
+            
+            switch profileResult {
+            case .success(let profile):
+                if profile.email == nil || !UserDefaults.emailConfirmed || UserManager.shared.profile?.status.canBuyTrade == false {
+                    self?.setupKYCPrompt(result: self?.profileResult)
+                } else {
+                    self?.hideAllPrompts()
+                    self?.attemptShowGeneralPrompt()
+                }
+                
+            case .failure(let error):
+                guard error is SessionExpiredError else {
+                    self?.hideAllPrompts()
+                    self?.attemptShowGeneralPrompt()
+                    
+                    return
+                }
+                
+                self?.setupKYCPrompt(result: self?.profileResult)
+            }
         }
     }
     
     private func setupKYCPrompt(result: Result<Profile, Error>?) {
-        // TODO: Don't show any prompt after KYC prompt is dismissed till the app reopens
+        showPromptFactoryPrompts = promptContainerStack.arrangedSubviews.isEmpty
         
-        guard promptContainerStack.arrangedSubviews.contains(where: { $0 is FEInfoView }) == false else { return }
+        guard promptContainerStack.arrangedSubviews.isEmpty == true else { return }
         
         let infoView: InfoViewModel = Presets.VerificationInfoView.nonePrompt
         let infoConfig: InfoViewConfiguration = Presets.InfoView.verification
@@ -440,43 +465,45 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         kycStatusPromptView.setupCustomMargins(all: .large)
         
         kycStatusPromptView.headerButtonCallback = { [weak self] in
-            self?.hide(self?.kycStatusPromptView)
-            
-            UserDefaults.hasShownKYCVerifyPrompt = true
+            self?.hidePrompt(self?.kycStatusPromptView)
         }
         
         kycStatusPromptView.trailingButtonCallback = { [weak self] in
-            self?.hide(self?.kycStatusPromptView)
-            
-            self?.didTapProfileFromPrompt?(result)
-            
-            // TODO: Fix this so it shows the prompt till the user verifies their KYC
-            UserDefaults.hasShownKYCVerifyPrompt = true
+            self?.didTapProfileFromPrompt?(self?.profileResult)
         }
         
-        layout(kycStatusPromptView)
+        layoutPrompts(kycStatusPromptView)
     }
     
-    private func hide(_ prompt: UIView?) {
+    private func hidePrompt(_ prompt: UIView?) {
+        guard let prompt = prompt else { return }
+        
         UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .curveLinear) { [weak self] in
-            prompt?.transform = .init(translationX: UIScreen.main.bounds.width, y: 0)
-            prompt?.alpha = 0
-            prompt?.isHidden = true
+            prompt.transform = .init(translationX: UIScreen.main.bounds.width, y: 0)
+            prompt.alpha = 0
+            prompt.isHidden = true
             
+            self?.promptContainerStack.removeArrangedSubview(prompt)
             self?.promptContainerStack.layoutIfNeeded()
             self?.view.layoutIfNeeded()
         }
     }
     
-    private func layout(_ prompt: UIView?) {
+    private func hideAllPrompts() {
+        promptContainerStack.arrangedSubviews.forEach { [weak self] promptView in
+            self?.hidePrompt(promptView)
+        }
+    }
+    
+    private func layoutPrompts(_ prompt: UIView?) {
         guard let prompt = prompt else { return }
         
         promptContainerStack.addArrangedSubview(prompt)
-        prompt.alpha = 1.0
-        prompt.isHidden = false
         
         UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .curveLinear) { [weak self] in
             prompt.alpha = 1.0
+            prompt.isHidden = false
+            
             self?.promptContainerStack.layoutIfNeeded()
             self?.view.layoutIfNeeded()
         }
@@ -489,10 +516,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func sendErrorsToBackend() {
-        // Only syncs errors on TF buidls
-        guard let errors = UserDefaults.errors,
-              !errors.isEmpty
-        else { return }
+        // Only syncs errors on TF builds
+        guard let errors = UserDefaults.errors, !errors.isEmpty else { return }
         
         Backend.apiClient.sendErrors(messages: errors) { success in
             guard success else { return }
