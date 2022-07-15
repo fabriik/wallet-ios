@@ -11,40 +11,88 @@
 import UIKit
 
 enum SwapModels {
-    typealias Item = ()
+    typealias Item = (baseRate: Decimal,
+                      termRate: Decimal,
+                      rateTimeStamp: Double,
+                      minMaxToggleValue: FESegmentControl.Values?)
     
     enum Sections: Sectionable {
+        case rateAndTimer
         case swapCard
-        case confirm
+        case amountSegment
         
         var header: AccessoryType? { return nil }
         var footer: AccessoryType? { return nil }
     }
     
+    struct SwitchPlaces {
+        struct ViewAction {}
+    }
+    
     struct Amounts {
         struct ViewAction {
-            var fromFiatAmount: String? = nil
-            var fromCryptoAmount: String? = nil
-            var toFiatAmount: String? = nil
-            var toCryptoAmount: String? = nil
+            var fromFiatAmount: String?
+            var fromCryptoAmount: String?
+            var toFiatAmount: String?
+            var toCryptoAmount: String?
+            var minMaxToggleValue: FESegmentControl.Values?
         }
         
         struct ActionResponse {
-            var fromFiatAmount: NSNumber?
-            var fromCryptoAmount: NSNumber?
-            var toFiatAmount: NSNumber?
-            var toCryptoAmount: NSNumber?
+            var fromFiatAmount: Decimal?
+            var fromFiatAmountString: String?
+            var fromCryptoAmount: Decimal?
+            var fromCryptoAmountString: String?
+            
+            var toFiatAmount: Decimal?
+            var toFiatAmountString: String?
+            var toCryptoAmount: Decimal?
+            var toCryptoAmountString: String?
+            
+            var fromBaseFiatFee: Double?
+            var fromBaseCryptoFee: Double?
+            
+            var fromTermFiatFee: Double?
+            var fromTermCryptoFee: Double?
+            
+            var baseCurrency: String?
+            var baseCurrencyIcon: UIImage?
+            var termCurrency: String?
+            var termCurrencyIcon: UIImage?
+            
+            var minMaxToggleValue: FESegmentControl.Values?
+            var baseBalance: Amount
         }
         
         struct ResponseDisplay {
             var amounts: MainSwapViewModel
+            var rate: ExchangeRateViewModel
+            var minMaxToggleValue: SegmentControlViewModel
             var shouldEnableConfirm: Bool
         }
     }
     
     struct SelectedAsset {
         struct ViewAction {
-            var name: String?
+            var from: String?
+            var to: String?
+        }
+    }
+    
+    struct Assets {
+        struct ViewAction {
+            var from: Bool?
+            var to: Bool?
+        }
+        
+        struct ActionResponse {
+            var from: [String]?
+            var to: [String]?
+        }
+        
+        struct ResponseDisplay {
+            var from: [String]?
+            var to: [String]?
         }
     }
 }

@@ -11,10 +11,10 @@
 import UIKit
 
 class SwapViewController: BaseTableViewController<SwapCoordinator,
-                              SwapInteractor,
-                              SwapPresenter,
-                              SwapStore>,
-                              SwapResponseDisplays {
+                          SwapInteractor,
+                          SwapPresenter,
+                          SwapStore>,
+                          SwapResponseDisplays {
     
     typealias Models = SwapModels
     
@@ -23,6 +23,11 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         return "Swap"
     }
     
+    lazy var confirmButton: FEButton = {
+        let button = FEButton()
+        return button
+    }()
+    
     // MARK: - Overrides
     
     override func setupSubviews() {
@@ -30,17 +35,46 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         
         tableView.register(WrapperTableViewCell<MainSwapView>.self)
         tableView.delaysContentTouches = false
+        
+        // TODO: Same code as CheckListViewController. Refactor
+        view.addSubview(confirmButton)
+        confirmButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.snp.bottomMargin)
+            make.leading.equalToSuperview().inset(Margins.large.rawValue)
+            make.height.equalTo(ButtonHeights.common.rawValue)
+        }
+        
+        tableView.snp.remakeConstraints { make in
+            make.leading.trailing.top.equalToSuperview()
+            make.bottom.equalTo(confirmButton.snp.top)
+        }
+        confirmButton.configure(with: Presets.Button.primary)
+        confirmButton.setup(with: .init(title: "Confirm"))
+        confirmButton.isEnabled = false
+        
+        confirmButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    }
+    
+    override func prepareData() {
+        super.prepareData()
+        
+        DispatchQueue.main.async {
+            LoadingView.show()
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch sections[indexPath.section] as? Models.Sections {
+        case .rateAndTimer:
+            cell = self.tableView(tableView, timerCellForRowAt: indexPath)
+            
         case .swapCard:
             cell = self.tableView(tableView, swapMainCellForRowAt: indexPath)
         
-        case .confirm:
-            cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
-            (cell as? WrapperTableViewCell<FEButton>)?.wrappedView.isEnabled = false
+        case .amountSegment:
+            cell = self.tableView(tableView, segmentControlCellForRowAt: indexPath)
             
         default:
             cell = UITableViewCell()
@@ -51,17 +85,37 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, segmentControlCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<FESegmentControl> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? SegmentControlViewModel
+        else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+            
+            view.didChangeValue = { [weak self] segment in
+                self?.interactor?.setAmount(viewAction: .init(minMaxToggleValue: segment))
+            }
+        }
+        
+        return cell
+    }
+    
     func tableView(_ tableView: UITableView, swapMainCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: WrapperTableViewCell<MainSwapView> = tableView.dequeueReusableCell(for: indexPath)
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<MainSwapView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? MainSwapViewModel
         else {
             return super.tableView(tableView, cellForRowAt: indexPath)
         }
         
-        let model = sectionRows[sections]?[indexPath.row] as? MainSwapViewModel
-        
         cell.setup { view in
             view.configure(with: .init(shadow: Presets.Shadow.light,
-                                       background: .init(backgroundColor: LightColors.Background.three,
+                                       background: .init(backgroundColor: LightColors.Background.two,
                                                          tintColor: LightColors.Text.one,
                                                          border: Presets.Border.zero)))
             view.setup(with: model)
@@ -82,13 +136,21 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 self?.interactor?.setAmount(viewAction: .init(toCryptoAmount: amount))
             }
             
-            view.assetsSelectionCallback = { [weak self]
-                in
-                self?.coordinator?.showAssetSelector { [weak self] model in
-                    guard model != nil else { return }
-                    
-                    self?.interactor?.assetSelected(viewAction: .init())
-                }
+            view.didTapFromAssetsSelection = { [weak self] in
+                self?.interactor?.selectAsset(viewAction: .init(from: true))
+            }
+            
+            view.didTapToAssetsSelection = { [weak self] in
+                self?.interactor?.selectAsset(viewAction: .init(to: true))
+            }
+            
+            view.didChangePlaces = { [weak self] in
+                self?.interactor?.switchPlaces(viewAction: .init())
+            }
+            
+            view.contentSizeChanged = { [weak self] in
+                self?.tableView.beginUpdates()
+                self?.tableView.endUpdates()
             }
         }
         
@@ -106,10 +168,36 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     // MARK: - SwapResponseDisplay
     
     func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
-        guard let section = sections.firstIndex(of: Models.Sections.confirm),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
+        confirmButton.isEnabled = responseDisplay.shouldEnableConfirm
         
-        cell.wrappedView.isEnabled = responseDisplay.shouldEnableConfirm
+        guard let section = sections.firstIndex(of: Models.Sections.swapCard),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<MainSwapView> else { return }
+        
+        cell.setup { view in
+            let model = responseDisplay.amounts
+            view.setup(with: model)
+        }
+        
+        guard let section = sections.firstIndex(of: Models.Sections.amountSegment),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FESegmentControl> else { return }
+        
+        cell.setup { view in
+            let model = responseDisplay.minMaxToggleValue
+            view.setup(with: model)
+        }
+    }
+    
+    func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay) {
+        let assets = responseDisplay.to ?? responseDisplay.from
+        coordinator?.showAssetSelector(assets: assets, selected: { [weak self] model in
+            guard let model = model as? AssetViewModel else { return }
+            
+            guard responseDisplay.from?.isEmpty == false else {
+                self?.interactor?.assetSelected(viewAction: .init(to: model.subtitle))
+                return
+            }
+            self?.interactor?.assetSelected(viewAction: .init(from: model.subtitle))
+        })
     }
     
     // MARK: - Additional Helpers

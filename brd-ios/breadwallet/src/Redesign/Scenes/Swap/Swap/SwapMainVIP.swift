@@ -16,21 +16,45 @@ extension Scenes {
 
 protocol SwapViewActions: BaseViewActions, FetchViewActions {
     func setAmount(viewAction: SwapModels.Amounts.ViewAction)
+    func switchPlaces(viewAction: SwapModels.SwitchPlaces.ViewAction)
+    func selectAsset(viewAction: SwapModels.Assets.ViewAction)
 }
 
 protocol SwapActionResponses: BaseActionResponses, FetchActionResponses {
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse)
+    func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse)
 }
 
 protocol SwapResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay)
+    func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay)
 }
 
 protocol SwapDataStore: BaseDataStore, FetchDataStore {
-    var fromFiatAmount: NSNumber? { get set }
-    var fromCryptoAmount: NSNumber? { get set }
-    var toFiatAmount: NSNumber? { get set }
-    var toCryptoAmount: NSNumber? { get set }
+    var fromFiatAmount: Decimal? { get set }
+    var fromCryptoAmount: Decimal? { get set }
+    var toFiatAmount: Decimal? { get set }
+    var toCryptoAmount: Decimal? { get set }
+    
+    var fromBaseFiatFee: Double? { get set }
+    var fromBaseCryptoFee: Double? { get set }
+    
+    var fromTermFiatFee: Double? { get set }
+    var fromTermCryptoFee: Double? { get set }
+    
+    var minMaxToggleValue: FESegmentControl.Values? { get set }
+    var defaultCurrencyCode: String? { get set }
+    
+    var baseCurrencies: [String] { get set }
+    var termCurrencies: [String] { get set }
+    var baseAndTermCurrencies: [[String]] { get set }
+    
+    var selectedBaseCurrency: String? { get set }
+    var selectedTermCurrency: String? { get set }
+    
+    var currencies: [Currency] { get set }
+    var coreSystem: CoreSystem? { get set }
+    var keyStore: KeyStore? { get set }
 }
 
 protocol SwapDataPassing {
@@ -38,5 +62,5 @@ protocol SwapDataPassing {
 }
 
 protocol SwapRoutes: CoordinatableRoutes {
-    func showAssetSelector(selected: ((Any?) -> Void)?)
+    func showAssetSelector(assets: [String]?, selected: ((Any?) -> Void)?)
 }

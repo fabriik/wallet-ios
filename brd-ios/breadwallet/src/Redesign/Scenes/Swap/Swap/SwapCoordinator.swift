@@ -22,15 +22,12 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes {
         navigationController.dismiss(animated: true)
     }
     
-    func showAssetSelector(selected: ((Any?) -> Void)?) {
-        let nvc = RootNavigationController()
-        let coordinator = AssetSelectionCoordinator(navigationController: nvc)
-        coordinator.start()
-        coordinator.parentCoordinator = self
-        nvc.modalPresentationStyle = .formSheet
-        (nvc.topViewController as? AssetSelectionViewController)?.itemSelected = selected
-        childCoordinators.append(coordinator)
-        navigationController.present(nvc, animated: true)
+    func showAssetSelector(assets: [String]?, selected: ((Any?) -> Void)?) {
+        openModally(coordinator: SwapCoordinator.self, scene: Scenes.AssetSelection) { vc in
+            vc?.itemSelected = selected
+            vc?.dataStore?.assets = assets ?? []
+            vc?.prepareData()
+        }
     }
     
     // MARK: - Aditional helpers

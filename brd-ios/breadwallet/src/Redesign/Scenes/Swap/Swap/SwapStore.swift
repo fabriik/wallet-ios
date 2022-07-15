@@ -9,15 +9,56 @@
 //
 
 import UIKit
+import WalletKit
 
 class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     // MARK: - SwapDataStore
     
     var itemId: String?
-    var fromFiatAmount: NSNumber?
-    var fromCryptoAmount: NSNumber?
-    var toFiatAmount: NSNumber?
-    var toCryptoAmount: NSNumber?
+    var supportedCurrencies: [SupportedCurrency]?
+    
+    var sendingFee: TransferFeeBasis?
+    var receivingFee: TransferFeeBasis?
+    
+    var fromFiatAmount: Decimal?
+    var fromCryptoAmount: Decimal?
+    var toFiatAmount: Decimal?
+    var toCryptoAmount: Decimal?
+    
+    var fromBaseFiatFee: Double?
+    var fromBaseCryptoFee: Double?
+    
+    var fromTermFiatFee: Double?
+    var fromTermCryptoFee: Double?
+    
+    var minMaxToggleValue: FESegmentControl.Values?
+    var defaultCurrencyCode: String?
+    
+    var baseCurrencies: [String] = []
+    var termCurrencies: [String] = []
+    var baseAndTermCurrencies: [[String]] = []
+    
+    var selectedBaseCurrency: String? = "BCH"
+    var selectedTermCurrency: String? = "BSV"
+    
+    var currencies: [Currency] = []
+    var coreSystem: CoreSystem?
+    var keyStore: KeyStore?
     
     // MARK: - Aditional helpers
+    var quoteTerm: String? {
+        let item = supportedCurrencies?.first(where: { currency in
+            if currency.baseCurrency == selectedBaseCurrency,
+               currency.termCurrency == selectedTermCurrency {
+                return true
+            } else if currency.termCurrency == selectedBaseCurrency,
+                      currency.baseCurrency == selectedTermCurrency {
+                return true
+            } else {
+                return false
+            }
+        })
+        
+        return item?.name
+    }
 }

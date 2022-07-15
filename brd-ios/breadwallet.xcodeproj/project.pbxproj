@@ -353,12 +353,13 @@
 		7EC3790B281C09AE00028CA1 /* ErrorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */; };
 		7ECCA9642875A77300617067 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9632875A77300617067 /* OrderView.swift */; };
 		7ECCA98F2873059300F99368 /* SwapEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA98E2873059300F99368 /* SwapEndpoints.swift */; };
-		7ECCA9912873079100F99368 /* QuotaWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9902873079100F99368 /* QuotaWorker.swift */; };
+		7ECCA9912873079100F99368 /* QuoteWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9902873079100F99368 /* QuoteWorker.swift */; };
 		7ECCA9952874266200F99368 /* FESegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9942874266200F99368 /* FESegmentControl.swift */; };
 		7ECCA99728742E1700F99368 /* UIApplication+ActiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */; };
 		7ECCA9992874342C00F99368 /* FETimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9982874342C00F99368 /* FETimerView.swift */; };
 		7ECCA99B28744CD600F99368 /* ExchangeRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */; };
 		7ECCA99D28745E0400F99368 /* AssetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99C28745E0400F99368 /* AssetView.swift */; };
+		7ECDE12628817021002872E6 /* RangeReplaceableCollection+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECDE12528817021002872E6 /* RangeReplaceableCollection+Digits.swift */; };
 		7ED427EF28755CB200AA19A8 /* SwapDetailsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427E828755CB200AA19A8 /* SwapDetailsStore.swift */; };
 		7ED427F028755CB200AA19A8 /* SwapDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427E928755CB200AA19A8 /* SwapDetailsPresenter.swift */; };
 		7ED427F128755CB200AA19A8 /* SwapDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427EA28755CB200AA19A8 /* SwapDetailsModels.swift */; };
@@ -1296,12 +1297,13 @@
 		7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorRequest.swift; sourceTree = "<group>"; };
 		7ECCA9632875A77300617067 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		7ECCA98E2873059300F99368 /* SwapEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapEndpoints.swift; sourceTree = "<group>"; };
-		7ECCA9902873079100F99368 /* QuotaWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaWorker.swift; sourceTree = "<group>"; };
+		7ECCA9902873079100F99368 /* QuoteWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteWorker.swift; sourceTree = "<group>"; };
 		7ECCA9942874266200F99368 /* FESegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FESegmentControl.swift; sourceTree = "<group>"; };
 		7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+ActiveWindow.swift"; sourceTree = "<group>"; };
 		7ECCA9982874342C00F99368 /* FETimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FETimerView.swift; sourceTree = "<group>"; };
 		7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateView.swift; sourceTree = "<group>"; };
 		7ECCA99C28745E0400F99368 /* AssetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetView.swift; sourceTree = "<group>"; };
+		7ECDE12528817021002872E6 /* RangeReplaceableCollection+Digits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RangeReplaceableCollection+Digits.swift"; sourceTree = "<group>"; };
 		7ED427E828755CB200AA19A8 /* SwapDetailsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapDetailsStore.swift; sourceTree = "<group>"; };
 		7ED427E928755CB200AA19A8 /* SwapDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapDetailsPresenter.swift; sourceTree = "<group>"; };
 		7ED427EA28755CB200AA19A8 /* SwapDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapDetailsModels.swift; sourceTree = "<group>"; };
@@ -2444,7 +2446,7 @@
 			isa = PBXGroup;
 			children = (
 				7E52B7A12872CD1E003D2249 /* SupportedCurrenciesWorker.swift */,
-				7ECCA9902873079100F99368 /* QuotaWorker.swift */,
+				7ECCA9902873079100F99368 /* QuoteWorker.swift */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
@@ -2694,6 +2696,7 @@
 			isa = PBXGroup;
 			children = (
 				7E87B32C285346E00097671F /* UIImage+compress.swift */,
+				7ECDE12528817021002872E6 /* RangeReplaceableCollection+Digits.swift */,
 				7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */,
 			);
 			path = Helpers;
@@ -4602,7 +4605,7 @@
 				E89C0613216D79550012CE0D /* BRAPIClient+EmailSubscription.swift in Sources */,
 				7B02D6282859201500C5C384 /* KYCCameraViewController.swift in Sources */,
 				7BBBF4DC287421CF00E4D36B /* SwapModels.swift in Sources */,
-				7ECCA9912873079100F99368 /* QuotaWorker.swift in Sources */,
+				7ECCA9912873079100F99368 /* QuoteWorker.swift in Sources */,
 				7CBABD9C20181D890077CB55 /* NSMutableAttributedString+Additions.swift in Sources */,
 				3A69885E24591F890084953D /* PayId.swift in Sources */,
 				7B08D2262860574F00D65ED9 /* SimpleBackBarButtonItem.swift in Sources */,
@@ -4624,6 +4627,7 @@
 				C46C2900287EBF4F0035C843 /* SwapInfoModels.swift in Sources */,
 				7BDB4A0D2806F54B0031F015 /* StakingCell.swift in Sources */,
 				CEDB09331FEAA21C001AF56A /* TxDetailViewModel.swift in Sources */,
+				7ECDE12628817021002872E6 /* RangeReplaceableCollection+Digits.swift in Sources */,
 				7BDB49E42806CB980031F015 /* ImageStorageService.swift in Sources */,
 				7E5CB38A2835090E00EC787E /* CornerRadius.swift in Sources */,
 				7ED83AF9284F40EB00261565 /* CheckListModels.swift in Sources */,

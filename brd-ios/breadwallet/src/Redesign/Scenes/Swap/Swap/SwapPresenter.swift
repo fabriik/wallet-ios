@@ -15,25 +15,37 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     weak var viewController: SwapViewController?
     
+    private var mainSwapModel: MainSwapViewModel = .init(selectedBaseCurrency: "", selectedTermCurrency: "", balanceString: "")
+    private var exchangeRateViewModel: ExchangeRateViewModel = .init(firstCurrency: "", secondCurrency: "")
+    
     // MARK: - SwapActionResponses
     
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
+        guard let item = actionResponse.item as? Models.Item else { return }
+        
+        exchangeRateViewModel.exchangeRate = String(format: "%.5f", NSDecimalNumber(decimal: item.baseRate).doubleValue)
+        exchangeRateViewModel.timer = TimerViewModel(till: item.rateTimeStamp,
+                                                     repeats: false,
+                                                     finished: { [weak self] in
+            // TODO: This should only update the exchange rate and timer
+            self?.viewController?.interactor?.getData(viewAction: .init())
+        })
+        
         let sections: [Models.Sections] = [
+            .rateAndTimer,
             .swapCard,
-            .confirm
+            .amountSegment
         ]
         
         let sectionRows: [Models.Sections: [Any]] = [
-            .swapCard: [
-                // TODO: Populate
-                MainSwapViewModel(fromFiatAmount: 0, fromFiatAmountString: "",
-                                  fromCryptoAmount: 0, fromCryptoAmountString: "",
-                                  toFiatAmount: 0, toFiatAmountString: "",
-                                  toCryptoAmount: 0, toCryptoAmountString: "")
+            .rateAndTimer: [
+                exchangeRateViewModel
             ],
-            .confirm: [
-                // TODO: Localize
-                ButtonViewModel(title: "Confirm")
+            .swapCard: [
+                mainSwapModel
+            ],
+            .amountSegment: [
+                SegmentControlViewModel(selectedIndex: item.minMaxToggleValue)
             ]
         ]
         
@@ -41,44 +53,72 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
-        var fieldValidationIsAllowed = [String?: Bool]()
+        mainSwapModel.fromFiatAmount = actionResponse.fromFiatAmount
+        mainSwapModel.fromFiatAmountString = "\(actionResponse.fromFiatAmount?.doubleValue ?? 0.00)"
+        //actionResponse.fromFiatAmountString ?? SwapPresenter.currencyInputFormatting(number: actionResponse.fromFiatAmount)
         
-        fieldValidationIsAllowed["toFiatAmount"] = actionResponse.toFiatAmount?.doubleValue ?? 0 > 0
-        fieldValidationIsAllowed["toCryptoAmount"] = actionResponse.toCryptoAmount?.doubleValue ?? 0 > 0
-        fieldValidationIsAllowed["fromFiatAmount"] = actionResponse.fromFiatAmount?.doubleValue ?? 0 > 0
-        fieldValidationIsAllowed["fromCryptoAmount"] = actionResponse.fromCryptoAmount?.doubleValue ?? 0 > 0
+        mainSwapModel.fromCryptoAmount = actionResponse.fromCryptoAmount
+        mainSwapModel.fromCryptoAmountString = "\(actionResponse.fromCryptoAmount?.doubleValue ?? 0.00)"
         
-        let isValid = fieldValidationIsAllowed.values.contains(where: { $0 == true }) == true
+        mainSwapModel.toFiatAmount = actionResponse.toFiatAmount
+        mainSwapModel.toFiatAmountString = "\(actionResponse.toFiatAmount?.doubleValue ?? 0.00)"
         
-        viewController?.displaySetAmount(responseDisplay: .init(amounts:
-                .init(fromFiatAmount: actionResponse.fromFiatAmount ?? 0,
-                      fromFiatAmountString: currencyInputFormatting(numberString: actionResponse.fromFiatAmount?.stringValue),
-                      fromCryptoAmount: actionResponse.fromCryptoAmount ?? 0,
-                      fromCryptoAmountString: currencyInputFormatting(numberString: actionResponse.fromCryptoAmount?.stringValue),
-                      toFiatAmount: actionResponse.toFiatAmount ?? 0,
-                      toFiatAmountString: currencyInputFormatting(numberString: actionResponse.toFiatAmount?.stringValue),
-                      toCryptoAmount: actionResponse.toCryptoAmount ?? 0,
-                      toCryptoAmountString: currencyInputFormatting(numberString: actionResponse.toCryptoAmount?.stringValue)),
-                                                                shouldEnableConfirm: isValid))
+        mainSwapModel.toCryptoAmount = actionResponse.toCryptoAmount
+        mainSwapModel.toCryptoAmountString = "\(actionResponse.toCryptoAmount?.doubleValue ?? 0.00)"
+        //actionResponse.toCryptoAmountString ?? SwapPresenter.currencyInputFormatting(number: actionResponse.toCryptoAmount)
+        
+        mainSwapModel.selectedBaseCurrency = actionResponse.baseCurrency ?? ""
+        mainSwapModel.selectedBaseCurrencyIcon = actionResponse.baseCurrencyIcon
+        mainSwapModel.selectedTermCurrency = actionResponse.termCurrency ?? ""
+        mainSwapModel.selectedTermCurrencyIcon = actionResponse.termCurrencyIcon
+        mainSwapModel.balanceString = actionResponse.baseBalance.tokenFormattedString + " " + actionResponse.baseBalance.currency.code.uppercased()
+        
+        mainSwapModel.shouldShowFees = validateFields(actionResponse)
+        
+        let format = "%.*f"
+        let decimal = 10
+        mainSwapModel.topFeeString = String(format: format, decimal, actionResponse.fromBaseCryptoFee ?? 0)
+        + " " + (mainSwapModel.selectedBaseCurrency)
+        + "\n" + String(format: format, decimal, actionResponse.fromBaseFiatFee ?? 0)
+        + " " + Store.state.defaultCurrencyCode
+        
+        mainSwapModel.bottomFeeString = String(format: format, decimal, actionResponse.fromTermCryptoFee ?? 0)
+        + " " + (mainSwapModel.selectedTermCurrency)
+        + "\n" + String(format: format, decimal, actionResponse.fromTermFiatFee ?? 0)
+        + " " + Store.state.defaultCurrencyCode
+        
+        exchangeRateViewModel.firstCurrency = actionResponse.baseCurrency ?? ""
+        exchangeRateViewModel.secondCurrency = actionResponse.termCurrency ?? ""
+        
+        viewController?.displaySetAmount(responseDisplay: .init(amounts: mainSwapModel,
+                                                                rate: exchangeRateViewModel,
+                                                                minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue),
+                                                                shouldEnableConfirm: validateFields(actionResponse)))
+    }
+    
+    func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse) {
+        viewController?.displaySelectAsset(responseDisplay: .init(from: actionResponse.from, to: actionResponse.to))
     }
     
     // MARK: - Additional Helpers
     
-    func currencyInputFormatting(numberString: String?) -> String {
+    private func validateFields(_ actionResponse: SwapModels.Amounts.ActionResponse) -> Bool {
+        var fieldValidationIsAllowed = [String?: Bool]()
+        fieldValidationIsAllowed["fromFiatAmount"] = actionResponse.fromFiatAmountString?.isEmpty == true
+        fieldValidationIsAllowed["fromCryptoAmount"] = actionResponse.fromCryptoAmountString?.isEmpty == true
+        fieldValidationIsAllowed["toFiatAmount"] = actionResponse.toFiatAmountString?.isEmpty == true
+        fieldValidationIsAllowed["toCryptoAmount"] = actionResponse.toCryptoAmountString?.isEmpty == true
+        return fieldValidationIsAllowed.values.contains(where: { $0 == true }) == false
+    }
+    
+    static func currencyInputFormatting(number: Decimal?) -> String? {
+        let stringNumber = NSDecimalNumber(decimal: number ?? 0).stringValue
+        let number = NumberFormatter().number(from: stringNumber.digits) ?? 0
+        
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumIntegerDigits = 10
+        formatter.generatesDecimalNumbers = true
         
-        let regex = try? NSRegularExpression(pattern: "[^0-9]", options: .caseInsensitive)
-        let numberString = regex?.stringByReplacingMatches(in: numberString ?? "",
-                                                           options: NSRegularExpression.MatchingOptions(rawValue: 0),
-                                                           range: NSRange(location: 0,
-                                                                          length: numberString?.count ?? 0),
-                                                           withTemplate: "") ?? ""
-        
-        let double = (numberString as NSString).doubleValue
-        let number = NSNumber(value: (double / 100))
-        
-        return formatter.string(from: number) ?? ""
+        return formatter.string(from: number)
     }
 }

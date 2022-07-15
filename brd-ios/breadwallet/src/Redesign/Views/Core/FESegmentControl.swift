@@ -18,26 +18,55 @@ struct SegmentControlConfiguration: Configurable {
 
 struct SegmentControlViewModel: ViewModel {
     /// Passing 'nil' leaves the control deselected
-    var selectedIndex: Int?
+    var selectedIndex: FESegmentControl.Values?
 }
 
 class FESegmentControl: UISegmentedControl, ViewProtocol {
+    enum Values: String, CaseIterable {
+        // TODO: localize
+        
+        case min = "Min"
+        case max = "Max"
+    }
     
     var config: SegmentControlConfiguration?
     var viewModel: SegmentControlViewModel?
     
+    var didChangeValue: ((Values) -> Void)?
+    
     convenience init() {
         let items = [
-            // TODO: localize
-            "Min",
-            "Max"
+            Values.min.rawValue,
+            Values.max.rawValue
         ]
+        
         self.init(items: items)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        layer.cornerRadius = frame.height / 2
+        layer.masksToBounds = true
+        clipsToBounds = true
+        
+        if subviews.indices.contains(selectedSegmentIndex),
+            let foregroundImageView = subviews[numberOfSegments] as? UIImageView {
+            foregroundImageView.bounds = foregroundImageView.bounds.insetBy(dx: 6, dy: 6)
+            foregroundImageView.image = UIImage.imageForColor(LightColors.primary)
+            foregroundImageView.layer.removeAnimation(forKey: "SelectionBounds")
+            foregroundImageView.layer.masksToBounds = true
+            foregroundImageView.layer.cornerRadius = foregroundImageView.frame.height / 2
+        }
     }
     
     func configure(with config: SegmentControlConfiguration?) {
         guard let config = config else { return }
-
+        
+        snp.makeConstraints { make in
+            make.height.equalTo(FieldHeights.common.rawValue)
+        }
+        
         backgroundColor = config.normal.backgroundColor
         selectedSegmentTintColor = config.selected.backgroundColor
         
@@ -50,14 +79,29 @@ class FESegmentControl: UISegmentedControl, ViewProtocol {
             .font: config.font,
             .foregroundColor: config.selected.tintColor
         ], for: .selected)
+        
+        // TODO: Divider should be the same color as the background color. There is something wrong with the background color.
+        setDividerImage(UIImage.imageForColor(UIColor(red: 223.0/255.0,
+                                                      green: 228.0/255.0,
+                                                      blue: 239.0/255.0,
+                                                      alpha: 1.0)),
+                        forLeftSegmentState: .normal,
+                        rightSegmentState: .normal,
+                        barMetrics: .default)
+        
+        valueChanged = { [weak self] in
+            guard let selectedSegmentIndex = self?.selectedSegmentIndex, selectedSegmentIndex >= 0 else { return }
+            self?.didChangeValue?(Values.allCases[selectedSegmentIndex])
+        }
     }
     
     func setup(with viewModel: SegmentControlViewModel?) {
-        
-        guard let index = viewModel?.selectedIndex else {
+        guard let index = viewModel?.selectedIndex,
+              let filteredIndex = Values.allCases.firstIndex(where: { $0 == index }) else {
             selectedSegmentIndex = UISegmentedControl.noSegment
             return
         }
-        selectedSegmentIndex = index
+        
+        selectedSegmentIndex = filteredIndex
     }
 }
