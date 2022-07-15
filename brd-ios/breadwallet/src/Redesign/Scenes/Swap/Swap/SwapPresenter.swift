@@ -77,14 +77,14 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         let format = "%.*f"
         let decimal = 10
-        mainSwapModel.topFeeString = String(format: format, decimal, actionResponse.fromBaseCryptoFee ?? 0)
+        mainSwapModel.topFeeString = String(format: format, decimal, actionResponse.fromBaseCryptoFee?.doubleValue ?? 0)
         + " " + (mainSwapModel.selectedBaseCurrency)
-        + "\n" + String(format: format, decimal, actionResponse.fromBaseFiatFee ?? 0)
+        + "\n" + String(format: format, decimal, actionResponse.fromBaseFiatFee?.doubleValue ?? 0)
         + " " + Store.state.defaultCurrencyCode
         
-        mainSwapModel.bottomFeeString = String(format: format, decimal, actionResponse.fromTermCryptoFee ?? 0)
+        mainSwapModel.bottomFeeString = String(format: format, decimal, actionResponse.fromTermCryptoFee?.doubleValue ?? 0)
         + " " + (mainSwapModel.selectedTermCurrency)
-        + "\n" + String(format: format, decimal, actionResponse.fromTermFiatFee ?? 0)
+        + "\n" + String(format: format, decimal, actionResponse.fromTermFiatFee?.doubleValue ?? 0)
         + " " + Store.state.defaultCurrencyCode
         
         exchangeRateViewModel.firstCurrency = actionResponse.baseCurrency ?? ""

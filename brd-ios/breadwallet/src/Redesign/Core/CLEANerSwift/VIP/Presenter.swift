@@ -14,14 +14,14 @@ protocol Presenter: NSObject, BaseActionResponses {
 
 extension Presenter {
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
-        guard let error = actionResponse.error as? NetworkingError else { return }
+        guard let error = actionResponse.error else { return }
 
         let responseDisplay: MessageModels.ResponseDisplays
         if let error = error as? SessionExpiredError {
             responseDisplay = .init(error: error)
         } else {
             // TODO: Investigate localized errors
-            let model = InfoViewModel(headerTitle: .text("Error"), description: .text(error.errorMessage))
+            let model = InfoViewModel(headerTitle: .text("Error"), description: .text(error.localizedDescription))
             
             // TODO: create Error preset
             let config = Presets.InfoView.primary

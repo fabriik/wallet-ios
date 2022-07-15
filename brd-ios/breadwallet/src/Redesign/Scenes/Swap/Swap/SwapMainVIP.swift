@@ -36,11 +36,11 @@ protocol SwapDataStore: BaseDataStore, FetchDataStore {
     var toFiatAmount: Decimal? { get set }
     var toCryptoAmount: Decimal? { get set }
     
-    var fromBaseFiatFee: Double? { get set }
-    var fromBaseCryptoFee: Double? { get set }
+    var fromBaseFiatFee: Decimal? { get set }
+    var fromBaseCryptoFee: Decimal? { get set }
     
-    var fromTermFiatFee: Double? { get set }
-    var fromTermCryptoFee: Double? { get set }
+    var fromTermFiatFee: Decimal? { get set }
+    var fromTermCryptoFee: Decimal? { get set }
     
     var minMaxToggleValue: FESegmentControl.Values? { get set }
     var defaultCurrencyCode: String? { get set }
