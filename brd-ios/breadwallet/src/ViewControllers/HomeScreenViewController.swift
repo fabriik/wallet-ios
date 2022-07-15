@@ -400,8 +400,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
               showPromptFactoryPrompts == true,
               let nextPrompt = PromptFactory.nextPrompt(walletAuthenticator: walletAuthenticator) else { return }
         
-        showPromptFactoryPrompts = false
-        
         generalPromptView = PromptFactory.createPromptView(prompt: nextPrompt, presenter: self)
         
         saveEvent("prompt.\(nextPrompt.name).displayed")
