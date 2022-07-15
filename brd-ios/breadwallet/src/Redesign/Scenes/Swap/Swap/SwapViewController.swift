@@ -98,6 +98,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             view.setup(with: model)
             
             view.didChangeValue = { [weak self] segment in
+                self?.view.endEditing(true)
                 self?.interactor?.setAmount(viewAction: .init(minMaxToggleValue: segment))
             }
         }

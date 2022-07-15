@@ -9,8 +9,23 @@
 //
 
 enum SwapErrors: Error {
+    
     case noQuote
     case general
+    case toSmall
+    
+    var errorMessage: String {
+        switch self {
+        case .noQuote:
+            return "No quote for currency pair."
+            
+        case .general:
+            return "Something went wrong"
+            
+        case .toSmall:
+            return "Entered crypto amount was to small. Has to be above 50 usd"
+        }
+    }
 }
 
 import UIKit
@@ -182,16 +197,21 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
+        var viewAction = viewAction
         dataStore?.minMaxToggleValue = viewAction.minMaxToggleValue
         
         if let minMaxToggleValue = viewAction.minMaxToggleValue {
             switch minMaxToggleValue {
             case .min:
-                dataStore?.fromFiatAmount = 50
+                viewAction.fromFiatAmount = "50"
                 
             case .max:
-                dataStore?.fromCryptoAmount = getBaseBalance()?.tokenValue
-                
+                guard (getBaseBalance()?.fiatValue ?? 0) >= 50 else {
+                    presenter?.presentError(actionResponse: .init(error: SwapErrors.toSmall))
+                    setAmount(viewAction: .init())
+                    return
+                }
+                viewAction.fromCryptoAmount = "\(getBaseBalance()?.tokenValue ?? 0)"
             }
         }
         
@@ -235,9 +255,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 dataStore?.toFiatAmount = to * switchedFiatRate
             } else if let fromFiatAmount = viewAction.fromFiatAmount {
                 guard let fromPrice = quote?.closeAsk else { return }
+                
                 let fromFiat = NSDecimalNumber(string: fromFiatAmount).decimalValue
                 let fromCrpto = fromFiat / normalFiatRate
-                
                 let to = (fromCrpto - (dataStore?.fromBaseCryptoFee ?? 0)) * fromPrice - (dataStore?.fromTermCryptoFee ?? 0)
                 
                 dataStore?.fromFiatAmount = fromFiat
