@@ -292,12 +292,12 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
-        if let value = viewModel.fiatAmountString {
-            fiatAmountField.text = value
+        if !fiatAmountField.isFirstResponder {
+            fiatAmountField.text = viewModel.fiatAmountString
         }
         
-        if let value = viewModel.cryptoAmountString {
-            cryptoAmountField.text = value
+        if !cryptoAmountField.isFirstResponder {
+            cryptoAmountField.text = viewModel.cryptoAmountString
         }
         
         currencyIconTitleLabel.text = viewModel.selectedCurrency
