@@ -391,7 +391,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     private var kycStatusPromptView = FEInfoView()
     private var generalPromptView = PromptView()
-    private var showPromptFactoryPrompts = false
+    private var showPromptFactoryPrompts = true
     private var isInitialLaunch = true
     private var profileResult: Result<Profile, Error>?
     
@@ -452,9 +452,9 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func setupKYCPrompt(result: Result<Profile, Error>?) {
-        showPromptFactoryPrompts = promptContainerStack.arrangedSubviews.isEmpty
-        
         guard promptContainerStack.arrangedSubviews.isEmpty == true else { return }
+        
+        showPromptFactoryPrompts = false
         
         let infoView: InfoViewModel = Presets.VerificationInfoView.nonePrompt
         let infoConfig: InfoViewConfiguration = Presets.InfoView.verification
