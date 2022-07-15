@@ -136,12 +136,12 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 self?.interactor?.setAmount(viewAction: .init(toCryptoAmount: amount))
             }
             
-            view.didTapAssetsSelection = { [weak self] in
-                self?.coordinator?.showAssetSelector { [weak self] model in
-                    guard model != nil else { return }
-                    
-                    self?.interactor?.assetSelected(viewAction: .init())
-                }
+            view.didTapFromAssetsSelection = { [weak self] in
+                self?.interactor?.choseCurency(viewAction: .init(from: true))
+            }
+            
+            view.didTapToAssetsSelection = { [weak self] in
+                self?.interactor?.choseCurency(viewAction: .init(to: true))
             }
             
             view.didChangePlaces = { [weak self] in
@@ -185,6 +185,19 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             let model = responseDisplay.minMaxToggleValue
             view.setup(with: model)
         }
+    }
+    
+    func displayChoseCurency(responseDisplay: SwapModels.ChoseCuurency.ResponseDisplay) {
+        let assets = responseDisplay.to ?? responseDisplay.from
+        coordinator?.showAssetSelector(assets: assets, selected: { [weak self] model in
+            guard let model = model as? AssetViewModel else { return }
+            
+            guard responseDisplay.from?.isEmpty == false else {
+                self?.interactor?.assetSelected(viewAction: .init(to: model.subtitle))
+                return
+            }
+            self?.interactor?.assetSelected(viewAction: .init(from: model.subtitle))
+        })
     }
     
     // MARK: - Additional Helpers

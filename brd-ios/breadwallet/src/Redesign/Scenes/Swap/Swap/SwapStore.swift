@@ -9,11 +9,16 @@
 //
 
 import UIKit
+import WalletKit
 
 class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     // MARK: - SwapDataStore
     
     var itemId: String?
+    var supportedCurrencies: [SupportedCurrency]?
+    
+    var sendingFee: TransferFeeBasis?
+    var receivingFee: TransferFeeBasis?
     
     var fromFiatAmount: Decimal?
     var fromCryptoAmount: Decimal?
@@ -33,8 +38,8 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var termCurrencies: [String] = []
     var baseAndTermCurrencies: [[String]] = []
     
-    var selectedBaseCurrency: String?
-    var selectedTermCurrency: String?
+    var selectedBaseCurrency: String? = "BCH"
+    var selectedTermCurrency: String? = "BSV"
     
     var currencies: [Currency] = []
     var coreSystem: CoreSystem?
@@ -42,8 +47,18 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     
     // MARK: - Aditional helpers
     var quoteTerm: String? {
-        guard let from = selectedBaseCurrency,
-              let to = selectedTermCurrency else { return nil }
-        return "\(from)-\(to)"
+        let item = supportedCurrencies?.first(where: { currency in
+            if currency.baseCurrency == selectedBaseCurrency,
+               currency.termCurrency == selectedTermCurrency {
+                return true
+            } else if currency.termCurrency == selectedBaseCurrency,
+                      currency.baseCurrency == selectedTermCurrency {
+                return true
+            } else {
+                return false
+            }
+        })
+        
+        return item?.name
     }
 }

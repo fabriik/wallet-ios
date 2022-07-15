@@ -17,14 +17,17 @@ extension Scenes {
 protocol SwapViewActions: BaseViewActions, FetchViewActions {
     func setAmount(viewAction: SwapModels.Amounts.ViewAction)
     func switchPlaces(viewAction: SwapModels.SwitchPlaces.ViewAction)
+    func choseCurency(viewAction: SwapModels.ChoseCuurency.ViewAction)
 }
 
 protocol SwapActionResponses: BaseActionResponses, FetchActionResponses {
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse)
+    func presentChoseCurency(actionResponse: SwapModels.ChoseCuurency.ActionResponse)
 }
 
 protocol SwapResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay)
+    func displayChoseCurency(responseDisplay: SwapModels.ChoseCuurency.ResponseDisplay)
 }
 
 protocol SwapDataStore: BaseDataStore, FetchDataStore {
@@ -59,5 +62,5 @@ protocol SwapDataPassing {
 }
 
 protocol SwapRoutes: CoordinatableRoutes {
-    func showAssetSelector(selected: ((Any?) -> Void)?)
+    func showAssetSelector(assets: [String]?, selected: ((Any?) -> Void)?)
 }

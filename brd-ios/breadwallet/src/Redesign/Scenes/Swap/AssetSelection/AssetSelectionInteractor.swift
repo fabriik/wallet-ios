@@ -31,7 +31,10 @@ class AssetSelectionInteractor: NSObject, Interactor, AssetSelectionViewActions 
 
     // MARK: - AssetSelectionViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        presenter?.presentData(actionResponse: .init(item: Models.Item(items)))
+        let assets = dataStore?.assets.compactMap { return AssetViewModel(icon: .imageName("swap"),
+                                                                          title: $0 as? String,
+                                                                          subtitle: $0 as? String) } ?? []
+        presenter?.presentData(actionResponse: .init(item: Models.Item(assets)))
     }
     
     func search(viewAction: Models.Search.ViewAction) {

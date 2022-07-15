@@ -1,4 +1,4 @@
-// 
+//
 //  SwapCurrencyView.swift
 //  breadwallet
 //

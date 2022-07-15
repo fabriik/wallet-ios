@@ -79,10 +79,9 @@ class AssetSelectionViewController: BaseTableViewController<SwapCoordinator,
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = sections[indexPath.section]
-        guard let model = sectionRows[section]?[indexPath.row] as? AssetViewModel else { return }
-        
-        let isDisabled = model.isDisabled ?? false
-        guard !isDisabled else { return }
+        guard let model = sectionRows[section]?[indexPath.row] as? AssetViewModel,
+              model.isDisabled == false
+        else { return }
         
         itemSelected?(model)
         coordinator?.goBack()

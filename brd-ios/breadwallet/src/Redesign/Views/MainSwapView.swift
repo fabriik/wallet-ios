@@ -1,4 +1,4 @@
-// 
+//
 //  MainSwapView.swift
 //  breadwallet
 //
@@ -82,10 +82,12 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     
     var didChangeFromFiatAmount: ((String?) -> Void)?
     var didChangeFromCryptoAmount: ((String?) -> Void)?
+    var didTapFromAssetsSelection: (() -> Void)?
+    
     var didChangeToFiatAmount: ((String?) -> Void)?
     var didChangeToCryptoAmount: ((String?) -> Void)?
+    var didTapToAssetsSelection: (() -> Void)?
     
-    var didTapAssetsSelection: (() -> Void)?
     var didChangePlaces: (() -> Void)?
     
     var contentSizeChanged: (() -> Void)?
@@ -167,7 +169,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     
     override func setup(with viewModel: MainSwapViewModel?) {
         guard let viewModel = viewModel else { return }
-        super.setup(with: viewModel)    
+        super.setup(with: viewModel)
         
         baseSwapCurrencyView.setup(with: .init(selectedCurrency: viewModel.selectedBaseCurrency,
                                               selectedCurrencyIcon: viewModel.selectedBaseCurrencyIcon,
@@ -189,11 +191,11 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     // MARK: - User interaction
     
     @objc private func topCurrencyTapped(_ sender: Any?) {
-        didTapAssetsSelection?()
+        didTapFromAssetsSelection?()
     }
     
     @objc private func bottomCurrencyTapped(_ sender: Any?) {
-        didTapAssetsSelection?()
+        didTapToAssetsSelection?()
     }
     
     @objc private func switchPlacesButtonTapped(_ sender: UIButton?) {

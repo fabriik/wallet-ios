@@ -74,7 +74,25 @@ enum SwapModels {
     
     struct SelectedAsset {
         struct ViewAction {
-            var name: String?
+            var from: String?
+            var to: String?
+        }
+    }
+    
+    struct ChoseCuurency {
+        struct ViewAction {
+            var from: Bool?
+            var to: Bool?
+        }
+        
+        struct ActionResponse {
+            var from: [String]?
+            var to: [String]?
+        }
+        
+        struct ResponseDisplay {
+            var from: [String]?
+            var to: [String]?
         }
     }
 }
