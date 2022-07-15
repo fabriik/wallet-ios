@@ -49,11 +49,11 @@ enum SwapModels {
             var toCryptoAmount: Decimal?
             var toCryptoAmountString: String?
             
-            var fromBaseFiatFee: Double?
-            var fromBaseCryptoFee: Double?
+            var fromBaseFiatFee: Decimal?
+            var fromBaseCryptoFee: Decimal?
             
-            var fromTermFiatFee: Double?
-            var fromTermCryptoFee: Double?
+            var fromTermFiatFee: Decimal?
+            var fromTermCryptoFee: Decimal?
             
             var baseCurrency: String?
             var baseCurrencyIcon: UIImage?
@@ -93,6 +93,18 @@ enum SwapModels {
         struct ResponseDisplay {
             var from: [String]?
             var to: [String]?
+        }
+    }
+    
+    struct Fee {
+        struct ActionResponse {
+            var from: Decimal?
+            var to: Decimal?
+        }
+        
+        struct ResponseDisplay {
+            var from: String?
+            var to: String?
         }
     }
 }

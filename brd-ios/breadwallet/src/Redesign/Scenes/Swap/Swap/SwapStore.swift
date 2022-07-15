@@ -25,11 +25,11 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var toFiatAmount: Decimal?
     var toCryptoAmount: Decimal?
     
-    var fromBaseFiatFee: Double?
-    var fromBaseCryptoFee: Double?
+    var fromBaseFiatFee: Decimal?
+    var fromBaseCryptoFee: Decimal?
     
-    var fromTermFiatFee: Double?
-    var fromTermCryptoFee: Double?
+    var fromTermFiatFee: Decimal?
+    var fromTermCryptoFee: Decimal?
     
     var minMaxToggleValue: FESegmentControl.Values?
     var defaultCurrencyCode: String?

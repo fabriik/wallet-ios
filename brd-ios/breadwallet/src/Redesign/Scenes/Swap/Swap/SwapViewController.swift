@@ -168,6 +168,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     // MARK: - SwapResponseDisplay
     
     func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
+        // TODO: replace with coordinator call
+        LoadingView.hide()
         confirmButton.isEnabled = responseDisplay.shouldEnableConfirm
         
         guard let section = sections.firstIndex(of: Models.Sections.swapCard),
@@ -192,6 +194,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         coordinator?.showAssetSelector(assets: assets, selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }
             
+            // TODO: replace with coordinator call
+            LoadingView.show()
             guard responseDisplay.from?.isEmpty == false else {
                 self?.interactor?.assetSelected(viewAction: .init(to: model.subtitle))
                 return

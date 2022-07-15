@@ -8,6 +8,11 @@
 //  See the LICENSE file at the project root for license information.
 //
 
+enum SwapErrors: Error {
+    case noQuote
+    case general
+}
+
 import UIKit
 import WalletKit
 
@@ -46,7 +51,11 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     private func getQuote() {
-        guard let quoteTerm = dataStore?.quoteTerm else { return }
+        guard let quoteTerm = dataStore?.quoteTerm else {
+            let error = SwapErrors.noQuote
+            presenter?.presentError(actionResponse: .init(error: error))
+            return
+        }
         
         QuoteWorker().execute(requestData: QuoteRequestData(security: quoteTerm)) { [weak self] result in
             switch result {
@@ -91,15 +100,17 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         CoinGeckoClient().load(resource)
     }
     
-    private func estimateFee(amount: Decimal?, currencyCode: String?, completion: @escaping ((Result<TransferFeeBasis, Error>) -> Void)) {
+    private func estimateFee(amount: Decimal?, currencyCode: String?, completion: @escaping ((Result<Amount, Error>) -> Void)) {
         guard let amount = amount,
               amount > 0,
-              amount.isNaN == false
-        else { return }
-        
-        guard let currency = dataStore?.currencies.first(where: { $0.code == currencyCode }) else { return }
-        guard let wallet = dataStore?.coreSystem?.wallet(for: currency) else { return }
-        guard let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore else { return }
+              amount.isNaN == false,
+              let currency = dataStore?.currencies.first(where: { $0.code == currencyCode }),
+              let wallet = dataStore?.coreSystem?.wallet(for: currency),
+              let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore
+        else {
+            completion(.failure(SwapErrors.general))
+            return
+        }
         
         let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
         
@@ -116,7 +127,15 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                            amount: .init(tokenString: String(describing: amount.doubleValue), currency: currency),
                            tier: .regular,
                            isStake: false,
-                           completion: completion)
+                           completion: { result in
+            switch result {
+            case .success(let fee):
+                completion(.success(Amount(cryptoAmount: fee.fee, currency: currency)))
+                
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        })
     }
     
     private func getBaseCurrencyImage() -> UIImage? {
@@ -225,40 +244,56 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             dataStore?.fromFiatAmount = 0
         }
         
+        let group = DispatchGroup()
+        group.enter()
         estimateFee(amount: dataStore?.fromCryptoAmount, currencyCode: dataStore?.selectedBaseCurrency) { [weak self] result in
             switch result {
             case .success(let fee):
-                self?.dataStore?.sendingFee = fee
+                self?.dataStore?.fromBaseCryptoFee = fee.tokenValue
+                self?.dataStore?.fromBaseFiatFee = fee.fiatValue
                 
             case .failure(let error):
                 print(error)
             }
+            group.leave()
         }
+        
+        group.enter()
         estimateFee(amount: dataStore?.toCryptoAmount, currencyCode: dataStore?.selectedTermCurrency) { [weak self] result in
             switch result {
             case .success(let fee):
-                self?.dataStore?.receivingFee = fee
+                self?.dataStore?.fromTermCryptoFee = fee.tokenValue
+                self?.dataStore?.fromTermFiatFee = fee.fiatValue
                 
             case .failure(let error):
                 print(error)
             }
+            group.leave()
         }
         
-        guard let baseBalance = getBaseBalance() else { return }
-        presenter?.presentSetAmount(actionResponse: .init(fromFiatAmount: dataStore?.fromFiatAmount,
-                                                          fromCryptoAmount: dataStore?.fromCryptoAmount,
-                                                          toFiatAmount: dataStore?.toFiatAmount,
-                                                          toCryptoAmount: dataStore?.toCryptoAmount,
-                                                          fromBaseFiatFee: dataStore?.fromBaseFiatFee,
-                                                          fromBaseCryptoFee: dataStore?.fromBaseCryptoFee,
-                                                          fromTermFiatFee: dataStore?.fromTermFiatFee,
-                                                          fromTermCryptoFee: dataStore?.fromTermCryptoFee,
-                                                          baseCurrency: dataStore?.selectedBaseCurrency,
-                                                          baseCurrencyIcon: getBaseCurrencyImage(),
-                                                          termCurrency: dataStore?.selectedTermCurrency,
-                                                          termCurrencyIcon: getTermCurrencyImage(),
-                                                          minMaxToggleValue: dataStore?.minMaxToggleValue,
-                                                          baseBalance: baseBalance))
+        group.notify(queue: .main) { [weak self] in
+            guard let baseBalance = self?.getBaseBalance(),
+                  let dataStore = self?.dataStore
+            else {
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.general))
+                return
+            }
+            
+            self?.presenter?.presentSetAmount(actionResponse: .init(fromFiatAmount: dataStore.fromFiatAmount,
+                                                                    fromCryptoAmount: dataStore.fromCryptoAmount,
+                                                                    toFiatAmount: dataStore.toFiatAmount,
+                                                                    toCryptoAmount: dataStore.toCryptoAmount,
+                                                                    fromBaseFiatFee: dataStore.fromBaseFiatFee,
+                                                                    fromBaseCryptoFee: dataStore.fromBaseCryptoFee,
+                                                                    fromTermFiatFee: dataStore.fromTermFiatFee,
+                                                                    fromTermCryptoFee: dataStore.fromTermCryptoFee,
+                                                                    baseCurrency: dataStore.selectedBaseCurrency,
+                                                                    baseCurrencyIcon: self?.getBaseCurrencyImage(),
+                                                                    termCurrency: dataStore.selectedTermCurrency,
+                                                                    termCurrencyIcon: self?.getTermCurrencyImage(),
+                                                                    minMaxToggleValue: dataStore.minMaxToggleValue,
+                                                                    baseBalance: baseBalance))
+        }
     }
     
     func assetSelected(viewAction: SwapModels.SelectedAsset.ViewAction) {
