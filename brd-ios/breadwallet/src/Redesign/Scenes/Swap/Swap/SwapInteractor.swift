@@ -11,7 +11,7 @@
 import UIKit
 import WalletKit
 
-class SwapInteractor: NSObject, Interactor, SwapViewActions, Subscriber {
+class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     typealias Models = SwapModels
     
@@ -54,8 +54,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions, Subscriber {
                 self?.handleQuote(quote)
                 
             case .failure(let error):
-                self?.normalFiatRate = 0
-                self?.switchedFiatRate = 0
+                self?.handleQuote(nil)
                 self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
@@ -63,7 +62,13 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions, Subscriber {
     
     private func handleQuote(_ quote: Quote?) {
         guard let baseCurrency = dataStore?.currencies.first(where: { $0.code == dataStore?.selectedBaseCurrency })?.coinGeckoId,
-              let termCurrency = dataStore?.currencies.first(where: { $0.code == dataStore?.selectedTermCurrency })?.coinGeckoId else { return }
+              let termCurrency = dataStore?.currencies.first(where: { $0.code == dataStore?.selectedTermCurrency })?.coinGeckoId else {
+            
+            normalFiatRate = 0
+            switchedFiatRate = 0
+            self.quote = nil
+            return
+        }
         
         self.quote = quote
         let coinGeckoIds = [baseCurrency, termCurrency]
@@ -272,10 +277,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions, Subscriber {
         dataStore?.minMaxToggleValue = nil
         
         getQuote()
-        setAmount(viewAction: .init())
     }
     
-    func choseCurency(viewAction: SwapModels.ChoseCuurency.ViewAction) {
+    func selectAsset(viewAction: SwapModels.Assets.ViewAction) {
         var from: [String]?
         var to: [String]?
         
@@ -290,12 +294,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions, Subscriber {
             from = dataStore?.baseCurrencies
         }
         
-        presenter?.presentChoseCurency(actionResponse: .init(from: from, to: to))
+        presenter?.presentSelectAsset(actionResponse: .init(from: from, to: to))
     }
     
     // MARK: - Aditional helpers
-}
-
-extension RangeReplaceableCollection where Self: StringProtocol {
-    var digits: Self { filter(\.isWholeNumber) }
 }

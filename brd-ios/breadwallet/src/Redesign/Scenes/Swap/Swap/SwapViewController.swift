@@ -137,11 +137,11 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             }
             
             view.didTapFromAssetsSelection = { [weak self] in
-                self?.interactor?.choseCurency(viewAction: .init(from: true))
+                self?.interactor?.selectAsset(viewAction: .init(from: true))
             }
             
             view.didTapToAssetsSelection = { [weak self] in
-                self?.interactor?.choseCurency(viewAction: .init(to: true))
+                self?.interactor?.selectAsset(viewAction: .init(to: true))
             }
             
             view.didChangePlaces = { [weak self] in
@@ -187,7 +187,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
     }
     
-    func displayChoseCurency(responseDisplay: SwapModels.ChoseCuurency.ResponseDisplay) {
+    func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay) {
         let assets = responseDisplay.to ?? responseDisplay.from
         coordinator?.showAssetSelector(assets: assets, selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }

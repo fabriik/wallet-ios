@@ -79,7 +79,7 @@ enum SwapModels {
         }
     }
     
-    struct ChoseCuurency {
+    struct Assets {
         struct ViewAction {
             var from: Bool?
             var to: Bool?

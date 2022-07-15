@@ -96,8 +96,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                                 shouldEnableConfirm: validateFields(actionResponse)))
     }
     
-    func presentChoseCurency(actionResponse: SwapModels.ChoseCuurency.ActionResponse) {
-        viewController?.displayChoseCurency(responseDisplay: .init(from: actionResponse.from, to: actionResponse.to))
+    func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse) {
+        viewController?.displaySelectAsset(responseDisplay: .init(from: actionResponse.from, to: actionResponse.to))
     }
     
     // MARK: - Additional Helpers

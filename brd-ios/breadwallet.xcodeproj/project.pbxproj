@@ -359,6 +359,7 @@
 		7ECCA9992874342C00F99368 /* FETimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9982874342C00F99368 /* FETimerView.swift */; };
 		7ECCA99B28744CD600F99368 /* ExchangeRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */; };
 		7ECCA99D28745E0400F99368 /* AssetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99C28745E0400F99368 /* AssetView.swift */; };
+		7ECDE12628817021002872E6 /* RangeReplaceableCollection+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECDE12528817021002872E6 /* RangeReplaceableCollection+Digits.swift */; };
 		7ED427EF28755CB200AA19A8 /* SwapDetailsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427E828755CB200AA19A8 /* SwapDetailsStore.swift */; };
 		7ED427F028755CB200AA19A8 /* SwapDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427E928755CB200AA19A8 /* SwapDetailsPresenter.swift */; };
 		7ED427F128755CB200AA19A8 /* SwapDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427EA28755CB200AA19A8 /* SwapDetailsModels.swift */; };
@@ -1302,6 +1303,7 @@
 		7ECCA9982874342C00F99368 /* FETimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FETimerView.swift; sourceTree = "<group>"; };
 		7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateView.swift; sourceTree = "<group>"; };
 		7ECCA99C28745E0400F99368 /* AssetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetView.swift; sourceTree = "<group>"; };
+		7ECDE12528817021002872E6 /* RangeReplaceableCollection+Digits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RangeReplaceableCollection+Digits.swift"; sourceTree = "<group>"; };
 		7ED427E828755CB200AA19A8 /* SwapDetailsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapDetailsStore.swift; sourceTree = "<group>"; };
 		7ED427E928755CB200AA19A8 /* SwapDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapDetailsPresenter.swift; sourceTree = "<group>"; };
 		7ED427EA28755CB200AA19A8 /* SwapDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapDetailsModels.swift; sourceTree = "<group>"; };
@@ -2694,6 +2696,7 @@
 			isa = PBXGroup;
 			children = (
 				7E87B32C285346E00097671F /* UIImage+compress.swift */,
+				7ECDE12528817021002872E6 /* RangeReplaceableCollection+Digits.swift */,
 				7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */,
 			);
 			path = Helpers;
@@ -4624,6 +4627,7 @@
 				C46C2900287EBF4F0035C843 /* SwapInfoModels.swift in Sources */,
 				7BDB4A0D2806F54B0031F015 /* StakingCell.swift in Sources */,
 				CEDB09331FEAA21C001AF56A /* TxDetailViewModel.swift in Sources */,
+				7ECDE12628817021002872E6 /* RangeReplaceableCollection+Digits.swift in Sources */,
 				7BDB49E42806CB980031F015 /* ImageStorageService.swift in Sources */,
 				7E5CB38A2835090E00EC787E /* CornerRadius.swift in Sources */,
 				7ED83AF9284F40EB00261565 /* CheckListModels.swift in Sources */,
