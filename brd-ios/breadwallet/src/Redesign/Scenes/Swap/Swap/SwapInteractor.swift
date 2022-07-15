@@ -54,7 +54,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions, Subscriber {
                 self?.handleQuote(quote)
                 
             case .failure(let error):
-                dump(error)
+                self?.normalFiatRate = 0
+                self?.switchedFiatRate = 0
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
     }
