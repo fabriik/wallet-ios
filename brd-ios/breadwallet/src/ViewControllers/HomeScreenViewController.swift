@@ -430,6 +430,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
             switch profileResult {
             case .success(let profile):
                 if profile.email == nil || !UserDefaults.emailConfirmed || UserManager.shared.profile?.status.canBuyTrade == false {
+                    self?.hidePrompt(self?.generalPromptView)
                     self?.setupKYCPrompt(result: self?.profileResult)
                 } else {
                     self?.hidePrompt(self?.kycStatusPromptView)
@@ -444,6 +445,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
                     return
                 }
                 
+                self?.hidePrompt(self?.generalPromptView)
                 self?.setupKYCPrompt(result: self?.profileResult)
             default:
                 self?.hidePrompt(self?.kycStatusPromptView)
