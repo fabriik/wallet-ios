@@ -87,6 +87,10 @@ class BaseCoordinator: NSObject,
             vc.dataStore?.shouldShowProfile = shouldShowProfile
         }
         
+        if let vc = coordinator.navigationController.children.first(where: { $0 is RegistrationConfirmationViewController }) as? RegistrationConfirmationViewController {
+            vc.dataStore?.shouldShowProfile = shouldShowProfile
+        }
+        
         childCoordinators.append(coordinator)
         navigationController.show(coordinator.navigationController, sender: nil)
     }
