@@ -391,13 +391,11 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     private var kycStatusPromptView = FEInfoView()
     private var generalPromptView = PromptView()
-    private var showPromptFactoryPrompts = true
     private var isInitialLaunch = true
     private var profileResult: Result<Profile, Error>?
     
     private func attemptShowGeneralPrompt() {
         guard promptContainerStack.arrangedSubviews.isEmpty == true,
-              showPromptFactoryPrompts == true,
               let nextPrompt = PromptFactory.nextPrompt(walletAuthenticator: walletAuthenticator) else { return }
         
         generalPromptView = PromptFactory.createPromptView(prompt: nextPrompt, presenter: self)
@@ -434,13 +432,13 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
                 if profile.email == nil || !UserDefaults.emailConfirmed || UserManager.shared.profile?.status.canBuyTrade == false {
                     self?.setupKYCPrompt(result: self?.profileResult)
                 } else {
-                    self?.hideAllPrompts()
+                    self?.hidePrompt(self?.kycStatusPromptView)
                     self?.attemptShowGeneralPrompt()
                 }
                 
             case .failure(let error):
                 guard error is SessionExpiredError else {
-                    self?.hideAllPrompts()
+                    self?.hidePrompt(self?.kycStatusPromptView)
                     self?.attemptShowGeneralPrompt()
                     
                     return
@@ -453,8 +451,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     private func setupKYCPrompt(result: Result<Profile, Error>?) {
         guard promptContainerStack.arrangedSubviews.isEmpty == true else { return }
-        
-        showPromptFactoryPrompts = false
         
         let infoView: InfoViewModel = Presets.VerificationInfoView.nonePrompt
         let infoConfig: InfoViewConfiguration = Presets.InfoView.verification
@@ -478,32 +474,27 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     private func hidePrompt(_ prompt: UIView?) {
         guard let prompt = prompt else { return }
         
-        UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .curveLinear) { [weak self] in
+        UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .curveLinear) {
             prompt.transform = .init(translationX: UIScreen.main.bounds.width, y: 0)
-            prompt.alpha = 0
+            prompt.alpha = 0.0
             prompt.isHidden = true
-            
-            self?.promptContainerStack.removeArrangedSubview(prompt)
+        } completion: { [weak self] _ in
             self?.promptContainerStack.layoutIfNeeded()
             self?.view.layoutIfNeeded()
-        }
-    }
-    
-    private func hideAllPrompts() {
-        promptContainerStack.arrangedSubviews.forEach { [weak self] promptView in
-            self?.hidePrompt(promptView)
         }
     }
     
     private func layoutPrompts(_ prompt: UIView?) {
         guard let prompt = prompt else { return }
         
-        promptContainerStack.addArrangedSubview(prompt)
+        prompt.alpha = 0.0
         
         UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .curveLinear) { [weak self] in
+            self?.promptContainerStack.addArrangedSubview(prompt)
+            
             prompt.alpha = 1.0
             prompt.isHidden = false
-            
+        } completion: { [weak self] _ in
             self?.promptContainerStack.layoutIfNeeded()
             self?.view.layoutIfNeeded()
         }
