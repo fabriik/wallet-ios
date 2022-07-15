@@ -13,7 +13,7 @@ scheme=$1
 if [[ -n "$scheme" ]]; then
   # clean and archive the specified scheme
   set -o pipefail
-  xcodebuild -workspace breadwallet.xcworkspace -scheme "$scheme" clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+  xcodebuild -workspace breadwallet.xcworkspace -scheme "$scheme" clean archive -archivePath breadwallet.xcarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
   rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 else
     echo "Usage: archive.sh <scheme>"
