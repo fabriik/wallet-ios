@@ -83,7 +83,7 @@ class BaseCoordinator: NSObject,
         coordinator.start()
         coordinator.parentCoordinator = self
         
-        if let vc = nvc.topViewController as? RegistrationConfirmationViewController {
+        if let vc = coordinator.navigationController.children.first(where: { $0 is RegistrationViewController }) as? RegistrationViewController {
             vc.dataStore?.shouldShowProfile = shouldShowProfile
         }
         
@@ -103,15 +103,9 @@ class BaseCoordinator: NSObject,
         }
     }
     
-    func showProfileModally() {
+    func showProfile() {
         upgradeAccountOrShowPopup(checkForKyc: false) { [weak self] _ in
             self?.openModally(coordinator: ProfileCoordinator.self, scene: Scenes.Profile)
-        }
-    }
-
-    func replaceWithProfile() {
-        upgradeAccountOrShowPopup(checkForKyc: false) { [weak self] _ in
-            self?.set(scene: Scenes.Profile)
         }
     }
     
@@ -159,13 +153,19 @@ class BaseCoordinator: NSObject,
     }
 
     // only call from coordinator subclasses
-    func set<T: BaseControllable>(scene: T.Type,
-                                  presentationStyle: UIModalPresentationStyle = .fullScreen,
-                                  configure: ((T) -> Void)? = nil) {
-        let controller = T()
-        controller.coordinator = (self as? T.CoordinatorType)
+    func set<C: BaseCoordinator,
+             VC: BaseControllable>(coordinator: C.Type,
+                                   scene: VC.Type,
+                                   presentationStyle: UIModalPresentationStyle = .fullScreen,
+                                   configure: ((VC?) -> Void)? = nil) {
+        let controller = VC()
+        let coordinator = C(navigationController: navigationController)
+        controller.coordinator = coordinator as? VC.CoordinatorType
         configure?(controller)
-        navigationController.modalPresentationStyle = presentationStyle
+        
+        coordinator.parentCoordinator = self
+        childCoordinators.append(coordinator)
+        
         navigationController.setViewControllers([controller], animated: true)
     }
     
@@ -252,7 +252,7 @@ class BaseCoordinator: NSObject,
     // TODO: really dont know how to name this :S
     // IT prepares the next KYC coordinator OR returns true
     // in which case we show 3rd party popup or continue to buy/swap
-    private func upgradeAccountOrShowPopup(checkForKyc: Bool = true, completion: ((Bool) -> Void)?) {
+    func upgradeAccountOrShowPopup(checkForKyc: Bool = true, completion: ((Bool) -> Void)?) {
         UserManager.shared.refresh { [unowned self] result in
             var coordinator: Coordinatable?
             switch result {
@@ -291,7 +291,6 @@ class BaseCoordinator: NSObject,
     func showMessage(with error: Error? = nil, model: InfoViewModel? = nil, configuration: InfoViewConfiguration? = nil) {
         guard !(error is SessionExpiredError) else {
             UserDefaults.emailConfirmed = false
-            UserDefaults.hasShownKYCVerifyPrompt = false
             openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.RegistrationConfirmation)
             return
         }

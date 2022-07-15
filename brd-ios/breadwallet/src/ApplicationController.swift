@@ -437,7 +437,7 @@ class ApplicationController: Subscriber, Trackable {
         }
         
         homeScreen.didTapProfile = { [unowned self] in
-            coordinator?.showProfileModally()
+            coordinator?.showProfile()
         }
         
         homeScreen.didTapProfileFromPrompt = { [unowned self] profile in

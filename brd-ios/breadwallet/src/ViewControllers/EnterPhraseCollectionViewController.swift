@@ -91,6 +91,10 @@ class EnterPhraseCollectionViewController: UICollectionViewController, UICollect
             guard let phrase = self?.phrase else { return }
             self?.didFinishPhraseEntry?(phrase)
         }
+        enterPhraseCell.didEndEditing = { [weak self] in
+            guard let phrase = self?.phrase else { return }
+            self?.didFinishPhraseEntry?(phrase)
+        }
         enterPhraseCell.isWordValid = { [weak self] word in
             guard let myself = self else { return false }
             return myself.keyMaster.isSeedWordValid(word.lowercased())

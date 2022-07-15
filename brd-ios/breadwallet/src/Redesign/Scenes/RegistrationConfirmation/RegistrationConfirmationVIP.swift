@@ -34,6 +34,7 @@ protocol RegistrationConfirmationResponseDisplays: AnyObject, BaseResponseDispla
 
 protocol RegistrationConfirmationDataStore: BaseDataStore, FetchDataStore {
     var callAssociate: Bool { get set }
+    var shouldShowProfile: Bool { get set }
 }
 
 protocol RegistrationConfirmationDataPassing {
