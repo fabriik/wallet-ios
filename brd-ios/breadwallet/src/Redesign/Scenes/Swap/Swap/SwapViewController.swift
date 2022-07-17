@@ -169,7 +169,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     // MARK: - SwapResponseDisplay
     
     func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
-        // TODO: replace with coordinator call
+        // TODO: replace with Coordinator call
         LoadingView.hide()
         confirmButton.isEnabled = responseDisplay.shouldEnableConfirm
         
@@ -186,6 +186,16 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         
         cell.setup { view in
             let model = responseDisplay.minMaxToggleValue
+            view.setup(with: model)
+        }
+    }
+    
+    func displayUpdateRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
+        guard let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> else { return }
+        
+        cell.setup { view in
+            let model = responseDisplay.rate
             view.setup(with: model)
         }
     }

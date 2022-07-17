@@ -20,10 +20,10 @@ enum SwapErrors: Error {
             return "No quote for currency pair."
             
         case .general:
-            return "Something went wrong"
+            return "Something went wrong."
             
         case .toSmall:
-            return "Entered crypto amount was to small. Has to be above 50 usd"
+            return "Entered crypto amount was too small. Has to be above 50 USD."
         }
     }
 }
@@ -57,15 +57,18 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 self?.dataStore?.baseCurrencies = Array(Set(currencies.compactMap({ $0.baseCurrency })))
                 self?.dataStore?.termCurrencies = Array(Set(currencies.compactMap({ $0.termCurrency })))
                 self?.dataStore?.baseAndTermCurrencies = currencies.compactMap({ [$0.baseCurrency, $0.termCurrency] })
-                self?.getQuote()
-                
+                self?.getQuote(isInitialLaunch: true)
             case .failure(let error):
                 dump(error)
             }
         }
     }
     
-    private func getQuote() {
+    func updateRate(viewAction: SwapModels.Rate.ViewAction) {
+        getQuote(isInitialLaunch: false)
+    }
+    
+    private func getQuote(isInitialLaunch: Bool) {
         guard let quoteTerm = dataStore?.quoteTerm else {
             let error = SwapErrors.noQuote
             presenter?.presentError(actionResponse: .init(error: error))
@@ -75,16 +78,16 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         QuoteWorker().execute(requestData: QuoteRequestData(security: quoteTerm)) { [weak self] result in
             switch result {
             case .success(let quote):
-                self?.handleQuote(quote)
+                self?.handleQuote(quote, isInitialLaunch: isInitialLaunch)
                 
             case .failure(let error):
-                self?.handleQuote(nil)
+                self?.handleQuote(nil, isInitialLaunch: isInitialLaunch)
                 self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
     }
     
-    private func handleQuote(_ quote: Quote?) {
+    private func handleQuote(_ quote: Quote?, isInitialLaunch: Bool) {
         guard let baseCurrency = dataStore?.currencies.first(where: { $0.code == dataStore?.selectedBaseCurrency })?.coinGeckoId,
               let termCurrency = dataStore?.currencies.first(where: { $0.code == dataStore?.selectedTermCurrency })?.coinGeckoId else {
             
@@ -98,17 +101,24 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let coinGeckoIds = [baseCurrency, termCurrency]
         let vs = dataStore?.defaultCurrencyCode?.lowercased() ?? ""
         let resource = Resources.simplePrice(ids: coinGeckoIds, vsCurrency: vs, options: [.change]) { (result: Result<[SimplePrice], CoinGeckoError>) in
-            guard case .success(let data) = result else { return }
+            guard case .success(let data) = result, let quote = quote else { return }
             let basePrice = data.first(where: { $0.id == baseCurrency })
             let termPrice = data.first(where: { $0.id == termCurrency })
             
             self.normalFiatRate = NSDecimalNumber(value: basePrice?.price ?? 0.0).decimalValue
             self.switchedFiatRate = NSDecimalNumber(value: termPrice?.price ?? 0.0).decimalValue
             
-            self.presenter?.presentData(actionResponse: .init(item: Models.Item(baseRate: self.bidCryptoRate,
-                                                                                termRate: self.askCryptoRate,
-                                                                                rateTimeStamp: self.quoteTimeStamp,
-                                                                                minMaxToggleValue: self.dataStore?.minMaxToggleValue)))
+            self.quoteTimeStamp = quote.timestamp
+            self.bidCryptoRate = quote.closeBid
+            self.askCryptoRate = 1 / quote.closeAsk
+            
+            if isInitialLaunch {
+                self.presenter?.presentData(actionResponse: .init(item: nil))
+            }
+            
+            self.presenter?.presentUpdateRate(actionResponse: .init(baseRate: self.bidCryptoRate,
+                                                                    termRate: self.askCryptoRate,
+                                                                    rateTimeStamp: self.quoteTimeStamp))
             self.setAmount(viewAction: .init())
         }
         
@@ -189,24 +199,26 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.fromFiatAmount = nil
         dataStore?.toFiatAmount = nil
         
-        presenter?.presentData(actionResponse: .init(item: Models.Item(baseRate: bidCryptoRate,
-                                                                       termRate: askCryptoRate,
-                                                                       rateTimeStamp: quoteTimeStamp,
-                                                                       minMaxToggleValue: dataStore?.minMaxToggleValue)))
+        presenter?.presentUpdateRate(actionResponse: .init(baseRate: bidCryptoRate,
+                                                           termRate: askCryptoRate,
+                                                           rateTimeStamp: quoteTimeStamp))
         setAmount(viewAction: .init())
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
         var viewAction = viewAction
-        dataStore?.minMaxToggleValue = viewAction.minMaxToggleValue
         
         if let minMaxToggleValue = viewAction.minMaxToggleValue {
+            dataStore?.minMaxToggleValue = minMaxToggleValue
+            
+            let minAmount: Decimal = 50 // TODO: Constant
+            
             switch minMaxToggleValue {
             case .min:
-                viewAction.fromFiatAmount = "50"
+                viewAction.fromFiatAmount = String(describing: minAmount)
                 
             case .max:
-                guard (getBaseBalance()?.fiatValue ?? 0) >= 50 else {
+                guard (getBaseBalance()?.fiatValue ?? 0) >= minAmount else {
                     presenter?.presentError(actionResponse: .init(error: SwapErrors.toSmall))
                     setAmount(viewAction: .init())
                     return
@@ -285,7 +297,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 dataStore?.toFiatAmount = toCrypto
                 dataStore?.fromCryptoAmount = from
                 dataStore?.fromFiatAmount = from * normalFiatRate
-            } else {
+            } else if dataStore?.fromCryptoAmount == nil
+                        && dataStore?.fromFiatAmount == nil
+                        && dataStore?.toCryptoAmount == nil
+                        && dataStore?.toFiatAmount == nil {
                 dataStore?.toCryptoAmount = 0
                 dataStore?.toFiatAmount = 0
                 dataStore?.fromCryptoAmount = 0
@@ -296,9 +311,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 dataStore?.fromTermFiatFee = 0
             }
             
-            guard let baseBalance = getBaseBalance(),
-                  let dataStore = dataStore
-            else {
+            guard let baseBalance = getBaseBalance(), let dataStore = dataStore else {
                 presenter?.presentError(actionResponse: .init(error: SwapErrors.general))
                 return
             }
@@ -335,7 +348,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.fromFiatAmount = nil
         dataStore?.minMaxToggleValue = nil
         
-        getQuote()
+        getQuote(isInitialLaunch: false)
     }
     
     func selectAsset(viewAction: SwapModels.Assets.ViewAction) {

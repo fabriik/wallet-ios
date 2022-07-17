@@ -16,17 +16,20 @@ extension Scenes {
 
 protocol SwapViewActions: BaseViewActions, FetchViewActions {
     func setAmount(viewAction: SwapModels.Amounts.ViewAction)
+    func updateRate(viewAction: SwapModels.Rate.ViewAction)
     func switchPlaces(viewAction: SwapModels.SwitchPlaces.ViewAction)
     func selectAsset(viewAction: SwapModels.Assets.ViewAction)
 }
 
 protocol SwapActionResponses: BaseActionResponses, FetchActionResponses {
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse)
+    func presentUpdateRate(actionResponse: SwapModels.Rate.ActionResponse)
     func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse)
 }
 
 protocol SwapResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay)
+    func displayUpdateRate(responseDisplay: SwapModels.Rate.ResponseDisplay)
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay)
 }
 
