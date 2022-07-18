@@ -17,6 +17,7 @@ enum SwapModels {
         case rateAndTimer
         case swapCard
         case amountSegment
+        case errors
         
         var header: AccessoryType? { return nil }
         var footer: AccessoryType? { return nil }
@@ -98,6 +99,8 @@ enum SwapModels {
         }
         
         struct ActionResponse {
+            var baseCurrency: String?
+            var termCurrency: String?
             var baseRate: Decimal
             var termRate: Decimal
             var rateTimeStamp: Double

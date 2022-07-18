@@ -234,6 +234,12 @@ extension Presets {
                                                                    tintColor: LightColors.Contrast.two,
                                                                    border: Presets.Border.zero),
                                                  shadow: Presets.Shadow.normal)
+        
+        static var swapError = InfoViewConfiguration(description: .init(font: Fonts.Body.two, textColor: LightColors.error),
+                                                     background: .init(backgroundColor: LightColors.tertiary,
+                                                                       tintColor: LightColors.Contrast.two,
+                                                                       border: Presets.Border.zero),
+                                                     shadow: Presets.Shadow.zero)
     }
 }
 

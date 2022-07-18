@@ -18,8 +18,8 @@ struct ExchangeRateConfiguration: Configurable {
 }
 
 struct ExchangeRateViewModel: ViewModel {
-    var firstCurrency: String
-    var secondCurrency: String
+    var firstCurrency: String?
+    var secondCurrency: String?
     var exchangeRate: String?
     var timer = TimerViewModel(till: 0, image: .imageName("timelapse"), repeats: true)
 }
@@ -78,7 +78,7 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         guard let viewModel = viewModel else { return }
 
         super.setup(with: viewModel)
-        valueLabel.text = "1 \(viewModel.firstCurrency) = \(viewModel.exchangeRate ?? "") \(viewModel.secondCurrency)"
+        valueLabel.text = "1 \(viewModel.firstCurrency ?? "") = \(viewModel.exchangeRate ?? "") \(viewModel.secondCurrency ?? "")"
         timerView.setup(with: viewModel.timer)
     }
 }

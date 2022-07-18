@@ -166,6 +166,8 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
     }
     
     override func configure(with config: InfoViewConfiguration?) {
+        toggleVisibility(isShown: config != nil)
+        
         guard let config = config else { return }
         super.configure(with: config)
         
@@ -264,6 +266,12 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
             self?.alpha = 0
         } completion: { [weak self] _ in
             self?.removeFromSuperview()
+        }
+    }
+    
+    private func toggleVisibility(isShown: Bool) {
+        Self.animate(withDuration: Presets.Animation.duration) { [weak self] in
+            self?.alpha = isShown ? 1.0 : 0.0
         }
     }
 }
