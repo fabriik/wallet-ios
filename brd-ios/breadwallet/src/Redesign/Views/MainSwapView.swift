@@ -17,10 +17,10 @@ struct MainSwapConfiguration: Configurable {
 }
 
 struct MainSwapViewModel: ViewModel {
-    var selectedBaseCurrency: String
+    var selectedBaseCurrency: String?
     var selectedBaseCurrencyIcon: UIImage?
     
-    var selectedTermCurrency: String
+    var selectedTermCurrency: String?
     var selectedTermCurrencyIcon: UIImage?
     
     var fromFiatAmount: Decimal?
@@ -35,7 +35,7 @@ struct MainSwapViewModel: ViewModel {
     var toCryptoAmount: Decimal?
     var toCryptoAmountString: String?
     
-    var balanceString: String
+    var balanceString: String?
     
     var topFeeString: String?
     var bottomFeeString: String?
@@ -171,19 +171,19 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
-        baseSwapCurrencyView.setup(with: .init(selectedCurrency: viewModel.selectedBaseCurrency,
-                                              selectedCurrencyIcon: viewModel.selectedBaseCurrencyIcon,
-                                              fiatAmountString: viewModel.fromFiatAmountString,
-                                              cryptoAmountString: viewModel.fromCryptoAmountString,
-                                              titleString: String(format: "I have %@", viewModel.balanceString),
-                                              feeString: viewModel.topFeeString))
+        baseSwapCurrencyView.setup(with: .init(selectedCurrency: viewModel.selectedBaseCurrency ?? "",
+                                               selectedCurrencyIcon: viewModel.selectedBaseCurrencyIcon,
+                                               fiatAmountString: viewModel.fromFiatAmountString,
+                                               cryptoAmountString: viewModel.fromCryptoAmountString,
+                                               titleString: String(format: "I have %@", viewModel.balanceString ?? ""),
+                                               feeString: viewModel.topFeeString))
         
-        termSwapCurrencyView.setup(with: .init(selectedCurrency: viewModel.selectedTermCurrency,
-                                                 selectedCurrencyIcon: viewModel.selectedTermCurrencyIcon,
-                                                 fiatAmountString: viewModel.toFiatAmountString,
-                                                 cryptoAmountString: viewModel.toCryptoAmountString,
-                                                 titleString: "I want",
-                                                 feeString: viewModel.bottomFeeString))
+        termSwapCurrencyView.setup(with: .init(selectedCurrency: viewModel.selectedTermCurrency ?? "",
+                                               selectedCurrencyIcon: viewModel.selectedTermCurrencyIcon,
+                                               fiatAmountString: viewModel.toFiatAmountString,
+                                               cryptoAmountString: viewModel.toCryptoAmountString,
+                                               titleString: "I want",
+                                               feeString: viewModel.bottomFeeString))
         
         toggleFeeAndAmountsStackView(animated: false)
     }

@@ -76,6 +76,9 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         case .amountSegment:
             cell = self.tableView(tableView, segmentControlCellForRowAt: indexPath)
             
+        case .errors:
+            cell = self.tableView(tableView, infoViewCellForRowAt: indexPath)
+            
         default:
             cell = UITableViewCell()
         }
@@ -158,6 +161,21 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, infoViewCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell: WrapperTableViewCell<WrapperView<FEInfoView>> = tableView.dequeueReusableCell(for: indexPath)
+        else {
+            return super.tableView(tableView, cellForRowAt: indexPath)
+        }
+        
+        cell.setup { view in
+            view.setup { view in
+                view.setupCustomMargins(all: .large)
+            }
+        }
+        
+        return cell
+    }
+    
     // MARK: - User Interaction
 
     @objc override func buttonTapped() {
@@ -167,6 +185,24 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     // MARK: - SwapResponseDisplay
+    
+    override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
+        guard let section = sections.firstIndex(of: Models.Sections.errors),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else { return }
+        
+        cell.setup { [weak self] view in
+            view.setup { [weak self] view in
+                let model = responseDisplay.model
+                view.setup(with: model)
+                
+                let config = responseDisplay.config
+                view.configure(with: config)
+                
+                self?.tableView.beginUpdates()
+                self?.tableView.endUpdates()
+            }
+        }
+    }
     
     func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
         // TODO: replace with Coordinator call
