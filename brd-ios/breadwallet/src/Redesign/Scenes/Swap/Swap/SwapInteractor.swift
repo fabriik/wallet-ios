@@ -94,8 +94,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     private func getQuote(isInitialLaunch: Bool) {
         guard let quoteTerm = dataStore?.quoteTerm else {
-            let error = SwapErrors.noQuote
-            lastError = error
+            lastError = SwapErrors.noQuote
+            presentError()
             return
         }
         
@@ -237,6 +237,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         var viewAction = viewAction
         
         if let minMaxToggleValue = viewAction.minMaxToggleValue {
+            lastError = nil
             dataStore?.minMaxToggleValue = minMaxToggleValue
             
             let minAmount: Decimal = 50 // TODO: Constant
@@ -338,11 +339,11 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 dataStore?.fromBaseFiatFee = 0
                 dataStore?.fromTermCryptoFee = 0
                 dataStore?.fromTermFiatFee = 0
-                lastError = nil
             }
             
             guard let baseBalance = getBaseBalance(), let dataStore = dataStore else {
                 lastError = SwapErrors.general
+                presentError()
                 return
             }
             
@@ -361,8 +362,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                                     minMaxToggleValue: dataStore.minMaxToggleValue,
                                                                     baseBalance: baseBalance))
             
-            presenter?.presentError(actionResponse: .init(error: lastError))
-            lastError = nil
+            presentError()
         }
     }
     
@@ -403,4 +403,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     // MARK: - Aditional helpers
+    
+    
+    private func presentError() {
+        presenter?.presentError(actionResponse: .init(error: lastError))
+    }
 }
