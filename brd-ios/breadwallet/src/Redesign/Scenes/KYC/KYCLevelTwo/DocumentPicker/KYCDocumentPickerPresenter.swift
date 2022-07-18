@@ -54,7 +54,7 @@ final class KYCDocumentPickerPresenter: NSObject, Presenter, KYCDocumentPickerAc
             checklist = [ChecklistItemViewModel(title: .text("You have captured the entire back page of the document")),
                          ChecklistItemViewModel(title: .text("Make sure document details are clearly visible and within the frame"))]
         } else if actionResponse.isSelfie == true {
-            instructions = "Make sure your face is in the frame and clearly vibisle"
+            instructions = "Make sure your face is in the frame and clearly visible"
             confirmation = "Make sure to capture the entire document.\nYour face is clearly visible."
             checklist = [ChecklistItemViewModel(title: .text("You have captured your entire face in the frame.")),
                          ChecklistItemViewModel(title: .text("Your face is clearly visible."))]

@@ -19,9 +19,15 @@ extension Presenter {
         let responseDisplay: MessageModels.ResponseDisplays
         if let error = error as? SessionExpiredError {
             responseDisplay = .init(error: error)
+        } else if let error = error as? SwapErrors {
+            let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
+            let config = Presets.InfoView.swapError
+            
+            responseDisplay = .init(model: model, config: config)
         } else {
             // TODO: Investigate localized errors
-            let model = InfoViewModel(headerTitle: .text("Error"), description: .text(error.localizedDescription))
+            let message = (error as? NetworkingError)?.errorMessage ?? error.localizedDescription
+            let model = InfoViewModel(headerTitle: .text("Error"), description: .text(message))
             
             // TODO: create Error preset
             let config = Presets.InfoView.primary
