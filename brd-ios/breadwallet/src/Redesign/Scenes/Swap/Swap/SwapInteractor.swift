@@ -71,7 +71,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     private var quoteTimeStamp: Double = 0
     
     private var lastError: Error?
-    private var isUpdatingRate: Bool = false
     
     // MARK: - SwapViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
@@ -90,8 +89,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func updateRate(viewAction: SwapModels.Rate.ViewAction) {
-        isUpdatingRate = true
-        
         getQuote(isInitialLaunch: false)
     }
     
@@ -341,6 +338,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 dataStore?.fromBaseFiatFee = 0
                 dataStore?.fromTermCryptoFee = 0
                 dataStore?.fromTermFiatFee = 0
+                lastError = nil
             }
             
             guard let baseBalance = getBaseBalance(), let dataStore = dataStore else {
@@ -363,10 +361,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                                     minMaxToggleValue: dataStore.minMaxToggleValue,
                                                                     baseBalance: baseBalance))
             
-            guard isUpdatingRate == false else { return }
             presenter?.presentError(actionResponse: .init(error: lastError))
             lastError = nil
-            isUpdatingRate = false
         }
     }
     
