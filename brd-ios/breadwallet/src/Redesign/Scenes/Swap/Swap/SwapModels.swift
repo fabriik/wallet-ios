@@ -11,10 +11,7 @@
 import UIKit
 
 enum SwapModels {
-    typealias Item = (baseRate: Decimal,
-                      termRate: Decimal,
-                      rateTimeStamp: Double,
-                      minMaxToggleValue: FESegmentControl.Values?)
+    typealias Item = Any?
     
     enum Sections: Sectionable {
         case rateAndTimer
@@ -93,6 +90,21 @@ enum SwapModels {
         struct ResponseDisplay {
             var from: [String]?
             var to: [String]?
+        }
+    }
+    
+    struct Rate {
+        struct ViewAction {
+        }
+        
+        struct ActionResponse {
+            var baseRate: Decimal
+            var termRate: Decimal
+            var rateTimeStamp: Double
+        }
+        
+        struct ResponseDisplay {
+            var rate: ExchangeRateViewModel
         }
     }
     

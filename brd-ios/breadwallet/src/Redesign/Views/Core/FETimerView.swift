@@ -33,12 +33,14 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
     private lazy var stack: UIStackView = {
         let view = UIStackView()
         view.spacing = Margins.minimum.rawValue
+        view.alignment = .center
         return view
     }()
     
     private lazy var titleLabel: FELabel = {
         let view = FELabel()
-        view.setup(with: .text("00:15s"))
+        view.setup(with: .text("00:00s"))
+        view.textAlignment = .right
         return view
     }()
     
@@ -55,24 +57,13 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         
         content.addSubview(stack)
         stack.snp.makeConstraints { make in
-            make.leading.trailing.top.bottom.equalToSuperview()
+            make.trailing.top.bottom.equalToSuperview()
             make.height.equalTo(ViewSizes.extraSmall.rawValue)
-        }
-        
-        let spacer = UIView()
-        stack.addArrangedSubview(spacer)
-        spacer.snp.makeConstraints { make in
-            make.width.equalToSuperview().priority(.low)
+            make.width.lessThanOrEqualTo(content.snp.width)
         }
         
         stack.addArrangedSubview(titleLabel)
         stack.addArrangedSubview(iconView)
-        
-        let spacer2 = UIView()
-        stack.addArrangedSubview(spacer2)
-        spacer2.snp.makeConstraints { make in
-            make.width.equalTo(spacer)
-        }
     }
     
     override func configure(with config: TimerConfiguration?) {
@@ -109,14 +100,26 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
               let seconds = components.second else {
             return
         }
+        
         titleLabel.text = String(format: "%02d:%02ds", minutes, seconds)
         
-        guard seconds == 0, minutes == 0 else { return }
+        guard seconds == 0, minutes == 0 else {
+            content.layoutIfNeeded()
+            return
+        }
         
         timer?.invalidate()
+        timer = nil
+        
         viewModel?.finished?()
         
-        guard viewModel?.repeats == true else { return }
+        guard viewModel?.repeats == true else {
+            content.layoutIfNeeded()
+            return
+        }
+        
         setup(with: viewModel)
+        
+        content.layoutIfNeeded()
     }
 }

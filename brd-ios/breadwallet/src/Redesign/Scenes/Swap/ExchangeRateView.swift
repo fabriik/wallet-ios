@@ -48,20 +48,19 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         
         content.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(content)
-            make.centerY.equalToSuperview()
+            make.leading.top.bottom.equalToSuperview()
         }
         
         content.addSubview(valueLabel)
         valueLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel.snp.trailing).offset(Margins.extraSmall.rawValue)
-            make.centerY.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
         
         content.addSubview(timerView)
         timerView.snp.makeConstraints { make in
-            make.trailing.centerY.equalToSuperview()
-            make.leading.greaterThanOrEqualTo(valueLabel.snp.trailing)
+            make.trailing.top.bottom.equalToSuperview()
+            make.leading.lessThanOrEqualTo(valueLabel.snp.trailing).priority(.low)
         }
     }
     

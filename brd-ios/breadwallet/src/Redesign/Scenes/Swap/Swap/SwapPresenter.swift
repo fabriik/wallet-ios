@@ -21,16 +21,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     // MARK: - SwapActionResponses
     
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
-        guard let item = actionResponse.item as? Models.Item else { return }
-        
-        exchangeRateViewModel.exchangeRate = String(format: "%.5f", NSDecimalNumber(decimal: item.baseRate).doubleValue)
-        exchangeRateViewModel.timer = TimerViewModel(till: item.rateTimeStamp,
-                                                     repeats: false,
-                                                     finished: { [weak self] in
-            // TODO: This should only update the exchange rate and timer
-            self?.viewController?.interactor?.getData(viewAction: .init())
-        })
-        
         let sections: [Models.Sections] = [
             .rateAndTimer,
             .swapCard,
@@ -45,17 +35,27 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 mainSwapModel
             ],
             .amountSegment: [
-                SegmentControlViewModel(selectedIndex: item.minMaxToggleValue)
+                SegmentControlViewModel(selectedIndex: nil)
             ]
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
     
+    func presentUpdateRate(actionResponse: SwapModels.Rate.ActionResponse) {
+        exchangeRateViewModel.exchangeRate = String(format: "%.5f", NSDecimalNumber(decimal: actionResponse.baseRate).doubleValue)
+        exchangeRateViewModel.timer = TimerViewModel(till: actionResponse.rateTimeStamp,
+                                                     repeats: false,
+                                                     finished: { [weak self] in
+            self?.viewController?.interactor?.updateRate(viewAction: .init())
+        })
+        
+        viewController?.displayUpdateRate(responseDisplay: .init(rate: exchangeRateViewModel))
+    }
+    
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         mainSwapModel.fromFiatAmount = actionResponse.fromFiatAmount
         mainSwapModel.fromFiatAmountString = "\(actionResponse.fromFiatAmount?.doubleValue ?? 0.00)"
-        //actionResponse.fromFiatAmountString ?? SwapPresenter.currencyInputFormatting(number: actionResponse.fromFiatAmount)
         
         mainSwapModel.fromCryptoAmount = actionResponse.fromCryptoAmount
         mainSwapModel.fromCryptoAmountString = "\(actionResponse.fromCryptoAmount?.doubleValue ?? 0.00)"
@@ -65,7 +65,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         mainSwapModel.toCryptoAmount = actionResponse.toCryptoAmount
         mainSwapModel.toCryptoAmountString = "\(actionResponse.toCryptoAmount?.doubleValue ?? 0.00)"
-        //actionResponse.toCryptoAmountString ?? SwapPresenter.currencyInputFormatting(number: actionResponse.toCryptoAmount)
         
         mainSwapModel.selectedBaseCurrency = actionResponse.baseCurrency ?? ""
         mainSwapModel.selectedBaseCurrencyIcon = actionResponse.baseCurrencyIcon
@@ -109,16 +108,5 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         fieldValidationIsAllowed["toFiatAmount"] = actionResponse.toFiatAmountString?.isEmpty == true
         fieldValidationIsAllowed["toCryptoAmount"] = actionResponse.toCryptoAmountString?.isEmpty == true
         return fieldValidationIsAllowed.values.contains(where: { $0 == true }) == false
-    }
-    
-    static func currencyInputFormatting(number: Decimal?) -> String? {
-        let stringNumber = NSDecimalNumber(decimal: number ?? 0).stringValue
-        let number = NumberFormatter().number(from: stringNumber.digits) ?? 0
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.generatesDecimalNumbers = true
-        
-        return formatter.string(from: number)
     }
 }
