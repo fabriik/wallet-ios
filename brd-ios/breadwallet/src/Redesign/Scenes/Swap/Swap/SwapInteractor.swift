@@ -404,7 +404,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     // MARK: - Aditional helpers
     
-    
     private func presentError() {
         presenter?.presentError(actionResponse: .init(error: lastError))
     }

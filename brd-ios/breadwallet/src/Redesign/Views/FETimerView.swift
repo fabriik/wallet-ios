@@ -23,7 +23,6 @@ struct TimerConfiguration: Configurable {
 
 struct TimerViewModel: ViewModel {
     var till: Double = 0
-    var image = ImageViewModel.imageName("timelapse")
     var repeats = false
     var finished: (() -> Void)?
 }
@@ -32,20 +31,20 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
     
     private lazy var stack: UIStackView = {
         let view = UIStackView()
-        view.spacing = Margins.minimum.rawValue
+        view.spacing = Margins.extraSmall.rawValue
         view.alignment = .center
         return view
     }()
     
     private lazy var titleLabel: FELabel = {
         let view = FELabel()
-        view.setup(with: .text("00:00s"))
+        view.setup(with: .text("00:15s"))
         view.textAlignment = .right
         return view
     }()
     
-    private lazy var iconView: FEImageView = {
-        let view = FEImageView()
+    private lazy var iconView: CircleTimerView = {
+        let view = CircleTimerView()
         return view
     }()
     
@@ -64,6 +63,10 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         
         stack.addArrangedSubview(titleLabel)
         stack.addArrangedSubview(iconView)
+        
+        iconView.snp.makeConstraints { make in
+            make.height.width.equalTo(stack.snp.height).multipliedBy(0.7)
+        }
     }
     
     override func configure(with config: TimerConfiguration?) {
@@ -72,7 +75,6 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         
         configure(background: config.background)
         titleLabel.configure(with: .init(font: config.font, textColor: config.background.tintColor))
-        iconView.configure(with: config.background)
     }
     
     override func setup(with viewModel: TimerViewModel?) {
@@ -82,19 +84,20 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         let dateValue = TimeInterval(viewModel.till) / 1000.0
         triggerDate = Date(timeIntervalSince1970: dateValue)
         
-        // TODO: replace with animation
-        iconView.setup(with: viewModel.image)
+        iconView.startTimer(duration: CFTimeInterval(15))
         
         timer?.invalidate()
         timer = nil
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        timer?.fire()
     }
     
     @objc private func updateTime() {
         guard let triggerDate = triggerDate else { return }
         
-        let components = Calendar.current.dateComponents([.minute, .second], from: Date(), to: triggerDate)
+        // Remove the 1 second delay
+        let components = Calendar.current.dateComponents([.minute, .second], from: Date() - 1, to: triggerDate)
 
         guard let minutes = components.minute,
               let seconds = components.second else {
