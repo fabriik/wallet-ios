@@ -108,8 +108,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 self?.handleQuote(quote, isInitialLaunch: isInitialLaunch)
                 
             case .failure(let error):
-                self?.handleQuote(nil, isInitialLaunch: isInitialLaunch)
                 self?.lastError = error
+                self?.handleQuote(nil, isInitialLaunch: isInitialLaunch)
             }
         }
     }
