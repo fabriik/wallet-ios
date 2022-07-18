@@ -62,5 +62,5 @@ protocol SwapDataPassing {
 }
 
 protocol SwapRoutes: CoordinatableRoutes {
-    func showAssetSelector(assets: [String]?, selected: ((Any?) -> Void)?)
+    func showAssetSelector(currencies: [Currency]?, assets: [String]?, supported: [SupportedCurrency]?, selected: ((Any?) -> Void)?)
 }

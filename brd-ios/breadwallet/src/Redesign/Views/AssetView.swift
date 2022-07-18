@@ -47,7 +47,7 @@ struct AssetConfiguration: Configurable {
 }
 
 struct AssetViewModel: ViewModel {
-    var icon: ImageViewModel = .imageName("swap")
+    var icon: UIImage?
     var title: String?
     var subtitle: String?
     var topRightText: String?
@@ -154,7 +154,7 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
-        iconView.wrappedView.setup(with: viewModel.icon)
+        iconView.wrappedView.setup(with: .image(viewModel.icon ?? UIImage()))
         
         titleLabel.setup(with: .text(viewModel.title))
         titleLabel.isHidden = viewModel.title == nil

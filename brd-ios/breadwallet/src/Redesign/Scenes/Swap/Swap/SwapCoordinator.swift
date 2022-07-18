@@ -22,10 +22,12 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes {
         navigationController.dismiss(animated: true)
     }
     
-    func showAssetSelector(assets: [String]?, selected: ((Any?) -> Void)?) {
+    func showAssetSelector(currencies: [Currency]?, assets: [String]?, supported: [SupportedCurrency]?, selected: ((Any?) -> Void)?) {
         openModally(coordinator: SwapCoordinator.self, scene: Scenes.AssetSelection) { vc in
             vc?.itemSelected = selected
             vc?.dataStore?.assets = assets ?? []
+            vc?.dataStore?.currencies = currencies ?? []
+            vc?.dataStore?.supportedCurrencies = supported
             vc?.prepareData()
         }
     }

@@ -14,35 +14,22 @@ class AssetSelectionInteractor: NSObject, Interactor, AssetSelectionViewActions 
 
     var presenter: AssetSelectionPresenter?
     var dataStore: AssetSelectionStore?
-    
-    // TODO: Remove the mock data
-    let items = [ AssetViewModel(icon: .image(TokenImageSquareBackground(code: "BTC", color: .red).renderedImage ?? UIImage()),
-                                 title: "Bitcoin",
-                                 subtitle: "BTC",
-                                 topRightText: "3 BTC",
-                                 bottomRightText: "$2.523",
-                                 isDisabled: false),
-                  AssetViewModel(icon: .image(TokenImageSquareBackground(code: "BTC", color: .red).renderedImage ?? UIImage()),
-                                 title: "Ethereum",
-                                 subtitle: "ETH",
-                                 topRightText: "0.5612 ETH",
-                                 bottomRightText: "$220.52",
-                                 isDisabled: true) ]
 
     // MARK: - AssetSelectionViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        let assets = dataStore?.assets.compactMap { return AssetViewModel(icon: .imageName("swap"),
-                                                                          title: $0 as? String,
-                                                                          subtitle: $0 as? String) } ?? []
-        presenter?.presentData(actionResponse: .init(item: Models.Item(assets)))
+        let currencies = dataStore?.currencies.compactMap {
+            return AssetViewModel(icon: $0.imageSquareBackground,
+                                  title: $0.name,
+                                  subtitle: $0.code) } ?? []
+        presenter?.presentData(actionResponse: .init(item: Models.Item(currencies)))
     }
     
     func search(viewAction: Models.Search.ViewAction) {
         guard let searchText = viewAction.text?.lowercased() else { return }
+        let items = dataStore?.currencies
+        let searchData = searchText.isEmpty ? items : items?.filter { $0.name.lowercased().contains(searchText) as? Bool ?? false }
         
-        let searchData = searchText.isEmpty ? items : items.filter { $0.title?.lowercased().contains(searchText) as? Bool ?? false }
-        
-        presenter?.presentData(actionResponse: .init(item: Models.Item(searchData)))
+        presenter?.presentData(actionResponse: .init(item: Models.Item([])))
     }
 
     // MARK: - Aditional helpers
