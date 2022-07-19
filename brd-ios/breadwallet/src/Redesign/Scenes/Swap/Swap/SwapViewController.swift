@@ -251,5 +251,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         })
     }
     
+    func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay) {
+        
+    }
     // MARK: - Additional Helpers
 }

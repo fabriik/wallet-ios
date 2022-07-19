@@ -125,7 +125,7 @@ enum SwapModels {
     
     struct Confirm {
         struct ViewAction {
-            var isConfirmed: false
+            var isConfirmed = false
         }
         
         struct ActionResponse {}

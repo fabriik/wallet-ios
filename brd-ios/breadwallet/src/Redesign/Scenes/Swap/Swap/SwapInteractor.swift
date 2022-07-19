@@ -77,8 +77,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     private var quoteTimeStamp: Double = 0
     
-    private var lastError: Error?
-    
     // MARK: - SwapViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
         SupportedCurrenciesWorker().execute { [weak self] result in
@@ -101,7 +99,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     private func getQuote(isInitialLaunch: Bool) {
         guard let quoteTerm = dataStore?.quoteTerm else {
-            lastError = SwapErrors.noQuote
+            presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote))
             return
         }
         
@@ -111,7 +109,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 self?.handleQuote(quote, isInitialLaunch: isInitialLaunch)
                 
             case .failure(let error):
-                self?.lastError = error
+                self?.presenter?.presentError(actionResponse: .init(error: error))
                 self?.handleQuote(nil, isInitialLaunch: isInitialLaunch)
             }
         }
@@ -243,7 +241,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         var viewAction = viewAction
         
         if let minMaxToggleValue = viewAction.minMaxToggleValue {
-            lastError = nil
             dataStore?.minMaxToggleValue = minMaxToggleValue
             
             let minAmount: Decimal = 50 // TODO: Constant
@@ -333,10 +330,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     // MARK: - Aditional helpers
-    
-    private func presentError() {
-        presenter?.presentError(actionResponse: .init(error: lastError))
-    }
     
     private func calculateAmounts(viewAction: Models.Amounts.ViewAction) {
         

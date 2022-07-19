@@ -11,6 +11,7 @@
 import UIKit
 
 final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
+    
     typealias Models = SwapModels
     
     weak var viewController: SwapViewController?
@@ -137,6 +138,10 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let config = Presets.InfoView.swapError
         
         viewController?.displayMessage(responseDisplay: error == nil ? .init() : .init(model: model, config: config))
+    }
+    
+    func presentConfirm(actionResponse: SwapModels.Confirm.ActionResponse) {
+        viewController?.displayConfirm(responseDisplay: .init())
     }
     
     // MARK: - Additional Helpers
