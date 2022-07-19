@@ -19,7 +19,7 @@ struct ProfileResponseData: ModelResponse {
     var kycStatus: String?
     var kycFailureReason: String?
     
-    var exchangeLimits: ExchangeLimits?
+    var exchangeLimits: ExchangeLimits
     
     struct ExchangeLimits: Codable {
         var allowanceLifetime: Decimal
@@ -30,23 +30,6 @@ struct ProfileResponseData: ModelResponse {
         var nextExchangeLimit: Decimal
     }
 }
-
-//    "email": "kenan.mmdv+160@outlook.com",
-//    "first_name": "Rr",
-//    "last_name": "Cr",
-//    "date_of_birth": "1957-07-12",
-//    "country": "AR",
-//    "kyc_status": "kyc1",
-//    "roles": ["customer", "verified", "kyc1"],
-//    "exchange_limits": {
-//        "allowance_lifetime": 10000,
-//        "allowance_daily": 1000,
-//        "allowance_per_exchange": 1000,
-//        "used_lifetime": 0,
-//        "used_daily": 0,
-//        "next_exchange_limit": 1000
-//    }
-//}
 
 struct Profile: Model {
     var country: String?
@@ -64,7 +47,7 @@ struct Profile: Model {
     
     var dailyRemainingLimit: Decimal {
         return dailyLimit - usedDaily
-    } 
+    }
     
     var lifetimeRemainingLimit: Decimal {
         return lifetimeLimit - usedLifetime
@@ -73,24 +56,20 @@ struct Profile: Model {
 
 class ProfileMapper: ModelMapper<ProfileResponseData, Profile> {
     override func getModel(from response: ProfileResponseData?) -> Profile? {
-        return .init(country: response?.country,
-                     dateOfBirth: response?.dateOfBirth,
-                     firstName: response?.firstName,
-                     lastName: response?.lastName,
-                     email: response?.email,
-                     status: .init(rawValue: response?.kycStatus)
-                     , failureReason: response?.kycFailureReason,
-                     exchangeLimit: response?.exchangeLimits?.nextExchangeLimit ?? 0,
-                     dailyLimit: response?.exchangeLimits?.allowanceDaily ?? 0,
-                     lifetimeLimit: response?.exchangeLimits?.allowanceLifetime ?? 0,
-                     usedDaily: response?.exchangeLimits?.usedDaily ?? 0,
-                     usedLifetime: response?.exchangeLimits?.usedLifetime ?? 0)
-    }
-}
+        guard let response = response else { return nil }
 
-struct ProfileRequestData: RequestModelData {
-    func getParameters() -> [String: Any] {
-        return [:]
+        return .init(country: response.country,
+                     dateOfBirth: response.dateOfBirth,
+                     firstName: response.firstName,
+                     lastName: response.lastName,
+                     email: response.email,
+                     status: .init(rawValue: response.kycStatus),
+                     failureReason: response.kycFailureReason,
+                     exchangeLimit: response.exchangeLimits.nextExchangeLimit,
+                     dailyLimit: response.exchangeLimits.allowanceDaily,
+                     lifetimeLimit: response.exchangeLimits.allowanceLifetime,
+                     usedDaily: response.exchangeLimits.usedDaily,
+                     usedLifetime: response.exchangeLimits.usedLifetime)
     }
 }
 

@@ -62,20 +62,20 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         let format = "%.*f"
         let decimal = 10
-        
+
         let formattedBaseCryptoString = String(format: format, decimal, actionResponse.fromBaseCryptoFee?.doubleValue ?? 0)
         let baseCurrencyString = " " + (actionResponse.baseCurrency ?? "")
         let formattedBaseFiatString = "\n" + String(format: format, decimal, actionResponse.fromBaseFiatFee?.doubleValue ?? 0)
-        
+
         let formattedTermCryptoString = String(format: format, decimal, actionResponse.fromTermCryptoFee?.doubleValue ?? 0)
         let termCurrencyString = " " + (actionResponse.termCurrency ?? "")
         let formattedTermFiatString = "\n" + String(format: format, decimal, actionResponse.fromTermFiatFee?.doubleValue ?? 0)
-        
+
         let defaultCurrencyCodeString = " " + Store.state.defaultCurrencyCode
-        
+
         let topFeeString: String = formattedBaseCryptoString + baseCurrencyString + formattedBaseFiatString + defaultCurrencyCodeString
         let bottomFeeString: String = formattedTermCryptoString + termCurrencyString + formattedTermFiatString + defaultCurrencyCodeString
-        
+
         let swapModel = MainSwapViewModel(selectedBaseCurrency: actionResponse.baseCurrency ?? "",
                                           selectedBaseCurrencyIcon: actionResponse.baseCurrencyIcon,
                                           selectedTermCurrency: actionResponse.termCurrency ?? "",
@@ -92,10 +92,10 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                           topFeeString: topFeeString,
                                           bottomFeeString: bottomFeeString,
                                           shouldShowFees: validateFields(actionResponse))
-        
+
         exchangeRateViewModel.firstCurrency = actionResponse.baseCurrency ?? ""
         exchangeRateViewModel.secondCurrency = actionResponse.termCurrency ?? ""
-        
+
         viewController?.displaySetAmount(responseDisplay: .init(amounts: swapModel,
                                                                 rate: exchangeRateViewModel,
                                                                 minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue),
