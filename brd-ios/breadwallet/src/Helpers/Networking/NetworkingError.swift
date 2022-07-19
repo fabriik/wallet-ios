@@ -8,6 +8,7 @@ import Foundation
 enum NetworkingError: FEError {
     case general
     case noConnection
+    case custom
     /// Status code 103
     case parameterMissing
     /// Status code 105
@@ -17,74 +18,6 @@ enum NetworkingError: FEError {
         return "LOCALIZE"
     }
 }
-
-// TODO: are these working? add to above array or create a separate enum
-//public struct NetworkingGeneralError: NetworkingError {
-//    public var errorMessage: String {
-//        return firstOccurringError() ?? ""
-//    }
-//    public var userInfo: [String: Any]?
-//
-//    public init() {}
-//}
-//
-//public struct NetworkingNotFoundError: NetworkingError {
-//    public var errorMessage: String {
-//        return firstOccurringError() ?? ""
-//    }
-//    public var userInfo: [String: Any]?
-//
-//    public init() {}
-//}
-//
-//public struct NetworkingBadRequestError: NetworkingError {
-//    public var errorMessage: String {
-//        return firstOccurringError() ?? ""
-//    }
-//    public var userInfo: [String: Any]?
-//
-//    public init() {}
-//
-//    public init(userInfo: [String: Any]) {
-//        self.userInfo = userInfo
-//    }
-//}
-//
-//public struct NetworkingForbiddenError: NetworkingError {
-//    public var errorMessage: String {
-//        return firstOccurringError() ?? ""
-//    }
-//    public var userInfo: [String: Any]?
-//
-//    public init() {}
-//}
-//
-//public struct NetworkingNoConnectionError: NetworkingError {
-//    public var errorMessage: String {
-//        return firstOccurringError() ?? ""
-//    }
-//    public var userInfo: [String: Any]?
-//
-//    public init() {}
-//}
-//
-//public struct NetworkingCustomError: NetworkingError {
-//    public var errorMessage: String {
-//        return firstOccurringError() ?? customError
-//    }
-//
-//    public var userInfo: [String: Any]?
-//
-//    private let customError: String
-//
-//    public init() {
-//        customError = ""
-//    }
-//
-//    public init(message: String) {
-//        self.customError = message
-//    }
-//}
 
 public class NetworkingErrorManager {
     static func getError(from response: HTTPURLResponse?, data: Data?, error: Error?) -> FEError? {
@@ -97,25 +30,9 @@ public class NetworkingErrorManager {
             return error
         }
         
-        guard let response = response else {
-            return NetworkingError.general
-        }
+        guard response != nil else { return NetworkingError.general }
         
-        switch response.statusCode {
-            // TODO: add to enum if needed
-//        case 400:
-//            return NetworkingBadRequestError(data: data)
-//        case 401:
-//            return NetworkingCustomError(data: data)
-//        case 403:
-//            return NetworkingForbiddenError(data: data)
-//        case 404:
-//            return NetworkingNotFoundError(data: data)
-        case 500...599:
-            return NetworkingError.general
-        default:
-            return nil
-        }
+        return ServerResponse.parse(from: data, type: ServerResponse.self)?.error
     }
     
     private static func handleServerError(error: ServerResponse.ServerError?) -> NetworkingError? {
