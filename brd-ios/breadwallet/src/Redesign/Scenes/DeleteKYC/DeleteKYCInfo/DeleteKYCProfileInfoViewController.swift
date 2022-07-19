@@ -11,10 +11,10 @@
 import UIKit
 
 class DeleteKYCProfileInfoViewController: BaseTableViewController<DeleteKYCProfileInfoCoordinator,
-                                   DeleteKYCProfileInfoInteractor,
-                                   DeleteKYCProfileInfoPresenter,
-                                   DeleteKYCProfileInfoStore>,
-                                   DeleteKYCProfileInfoResponseDisplays {
+                                          DeleteKYCProfileInfoInteractor,
+                                          DeleteKYCProfileInfoPresenter,
+                                          DeleteKYCProfileInfoStore>,
+                                          DeleteKYCProfileInfoResponseDisplays {
     typealias Models = DeleteKYCProfileInfoModels
     
     // TODO: Localize.

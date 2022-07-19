@@ -552,7 +552,9 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
             showAlert(title: L10n.PaymentProtocol.Errors.badPaymentRequest, message: errorMessage, buttonLabel: L10n.Button.ok)
             return false
         case .usedAddress:
-            showError(title: L10n.Send.UsedAddress.title, message: "\(L10n.Send.UsedAddress.firstLine)\n\n\(L10n.Send.UsedAddress.secondLIne)", ignore: { [unowned self] in
+            showError(title: L10n.Send.UsedAddress.title,
+                      message: "\(L10n.Send.UsedAddress.firstLine)\n\n\(L10n.Send.UsedAddress.secondLIne)",
+                      ignore: { [unowned self] in
                 self.didIgnoreUsedAddressWarning = true
             })
             return false
