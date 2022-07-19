@@ -128,9 +128,7 @@ class BaseCoordinator: NSObject,
     }
     
     func showDeleteKYCInfo() {
-        openModally(coordinator: DeleteKYCInfoCoordinator.self, scene: Scenes.DeleteKYCInfo) { vc in
-            vc?.prepareData()
-        }
+        openModally(coordinator: DeleteKYCInfoCoordinator.self, scene: Scenes.DeleteKYCInfo)
     }
     
     /// Determines whether the viewcontroller or navigation stack are being dismissed
