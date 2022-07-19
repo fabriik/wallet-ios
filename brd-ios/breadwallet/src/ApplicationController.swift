@@ -67,6 +67,8 @@ class ApplicationController: Subscriber, Trackable {
         }
     }
 
+    var didTapDeleteAccount: (() -> Void)?
+    
     // MARK: - Init/Launch
 
     init() {
@@ -413,8 +415,6 @@ class ApplicationController: Subscriber, Trackable {
         UIBarButtonItem.appearance().setBackButtonBackgroundImage(#imageLiteral(resourceName: "TransparentPixel"), for: .normal, barMetrics: .default)
         UISwitch.appearance().onTintColor = Theme.accent
     }
-    
-    var didTapDeleteAccount: (() -> Void)?
     
     private func addHomeScreenHandlers(homeScreen: HomeScreenViewController,
                                        navigationController: UINavigationController) {
