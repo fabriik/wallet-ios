@@ -43,6 +43,13 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         return view
     }()
     
+    private lazy var refreshImageView: FEImageView = {
+        let view = FEImageView()
+        view.setup(with: .imageName("rotate_left"))
+        view.alpha = 0
+        return view
+    }()
+    
     override func setupSubviews() {
         super.setupSubviews()
         
@@ -53,6 +60,12 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         
         content.addSubview(valueLabel)
         valueLabel.snp.makeConstraints { make in
+            make.leading.equalTo(titleLabel.snp.trailing).offset(Margins.extraSmall.rawValue)
+            make.top.bottom.equalToSuperview()
+        }
+        
+        content.addSubview(refreshImageView)
+        refreshImageView.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel.snp.trailing).offset(Margins.extraSmall.rawValue)
             make.top.bottom.equalToSuperview()
         }
@@ -80,5 +93,22 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         super.setup(with: viewModel)
         valueLabel.text = "1 \(viewModel.firstCurrency ?? "") = \(viewModel.exchangeRate ?? "") \(viewModel.secondCurrency ?? "")"
         timerView.setup(with: viewModel.timer)
+        
+        rotate()
+    }
+    
+    private func rotate() {
+        hideValue(true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + (1 - Presets.Animation.duration) + Presets.Animation.duration) { [weak self] in
+            self?.hideValue(false)
+        }
+    }
+    
+    private func hideValue(_ isHidden: Bool) {
+        UIView.animate(withDuration: Presets.Animation.duration) { [weak self] in
+            self?.valueLabel.alpha = isHidden ? 0 : 1
+            self?.refreshImageView.alpha = isHidden ? 1 : 0
+        }
     }
 }
