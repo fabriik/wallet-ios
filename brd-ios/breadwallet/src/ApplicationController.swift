@@ -445,7 +445,7 @@ class ApplicationController: Subscriber, Trackable {
         }
         
         didTapDeleteAccount = { [unowned self] in
-            coordinator?.showDeleteKYCInfo()
+            coordinator?.showDeleteKYCProfileInfo()
         }
         
         homeScreen.didTapProfileFromPrompt = { [unowned self] profile in

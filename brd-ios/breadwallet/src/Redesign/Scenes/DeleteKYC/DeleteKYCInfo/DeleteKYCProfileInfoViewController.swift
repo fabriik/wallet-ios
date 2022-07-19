@@ -1,5 +1,5 @@
 //
-//  DeleteKYCInfoViewController.swift
+//  DeleteKYCProfileInfoViewController.swift
 //  breadwallet
 //
 //  Created by Kenan Mamedoff on 19/07/2022.
@@ -10,12 +10,12 @@
 
 import UIKit
 
-class DeleteKYCInfoViewController: BaseTableViewController<DeleteKYCInfoCoordinator,
-                                   DeleteKYCInfoInteractor,
-                                   DeleteKYCInfoPresenter,
-                                   DeleteKYCInfoStore>,
-                                   DeleteKYCInfoResponseDisplays {
-    typealias Models = DeleteKYCInfoModels
+class DeleteKYCProfileInfoViewController: BaseTableViewController<DeleteKYCProfileInfoCoordinator,
+                                   DeleteKYCProfileInfoInteractor,
+                                   DeleteKYCProfileInfoPresenter,
+                                   DeleteKYCProfileInfoStore>,
+                                   DeleteKYCProfileInfoResponseDisplays {
+    typealias Models = DeleteKYCProfileInfoModels
     
     // TODO: Localize.
     override var sceneLeftAlignedTitle: String? { return "You are about to delete your Fabriik account." }
@@ -24,7 +24,7 @@ class DeleteKYCInfoViewController: BaseTableViewController<DeleteKYCInfoCoordina
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-        switch sections[indexPath.section] as? DeleteKYCInfoModels.Section {
+        switch sections[indexPath.section] as? DeleteKYCProfileInfoModels.Section {
         case .title:
             cell =  self.tableView(tableView, labelCellForRowAt: indexPath)
             (cell as? WrapperTableViewCell<FELabel>)?.wrappedView.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.one))
@@ -93,9 +93,9 @@ class DeleteKYCInfoViewController: BaseTableViewController<DeleteKYCInfoCoordina
         interactor?.toggleTickbox(viewAction: .init(value: value))
     }
     
-    // MARK: - DeleteKYCInfoResponseDisplay
+    // MARK: - DeleteKYCProfileInfoResponseDisplay
     
-    func displayToggleTickbox(responseDisplay: DeleteKYCInfoModels.Tickbox.ResponseDisplay) {
+    func displayToggleTickbox(responseDisplay: DeleteKYCProfileInfoModels.Tickbox.ResponseDisplay) {
         guard let section = sections.firstIndex(of: Models.Section.confirm),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
         
