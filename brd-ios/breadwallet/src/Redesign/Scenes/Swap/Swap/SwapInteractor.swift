@@ -325,6 +325,13 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         presenter?.presentSelectAsset(actionResponse: .init(from: from, to: to))
     }
     
+    func confirm(viewAction: SwapModels.Confirm.ViewAction) {
+        guard viewAction.isConfirmed else {
+            // TODO: present confirmation dialog
+            return
+        }
+    }
+    
     // MARK: - Aditional helpers
     
     private func presentError() {

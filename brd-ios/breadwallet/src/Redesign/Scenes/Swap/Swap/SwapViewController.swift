@@ -181,7 +181,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-        // TODO: Confirm logic
+        interactor?.confirm(viewAction: .init())
     }
     
     // MARK: - SwapResponseDisplay
