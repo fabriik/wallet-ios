@@ -100,6 +100,31 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                                 rate: exchangeRateViewModel,
                                                                 minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue),
                                                                 shouldEnableConfirm: validateFields(actionResponse)))
+        
+        let value = actionResponse.fromFiatAmount ?? 0
+        let profile = UserManager.shared.profile
+        let dailyLimit = profile?.dailyRemainingLimit ?? 0
+        let lifetimeLimit = profile?.lifetimeRemainingLimit ?? 0
+        let exchangeLimit = profile?.exchangeLimit ?? 0
+        switch value {
+        case _ where value <= 0:
+            presentError(actionResponse: .init(error: nil))
+            
+        case _ where value < 50:
+            presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: 50, currency: "USD")))
+            
+        case _ where value > dailyLimit:
+            presentError(actionResponse: .init(error: SwapErrors.overDailyLimit))
+            
+        case _ where value > lifetimeLimit:
+            presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit))
+            
+        case _ where value > exchangeLimit:
+            presentError(actionResponse: .init(error: SwapErrors.overExchangeLimit))
+            
+        default:
+            presentError(actionResponse: .init(error: nil))
+        }
     }
     
     func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse) {
