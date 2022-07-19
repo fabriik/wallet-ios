@@ -72,11 +72,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
     }
     
     static var shouldShowMarketData: Bool {
-        if #available(iOS 13, *), !E.isIPhone5 {
-            return true
-        } else {
-            return false
-        }
+        return true
     }
     
     // MARK: Init
@@ -117,9 +113,9 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
         addSubview(modeLabel)
         addSubview(graphButtonStackView)
         
-        if #available(iOS 13, *), Self.shouldShowMarketData, let id = currency.coinGeckoId {
+        if let id = currency.coinGeckoId {
             let hosting = UIHostingController(rootView: MarketDataView(currencyId: id))
-            self.marketDataView = hosting.view
+            marketDataView = hosting.view
             hosting.view.backgroundColor = .clear
             addSubview(hosting.view)
         }

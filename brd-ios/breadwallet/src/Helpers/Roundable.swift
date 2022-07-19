@@ -23,9 +23,6 @@ extension Roundable where Self: UIView {
 
         layer.borderWidth = borderWidth
         layer.borderColor = borderColor.cgColor
-        
-        if #available(iOS 13.0, *) {
-            layer.cornerCurve = .continuous
-        }
+        layer.cornerCurve = .continuous
     }
 }

@@ -64,10 +64,6 @@ extension UIViewController {
     }
     
     func setAsNonDismissableModal() {
-        if #available(iOS 13.0, *) {
-            isModalInPresentation = true
-        } else {
-            modalPresentationStyle = .overFullScreen
-        }
+        isModalInPresentation = true
     }
 }
