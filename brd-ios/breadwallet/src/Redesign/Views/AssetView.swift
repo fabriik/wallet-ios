@@ -52,7 +52,7 @@ struct AssetViewModel: ViewModel {
     var subtitle: String?
     var topRightText: String?
     var bottomRightText: String?
-    var isDisabled: Bool? = false
+    var isDisabled = false
 }
 
 class AssetView: FEView<AssetConfiguration, AssetViewModel> {

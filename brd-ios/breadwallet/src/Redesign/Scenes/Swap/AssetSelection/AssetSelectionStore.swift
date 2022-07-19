@@ -12,7 +12,7 @@ class AssetSelectionStore: NSObject, BaseDataStore, AssetSelectionDataStore {
     
     // MARK: - AssetSelectionDataStore
     var itemId: String?
-    var assets: [Any] = []
+    var assets: [String] = []
     var currencies: [Currency] = []
     var supportedCurrencies: [SupportedCurrency]?
 
