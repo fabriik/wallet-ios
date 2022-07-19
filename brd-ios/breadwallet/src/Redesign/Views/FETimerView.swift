@@ -32,14 +32,14 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
     
     private lazy var stack: UIStackView = {
         let view = UIStackView()
-        view.spacing = Margins.minimum.rawValue
+        view.spacing = Margins.extraSmall.rawValue
         view.alignment = .center
         return view
     }()
     
     private lazy var titleLabel: FELabel = {
         let view = FELabel()
-        view.setup(with: .text("00:00s"))
+        view.setup(with: .text("00:15s"))
         view.textAlignment = .right
         return view
     }()
@@ -48,7 +48,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         let view = FEImageView()
         return view
     }()
-    
+        
     private var timer: Timer?
     private var triggerDate: Date?
     
@@ -89,13 +89,14 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         timer = nil
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        timer?.fire()
     }
     
     @objc private func updateTime() {
         guard let triggerDate = triggerDate else { return }
         
-        let components = Calendar.current.dateComponents([.minute, .second], from: Date(), to: triggerDate)
-
+        let components = Calendar.current.dateComponents([.minute, .second], from: Date() - 1, to: triggerDate)
+        
         guard let minutes = components.minute,
               let seconds = components.second else {
             return

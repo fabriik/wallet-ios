@@ -1124,7 +1124,7 @@ class ModalPresenter: Subscriber, Trackable {
     
     private func prepareSecuritySettingsMenuItems(menuNav: RootNavigationController) -> [MenuItem] {
         // MARK: Security Settings
-        var securityItems: [MenuItem] = [
+        let securityItems: [MenuItem] = [
             // Unlink
             MenuItem(title: L10n.Settings.wipe) { [weak self] in
                 guard let `self` = self, let vc = self.topViewController else { return }
@@ -1162,20 +1162,21 @@ class ModalPresenter: Subscriber, Trackable {
                      callback: { [weak self] in
                          self?.system.widgetDataShareService.sharingEnabled.toggle()
                          (menuNav.topViewController as? MenuViewController)?.reloadMenu()
-                     })
+                     }),
+            
+            // Add iCloud backup
+            MenuItem(title: L10n.CloudBackup.backupMenuTitle) {
+                let synchronizer = BackupSynchronizer(context: .existingWallet, keyStore: self.keyStore, navController: menuNav)
+                let cloudView = CloudBackupView(synchronizer: synchronizer)
+                let hosting = UIHostingController(rootView: cloudView)
+                menuNav.pushViewController(hosting, animated: true)
+            },
+            
+            // Add Delete KYC account
+            MenuItem(title: "Delete account", color: LightColors.error) {
+                
+            }
         ]
-        
-        // Add iCloud backup
-        if #available(iOS 13.6, *) {
-            securityItems.append(
-                MenuItem(title: L10n.CloudBackup.backupMenuTitle) {
-                    let synchronizer = BackupSynchronizer(context: .existingWallet, keyStore: self.keyStore, navController: menuNav)
-                    let cloudView = CloudBackupView(synchronizer: synchronizer)
-                    let hosting = UIHostingController(rootView: cloudView)
-                    menuNav.pushViewController(hosting, animated: true)
-                }
-            )
-        }
         
         return securityItems
     }

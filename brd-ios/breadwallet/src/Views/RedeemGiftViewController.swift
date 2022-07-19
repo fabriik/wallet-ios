@@ -152,9 +152,7 @@ class RedeemGiftViewController: UIViewController, Subscriber, Trackable {
         
         redeem.tap = didTapRedeem
         
-        if #available(iOS 13.0, *) {
-            icon.image = UIImage(systemName: "gift")
-        }
+        icon.image = UIImage(systemName: "gift")
     }
     
     private func handleSweeperResult(result: Result<WalletSweeper, WalletSweeperError>) {

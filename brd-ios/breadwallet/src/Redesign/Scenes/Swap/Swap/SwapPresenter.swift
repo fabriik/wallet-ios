@@ -117,11 +117,13 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     // MARK: - Additional Helpers
     
     private func validateFields(_ actionResponse: SwapModels.Amounts.ActionResponse) -> Bool {
-        var fieldValidationIsAllowed = [String?: Bool]()
-        fieldValidationIsAllowed["fromFiatAmount"] = actionResponse.fromFiatAmountString?.isEmpty == true
-        fieldValidationIsAllowed["fromCryptoAmount"] = actionResponse.fromCryptoAmountString?.isEmpty == true
-        fieldValidationIsAllowed["toFiatAmount"] = actionResponse.toFiatAmountString?.isEmpty == true
-        fieldValidationIsAllowed["toCryptoAmount"] = actionResponse.toCryptoAmountString?.isEmpty == true
-        return fieldValidationIsAllowed.values.contains(where: { $0 == true }) == false
+        var fieldValidationIsAllowed = [String: Bool]()
+        fieldValidationIsAllowed[String(describing: actionResponse.fromFiatAmount)] = actionResponse.fromFiatAmount ?? 0 > 0
+        fieldValidationIsAllowed[String(describing: actionResponse.fromCryptoAmount)] = actionResponse.fromCryptoAmount ?? 0 > 0
+        fieldValidationIsAllowed[String(describing: actionResponse.toFiatAmount)] = actionResponse.toFiatAmount ?? 0 > 0
+        fieldValidationIsAllowed[String(describing: actionResponse.toCryptoAmount)] = actionResponse.toCryptoAmount ?? 0 > 0
+        fieldValidationIsAllowed[String(describing: actionResponse.baseBalance)] = actionResponse.baseBalance.tokenValue > 0
+        
+        return fieldValidationIsAllowed.values.contains(where: { $0 == false }) == false
     }
 }

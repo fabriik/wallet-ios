@@ -64,7 +64,7 @@ struct Profile: Model {
     
     var dailyRemainingLimit: Decimal {
         return dailyLimit - usedDaily
-    }1~# 
+    } 
     
     var lifetimeRemainingLimit: Decimal {
         return lifetimeLimit - usedLifetime

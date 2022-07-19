@@ -41,14 +41,12 @@ class StartNavigationDelegate: NSObject, UINavigationControllerDelegate {
             }
         }
         
-        if #available(iOS 13.6, *) {
-            if viewController is UIHostingController<SelectBackupView> {
-                navigationController.navigationBar.tintColor = .navigationTint
-                navigationController.navigationBar.titleTextAttributes = [
-                    NSAttributedString.Key.foregroundColor: Theme.blueBackground,
-                    NSAttributedString.Key.font: UIFont.customBold(size: 17.0)
-                ]
-            }
+        if viewController is UIHostingController<SelectBackupView> {
+            navigationController.navigationBar.tintColor = .navigationTint
+            navigationController.navigationBar.titleTextAttributes = [
+                NSAttributedString.Key.foregroundColor: Theme.blueBackground,
+                NSAttributedString.Key.font: UIFont.customBold(size: 17.0)
+            ]
         }
     }
 }

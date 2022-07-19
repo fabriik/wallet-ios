@@ -413,46 +413,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     // MARK: - Aditional helpers
-}
-
-struct SwapResponseModel: ModelResponse {
     
-}
-
-struct Swap: Codable {
-    
-}
-
-class SwapMapper: ModelMapper<SwapResponseModel, Swap> {
-    override func getModel(from response: SwapResponseModel?) -> Swap? {
-        return Swap()
-    }
-}
-
-struct SwapRequestModel: RequestModelData {
-    var quoteId: String?
-    var quantity: String?
-    var destination: String?
-    var destinationCurrency: String?
-    
-    func getParameters() -> [String : Any] {
-        let params: [String: Any?] = [
-            "quote_id": quoteId,
-            "quantity": quantity,
-            "destination": destination,
-            "destination_currency": destinationCurrency
-        ]
-        return params.compactMapValues { $0 }
-    }
-}
-
-class SwapWorker: BaseApiWorker<SwapMapper> {
-    
-    override func getUrl() -> String {
-        return APIURLHandler.getUrl(SwapEndpoints.exchange)
-    }
-    
-    override func getMethod() -> HTTPMethod {
-        return .post
+    private func presentError() {
+        presenter?.presentError(actionResponse: .init(error: lastError))
     }
 }

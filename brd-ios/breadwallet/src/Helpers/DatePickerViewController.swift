@@ -28,9 +28,7 @@ final public class DatePickerViewController: UIViewController {
     
     fileprivate lazy var datePicker: UIDatePicker = { [unowned self] in
         $0.addTarget(self, action: #selector(DatePickerViewController.actionForDatePicker), for: .valueChanged)
-        if #available(iOS 13.4, *) {
-            $0.preferredDatePickerStyle = .wheels
-        }
+        $0.preferredDatePickerStyle = .wheels
         return $0
     }(UIDatePicker())
     
@@ -87,13 +85,5 @@ final public class DatePickerViewController: UIViewController {
     
     public func setDate(_ date: Date) {
         datePicker.setDate(date, animated: true)
-    }
-}
-
-extension UIDatePicker {
-    func setAsWheelsPicker() {
-        if #available(iOS 13.4, *) {
-            preferredDatePickerStyle = .wheels
-        }
     }
 }

@@ -39,12 +39,7 @@ class ScanViewController: UIViewController, Trackable {
     private let flash = UIButton.icon(image: #imageLiteral(resourceName: "Flash"), accessibilityLabel: L10n.Scanner.flashButtonLabel, position: .middle)
     private let cameraRoll: UIButton = {
         let button: UIButton
-        if #available(iOS 13.0, *) {
-            button = UIButton.icon(image: UIImage(systemName: "photo.on.rectangle") ?? UIImage(), accessibilityLabel: "import", position: .middle)
-        } else {
-            button = UIButton(type: .system)
-            button.setTitle("import", for: .normal)
-        }
+        button = UIButton.icon(image: UIImage(systemName: "photo.on.rectangle") ?? UIImage(), accessibilityLabel: "import", position: .middle)
         return button
     }()
     
