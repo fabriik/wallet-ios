@@ -21,7 +21,7 @@ struct ExchangeRateViewModel: ViewModel {
     var firstCurrency: String?
     var secondCurrency: String?
     var exchangeRate: String?
-    var timer = TimerViewModel(till: 0, repeats: true)
+    var timer = TimerViewModel(till: 0, image: .imageName("timelapse"), repeats: true)
 }
 
 class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel> {
@@ -100,14 +100,7 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
     private func rotate() {
         hideValue(true)
         
-        let rotation: CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotation.toValue = NSNumber(value: Double.pi * -2)
-        rotation.duration = 1 - Presets.Animation.duration
-        rotation.repeatCount = 1
-        rotation.isCumulative = true
-        refreshImageView.layer.add(rotation, forKey: "rotationAnimation")
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + rotation.duration + Presets.Animation.duration) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + (1 - Presets.Animation.duration) + Presets.Animation.duration) { [weak self] in
             self?.hideValue(false)
         }
     }
