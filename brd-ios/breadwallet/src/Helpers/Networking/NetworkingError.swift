@@ -5,163 +5,53 @@
 
 import Foundation
 
-public protocol NetworkingError: Error {
-    var errorMessage: String { get }
-    var userInfo: [String: Any]? { get set }
+enum NetworkingError: FEError {
+    case general
+    case noConnection
+    case custom
+    /// Status code 103
+    case parameterMissing
+    /// Status code 105
+    case sessionExpired
     
-    init()
-    init(data: Data?)
-    
-    func firstOccurringError() -> String?
-}
-
-extension NetworkingError {
-    public init(data: Data?) {
-        self.init()
-        guard let data = data else { return }
-        guard let jsonData = try? JSONSerialization.jsonObject(with: data),
-              let dictionary = jsonData as? [String: Any] else {
-                  return
-              }
-        userInfo = dictionary
-    }
-    
-    public func firstOccurringError() -> String? {
-        var errorMessage = ""
-        
-        if let userInfo = userInfo,
-           let errorValues = (userInfo["error"] as? [String: String]) {
-            
-            errorMessage += (errorValues["server_message"] ?? "") + "\n"
-        }
-        
-        if let userInfo = userInfo,
-           let errorValues = (userInfo["data"] as? [String: [Any]])?.values,
-           let reducedError = errorValues.reduce([], +) as? [[String: String]] {
-            
-            for error in reducedError {
-                errorMessage += (error["parameter"] ?? "") + " " + (error["exception"] ?? "") + "\n"
-            }
-        }
-        
-        errorMessage = errorMessage.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        return errorMessage.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-}
-
-public struct NetworkingGeneralError: NetworkingError {
-    public var errorMessage: String {
-        return firstOccurringError() ?? ""
-    }
-    public var userInfo: [String: Any]?
-    
-    public init() {}
-}
-
-public struct NetworkingNotFoundError: NetworkingError {
-    public var errorMessage: String {
-        return firstOccurringError() ?? ""
-    }
-    public var userInfo: [String: Any]?
-    
-    public init() {}
-}
-
-public struct NetworkingBadRequestError: NetworkingError {
-    public var errorMessage: String {
-        return firstOccurringError() ?? ""
-    }
-    public var userInfo: [String: Any]?
-    
-    public init() {}
-    
-    public init(userInfo: [String: Any]) {
-        self.userInfo = userInfo
-    }
-}
-
-public struct NetworkingForbiddenError: NetworkingError {
-    public var errorMessage: String {
-        return firstOccurringError() ?? ""
-    }
-    public var userInfo: [String: Any]?
-    
-    public init() {}
-}
-
-public struct NetworkingNoConnectionError: NetworkingError {
-    public var errorMessage: String {
-        return firstOccurringError() ?? ""
-    }
-    public var userInfo: [String: Any]?
-    
-    public init() {}
-}
-
-public struct NetworkingCustomError: NetworkingError {
-    public var errorMessage: String {
-        return firstOccurringError() ?? customError
-    }
-    
-    public var userInfo: [String: Any]?
-    
-    private let customError: String
-    
-    public init() {
-        customError = ""
-    }
-    
-    public init(message: String) {
-        self.customError = message
-    }
-}
-
-public struct SessionExpiredError: NetworkingError {
-    public var errorMessage: String {
-        return firstOccurringError() ?? ""
-    }
-    public var userInfo: [String: Any]?
-    
-    public init() {
-        // empty init
+    var errorMessage: String {
+        return "LOCALIZE"
     }
 }
 
 public class NetworkingErrorManager {
-    static func getError(from response: HTTPURLResponse?, data: Data?, error: Error?) -> NetworkingError? {
+    static func getError(from response: HTTPURLResponse?, data: Data?, error: Error?) -> FEError? {
         if let error = error as? URLError, error.code == .notConnectedToInternet {
-            return NetworkingNoConnectionError()
+            return NetworkingError.noConnection
         }
         
-        if let data = data,
-           let errorObject = ServerResponse.parse(from: data, type: ServerResponse.self),
-           errorObject.error?.statusCode == 105 {
-            return SessionExpiredError(data: data)
+        if let errorObject = ServerResponse.parse(from: data, type: ServerResponse.self),
+           let error = handleServerError(error: errorObject.error) {
+            return error
         }
         
-        guard let response = response else {
-            return NetworkingGeneralError(data: data)
-        }
+        guard response != nil else { return NetworkingError.general }
         
-        switch response.statusCode {
-        case 400:
-            return NetworkingBadRequestError(data: data)
-        case 401:
-            return NetworkingCustomError(data: data)
-        case 403:
-            return NetworkingForbiddenError(data: data)
-        case 404:
-            return NetworkingNotFoundError(data: data)
-        case 500...599:
-            return NetworkingGeneralError(data: data)
+        return ServerResponse.parse(from: data, type: ServerResponse.self)?.error
+    }
+    
+    private static func handleServerError(error: ServerResponse.ServerError?) -> NetworkingError? {
+        switch error?.statusCode {
+        case 103:
+            return NetworkingError.parameterMissing
+            
+        case 105:
+            return NetworkingError.sessionExpired
+            
+            // TODO: handle other errors
         default:
             return nil
         }
     }
     
     static func getImageUploadEncodingError() -> NetworkingError {
-        return NetworkingGeneralError()
+        // TODO: is this right?
+        return .general
     }
     
     static fileprivate func isErrorStatusCode(_ statusCode: Int) -> Bool {

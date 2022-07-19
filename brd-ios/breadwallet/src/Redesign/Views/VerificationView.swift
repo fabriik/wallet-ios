@@ -73,6 +73,14 @@ enum VerificationStatus: Equatable {
         default: return "Pending"
         }
     }
+    
+    var dailyLimit: Double {
+        return 0.0
+    }
+    
+    var monthlyLimit: Double {
+        return 0.0
+    }
 #if swift(>=4.1)
 #else
     static func >(lhs: VerificationStatus, rhs: VerificationStatus) -> Bool {

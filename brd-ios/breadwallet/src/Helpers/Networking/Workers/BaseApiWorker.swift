@@ -188,7 +188,7 @@ class Pagination {
         return !isLoading
     }
     
-    func handlePageResponse(objectCount: Int, error: NetworkingError?) {
+    func handlePageResponse(objectCount: Int, error: FEError?) {
         guard error == nil else {
             failureLoadingPage()
             return
