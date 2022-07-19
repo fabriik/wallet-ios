@@ -102,14 +102,26 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                                 minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue),
                                                                 shouldEnableConfirm: validateFields(actionResponse)))
         
+        guard actionResponse.baseCurrency != actionResponse.termCurrency else {
+            let first = actionResponse.baseCurrency ?? "<base missing>"
+            let second = actionResponse.termCurrency ?? "<term missing>"
+            presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: "\(first)-\(second)")))
+            return
+        }
+        
         let value = actionResponse.fromFiatAmount ?? 0
+        let fromCrypto = actionResponse.fromCryptoAmount ?? 0.0
         let profile = UserManager.shared.profile
         let dailyLimit = profile?.dailyRemainingLimit ?? 0
         let lifetimeLimit = profile?.lifetimeRemainingLimit ?? 0
         let exchangeLimit = profile?.exchangeLimit ?? 0
+        let balance = actionResponse.baseBalance.tokenValue
         switch value {
         case _ where value <= 0:
             presentError(actionResponse: .init(error: nil))
+            
+        case _ where value > actionResponse.baseBalance.fiatValue:
+            presentError(actionResponse: .init(error: SwapErrors.balanceTooLow(amount: fromCrypto, balance: balance, currency: actionResponse.baseCurrency ?? "")))
             
         case _ where value < 50:
             presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: 50, currency: "USD")))
@@ -133,11 +145,15 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
-        let error = actionResponse.error as? SwapErrors
-        let model = InfoViewModel(description: .text(error?.errorMessage), dismissType: .persistent)
+        guard let error = actionResponse.error as? SwapErrors else {
+            viewController?.displayMessage(responseDisplay: .init(error: actionResponse.error as? FEError, model: nil, config: nil))
+            return
+        }
+        
+        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
         let config = Presets.InfoView.swapError
         
-        viewController?.displayMessage(responseDisplay: error == nil ? .init() : .init(model: model, config: config))
+        viewController?.displayMessage(responseDisplay: .init(model: model, config: config))
     }
     
     func presentConfirm(actionResponse: SwapModels.Confirm.ActionResponse) {

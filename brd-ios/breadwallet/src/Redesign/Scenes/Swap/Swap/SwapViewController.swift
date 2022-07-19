@@ -187,6 +187,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     // MARK: - SwapResponseDisplay
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
+        LoadingView.hide()
         guard let section = sections.firstIndex(of: Models.Sections.errors),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else { return }
         

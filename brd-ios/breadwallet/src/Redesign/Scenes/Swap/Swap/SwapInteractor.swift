@@ -16,7 +16,7 @@ protocol FEError: Error {
 }
 
 enum SwapErrors: FEError {
-    case noQuote
+    case noQuote(pair: String?)
     case general
     /// Param 1: amount, param 2 currency symbol
     case tooLow(amount: Decimal, currency: String)
@@ -33,16 +33,23 @@ enum SwapErrors: FEError {
     var errorMessage: String {
         switch self {
         case .balanceTooLow(let amount, let balance, let currency):
-            return String(format: "You don't have enough %.1f to complete this swap. Your current %.5f balance is %@", amount.doubleValue, balance.doubleValue, currency)
+            return String(format: "You don't have enough %@ to complete this swap. Your need %.5f, but your balance is %.5f.",
+                          currency,
+                          amount.doubleValue,
+                          balance.doubleValue)
             
         case .general:
             return "BSV network is experiencing network issues. Swapping assets is temporarily unavailable."
             
         case .tooLow(let amount, let currency):
-            return String(format: "The amount is lower than the swap minimum of %.10f, %@", amount.doubleValue, currency)
+            return String(format: "The amount is lower than the swap minimum of %.5f, %@.",
+                          amount.doubleValue,
+                          currency)
             
         case .tooHigh(let amount, let currency):
-            return String(format: "The amount is higher than the swap maximum of %.5f %@", amount.doubleValue, currency)
+            return String(format: "The amount is higher than the swap maximum of %.5f %@.",
+                          amount.doubleValue,
+                          currency)
             
         case .overDailyLimit:
             return "You have reached your swap limit of 1,000 USD a day. Please upgrade your limits or change the amount for this swap."
@@ -51,9 +58,11 @@ enum SwapErrors: FEError {
             return "You have reached your lifetime swap limit of 10,000 USD. Please upgrade your limits or change the amount for this swap."
             
         case .networkFee:
-            return "This swap doesn't cover the included network fee. Please add more funds to your wallet or change the amount you're swapping"
-        case .noQuote:
-            return "No quote for currency pair."
+            return "This swap doesn't cover the included network fee. Please add more funds to your wallet or change the amount you're swapping."
+            
+        case .noQuote(let pair):
+            return "No quote for currency pair \(pair ?? "<missing>")."
+            
         case .overExchangeLimit:
             return "Over exchange limit."
         }
@@ -99,7 +108,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     private func getQuote(isInitialLaunch: Bool) {
         guard let quoteTerm = dataStore?.quoteTerm else {
-            presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote))
+            presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: "<empty>")))
+            setAmount(viewAction: .init())
             return
         }
         
