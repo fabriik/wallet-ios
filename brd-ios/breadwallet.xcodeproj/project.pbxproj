@@ -349,6 +349,7 @@
 		7EBC6B0A2848ABC5000A301F /* RegistrationConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBC6B032848ABC5000A301F /* RegistrationConfirmationViewController.swift */; };
 		7EBC6B0B2848ABC5000A301F /* RegistrationConfirmationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBC6B042848ABC5000A301F /* RegistrationConfirmationInteractor.swift */; };
 		7EBC6B0D2848B81A000A301F /* CodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBC6B0C2848B81A000A301F /* CodeInputView.swift */; };
+		7EC0F8AA2886D9B90037145C /* SwapErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8A92886D9B90037145C /* SwapErrors.swift */; };
 		7EC37909281C098900028CA1 /* ErrorStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC37908281C098900028CA1 /* ErrorStruct.swift */; };
 		7EC3790B281C09AE00028CA1 /* ErrorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */; };
 		7ECCA9642875A77300617067 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9632875A77300617067 /* OrderView.swift */; };
@@ -1293,6 +1294,7 @@
 		7EBC6B032848ABC5000A301F /* RegistrationConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationConfirmationViewController.swift; sourceTree = "<group>"; };
 		7EBC6B042848ABC5000A301F /* RegistrationConfirmationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationConfirmationInteractor.swift; sourceTree = "<group>"; };
 		7EBC6B0C2848B81A000A301F /* CodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInputView.swift; sourceTree = "<group>"; };
+		7EC0F8A92886D9B90037145C /* SwapErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapErrors.swift; sourceTree = "<group>"; };
 		7EC37908281C098900028CA1 /* ErrorStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStruct.swift; sourceTree = "<group>"; };
 		7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorRequest.swift; sourceTree = "<group>"; };
 		7ECCA9632875A77300617067 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -2374,6 +2376,7 @@
 				7BBBF4D7287421CF00E4D36B /* SwapViewController.swift */,
 				7BBBF4D5287421CE00E4D36B /* SwapInteractor.swift */,
 				7B7863192874266A0092F35B /* SwapCoordinator.swift */,
+				7EC0F8A92886D9B90037145C /* SwapErrors.swift */,
 			);
 			path = Swap;
 			sourceTree = "<group>";
@@ -4617,6 +4620,7 @@
 				714F5D6E22037F2400F7CA70 /* EventMonitor.swift in Sources */,
 				CE3D4C591EF743EF0016B1C8 /* Functions.swift in Sources */,
 				7E8E979B283F4830008606B0 /* ProfileVIP.swift in Sources */,
+				7EC0F8AA2886D9B90037145C /* SwapErrors.swift in Sources */,
 				C45E0BAA2845F4C40083F028 /* AccountVerificationVIP.swift in Sources */,
 				CEE20C341EA5B4550086F724 /* ArticleIds.swift in Sources */,
 				7E9B13FF2857404600BD9EF5 /* DocumentReviewInteractor.swift in Sources */,

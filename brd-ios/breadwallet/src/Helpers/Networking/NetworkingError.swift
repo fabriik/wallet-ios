@@ -5,6 +5,10 @@
 
 import Foundation
 
+protocol FEError: Error {
+    var errorMessage: String { get }
+}
+
 enum NetworkingError: FEError {
     case general
     case noConnection
