@@ -22,6 +22,8 @@ protocol AssetSelectionResponseDisplays: AnyObject, BaseResponseDisplays, FetchR
 }
 
 protocol AssetSelectionDataStore: BaseDataStore, FetchDataStore {
+    var currencies: [Currency]? { get set }
+    var supportedCurrencies: [String]? { get set }
 }
 
 protocol AssetSelectionDataPassing {

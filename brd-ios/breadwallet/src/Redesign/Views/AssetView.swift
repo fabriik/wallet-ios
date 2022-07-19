@@ -166,9 +166,9 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         subtitleLabel.isHidden = viewModel.subtitle == nil
         
         topRightLabel.setup(with: .text(viewModel.topRightText))
-        topRightLabel.isHidden = viewModel.topRightText == nil
+        topRightLabel.isHidden = viewModel.topRightText == nil || viewModel.isDisabled
         
         bottomRightLabel.setup(with: .text(viewModel.bottomRightText))
-        bottomRightLabel.isHidden = viewModel.bottomRightText == nil
+        bottomRightLabel.isHidden = viewModel.bottomRightText == nil || viewModel.isDisabled
     }
 }

@@ -17,10 +17,12 @@ class AssetSelectionInteractor: NSObject, Interactor, AssetSelectionViewActions 
 
     // MARK: - AssetSelectionViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        let currencies = dataStore?.currencies.compactMap {
+        let currencies = dataStore?.currencies?.compactMap {
             return AssetViewModel(icon: $0.imageSquareBackground,
                                   title: $0.name,
                                   subtitle: $0.code,
+                                  topRightText: HomeScreenAssetViewModel(currency: $0).tokenBalance,
+                                  bottomRightText: HomeScreenAssetViewModel(currency: $0).fiatBalance,
                                   isDisabled: isDisabledAsset(code: $0.code) ?? false) } ?? []
         
         let sortedCurrencies = currencies.sorted { !$0.isDisabled && $1.isDisabled }
@@ -37,6 +39,8 @@ class AssetSelectionInteractor: NSObject, Interactor, AssetSelectionViewActions 
             return AssetViewModel(icon: $0.imageSquareBackground,
                                   title: $0.name,
                                   subtitle: $0.code,
+                                  topRightText: HomeScreenAssetViewModel(currency: $0).tokenBalance,
+                                  bottomRightText: HomeScreenAssetViewModel(currency: $0).fiatBalance,
                                   isDisabled: isDisabledAsset(code: $0.code) ?? false) } ?? []
         
         presenter?.presentData(actionResponse: .init(item: Models.Item(searchCurrencies)))
@@ -45,7 +49,7 @@ class AssetSelectionInteractor: NSObject, Interactor, AssetSelectionViewActions 
     private func isDisabledAsset(code: String?) -> Bool? {
         guard let assetCode = code else { return false }
         
-        return !(dataStore?.assets.contains(assetCode) ?? false)
+        return !(dataStore?.supportedCurrencies?.contains(assetCode) ?? false)
     }
     
     // MARK: - Aditional helpers
