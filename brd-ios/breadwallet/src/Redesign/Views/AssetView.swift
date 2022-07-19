@@ -32,7 +32,8 @@ extension Presets {
                                                                               textAlignment: .right),
                                                  bottomRightConfiguration: .init(font: Fonts.Subtitle.two,
                                                                                  textColor: LightColors.Text.two.withAlphaComponent(0.5),
-                                                                                 textAlignment: .right))
+                                                                                 textAlignment: .right),
+                                                 imageAlpha: 0.5)
     }
 }
 
@@ -44,6 +45,7 @@ struct AssetConfiguration: Configurable {
     var backgroundConfiguration: BackgroundConfiguration?
     var imageConfig: BackgroundConfiguration?
     var imageSize: ViewSizes = .medium
+    var imageAlpha: CGFloat = 1.0
 }
 
 struct AssetViewModel: ViewModel {
@@ -144,6 +146,7 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
             make.width.equalTo(config.imageSize.rawValue)
         }
         
+        iconView.content.alpha = config.imageAlpha
         iconView.content.setupCustomMargins(all: config.imageConfig == nil ? .zero : .extraSmall)
         
         iconView.configure(background: config.imageConfig)

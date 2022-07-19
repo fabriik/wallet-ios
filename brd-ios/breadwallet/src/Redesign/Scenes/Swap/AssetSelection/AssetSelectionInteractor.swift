@@ -36,7 +36,8 @@ class AssetSelectionInteractor: NSObject, Interactor, AssetSelectionViewActions 
         let searchCurrencies = searchData?.compactMap {
             return AssetViewModel(icon: $0.imageSquareBackground,
                                   title: $0.name,
-                                  subtitle: $0.code) } ?? []
+                                  subtitle: $0.code,
+                                  isDisabled: isDisabledAsset(code: $0.code) ?? false) } ?? []
         
         presenter?.presentData(actionResponse: .init(item: Models.Item(searchCurrencies)))
     }
