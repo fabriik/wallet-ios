@@ -42,12 +42,12 @@ enum SwapErrors: FEError {
             return "BSV network is experiencing network issues. Swapping assets is temporarily unavailable."
             
         case .tooLow(let amount, let currency):
-            return String(format: "The amount is lower than the swap minimum of %.5f, %@.",
+            return String(format: "The amount is lower than the swap minimum of %.1f %@.",
                           amount.doubleValue,
                           currency)
             
         case .tooHigh(let amount, let currency):
-            return String(format: "The amount is higher than the swap maximum of %.5f %@.",
+            return String(format: "The amount is higher than the swap maximum of %.2f %@.",
                           amount.doubleValue,
                           currency)
             
