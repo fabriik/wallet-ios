@@ -22,7 +22,7 @@ class ModelMapper<T: ModelResponse, U: Any>: Mapper {
 enum GenericModels {
     enum Error {
         struct Response {
-            let error: NetworkingError?
+            let error: FEError?
         }
         struct ViewModel {
             let error: String

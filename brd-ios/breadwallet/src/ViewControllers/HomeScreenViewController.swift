@@ -438,7 +438,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
                 }
                 
             case .failure(let error):
-                guard error is SessionExpiredError else {
+                guard error as? NetworkingError == .sessionExpired else {
                     self?.hidePrompt(self?.kycStatusPromptView)
                     self?.attemptShowGeneralPrompt()
                     

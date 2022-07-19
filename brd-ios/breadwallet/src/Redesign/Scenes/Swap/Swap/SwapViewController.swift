@@ -181,12 +181,13 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-        // TODO: Confirm logic
+        interactor?.confirm(viewAction: .init())
     }
     
     // MARK: - SwapResponseDisplay
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
+        LoadingView.hide()
         guard let section = sections.firstIndex(of: Models.Sections.errors),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else { return }
         
@@ -252,5 +253,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         })
     }
     
+    func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay) {
+        
+    }
     // MARK: - Additional Helpers
 }

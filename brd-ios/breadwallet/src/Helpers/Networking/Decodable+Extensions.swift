@@ -6,12 +6,14 @@
 import Foundation
 
 extension Decodable {
-    static func parse<T: Decodable>(from data: Data, type: T.Type) -> T? {
+    static func parse<T: Decodable>(from data: Data?, type: T.Type) -> T? {
+        guard let data = data else { return nil }
+        
+        let decoder = JSONDecoder()
         do {
-            return try JSONDecoder().decode(type.self, from: data)
+            return try decoder.decode(type.self, from: data)
         } catch {
             do {
-                let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 return try decoder.decode(type.self, from: data)
             } catch {
@@ -25,12 +27,14 @@ extension Decodable {
         }
     }
 
-    static func parseArray<T: Decodable>(from data: Data, type: [T].Type) -> [T] {
+    static func parseArray<T: Decodable>(from data: Data?, type: [T].Type) -> [T]? {
+        guard let data = data else { return nil }
+
+        let decoder = JSONDecoder()
         do {
-            return try JSONDecoder().decode(type.self, from: data)
+            return try decoder.decode(type.self, from: data)
         } catch {
             do {
-                let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 return try decoder.decode(type.self, from: data)
             } catch {
@@ -49,8 +53,8 @@ extension Decodable {
         return parse(from: data, type: type)
     }
 
-    static func parseArray<T: Decodable>(from string: String, type: [T].Type) -> [T] {
-        guard let data = string.data(using: .utf8) else { return [] }
+    static func parseArray<T: Decodable>(from string: String, type: [T].Type) -> [T]? {
+        guard let data = string.data(using: .utf8) else { return nil }
         return parseArray(from: data, type: type)
     }
 }

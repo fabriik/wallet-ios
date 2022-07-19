@@ -11,6 +11,7 @@
 import UIKit
 
 final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
+    
     typealias Models = SwapModels
     
     weak var viewController: SwapViewController?
@@ -62,20 +63,20 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         let format = "%.*f"
         let decimal = 10
-        
+
         let formattedBaseCryptoString = String(format: format, decimal, actionResponse.fromBaseCryptoFee?.doubleValue ?? 0)
         let baseCurrencyString = " " + (actionResponse.baseCurrency ?? "")
         let formattedBaseFiatString = "\n" + String(format: format, decimal, actionResponse.fromBaseFiatFee?.doubleValue ?? 0)
-        
+
         let formattedTermCryptoString = String(format: format, decimal, actionResponse.fromTermCryptoFee?.doubleValue ?? 0)
         let termCurrencyString = " " + (actionResponse.termCurrency ?? "")
         let formattedTermFiatString = "\n" + String(format: format, decimal, actionResponse.fromTermFiatFee?.doubleValue ?? 0)
-        
+
         let defaultCurrencyCodeString = " " + Store.state.defaultCurrencyCode
-        
+
         let topFeeString: String = formattedBaseCryptoString + baseCurrencyString + formattedBaseFiatString + defaultCurrencyCodeString
         let bottomFeeString: String = formattedTermCryptoString + termCurrencyString + formattedTermFiatString + defaultCurrencyCodeString
-        
+
         let swapModel = MainSwapViewModel(selectedBaseCurrency: actionResponse.baseCurrency ?? "",
                                           selectedBaseCurrencyIcon: actionResponse.baseCurrencyIcon,
                                           selectedTermCurrency: actionResponse.termCurrency ?? "",
@@ -92,14 +93,51 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                           topFeeString: topFeeString,
                                           bottomFeeString: bottomFeeString,
                                           shouldShowFees: validateFields(actionResponse))
-        
+
         exchangeRateViewModel.firstCurrency = actionResponse.baseCurrency ?? ""
         exchangeRateViewModel.secondCurrency = actionResponse.termCurrency ?? ""
-        
+
         viewController?.displaySetAmount(responseDisplay: .init(amounts: swapModel,
                                                                 rate: exchangeRateViewModel,
                                                                 minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue),
                                                                 shouldEnableConfirm: validateFields(actionResponse)))
+        
+        guard actionResponse.baseCurrency != actionResponse.termCurrency else {
+            let first = actionResponse.baseCurrency ?? "<base missing>"
+            let second = actionResponse.termCurrency ?? "<term missing>"
+            presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: "\(first)-\(second)")))
+            return
+        }
+        
+        let value = actionResponse.fromFiatAmount ?? 0
+        let fromCrypto = actionResponse.fromCryptoAmount ?? 0.0
+        let profile = UserManager.shared.profile
+        let dailyLimit = profile?.dailyRemainingLimit ?? 0
+        let lifetimeLimit = profile?.lifetimeRemainingLimit ?? 0
+        let exchangeLimit = profile?.exchangeLimit ?? 0
+        let balance = actionResponse.baseBalance.tokenValue
+        switch value {
+        case _ where value <= 0:
+            presentError(actionResponse: .init(error: nil))
+            
+        case _ where value > actionResponse.baseBalance.fiatValue:
+            presentError(actionResponse: .init(error: SwapErrors.balanceTooLow(amount: fromCrypto, balance: balance, currency: actionResponse.baseCurrency ?? "")))
+            
+        case _ where value < 50:
+            presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: 50, currency: "USD")))
+            
+        case _ where value > dailyLimit:
+            presentError(actionResponse: .init(error: SwapErrors.overDailyLimit))
+            
+        case _ where value > lifetimeLimit:
+            presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit))
+            
+        case _ where value > exchangeLimit:
+            presentError(actionResponse: .init(error: SwapErrors.overExchangeLimit))
+            
+        default:
+            presentError(actionResponse: .init(error: nil))
+        }
     }
     
     func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse) {
@@ -107,11 +145,19 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
-        let error = actionResponse.error as? SwapErrors
-        let model = InfoViewModel(description: .text(error?.errorMessage), dismissType: .persistent)
+        guard let error = actionResponse.error as? SwapErrors else {
+            viewController?.displayMessage(responseDisplay: .init(error: actionResponse.error as? FEError, model: nil, config: nil))
+            return
+        }
+        
+        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
         let config = Presets.InfoView.swapError
         
-        viewController?.displayMessage(responseDisplay: error == nil ? .init() : .init(model: model, config: config))
+        viewController?.displayMessage(responseDisplay: .init(model: model, config: config))
+    }
+    
+    func presentConfirm(actionResponse: SwapModels.Confirm.ActionResponse) {
+        viewController?.displayConfirm(responseDisplay: .init())
     }
     
     // MARK: - Additional Helpers

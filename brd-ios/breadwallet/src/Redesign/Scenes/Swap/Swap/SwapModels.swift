@@ -122,4 +122,14 @@ enum SwapModels {
             var to: String?
         }
     }
+    
+    struct Confirm {
+        struct ViewAction {
+            var isConfirmed = false
+        }
+        
+        struct ActionResponse {}
+        
+        struct ResponseDisplay {}
+    }
 }
