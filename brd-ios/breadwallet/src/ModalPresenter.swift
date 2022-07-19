@@ -19,11 +19,11 @@ class ModalPresenter: Subscriber, Trackable {
 
     // MARK: - Public
     
-    init(keyStore: KeyStore, system: CoreSystem, window: UIWindow, alertPresenter: AlertPresenter?, applicationController: ApplicationController) {
+    init(keyStore: KeyStore, system: CoreSystem, window: UIWindow, alertPresenter: AlertPresenter?, deleteKYCAccountCallback: (() -> Void)?) {
         self.system = system
         self.window = window
         self.alertPresenter = alertPresenter
-        self.applicationController = applicationController
+        self.deleteKYCAccountCallback = deleteKYCAccountCallback
         self.keyStore = keyStore
         self.modalTransitionDelegate = ModalTransitionDelegate(type: .regular)
         addSubscriptions()
@@ -37,7 +37,7 @@ class ModalPresenter: Subscriber, Trackable {
     private let window: UIWindow
     private let keyStore: KeyStore
     private var alertPresenter: AlertPresenter?
-    private var applicationController: ApplicationController
+    private var deleteKYCAccountCallback: (() -> Void)?
     private let modalTransitionDelegate: ModalTransitionDelegate
     private let messagePresenter = MessageUIPresenter()
     private let securityCenterNavigationDelegate = SecurityCenterNavigationDelegate()
@@ -1176,7 +1176,7 @@ class ModalPresenter: Subscriber, Trackable {
             
             // Add Delete KYC account
             MenuItem(title: "Delete account", color: LightColors.error) { [weak self] in
-                self?.applicationController.didTapDeleteAccount?()
+                self?.deleteKYCAccountCallback?()
             }
         ]
         

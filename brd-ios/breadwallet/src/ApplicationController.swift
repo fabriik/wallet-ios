@@ -118,7 +118,7 @@ class ApplicationController: Subscriber, Trackable {
                                         system: coreSystem,
                                         window: window,
                                         alertPresenter: alertPresenter,
-                                        applicationController: self)
+                                        deleteKYCAccountCallback: didTapDeleteAccount)
         
         // Start collecting analytics events. Once we have a wallet, startBackendServices() will
         // notify `Backend.apiClient.analytics` so that it can upload events to the server.
@@ -207,7 +207,7 @@ class ApplicationController: Subscriber, Trackable {
                                                          system: self.coreSystem,
                                                          window: self.window,
                                                          alertPresenter: self.alertPresenter,
-                                                         applicationController: self)
+                                                         deleteKYCAccountCallback: self.didTapDeleteAccount)
                     self.coreSystem.connect()
                 }
             }
