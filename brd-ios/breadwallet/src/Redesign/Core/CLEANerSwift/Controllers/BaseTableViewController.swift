@@ -63,6 +63,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
         tableView.register(WrapperTableViewCell<FEImageView>.self)
         tableView.register(WrapperTableViewCell<ScrollableButtonsView>.self)
         tableView.register(WrapperTableViewCell<ChecklistItemView>.self)
+        tableView.register(WrapperTableViewCell<TickboxItemView>.self)
         tableView.register(WrapperTableViewCell<FESegmentControl>.self)
         tableView.register(WrapperTableViewCell<ExchangeRateView>.self)
         
@@ -371,6 +372,22 @@ class BaseTableViewController<C: CoordinatableRoutes,
         let section = sections[indexPath.section]
         guard let cell: WrapperTableViewCell<ChecklistItemView> = tableView.dequeueReusableCell(for: indexPath),
               let model = sectionRows[section]?[indexPath.row] as? ChecklistItemViewModel else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+            view.setupCustomMargins(horizontal: .large)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, tickboxCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<TickboxItemView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? TickboxItemViewModel else {
             return UITableViewCell()
         }
         

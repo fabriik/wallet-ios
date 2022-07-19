@@ -408,7 +408,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
             self.rewardsViewHeightConstraint?.constant = constants.1
             self.view.layoutIfNeeded()
         }, completion: { [weak self] _ in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             
             self.rewardsView?.animateIcon()
 

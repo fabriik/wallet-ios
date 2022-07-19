@@ -95,10 +95,10 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         })
         Store.subscribe(self,
                         selector: { [weak self] oldState, newState in
-                            guard let `self` = self else { return false }
+                            guard let self = self else { return false }
                             return oldState[self.currency]?.currentRate != newState[self.currency]?.currentRate},
                         callback: { [weak self] state in
-                            guard let `self` = self else { return }
+                            guard let self = self else { return }
                             self.rate = state[self.currency]?.currentRate
         })
         
@@ -113,7 +113,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
     
     private func subscribeToTransactionUpdates() {
         wallet?.subscribe(self) { [weak self] event in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch event {
                 case .balanceUpdated, .transferAdded, .transferDeleted:
@@ -132,7 +132,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         }
         
         wallet?.subscribeManager(self) { [weak self] event in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 if case .blockUpdated = event {
                     self.updateTransactions()

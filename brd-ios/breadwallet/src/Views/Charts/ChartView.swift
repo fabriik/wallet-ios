@@ -181,7 +181,7 @@ class ChartView: UIView {
     
     private func addAnimationCompletion() {
         bezierView.didFinishAnimation = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.endCircleX?.constant = self.coordinates.last?.x ?? 0
             self.endCircleY?.constant = self.coordinates.last?.y ?? 0
             self.endCircle.isHidden = false
@@ -249,7 +249,7 @@ class ChartView: UIView {
     private func fetchHistory(forPeriod period: HistoryPeriod) {
         guard let id = currency.coinGeckoId else { return }
         historyFetcher.fetchHistory(forCode: id, period: period, callback: { [weak self] result in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.rawValues[period] = data

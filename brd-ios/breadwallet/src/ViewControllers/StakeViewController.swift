@@ -176,7 +176,7 @@ class StakeViewController: UIViewController, Subscriber, Trackable, ModalPresent
     
     private func send(address: String) {
         let pinVerifier: PinVerifier = { [weak self] pinValidationCallback in
-            guard let `self` = self else { return assertionFailure() }
+            guard let self = self else { return assertionFailure() }
             self.sendingActivity.dismiss(animated: false) {
                 self.presentVerifyPin?(L10n.VerifyPin.authorize) { pin in
                     self.parent?.view.isFrameChangeBlocked = false
@@ -188,7 +188,7 @@ class StakeViewController: UIViewController, Subscriber, Trackable, ModalPresent
         
         present(sendingActivity, animated: true)
         sender.stake(address: address, pinVerifier: pinVerifier) { [weak self] result in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.sendingActivity.dismiss(animated: true) {
                 defer { self.sender.reset() }
                 switch result {

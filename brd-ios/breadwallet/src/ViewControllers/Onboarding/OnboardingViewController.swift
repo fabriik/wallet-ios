@@ -751,7 +751,7 @@ class OnboardingViewController: UIViewController {
         
         UIView.animateKeyframes(withDuration: pageAnimationDuration, delay: delay, 
                                 options: .calculationModeCubic, animations: { [weak self] in
-                                    guard let `self` = self else { return }
+                                    guard let self = self else { return }
                                     
                                     // Fade out the logo.
                                     if self.logoImageView.alpha == 1 {
@@ -788,7 +788,7 @@ class OnboardingViewController: UIViewController {
                                     }
                                     
             }, completion: { [weak self] _ in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
 
                 let nextIndex = min(self.pageIndex + 1, self.pageCount - 1)
                 

@@ -181,10 +181,10 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         addButtonActions()
         Store.subscribe(self,
                         selector: { [weak self] oldState, newState in
-                            guard let `self` = self else { return false }
+                            guard let self = self else { return false }
                             return oldState[self.currency]?.balance != newState[self.currency]?.balance },
                         callback: { [weak self] in
-                            guard let `self` = self else { return }
+                            guard let self = self else { return }
                             if let balance = $0[self.currency]?.balance {
                                 self.balance = balance
                             }
@@ -209,7 +209,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
     
     private func addAddressChangeListener() {
         addressCell.textDidChange = { [weak self] text in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             guard let text = text else { return }
             guard self.currency.isValidAddress(text) else { return }
             self.updateFees()
@@ -301,7 +301,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         group?.enter()
         sender.estimateLimitMaximum(address: address, fee: feeLevel, completion: { [weak self] result in
             DispatchQueue.main.async {
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 switch result {
                 case .success(let maximumAmount):
                     self.maximum = Amount(cryptoAmount: maximumAmount, currency: self.currency)
@@ -315,7 +315,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         group?.enter()
         sender.estimateLimitMinimum(address: address, fee: feeLevel) { [weak self] result in
             DispatchQueue.main.async {
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 switch result {
                 case .success(let minimumAmount):
                     self.minimum = Amount(cryptoAmount: minimumAmount, currency: self.currency)
@@ -605,7 +605,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
     
     private func send() {
         let pinVerifier: PinVerifier = { [weak self] pinValidationCallback in
-            guard let `self` = self else { return assertionFailure() }
+            guard let self = self else { return assertionFailure() }
             self.sendingActivity.dismiss(animated: false) {
                 self.presentVerifyPin?(L10n.VerifyPin.authorize) { pin in
                     self.parent?.view.isFrameChangeBlocked = false
@@ -617,7 +617,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         
         present(sendingActivity, animated: true)
         sender.sendTransaction(allowBiometrics: true, pinVerifier: pinVerifier) { [weak self] result in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.sendingActivity.dismiss(animated: true) {
                 defer { self.sender.reset() }
                 switch result {
@@ -750,7 +750,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
 
         let alertController = UIAlertController(title: L10n.Send.insufficientGasTitle, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: L10n.Button.yes, style: .default, handler: { [weak self] _ in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             Store.trigger(name: .showCurrency(self.sender.wallet.feeCurrency))
         }))
         alertController.addAction(UIAlertAction(title: L10n.Button.no, style: .cancel, handler: nil))

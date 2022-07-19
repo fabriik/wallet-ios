@@ -234,7 +234,7 @@ class GiftViewController: UIViewController, Trackable {
         group.enter()
         wallet.estimateLimitMaximum(address: address.description, fee: feeLevel, completion: { [weak self] result in
             group.leave()
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             switch result {
             case .success(let maximumAmount):
                 DispatchQueue.main.async {
@@ -248,7 +248,7 @@ class GiftViewController: UIViewController, Trackable {
         group.enter()
         wallet.estimateLimitMinimum(address: address.description, fee: feeLevel) { [weak self] result in
             group.leave()
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             switch result {
             case .success(let minimumAmount):
                 DispatchQueue.main.async {
@@ -308,7 +308,7 @@ class GiftViewController: UIViewController, Trackable {
         sender.estimateFee(address: address.description, amount: amount, tier: .regular, isStake: false) { [weak self] result in
             switch result {
             case .success(let feeBasis):
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 let feeCurrency = self.sender.wallet.feeCurrency
                 let fee = Amount(cryptoAmount: feeBasis.fee, currency: feeCurrency)
                 let rate = Rate(code: "USD", name: "USD", rate: rate.price, reciprocalCode: "BTC")
@@ -353,7 +353,7 @@ class GiftViewController: UIViewController, Trackable {
     
     private func send() {
         let pinVerifier: PinVerifier = { [weak self] pinValidationCallback in
-            guard let `self` = self else { return assertionFailure() }
+            guard let self = self else { return assertionFailure() }
             self.sendingActivity.dismiss(animated: false) {
                 self.presentVerifyPin?(L10n.VerifyPin.authorize) { pin in
                     self.parent?.view.isFrameChangeBlocked = false
@@ -365,7 +365,7 @@ class GiftViewController: UIViewController, Trackable {
         
         present(sendingActivity, animated: true)
         sender.sendTransaction(allowBiometrics: true, pinVerifier: pinVerifier) { [weak self] result in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.sendingActivity.dismiss(animated: true) {
                 defer { self.sender.reset() }
                 switch result {

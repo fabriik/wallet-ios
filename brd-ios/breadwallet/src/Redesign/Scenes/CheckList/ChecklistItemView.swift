@@ -17,12 +17,12 @@ struct ChecklistItemConfiguration: Configurable {
 
 struct ChecklistItemViewModel: ViewModel {
     var title: LabelViewModel?
-    var image: ImageViewModel = .imageName("check")
+    var image: ImageViewModel? = .imageName("check")
 }
 
 class ChecklistItemView: FEView<ChecklistItemConfiguration, ChecklistItemViewModel> {
     
-    private lazy var checkmarImageView: FEImageView = {
+    private lazy var checkmarkImageView: FEImageView = {
         let view = FEImageView()
         return view
     }()
@@ -35,32 +35,48 @@ class ChecklistItemView: FEView<ChecklistItemConfiguration, ChecklistItemViewMod
     override func setupSubviews() {
         super.setupSubviews()
         
-        content.addSubview(checkmarImageView)
-        checkmarImageView.snp.makeConstraints { make in
+        content.addSubview(checkmarkImageView)
+        checkmarkImageView.snp.makeConstraints { make in
             make.top.equalTo(content.snp.top).inset(Margins.extraSmall.rawValue)
             make.leading.equalTo(content.snp.leading)
-            make.height.equalTo(checkmarImageView.snp.width)
+            make.height.equalTo(checkmarkImageView.snp.width)
             make.width.equalTo(Margins.extraLarge.rawValue)
         }
         
         content.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(checkmarImageView.snp.trailing).offset(Margins.medium.rawValue)
+            make.leading.equalTo(checkmarkImageView.snp.trailing).offset(Margins.medium.rawValue)
             make.trailing.equalTo(content.snp.trailing)
-            make.top.equalTo(checkmarImageView.snp.top)
+            make.top.equalTo(checkmarkImageView.snp.top)
             make.bottom.equalTo(content.snp.bottom)
         }
     }
     
     override func configure(with config: ChecklistItemConfiguration?) {
         super.configure(with: config)
-        checkmarImageView.configure(with: config?.image)
+        checkmarkImageView.configure(with: config?.image)
         titleLabel.configure(with: config?.title)
     }
     
     override func setup(with viewModel: ChecklistItemViewModel?) {
         super.setup(with: viewModel)
-        checkmarImageView.setup(with: viewModel?.image)
+        checkmarkImageView.setup(with: viewModel?.image)
         titleLabel.setup(with: viewModel?.title)
+        
+        guard viewModel?.image == nil else { return }
+        
+        checkmarkImageView.snp.remakeConstraints { make in
+            make.top.equalTo(content.snp.top).inset(Margins.extraSmall.rawValue)
+            make.leading.equalTo(content.snp.leading)
+            make.height.equalTo(checkmarkImageView.snp.width)
+            make.width.equalTo(0)
+        }
+        
+        titleLabel.snp.remakeConstraints { make in
+            make.leading.equalTo(checkmarkImageView.snp.trailing)
+            make.trailing.equalTo(content.snp.trailing)
+            make.top.equalTo(checkmarkImageView.snp.top)
+            make.bottom.equalTo(content.snp.bottom)
+        }
     }
 }

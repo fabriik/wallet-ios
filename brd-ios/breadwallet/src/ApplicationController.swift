@@ -115,7 +115,8 @@ class ApplicationController: Subscriber, Trackable {
         modalPresenter = ModalPresenter(keyStore: keyStore,
                                         system: coreSystem,
                                         window: window,
-                                        alertPresenter: alertPresenter)
+                                        alertPresenter: alertPresenter,
+                                        applicationController: self)
         
         // Start collecting analytics events. Once we have a wallet, startBackendServices() will
         // notify `Backend.apiClient.analytics` so that it can upload events to the server.
@@ -203,7 +204,8 @@ class ApplicationController: Subscriber, Trackable {
                     self.modalPresenter = ModalPresenter(keyStore: self.keyStore,
                                                          system: self.coreSystem,
                                                          window: self.window,
-                                                         alertPresenter: self.alertPresenter)
+                                                         alertPresenter: self.alertPresenter,
+                                                         applicationController: self)
                     self.coreSystem.connect()
                 }
             }
@@ -412,6 +414,8 @@ class ApplicationController: Subscriber, Trackable {
         UISwitch.appearance().onTintColor = Theme.accent
     }
     
+    var didTapDeleteAccount: (() -> Void)?
+    
     private func addHomeScreenHandlers(homeScreen: HomeScreenViewController,
                                        navigationController: UINavigationController) {
         
@@ -438,6 +442,10 @@ class ApplicationController: Subscriber, Trackable {
         
         homeScreen.didTapProfile = { [unowned self] in
             coordinator?.showProfile()
+        }
+        
+        didTapDeleteAccount = { [unowned self] in
+            coordinator?.showDeleteKYCInfo()
         }
         
         homeScreen.didTapProfileFromPrompt = { [unowned self] profile in

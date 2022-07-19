@@ -127,6 +127,12 @@ class BaseCoordinator: NSObject,
         }
     }
     
+    func showDeleteKYCInfo() {
+        openModally(coordinator: DeleteKYCInfoCoordinator.self, scene: Scenes.DeleteKYCInfo) { vc in
+            vc?.prepareData()
+        }
+    }
+    
     /// Determines whether the viewcontroller or navigation stack are being dismissed
     func goBack() {
         // if the same coordinator is used in a flow, we dont want to remove it from the parent

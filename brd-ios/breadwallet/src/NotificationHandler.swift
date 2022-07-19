@@ -92,7 +92,7 @@ extension NotificationHandler {
     
     func checkForInAppNotifications() {
         Backend.apiClient.checkMessages { [weak self] (messages) in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             guard let msgs = messages, !msgs.isEmpty else { return }
             
             // Filter on in-app messages.
