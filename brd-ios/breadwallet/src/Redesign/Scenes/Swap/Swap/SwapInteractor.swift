@@ -11,31 +11,37 @@
 import UIKit
 import WalletKit
 
-enum SwapErrors: Error {
+protocol FEError: Error {
+    var errorMessage: String { get }
+}
+
+enum SwapErrors: FEError {
     case noQuote
     case general
+    /// Param 1: amount, param 2 currency symbol
     case tooLow
+    /// Param 1: amount, param 2 currency symbol
     case tooHigh
+    /// Param 1&2 -> currency, param 3 balance
     case balanceTooLow
     case overDailyLimit
     case overLifetimeLimit
+    // TODO: unoficial error xD
     case networkFee
+    case overExchangeLimit
     
     var errorMessage: String {
         switch self {
-            /// Param 1&2 -> currency, param 3 balance
         case .balanceTooLow:
             return "You don't have enough %@ to complete this swap. Your current %@ balance is %@"
             
         case .general:
             return "BSV network is experiencing network issues. Swapping assets is temporarily unavailable."
             
-            /// Param 1: amount, param 2 currency symbol
         case .tooLow:
             return "The amount is lower than the swap minimum of %.10f, %@"
             
         case .tooHigh:
-            /// Param 1: amount, param 2 currency symbol
             return "The amount is higher than the swap maximum of %.5f %@"
             
         case .overDailyLimit:
@@ -46,9 +52,10 @@ enum SwapErrors: Error {
             
         case .networkFee:
             return "This swap doesn't cover the included network fee. Please add more funds to your wallet or change the amount you're swapping"
-            // TODO: unoficial error xD
         case .noQuote:
             return "No quote for currency pair."
+        case .overExchangeLimit:
+            return "Over exchange limit."
         }
     }
 }
@@ -95,7 +102,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     private func getQuote(isInitialLaunch: Bool) {
         guard let quoteTerm = dataStore?.quoteTerm else {
             lastError = SwapErrors.noQuote
-            presentError()
             return
         }
         
@@ -247,12 +253,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 viewAction.fromFiatAmount = String(describing: minAmount)
                 
             case .max:
-                guard (getBaseBalance()?.fiatValue ?? 0) >= minAmount else {
-                    lastError = SwapErrors.tooLow
-                    setAmount(viewAction: .init())
-                    
-                    return
-                }
                 viewAction.fromCryptoAmount = "\(getBaseBalance()?.tokenValue ?? 0)"
             }
         }
@@ -333,7 +333,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                         && dataStore?.toFiatAmount == nil {
                 dataStore?.toCryptoAmount = 0
                 dataStore?.toFiatAmount = 0
-                dataStore?.fromCryptoAmount = 0
+                dataStore?.fromCryptoAmount = 0     
                 dataStore?.fromFiatAmount = 0
                 dataStore?.fromBaseCryptoFee = 0
                 dataStore?.fromBaseFiatFee = 0
@@ -341,9 +341,21 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 dataStore?.fromTermFiatFee = 0
             }
             
+            let value = dataStore?.fromFiatAmount ?? 0
+            if value != 0 {
+                if value < 50 {
+                    presenter?.presentError(actionResponse: .init(error: SwapErrors.tooLow))
+                } else if value > (UserManager.shared.profile?.dailyRemainingLimit ?? 0.0) {
+                    presenter?.presentError(actionResponse: .init(error: SwapErrors.overDailyLimit))
+                } else if value > (UserManager.shared.profile?.lifetimeRemainingLimit ?? 0.0) {
+                    presenter?.presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit))
+                } else if value > (UserManager.shared.profile?.exchangeLimit ?? 0.0) {
+                    presenter?.presentError(actionResponse: .init(error: SwapErrors.overExchangeLimit))
+                }
+            }
+            
             guard let baseBalance = getBaseBalance(), let dataStore = dataStore else {
                 lastError = SwapErrors.general
-                presentError()
                 return
             }
             
@@ -361,8 +373,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                                     termCurrencyIcon: getTermCurrencyImage(),
                                                                     minMaxToggleValue: dataStore.minMaxToggleValue,
                                                                     baseBalance: baseBalance))
-            
-            presentError()
         }
     }
     
@@ -403,9 +413,46 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     // MARK: - Aditional helpers
+}
+
+struct SwapResponseModel: ModelResponse {
     
+}
+
+struct Swap: Codable {
     
-    private func presentError() {
-        presenter?.presentError(actionResponse: .init(error: lastError))
+}
+
+class SwapMapper: ModelMapper<SwapResponseModel, Swap> {
+    override func getModel(from response: SwapResponseModel?) -> Swap? {
+        return Swap()
+    }
+}
+
+struct SwapRequestModel: RequestModelData {
+    var quoteId: String?
+    var quantity: String?
+    var destination: String?
+    var destinationCurrency: String?
+    
+    func getParameters() -> [String : Any] {
+        let params: [String: Any?] = [
+            "quote_id": quoteId,
+            "quantity": quantity,
+            "destination": destination,
+            "destination_currency": destinationCurrency
+        ]
+        return params.compactMapValues { $0 }
+    }
+}
+
+class SwapWorker: BaseApiWorker<SwapMapper> {
+    
+    override func getUrl() -> String {
+        return APIURLHandler.getUrl(SwapEndpoints.exchange)
+    }
+    
+    override func getMethod() -> HTTPMethod {
+        return .post
     }
 }

@@ -11,14 +11,14 @@ enum Encoding {
     case json
 }
 
-public struct HTTPResponse {
-    public var statusCode = 0
-    public var responseString = ""
-    public var responseValue: Any?
-    public var error: NetworkingError?
-    public var request: URLRequest?
-    public var response: HTTPURLResponse?
-    public var data: Data?
+struct HTTPResponse {
+    var statusCode = 0
+    var responseString = ""
+    var responseValue: Any?
+    var error: FEError?
+    var request: URLRequest?
+    var response: HTTPURLResponse?
+    var data: Data?
 }
 
 protocol MultiPart {
@@ -29,8 +29,8 @@ protocol MultiPart {
     var mimeFileFormat: MultipartMedia.MimeFileFormat { get set }
 }
 
-public struct MultipartMedia: MultiPart {
-    public enum MimeType {
+struct MultipartMedia: MultiPart {
+    enum MimeType {
         case jpeg
         case png
         case pdf
@@ -50,7 +50,7 @@ public struct MultipartMedia: MultiPart {
         }
     }
     
-    public enum MimeFileFormat {
+    enum MimeFileFormat {
         case jpeg
         case png
         case pdf
@@ -70,13 +70,13 @@ public struct MultipartMedia: MultiPart {
         }
     }
     
-    public var key: String
-    public var fileName: String?
-    public var data: Data
-    public var mimeType: MimeType
-    public var mimeFileFormat: MimeFileFormat
+    var key: String
+    var fileName: String?
+    var data: Data
+    var mimeType: MimeType
+    var mimeFileFormat: MimeFileFormat
     
-    public init(with data: Data, fileName: String? = nil, forKey key: String, mimeType: MimeType, mimeFileFormat: MimeFileFormat) {
+    init(with data: Data, fileName: String? = nil, forKey key: String, mimeType: MimeType, mimeFileFormat: MimeFileFormat) {
         self.key = key
         self.fileName = fileName
         self.data = data

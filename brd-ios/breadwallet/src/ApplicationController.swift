@@ -372,7 +372,8 @@ class ApplicationController: Subscriber, Trackable {
                 self?.coordinator?.showRegistration()
                 
             case .failure(let error):
-                guard error is SessionExpiredError else {
+                guard let error = error as? NetworkingError,
+                      error == .sessionExpired else {
                     self?.coordinator?.showMessage(with: error)
                     return
                 }
@@ -451,9 +452,8 @@ class ApplicationController: Subscriber, Trackable {
                 }
 
             case .failure(let error):
-                guard error is SessionExpiredError else {
-                    return
-                }
+                guard (error as? NetworkingError) == .sessionExpired else { return }
+                
                 coordinator?.showRegistration(shouldShowProfile: true)
                 
             default:

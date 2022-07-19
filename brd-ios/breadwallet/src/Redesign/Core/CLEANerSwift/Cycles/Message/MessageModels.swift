@@ -29,7 +29,7 @@ struct MessageModels {
     }
     
     struct ResponseDisplays {
-        var error: NetworkingError?
+        var error: FEError?
         var model: InfoViewModel?
         var config: InfoViewConfiguration?
     }
