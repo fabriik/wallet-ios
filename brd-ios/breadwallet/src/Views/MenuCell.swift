@@ -23,7 +23,7 @@ class MenuCell: UITableViewCell {
     func set(item: MenuItem) {
         textLabel?.text = item.title
         textLabel?.font = .customBody(size: 16.0)
-        textLabel?.textColor = .almostBlack
+        textLabel?.textColor = item.color ?? .almostBlack
         
         imageView?.image = item.icon
         imageView?.tintColor = .gray1

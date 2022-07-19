@@ -38,10 +38,8 @@ class TxListCell: UITableViewCell {
     func setTransaction(_ viewModel: TxListViewModel, showFiatAmounts: Bool, rate: Rate, isSyncing: Bool) {
         self.viewModel = viewModel
         
-        if #available(iOS 13.0, *) {
-            if let hosting = statusIconHosting as? UIHostingController<TxStatusIcon> {
-                hosting.rootView = TxStatusIcon(status: viewModel.icon)
-            }
+        if let hosting = statusIconHosting as? UIHostingController<TxStatusIcon> {
+            hosting.rootView = TxStatusIcon(status: viewModel.icon)
         }
         
         descriptionLabel.text = viewModel.shortDescription
@@ -54,46 +52,28 @@ class TxListCell: UITableViewCell {
             timestamp.text = L10n.Transaction.failed
             failedIndicator.isHidden = false
             statusIndicator.isHidden = true
-            if #available(iOS 13, *) {
-                timestamp.isHidden = false
-                NSLayoutConstraint.activate(completeConstraints)
-                NSLayoutConstraint.deactivate(pendingConstraints)
-            } else {
-                timestamp.isHidden = true
-                NSLayoutConstraint.deactivate(completeConstraints)
-                NSLayoutConstraint.activate(pendingConstraints)
-            }
+            timestamp.isHidden = false
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
         case .complete:
             timestamp.text = viewModel.shortTimestamp
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
-            if #available(iOS 13, *) {
-                NSLayoutConstraint.activate(completeConstraints)
-                NSLayoutConstraint.deactivate(pendingConstraints)
-            } else {
-                NSLayoutConstraint.deactivate(pendingConstraints)
-                NSLayoutConstraint.activate(completeConstraints)
-            }
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
         default:
             failedIndicator.isHidden = true
             statusIndicator.isHidden = false
             timestamp.isHidden = false
             timestamp.text = "\(viewModel.confirmations)/\(viewModel.currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
             
-            if #available(iOS 13, *) {
-                NSLayoutConstraint.activate(completeConstraints)
-                NSLayoutConstraint.deactivate(pendingConstraints)
-            } else {
-               NSLayoutConstraint.deactivate(completeConstraints)
-               NSLayoutConstraint.activate(pendingConstraints)
-            }
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
         }
   
-        if #available(iOS 13, *) {
-            failedIndicator.isHidden = true
-            statusIndicator.isHidden = true
-        }
+        failedIndicator.isHidden = true
+        statusIndicator.isHidden = true
     }
     
     // MARK: - Private
@@ -105,13 +85,12 @@ class TxListCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        if #available(iOS 13.0, *) {
-            let icon = TxStatusIcon(status: .sent)
-            let iconContainer = UIHostingController(rootView: icon)
-            contentView.addSubview(iconContainer.view)
-            statusIconContainer = iconContainer.view
-            statusIconHosting = iconContainer
-        }
+        let icon = TxStatusIcon(status: .sent)
+        let iconContainer = UIHostingController(rootView: icon)
+        contentView.addSubview(iconContainer.view)
+        statusIconContainer = iconContainer.view
+        statusIconHosting = iconContainer
+        
         contentView.addSubview(timestamp)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(statusIndicator)

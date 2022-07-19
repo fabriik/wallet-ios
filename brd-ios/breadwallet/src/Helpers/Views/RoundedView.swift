@@ -23,9 +23,6 @@ class RoundedView: UIView {
     
     func setupLayer() {
         clipsToBounds = true
-        
-        if #available(iOS 13.0, *) {
-            layer.cornerCurve = .continuous
-        }
+        layer.cornerCurve = .continuous
     }
 }

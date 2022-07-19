@@ -223,10 +223,8 @@ class ShareGiftViewController: UIViewController {
     
     override func loadView() {
         view = shareView
-        if #available(iOS 13.0, *) {
-            shareView.didTapShare = coordinator.showShare
-            self.coordinator.parent = self
-        }
+        shareView.didTapShare = coordinator.showShare
+        coordinator.parent = self
         shareView.didTapClose = coordinator.closeAction
     }
     
