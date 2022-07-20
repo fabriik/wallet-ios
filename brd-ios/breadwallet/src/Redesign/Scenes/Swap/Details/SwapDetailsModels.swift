@@ -9,5 +9,14 @@
 import UIKit
 
 enum SwapDetailsModels {
-    
+    enum Section: Sectionable {
+        case header
+        case order
+        case fromCurrency
+        case toCurrency
+        case transactionID
+        
+        var header: AccessoryType? { return nil }
+        var footer: AccessoryType? { return nil }
+    }
 }

@@ -13,6 +13,10 @@ class SwapDetailsInteractor: NSObject, Interactor, SwapDetailsViewActions {
 
     var presenter: SwapDetailsPresenter?
     var dataStore: SwapDetailsStore?
+    
+    func getData(viewAction: FetchModels.Get.ViewAction) {
+        presenter?.presentData(actionResponse: .init(item: nil))
+    }
 
     // MARK: - SwapDetailsViewActions
 
