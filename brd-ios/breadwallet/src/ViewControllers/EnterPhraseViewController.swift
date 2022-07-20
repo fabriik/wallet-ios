@@ -237,7 +237,10 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
 
         switch reason {
         case .setSeed(let callback):
-            guard let account = self.keyMaster.setSeedPhrase(phrase) else { return }
+            guard let account = self.keyMaster.setSeedPhrase(phrase) else {
+                showErrorMessage()
+                return
+            }
             //Since we know that the user had their phrase at this point,
             //this counts as a write date
             UserDefaults.writePaperPhraseDate = Date()
@@ -251,7 +254,8 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
             UserDefaults.writePaperPhraseDate = Date()
             return callback(phrase)
         case .validateForWipingWallet(let callback):
-            guard self.keyMaster.authenticate(withPhrase: phrase) else { showErrorMessage()
+            guard self.keyMaster.authenticate(withPhrase: phrase) else {
+                showErrorMessage()
                 return
             }
             return callback()
