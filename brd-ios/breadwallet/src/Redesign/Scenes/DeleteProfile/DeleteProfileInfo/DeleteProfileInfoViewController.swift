@@ -87,6 +87,12 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
     override func buttonTapped() {
         super.buttonTapped()
         
+        guard let navigationController = coordinator?.navigationController, let keyStore = dataStore?.keyMaster else { return }
+        RecoveryKeyFlowController.pushUnlinkWalletFlowWithoutIntro(from: navigationController,
+                                                                   keyMaster: keyStore,
+                                                                   phraseEntryReason: .validateForWipingWallet({ [weak self] in
+            self?.interactor?.deleteProfile(viewAction: .init())
+        }))
     }
     
     func tickboxToggled(value: Bool) {
@@ -94,6 +100,21 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
     }
     
     // MARK: - DeleteProfileInfoResponseDisplay
+    
+    func displayDeleteProfile(responseDisplay: DeleteProfileInfoModels.DeleteProfile.ResponseDisplay) {
+        guard let navigationController = coordinator?.navigationController else { return }
+        
+        coordinator?.showPopup(on: navigationController,
+                               blurred: false,
+                               with: responseDisplay.popupViewModel,
+                               config: responseDisplay.popupConfig,
+                               closeButtonCallback: { [weak self] in
+            self?.interactor?.wipeWallet(viewAction: .init())
+        }, callbacks: [ { [weak self] in
+            self?.coordinator?.hidePopup()
+            self?.interactor?.wipeWallet(viewAction: .init())
+        } ])
+    }
     
     func displayToggleTickbox(responseDisplay: DeleteProfileInfoModels.Tickbox.ResponseDisplay) {
         guard let section = sections.firstIndex(of: Models.Section.confirm),

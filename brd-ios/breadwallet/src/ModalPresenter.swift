@@ -19,11 +19,11 @@ class ModalPresenter: Subscriber, Trackable {
 
     // MARK: - Public
     
-    init(keyStore: KeyStore, system: CoreSystem, window: UIWindow, alertPresenter: AlertPresenter?, deleteKYCAccountCallback: (() -> Void)?) {
+    init(keyStore: KeyStore, system: CoreSystem, window: UIWindow, alertPresenter: AlertPresenter?, deleteAccountCallback: (() -> Void)?) {
         self.system = system
         self.window = window
         self.alertPresenter = alertPresenter
-        self.deleteKYCAccountCallback = deleteKYCAccountCallback
+        self.deleteAccountCallback = deleteAccountCallback
         self.keyStore = keyStore
         self.modalTransitionDelegate = ModalTransitionDelegate(type: .regular)
         addSubscriptions()
@@ -37,7 +37,7 @@ class ModalPresenter: Subscriber, Trackable {
     private let window: UIWindow
     private let keyStore: KeyStore
     private var alertPresenter: AlertPresenter?
-    private var deleteKYCAccountCallback: (() -> Void)?
+    private var deleteAccountCallback: (() -> Void)?
     private let modalTransitionDelegate: ModalTransitionDelegate
     private let messagePresenter = MessageUIPresenter()
     private let securityCenterNavigationDelegate = SecurityCenterNavigationDelegate()
@@ -1126,15 +1126,15 @@ class ModalPresenter: Subscriber, Trackable {
     
     private func prepareSecuritySettingsMenuItems(menuNav: RootNavigationController) -> [MenuItem] {
         // MARK: Security Settings
-        let securityItems: [MenuItem] = [
+        var securityItems: [MenuItem] = [
             // Unlink
             MenuItem(title: L10n.Settings.wipe) { [weak self] in
                 guard let self = self, let vc = self.topViewController else { return }
-                RecoveryKeyFlowController.enterUnlinkWalletFlow(from: vc,
-                                                                keyMaster: self.keyStore,
-                                                                phraseEntryReason: .validateForWipingWallet({ [weak self] in
-                                                                    self?.wipeWallet()
-                                                                }))
+                RecoveryKeyFlowController.presentUnlinkWalletFlow(from: vc,
+                                                                  keyMaster: self.keyStore,
+                                                                  phraseEntryReason: .validateForWipingWallet({ [weak self] in
+                    self?.wipeWallet()
+                }))
             },
             
             // Update PIN
@@ -1172,13 +1172,17 @@ class ModalPresenter: Subscriber, Trackable {
                 let cloudView = CloudBackupView(synchronizer: synchronizer)
                 let hosting = UIHostingController(rootView: cloudView)
                 menuNav.pushViewController(hosting, animated: true)
-            },
-            
-            // Add Delete KYC account
-            MenuItem(title: "Delete account", color: LightColors.error) { [weak self] in
-                self?.deleteKYCAccountCallback?()
             }
         ]
+        
+        // Add Delete KYC account
+        let deleteAccount = MenuItem(title: "Delete account", color: LightColors.error) { [weak self] in
+            self?.deleteAccountCallback?()
+        }
+        
+        if UserManager.shared.profile?.email != nil {
+            securityItems.append(deleteAccount)
+        }
         
         return securityItems
     }

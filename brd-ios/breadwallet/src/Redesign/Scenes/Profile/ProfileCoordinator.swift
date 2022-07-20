@@ -44,13 +44,18 @@ class ProfileCoordinator: BaseCoordinator, ProfileRoutes {
 }
 
 extension BaseCoordinator {
-    func showPopup(with model: PopupViewModel, callbacks: [(() -> Void)] = []) {
-        guard let view = navigationController.view else { return }
+    func showPopup(on viewController: UIViewController? = nil,
+                   blurred: Bool = true,
+                   with model: PopupViewModel,
+                   config: PopupConfiguration = Presets.Popup.normal,
+                   closeButtonCallback: (() -> Void)? = nil,
+                   callbacks: [(() -> Void)] = []) {
+        guard let view = viewController?.view ?? navigationController.view else { return }
         
-        let blur = UIBlurEffect(style: .regular)
+        let blur = UIBlurEffect(style: blurred ? .regular : .systemThinMaterialDark)
         let blurView = UIVisualEffectView(effect: blur)
         blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurView.alpha = 0
+        blurView.alpha = 0.0
         
         view.addSubview(blurView)
         blurView.snp.makeConstraints { make in
@@ -64,27 +69,27 @@ extension BaseCoordinator {
             make.leading.greaterThanOrEqualTo(view.snp.leadingMargin)
             make.trailing.greaterThanOrEqualTo(view.snp.trailingMargin)
         }
-        popup.alpha = 0
+        popup.alpha = 0.0
         popup.layoutIfNeeded()
-        popup.configure(with: Presets.Popup.normal)
+        popup.configure(with: config)
         popup.setup(with: model)
         popup.buttonCallbacks = callbacks
         
         popup.closeCallback = { [weak self] in
             self?.hidePopup()
+            closeButtonCallback?()
         }
         
         UIView.animate(withDuration: Presets.Animation.duration) {
-            popup.alpha = 1
-            blurView.alpha = 1
+            popup.alpha = 1.0
+            blurView.alpha = blurred ? 1.0 : 0.7
         }
     }
     
     // MARK: - Additional Helpers
     @objc func hidePopup() {
         guard let view = navigationController.view,
-              let popup = view.subviews.first(where: { $0 is FEPopupView })
-        else { return }
+              let popup = view.subviews.first(where: { $0 is FEPopupView }) else { return }
         let blur = view.subviews.first(where: { $0 is UIVisualEffectView })
         
         UIView.animate(withDuration: Presets.Animation.duration) {

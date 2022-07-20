@@ -48,6 +48,17 @@ final class DeleteProfileInfoPresenter: NSObject, Presenter, DeleteProfileInfoAc
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
     
+    func presentDeleteProfile(actionResponse: DeleteProfileInfoModels.DeleteProfile.ActionResponse) {
+        let popupViewModel = PopupViewModel(title: .text(""),
+                                            imageName: "statusIcon",
+                                            body: "Your account has been deleted.\nWe are sorry to see you go.", // TODO: Localize.
+                                            buttons: [.init(title: "Finish")],
+                                            closeButton: .init(image: "close"))
+        
+        viewController?.displayDeleteProfile(responseDisplay: .init(popupViewModel: popupViewModel,
+                                                                    popupConfig: Presets.Popup.whiteDimmed))
+    }
+    
     func presentToggleTickbox(actionResponse: DeleteProfileInfoModels.Tickbox.ActionResponse) {
         viewController?.displayToggleTickbox(responseDisplay: .init(model: .init(title: "Continue", enabled: actionResponse.value)))
     }

@@ -15,6 +15,8 @@ extension Scenes {
 }
 
 protocol DeleteProfileInfoViewActions: BaseViewActions, FetchViewActions {
+    func deleteProfile(viewAction: DeleteProfileInfoModels.DeleteProfile.ViewAction)
+    func wipeWallet(viewAction: DeleteProfileInfoModels.WipeWalletNoPrompt.ViewAction)
     func toggleTickbox(viewAction: DeleteProfileInfoModels.Tickbox.ViewAction)
 }
 
@@ -27,6 +29,7 @@ protocol DeleteProfileInfoResponseDisplays: AnyObject, BaseResponseDisplays, Fet
 }
 
 protocol DeleteProfileInfoDataStore: BaseDataStore, FetchDataStore {
+    var keyMaster: KeyStore? { get set }
 }
 
 protocol DeleteProfileInfoDataPassing {

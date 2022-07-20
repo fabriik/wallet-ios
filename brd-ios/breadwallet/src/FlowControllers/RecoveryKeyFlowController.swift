@@ -184,12 +184,11 @@ class RecoveryKeyFlowController {
         }
     }
     
-    static func enterUnlinkWalletFlow(from viewController: UIViewController,
-                                      keyMaster: KeyMaster,
-                                      phraseEntryReason: PhraseEntryReason) {
-
+    static func presentUnlinkWalletFlow(from viewController: UIViewController,
+                                        keyMaster: KeyMaster,
+                                        phraseEntryReason: PhraseEntryReason) {
         let navController = RecoveryKeyFlowController.makeNavigationController()
-
+        
         let enterPhrase: (() -> Void) = {
             let enterPhraseVC = EnterPhraseViewController(keyMaster: keyMaster, reason: phraseEntryReason)
             navController.pushViewController(enterPhraseVC, animated: true)
@@ -208,6 +207,15 @@ class RecoveryKeyFlowController {
 
         navController.viewControllers = [introVC]
         viewController.present(navController, animated: true, completion: nil)
+    }
+    
+    static func pushUnlinkWalletFlowWithoutIntro(from navigationController: UINavigationController,
+                                                 keyMaster: KeyMaster,
+                                                 phraseEntryReason: PhraseEntryReason) {
+        let enterPhraseVC = EnterPhraseViewController(keyMaster: keyMaster, reason: phraseEntryReason,
+                                                      showBackButton: false)
+        // TODO: Move to Coordinators.
+        navigationController.pushViewController(enterPhraseVC, animated: true)
     }
     
     static func enterResetPinFlow(from viewController: UIViewController,

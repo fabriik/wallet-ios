@@ -79,7 +79,7 @@ class VIPViewController<C: CoordinatableRoutes,
         let dataStore = DS()
         presenter.viewController = self as? P.ResponseDisplays
         interactor?.presenter = presenter as? I.ActionResponses
-        interactor?.dataStore = dataStore as? I.Store
+        interactor?.dataStore = dataStore as? I.DataStore
 
         setupSubviews()
         localize()

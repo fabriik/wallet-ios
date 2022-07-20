@@ -18,10 +18,13 @@ struct PopupConfiguration: Configurable {
     var buttons: [ButtonConfiguration] = []
     var closeButton: ButtonConfiguration?
 }
+
 struct PopupViewModel: ViewModel {
     var title: LabelViewModel?
+    var imageName: String?
     var body: String?
     var buttons: [ButtonViewModel] = []
+    var closeButton: ButtonViewModel? = .init(image: "cancel")
 }
 
 class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
@@ -36,6 +39,11 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
     private lazy var titleStack: UIStackView = {
         let view = UIStackView()
         view.spacing = Margins.small.rawValue
+        return view
+    }()
+    
+    private lazy var imageView: FEImageView = {
+        let view = FEImageView()
         return view
     }()
     
@@ -58,7 +66,6 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
     
     private lazy var closeButton: WrapperView<FEButton> = {
         let view = WrapperView<FEButton>()
-        view.wrappedView.setup(with: .init(image: "cancel"))
         view.wrappedView.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         return view
     }()
@@ -100,6 +107,11 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         }
         closeButton.content.setupCustomMargins(all: .extraSmall)
         
+        mainStack.addArrangedSubview(imageView)
+        imageView.snp.makeConstraints { make in
+            make.height.equalTo(65)
+        }
+        
         mainStack.addArrangedSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.height.equalTo(Int.max).priority(.low)
@@ -136,6 +148,11 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         titleLabel.setup(with: viewModel.title)
         titleLabel.isHidden = viewModel.title == nil
         
+        closeButton.wrappedView.setup(with: viewModel.closeButton)
+        
+        imageView.setup(with: .imageName(viewModel.imageName ?? ""))
+        imageView.isHidden = viewModel.imageName == nil
+        
         textView.text = viewModel.body
         textView.isHidden = viewModel.body == nil
         textView.sizeToFit()
@@ -147,6 +164,8 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         buttons.forEach { $0.removeFromSuperview() }
         buttons = []
         
+        let buttonHeight = ButtonHeights.common.rawValue
+        
         if viewModel.buttons.isEmpty == false {
             for i in (0...viewModel.buttons.count - 1) {
                 guard let buttonConfigs = config?.buttons else { return }
@@ -156,7 +175,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
                 let button = FEButton()
                 button.configure(with: config)
                 button.snp.makeConstraints { make in
-                    make.height.equalTo(Margins.extraHuge.rawValue)
+                    make.height.equalTo(buttonHeight)
                 }
                 button.setup(with: model)
                 scrollingStack.addArrangedSubview(button)
@@ -167,7 +186,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         
         let count = Double(buttons.count)
         var newHeight = textView.contentSize.height
-        newHeight += count * (Margins.extraHuge.rawValue + Margins.extraSmall.rawValue)
+        newHeight += count * (buttonHeight + scrollingStack.spacing)
         
         scrollView.snp.makeConstraints { make in
             make.height.equalTo(newHeight)
