@@ -32,6 +32,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes {
     }
     
     func showConfirm() {
+        // TODO: pass actual data
         guard let superview = navigationController.view else {
             return
         }

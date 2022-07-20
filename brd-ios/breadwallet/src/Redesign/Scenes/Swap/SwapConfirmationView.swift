@@ -9,17 +9,6 @@
 //
 
 import UIKit
-import SwiftUI
-
-extension Presets {
-    struct TitleValue {
-        static var horizontal = TitleValueConfiguration(title: .init(font: Fonts.Body.one, textColor: LightColors.Text.two),
-                                                      value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
-        
-        static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                      value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one))
-    }
-}
 
 struct SwapConfimationConfiguration: Configurable {
     var from: TitleValueConfiguration = Presets.TitleValue.vertical
