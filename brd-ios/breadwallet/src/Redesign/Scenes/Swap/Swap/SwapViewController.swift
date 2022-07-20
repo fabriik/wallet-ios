@@ -23,8 +23,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         return "Swap"
     }
     
-    lazy var confirmButton: FEButton = {
-        let button = FEButton()
+    lazy var confirmButton: WrapperView<FEButton> = {
+        let button = WrapperView<FEButton>()
         return button
     }()
     
@@ -39,21 +39,24 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         // TODO: Same code as CheckListViewController. Refactor
         view.addSubview(confirmButton)
         confirmButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+            make.centerX.leading.equalToSuperview()
             make.bottom.equalTo(view.snp.bottomMargin)
-            make.leading.equalToSuperview().inset(Margins.large.rawValue)
-            make.height.equalTo(ButtonHeights.common.rawValue)
         }
+        confirmButton.wrappedView.snp.makeConstraints { make in
+            make.height.equalTo(ButtonHeights.common.rawValue)
+            make.edges.equalTo(confirmButton.snp.margins)
+        }
+        confirmButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)
         
         tableView.snp.remakeConstraints { make in
-            make.leading.trailing.top.equalToSuperview()
+            make.leading.centerX.top.equalToSuperview()
             make.bottom.equalTo(confirmButton.snp.top)
         }
-        confirmButton.configure(with: Presets.Button.primary)
-        confirmButton.setup(with: .init(title: "Confirm"))
-        confirmButton.isEnabled = false
+        confirmButton.wrappedView.configure(with: Presets.Button.primary)
+        confirmButton.wrappedView.setup(with: .init(title: "Confirm"))
+        confirmButton.wrappedView.isEnabled = false
         
-        confirmButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
     override func prepareData() {
@@ -188,6 +191,9 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
         LoadingView.hide()
+        
+        confirmButton.wrappedView.isEnabled = responseDisplay.error == nil
+        
         guard let section = sections.firstIndex(of: Models.Sections.errors),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else { return }
         
@@ -208,7 +214,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
         // TODO: replace with Coordinator call
         LoadingView.hide()
-        confirmButton.isEnabled = responseDisplay.shouldEnableConfirm
         
         guard let section = sections.firstIndex(of: Models.Sections.swapCard),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<MainSwapView> else { return }

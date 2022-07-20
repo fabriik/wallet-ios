@@ -9,17 +9,35 @@ protocol FEError: Error {
     var errorMessage: String { get }
 }
 
+struct GeneralError: FEError {
+    var errorMessage: String = "Unknown error"
+}
+
 enum NetworkingError: FEError {
-    case general
     case noConnection
-    case custom
     /// Status code 103
     case parameterMissing
     /// Status code 105
     case sessionExpired
-    
+    case unprocessableEntity
     var errorMessage: String {
         return "LOCALIZE"
+    }
+    
+    init?(error: ServerResponse.ServerError?) {
+        switch error?.statusCode {
+        case 103:
+            self = .parameterMissing
+            
+        case 105:
+            self = .sessionExpired
+            
+        case 422:
+            self = .unprocessableEntity
+            
+        default:
+            return nil
+        }
     }
 }
 
@@ -29,33 +47,16 @@ public class NetworkingErrorManager {
             return NetworkingError.noConnection
         }
         
-        if let errorObject = ServerResponse.parse(from: data, type: ServerResponse.self),
-           let error = handleServerError(error: errorObject.error) {
-            return error
-        }
+        let error = ServerResponse.parse(from: data, type: ServerResponse.self)?.error
+    
+        guard let error = NetworkingError(error: error) else { return error }
         
-        guard response != nil else { return NetworkingError.general }
-        
-        return ServerResponse.parse(from: data, type: ServerResponse.self)?.error
+        return error
     }
     
-    private static func handleServerError(error: ServerResponse.ServerError?) -> NetworkingError? {
-        switch error?.statusCode {
-        case 103:
-            return NetworkingError.parameterMissing
-            
-        case 105:
-            return NetworkingError.sessionExpired
-            
-            // TODO: handle other errors
-        default:
-            return nil
-        }
-    }
-    
-    static func getImageUploadEncodingError() -> NetworkingError {
+    static func getImageUploadEncodingError() -> FEError? {
         // TODO: is this right?
-        return .general
+        return GeneralError(errorMessage: "Image encoding failed.")
     }
     
     static fileprivate func isErrorStatusCode(_ statusCode: Int) -> Bool {

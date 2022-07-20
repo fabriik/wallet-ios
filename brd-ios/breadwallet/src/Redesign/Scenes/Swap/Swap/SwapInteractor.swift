@@ -39,7 +39,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 self?.dataStore?.baseAndTermCurrencies = currencies.compactMap({ [$0.baseCurrency, $0.termCurrency] })
                 self?.getQuote(isInitialLaunch: true)
             case .failure(let error):
-                dump(error)
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
     }
@@ -70,10 +70,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     private func handleQuote(_ quote: Quote?, isInitialLaunch: Bool) {
         guard let baseCurrency = dataStore?.currencies.first(where: { $0.code == dataStore?.selectedBaseCurrency })?.coinGeckoId,
               let termCurrency = dataStore?.currencies.first(where: { $0.code == dataStore?.selectedTermCurrency })?.coinGeckoId else {
-            
             normalFiatRate = 0
             switchedFiatRate = 0
             self.quote = nil
+            setAmount(viewAction: .init())
             return
         }
         
@@ -81,7 +81,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let coinGeckoIds = [baseCurrency, termCurrency]
         let vs = dataStore?.defaultCurrencyCode?.lowercased() ?? ""
         let resource = Resources.simplePrice(ids: coinGeckoIds, vsCurrency: vs, options: [.change]) { (result: Result<[SimplePrice], CoinGeckoError>) in
-            guard case .success(let data) = result, let quote = quote else { return }
+            guard case .success(let data) = result, let quote = quote else {
+                self.presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: self.dataStore?.quoteTerm)))
+                return
+            }
             let basePrice = data.first(where: { $0.id == baseCurrency })
             let termPrice = data.first(where: { $0.id == termCurrency })
             
@@ -275,9 +278,29 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func confirm(viewAction: SwapModels.Confirm.ViewAction) {
-        guard viewAction.isConfirmed else {
-            // TODO: present confirmation dialog
+//        guard viewAction.isConfirmed else {
+//            // TODO: present confirmation dialog
+//            return
+//        }
+        guard let currency = dataStore?.currencies.first(where: { $0.code == dataStore?.selectedTermCurrency }),
+              let address = dataStore?.coreSystem?.wallet(for: currency)?.receiveAddress
+        else {
             return
+        }
+        
+        let data = SwapRequestData(quoteId: quote?.quoteId,
+                                   quantity: dataStore?.fromCryptoAmount ?? 0,
+                                   destination: address,
+                                   destinationCurrency: dataStore?.selectedBaseCurrency)
+        
+        SwapWorker().execute(requestData: data) { result in
+            switch result {
+            case .success(let data):
+                print("juhuuu")
+                
+            case .failure(let error):
+                dump(error)
+            }
         }
     }
     
@@ -362,3 +385,4 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                           baseBalance: baseBalance))
     }
 }
+

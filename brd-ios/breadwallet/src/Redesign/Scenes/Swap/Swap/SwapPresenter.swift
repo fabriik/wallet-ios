@@ -91,16 +91,14 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                           toCryptoAmountString: "\(actionResponse.toCryptoAmount?.doubleValue ?? 0.00)",
                                           balanceString: actionResponse.baseBalance.tokenFormattedString + " " + actionResponse.baseBalance.currency.code.uppercased(),
                                           topFeeString: topFeeString,
-                                          bottomFeeString: bottomFeeString,
-                                          shouldShowFees: validateFields(actionResponse))
+                                          bottomFeeString: bottomFeeString)
 
         exchangeRateViewModel.firstCurrency = actionResponse.baseCurrency ?? ""
         exchangeRateViewModel.secondCurrency = actionResponse.termCurrency ?? ""
 
         viewController?.displaySetAmount(responseDisplay: .init(amounts: swapModel,
                                                                 rate: exchangeRateViewModel,
-                                                                minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue),
-                                                                shouldEnableConfirm: validateFields(actionResponse)))
+                                                                minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue)))
         
         guard actionResponse.baseCurrency != actionResponse.termCurrency else {
             let first = actionResponse.baseCurrency ?? "<base missing>"
@@ -146,14 +144,14 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
         guard let error = actionResponse.error as? SwapErrors else {
-            viewController?.displayMessage(responseDisplay: .init(error: actionResponse.error as? FEError, model: nil, config: nil))
+            viewController?.displayMessage(responseDisplay: .init(error: GeneralError(), model: nil, config: nil))
             return
         }
         
         let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
         let config = Presets.InfoView.swapError
         
-        viewController?.displayMessage(responseDisplay: .init(model: model, config: config))
+        viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
     }
     
     func presentConfirm(actionResponse: SwapModels.Confirm.ActionResponse) {
@@ -161,15 +159,4 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     // MARK: - Additional Helpers
-    
-    private func validateFields(_ actionResponse: SwapModels.Amounts.ActionResponse) -> Bool {
-        var fieldValidationIsAllowed = [String: Bool]()
-        fieldValidationIsAllowed[String(describing: actionResponse.fromFiatAmount)] = actionResponse.fromFiatAmount ?? 0 > 0
-        fieldValidationIsAllowed[String(describing: actionResponse.fromCryptoAmount)] = actionResponse.fromCryptoAmount ?? 0 > 0
-        fieldValidationIsAllowed[String(describing: actionResponse.toFiatAmount)] = actionResponse.toFiatAmount ?? 0 > 0
-        fieldValidationIsAllowed[String(describing: actionResponse.toCryptoAmount)] = actionResponse.toCryptoAmount ?? 0 > 0
-        fieldValidationIsAllowed[String(describing: actionResponse.baseBalance)] = actionResponse.baseBalance.tokenValue > 0
-        
-        return fieldValidationIsAllowed.values.contains(where: { $0 == false }) == false
-    }
 }
