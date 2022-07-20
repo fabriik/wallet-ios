@@ -278,10 +278,12 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func confirm(viewAction: SwapModels.Confirm.ViewAction) {
-//        guard viewAction.isConfirmed else {
-//            // TODO: present confirmation dialog
-//            return
-//        }
+        guard viewAction.isConfirmed else {
+            // TODO: present confirmation dialog
+            
+            presenter?.presentConfirm(actionResponse: .init())
+            return
+        }
         guard let currency = dataStore?.currencies.first(where: { $0.code == dataStore?.selectedTermCurrency }),
               let address = dataStore?.coreSystem?.wallet(for: currency)?.receiveAddress
         else {
@@ -291,15 +293,15 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let data = SwapRequestData(quoteId: quote?.quoteId,
                                    quantity: dataStore?.fromCryptoAmount ?? 0,
                                    destination: address,
-                                   destinationCurrency: dataStore?.selectedBaseCurrency)
+                                   side: dataStore?.side.rawValue)
         
-        SwapWorker().execute(requestData: data) { result in
+        SwapWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let data):
                 print("juhuuu")
                 
             case .failure(let error):
-                dump(error)
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
     }
@@ -350,10 +352,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             dataStore?.toFiatAmount = toCrypto
             dataStore?.fromCryptoAmount = from
             dataStore?.fromFiatAmount = from * normalFiatRate
-        } else if dataStore?.fromCryptoAmount == nil
-                    && dataStore?.fromFiatAmount == nil
-                    && dataStore?.toCryptoAmount == nil
-                    && dataStore?.toFiatAmount == nil {
+        } else if dataStore?.fromCryptoAmount == nil,
+                  dataStore?.fromFiatAmount == nil,
+                  dataStore?.toCryptoAmount == nil,
+                  dataStore?.toFiatAmount == nil {
             dataStore?.toCryptoAmount = 0
             dataStore?.toFiatAmount = 0
             dataStore?.fromCryptoAmount = 0
@@ -385,4 +387,3 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                           baseBalance: baseBalance))
     }
 }
-

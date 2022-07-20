@@ -143,8 +143,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
-        guard let error = actionResponse.error as? SwapErrors else {
-            viewController?.displayMessage(responseDisplay: .init(error: GeneralError(), model: nil, config: nil))
+        guard let error = actionResponse.error as? FEError else {
             return
         }
         

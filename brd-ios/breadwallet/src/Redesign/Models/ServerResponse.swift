@@ -17,10 +17,11 @@ struct ServerResponse: Decodable {
     
     struct ServerError: Decodable, FEError {
         var code: String?
-        var serverMssage: String?
+//        var server_mesage: String?
+        var serverMesage: String?
         var statusCode: Int {
             return Int(code ?? "") ?? -1
         }
-        var errorMessage: String { return serverMssage ?? ""  }
+        var errorMessage: String { return serverMesage ?? ""  }
     }
 }

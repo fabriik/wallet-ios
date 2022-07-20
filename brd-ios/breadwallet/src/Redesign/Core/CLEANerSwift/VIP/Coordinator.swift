@@ -360,6 +360,7 @@ class BaseCoordinator: NSObject,
         
         view.layoutIfNeeded()
         view.show()
+        parent.bringSubviewToFront(view)
     }
     
     func hideOverlay() {
