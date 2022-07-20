@@ -54,7 +54,7 @@ class MenuViewController: UITableViewController, Subscriber {
         }
         
         Store.lazySubscribe(self, selector: { $0.defaultCurrencyCode != $1.defaultCurrencyCode }, callback: { [weak self] _ in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.reloadMenu()
         })
     }

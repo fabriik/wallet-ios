@@ -73,7 +73,8 @@ class VIPTableViewController<C: CoordinatableRoutes,
         tableView.addSubview(leftAlignedTitleLabel)
         leftAlignedTitleLabel.snp.makeConstraints { make in
             make.bottom.equalTo(tableView.snp.top)
-            make.height.equalTo(topInsetValue)
+            make.height.greaterThanOrEqualTo(topInsetValue)
+            make.width.lessThanOrEqualTo(tableView.snp.width).inset(Margins.large.rawValue) // TODO: Trailing does not work. Why?
             make.leading.equalToSuperview().inset(Margins.large.rawValue)
         }
         

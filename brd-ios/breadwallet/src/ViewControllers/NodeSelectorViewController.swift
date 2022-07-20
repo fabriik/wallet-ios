@@ -110,7 +110,7 @@ class NodeSelectorViewController: UIViewController, Trackable {
         let alert = UIAlertController(title: L10n.NodeSelector.enterTitle, message: L10n.NodeSelector.enterBody, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: L10n.Button.cancel, style: .cancel, handler: nil))
         let okAction = UIAlertAction(title: L10n.Button.ok, style: .default, handler: { [weak self] _ in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             guard let ip = alert.textFields?.first,
                 let port = alert.textFields?.last,
                 let addressText = ip.text?.replacingOccurrences(of: self.decimalSeparator, with: ".") else { return }

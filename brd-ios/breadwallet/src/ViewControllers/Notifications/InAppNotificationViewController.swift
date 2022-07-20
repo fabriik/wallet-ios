@@ -65,7 +65,7 @@ class InAppNotificationViewController: UIViewController, Trackable {
     
     @objc private func onCloseButton() {
         dismiss(animated: true, completion: { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.logEvent(.dismissed)
         })
     }
@@ -95,7 +95,7 @@ class InAppNotificationViewController: UIViewController, Trackable {
             imageView.image = preloadedImage
         } else if let urlString = notification.imageUrl, !urlString.isEmpty {
             UIImage.fetchAsync(from: urlString) { [weak self] (image) in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 if let image = image {
                     self.imageView.image = image
                 }
@@ -137,7 +137,7 @@ class InAppNotificationViewController: UIViewController, Trackable {
             ctaButton.title = cta
             
             ctaButton.tap = { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 
                 self.dismiss(animated: true, completion: {
                     self.logEvent(.notificationCTAButton)

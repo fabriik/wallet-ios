@@ -127,6 +127,10 @@ class BaseCoordinator: NSObject,
         }
     }
     
+    func showDeleteProfileInfo() {
+        openModally(coordinator: DeleteProfileInfoCoordinator.self, scene: Scenes.DeleteProfileInfo)
+    }
+    
     /// Determines whether the viewcontroller or navigation stack are being dismissed
     func goBack() {
         // if the same coordinator is used in a flow, we dont want to remove it from the parent

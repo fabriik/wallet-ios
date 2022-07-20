@@ -162,14 +162,14 @@ class BiometricsSettingsViewController: UIViewController, Subscriber, Trackable 
         transactionsToggle.isEnabled = unlockToggle.isOn
         
         unlockToggle.valueChanged = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.toggleChanged(toggle: self.unlockToggle)
             self.saveEvent("event.enableBiometrics",
                            attributes: ["isEnabled": "\(self.unlockToggle.isOn)", "type": "unlock"])
         }
         
         transactionsToggle.valueChanged = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.toggleChanged(toggle: self.transactionsToggle)
             self.saveEvent("event.enableBiometrics",
                            attributes: ["isEnabled": "\(self.transactionsToggle.isOn)", "type": "sending"])

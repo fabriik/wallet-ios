@@ -21,7 +21,7 @@ class VIPViewController<C: CoordinatableRoutes,
     
     // MARK: Title and tab bar appearance
     var sceneTitle: String? { return nil }
-    var sceneLeftAlignedTitle: String? { return nil } // TODO: Use large titles.
+    var sceneLeftAlignedTitle: String? { return nil } // TODO: Use large titles. Multiple lines of text makes it harder to use large titles.
     var tabIcon: UIImage? { return nil }
     var infoIcon: UIImage? { return nil }
     
@@ -29,6 +29,7 @@ class VIPViewController<C: CoordinatableRoutes,
         let view = UILabel()
         view.font = Fonts.Title.four
         view.textAlignment = .left
+        view.numberOfLines = 0
         view.textColor = LightColors.Icons.one
         return view
     }()
