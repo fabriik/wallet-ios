@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct SwapRequestData: RequestModelData {
+struct OldSwapRequestData: RequestModelData {
     var currencyCodes: [String]
     var amount: Double = 1
     var address: String?
@@ -54,7 +54,7 @@ enum ChangellyApi {
     
     case swap(currencies: [String], amount: Double)
     
-    var requestData: SwapRequestData? {
+    var requestData: OldSwapRequestData? {
         switch self {
         case .swap(let currencies, let amount):
             return .init(currencies: currencies, amount: amount)

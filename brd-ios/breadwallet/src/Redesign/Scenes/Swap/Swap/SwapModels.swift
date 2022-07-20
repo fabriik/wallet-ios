@@ -66,7 +66,6 @@ enum SwapModels {
             var amounts: MainSwapViewModel
             var rate: ExchangeRateViewModel
             var minMaxToggleValue: SegmentControlViewModel
-            var shouldEnableConfirm: Bool
         }
     }
     

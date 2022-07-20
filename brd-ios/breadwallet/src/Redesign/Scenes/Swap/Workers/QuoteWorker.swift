@@ -19,32 +19,34 @@ struct QuoteRequestData: RequestModelData {
 }
 
 struct QuoteModelResponse: ModelResponse {
-    var security_id: String?
-    var close_ask: Decimal?
-    var close_bid: Decimal?
-    var timestamp: Double?
-    var in_fee_estimate: [FeeEstimate]? // Using WalletKit for this.
-    var out_fee_estimates: [FeeEstimate]? // Using WalletKit for this.
-    
-    struct FeeEstimate: ModelResponse {
-        var estimated_confirmation_in: UInt64?
-        var tier: String?
-        var fee: Amount?
-        
-        struct Amount: ModelResponse {
-            var currency_id: String?
-            var amount: String?
-        }
-    }
-}
-
-struct Quote {
+    var quoteId: Int
     var securityId: String
     var closeAsk: Decimal
     var closeBid: Decimal
     var timestamp: Double
-    var inFeeEstimate: [FeeEstimate]
-    var outFeeEstimates: [FeeEstimate]
+//    var inFeeEstimate: [FeeEstimate] // Using WalletKit for this.
+//    var outFeeEstimates: [FeeEstimate] // Using WalletKit for this.
+//
+//    struct FeeEstimate: ModelResponse {
+//        var estimatedConfirmationIn: UInt64
+//        var tier: String
+//        var fee: Amount
+//
+//        struct Amount: ModelResponse {
+//            var currencyId: String
+//            var amount: String
+//        }
+//    }
+}
+
+struct Quote {
+    var quoteId: Int
+    var securityId: String
+    var closeAsk: Decimal
+    var closeBid: Decimal
+    var timestamp: Double
+//    var inFeeEstimate: [FeeEstimate]
+//    var outFeeEstimates: [FeeEstimate]
     
     struct FeeEstimate {
         var estimatedConfirmationIn: UInt64
@@ -60,20 +62,23 @@ struct Quote {
 
 class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
     override func getModel(from response: QuoteModelResponse?) -> Quote? {
-        return Quote(securityId: response?.security_id ?? "",
-                     closeAsk: response?.close_ask ?? 0,
-                     closeBid: response?.close_bid ?? 0,
-                     timestamp: response?.timestamp ?? 0,
-                     inFeeEstimate: response?.in_fee_estimate?.compactMap({
-            Quote.FeeEstimate(estimatedConfirmationIn: $0.estimated_confirmation_in ?? 0,
-                              tier: $0.tier ?? "",
-                              fee: Quote.FeeEstimate.Amount(currencyId: $0.fee?.currency_id ?? "",
-                                                            amount: $0.fee?.amount ?? "")) }) ?? [],
-                     outFeeEstimates: response?.out_fee_estimates?.compactMap({
-            Quote.FeeEstimate(estimatedConfirmationIn: $0.estimated_confirmation_in ?? 0,
-                              tier: $0.tier ?? "",
-                              fee: Quote.FeeEstimate.Amount(currencyId: $0.fee?.currency_id ?? "",
-                                                            amount: $0.fee?.amount ?? "")) }) ?? [])
+        guard let response = response else { return nil }
+
+        return .init(quoteId: response.quoteId,
+                     securityId: response.securityId,
+                     closeAsk: response.closeAsk,
+                     closeBid: response.closeBid,
+                     timestamp: response.timestamp)
+//                     inFeeEstimate: response.inFeeEstimate.compactMap({
+//            .init(estimatedConfirmationIn: $0.estimatedConfirmationIn,
+//                  tier: $0.tier,
+//                  fee: Quote.FeeEstimate.Amount(currencyId: $0.fee.currencyId,
+//                                                amount: $0.fee.amount)) }),
+//                     outFeeEstimates: response.outFeeEstimates.compactMap({
+//            .init(estimatedConfirmationIn: $0.estimatedConfirmationIn,
+//                  tier: $0.tier,
+//                  fee: Quote.FeeEstimate.Amount(currencyId: $0.fee.currencyId,
+//                                                amount: $0.fee.amount)) }))
     }
 }
 
