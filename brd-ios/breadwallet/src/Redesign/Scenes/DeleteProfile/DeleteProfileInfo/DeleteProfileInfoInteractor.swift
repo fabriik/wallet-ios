@@ -32,9 +32,7 @@ class DeleteProfileInfoInteractor: NSObject, Interactor, DeleteProfileInfoViewAc
                 self?.presenter?.presentDeleteProfile(actionResponse: .init())
                 
             case .failure(let error):
-                self?.presenter?.presentDeleteProfile(actionResponse: .init())
-
-//                self?.presenter?.presentError(actionResponse: .init(error: error))
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
     }
