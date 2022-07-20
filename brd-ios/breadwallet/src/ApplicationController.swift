@@ -221,9 +221,9 @@ class ApplicationController: Subscriber, Trackable {
     }
     
     private func wipeWalletIfNeeded() {
-//        guard UserDefaults.shouldWipeWalletNoPrompt == true else { return }
-//        UserDefaults.shouldWipeWalletNoPrompt = false
-//        Store.trigger(name: .wipeWalletNoPrompt)
+        guard UserDefaults.shouldWipeWalletNoPrompt == true else { return }
+        UserDefaults.shouldWipeWalletNoPrompt = false
+        Store.trigger(name: .wipeWalletNoPrompt)
     }
     
     private func handleDeferedLaunchURL() {
