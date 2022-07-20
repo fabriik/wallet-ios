@@ -120,6 +120,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             return super.tableView(tableView, cellForRowAt: indexPath)
         }
         
+        cell.wrappedView.snp.makeConstraints { make in
+            make.height.equalTo(300)
+        }
+        
         cell.setup { view in
             view.configure(with: .init(shadow: Presets.Shadow.light,
                                        background: .init(backgroundColor: LightColors.Background.two,
@@ -192,7 +196,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
         LoadingView.hide()
         
-        confirmButton.wrappedView.isEnabled = responseDisplay.error == nil
+        confirmButton.wrappedView.isEnabled = true // responseDisplay.error == nil
         
         guard let section = sections.firstIndex(of: Models.Sections.errors),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else { return }
@@ -259,7 +263,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay) {
-        
+        coordinator?.showConfirm()
     }
     // MARK: - Additional Helpers
 }

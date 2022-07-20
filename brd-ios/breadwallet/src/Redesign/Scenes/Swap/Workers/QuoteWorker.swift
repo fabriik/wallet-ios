@@ -24,19 +24,6 @@ struct QuoteModelResponse: ModelResponse {
     var closeAsk: Decimal
     var closeBid: Decimal
     var timestamp: Double
-//    var inFeeEstimate: [FeeEstimate] // Using WalletKit for this.
-//    var outFeeEstimates: [FeeEstimate] // Using WalletKit for this.
-//
-//    struct FeeEstimate: ModelResponse {
-//        var estimatedConfirmationIn: UInt64
-//        var tier: String
-//        var fee: Amount
-//
-//        struct Amount: ModelResponse {
-//            var currencyId: String
-//            var amount: String
-//        }
-//    }
 }
 
 struct Quote {
@@ -45,8 +32,6 @@ struct Quote {
     var closeAsk: Decimal
     var closeBid: Decimal
     var timestamp: Double
-//    var inFeeEstimate: [FeeEstimate]
-//    var outFeeEstimates: [FeeEstimate]
     
     struct FeeEstimate {
         var estimatedConfirmationIn: UInt64
@@ -69,16 +54,6 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
                      closeAsk: response.closeAsk,
                      closeBid: response.closeBid,
                      timestamp: response.timestamp)
-//                     inFeeEstimate: response.inFeeEstimate.compactMap({
-//            .init(estimatedConfirmationIn: $0.estimatedConfirmationIn,
-//                  tier: $0.tier,
-//                  fee: Quote.FeeEstimate.Amount(currencyId: $0.fee.currencyId,
-//                                                amount: $0.fee.amount)) }),
-//                     outFeeEstimates: response.outFeeEstimates.compactMap({
-//            .init(estimatedConfirmationIn: $0.estimatedConfirmationIn,
-//                  tier: $0.tier,
-//                  fee: Quote.FeeEstimate.Amount(currencyId: $0.fee.currencyId,
-//                                                amount: $0.fee.amount)) }))
     }
 }
 

@@ -26,7 +26,7 @@ final class SwapInfoPresenter: NSObject, Presenter, SwapInfoActionResponses {
         [
             .image: [ ImageViewModel.imageName("swapInfo") ],
             .title: [ LabelViewModel.text("Swapping BSV/BTC") ],
-            .description: [ LabelViewModel.text("In approximately 30 minutes or less your BTC will arrive. You can continue to use you wallet safely, we will notify you when it’s done.") ]
+            .description: [ LabelViewModel.text("Your BTC is estimated to arrive in 30 minutes. You can continue to use your wallet. We'll let you know when your swap has finished.") ]
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))

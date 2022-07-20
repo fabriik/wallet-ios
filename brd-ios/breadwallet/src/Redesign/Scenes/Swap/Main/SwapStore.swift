@@ -45,6 +45,14 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var coreSystem: CoreSystem?
     var keyStore: KeyStore?
     
+    var side: Swap.Side {
+        if supportedCurrencies?.first(where: { $0.baseCurrency == selectedBaseCurrency }) != nil {
+            return .sell
+        } else {
+            return .buy
+        }
+    }
+    
     // MARK: - Aditional helpers
     var quoteTerm: String? {
         let item = supportedCurrencies?.first(where: { currency in
