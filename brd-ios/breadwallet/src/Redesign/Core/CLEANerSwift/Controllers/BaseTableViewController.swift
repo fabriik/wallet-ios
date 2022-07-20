@@ -181,7 +181,6 @@ class BaseTableViewController<C: CoordinatableRoutes,
         
         view.setup { view in
             view.configure(with: Presets.Asset.Header)
-            view.setup(with: .init(icon: .imageName("timelapse"), title: title, topRightText: description))
         }
         view.setupCustomMargins(vertical: .small, horizontal: .large)
 

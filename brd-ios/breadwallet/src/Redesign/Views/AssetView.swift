@@ -32,7 +32,8 @@ extension Presets {
                                                                               textAlignment: .right),
                                                  bottomRightConfiguration: .init(font: Fonts.Subtitle.two,
                                                                                  textColor: LightColors.Text.two.withAlphaComponent(0.5),
-                                                                                 textAlignment: .right))
+                                                                                 textAlignment: .right),
+                                                 imageAlpha: 0.5)
     }
 }
 
@@ -44,15 +45,16 @@ struct AssetConfiguration: Configurable {
     var backgroundConfiguration: BackgroundConfiguration?
     var imageConfig: BackgroundConfiguration?
     var imageSize: ViewSizes = .medium
+    var imageAlpha: CGFloat = 1.0
 }
 
 struct AssetViewModel: ViewModel {
-    var icon: ImageViewModel = .imageName("swap")
+    var icon: UIImage?
     var title: String?
     var subtitle: String?
     var topRightText: String?
     var bottomRightText: String?
-    var isDisabled: Bool? = false
+    var isDisabled = false
 }
 
 class AssetView: FEView<AssetConfiguration, AssetViewModel> {
@@ -144,6 +146,7 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
             make.width.equalTo(config.imageSize.rawValue)
         }
         
+        iconView.content.alpha = config.imageAlpha
         iconView.content.setupCustomMargins(all: config.imageConfig == nil ? .zero : .extraSmall)
         
         iconView.configure(background: config.imageConfig)
@@ -154,7 +157,7 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
-        iconView.wrappedView.setup(with: viewModel.icon)
+        iconView.wrappedView.setup(with: .image(viewModel.icon ?? UIImage()))
         
         titleLabel.setup(with: .text(viewModel.title))
         titleLabel.isHidden = viewModel.title == nil
@@ -163,9 +166,9 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         subtitleLabel.isHidden = viewModel.subtitle == nil
         
         topRightLabel.setup(with: .text(viewModel.topRightText))
-        topRightLabel.isHidden = viewModel.topRightText == nil
+        topRightLabel.isHidden = viewModel.topRightText == nil || viewModel.isDisabled
         
         bottomRightLabel.setup(with: .text(viewModel.bottomRightText))
-        bottomRightLabel.isHidden = viewModel.bottomRightText == nil
+        bottomRightLabel.isHidden = viewModel.bottomRightText == nil || viewModel.isDisabled
     }
 }

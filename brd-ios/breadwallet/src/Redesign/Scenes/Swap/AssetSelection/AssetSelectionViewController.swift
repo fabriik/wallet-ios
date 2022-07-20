@@ -68,9 +68,8 @@ class AssetSelectionViewController: BaseTableViewController<SwapCoordinator,
             return UITableViewCell()
         }
         
-        let isDisabled = model.isDisabled ?? false
         cell.setup { view in
-            isDisabled ? view.configure(with: Presets.Asset.Disabled) : view.configure(with: Presets.Asset.Enabled)
+            model.isDisabled ? view.configure(with: Presets.Asset.Disabled) : view.configure(with: Presets.Asset.Enabled)
             view.setup(with: model)
         }
         
