@@ -32,7 +32,6 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
     private let keyMaster: KeyMaster
     private let reason: PhraseEntryReason
     private let enterPhrase: EnterPhraseCollectionViewController
-    private let errorLabel = UILabel.wrapping(font: Theme.caption, color: Theme.error)
     private let heading = UILabel.wrapping(font: Theme.h2Title, color: Theme.primaryText)
     private let subheading = UILabel.wrapping(font: Theme.body1, color: Theme.secondaryText)
     private let faq: UIButton
@@ -115,7 +114,6 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
         container.addSubview(heading)
         container.addSubview(subheading)
         container.addSubview(contactSupportButton)
-        container.addSubview(errorLabel)
         scrollView.addSubview(nextButton)
 
         addChild(enterPhrase)
@@ -163,23 +161,12 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
             nextButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margins.large.rawValue),
             nextButton.heightAnchor.constraint(equalToConstant: ButtonHeights.common.rawValue)
         ])
-        
-        errorLabel.constrain([
-            errorLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: C.padding[2]),
-            errorLabel.topAnchor.constraint(equalTo: enterPhrase.view.bottomAnchor, constant: 12),
-            errorLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -C.padding[4]),
-            errorLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -C.padding[2] )
-            ])
-        
         nextButton.configure(with: Presets.Button.primary)
         nextButton.addTarget(self, action: #selector(nextTapped(_:)), for: .touchUpInside)
     }
 
     private func setInitialData() {
         view.backgroundColor = .darkBackground
-        errorLabel.text = L10n.RecoverWallet.invalid
-        errorLabel.isHidden = true
-        errorLabel.textAlignment = .center
         nextButton.setup(with: .init(title: "Next"))
         
         enterPhrase.didFinishPhraseEntry = { [weak self] phrase in
@@ -210,6 +197,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
     
     // MARK: - User Interaction
     @objc func nextTapped(_ sender: UIButton?) {
+        view.endEditing(true)
         validatePhrase(phrase)
     }
     
@@ -242,28 +230,37 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
         guard keyMaster.isSeedPhraseValid(phrase) else {
             saveEvent("enterPhrase.invalid")
             
-            showToastMessage(message: L10n.RecoverWallet.invalid)
-            contactSupportButton.isHidden = false
+            showErrorMessage()
             return
         }
         saveEvent("enterPhrase.valid")
 
         switch reason {
         case .setSeed(let callback):
-            guard let account = self.keyMaster.setSeedPhrase(phrase) else { errorLabel.isHidden = false; return }
+            guard let account = self.keyMaster.setSeedPhrase(phrase) else { return }
             //Since we know that the user had their phrase at this point,
             //this counts as a write date
             UserDefaults.writePaperPhraseDate = Date()
             Store.perform(action: LoginSuccess())
             return callback(account)
         case .validateForResettingPin(let callback):
-            guard self.keyMaster.authenticate(withPhrase: phrase) else { errorLabel.isHidden = false; return }
+            guard self.keyMaster.authenticate(withPhrase: phrase) else {
+                showErrorMessage()
+                return
+            }
             UserDefaults.writePaperPhraseDate = Date()
             return callback(phrase)
         case .validateForWipingWallet(let callback):
-            guard self.keyMaster.authenticate(withPhrase: phrase) else { errorLabel.isHidden = false; return }
+            guard self.keyMaster.authenticate(withPhrase: phrase) else { showErrorMessage()
+                return
+            }
             return callback()
         }
+    }
+    
+    func showErrorMessage() {
+        showToastMessage(message: L10n.RecoverWallet.invalid)
+        contactSupportButton.isHidden = false
     }
 
     @objc private func keyboardWillShow(notification: Notification) {

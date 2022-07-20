@@ -385,4 +385,3 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                           baseBalance: baseBalance))
     }
 }
-
