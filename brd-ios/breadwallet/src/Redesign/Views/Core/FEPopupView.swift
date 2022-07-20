@@ -109,6 +109,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         
         mainStack.addArrangedSubview(imageView)
         imageView.snp.makeConstraints { make in
+            // TODO: Constant or just use the new popups.
             make.height.equalTo(65)
         }
         
