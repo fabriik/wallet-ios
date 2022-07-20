@@ -173,14 +173,14 @@
 		7B8EC631280896F1008C6DE5 /* brd-tokens.tar in Resources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0F2806FA190031F015 /* brd-tokens.tar */; };
 		7B8EC632280896F3008C6DE5 /* brd-tokens-staging.tar in Resources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0E2806FA190031F015 /* brd-tokens-staging.tar */; };
 		7B8EC633280896F3008C6DE5 /* brd-tokens-staging.tar in Resources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0E2806FA190031F015 /* brd-tokens-staging.tar */; };
-		7B9434312886A7FA00638703 /* DeleteKYCProfileInfoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342A2886A7F900638703 /* DeleteKYCProfileInfoInteractor.swift */; };
-		7B9434322886A7FA00638703 /* DeleteKYCProfileInfoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342B2886A7F900638703 /* DeleteKYCProfileInfoModels.swift */; };
-		7B9434332886A7FA00638703 /* DeleteKYCProfileInfoVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342C2886A7F900638703 /* DeleteKYCProfileInfoVIP.swift */; };
-		7B9434342886A7FA00638703 /* DeleteKYCProfileInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342D2886A7F900638703 /* DeleteKYCProfileInfoViewController.swift */; };
-		7B9434352886A7FA00638703 /* DeleteKYCProfileInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342E2886A7FA00638703 /* DeleteKYCProfileInfoStore.swift */; };
-		7B9434362886A7FA00638703 /* DeleteKYCProfileInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342F2886A7FA00638703 /* DeleteKYCProfileInfoPresenter.swift */; };
+		7B9434312886A7FA00638703 /* DeleteProfileInfoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342A2886A7F900638703 /* DeleteProfileInfoInteractor.swift */; };
+		7B9434322886A7FA00638703 /* DeleteProfileInfoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342B2886A7F900638703 /* DeleteProfileInfoModels.swift */; };
+		7B9434332886A7FA00638703 /* DeleteProfileInfoVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342C2886A7F900638703 /* DeleteProfileInfoVIP.swift */; };
+		7B9434342886A7FA00638703 /* DeleteProfileInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342D2886A7F900638703 /* DeleteProfileInfoViewController.swift */; };
+		7B9434352886A7FA00638703 /* DeleteProfileInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342E2886A7FA00638703 /* DeleteProfileInfoStore.swift */; };
+		7B9434362886A7FA00638703 /* DeleteProfileInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94342F2886A7FA00638703 /* DeleteProfileInfoPresenter.swift */; };
 		7B9434392886C6A700638703 /* TickboxItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9434382886C6A700638703 /* TickboxItemView.swift */; };
-		7B94343B2886DAF000638703 /* DeleteKYCProfileInfoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94343A2886DAF000638703 /* DeleteKYCProfileInfoCoordinator.swift */; };
+		7B94343B2886DAF000638703 /* DeleteProfileInfoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94343A2886DAF000638703 /* DeleteProfileInfoCoordinator.swift */; };
 		7BB22E49285B8D60003E37AC /* ContentSizedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB22E48285B8D60003E37AC /* ContentSizedTableView.swift */; };
 		7BBBF4DB287421CF00E4D36B /* SwapInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBF4D5287421CE00E4D36B /* SwapInteractor.swift */; };
 		7BBBF4DC287421CF00E4D36B /* SwapModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBF4D6287421CE00E4D36B /* SwapModels.swift */; };
@@ -1126,14 +1126,14 @@
 		7B78631D2874D36D0092F35B /* SwapCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapCurrencyView.swift; sourceTree = "<group>"; };
 		7B8140B927FD6DBB00662724 /* Currency+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency+Extensions.swift"; sourceTree = "<group>"; };
 		7B88C4842837B8710089CFBE /* Currency+Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency+Shared.swift"; sourceTree = "<group>"; };
-		7B94342A2886A7F900638703 /* DeleteKYCProfileInfoInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteKYCProfileInfoInteractor.swift; sourceTree = "<group>"; };
-		7B94342B2886A7F900638703 /* DeleteKYCProfileInfoModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteKYCProfileInfoModels.swift; sourceTree = "<group>"; };
-		7B94342C2886A7F900638703 /* DeleteKYCProfileInfoVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteKYCProfileInfoVIP.swift; sourceTree = "<group>"; };
-		7B94342D2886A7F900638703 /* DeleteKYCProfileInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteKYCProfileInfoViewController.swift; sourceTree = "<group>"; };
-		7B94342E2886A7FA00638703 /* DeleteKYCProfileInfoStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteKYCProfileInfoStore.swift; sourceTree = "<group>"; };
-		7B94342F2886A7FA00638703 /* DeleteKYCProfileInfoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteKYCProfileInfoPresenter.swift; sourceTree = "<group>"; };
+		7B94342A2886A7F900638703 /* DeleteProfileInfoInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoInteractor.swift; sourceTree = "<group>"; };
+		7B94342B2886A7F900638703 /* DeleteProfileInfoModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoModels.swift; sourceTree = "<group>"; };
+		7B94342C2886A7F900638703 /* DeleteProfileInfoVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoVIP.swift; sourceTree = "<group>"; };
+		7B94342D2886A7F900638703 /* DeleteProfileInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoViewController.swift; sourceTree = "<group>"; };
+		7B94342E2886A7FA00638703 /* DeleteProfileInfoStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoStore.swift; sourceTree = "<group>"; };
+		7B94342F2886A7FA00638703 /* DeleteProfileInfoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoPresenter.swift; sourceTree = "<group>"; };
 		7B9434382886C6A700638703 /* TickboxItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickboxItemView.swift; sourceTree = "<group>"; };
-		7B94343A2886DAF000638703 /* DeleteKYCProfileInfoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteKYCProfileInfoCoordinator.swift; sourceTree = "<group>"; };
+		7B94343A2886DAF000638703 /* DeleteProfileInfoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoCoordinator.swift; sourceTree = "<group>"; };
 		7BB22E48285B8D60003E37AC /* ContentSizedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizedTableView.swift; sourceTree = "<group>"; };
 		7BBBF4D5287421CE00E4D36B /* SwapInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwapInteractor.swift; sourceTree = "<group>"; };
 		7BBBF4D6287421CE00E4D36B /* SwapModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwapModels.swift; sourceTree = "<group>"; };
@@ -2380,26 +2380,26 @@
 			name = Assets;
 			sourceTree = "<group>";
 		};
-		7B9434252886A12000638703 /* DeleteKYC */ = {
+		7B9434252886A12000638703 /* DeleteProfile */ = {
 			isa = PBXGroup;
 			children = (
-				7B9434292886A7CA00638703 /* DeleteKYCInfo */,
+				7B9434292886A7CA00638703 /* DeleteProfileInfo */,
 			);
-			path = DeleteKYC;
+			path = DeleteProfile;
 			sourceTree = "<group>";
 		};
-		7B9434292886A7CA00638703 /* DeleteKYCInfo */ = {
+		7B9434292886A7CA00638703 /* DeleteProfileInfo */ = {
 			isa = PBXGroup;
 			children = (
-				7B94342F2886A7FA00638703 /* DeleteKYCProfileInfoPresenter.swift */,
-				7B94342E2886A7FA00638703 /* DeleteKYCProfileInfoStore.swift */,
-				7B94342C2886A7F900638703 /* DeleteKYCProfileInfoVIP.swift */,
-				7B94342B2886A7F900638703 /* DeleteKYCProfileInfoModels.swift */,
-				7B94342D2886A7F900638703 /* DeleteKYCProfileInfoViewController.swift */,
-				7B94342A2886A7F900638703 /* DeleteKYCProfileInfoInteractor.swift */,
-				7B94343A2886DAF000638703 /* DeleteKYCProfileInfoCoordinator.swift */,
+				7B94342F2886A7FA00638703 /* DeleteProfileInfoPresenter.swift */,
+				7B94342E2886A7FA00638703 /* DeleteProfileInfoStore.swift */,
+				7B94342C2886A7F900638703 /* DeleteProfileInfoVIP.swift */,
+				7B94342B2886A7F900638703 /* DeleteProfileInfoModels.swift */,
+				7B94342D2886A7F900638703 /* DeleteProfileInfoViewController.swift */,
+				7B94342A2886A7F900638703 /* DeleteProfileInfoInteractor.swift */,
+				7B94343A2886DAF000638703 /* DeleteProfileInfoCoordinator.swift */,
 			);
-			path = DeleteKYCInfo;
+			path = DeleteProfileInfo;
 			sourceTree = "<group>";
 		};
 		7BBBF4D22874210600E4D36B /* Swap */ = {
@@ -2513,7 +2513,7 @@
 				7E2E1A2F284E169E00E56E69 /* CheckList */,
 				7EF45F7F284768C100D1F7B0 /* ItemSelection */,
 				7EF45F7C2847671F00D1F7B0 /* KYC */,
-				7B9434252886A12000638703 /* DeleteKYC */,
+				7B9434252886A12000638703 /* DeleteProfile */,
 				7E2E1A2C284E099300E56E69 /* Registration */,
 				7EBC6AFD2848ABAB000A301F /* RegistrationConfirmation */,
 				C4C0CA542845F2F400B6ED79 /* AccountVerification */,
@@ -4652,11 +4652,11 @@
 				7B08D2262860574F00D65ED9 /* SimpleBackBarButtonItem.swift in Sources */,
 				7EBC6AF728488B10000A301F /* RegistrationPresenter.swift in Sources */,
 				7E9B13FE2857404600BD9EF5 /* DocumentReviewViewController.swift in Sources */,
-				7B9434352886A7FA00638703 /* DeleteKYCProfileInfoStore.swift in Sources */,
-				7B9434362886A7FA00638703 /* DeleteKYCProfileInfoPresenter.swift in Sources */,
+				7B9434352886A7FA00638703 /* DeleteProfileInfoStore.swift in Sources */,
+				7B9434362886A7FA00638703 /* DeleteProfileInfoPresenter.swift in Sources */,
 				CEC6AA421DEFC88F00EE5AFD /* ReceiveViewController.swift in Sources */,
 				7C9BC58F231765190011732F /* WalletConnectionSettings.swift in Sources */,
-				7B9434322886A7FA00638703 /* DeleteKYCProfileInfoModels.swift in Sources */,
+				7B9434322886A7FA00638703 /* DeleteProfileInfoModels.swift in Sources */,
 				CEE20C2D1EA288FA0086F724 /* UpdatingLabel.swift in Sources */,
 				714F5D6E22037F2400F7CA70 /* EventMonitor.swift in Sources */,
 				CE3D4C591EF743EF0016B1C8 /* Functions.swift in Sources */,
@@ -4690,7 +4690,7 @@
 				7ED427F128755CB200AA19A8 /* SwapDetailsModels.swift in Sources */,
 				7EF45F91284777AC00D1F7B0 /* RegistrationConfirmationWorker.swift in Sources */,
 				CEEE92F11EBA7CBA00B7AC9C /* RequestAmountViewController.swift in Sources */,
-				7B94343B2886DAF000638703 /* DeleteKYCProfileInfoCoordinator.swift in Sources */,
+				7B94343B2886DAF000638703 /* DeleteProfileInfoCoordinator.swift in Sources */,
 				7BDB49B62805AC780031F015 /* EmailFeedbackManager.swift in Sources */,
 				CE8CD8DF1E2E825100785E02 /* VerifyPinViewController.swift in Sources */,
 				71A3170D229C70C00088F97C /* Theme.swift in Sources */,
@@ -4710,7 +4710,7 @@
 				7ECCA9992874342C00F99368 /* FETimerView.swift in Sources */,
 				7EF45F502845352400D1F7B0 /* KYCBasicPresenter.swift in Sources */,
 				7EBC6AFB28488B10000A301F /* RegistrationInteractor.swift in Sources */,
-				7B9434332886A7FA00638703 /* DeleteKYCProfileInfoVIP.swift in Sources */,
+				7B9434332886A7FA00638703 /* DeleteProfileInfoVIP.swift in Sources */,
 				7E9B13FD2857404600BD9EF5 /* DocumentReviewVIP.swift in Sources */,
 				CE8CD8DD1E2D9EF200785E02 /* Sender.swift in Sources */,
 				3AFAD94825698A74005853E8 /* Gift.swift in Sources */,
@@ -4769,7 +4769,7 @@
 				C45E0BA62845F4C40083F028 /* AccountVerificationCoordinator.swift in Sources */,
 				7C787AE221ED89510017EA7E /* KeyStore.swift in Sources */,
 				CEAA9E911DC0FDFE0066731D /* UIViewPropertyAnimator+BRWAdditions.swift in Sources */,
-				7B9434312886A7FA00638703 /* DeleteKYCProfileInfoInteractor.swift in Sources */,
+				7B9434312886A7FA00638703 /* DeleteProfileInfoInteractor.swift in Sources */,
 				7B54E5A027F4A2B0002DD1E4 /* NetworkingError.swift in Sources */,
 				7ED83AF6284F40EB00261565 /* ChecklistItemView.swift in Sources */,
 				7EF2998A27E3B8C400A2238A /* ApiClient.swift in Sources */,
@@ -4862,7 +4862,7 @@
 				4F3AB12325D53F5D00B378DC /* BakingBadRequest.swift in Sources */,
 				7E8E9797283F4830008606B0 /* ProfileCoordinator.swift in Sources */,
 				CECCE5A51E02408300D99448 /* UIView+FrameChangeBlocking.swift in Sources */,
-				7B9434342886A7FA00638703 /* DeleteKYCProfileInfoViewController.swift in Sources */,
+				7B9434342886A7FA00638703 /* DeleteProfileInfoViewController.swift in Sources */,
 				7ED427F228755CB200AA19A8 /* SwapDetailsVIP.swift in Sources */,
 				3A3D63DC22F10B4F000DE920 /* AddWalletsViewController.swift in Sources */,
 				7B54E5BB27F4A2B1002DD1E4 /* LoadingView.swift in Sources */,

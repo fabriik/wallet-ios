@@ -1,5 +1,5 @@
 // 
-//  DeleteKYCProfileInfoCoordinator.swift
+//  DeleteProfileInfoCoordinator.swift
 //  breadwallet
 //
 //  Created by Kenan Mamedoff on 19/07/2022.
@@ -8,11 +8,11 @@
 //  See the LICENSE file at the project root for license information.
 //
 
-class DeleteKYCProfileInfoCoordinator: BaseCoordinator, DeleteKYCProfileInfoRoutes {
+class DeleteProfileInfoCoordinator: BaseCoordinator, DeleteProfileInfoRoutes {
     // MARK: - ProfileRoutes
     
     override func start() {
-        open(scene: Scenes.DeleteKYCProfileInfo)
+        open(scene: Scenes.DeleteProfileInfo)
     }
     
     // MARK: - Aditional helpers

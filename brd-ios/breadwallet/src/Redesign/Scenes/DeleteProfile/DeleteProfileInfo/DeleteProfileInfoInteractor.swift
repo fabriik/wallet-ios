@@ -1,5 +1,5 @@
 //
-//  DeleteKYCProfileInfoInteractor.swift
+//  DeleteProfileInfoInteractor.swift
 //  breadwallet
 //
 //  Created by Kenan Mamedoff on 19/07/2022.
@@ -10,20 +10,20 @@
 
 import UIKit
 
-class DeleteKYCProfileInfoInteractor: NSObject, Interactor, DeleteKYCProfileInfoViewActions {
-    typealias Models = DeleteKYCProfileInfoModels
+class DeleteProfileInfoInteractor: NSObject, Interactor, DeleteProfileInfoViewActions {
+    typealias Models = DeleteProfileInfoModels
 
-    var presenter: DeleteKYCProfileInfoPresenter?
-    var dataStore: DeleteKYCProfileInfoStore?
+    var presenter: DeleteProfileInfoPresenter?
+    var dataStore: DeleteProfileInfoStore?
 
-    // MARK: - DeleteKYCProfileInfoViewActions
+    // MARK: - DeleteProfileInfoViewActions
     
     func getData(viewAction: FetchModels.Get.ViewAction) {
         let item = Models.Item(nil)
         presenter?.presentData(actionResponse: .init(item: item))
     }
     
-    func toggleTickbox(viewAction: DeleteKYCProfileInfoModels.Tickbox.ViewAction) {
+    func toggleTickbox(viewAction: DeleteProfileInfoModels.Tickbox.ViewAction) {
         presenter?.presentToggleTickbox(actionResponse: .init(value: viewAction.value))
     }
     

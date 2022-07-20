@@ -1,5 +1,5 @@
 //
-//  DeleteKYCProfileInfoStore.swift
+//  DeleteProfileInfoStore.swift
 //  breadwallet
 //
 //  Created by Kenan Mamedoff on 19/07/2022.
@@ -10,8 +10,8 @@
 
 import UIKit
 
-class DeleteKYCProfileInfoStore: NSObject, BaseDataStore, DeleteKYCProfileInfoDataStore {
-    // MARK: - DeleteKYCProfileInfoDataStore
+class DeleteProfileInfoStore: NSObject, BaseDataStore, DeleteProfileInfoDataStore {
+    // MARK: - DeleteProfileInfoDataStore
     
     var itemId: String?
     

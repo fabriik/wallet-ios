@@ -1,5 +1,5 @@
 //
-//  DeleteKYCProfileInfoModels.swift
+//  DeleteProfileInfoModels.swift
 //  breadwallet
 //
 //  Created by Kenan Mamedoff on 19/07/2022.
@@ -10,7 +10,7 @@
 
 import UIKit
 
-enum DeleteKYCProfileInfoModels {
+enum DeleteProfileInfoModels {
     typealias Item = Any?
     
     enum Section: Sectionable {

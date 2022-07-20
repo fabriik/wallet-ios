@@ -1,5 +1,5 @@
 //
-//  DeleteKYCProfileInfoPresenter.swift
+//  DeleteProfileInfoPresenter.swift
 //  breadwallet
 //
 //  Created by Kenan Mamedoff on 19/07/2022.
@@ -10,12 +10,12 @@
 
 import UIKit
 
-final class DeleteKYCProfileInfoPresenter: NSObject, Presenter, DeleteKYCProfileInfoActionResponses {
-    typealias Models = DeleteKYCProfileInfoModels
+final class DeleteProfileInfoPresenter: NSObject, Presenter, DeleteProfileInfoActionResponses {
+    typealias Models = DeleteProfileInfoModels
 
-    weak var viewController: DeleteKYCProfileInfoViewController?
+    weak var viewController: DeleteProfileInfoViewController?
 
-    // MARK: - DeleteKYCProfileInfoActionResponses
+    // MARK: - DeleteProfileInfoActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         var checklistTitle: LabelViewModel { return .text("What does this mean?") }
         var checkmarks: [ChecklistItemViewModel] { return [
@@ -48,7 +48,7 @@ final class DeleteKYCProfileInfoPresenter: NSObject, Presenter, DeleteKYCProfile
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
     
-    func presentToggleTickbox(actionResponse: DeleteKYCProfileInfoModels.Tickbox.ActionResponse) {
+    func presentToggleTickbox(actionResponse: DeleteProfileInfoModels.Tickbox.ActionResponse) {
         viewController?.displayToggleTickbox(responseDisplay: .init(model: .init(title: "Continue", enabled: actionResponse.value)))
     }
     
