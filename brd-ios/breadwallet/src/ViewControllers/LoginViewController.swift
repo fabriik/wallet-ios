@@ -112,7 +112,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
         addPinView()
 
         disabledView.didTapReset = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.isResetting = true
             
             RecoveryKeyFlowController.enterResetPinFlow(from: self,
@@ -140,7 +140,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
             })            
         }
         disabledView.didCompleteWipeGesture = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.wipeFromDisabledGesture()
         }
         disabledView.didTapFaq = { [weak self] in

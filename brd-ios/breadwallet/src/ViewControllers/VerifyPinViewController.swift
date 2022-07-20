@@ -163,7 +163,7 @@ class VerifyPinViewController: UIViewController, ContentBoxPresenter {
     private func setUpBiometricsAuthentication() {
         if VerifyPinViewController.shouldShowBiometricsOnPinPad(for: self.pinAuthenticationType, authenticator: self.walletAuthenticator) {
             self.pinPad.didTapBiometrics = { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 self.walletAuthenticator.authenticate(withBiometricsPrompt: "biometrics", completion: { (result) in
                     if result == .success {
                         self.success("")

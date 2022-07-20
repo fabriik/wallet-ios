@@ -17,7 +17,7 @@ extension BRAPIClient {
     
     func sendLaunchEvent(userAgent: String) {
         DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.getAttributionDetails { attributionInfo in
                 let vendorId = UIDevice.current.identifierForVendor!.uuidString
                 let payload = MetricsPayload(data: MetricsPayloadData.launch(LaunchData(bundles: self.bundles,

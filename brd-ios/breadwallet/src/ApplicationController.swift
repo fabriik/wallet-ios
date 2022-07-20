@@ -67,6 +67,8 @@ class ApplicationController: Subscriber, Trackable {
         }
     }
 
+    var didTapDeleteAccount: (() -> Void)?
+    
     // MARK: - Init/Launch
 
     init() {
@@ -115,7 +117,8 @@ class ApplicationController: Subscriber, Trackable {
         modalPresenter = ModalPresenter(keyStore: keyStore,
                                         system: coreSystem,
                                         window: window,
-                                        alertPresenter: alertPresenter)
+                                        alertPresenter: alertPresenter,
+                                        deleteKYCAccountCallback: didTapDeleteAccount)
         
         // Start collecting analytics events. Once we have a wallet, startBackendServices() will
         // notify `Backend.apiClient.analytics` so that it can upload events to the server.
@@ -203,7 +206,8 @@ class ApplicationController: Subscriber, Trackable {
                     self.modalPresenter = ModalPresenter(keyStore: self.keyStore,
                                                          system: self.coreSystem,
                                                          window: self.window,
-                                                         alertPresenter: self.alertPresenter)
+                                                         alertPresenter: self.alertPresenter,
+                                                         deleteKYCAccountCallback: self.didTapDeleteAccount)
                     self.coreSystem.connect()
                 }
             }
@@ -439,6 +443,10 @@ class ApplicationController: Subscriber, Trackable {
         
         homeScreen.didTapProfile = { [unowned self] in
             coordinator?.showProfile()
+        }
+        
+        didTapDeleteAccount = { [unowned self] in
+            coordinator?.showDeleteProfileInfo()
         }
         
         homeScreen.didTapProfileFromPrompt = { [unowned self] profile in

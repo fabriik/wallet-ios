@@ -81,7 +81,7 @@ class StartFlowPresenter: Subscriber, Trackable {
         
         let onboardingScreen = OnboardingViewController(doesCloudBackupExist: keyMaster.doesCloudBackupExist(),
                                                         didExitOnboarding: { [weak self] (action) in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             
             switch action {
             case .restoreWallet:
@@ -340,14 +340,14 @@ class StartFlowPresenter: Subscriber, Trackable {
         
         if let modal = rootViewController.presentedViewController {
             modal.dismiss(animated: false, completion: { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 self.rootViewController.present(loginView, animated: false, completion: {
                     self.popStartupScreen()
                 })
             })
         } else {
             rootViewController.present(loginView, animated: false, completion: { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 self.popStartupScreen()
             })
         }

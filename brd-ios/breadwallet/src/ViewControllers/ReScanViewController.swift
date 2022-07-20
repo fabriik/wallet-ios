@@ -36,10 +36,10 @@ class ReScanViewController: UIViewController, Subscriber {
         
         Store.subscribe(self,
                         selector: { [weak self] oldState, newState in
-                            guard let `self` = self else { return false }
+                            guard let self = self else { return false }
                             return oldState[self.wallet.currency]?.syncState != newState[self.wallet.currency]?.syncState },
                         callback: { [weak self] state in
-                            guard let `self` = self,
+                            guard let self = self,
                                 let walletState = state[self.wallet.currency] else { return }
                             let enabled = walletState.syncState == .success
                                 && walletState.isRescanning == false

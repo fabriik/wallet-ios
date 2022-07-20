@@ -44,7 +44,7 @@ class PushNotificationsViewController: UIViewController, Trackable {
     
     private func checkNotificationsSettings() {
         UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 self.updateForNotificationStatus(status: settings.authorizationStatus)
             }
@@ -133,7 +133,7 @@ class PushNotificationsViewController: UIViewController, Trackable {
         toggle.sendActions(for: .valueChanged)
         
         toggle.valueChanged = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             if self.toggle.isOn {
                 UNUserNotificationCenter.current().getNotificationSettings { settings in
                     DispatchQueue.main.async {
@@ -161,7 +161,7 @@ class PushNotificationsViewController: UIViewController, Trackable {
         
         openSettingsButton.tap = { [weak self] in
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             
             self.saveEvent(context: .pushNotifications, screen: .pushNotificationSettings, event: .openNotificationSystemSettings)
             UIApplication.shared.open(url)

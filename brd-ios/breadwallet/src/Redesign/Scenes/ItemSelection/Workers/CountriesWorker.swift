@@ -32,7 +32,7 @@ struct CountriesRequestData: RequestModelData {
 class CountriesWorker: BaseApiWorker<CountriesMapper> {
     
     override func getUrl() -> String {
-        return APIURLHandler.getUrl(KYCEndpoints.countries)
+        return APIURLHandler.getUrl(KYCEndpoints.countriesList)
     }
     
     override func getParameters() -> [String: Any] {

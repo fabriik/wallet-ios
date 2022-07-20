@@ -83,7 +83,7 @@ class TxDetailViewController: UIViewController, Subscriber {
         // refresh if rate changes
         Store.lazySubscribe(self,
                             selector: { [weak self] oldState, newState in
-                                guard let `self` = self else { return false }
+                                guard let self = self else { return false }
                                 return oldState[self.viewModel.currency]?.currentRate != newState[self.viewModel.currency]?.currentRate },
                             callback: { [weak self] _ in
                                 self?.reload()

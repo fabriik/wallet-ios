@@ -166,7 +166,7 @@ class ReceiveViewController: UIViewController, Subscriber, Trackable {
             self?.addressTapped()
         }
         request.tap = { [weak self] in
-            guard let `self` = self,
+            guard let self = self,
                 let modalTransitionDelegate = self.parent?.transitioningDelegate as? ModalTransitionDelegate,
                 let address = self.address.text else { return }
             modalTransitionDelegate.reset()

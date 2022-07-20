@@ -75,7 +75,7 @@ class BalanceCell: UIView, Subscriber {
         })
         Store.lazySubscribe(self,
                             selector: { [weak self] oldState, newState in
-                                guard let `self` = self else { return false }
+                                guard let self = self else { return false }
                                 return oldState[self.currency]?.currentRate != newState[self.currency]?.currentRate },
                             callback: { [weak self] in
                                 guard let self = self else { return }
@@ -92,7 +92,7 @@ class BalanceCell: UIView, Subscriber {
                             guard let self = self else { return false }
                             return oldState[self.currency]?.balance != newState[self.currency]?.balance },
                         callback: { [weak self] state in
-                            guard let `self` = self else { return }
+                            guard let self = self else { return }
                             if let balance = state[self.currency]?.balance {
                                 self.balance = balance
                             } })

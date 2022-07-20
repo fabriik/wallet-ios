@@ -42,7 +42,7 @@ class CoreSystem: Subscriber, Trackable {
         self.keyStore = keyStore
         self.widgetDataShareService = DefaultWidgetDataShareService()
         Store.subscribe(self, name: .optInSegWit) { [weak self] _ in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.queue.async {
                 guard let btc = Currencies.shared.btc,
                       let btcWalletManager = self.wallet(for: btc)?.manager else { return }
@@ -52,13 +52,13 @@ class CoreSystem: Subscriber, Trackable {
         }
         
         Reachability.addDidChangeCallback { [weak self] isReachable in
-            guard let `self` = self, let system = self.system else { return }
+            guard let self = self, let system = self.system else { return }
             system.setNetworkReachable(isReachable)
             isReachable ? self.connect() : self.pause()
         }
         
         Store.subscribe(self, name: .createAccount(nil, nil)) { [weak self] trigger in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             if case let .createAccount(currency, callback) = trigger {
                 if let currency = currency, let callback = callback {
                     self.createAccount(forCurrency: currency, callback: callback)
@@ -301,7 +301,7 @@ class CoreSystem: Subscriber, Trackable {
     private func createAccount(forCurrency currency: Currency, callback: @escaping (Wallet?) -> Void) {
         guard let system = system else { return callback(nil) }
         initialize(network: currency.network, system: system, createIfDoesNotExist: true) { [weak self] data in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             guard let data = data else { return callback(nil) }
             guard let assetCollection = self.assetCollection else { return callback(nil) }
             self.keyStore.updateAccountSerialization(data)
