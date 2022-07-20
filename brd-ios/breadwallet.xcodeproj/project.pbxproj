@@ -359,6 +359,9 @@
 		7EBC6B0D2848B81A000A301F /* CodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBC6B0C2848B81A000A301F /* CodeInputView.swift */; };
 		7EC0F8AA2886D9B90037145C /* SwapErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8A92886D9B90037145C /* SwapErrors.swift */; };
 		7EC0F8AC2887D8C40037145C /* SwapWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8AB2887D8C40037145C /* SwapWorker.swift */; };
+		7EC0F8B62888049F0037145C /* WrapperPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8B52888049F0037145C /* WrapperPopupView.swift */; };
+		7EC0F8B8288813EE0037145C /* SwapConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */; };
+		7EC0F8BA28881C680037145C /* TitleValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8B928881C680037145C /* TitleValueView.swift */; };
 		7EC37909281C098900028CA1 /* ErrorStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC37908281C098900028CA1 /* ErrorStruct.swift */; };
 		7EC3790B281C09AE00028CA1 /* ErrorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */; };
 		7ECCA9642875A77300617067 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9632875A77300617067 /* OrderView.swift */; };
@@ -1313,6 +1316,9 @@
 		7EBC6B0C2848B81A000A301F /* CodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInputView.swift; sourceTree = "<group>"; };
 		7EC0F8A92886D9B90037145C /* SwapErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapErrors.swift; sourceTree = "<group>"; };
 		7EC0F8AB2887D8C40037145C /* SwapWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapWorker.swift; sourceTree = "<group>"; };
+		7EC0F8B52888049F0037145C /* WrapperPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapperPopupView.swift; sourceTree = "<group>"; };
+		7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapConfirmationView.swift; sourceTree = "<group>"; };
+		7EC0F8B928881C680037145C /* TitleValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleValueView.swift; sourceTree = "<group>"; };
 		7EC37908281C098900028CA1 /* ErrorStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStruct.swift; sourceTree = "<group>"; };
 		7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorRequest.swift; sourceTree = "<group>"; };
 		7ECCA9632875A77300617067 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -2418,7 +2424,7 @@
 				7B7863192874266A0092F35B /* SwapCoordinator.swift */,
 				7EC0F8A92886D9B90037145C /* SwapErrors.swift */,
 			);
-			path = Swap;
+			path = Main;
 			sourceTree = "<group>";
 		};
 		7C377EBC20F64C1200E8CF1C /* Resources */ = {
@@ -2475,10 +2481,11 @@
 		7E52B79D286EF4CE003D2249 /* Swap */ = {
 			isa = PBXGroup;
 			children = (
-				7BBBF4D22874210600E4D36B /* Swap */,
+				7BBBF4D22874210600E4D36B /* Main */,
 				7E52B79E286EF4CE003D2249 /* Workers */,
 				7ECCA98E2873059300F99368 /* SwapEndpoints.swift */,
 				7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */,
+				7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */,
 				7ED427E628755C9B00AA19A8 /* Details */,
 				C4520F032875C613003FFB7F /* AssetSelection */,
 				C46C28F5287EBEAC0035C843 /* SwapInfo */,
@@ -2715,6 +2722,7 @@
 				7EBC6B0C2848B81A000A301F /* CodeInputView.swift */,
 				7EB838452849D49A00C7CC05 /* ScrollableButtonsView.swift */,
 				7E0968B7284A29CE006B4FC2 /* TransparentView.swift */,
+				7EC0F8B928881C680037145C /* TitleValueView.swift */,
 				7ED427F528755FDF00AA19A8 /* SwapHeaderView.swift */,
 			);
 			path = Views;
@@ -2727,6 +2735,7 @@
 				7E5CB3722835090E00EC787E /* WrapperCollectionViewCell.swift */,
 				7E5CB3732835090E00EC787E /* WrapperView.swift */,
 				7E5CB3742835090E00EC787E /* WrapperTableViewCell.swift */,
+				7EC0F8B52888049F0037145C /* WrapperPopupView.swift */,
 			);
 			path = Wrappers;
 			sourceTree = "<group>";
@@ -4687,6 +4696,7 @@
 				4F3AB12425D53F5D00B378DC /* Baker.swift in Sources */,
 				7EBC6B072848ABC5000A301F /* RegistrationConfirmationPresenter.swift in Sources */,
 				71988B0821EF8A0E008B8EA0 /* BRUserAgentHeaderGenerator.swift in Sources */,
+				7EC0F8BA28881C680037145C /* TitleValueView.swift in Sources */,
 				CEE20C361EA5B4620086F724 /* Constants.swift in Sources */,
 				7BDB49F72806F0BA0031F015 /* BRTar.swift in Sources */,
 				E821D4CC21C16B2E00B0907B /* BRAnalyticsEvent.swift in Sources */,
@@ -4739,6 +4749,7 @@
 				C47F4700286A2931002287F1 /* ResetPinInteractor.swift in Sources */,
 				7E5CB39B2835090E00EC787E /* BaseVIP.swift in Sources */,
 				7B54E5B127F4A2B0002DD1E4 /* UITableView+Extensions.swift in Sources */,
+				7EC0F8B62888049F0037145C /* WrapperPopupView.swift in Sources */,
 				CEAA9E971DC18E1F0066731D /* PhraseView.swift in Sources */,
 				3A6A3C7E24DDC90300ACAC70 /* BackupSynchronizer.swift in Sources */,
 				7E5CB3912835090E00EC787E /* AlertVIP.swift in Sources */,
@@ -4867,6 +4878,7 @@
 				CE5F21D91E4A922700C47B8E /* DismissLoginAnimator.swift in Sources */,
 				7C45481A2187E65B0002E884 /* AnyCodable.swift in Sources */,
 				7ECCA99B28744CD600F99368 /* ExchangeRateView.swift in Sources */,
+				7EC0F8B8288813EE0037145C /* SwapConfirmationView.swift in Sources */,
 				4F3AB12325D53F5D00B378DC /* BakingBadRequest.swift in Sources */,
 				7E8E9797283F4830008606B0 /* ProfileCoordinator.swift in Sources */,
 				CECCE5A51E02408300D99448 /* UIView+FrameChangeBlocking.swift in Sources */,
