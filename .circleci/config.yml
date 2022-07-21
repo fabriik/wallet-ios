@@ -98,9 +98,9 @@ jobs:
       - run:
           name: Copy SDK License
           command: |
-            mkdir /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses
-            touch /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses/android-sdk-license
-            printf "8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee\n" > /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses/android-sdk-license
+            mkdir /usr/local/share/android-commandlinetools/cmdline-tools/latest/bin/licenses
+            touch /usr/local/share/android-commandlinetools/cmdline-tools/latest/bin/licenses/android-sdk-license
+            printf "8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee\n" > /usr/local/share/android-commandlinetools/cmdline-tools/latest/bin/licenses/android-sdk-license
 
       - run:
           name: Check Key
@@ -152,7 +152,7 @@ jobs:
             echo "" >> $BRD_ENV
 
             cd ..
-            echo "sdk.dir=/usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin" > ./local.properties
+            echo "sdk.dir=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin" > ./local.properties
 
       - run:
           name: Create exportOptions.plist
@@ -164,9 +164,9 @@ jobs:
             fi
 
       - run:
-          name: Build Walletkit Subproject
+          name: Build Cosmos Project
           command: |
-            export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin
+            export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
             cp ./local.properties external/walletKit/walletKitJava/local.properties
             ./gradlew cosmos-bundled:createXCFramework
             sed -i '' '18i\'$'\n        ndkVersion \'21.1.6352462\'\n\n' external/walletkit/WalletKitJava/corenative-android/build.gradle
