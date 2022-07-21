@@ -122,7 +122,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             presentError(actionResponse: .init(error: SwapErrors.balanceTooLow(amount: fromCrypto, balance: balance, currency: actionResponse.baseCurrency ?? "")))
             
         case _ where value < 50:
-            presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: 50, currency: "USD")))
+            presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: 50, currency: Store.state.defaultCurrencyCode)))
             
         case _ where value > dailyLimit:
             presentError(actionResponse: .init(error: SwapErrors.overDailyLimit))
@@ -168,12 +168,12 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             return
         }
               
-        let fromText = String(format: "%.8f %@ (%.2f USD)", from, fromCurrency, fromFiat)
-        let toText = String(format: "%.8f %@ (%.2f USD)", to, toCurrency, toFiat)
+        let fromText = String(format: "%.8f %@ (%.2f %@)", from, fromCurrency, fromFiat, Store.state.defaultCurrencyCode)
+        let toText = String(format: "%.8f %@ (%.2f %@)", to, toCurrency, toFiat, Store.state.defaultCurrencyCode)
         let rateText = String(format: "1 %@ = %.8f %@", fromCurrency, rate, toCurrency)
         
-        let fromFeeText = String(format: "%.8f %@\n(%.2f) %@", fromFee, fromCurrency, fromFiatFee, "USD")
-        let toFeeText = String(format: "%.8f %@\n(%.2f) %@", toFee, toCurrency, toFiatFee, "USD")
+        let fromFeeText = String(format: "%.8f %@\n(%.2f) %@", fromFee, fromCurrency, fromFiatFee, Store.state.defaultCurrencyCode)
+        let toFeeText = String(format: "%.8f %@\n(%.2f) %@", toFee, toCurrency, toFiatFee, Store.state.defaultCurrencyCode)
         let totalCostText = String(format: "%.8f %@", from, fromCurrency)
         
         let config: WrapperPopupConfiguration<SwapConfimationConfiguration> = .init(wrappedView: .init())
