@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SwapInfoViewController: BaseTableViewController<SwapInfoCoordinator, SwapInfoInteractor, SwapInfoPresenter,
+class SwapInfoViewController: BaseTableViewController<SwapCoordinator, SwapInfoInteractor, SwapInfoPresenter,
                               SwapInfoStore>,
                               SwapInfoResponseDisplays {
     typealias Models = SwapInfoModels
@@ -129,7 +129,7 @@ class SwapInfoViewController: BaseTableViewController<SwapInfoCoordinator, SwapI
     
     @objc func swapDetailsTapped() {
         // TODO: Add action when ready
-        coordinator?.goBack()
+        coordinator?.showSwapDetails()
     }
     
     // MARK: - SwapInfoResponseDisplay

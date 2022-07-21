@@ -22,3 +22,4 @@ class SwapDetailsInteractor: NSObject, Interactor, SwapDetailsViewActions {
 
     // MARK: - Aditional helpers
 }
+
