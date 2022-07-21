@@ -31,4 +31,5 @@ protocol SwapInfoDataPassing {
 }
 
 protocol SwapInfoRoutes: CoordinatableRoutes {
+    func showSwapDetails()
 }

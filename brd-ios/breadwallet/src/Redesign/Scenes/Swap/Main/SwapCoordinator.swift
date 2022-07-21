@@ -10,7 +10,7 @@
 
 import UIKit
 
-class SwapCoordinator: BaseCoordinator, SwapRoutes {
+class SwapCoordinator: BaseCoordinator, SwapRoutes, SwapInfoRoutes {
     // MARK: - ProfileRoutes
     
     override func start() {
@@ -53,7 +53,13 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes {
             vc.prepareData()
         }
     }
-        
+    
+    func showSwapDetails() {
+        open(scene: SwapDetailsViewController.self) { vc in
+//            vc.dataStore
+            vc.prepareData()
+        }
+    }
     // MARK: - Aditional helpers
     
 }

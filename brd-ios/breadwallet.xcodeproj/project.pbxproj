@@ -682,7 +682,6 @@
 		C45E0BAA2845F4C40083F028 /* AccountVerificationVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E0BA32845F4C40083F028 /* AccountVerificationVIP.swift */; };
 		C45E0BAB2845F4C40083F028 /* AccountVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E0BA42845F4C40083F028 /* AccountVerificationViewController.swift */; };
 		C45E0BAC2845F4C40083F028 /* AccountVerificationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E0BA52845F4C40083F028 /* AccountVerificationInteractor.swift */; };
-		C46C28FD287EBF4F0035C843 /* SwapInfoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28F6287EBF4F0035C843 /* SwapInfoCoordinator.swift */; };
 		C46C28FE287EBF4F0035C843 /* SwapInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28F7287EBF4F0035C843 /* SwapInfoStore.swift */; };
 		C46C28FF287EBF4F0035C843 /* SwapInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28F8287EBF4F0035C843 /* SwapInfoPresenter.swift */; };
 		C46C2900287EBF4F0035C843 /* SwapInfoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28F9287EBF4F0035C843 /* SwapInfoModels.swift */; };
@@ -1611,7 +1610,6 @@
 		C45E0BA32845F4C40083F028 /* AccountVerificationVIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerificationVIP.swift; sourceTree = "<group>"; };
 		C45E0BA42845F4C40083F028 /* AccountVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerificationViewController.swift; sourceTree = "<group>"; };
 		C45E0BA52845F4C40083F028 /* AccountVerificationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerificationInteractor.swift; sourceTree = "<group>"; };
-		C46C28F6287EBF4F0035C843 /* SwapInfoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoCoordinator.swift; sourceTree = "<group>"; };
 		C46C28F7287EBF4F0035C843 /* SwapInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoStore.swift; sourceTree = "<group>"; };
 		C46C28F8287EBF4F0035C843 /* SwapInfoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoPresenter.swift; sourceTree = "<group>"; };
 		C46C28F9287EBF4F0035C843 /* SwapInfoModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoModels.swift; sourceTree = "<group>"; };
@@ -3264,7 +3262,6 @@
 		C46C28F5287EBEAC0035C843 /* SwapInfo */ = {
 			isa = PBXGroup;
 			children = (
-				C46C28F6287EBF4F0035C843 /* SwapInfoCoordinator.swift */,
 				C46C28F7287EBF4F0035C843 /* SwapInfoStore.swift */,
 				C46C28F8287EBF4F0035C843 /* SwapInfoPresenter.swift */,
 				C46C28F9287EBF4F0035C843 /* SwapInfoModels.swift */,
@@ -4792,7 +4789,6 @@
 				7C7F18ED1FED9A3B0030230E /* TxStatusIndicator.swift in Sources */,
 				7E5CB3992835090E00EC787E /* Interactor.swift in Sources */,
 				7B54E5A927F4A2B0002DD1E4 /* BaseApiWorker.swift in Sources */,
-				C46C28FD287EBF4F0035C843 /* SwapInfoCoordinator.swift in Sources */,
 				7E9B13FC2857404600BD9EF5 /* DocumentReviewModels.swift in Sources */,
 				C45E0BA62845F4C40083F028 /* AccountVerificationCoordinator.swift in Sources */,
 				7C787AE221ED89510017EA7E /* KeyStore.swift in Sources */,
