@@ -35,6 +35,12 @@ extension Presets {
                                                                                  textAlignment: .right),
                                                  imageAlpha: 0.5)
     }
+    
+    struct StatusView {
+        static var pending = AssetViewModel(icon: UIImage(named: "pendingIcon"), title: "Pending")
+        static var complete = AssetViewModel(icon: UIImage(named: "completeIcon"), title: "Complete")
+        static var failed = AssetViewModel(icon: UIImage(named: "errorIcon")?.withRenderingMode(.alwaysOriginal), title: "Failed")
+    }
 }
 
 struct AssetConfiguration: Configurable {
@@ -147,9 +153,6 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         }
         
         iconView.content.alpha = config.imageAlpha
-        iconView.content.setupCustomMargins(all: config.imageConfig == nil ? .zero : .extraSmall)
-        
-        iconView.configure(background: config.imageConfig)
         configure(background: config.backgroundConfiguration)
     }
     

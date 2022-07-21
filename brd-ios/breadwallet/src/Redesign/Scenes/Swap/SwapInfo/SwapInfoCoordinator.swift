@@ -15,6 +15,10 @@ class SwapInfoCoordinator: BaseCoordinator, SwapInfoRoutes {
         parentCoordinator?.childDidFinish(child: self)
         navigationController.dismiss(animated: true)
     }
-
+    
+    func openSwapDetails() {
+        open(scene: Scenes.SwapDetails)
+    }
+    
     // MARK: - Aditional helpers
 }
