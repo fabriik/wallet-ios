@@ -12,6 +12,7 @@ enum PinViewStyle {
     case create
     case login
     case verify
+    case confirm
 }
 
 class PinView: UIView {

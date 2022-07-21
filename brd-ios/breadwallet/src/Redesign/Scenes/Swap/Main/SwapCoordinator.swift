@@ -31,6 +31,21 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes {
         }
     }
     
+    func showPinInput(callback: ((_ didPass: Bool) -> Void)?) {
+        guard let keyStore = try? KeyStore.create() else { return }
+        let vc = LoginViewController(for: .confirmation,
+                                     keyMaster: keyStore,
+                                     shouldDisableBiometrics: false)
+        
+        let nvc = RootNavigationController(rootViewController: vc)
+        vc.confirmationCallback = { confirmed in
+            callback?(confirmed)
+            nvc.dismiss(animated: true)
+        }
+        nvc.modalPresentationStyle = .fullScreen
+        navigationController.show(nvc, sender: nil)
+    }
+    
     func showPopup<V: ViewProtocol & UIView>(with config: WrapperPopupConfiguration<V.C>?,
                                              viewModel: WrapperPopupViewModel<V.VM>,
                                              confirmedCallback: @escaping (() -> Void)) -> WrapperPopupView<V>? {
