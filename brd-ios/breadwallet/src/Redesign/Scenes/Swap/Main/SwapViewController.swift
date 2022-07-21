@@ -272,7 +272,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay) {
-        coordinator?.showSwapInfo(from: responseDisplay.from, to: responseDisplay.to)
+        coordinator?.showSwapInfo(from: responseDisplay.from, to: responseDisplay.to, exchangeId: responseDisplay.exchangeId)
     }
     
     // MARK: - Additional Helpers

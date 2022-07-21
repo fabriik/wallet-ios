@@ -310,10 +310,11 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         SwapWorker().execute(requestData: data) { [weak self] result in
             switch result {
-            case .success:
+            case .success(let data):
                 let from = self?.dataStore?.selectedBaseCurrency
                 let to = self?.dataStore?.selectedTermCurrency
-                self?.presenter?.presentConfirm(actionResponse: .init(from: from, to: to))
+                let exchangeId = "\(data.exchangeId)"
+                self?.presenter?.presentConfirm(actionResponse: .init(from: from, to: to, exchangeId: exchangeId))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))

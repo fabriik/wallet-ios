@@ -15,11 +15,21 @@ class SwapDetailsInteractor: NSObject, Interactor, SwapDetailsViewActions {
     var dataStore: SwapDetailsStore?
     
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        presenter?.presentData(actionResponse: .init(item: nil))
+        let data = SwapDetailsRequestData(exchangeId: dataStore?.itemId)
+        
+        SwapDetailsWorker().execute(requestData: data) { [weak self] result in
+            switch result {
+            case .success(let data):
+                print("Done!")
+                // TODO: presendData
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
     }
 
     // MARK: - SwapDetailsViewActions
 
     // MARK: - Aditional helpers
 }
-
