@@ -196,8 +196,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
         LoadingView.hide()
         
-        confirmButton.wrappedView.isEnabled = responseDisplay.error == nil && dataStore?.fromFiatAmount != 0
-        
         guard let section = sections.firstIndex(of: Models.Sections.errors),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else { return }
         
@@ -219,7 +217,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         // TODO: replace with Coordinator call
         LoadingView.hide()
         
-        confirmButton.wrappedView.isEnabled = responseDisplay.amounts.fromFiatAmount != 0
+        confirmButton.wrappedView.isEnabled = responseDisplay.continueEnabled
         guard let section = sections.firstIndex(of: Models.Sections.swapCard),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<MainSwapView> else { return }
         
