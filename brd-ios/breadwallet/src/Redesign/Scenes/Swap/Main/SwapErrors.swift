@@ -24,6 +24,7 @@ enum SwapErrors: FEError {
     // TODO: unoficial error xD
     case networkFee
     case overExchangeLimit
+    case pinConfirmation
     
     var errorMessage: String {
         switch self {
@@ -60,6 +61,9 @@ enum SwapErrors: FEError {
             
         case .overExchangeLimit:
             return "Over exchange limit."
+            
+        case  .pinConfirmation:
+            return "PIN Authentication failed"
         }
     }
 }
