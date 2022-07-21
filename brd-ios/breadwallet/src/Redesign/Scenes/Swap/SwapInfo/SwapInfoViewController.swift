@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SwapInfoViewController: BaseTableViewController<SwapInfoCoordinator,
+class SwapInfoViewController: BaseTableViewController<SwapCoordinator,
                               SwapInfoInteractor,
                               SwapInfoPresenter,
                               SwapInfoStore>,
@@ -130,7 +130,7 @@ class SwapInfoViewController: BaseTableViewController<SwapInfoCoordinator,
     }
     
     @objc func swapDetailsTapped() {
-        coordinator?.openSwapDetails()
+        coordinator?.showSwapDetails()
     }
     
     // MARK: - SwapInfoResponseDisplay
