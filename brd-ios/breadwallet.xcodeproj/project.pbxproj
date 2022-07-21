@@ -363,6 +363,7 @@
 		7EC0F8B62888049F0037145C /* WrapperPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8B52888049F0037145C /* WrapperPopupView.swift */; };
 		7EC0F8B8288813EE0037145C /* SwapConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */; };
 		7EC0F8BA28881C680037145C /* TitleValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8B928881C680037145C /* TitleValueView.swift */; };
+		7EC0F8BC28892E2E0037145C /* IconDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8BB28892E2E0037145C /* IconDescriptionView.swift */; };
 		7EC37909281C098900028CA1 /* ErrorStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC37908281C098900028CA1 /* ErrorStruct.swift */; };
 		7EC3790B281C09AE00028CA1 /* ErrorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */; };
 		7ECCA9642875A77300617067 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9632875A77300617067 /* OrderView.swift */; };
@@ -702,6 +703,7 @@
 		C47F46FF286A2931002287F1 /* ResetPinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47F46F8286A2931002287F1 /* ResetPinViewController.swift */; };
 		C47F4700286A2931002287F1 /* ResetPinInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47F46F9286A2931002287F1 /* ResetPinInteractor.swift */; };
 		C4BD1C69284A16E000AFA2A6 /* CountriesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BD1C68284A16E000AFA2A6 /* CountriesWorker.swift */; };
+		C4BDDA4528892D9E003A31E0 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BDDA4428892D9D003A31E0 /* TransactionView.swift */; };
 		C4D5E7FF284951DD000BEE6F /* VerifyAccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D5E7F8284951DD000BEE6F /* VerifyAccountStore.swift */; };
 		C4D5E800284951DD000BEE6F /* VerifyAccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D5E7F9284951DD000BEE6F /* VerifyAccountPresenter.swift */; };
 		C4D5E801284951DD000BEE6F /* VerifyAccountModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D5E7FA284951DD000BEE6F /* VerifyAccountModels.swift */; };
@@ -1321,6 +1323,7 @@
 		7EC0F8B52888049F0037145C /* WrapperPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapperPopupView.swift; sourceTree = "<group>"; };
 		7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapConfirmationView.swift; sourceTree = "<group>"; };
 		7EC0F8B928881C680037145C /* TitleValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleValueView.swift; sourceTree = "<group>"; };
+		7EC0F8BB28892E2E0037145C /* IconDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconDescriptionView.swift; sourceTree = "<group>"; };
 		7EC37908281C098900028CA1 /* ErrorStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStruct.swift; sourceTree = "<group>"; };
 		7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorRequest.swift; sourceTree = "<group>"; };
 		7ECCA9632875A77300617067 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -1629,6 +1632,7 @@
 		C47F46F8286A2931002287F1 /* ResetPinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPinViewController.swift; sourceTree = "<group>"; };
 		C47F46F9286A2931002287F1 /* ResetPinInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPinInteractor.swift; sourceTree = "<group>"; };
 		C4BD1C68284A16E000AFA2A6 /* CountriesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesWorker.swift; sourceTree = "<group>"; };
+		C4BDDA4428892D9D003A31E0 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		C4D5E7F8284951DD000BEE6F /* VerifyAccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyAccountStore.swift; sourceTree = "<group>"; };
 		C4D5E7F9284951DD000BEE6F /* VerifyAccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyAccountPresenter.swift; sourceTree = "<group>"; };
 		C4D5E7FA284951DD000BEE6F /* VerifyAccountModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyAccountModels.swift; sourceTree = "<group>"; };
@@ -2415,7 +2419,7 @@
 			path = DeleteProfileInfo;
 			sourceTree = "<group>";
 		};
-		7BBBF4D22874210600E4D36B /* Swap */ = {
+		7BBBF4D22874210600E4D36B /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				7BBBF4D8287421CF00E4D36B /* SwapPresenter.swift */,
@@ -2726,6 +2730,7 @@
 				7EB838452849D49A00C7CC05 /* ScrollableButtonsView.swift */,
 				7E0968B7284A29CE006B4FC2 /* TransparentView.swift */,
 				7EC0F8B928881C680037145C /* TitleValueView.swift */,
+				7EC0F8BB28892E2E0037145C /* IconDescriptionView.swift */,
 				7ED427F528755FDF00AA19A8 /* SwapHeaderView.swift */,
 			);
 			path = Views;
@@ -2841,6 +2846,7 @@
 			isa = PBXGroup;
 			children = (
 				7ECCA9632875A77300617067 /* OrderView.swift */,
+				C4BDDA4428892D9D003A31E0 /* TransactionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4805,6 +4811,7 @@
 				7CE940E61FEB8A5F005A2B53 /* TxDetailRowCell.swift in Sources */,
 				3AB3EE0F227A23B400414616 /* ASADataFormatter.swift in Sources */,
 				3AFAD94F25699112005853E8 /* TxGiftCell.swift in Sources */,
+				7EC0F8BC28892E2E0037145C /* IconDescriptionView.swift in Sources */,
 				CEAA9EA01DC2F9F50066731D /* UIFont+BRWAdditions.swift in Sources */,
 				CEF61B121ECF52C700C7EA6A /* AmountViewController.swift in Sources */,
 				CEBF32F21DDCE10D00348FC6 /* AccountHeaderView.swift in Sources */,
@@ -4863,6 +4870,7 @@
 				C4D5E7FF284951DD000BEE6F /* VerifyAccountStore.swift in Sources */,
 				9AE8FFF821FE64E200D5058C /* RewardsView.swift in Sources */,
 				7E8E9799283F4830008606B0 /* ProfilePresenter.swift in Sources */,
+				C4BDDA4528892D9E003A31E0 /* TransactionView.swift in Sources */,
 				7E2C53A527FD631000F74BA0 /* ChangellyApi.swift in Sources */,
 				7EF45F88284768C100D1F7B0 /* ItemSelectionInteractor.swift in Sources */,
 				CEA3626A1E01150D0061FC0E /* CGContext+Additions.swift in Sources */,

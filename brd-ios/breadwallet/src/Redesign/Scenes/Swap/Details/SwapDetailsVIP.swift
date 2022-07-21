@@ -12,16 +12,16 @@ extension Scenes {
     static let SwapDetails = SwapDetailsViewController.self
 }
 
-protocol SwapDetailsViewActions: BaseViewActions {
+protocol SwapDetailsViewActions: BaseViewActions, FetchViewActions {
 }
 
-protocol SwapDetailsActionResponses: BaseActionResponses {
+protocol SwapDetailsActionResponses: BaseActionResponses, FetchActionResponses {
 }
 
-protocol SwapDetailsResponseDisplays: AnyObject, BaseResponseDisplays {
+protocol SwapDetailsResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
 }
 
-protocol SwapDetailsDataStore: BaseDataStore {
+protocol SwapDetailsDataStore: BaseDataStore, FetchDataStore {
 }
 
 protocol SwapDetailsDataPassing {

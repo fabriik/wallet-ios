@@ -277,13 +277,21 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         presenter?.presentSelectAsset(actionResponse: .init(from: from, to: to))
     }
     
+    func showConfirmation(viewAction: SwapModels.ShowConfirmDialog.ViewAction) {
+        presenter?.presentConfirmation(actionResponse: .init(from: dataStore?.fromCryptoAmount,
+                                                             fromFiat: dataStore?.fromFiatAmount,
+                                                             fromCurrency: dataStore?.selectedBaseCurrency,
+                                                             to: dataStore?.toCryptoAmount,
+                                                             toFiat: dataStore?.toFiatAmount,
+                                                             toCurrency: dataStore?.selectedTermCurrency,
+                                                             quote: quote,
+                                                             fromFee: dataStore?.fromBaseCryptoFee,
+                                                             fromFiatFee: dataStore?.fromBaseFiatFee,
+                                                             toFee: dataStore?.fromTermCryptoFee,
+                                                             toFiatFee: dataStore?.fromTermFiatFee))
+    }
+    
     func confirm(viewAction: SwapModels.Confirm.ViewAction) {
-        guard viewAction.isConfirmed else {
-            // TODO: present confirmation dialog
-            
-            presenter?.presentConfirm(actionResponse: .init())
-            return
-        }
         guard let currency = dataStore?.currencies.first(where: { $0.code == dataStore?.selectedTermCurrency }),
               let address = dataStore?.coreSystem?.wallet(for: currency)?.receiveAddress
         else {
@@ -298,7 +306,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         SwapWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let data):
-                print("juhuuu")
+                self?.presenter?.presentConfirm(actionResponse: .init())
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))

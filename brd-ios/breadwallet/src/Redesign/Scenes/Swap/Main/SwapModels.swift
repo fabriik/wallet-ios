@@ -9,6 +9,7 @@
 //
 
 import UIKit
+import WalletKit
 
 enum SwapModels {
     typealias Item = Any?
@@ -122,13 +123,32 @@ enum SwapModels {
         }
     }
     
-    struct Confirm {
-        struct ViewAction {
-            var isConfirmed = false
+    struct ShowConfirmDialog {
+        struct ViewAction {}
+        
+        struct ActionResponse {
+            var from: Decimal?
+            var fromFiat: Decimal?
+            var fromCurrency: String?
+            var to: Decimal?
+            var toFiat: Decimal?
+            var toCurrency: String?
+            var quote: Quote?
+            var fromFee: Decimal?
+            var fromFiatFee: Decimal?
+            var toFee: Decimal?
+            var toFiatFee: Decimal?
         }
         
+        struct ResponseDisplay {
+            var config: WrapperPopupConfiguration<SwapConfimationConfiguration>
+            var viewModel: WrapperPopupViewModel<SwapConfirmationViewModel>
+        }
+    }
+    
+    struct Confirm {
+        struct ViewAction {}
         struct ActionResponse {}
-        
         struct ResponseDisplay {}
     }
 }

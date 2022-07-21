@@ -10,22 +10,25 @@
 
 import UIKit
 
-struct WrapperPopupConfiguration: Configurable {
+struct WrapperPopupConfiguration<C: Configurable>: Configurable {
     var background: BackgroundConfiguration = .init(backgroundColor: .white, tintColor: .black, border: Presets.Border.zero)
     var leading: BackgroundConfiguration?
     var title = LabelConfiguration(font: Fonts.Title.six, textColor: LightColors.Text.one, textAlignment: .center)
     var trailing = Presets.Button.blackIcon
-    var buttons: [ButtonConfiguration] = [
-        Presets.Button.primary,
-        Presets.Button.secondary
-    ]
+    var confirm = Presets.Button.primary
+    var cancel = Presets.Button.secondary
+    var wrappedView: C?
 }
 
-struct WrapperPopupViewModel: ViewModel {
+struct WrapperPopupViewModel<VM: ViewModel>: ViewModel {
     var leading: ImageViewModel?
     var title: LabelViewModel?
     var trailing: ButtonViewModel?
-    var buttons: [ButtonViewModel] = []
+    
+    var confirm: ButtonViewModel?
+    var cancel: ButtonViewModel?
+    
+    var wrappedView: VM?
 }
 
 class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
@@ -41,9 +44,10 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
         return view
     }()
     
-    var callbacks: [(()-> Void)] = []
-    var config: WrapperPopupConfiguration?
-    var viewModel: WrapperPopupViewModel?
+    var cancelCallback: (() -> Void)?
+    var confirmCallback: (() -> Void)?
+    var config: WrapperPopupConfiguration<T.C>?
+    var viewModel: WrapperPopupViewModel<T.VM>?
     
     lazy var wrappedView = T()
     
@@ -84,6 +88,18 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
     private lazy var lineView: UIView = {
         let view = UIView()
         view.backgroundColor = LightColors.Outline.two
+        return view
+    }()
+    
+    private lazy var confirmButton: FEButton = {
+        let view = FEButton()
+        view.addTarget(self, action: #selector(confirmTapped(_:)), for: .touchUpInside)
+        return view
+    }()
+    
+    private lazy var cancelButton: FEButton = {
+        let view = FEButton()
+        view.addTarget(self, action: #selector(cancelTapped(_:)), for: .touchUpInside)
         return view
     }()
     
@@ -157,6 +173,15 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
         content.addArrangedSubview(wrappedView)
         content.addArrangedSubview(buttonStack)
         
+        buttonStack.addArrangedSubview(confirmButton)
+        confirmButton.snp.makeConstraints { make in
+            make.height.equalTo(FieldHeights.common.rawValue)
+        }
+        buttonStack.addArrangedSubview(cancelButton)
+        cancelButton.snp.makeConstraints { make in
+            make.height.equalTo(FieldHeights.common.rawValue)
+        }
+        
         isUserInteractionEnabled = true
         content.isUserInteractionEnabled = true
         wrappedView.isUserInteractionEnabled = true
@@ -166,7 +191,7 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
         closure(wrappedView)
     }
     
-    func configure(with config: WrapperPopupConfiguration?) {
+    func configure(with config: WrapperPopupConfiguration<T.C>?) {
         guard let config = config else { return }
         self.config = config
         
@@ -174,17 +199,22 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
         headerLeadingView.configure(with: config.leading)
         headerTitleLabel.configure(with: config.title)
         headerTrailingView.configure(with: config.trailing)
+        wrappedView.configure(with: config.wrappedView)
+        confirmButton.configure(with: config.confirm)
+        cancelButton.configure(with: config.cancel)
     }
     
-    func setup(with viewModel: WrapperPopupViewModel?) {
+    func setup(with viewModel: WrapperPopupViewModel<T.VM>?) {
         guard let viewModel = viewModel else { return }
         self.viewModel = viewModel
 
         headerLeadingView.setup(with: viewModel.leading)
         headerTitleLabel.setup(with: viewModel.title)
         headerTrailingView.setup(with: viewModel.trailing)
+        wrappedView.setup(with: viewModel.wrappedView)
         
-        prepareButtons()
+        confirmButton.setup(with: viewModel.confirm)
+        cancelButton.setup(with: viewModel.cancel)
         
         guard headerLeadingView.isHidden,
               headerTitleLabel.isHidden,
@@ -193,25 +223,6 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
         }
         lineView.isHidden = true
         headerStackView.isHidden = true
-    }
-    
-    private func prepareButtons() {
-        buttonStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        
-        guard let buttons = viewModel?.buttons else { return }
-        
-        for model in buttons {
-            let index = buttonStack.arrangedSubviews.count
-            let config = config?.buttons[index]
-            let button = FEButton()
-            button.configure(with: config)
-            button.setup(with: model)
-            buttonStack.addArrangedSubview(button)
-            button.snp.makeConstraints { make in
-                make.height.equalTo(FieldHeights.common.rawValue)
-            }
-            button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        }
     }
     
     override func willRemoveSubview(_ subview: UIView) {
@@ -245,18 +256,25 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
         content.layer.rasterizationScale = UIScreen.main.scale
     }
     
-    @objc func headerButtonTapped(sender: Any) {
-        removeFromSuperview()
+    @objc private func headerButtonTapped(sender: Any?) {
+        hide()
     }
     
-    @objc func buttonTapped(_ sender: Any?) {
-        guard let sender = sender as? FEButton,
-              let index = buttonStack.arrangedSubviews.firstIndex(where: { $0 == sender }),
-        callbacks.count >= index - 1 else {
-            removeFromSuperview()
-            return
-        }
-        
-        callbacks[index]()
+    @objc private func confirmTapped(_ sender: Any?) {
+        hide()
+        confirmCallback?()
+    }
+    
+    @objc private func cancelTapped(_ sender: Any?) {
+        hide()
+        cancelCallback?()
+    }
+    
+    private func hide() {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: { [weak self] in
+            self?.alpha = 0
+        }, completion: { [weak self] _ in
+            self?.removeFromSuperview()
+        })
     }
 }
