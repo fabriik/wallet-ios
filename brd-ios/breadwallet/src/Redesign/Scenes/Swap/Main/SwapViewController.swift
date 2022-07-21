@@ -188,7 +188,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-        interactor?.confirm(viewAction: .init())
+        interactor?.showConfirmation(viewAction: .init())
     }
     
     // MARK: - SwapResponseDisplay
@@ -196,7 +196,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
         LoadingView.hide()
         
-        confirmButton.wrappedView.isEnabled = true // responseDisplay.error == nil
+        confirmButton.wrappedView.isEnabled = responseDisplay.error == nil
         
         guard let section = sections.firstIndex(of: Models.Sections.errors),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else { return }
@@ -262,8 +262,20 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         })
     }
     
+    func displayConfirmation(responseDisplay: SwapModels.ShowConfirmDialog.ResponseDisplay) {
+        let _: WrapperPopupView<SwapConfirmationView>? = coordinator?.showPopup(with: responseDisplay.config,
+                                                                                viewModel: responseDisplay.viewModel,
+                                                                                confirmedCallback: { [weak self] in
+            self?.interactor?.confirm(viewAction: .init())
+        })
+    }
+    
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay) {
-        coordinator?.showConfirm()
+        // TODO: navigate to swap details screen
+        coordinator?.showMessage(model: .init(title: .text("Success!"),
+                                              description: .text("Swap confirmed.. please stand by")),
+                                 configuration: Presets.InfoView.primary)
+        
     }
     // MARK: - Additional Helpers
 }
