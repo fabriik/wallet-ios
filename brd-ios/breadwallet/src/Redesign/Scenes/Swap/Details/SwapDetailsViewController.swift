@@ -26,6 +26,7 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         
         tableView.register(WrapperTableViewCell<AssetView>.self)
         tableView.register(WrapperTableViewCell<OrderView>.self)
+        tableView.register(WrapperTableViewCell<TransactionView>.self)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -36,9 +37,12 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         case .header, .toCurrency, .fromCurrency:
             cell = self.tableView(tableView, headerCellForRowAt: indexPath)
             
-        case .order, .transactionID:
+        case .order, .transactionFrom:
             cell = self.tableView(tableView, orderCellForRowAt: indexPath)
        
+        case .timestamp, .transactionTo:
+            cell = self.tableView(tableView, orderCellForRowAt1: indexPath)
+            
         case .none:
             cell = UITableViewCell()
         }
@@ -79,6 +83,22 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
                 self?.coordinator?.showMessage(model: InfoViewModel(description: .text(code), dismissType: .auto),
                                                configuration: Presets.InfoView.error)
             }
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, orderCellForRowAt1 indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<TransactionView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? TransactionViewModel
+        else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
         }
         
         return cell

@@ -698,6 +698,7 @@
 		C47F46FF286A2931002287F1 /* ResetPinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47F46F8286A2931002287F1 /* ResetPinViewController.swift */; };
 		C47F4700286A2931002287F1 /* ResetPinInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47F46F9286A2931002287F1 /* ResetPinInteractor.swift */; };
 		C4BD1C69284A16E000AFA2A6 /* CountriesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BD1C68284A16E000AFA2A6 /* CountriesWorker.swift */; };
+		C4BDDA4528892D9E003A31E0 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BDDA4428892D9D003A31E0 /* TransactionView.swift */; };
 		C4D5E7FF284951DD000BEE6F /* VerifyAccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D5E7F8284951DD000BEE6F /* VerifyAccountStore.swift */; };
 		C4D5E800284951DD000BEE6F /* VerifyAccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D5E7F9284951DD000BEE6F /* VerifyAccountPresenter.swift */; };
 		C4D5E801284951DD000BEE6F /* VerifyAccountModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D5E7FA284951DD000BEE6F /* VerifyAccountModels.swift */; };
@@ -1621,6 +1622,7 @@
 		C47F46F8286A2931002287F1 /* ResetPinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPinViewController.swift; sourceTree = "<group>"; };
 		C47F46F9286A2931002287F1 /* ResetPinInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPinInteractor.swift; sourceTree = "<group>"; };
 		C4BD1C68284A16E000AFA2A6 /* CountriesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesWorker.swift; sourceTree = "<group>"; };
+		C4BDDA4428892D9D003A31E0 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		C4D5E7F8284951DD000BEE6F /* VerifyAccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyAccountStore.swift; sourceTree = "<group>"; };
 		C4D5E7F9284951DD000BEE6F /* VerifyAccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyAccountPresenter.swift; sourceTree = "<group>"; };
 		C4D5E7FA284951DD000BEE6F /* VerifyAccountModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyAccountModels.swift; sourceTree = "<group>"; };
@@ -2829,6 +2831,7 @@
 			isa = PBXGroup;
 			children = (
 				7ECCA9632875A77300617067 /* OrderView.swift */,
+				C4BDDA4428892D9D003A31E0 /* TransactionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4848,6 +4851,7 @@
 				C4D5E7FF284951DD000BEE6F /* VerifyAccountStore.swift in Sources */,
 				9AE8FFF821FE64E200D5058C /* RewardsView.swift in Sources */,
 				7E8E9799283F4830008606B0 /* ProfilePresenter.swift in Sources */,
+				C4BDDA4528892D9E003A31E0 /* TransactionView.swift in Sources */,
 				7E2C53A527FD631000F74BA0 /* ChangellyApi.swift in Sources */,
 				7EF45F88284768C100D1F7B0 /* ItemSelectionInteractor.swift in Sources */,
 				CEA3626A1E01150D0061FC0E /* CGContext+Additions.swift in Sources */,

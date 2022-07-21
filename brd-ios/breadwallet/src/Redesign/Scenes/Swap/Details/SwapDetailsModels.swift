@@ -14,7 +14,9 @@ enum SwapDetailsModels {
         case order
         case fromCurrency
         case toCurrency
-        case transactionID
+        case timestamp
+        case transactionFrom
+        case transactionTo
         
         var header: AccessoryType? { return nil }
         var footer: AccessoryType? { return nil }

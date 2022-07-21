@@ -20,10 +20,12 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             Models.Section.order,
             Models.Section.fromCurrency,
             Models.Section.toCurrency,
-            Models.Section.transactionID
+            Models.Section.timestamp,
+            Models.Section.transactionFrom,
+            Models.Section.transactionTo
         ]
         
-        let image = TokenImageSquareBackground(code: "timelapse", color: .red).renderedImage ?? UIImage()
+        let image = TokenImageSquareBackground(code: "timelapse", color: LightColors.pending).renderedImage ?? UIImage()
         
         // TODO: Localize and update
         let sectionRows = [
@@ -43,8 +45,16 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
                 AssetViewModel(icon: image, title: "To BTC", topRightText: "0.095 / $2,857.48 USD")
             ],
             
-            Models.Section.transactionID: [
+            Models.Section.timestamp: [
+                TransactionViewModel(title: "Timestamp", description: "22 Feb 2022, 1:29pm")
+            ],
+            
+            Models.Section.transactionFrom: [
                 OrderViewModel(title: "Bitcoin BSV Transaction ID", value: "39246726y89e1ruhut7e3xy78e1xg17gx71x2xuih7y7y8y8y8y2782yx78x8382643j21", imageName: "copy")
+            ],
+            
+            Models.Section.transactionTo: [
+                TransactionViewModel(title: "BTC Transaction ID", description: "Pending")
             ]
         ]
         
