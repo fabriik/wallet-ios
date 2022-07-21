@@ -272,11 +272,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay) {
-        // TODO: navigate to swap details screen
-        coordinator?.showMessage(model: .init(title: .text("Success!"),
-                                              description: .text("Swap confirmed.. please stand by")),
-                                 configuration: Presets.InfoView.primary)
-        
+        coordinator?.showSwapInfo(from: responseDisplay.from, to: responseDisplay.to)
     }
+    
     // MARK: - Additional Helpers
 }

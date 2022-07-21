@@ -374,4 +374,31 @@ class BaseCoordinator: NSObject,
         guard let view = navigationController.view.subviews.first(where: { $0 is TransparentView }) as? TransparentView else { return }
         view.hide()
     }
+    
+    func showPopup<V: ViewProtocol & UIView>(with config: WrapperPopupConfiguration<V.C>?,
+                                             viewModel: WrapperPopupViewModel<V.VM>,
+                                             confirmedCallback: @escaping (() -> Void)) -> WrapperPopupView<V>? {
+        guard let superview = navigationController.view else { return nil }
+        
+        let view = WrapperPopupView<V>()
+        view.configure(with: config)
+        view.setup(with: viewModel)
+        view.confirmCallback = confirmedCallback
+        
+        superview.addSubview(view)
+        superview.bringSubviewToFront(view)
+        
+        view.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        view.layoutIfNeeded()
+        view.alpha = 0
+            
+        UIView.animate(withDuration: Presets.Animation.duration) {
+            view.alpha = 1
+        }
+        
+        return view
+    }
 }
