@@ -32,27 +32,21 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             Models.Section.header: [
                 AssetViewModel(icon: image, title: "Pending")
             ],
-            
             Models.Section.order: [
                 OrderViewModel(title: "Fabriik Order ID", value: "13rXEZoh5NFj4q9aasdfkLp2...", imageName: "copy")
             ],
-            
             Models.Section.fromCurrency: [
                 AssetViewModel(icon: image, title: "From BSV", topRightText: "50 / $2,859.00 USD")
             ],
-            
             Models.Section.toCurrency: [
                 AssetViewModel(icon: image, title: "To BTC", topRightText: "0.095 / $2,857.48 USD")
             ],
-            
             Models.Section.timestamp: [
                 TransactionViewModel(title: "Timestamp", description: "22 Feb 2022, 1:29pm")
             ],
-            
             Models.Section.transactionFrom: [
                 OrderViewModel(title: "Bitcoin BSV Transaction ID", value: "39246726y89e1ruhut7e3xy78e1xg17gx71x2xuih7y7y8y8y8y2782yx78x8382643j21", imageName: "copy")
             ],
-            
             Models.Section.transactionTo: [
                 TransactionViewModel(title: "BTC Transaction ID", description: "Pending")
             ]

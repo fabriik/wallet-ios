@@ -13,7 +13,6 @@ import UIKit
 struct TransactionConfiguration: Configurable {
     var title = LabelConfiguration(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 1)
     var description = LabelConfiguration(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1)
-    var shadow = ShadowConfiguration(color: LightColors.Contrast.one, opacity: .high, offset: .zero, shadowRadius: .small)
 }
 
 struct TransactionViewModel: ViewModel {
@@ -60,12 +59,6 @@ class TransactionView: FEView<TransactionConfiguration, TransactionViewModel> {
         layer.shadowRadius = 4.0
         layer.shadowOffset = .zero
         layoutIfNeeded()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        configure(shadow: config?.shadow)
     }
     
     override func configure(with config: TransactionConfiguration?) {
