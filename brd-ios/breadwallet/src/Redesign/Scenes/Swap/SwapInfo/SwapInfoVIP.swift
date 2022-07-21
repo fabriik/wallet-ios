@@ -31,5 +31,5 @@ protocol SwapInfoDataPassing {
 }
 
 protocol SwapInfoRoutes: CoordinatableRoutes {
-    func showSwapDetails()
+    func showSwapDetails(exchangeId: String)
 }

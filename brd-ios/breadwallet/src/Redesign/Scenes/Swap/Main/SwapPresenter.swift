@@ -210,11 +210,12 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentConfirm(actionResponse: SwapModels.Confirm.ActionResponse) {
         guard let from = actionResponse.from,
-              let to = actionResponse.to else {
+              let to = actionResponse.to,
+              let exchangeId = actionResponse.exchangeId else {
             presentError(actionResponse: .init(error: GeneralError(errorMessage: "Not a valid pair")))
             return
         }
-        viewController?.displayConfirm(responseDisplay: .init(from: from, to: to))
+        viewController?.displayConfirm(responseDisplay: .init(from: from, to: to, exchangeId: exchangeId))
     }
     
     // MARK: - Additional Helpers

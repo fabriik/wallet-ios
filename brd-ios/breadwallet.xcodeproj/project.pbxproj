@@ -364,6 +364,7 @@
 		7EC0F8B8288813EE0037145C /* SwapConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */; };
 		7EC0F8BA28881C680037145C /* TitleValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8B928881C680037145C /* TitleValueView.swift */; };
 		7EC0F8BC28892E2E0037145C /* IconDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8BB28892E2E0037145C /* IconDescriptionView.swift */; };
+		7EC0F8BE288986470037145C /* SwapDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0F8BD288986460037145C /* SwapDetailsWorker.swift */; };
 		7EC37909281C098900028CA1 /* ErrorStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC37908281C098900028CA1 /* ErrorStruct.swift */; };
 		7EC3790B281C09AE00028CA1 /* ErrorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */; };
 		7ECCA9642875A77300617067 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9632875A77300617067 /* OrderView.swift */; };
@@ -1323,6 +1324,7 @@
 		7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapConfirmationView.swift; sourceTree = "<group>"; };
 		7EC0F8B928881C680037145C /* TitleValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleValueView.swift; sourceTree = "<group>"; };
 		7EC0F8BB28892E2E0037145C /* IconDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconDescriptionView.swift; sourceTree = "<group>"; };
+		7EC0F8BD288986460037145C /* SwapDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapDetailsWorker.swift; sourceTree = "<group>"; };
 		7EC37908281C098900028CA1 /* ErrorStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStruct.swift; sourceTree = "<group>"; };
 		7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorRequest.swift; sourceTree = "<group>"; };
 		7ECCA9632875A77300617067 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -2855,6 +2857,7 @@
 				7ECCA9622875A75300617067 /* Views */,
 				7ED427E828755CB200AA19A8 /* SwapDetailsStore.swift */,
 				7ED427E928755CB200AA19A8 /* SwapDetailsPresenter.swift */,
+				7EC0F8BD288986460037145C /* SwapDetailsWorker.swift */,
 				7ED427EA28755CB200AA19A8 /* SwapDetailsModels.swift */,
 				7ED427EB28755CB200AA19A8 /* SwapDetailsVIP.swift */,
 				7ED427EC28755CB200AA19A8 /* SwapDetailsViewController.swift */,
@@ -4441,6 +4444,7 @@
 				7BDB4A092806F4A60031F015 /* HistoryFetcher.swift in Sources */,
 				7E0968B8284A29CE006B4FC2 /* TransparentView.swift in Sources */,
 				3A611A0F2325738C004B8E36 /* AnimatedBlockSetLogo.swift in Sources */,
+				7EC0F8BE288986470037145C /* SwapDetailsWorker.swift in Sources */,
 				71C44E92225F95B100EF4459 /* RecoveryKeyCompleteViewController.swift in Sources */,
 				7BBBF4DF287421CF00E4D36B /* SwapStore.swift in Sources */,
 				7BDB4A0B2806F5260031F015 /* RedeemGiftViewController.swift in Sources */,

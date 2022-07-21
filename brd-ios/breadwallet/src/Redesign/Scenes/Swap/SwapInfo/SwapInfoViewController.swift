@@ -130,7 +130,8 @@ class SwapInfoViewController: BaseTableViewController<SwapCoordinator,
     }
     
     @objc func swapDetailsTapped() {
-        coordinator?.showSwapDetails()
+        guard let itemId = dataStore?.itemId else { return }
+        coordinator?.showSwapDetails(exchangeId: itemId)
     }
     
     // MARK: - SwapInfoResponseDisplay

@@ -46,17 +46,18 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, SwapInfoRoutes {
         navigationController.show(nvc, sender: nil)
     }
     
-    func showSwapInfo(from: String, to: String) {
+    func showSwapInfo(from: String, to: String, exchangeId: String) {
         open(scene: SwapInfoViewController.self) { vc in
+            vc.dataStore?.itemId = exchangeId
             vc.dataStore?.from = from
             vc.dataStore?.to = to
             vc.prepareData()
         }
     }
     
-    func showSwapDetails() {
+    func showSwapDetails(exchangeId: String) {
         open(scene: SwapDetailsViewController.self) { vc in
-//            vc.dataStore
+            vc.dataStore?.itemId = exchangeId
             vc.prepareData()
         }
     }

@@ -16,6 +16,7 @@ enum SwapEndpoints: String, URLType {
     case supportedCurrencies = "supported-currencies"
     case quote = "quote?security=%@"
     case exchange = "create"
+    case details = "exchange/%@"
     
     var url: String {
         return String(format: Self.baseURL, rawValue)
