@@ -127,8 +127,11 @@ class BaseCoordinator: NSObject,
         }
     }
     
-    func showDeleteProfileInfo() {
-        openModally(coordinator: DeleteProfileInfoCoordinator.self, scene: Scenes.DeleteProfileInfo)
+    func showDeleteProfileInfo(keyMaster: KeyStore) {
+        openModally(coordinator: DeleteProfileInfoCoordinator.self, scene: Scenes.DeleteProfileInfo) { vc in
+            vc?.dataStore?.keyMaster = keyMaster
+            vc?.prepareData()
+        }
     }
     
     /// Determines whether the viewcontroller or navigation stack are being dismissed

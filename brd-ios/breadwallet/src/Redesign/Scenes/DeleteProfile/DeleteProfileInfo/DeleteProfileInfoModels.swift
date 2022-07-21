@@ -36,4 +36,19 @@ enum DeleteProfileInfoModels {
             var model: ButtonViewModel
         }
     }
+    
+    struct DeleteProfile {
+        struct ViewAction {}
+        
+        struct ActionResponse {}
+        
+        struct ResponseDisplay {
+            var popupViewModel: PopupViewModel
+            var popupConfig: PopupConfiguration
+        }
+    }
+    
+    struct WipeWalletNoPrompt {
+        struct ViewAction {}
+    }
 }

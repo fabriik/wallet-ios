@@ -14,6 +14,7 @@ class DeleteProfileInfoStore: NSObject, BaseDataStore, DeleteProfileInfoDataStor
     // MARK: - DeleteProfileInfoDataStore
     
     var itemId: String?
+    var keyMaster: KeyStore?
     
     // MARK: - Aditional helpers
 }

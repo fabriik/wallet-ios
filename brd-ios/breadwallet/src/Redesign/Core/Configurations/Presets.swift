@@ -96,8 +96,8 @@ extension Presets {
                                               disabledConfiguration: .init(tintColor: LightColors.InteractionPrimary.disabled))
         
         static var blackIcon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.one),
-                                              selectedConfiguration: .init(tintColor: LightColors.Icons.one),
-                                              disabledConfiguration: .init(tintColor: LightColors.InteractionPrimary.disabled))
+                                                   selectedConfiguration: .init(tintColor: LightColors.Icons.one),
+                                                   disabledConfiguration: .init(tintColor: LightColors.InteractionPrimary.disabled))
     }
 }
 
@@ -275,6 +275,18 @@ extension Presets {
                                               title: .init(font: Fonts.Title.five, textColor: LightColors.Icons.one),
                                               body: .init(font: Fonts.Body.one, textColor: LightColors.Icons.one),
                                               closeButton: Presets.Button.blackIcon)
+        
+        static var whiteDimmed = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
+                                                                      tintColor: LightColors.Contrast.two,
+                                                                      border: Presets.Border.zero),
+                                                    title: .init(font: Fonts.Title.five, textColor: LightColors.Icons.one),
+                                                    body: .init(font: Fonts.Title.five, textColor: LightColors.Text.one, textAlignment: .center),
+                                                    
+                                                    buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
+                                                                                                 selected: Presets.Border.selected,
+                                                                                                 disabled: Presets.Border.disabled),
+                                                               Presets.Button.secondary ],
+                                                    closeButton: Presets.Button.blackIcon)
     }
 }
 

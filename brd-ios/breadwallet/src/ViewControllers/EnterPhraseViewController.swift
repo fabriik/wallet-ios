@@ -18,11 +18,12 @@ typealias EnterPhraseCallback = (String) -> Void
 
 class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackable {
 
-    init(keyMaster: KeyMaster, reason: PhraseEntryReason) {
+    init(keyMaster: KeyMaster, reason: PhraseEntryReason, showBackButton: Bool = true) {
         self.keyMaster = keyMaster
         self.enterPhrase = EnterPhraseCollectionViewController(keyMaster: keyMaster)
         self.faq = UIButton.buildFaqButton(articleId: ArticleIds.recoverWallet, position: .right)
         self.reason = reason
+        self.showBackButton = showBackButton
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -31,6 +32,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
     // MARK: - Private
     private let keyMaster: KeyMaster
     private let reason: PhraseEntryReason
+    private let showBackButton: Bool
     private let enterPhrase: EnterPhraseCollectionViewController
     private let heading = UILabel.wrapping(font: Theme.h2Title, color: Theme.primaryText)
     private let subheading = UILabel.wrapping(font: Theme.body1, color: Theme.secondaryText)
@@ -74,17 +76,33 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
         super.viewDidLoad()
         
         navigationItem.title = L10n.UnlockScreen.resetPin
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: faq)
         navigationController?.navigationBar.tintColor = Theme.blueBackground
         
         setUpHeadings()
         addSubviews()
         addConstraints()
         setInitialData()
-        showBackButton()
+        
+        if showBackButton {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: faq)
+            setBackButton()
+        } else {
+            let barButtonItem = UIBarButtonItem(title: "",
+                                                style: .plain,
+                                                target: self,
+                                                action: #selector(dismissFlow))
+            barButtonItem.image = .init(named: "close")
+            navigationItem.rightBarButtonItem = barButtonItem
+            
+            navigationItem.setHidesBackButton(true, animated: false)
+        }
     }
     
-    func showBackButton() {
+    @objc private func dismissFlow() {
+        navigationController?.dismiss(animated: true)
+    }
+    
+    func setBackButton() {
         let back = UIBarButtonItem(image: UIImage(named: "BackArrowWhite"),
                                    style: .plain,
                                    target: self,

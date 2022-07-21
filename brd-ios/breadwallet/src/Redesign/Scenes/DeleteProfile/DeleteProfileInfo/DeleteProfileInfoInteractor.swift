@@ -23,6 +23,26 @@ class DeleteProfileInfoInteractor: NSObject, Interactor, DeleteProfileInfoViewAc
         presenter?.presentData(actionResponse: .init(item: item))
     }
     
+    func deleteProfile(viewAction: DeleteProfileInfoModels.DeleteProfile.ViewAction) {
+        DeleteProfileWorker().execute { [weak self] result in
+            UserDefaults.shouldWipeWalletNoPrompt = true
+            
+            switch result {
+            case .success:
+                self?.presenter?.presentDeleteProfile(actionResponse: .init())
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
+    }
+    
+    func wipeWallet(viewAction: DeleteProfileInfoModels.WipeWalletNoPrompt.ViewAction) {
+        UserDefaults.shouldWipeWalletNoPrompt = false
+        
+        Store.trigger(name: .wipeWalletNoPrompt)
+    }
+    
     func toggleTickbox(viewAction: DeleteProfileInfoModels.Tickbox.ViewAction) {
         presenter?.presentToggleTickbox(actionResponse: .init(value: viewAction.value))
     }

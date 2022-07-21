@@ -16,8 +16,8 @@ protocol BaseResponseDisplays: MessageResponseDisplays {}
 protocol BaseDataStore {}
 
 protocol BaseDataPassing {
-    associatedtype Store: BaseDataStore
-    var dataStore: Store? { get }
+    associatedtype DataStore: BaseDataStore
+    var dataStore: DataStore? { get }
 }
 
 protocol CoordinatableRoutes: NSObject,

@@ -45,6 +45,7 @@ private let debugBackendHostKey = "debugBackendHostKey"
 private let debugWebBundleNameKey = "debugWebBundleNameKey"
 private let platformDebugURLKey = "platformDebugURLKey"
 private let appLaunchCountKey = "appLaunchCountKey"
+private let shouldWipeWalletNoPromptKey = "shouldWipeWalletNoPromptKey"
 private let appLaunchCountAtLastRatingPromptKey = "appLaunchCountAtLastRatingPromptKey"
 private let notificationOptInDeferralCountKey = "notificationOptInDeferCountKey"
 private let appLaunchesAtLastNotificationDeferralKey = "appLaunchesAtLastNotificationDeferralKey"
@@ -147,6 +148,15 @@ extension UserDefaults {
         }
         
         set { defaults.set(newValue, forKey: isEmailConfirmed) }
+    }
+    
+    /// Wipe the wallet with no prompts in case user did not press Finish or X button in the popup. Popup indicates wallet is wiped, but to keep the popup on screen, we wipe the wallet after the popup is dismissed.
+    static var shouldWipeWalletNoPrompt: Bool {
+        get {
+            return defaults.bool(forKey: shouldWipeWalletNoPromptKey)
+        }
+        
+        set { defaults.set(newValue, forKey: shouldWipeWalletNoPromptKey) }
     }
     
     /// Should show  the 3rd party buy alert ?

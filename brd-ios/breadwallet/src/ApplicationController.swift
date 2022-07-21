@@ -118,14 +118,30 @@ class ApplicationController: Subscriber, Trackable {
                                         system: coreSystem,
                                         window: window,
                                         alertPresenter: alertPresenter,
-                                        deleteKYCAccountCallback: didTapDeleteAccount)
+                                        deleteAccountCallback: didTapDeleteAccount)
         
         // Start collecting analytics events. Once we have a wallet, startBackendServices() will
         // notify `Backend.apiClient.analytics` so that it can upload events to the server.
         Backend.apiClient.analytics?.startCollectingEvents()
 
         appRatingManager.start()
-
+        
+        setupSubscribers()
+        
+        initializeAssets(completionHandler: { [weak self] in
+            self?.decideFlow()
+        })
+    }
+    
+    func decideFlow() {
+        if keyStore.noWallet {
+            enterOnboarding()
+        } else {
+            unlockExistingAccount()
+        }
+    }
+    
+    private func setupSubscribers() {
         Store.subscribe(self, name: .wipeWalletNoPrompt, callback: { [weak self] _ in
             self?.wipeWalletNoPrompt()
         })
@@ -139,18 +155,6 @@ class ApplicationController: Subscriber, Trackable {
             
             self.setupRootViewController()
             self.decideFlow()
-        }
-        
-        initializeAssets(completionHandler: { [weak self] in
-            self?.decideFlow()
-        })
-    }
-    
-    func decideFlow() {
-        if keyStore.noWallet {
-            enterOnboarding()
-        } else {
-            unlockExistingAccount()
         }
     }
     
@@ -207,11 +211,19 @@ class ApplicationController: Subscriber, Trackable {
                                                          system: self.coreSystem,
                                                          window: self.window,
                                                          alertPresenter: self.alertPresenter,
-                                                         deleteKYCAccountCallback: self.didTapDeleteAccount)
+                                                         deleteAccountCallback: self.didTapDeleteAccount)
                     self.coreSystem.connect()
+                    
+                    self.wipeWalletIfNeeded()
                 }
             }
         }
+    }
+    
+    private func wipeWalletIfNeeded() {
+        guard UserDefaults.shouldWipeWalletNoPrompt == true else { return }
+        UserDefaults.shouldWipeWalletNoPrompt = false
+        Store.trigger(name: .wipeWalletNoPrompt)
     }
     
     private func handleDeferedLaunchURL() {
@@ -446,7 +458,7 @@ class ApplicationController: Subscriber, Trackable {
         }
         
         didTapDeleteAccount = { [unowned self] in
-            coordinator?.showDeleteProfileInfo()
+            coordinator?.showDeleteProfileInfo(keyMaster: keyStore)
         }
         
         homeScreen.didTapProfileFromPrompt = { [unowned self] profile in
