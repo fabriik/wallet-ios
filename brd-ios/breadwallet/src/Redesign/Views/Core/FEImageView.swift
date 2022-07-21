@@ -84,6 +84,7 @@ class FEImageView: FEView<BackgroundConfiguration, ImageViewModel> {
         default:
             return
         }
+        imageView.tintColor = config?.tintColor
         
         layoutIfNeeded()
     }

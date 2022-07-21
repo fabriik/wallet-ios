@@ -20,6 +20,7 @@ struct TransparentViewConfiguration: Configurable {
 enum TransparentViewModel: ViewModel {
     case success
     case loading
+    case blur
     
     var imageName: String? {
         switch self {
@@ -64,6 +65,14 @@ class TransparentView: FEView<TransparentViewConfiguration, TransparentViewModel
         return view
     }()
     
+    private lazy var blurView: UIView = {
+        let blur = UIBlurEffect(style: .regular)
+        let view = UIVisualEffectView(effect: blur)
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.alpha = 0
+        return view
+    }()
+    
     override func setupSubviews() {
         super.setupSubviews()
         
@@ -83,6 +92,11 @@ class TransparentView: FEView<TransparentViewConfiguration, TransparentViewModel
         titleLabel.snp.makeConstraints { make in
             // TODO: constant
             make.height.equalTo(20)
+        }
+        
+        addSubview(blurView)
+        blurView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
@@ -105,6 +119,10 @@ class TransparentView: FEView<TransparentViewConfiguration, TransparentViewModel
         
         titleLabel.setup(with: .text(viewModel?.title))
         titleLabel.isHidden = viewModel?.title == nil
+        
+        guard viewModel == .blur else { return }
+        blurView.alpha = 1
+        bringSubviewToFront(blurView)
     }
     
     func show() {

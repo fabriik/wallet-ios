@@ -15,14 +15,14 @@ struct SwapRequestData: RequestModelData {
     var quantity: Decimal
     var termQuantity: Decimal?
     var destination: String?
-    var destinationCurrency: String?
+    var side: String?
     
     func getParameters() -> [String: Any] {
         let params: [String: Any?] = [
            "quote_id": quoteId,
            "base_quantity": "\(quantity)",
            "destination": destination,
-           "destination_currency": destinationCurrency
+           "trade_side": side
         ]
         
         return params.compactMapValues { $0 }
@@ -37,10 +37,17 @@ struct SwapResponseData: ModelResponse {
 }
 
 struct Swap: Model {
+    enum Side: String {
+        case buy
+        case sell
+    }
+    
     var exchangeId: Int
     var currency: String
     var amount: Decimal
     var address: String
+    
+    var side: Side = .buy
 }
 
 class SwapMapper: ModelMapper<SwapResponseData, Swap> {

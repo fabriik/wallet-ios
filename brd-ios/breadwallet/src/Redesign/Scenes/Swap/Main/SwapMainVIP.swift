@@ -19,6 +19,7 @@ protocol SwapViewActions: BaseViewActions, FetchViewActions {
     func updateRate(viewAction: SwapModels.Rate.ViewAction)
     func switchPlaces(viewAction: SwapModels.SwitchPlaces.ViewAction)
     func selectAsset(viewAction: SwapModels.Assets.ViewAction)
+    func showConfirmation(viewAction: SwapModels.ShowConfirmDialog.ViewAction)
     func confirm(viewAction: SwapModels.Confirm.ViewAction)
 }
 
@@ -26,6 +27,7 @@ protocol SwapActionResponses: BaseActionResponses, FetchActionResponses {
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse)
     func presentUpdateRate(actionResponse: SwapModels.Rate.ActionResponse)
     func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse)
+    func presentConfirmation(actionResponse: SwapModels.ShowConfirmDialog.ActionResponse)
     func presentConfirm(actionResponse: SwapModels.Confirm.ActionResponse)
 }
 
@@ -33,6 +35,7 @@ protocol SwapResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDis
     func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay)
     func displayUpdateRate(responseDisplay: SwapModels.Rate.ResponseDisplay)
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay)
+    func displayConfirmation(responseDisplay: SwapModels.ShowConfirmDialog.ResponseDisplay)
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay)
 }
 

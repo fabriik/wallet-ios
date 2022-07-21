@@ -120,6 +120,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             return super.tableView(tableView, cellForRowAt: indexPath)
         }
         
+        cell.wrappedView.snp.makeConstraints { make in
+            make.height.equalTo(300)
+        }
+        
         cell.setup { view in
             view.configure(with: .init(shadow: Presets.Shadow.light,
                                        background: .init(backgroundColor: LightColors.Background.two,
@@ -184,7 +188,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-        interactor?.confirm(viewAction: .init())
+        interactor?.showConfirmation(viewAction: .init())
     }
     
     // MARK: - SwapResponseDisplay
@@ -258,7 +262,19 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         })
     }
     
+    func displayConfirmation(responseDisplay: SwapModels.ShowConfirmDialog.ResponseDisplay) {
+        let _: WrapperPopupView<SwapConfirmationView>? = coordinator?.showPopup(with: responseDisplay.config,
+                                                                                viewModel: responseDisplay.viewModel,
+                                                                                confirmedCallback: { [weak self] in
+            self?.interactor?.confirm(viewAction: .init())
+        })
+    }
+    
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay) {
+        // TODO: navigate to swap details screen
+        coordinator?.showMessage(model: .init(title: .text("Success!"),
+                                              description: .text("Swap confirmed.. please stand by")),
+                                 configuration: Presets.InfoView.primary)
         
     }
     // MARK: - Additional Helpers
