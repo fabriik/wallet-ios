@@ -19,6 +19,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             Models.Section.header,
             Models.Section.order,
             Models.Section.fromCurrency,
+            Models.Section.image,
             Models.Section.toCurrency,
             Models.Section.timestamp,
             Models.Section.transactionFrom,
@@ -30,13 +31,16 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
         // TODO: Localize and update
         let sectionRows = [
             Models.Section.header: [
-                AssetViewModel(icon: image, title: "Pending")
+                Presets.StatusView.pending
             ],
             Models.Section.order: [
                 OrderViewModel(title: "Fabriik Order ID", value: "13rXEZoh5NFj4q9aasdfkLp2...", imageName: "copy")
             ],
             Models.Section.fromCurrency: [
                 AssetViewModel(icon: image, title: "From BSV", topRightText: "50 / $2,859.00 USD")
+            ],
+            Models.Section.image: [
+                ImageViewModel.imageName("arrowDown")
             ],
             Models.Section.toCurrency: [
                 AssetViewModel(icon: image, title: "To BTC", topRightText: "0.095 / $2,857.48 USD")

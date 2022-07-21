@@ -39,9 +39,12 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
             
         case .order, .transactionFrom:
             cell = self.tableView(tableView, orderCellForRowAt: indexPath)
-       
+            
+        case .image:
+            cell = self.tableView(tableView, coverCellForRowAt: indexPath)
+            
         case .timestamp, .transactionTo:
-            cell = self.tableView(tableView, orderCellForRowAt1: indexPath)
+            cell = self.tableView(tableView, transactionCellForRowAt: indexPath)
             
         case .none:
             cell = UITableViewCell()
@@ -88,7 +91,7 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         return cell
     }
     
-    func tableView(_ tableView: UITableView, orderCellForRowAt1 indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, transactionCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         guard let cell: WrapperTableViewCell<TransactionView> = tableView.dequeueReusableCell(for: indexPath),
               let model = sectionRows[section]?[indexPath.row] as? TransactionViewModel
