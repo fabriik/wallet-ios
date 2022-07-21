@@ -19,7 +19,7 @@ struct ProfileResponseData: ModelResponse {
     var kycStatus: String?
     var kycFailureReason: String?
     
-    var exchangeLimits: ExchangeLimits
+    var exchangeLimits: ExchangeLimits?
     
     struct ExchangeLimits: Codable {
         var allowanceLifetime: Decimal
@@ -65,11 +65,11 @@ class ProfileMapper: ModelMapper<ProfileResponseData, Profile> {
                      email: response.email,
                      status: .init(rawValue: response.kycStatus),
                      failureReason: response.kycFailureReason,
-                     exchangeLimit: response.exchangeLimits.nextExchangeLimit,
-                     dailyLimit: response.exchangeLimits.allowanceDaily,
-                     lifetimeLimit: response.exchangeLimits.allowanceLifetime,
-                     usedDaily: response.exchangeLimits.usedDaily,
-                     usedLifetime: response.exchangeLimits.usedLifetime)
+                     exchangeLimit: response.exchangeLimits?.nextExchangeLimit ?? 0,
+                     dailyLimit: response.exchangeLimits?.allowanceDaily ?? 0,
+                     lifetimeLimit: response.exchangeLimits?.allowanceLifetime ?? 0,
+                     usedDaily: response.exchangeLimits?.usedDaily ?? 0,
+                     usedLifetime: response.exchangeLimits?.usedLifetime ?? 0)
     }
 }
 

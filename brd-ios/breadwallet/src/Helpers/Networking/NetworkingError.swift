@@ -19,13 +19,13 @@ enum NetworkingError: FEError {
     case parameterMissing
     /// Status code 105
     case sessionExpired
+    
     case unprocessableEntity
-    var errorMessage: String {
-        return "LOCALIZE"
-    }
+    
+    var errorMessage: String { return "Error" } // TODO: Localize
     
     init?(error: ServerResponse.ServerError?) {
-        switch error?.statusCode {
+        switch error?.statusCode ?? -1 {
         case 103:
             self = .parameterMissing
             
@@ -43,12 +43,16 @@ enum NetworkingError: FEError {
 
 public class NetworkingErrorManager {
     static func getError(from response: HTTPURLResponse?, data: Data?, error: Error?) -> FEError? {
+        if data?.isEmpty == true && error == nil {
+            return nil
+        }
+        
         if let error = error as? URLError, error.code == .notConnectedToInternet {
             return NetworkingError.noConnection
         }
         
         let error = ServerResponse.parse(from: data, type: ServerResponse.self)?.error
-    
+        
         guard let error = NetworkingError(error: error) else { return error }
         
         return error
