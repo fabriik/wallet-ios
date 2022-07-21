@@ -152,7 +152,7 @@ jobs:
             echo "" >> $BRD_ENV
 
             cd ..
-            echo "sdk.dir=/usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin" > ./local.properties
+            echo "sdk.dir=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin" > ./local.properties
 
       - run:
           name: Create exportOptions.plist
@@ -166,7 +166,7 @@ jobs:
       - run:
           name: Build Walletkit Subproject
           command: |
-            export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin
+            export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
             cp ./local.properties external/walletKit/walletKitJava/local.properties
             ./gradlew cosmos-bundled:createXCFramework
             sed -i '' '18i\'$'\n        ndkVersion \'21.1.6352462\'\n\n' external/walletkit/WalletKitJava/corenative-android/build.gradle
