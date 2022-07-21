@@ -13,6 +13,10 @@ import UIKit
 struct TransactionConfiguration: Configurable {
     var title = LabelConfiguration(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 1)
     var description = LabelConfiguration(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1)
+    var shadow = Presets.Shadow.normal
+    var background = BackgroundConfiguration(backgroundColor: LightColors.Background.one,
+                                             tintColor: LightColors.Outline.two,
+                                             border: Presets.Border.zero)
 }
 
 struct TransactionViewModel: ViewModel {
@@ -63,6 +67,9 @@ class TransactionView: FEView<TransactionConfiguration, TransactionViewModel> {
     
     override func configure(with config: TransactionConfiguration?) {
         super.configure(with: config)
+        
+        configure(shadow: config?.shadow)
+        configure(background: config?.background)
         titleLabel.configure(with: config?.title)
         descriptionLabel.configure(with: config?.description)
     }
