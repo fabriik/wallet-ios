@@ -11,6 +11,10 @@
 import UIKit
 import WalletKit
 
+struct AuthenticationError: FEError {
+    var errorMessage = "Authentication failed"
+}
+
 class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     typealias Models = SwapModels
@@ -292,6 +296,11 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func confirm(viewAction: SwapModels.Confirm.ViewAction) {
+        
+        guard viewAction.authenticated == true else {
+            presenter?.presentError(actionResponse: .init(error: AuthenticationError()))
+            return
+        }
         guard let currency = dataStore?.currencies.first(where: { $0.code == dataStore?.selectedTermCurrency }),
               let address = dataStore?.coreSystem?.wallet(for: currency)?.receiveAddress
         else {

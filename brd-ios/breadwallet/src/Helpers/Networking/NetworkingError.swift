@@ -41,6 +41,10 @@ enum NetworkingError: FEError {
     }
 }
 
+struct InvalidJsonError: FEError {
+    var errorMessage: String = "Response was not a valid JSON"
+}
+
 public class NetworkingErrorManager {
     static func getError(from response: HTTPURLResponse?, data: Data?, error: Error?) -> FEError? {
         if let error = error as? URLError, error.code == .notConnectedToInternet {

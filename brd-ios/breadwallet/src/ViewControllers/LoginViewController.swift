@@ -16,6 +16,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
         case initialLaunch(loginHandler: LoginCompletionHandler)
         case automaticLock
         case manualLock
+        case confirmation
 
         var shouldAttemptBiometricUnlock: Bool {
             switch self {
@@ -32,7 +33,19 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
         self.keyMaster = keyMaster
         self.disabledView = WalletDisabledView()
         self.shouldDisableBiometrics = shouldDisableBiometrics
+        
+        guard case .confirmation = context else {
+            super.init(nibName: nil, bundle: nil)
+            return
+        }
+        
+        self.pinViewStyle = .confirm
         super.init(nibName: nil, bundle: nil)
+        
+        resetPinButton.isHidden = true
+        logo.isHidden = true
+        header.text = "Enter your PIN"
+        instruction.text = "Please enter your PIN to confirm the transaction"
     }
 
     deinit {
@@ -49,8 +62,9 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     private lazy var pinPad: PinPadViewController = {
         return PinPadViewController(style: .clear, keyboardType: .pinPad, maxDigits: 0, shouldShowBiometrics: shouldUseBiometrics)
     }()
+    private var pinViewStyle: PinViewStyle = .login
     private lazy var pinView: PinView = {
-        return PinView(style: .login, length: Store.state.pinLength)
+        return PinView(style: pinViewStyle, length: Store.state.pinLength)
     }()
     private let disabledView: WalletDisabledView
     private var logo = UIImageView(image: #imageLiteral(resourceName: "LogoBlue"))
@@ -66,6 +80,8 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     private var notificationObservers = [String: NSObjectProtocol]()
     private let debugLabel = UILabel.wrapping(font: Theme.body3, color: .almostBlack)
     private let shouldDisableBiometrics: Bool
+    
+    var confirmationCallback: ((_ didPass: Bool) -> Void)?
     
     var isBiometricsEnabledForUnlocking: Bool {
         return self.keyMaster.isBiometricsEnabledForUnlocking
@@ -110,6 +126,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
         addConstraints()
         addPinPadCallbacks()
         addPinView()
+        setupCloseButton()
 
         disabledView.didTapReset = { [weak self] in
             guard let self = self else { return }
@@ -194,6 +211,25 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
             pinView.centerXAnchor.constraint(equalTo: pinViewContainer.centerXAnchor),
             pinView.widthAnchor.constraint(equalToConstant: pinView.width),
             pinView.heightAnchor.constraint(equalToConstant: pinView.itemSize)])
+    }
+    
+    func setupCloseButton() {
+        guard case .confirm = pinViewStyle else { return }
+
+        let closeButton = UIBarButtonItem(image: .init(named: "close"),
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(dismissModal))
+
+        guard navigationItem.rightBarButtonItem == nil else {
+            navigationItem.setLeftBarButton(closeButton, animated: false)
+            return
+        }
+        navigationItem.setRightBarButton(closeButton, animated: false)
+    }
+    
+    @objc func dismissModal() {
+        confirmationCallback?(false)
     }
 
     private func addSubviews() {
@@ -344,14 +380,18 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
             self.pinView.alpha = 0.0
             self.view.layoutIfNeeded()
         }, completion: { _ in
-            self.dismiss(animated: true, completion: {
-                Store.perform(action: LoginSuccess())
-                if case .initialLaunch(let loginHandler) = self.context {
-                    guard let account = account else { return assertionFailure() }
-                    loginHandler(account)
-                }
-            })
             Store.trigger(name: .showStatusBar)
+            guard case .confirmation = self.context else {
+                self.dismiss(animated: true, completion: {
+                    Store.perform(action: LoginSuccess())
+                    if case .initialLaunch(let loginHandler) = self.context {
+                        guard let account = account else { return assertionFailure() }
+                        loginHandler(account)
+                    }
+                })
+                return
+            }
+            self.confirmationCallback?(true)
         })
     }
 

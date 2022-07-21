@@ -148,7 +148,9 @@ enum SwapModels {
     }
     
     struct Confirm {
-        struct ViewAction {}
+        struct ViewAction {
+            var authenticated: Bool
+        }
         struct ActionResponse {}
         struct ResponseDisplay {}
     }
