@@ -13,6 +13,7 @@ enum SwapDetailsModels {
         case header
         case order
         case fromCurrency
+        case image
         case toCurrency
         case timestamp
         case transactionFrom
