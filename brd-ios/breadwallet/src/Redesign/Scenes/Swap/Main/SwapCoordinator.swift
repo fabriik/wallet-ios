@@ -46,6 +46,14 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes {
         navigationController.show(nvc, sender: nil)
     }
     
+    func showSwapInfo(from: String, to: String) {
+        open(scene: SwapInfoViewController.self) { vc in
+            vc.dataStore?.from = from
+            vc.dataStore?.to = to
+            vc.prepareData()
+        }
+    }
+    
     func showPopup<V: ViewProtocol & UIView>(with config: WrapperPopupConfiguration<V.C>?,
                                              viewModel: WrapperPopupViewModel<V.VM>,
                                              confirmedCallback: @escaping (() -> Void)) -> WrapperPopupView<V>? {

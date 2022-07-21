@@ -16,7 +16,10 @@ class SwapInfoInteractor: NSObject, Interactor, SwapInfoViewActions {
     var dataStore: SwapInfoStore?
     
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        presenter?.presentData(actionResponse: .init(item: nil))
+        guard let dataStore = dataStore else { return }
+        let item = Models.Item(from: dataStore.from, to: dataStore.to)
+
+        presenter?.presentData(actionResponse: .init(item: item))
     }
 
     // MARK: - SwapInfoViewActions

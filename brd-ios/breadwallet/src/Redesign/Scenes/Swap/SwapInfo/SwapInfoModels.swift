@@ -9,6 +9,9 @@
 import UIKit
 
 enum SwapInfoModels {
+    
+    typealias Item = (from: String, to: String)
+    
     enum Section: Sectionable {
         case image
         case title

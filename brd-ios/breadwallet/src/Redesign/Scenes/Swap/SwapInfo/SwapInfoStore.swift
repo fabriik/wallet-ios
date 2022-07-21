@@ -9,9 +9,12 @@
 import UIKit
 
 class SwapInfoStore: NSObject, BaseDataStore, SwapInfoDataStore {
+    
     var itemId: String?
     
     // MARK: - SwapInfoDataStore
+    var from: String = "BSV"
+    var to: String = "BCH"
 
     // MARK: - Aditional helpers
 }

@@ -22,6 +22,8 @@ protocol SwapInfoResponseDisplays: AnyObject, BaseResponseDisplays, FetchRespons
 }
 
 protocol SwapInfoDataStore: BaseDataStore, FetchDataStore {
+    var from: String { get set }
+    var to: String { get set }
 }
 
 protocol SwapInfoDataPassing {

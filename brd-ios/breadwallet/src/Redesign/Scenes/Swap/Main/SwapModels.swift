@@ -151,7 +151,14 @@ enum SwapModels {
         struct ViewAction {
             var authenticated: Bool
         }
-        struct ActionResponse {}
-        struct ResponseDisplay {}
+        struct ActionResponse {
+            var from: String?
+            var to: String?
+        }
+        
+        struct ResponseDisplay {
+            var from: String
+            var to: String
+        }
     }
 }

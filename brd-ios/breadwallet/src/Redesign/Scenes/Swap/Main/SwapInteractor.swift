@@ -310,8 +310,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         SwapWorker().execute(requestData: data) { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.presenter?.presentConfirm(actionResponse: .init())
+            case .success:
+                let from = self?.dataStore?.selectedBaseCurrency
+                let to = self?.dataStore?.selectedTermCurrency
+                self?.presenter?.presentConfirm(actionResponse: .init(from: from, to: to))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
@@ -322,7 +324,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     // MARK: - Aditional helpers
     
     private func calculateAmounts(viewAction: Models.Amounts.ViewAction) {
-        
         if let fromCryptoAmount = viewAction.fromCryptoAmount {
             guard let fromPrice = quote?.closeAsk else { return }
             
