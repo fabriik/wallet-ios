@@ -38,8 +38,10 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var termCurrencies: [String] = []
     var baseAndTermCurrencies: [[String]] = []
     
-    var selectedBaseCurrency: String? = "BCH"
-    var selectedTermCurrency: String? = "BSV"
+    var selectedBaseCurrency: String? = "BSV"
+    var selectedTermCurrency: String? = "BCHdoes"
+    
+    var swap: Swap?
     
     var currencies: [Currency] = []
     var coreSystem: CoreSystem?

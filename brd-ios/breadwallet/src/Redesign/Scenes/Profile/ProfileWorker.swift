@@ -10,7 +10,15 @@
 
 import Foundation
 
+enum CustomerRole: String, Codable {
+    case customer
+    case unverified
+    case kyc1
+    case kyc2
+}
+
 struct ProfileResponseData: ModelResponse {
+    
     var country: String?
     var dateOfBirth: String?
     var firstName: String?
@@ -18,6 +26,7 @@ struct ProfileResponseData: ModelResponse {
     var email: String?
     var kycStatus: String?
     var kycFailureReason: String?
+    var roles: [CustomerRole]
     
     var exchangeLimits: ExchangeLimits?
     
@@ -44,6 +53,7 @@ struct Profile: Model {
     var lifetimeLimit: Decimal = 0
     var usedDaily: Decimal = 0
     var usedLifetime: Decimal = 0
+    var role: CustomerRole?
     
     var dailyRemainingLimit: Decimal {
         return dailyLimit - usedDaily
@@ -69,7 +79,8 @@ class ProfileMapper: ModelMapper<ProfileResponseData, Profile> {
                      dailyLimit: response.exchangeLimits?.allowanceDaily ?? 0,
                      lifetimeLimit: response.exchangeLimits?.allowanceLifetime ?? 0,
                      usedDaily: response.exchangeLimits?.usedDaily ?? 0,
-                     usedLifetime: response.exchangeLimits?.usedLifetime ?? 0)
+                     usedLifetime: response.exchangeLimits?.usedLifetime ?? 0,
+                     role: response.roles.last)
     }
 }
 

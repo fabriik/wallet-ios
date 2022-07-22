@@ -212,14 +212,15 @@ class Wallet {
     func createTransfer(to address: String,
                         amount: Amount,
                         feeBasis: TransferFeeBasis,
-                        attribute: String? = nil) -> CreateTransferResult {
+                        attribute: String? = nil,
+                        exchangeId: String?) -> CreateTransferResult {
         guard let target = Address.create(string: address, network: core.manager.network) else {
             return .failure(.invalidAddress)
         }
         guard let transfer = core.createTransfer(target: target,
                                                  amount: amount.cryptoAmount,
                                                  estimatedFeeBasis: feeBasis,
-                                                 attributes: attributes(forAttribute: attribute)) else {
+                                                 attributes: attributes(forAttribute: attribute), exchangeId: exchangeId) else {
             return .failure(.invalidAmountOrFee)
         }
         return .success(transfer)
