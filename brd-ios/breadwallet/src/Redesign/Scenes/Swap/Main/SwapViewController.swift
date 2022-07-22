@@ -217,7 +217,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         // TODO: replace with Coordinator call
         LoadingView.hide()
         
-        confirmButton.wrappedView.isEnabled = true // responseDisplay.continueEnabled
+        confirmButton.wrappedView.isEnabled = responseDisplay.continueEnabled
         guard let section = sections.firstIndex(of: Models.Sections.swapCard),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<MainSwapView> else { return }
         
