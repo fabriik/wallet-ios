@@ -22,7 +22,9 @@ struct SwapDetailsRequestData: RequestModelData {
 
 struct SwapDetailsResponseData: ModelResponse {
     enum Status: String, Codable {
-        case pending
+        case pending = "PENDING"
+        case complete = "COMPLETE"
+        case failed = "FAILED"
     }
     
     struct Source: Codable {
@@ -39,9 +41,39 @@ struct SwapDetailsResponseData: ModelResponse {
     var timestamp: Int
 }
 
-struct SwapDetails: Model {}
+struct SwapDetails: Model {
+    var orderId: Int
+    var timestamp: Int
+    var status: SwapDetailsResponseData.Status
+    
+    var currency: String
+    var currencyAmount: Decimal
+    var usdAmount: Decimal
+    var transactionId: Int?
+    
+    var currencyDestination: String
+    var currencyAmountDestination: Decimal
+    var usdAmountDestination: Decimal
+    var transactionIdDestination: Int?
+}
 
-class SwapDetailsMapper: ModelMapper<SwapDetailsResponseData, SwapDetails> {}
+class SwapDetailsMapper: ModelMapper<SwapDetailsResponseData, SwapDetails> {
+    override func getModel(from response: SwapDetailsResponseData?) -> SwapDetails? {
+        guard let response = response else { return nil }
+        
+        return .init(orderId: response.orderId,
+                     timestamp: response.timestamp,
+                     status: response.status,
+                     currency: response.source.currency.localizedUppercase,
+                     currencyAmount: response.source.currencyAmount,
+                     usdAmount: response.source.usdAmount,
+                     transactionId: response.source.transactionId,
+                     currencyDestination: response.destination.currency.localizedUppercase,
+                     currencyAmountDestination: response.destination.currencyAmount,
+                     usdAmountDestination: response.destination.usdAmount,
+                     transactionIdDestination: response.destination.transactionId)
+    }
+}
 
 class SwapDetailsWorker: BaseApiWorker<SwapDetailsMapper> {
     override func getUrl() -> String {

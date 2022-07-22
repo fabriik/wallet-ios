@@ -20,8 +20,7 @@ class SwapDetailsInteractor: NSObject, Interactor, SwapDetailsViewActions {
         SwapDetailsWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let data):
-                print("Done!")
-                // TODO: presendData
+                self?.presenter?.presentData(actionResponse: .init(item: data))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
