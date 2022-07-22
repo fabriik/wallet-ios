@@ -158,7 +158,6 @@ class OnboardingViewController: UIViewController {
     private let topButton = BRDButton(title: "", type: .primary)
     private let middleButton = BRDButton(title: "", type: .darkOpaque)
     private let bottomButton = BRDButton(title: "", type: .secondary)
-    private let nextButton = BRDButton(title: L10n.Onboarding.next, type: .primary)
     
     // Constraints used to show and hide the bottom buttons.
     private var topButtonAnimationConstraint: NSLayoutConstraint?
@@ -421,7 +420,7 @@ class OnboardingViewController: UIViewController {
             if cloudBackupExists {
                 return L10n.CloudBackup.restoreButton
             } else {
-                return L10n.Onboarding.getStarted
+                return L10n.CloudBackup.createButton
             }
         }
         return ""
@@ -485,7 +484,6 @@ class OnboardingViewController: UIViewController {
         view.addSubview(topButton)
         view.addSubview(middleButton)
         view.addSubview(bottomButton)
-        view.addSubview(nextButton)
         
         let buttonLeftRightMargin: CGFloat = 24
         let buttonHeight: CGFloat = 48
@@ -494,8 +492,7 @@ class OnboardingViewController: UIViewController {
         // so that we can animate it up into view.
         topButtonAnimationConstraint = topButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                                       constant: buttonsHiddenYOffset)
-        nextButtonAnimationConstraint = nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                                                            constant: buttonsHiddenYOffset)
+        
         middleButtonAnimationConstraint = middleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                                       constant: buttonsHiddenYOffset)
         bottomButtonAnimationConstraint = bottomButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
@@ -524,13 +521,6 @@ class OnboardingViewController: UIViewController {
             bottomButtonAnimationConstraint
             ])
         
-        nextButton.constrain([
-            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
-            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin), 
-            nextButton.heightAnchor.constraint(equalToConstant: buttonHeight),
-            nextButtonAnimationConstraint
-            ])        
-        
         topButton.tap = { [unowned self] in
             self.topButtonTapped()
         }
@@ -541,10 +531,6 @@ class OnboardingViewController: UIViewController {
         
         bottomButton.tap = { [unowned self] in
             self.bottomButtonTapped()
-        }
-        
-        nextButton.tap = { [unowned self] in
-            self.animateToNextPage()
         }
     }
     
@@ -715,113 +701,14 @@ class OnboardingViewController: UIViewController {
         })
     }
         
-    private func animateToNextPage() {
-        guard !isPaging, pageIndex >= 0, pageIndex < pageCount else {
-            return
-        }
-        
-        if pageIndex == lastPageIndex {
-            exitWith(action: .createWallet)
-            return
-        }
-        
-        isPaging = true
-        
-        let nextIndex = pageIndex + 1
-        
-        startVideoClipForPage(pageIndex: nextIndex)
-        
-        let pageAnimationDuration = 0.6//1.0
-        let delay = animationDelays[nextIndex]
-        
-        let currentHeadingLabel = headingLabels[pageIndex]
-        let nextHeadingLabel = headingLabels[nextIndex]
-        
-        let currentSubheadingLabel = subheadingLabels[pageIndex]
-        let nextSubheadingLabel = subheadingLabels[nextIndex]
-        
-        let currentHeadingConstraint = headingConstraints[pageIndex]
-        let nextHeadingConstraint = headingConstraints[nextIndex]
-        
-        let fadeInOffsetFactor = fadeInOffsetFactors[nextIndex]
-        
-        if nextIndex == 1 {
-            hideStarburstIcons()
-        }
-        
-        UIView.animateKeyframes(withDuration: pageAnimationDuration, delay: delay, 
-                                options: .calculationModeCubic, animations: { [weak self] in
-                                    guard let self = self else { return }
-                                    
-                                    // Fade out the logo.
-                                    if self.logoImageView.alpha == 1 {
-                                        UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) { 
-                                            self.logoImageView.alpha = 0
-                                        }
-                                    }
-                                    
-                                    UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.4) { 
-                                        currentHeadingLabel.alpha = 0
-                                        currentSubheadingLabel.alpha = 0
-                                        currentHeadingConstraint.constant -= (self.headingLabelAnimationOffset)
-                                        currentHeadingLabel.superview?.layoutIfNeeded()
-                                    }
-                                    
-                                    UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: { 
-                                        nextHeadingLabel.alpha = 1
-                                        nextSubheadingLabel.alpha = 1
-                                        nextHeadingConstraint.constant = -(self.headingLabelAnimationOffset * fadeInOffsetFactor)
-                                        nextHeadingLabel.superview?.layoutIfNeeded()
-                                    })
-                                    
-                                    if self.pageIndex == 0 {
-                                        
-                                        // Animate buttons down
-                                        [self.topButtonAnimationConstraint,
-                                         self.middleButtonAnimationConstraint,
-                                         self.bottomButtonAnimationConstraint].forEach { constraint in
-                                            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {
-                                                constraint?.constant = self.buttonsHiddenYOffset
-                                                self.view.layoutIfNeeded()
-                                            })
-                                        }
-                                    }
-                                    
-            }, completion: { [weak self] _ in
-                guard let self = self else { return }
-
-                let nextIndex = min(self.pageIndex + 1, self.pageCount - 1)
-                
-                let finishTransition: () -> Void  = {
-                    self.pageIndex = nextIndex
-                    self.isPaging = false
-                }
-                
-                // Animate the Next button after the other animations are finished to give the video
-                // clip a bit more time to finish. The first clip is a bit longer than the others and
-                // includes a slick bitcoin transfer animation at the end.
-                if nextIndex == 1 {
-                    //0.5
-                    UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
-                        self.nextButtonAnimationConstraint?.constant = self.nextButtonVisibleYOffset
-                        self.view.layoutIfNeeded()                    
-                    }, completion: { _ in
-                        finishTransition()
-                    })
-                } else {
-                    finishTransition()
-                }
-        })
-    }
-        
     private func topButtonTapped() {
         if self.pageIndex == 0 {
             if cloudBackupExists {
                 exitWith(action: .restoreCloudBackup)
             } else {
                // 'Create new wallet'
-               self.animateToNextPage()
-               logEvent(.getStartedButton, screen: .landingPage)
+                exitWith(action: .createWallet)
+                logEvent(.browseFirstButton, screen: .finalPage)
             }
         }
     }
@@ -839,7 +726,8 @@ class OnboardingViewController: UIViewController {
         if pageIndex == 0 {
             if cloudBackupExists {
                 showAlert(message: L10n.CloudBackup.createWarning, button: L10n.CloudBackup.createButton, completion: { [weak self] in
-                    self?.animateToNextPage()
+                    self?.exitWith(action: .createWallet)
+                    self?.logEvent(.browseFirstButton, screen: .finalPage)
                 })
             } else {
                // 'Restore wallet'
