@@ -9,6 +9,9 @@
 import UIKit
 
 enum SwapDetailsModels {
+   // SwapDetails
+    typealias Item = SwapDetails
+    
     enum Section: Sectionable {
         case header
         case order
