@@ -420,7 +420,7 @@ class OnboardingViewController: UIViewController {
             if cloudBackupExists {
                 return L10n.CloudBackup.restoreButton
             } else {
-                return L10n.Onboarding.getStarted
+                return L10n.CloudBackup.createButton
             }
         }
         return ""
