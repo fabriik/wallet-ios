@@ -294,7 +294,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
 
                         If you continue to enter the incorrect PIN, the amount of waiting time in between attempts will increase. Eventually, the app will reset and you can start a new wallet.
 
-                        If you have the recovery phrase for you wallet, you can use it to reset your PIN by clicking the “Reset PIN” button.
+                        If you have the recovery phrase for your wallet, you can use it to reset your PIN by clicking the “Reset PIN” button.
                         """
         
         let model = PopupViewModel(title: .text("Why is my wallet disabled?"),
