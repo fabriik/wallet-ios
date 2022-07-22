@@ -42,7 +42,7 @@ struct Swap: Model {
         case sell
     }
     
-    var exchangeId: Int
+    var exchangeId: String
     var currency: String
     var amount: Decimal
     var address: String
@@ -56,7 +56,7 @@ class SwapMapper: ModelMapper<SwapResponseData, Swap> {
               let amount = Decimal(string: response.amount)
         else { return nil }
 
-        return .init(exchangeId: response.exchangeId, currency: response.currency, amount: amount, address: response.address)
+        return .init(exchangeId: "\(response.exchangeId)", currency: response.currency, amount: amount, address: response.address)
     }
 }
 

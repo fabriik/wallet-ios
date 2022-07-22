@@ -137,11 +137,12 @@ class Sender: Subscriber {
                            feeBasis: TransferFeeBasis,
                            comment: String?,
                            attribute: String? = nil,
-                           gift: Gift? = nil) -> SenderValidationResult {
+                           gift: Gift? = nil,
+                           exchangeId: String? = nil) -> SenderValidationResult {
         assert(transfer == nil)
         let result = validate(address: address, amount: amount, feeBasis: feeBasis)
         guard case .ok = result else { return result }
-        switch wallet.createTransfer(to: address, amount: amount, feeBasis: feeBasis, attribute: attribute) {
+        switch wallet.createTransfer(to: address, amount: amount, feeBasis: feeBasis, attribute: attribute, exchangeId: exchangeId) {
         case .success(let transfer):
             self.comment = comment
             self.gift = gift

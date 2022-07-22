@@ -89,7 +89,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                           toFiatAmountString: "\(actionResponse.toFiatAmount?.doubleValue ?? 0.00)",
                                           toCryptoAmount: actionResponse.toCryptoAmount,
                                           toCryptoAmountString: "\(actionResponse.toCryptoAmount?.doubleValue ?? 0.00)",
-                                          balanceString: actionResponse.baseBalance.tokenFormattedString + " " + actionResponse.baseBalance.currency.code.uppercased(),
+                                          balanceString: (actionResponse.baseBalance?.tokenFormattedString ?? "0") + " " + (actionResponse.baseBalance?.currency.code ?? "usd").uppercased(),
                                           topFeeString: topFeeString,
                                           bottomFeeString: bottomFeeString)
 
@@ -101,7 +101,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                                 minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue)))
         
         var hasError: Bool = actionResponse.fromFiatAmount == 0
-        if actionResponse.baseCurrency == actionResponse.termCurrency {
+        if actionResponse.baseBalance == nil
+            || actionResponse.baseCurrency == actionResponse.termCurrency {
             let first = actionResponse.baseCurrency ?? "<base missing>"
             let second = actionResponse.termCurrency ?? "<term missing>"
             presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: "\(first)-\(second)")))
@@ -113,13 +114,13 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             let dailyLimit = profile?.dailyRemainingLimit ?? 0
             let lifetimeLimit = profile?.lifetimeRemainingLimit ?? 0
             let exchangeLimit = profile?.exchangeLimit ?? 0
-            let balance = actionResponse.baseBalance.tokenValue
+            let balance = actionResponse.baseBalance?.tokenValue ?? 0
             switch value {
             case _ where value <= 0:
                 presentError(actionResponse: .init(error: nil))
                 hasError = true
                 
-            case _ where value > actionResponse.baseBalance.fiatValue:
+            case _ where value > (actionResponse.baseBalance?.fiatValue ?? 0):
                 presentError(actionResponse: .init(error: SwapErrors.balanceTooLow(amount: fromCrypto, balance: balance, currency: actionResponse.baseCurrency ?? "")))
                 hasError = true
                 
@@ -215,7 +216,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             presentError(actionResponse: .init(error: GeneralError(errorMessage: "Not a valid pair")))
             return
         }
-        viewController?.displayConfirm(responseDisplay: .init(from: from, to: to, exchangeId: exchangeId))
+        viewController?.displayConfirm(responseDisplay: .init(from: from, to: to, exchangeId: "\(exchangeId)"))
     }
     
     // MARK: - Additional Helpers

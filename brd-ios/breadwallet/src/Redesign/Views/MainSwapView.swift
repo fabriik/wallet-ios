@@ -17,11 +17,11 @@ struct MainSwapConfiguration: Configurable {
 }
 
 struct MainSwapViewModel: ViewModel {
-    var selectedBaseCurrency: String?
-    var selectedBaseCurrencyIcon: UIImage?
+    var selectedBaseCurrency: String? = "BSV"
+    var selectedBaseCurrencyIcon: UIImage? = UIImage(named: "close")
     
-    var selectedTermCurrency: String?
-    var selectedTermCurrencyIcon: UIImage?
+    var selectedTermCurrency: String? = "BCH"
+    var selectedTermCurrencyIcon: UIImage? = UIImage(named: "close")
     
     var fromFiatAmount: Decimal?
     var fromFiatAmountString: String?

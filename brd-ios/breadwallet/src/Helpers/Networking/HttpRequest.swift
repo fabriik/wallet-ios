@@ -134,7 +134,11 @@ class HTTPRequest {
     }
     
     private func getHttpResponse(with request: URLRequest, from response: HTTPURLResponse?, data: Data?, error: Error?) -> HTTPResponse {
-        guard let response = response else { return HTTPResponse() }
+        guard let response = response else {
+            var response = HTTPResponse()
+            response.error = NetworkingError.noConnection
+            return response
+        }
         
         var httpResponse = HTTPResponse()
         httpResponse.statusCode = response.statusCode

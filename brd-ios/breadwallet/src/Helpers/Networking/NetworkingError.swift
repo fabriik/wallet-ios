@@ -20,9 +20,34 @@ enum NetworkingError: FEError {
     /// Status code 105
     case sessionExpired
     
+    case sessionNotVerified
+    
+    case dataUnavailible
+    
     case unprocessableEntity
     
-    var errorMessage: String { return "Error" } // TODO: Localize
+    case serverAtCapacity
+    
+    var errorMessage: String {
+        switch self {
+        case .noConnection:
+            return "Check your internet connection and try again later."
+//        case .parameterMissing:
+//
+//        case .sessionExpired:
+//            <#code#>
+//        case .sessionNotVerified:
+//            <#code#>
+//        case .unprocessableEntity:
+//            <#code#>
+        case .serverAtCapacity:
+            return "Oops! Something went wrong, please try again later."
+            
+        default:
+            return "2 error or not 2 error?"
+        }
+        
+    } // TODO: Localize
     
     init?(error: ServerResponse.ServerError?) {
         switch error?.statusCode ?? -1 {
@@ -32,8 +57,17 @@ enum NetworkingError: FEError {
         case 105:
             self = .sessionExpired
             
+        case 403:
+            self = .sessionNotVerified
+            
+        case 404:
+            self = .dataUnavailible
+            
         case 422:
             self = .unprocessableEntity
+            
+        case 503:
+            self = .serverAtCapacity
             
         default:
             return nil

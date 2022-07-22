@@ -107,7 +107,9 @@ class BaseApiWorker<M: Mapper>: APIWorker {
      Function for any complex processing of http response. This function is called on a background thread.
      */
     func processResponse(response: HTTPResponse) {
-        guard let data = response.data, response.error == nil else { return }
+        guard let data = response.data, response.error == nil else {
+            return
+        }
         let payload = M.FromModel.parse(from: data, type: M.FromModel.self)
         result = M().getModel(from: payload)
         

@@ -60,7 +60,7 @@ enum SwapModels {
             var termCurrencyIcon: UIImage?
             
             var minMaxToggleValue: FESegmentControl.Values?
-            var baseBalance: Amount
+            var baseBalance: Amount?
         }
         
         struct ResponseDisplay {
