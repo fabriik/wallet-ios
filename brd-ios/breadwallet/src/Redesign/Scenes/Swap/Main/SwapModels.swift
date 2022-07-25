@@ -12,7 +12,7 @@ import UIKit
 import WalletKit
 
 enum SwapModels {
-    typealias Item = (from: Currency?, to: Currency?)
+    typealias Item = (from: Currency?, to: Currency?, quote: Quote?)
     
     enum Sections: Sectionable {
         case rateAndTimer
