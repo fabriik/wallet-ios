@@ -33,7 +33,7 @@ enum NetworkingError: FEError {
         case .noConnection:
             return "Check your internet connection and try again later."
 //        case .parameterMissing:
-//
+//            <#code#>
 //        case .sessionExpired:
 //            <#code#>
 //        case .sessionNotVerified:
@@ -50,7 +50,7 @@ enum NetworkingError: FEError {
     } // TODO: Localize
     
     init?(error: ServerResponse.ServerError?) {
-        switch error?.statusCode ?? -1 {
+        switch error?.statusCode {
         case 103:
             self = .parameterMissing
             

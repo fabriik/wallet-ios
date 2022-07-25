@@ -159,7 +159,7 @@ extension UserDefaults {
         set { defaults.set(newValue, forKey: shouldWipeWalletNoPromptKey) }
     }
     
-    /// Should show  the 3rd party buy alert ?
+    /// Should show the 3rd party buy alert ?
     static var showBuyAlert: Bool {
         get {
             guard defaults.object(forKey: shouldShowBuyAlert) == nil else {
@@ -169,18 +169,6 @@ extension UserDefaults {
         }
         
         set { defaults.set(newValue, forKey: shouldShowBuyAlert) }
-    }
-    
-    /// Should show  the 3rd party swap alert ?
-    static var showSwapAlert: Bool {
-        get {
-            guard defaults.object(forKey: shouldShowSwapAlert) == nil else {
-                return false
-            }
-            return true
-        }
-        
-        set { defaults.set(newValue, forKey: shouldShowSwapAlert) }
     }
     
     // Legacy setting for biometrics allowing unlocking the app. This is checked when migrating from

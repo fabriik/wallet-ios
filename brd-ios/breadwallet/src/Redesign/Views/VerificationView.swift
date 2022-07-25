@@ -29,8 +29,7 @@ enum VerificationStatus: Equatable {
     
     var canBuyTrade: Bool {
         switch self {
-        case .levelOne,
-                .levelTwo:
+        case .levelOne, .levelTwo:
             return true
             
         default:
