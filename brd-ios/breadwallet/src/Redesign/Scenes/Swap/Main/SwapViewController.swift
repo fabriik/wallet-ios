@@ -233,6 +233,9 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             let model = responseDisplay.minMaxToggleValue
             view.setup(with: model)
         }
+        
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
     
     func displayUpdateRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {

@@ -12,7 +12,7 @@ import UIKit
 import WalletKit
 
 enum SwapModels {
-    typealias Item = Any?
+    typealias Item = (from: Currency?, to: Currency?)
     
     enum Sections: Sectionable {
         case rateAndTimer
@@ -38,26 +38,11 @@ enum SwapModels {
         }
         
         struct ActionResponse {
-            var fromFiatAmount: Decimal?
-            var fromFiatAmountString: String?
-            var fromCryptoAmount: Decimal?
-            var fromCryptoAmountString: String?
+            var from: Amount?
+            var to: Amount?
             
-            var toFiatAmount: Decimal?
-            var toFiatAmountString: String?
-            var toCryptoAmount: Decimal?
-            var toCryptoAmountString: String?
-            
-            var fromBaseFiatFee: Decimal?
-            var fromBaseCryptoFee: Decimal?
-            
-            var fromTermFiatFee: Decimal?
-            var fromTermCryptoFee: Decimal?
-            
-            var baseCurrency: String?
-            var baseCurrencyIcon: UIImage?
-            var termCurrency: String?
-            var termCurrencyIcon: UIImage?
+            var fromFee: Amount?
+            var toFee: Amount?
             
             var minMaxToggleValue: FESegmentControl.Values?
             var baseBalance: Amount?
@@ -100,11 +85,11 @@ enum SwapModels {
         }
         
         struct ActionResponse {
-            var baseCurrency: String?
-            var termCurrency: String?
-            var baseRate: Decimal
-            var termRate: Decimal
-            var rateTimeStamp: Double
+            var quote: Quote?
+            var from: Currency?
+            var to: Currency?
+            var fromRate: Decimal?
+            var toRate: Decimal?
         }
         
         struct ResponseDisplay {
@@ -128,17 +113,11 @@ enum SwapModels {
         struct ViewAction {}
         
         struct ActionResponse {
-            var from: Decimal?
-            var fromFiat: Decimal?
-            var fromCurrency: String?
-            var to: Decimal?
-            var toFiat: Decimal?
-            var toCurrency: String?
+            var from: Amount?
+            var to: Amount?
             var quote: Quote?
-            var fromFee: Decimal?
-            var fromFiatFee: Decimal?
-            var toFee: Decimal?
-            var toFiatFee: Decimal?
+            var fromFee: Amount?
+            var toFee: Amount?
         }
         
         struct ResponseDisplay {

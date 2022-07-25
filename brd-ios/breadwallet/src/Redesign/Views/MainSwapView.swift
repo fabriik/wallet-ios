@@ -17,30 +17,8 @@ struct MainSwapConfiguration: Configurable {
 }
 
 struct MainSwapViewModel: ViewModel {
-    var selectedBaseCurrency: String? = "BSV"
-    var selectedBaseCurrencyIcon: UIImage? = UIImage(named: "close")
-    
-    var selectedTermCurrency: String? = "BCH"
-    var selectedTermCurrencyIcon: UIImage? = UIImage(named: "close")
-    
-    var fromFiatAmount: Decimal?
-    var fromFiatAmountString: String?
-    
-    var fromCryptoAmount: Decimal?
-    var fromCryptoAmountString: String?
-    
-    var toFiatAmount: Decimal?
-    var toFiatAmountString: String?
-    
-    var toCryptoAmount: Decimal?
-    var toCryptoAmountString: String?
-    
-    var balanceString: String?
-    
-    var topFeeString: String?
-    var bottomFeeString: String?
-    
-    var shouldShowFees: Bool = false
+    var from: SwapCurrencyViewModel?
+    var to: SwapCurrencyViewModel?
 }
 
 class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
@@ -118,7 +96,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         
         dividerWithButtonView.addSubview(lineView)
         lineView.snp.makeConstraints { make in
-            make.height.width.equalTo(1)
+            make.height.equalTo(1)
             make.leading.trailing.equalToSuperview()
             make.center.equalToSuperview()
         }
@@ -128,10 +106,10 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
             make.center.equalToSuperview()
         }
         
-        baseSwapCurrencyView.currencySelectorStackView
+        baseSwapCurrencyView.selectorStackView
             .addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                          action: #selector(topCurrencyTapped(_:))))
-        termSwapCurrencyView.currencySelectorStackView
+        termSwapCurrencyView.selectorStackView
             .addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                          action: #selector(bottomCurrencyTapped(_:))))
         
@@ -141,22 +119,22 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     private func getAmounts() {
         baseSwapCurrencyView.didChangeFiatAmount = { [weak self] amount in
             self?.didChangeFromFiatAmount?(amount)
-            self?.toggleFeeAndAmountsStackView()
+            self?.contentSizeChanged?()
         }
         
         baseSwapCurrencyView.didChangeCryptoAmount = { [weak self] amount in
             self?.didChangeFromCryptoAmount?(amount)
-            self?.toggleFeeAndAmountsStackView()
+            self?.contentSizeChanged?()
         }
         
         termSwapCurrencyView.didChangeFiatAmount = { [weak self] amount in
             self?.didChangeToFiatAmount?(amount)
-            self?.toggleFeeAndAmountsStackView()
+            self?.contentSizeChanged?()
         }
         
         termSwapCurrencyView.didChangeCryptoAmount = { [weak self] amount in
             self?.didChangeToCryptoAmount?(amount)
-            self?.toggleFeeAndAmountsStackView()
+            self?.contentSizeChanged?()
         }
     }
     
@@ -171,21 +149,11 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
-        baseSwapCurrencyView.setup(with: .init(selectedCurrency: viewModel.selectedBaseCurrency ?? "",
-                                               selectedCurrencyIcon: viewModel.selectedBaseCurrencyIcon,
-                                               fiatAmountString: viewModel.fromFiatAmountString,
-                                               cryptoAmountString: viewModel.fromCryptoAmountString,
-                                               titleString: String(format: "I have %@", viewModel.balanceString ?? ""),
-                                               feeString: viewModel.topFeeString))
+        baseSwapCurrencyView.setup(with: viewModel.from)
+        termSwapCurrencyView.setup(with: viewModel.to)
         
-        termSwapCurrencyView.setup(with: .init(selectedCurrency: viewModel.selectedTermCurrency ?? "",
-                                               selectedCurrencyIcon: viewModel.selectedTermCurrencyIcon,
-                                               fiatAmountString: viewModel.toFiatAmountString,
-                                               cryptoAmountString: viewModel.toCryptoAmountString,
-                                               titleString: "I want",
-                                               feeString: viewModel.bottomFeeString))
-        
-        toggleFeeAndAmountsStackView(animated: false)
+        layoutIfNeeded()
+        contentSizeChanged?()
     }
     
     // MARK: - User interaction
@@ -207,15 +175,6 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
                                              baseSwapCurrencyView: baseSwapCurrencyView,
                                              termSwapCurrencyView: termSwapCurrencyView)
         
-        toggleFeeAndAmountsStackView()
-        
-    }
-    
-    private func toggleFeeAndAmountsStackView(animated: Bool = true) {
-        guard let viewModel = viewModel else { return }
-        
-        baseSwapCurrencyView.toggleFeeAndAmountsStackView(state: viewModel.shouldShowFees ? .shown : .hidden, animated: animated)
-        termSwapCurrencyView.toggleFeeAndAmountsStackView(state: viewModel.shouldShowFees ? .shown : .hidden, animated: animated)
         contentSizeChanged?()
     }
 }

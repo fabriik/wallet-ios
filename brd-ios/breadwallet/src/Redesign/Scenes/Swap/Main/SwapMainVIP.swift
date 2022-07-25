@@ -9,6 +9,7 @@
 //
 
 import UIKit
+import WalletKit
 
 extension Scenes {
     static let Swap = SwapViewController.self
@@ -40,26 +41,26 @@ protocol SwapResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDis
 }
 
 protocol SwapDataStore: BaseDataStore, FetchDataStore {
-    var fromFiatAmount: Decimal? { get set }
-    var fromCryptoAmount: Decimal? { get set }
-    var toFiatAmount: Decimal? { get set }
-    var toCryptoAmount: Decimal? { get set }
+    var from: Amount? { get set }
+    var to: Amount? { get set }
     
-    var fromBaseFiatFee: Decimal? { get set }
-    var fromBaseCryptoFee: Decimal? { get set }
-    
-    var fromTermFiatFee: Decimal? { get set }
-    var fromTermCryptoFee: Decimal? { get set }
+    var fromFee: TransferFeeBasis? { get set }
+    var toFee: TransferFeeBasis? { get set }
     
     var minMaxToggleValue: FESegmentControl.Values? { get set }
     var defaultCurrencyCode: String? { get set }
+    
+    var quote: Quote? { get set }
+    
+    var fromRate: Decimal? { get set }
+    var toRate: Decimal? { get set }
     
     var baseCurrencies: [String] { get set }
     var termCurrencies: [String] { get set }
     var baseAndTermCurrencies: [[String]] { get set }
     
-    var selectedBaseCurrency: String? { get set }
-    var selectedTermCurrency: String? { get set }
+    var fromCurrency: Currency? { get set }
+    var toCurrency: Currency? { get set }
     
     var currencies: [Currency] { get set }
     var coreSystem: CoreSystem? { get set }
