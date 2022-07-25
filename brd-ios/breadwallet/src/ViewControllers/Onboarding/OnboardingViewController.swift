@@ -120,7 +120,7 @@ class OnboardingViewController: UIViewController {
     // to prevent additional taps on the Next button during the transition.
     var isPaging: Bool = false {
         didSet {
-            [topButton, bottomButton, skipButton, backButton].forEach { (button) in
+            [createWalletButton, restoreButton, skipButton, backButton].forEach { (button) in
                 button.isUserInteractionEnabled = !isPaging
             }
         }
@@ -155,9 +155,9 @@ class OnboardingViewController: UIViewController {
     var lastPageIndex: Int { return pageCount - 1 }
     
     // CTA's that appear at the bottom of the screen
-    private let topButton = BRDButton(title: "", type: .secondary)
-    private let middleButton = BRDButton(title: "", type: .blackTransparent)
-    private let bottomButton = BRDButton(title: "", type: .blackTransparent)
+    private let createWalletButton = BRDButton(title: "", type: .secondary)
+    private let recoverButton = BRDButton(title: "", type: .blackTransparent)
+    private let restoreButton = BRDButton(title: "", type: .blackTransparent)
     
     // Constraints used to show and hide the bottom buttons.
     private var topButtonAnimationConstraint: NSLayoutConstraint?
@@ -256,8 +256,8 @@ class OnboardingViewController: UIViewController {
         
         self.pageIndex = 0
 
-        self.topButton.title = topButtonText(pageIndex: 0)
-        self.bottomButton.title = bottomButtonText(pageIndex: 0)
+        self.createWalletButton.title = createWalletButtonText(pageIndex: 0)
+        self.restoreButton.title = restoreButtonText(pageIndex: 0)
 
         completion()        
     }
@@ -415,11 +415,11 @@ class OnboardingViewController: UIViewController {
         }
     }
     
-    private func topButtonText(pageIndex: Int) -> String {
+    private func createWalletButtonText(pageIndex: Int) -> String {
         return L10n.CloudBackup.createButton
     }
 
-    private func middleButtonText(pageIndex: Int) -> String {
+    private func recoverButtonText(pageIndex: Int) -> String {
         //no middle button if no backup detected
         if pageIndex == 0 && cloudBackupExists {
             return L10n.CloudBackup.recoverButton
@@ -427,8 +427,12 @@ class OnboardingViewController: UIViewController {
         return ""
     }
     
-    private func bottomButtonText(pageIndex: Int) -> String {
-        return L10n.CloudBackup.restoreButton
+    private func restoreButtonText(pageIndex: Int) -> String {
+        if cloudBackupExists {
+            return L10n.CloudBackup.restoreButton
+        } else {
+            return L10n.Onboarding.restoreWallet
+        }
     }
     
     let buttonHeight: CGFloat = 48.0
@@ -463,60 +467,60 @@ class OnboardingViewController: UIViewController {
     private func setUpBottomButtons() {
         // Set the buttons up for the first page; the title text will be updated
         // once we reach the last page of the onboarding flow.
-        topButton.title = topButtonText(pageIndex: 0)
-        middleButton.title = middleButtonText(pageIndex: 0)
-        bottomButton.title = bottomButtonText(pageIndex: 0)
+        createWalletButton.title = createWalletButtonText(pageIndex: 0)
+        recoverButton.title = recoverButtonText(pageIndex: 0)
+        restoreButton.title = restoreButtonText(pageIndex: 0)
         
-        view.addSubview(topButton)
-        view.addSubview(middleButton)
-        view.addSubview(bottomButton)
+        view.addSubview(createWalletButton)
+        view.addSubview(recoverButton)
+        view.addSubview(restoreButton)
         
         let buttonLeftRightMargin: CGFloat = 24
         let buttonHeight: CGFloat = 48
         
         // Position the top button just below the bottom of the view (or safe area / notch) to start with
         // so that we can animate it up into view.
-        topButtonAnimationConstraint = topButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        topButtonAnimationConstraint = createWalletButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                                       constant: buttonsHiddenYOffset)
         
-        middleButtonAnimationConstraint = middleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        middleButtonAnimationConstraint = recoverButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                                       constant: buttonsHiddenYOffset)
-        bottomButtonAnimationConstraint = bottomButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        bottomButtonAnimationConstraint = restoreButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                                             constant: buttonsHiddenYOffset)
-        topButton.constrain([
-            topButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            topButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
-            topButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin),                
-            topButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+        createWalletButton.constrain([
+            createWalletButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            createWalletButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
+            createWalletButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin),                
+            createWalletButton.heightAnchor.constraint(equalToConstant: buttonHeight),
             topButtonAnimationConstraint
             ])
         
-        middleButton.constrain([
-            middleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            middleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
-            middleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin),
-            middleButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+        recoverButton.constrain([
+            recoverButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            recoverButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
+            recoverButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin),
+            recoverButton.heightAnchor.constraint(equalToConstant: buttonHeight),
             middleButtonAnimationConstraint
             ])
         
-        bottomButton.constrain([
-            bottomButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            bottomButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
-            bottomButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin), 
-            bottomButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+        restoreButton.constrain([
+            restoreButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            restoreButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
+            restoreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin), 
+            restoreButton.heightAnchor.constraint(equalToConstant: buttonHeight),
             bottomButtonAnimationConstraint
             ])
         
-        topButton.tap = { [unowned self] in
-            self.topButtonTapped()
+        createWalletButton.tap = { [unowned self] in
+            self.createWalletTapped()
         }
         
-        middleButton.tap = { [unowned self] in
-            self.middleButtonTapped()
+        recoverButton.tap = { [unowned self] in
+            self.recoverButtonTapped()
         }
         
-        bottomButton.tap = { [unowned self] in
-            self.bottomButtonTapped()
+        restoreButton.tap = { [unowned self] in
+            self.restoreButtonTapped()
         }
     }
     
@@ -642,15 +646,15 @@ class OnboardingViewController: UIViewController {
             label.alpha = 1
         })            
         
-        topButton.alpha = 0
-        middleButton.alpha = 0
-        bottomButton.alpha = 0
+        createWalletButton.alpha = 0
+        recoverButton.alpha = 0
+        restoreButton.alpha = 0
         
         // fade-in animation for the buttons
         UIView.animate(withDuration: (duration * 1.5), delay: (delay * 2.0), options: UIView.AnimationOptions.curveEaseIn, animations: { 
-            self.topButton.alpha = 1
-            self.bottomButton.alpha = 1
-            self.middleButton.alpha = 1
+            self.createWalletButton.alpha = 1
+            self.restoreButton.alpha = 1
+            self.recoverButton.alpha = 1
         })
 
         // slide-up animation for the top button
@@ -687,12 +691,12 @@ class OnboardingViewController: UIViewController {
         })
     }
     
-    private func topButtonTapped() {
+    private func createWalletTapped() {
         exitWith(action: .createWallet)
         logEvent(.browseFirstButton, screen: .finalPage)
     }
 
-    private func middleButtonTapped() {
+    private func recoverButtonTapped() {
         showAlert(message: L10n.CloudBackup.recoverWarning,
                   button: L10n.CloudBackup.recoverButton,
                   completion: { [weak self] in
@@ -701,7 +705,7 @@ class OnboardingViewController: UIViewController {
                 })
     }
 
-    private func bottomButtonTapped() {
+    private func restoreButtonTapped() {
         if cloudBackupExists {
             exitWith(action: .restoreCloudBackup)
         } else {
