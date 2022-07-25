@@ -493,11 +493,6 @@ class ApplicationController: Subscriber, Trackable {
         }
     }
     
-    func openSwapScreen() {
-        let currencies = coreSystem.assetCollection?.allAssets.compactMap { $0.value.code } ?? []
-        Store.perform(action: RootModalActions.Present(modal: .trade(availibleCurrencies: currencies, amount: 1)))
-    }
-    
     /// Creates an instance of the home screen. This may be invoked from StartFlowPresenter.presentOnboardingFlow().
     private func createHomeScreen(navigationController: UINavigationController) -> HomeScreenViewController {
         let homeScreen = HomeScreenViewController(walletAuthenticator: keyStore as WalletAuthenticator,

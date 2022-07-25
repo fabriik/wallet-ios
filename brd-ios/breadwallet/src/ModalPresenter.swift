@@ -249,26 +249,6 @@ class ModalPresenter: Subscriber, Trackable {
             topViewController?.show(navController, sender: nil)
             return nil
             
-        case .trade(let currencies, let amount):
-            let request = ChangellyApi.swap(currencies: currencies, amount: amount)
-            
-            var components = URLComponents(string: request.url)
-            components?.queryItems = request
-                .requestData?
-                .getParameters()
-                .compactMap { URLQueryItem(name: $0.key, value: "\($0.value)") }
-            
-            guard let url = components?.url else { return nil }
-            
-            let webViewController = SimpleWebViewController(url: url)
-            webViewController.setAsNonDismissableModal()
-            // TODO: localize
-            webViewController.setup(with: .init(title: "Swap"))
-            
-            let navController = RootNavigationController(rootViewController: webViewController)
-            topViewController?.show(navController, sender: nil)
-            return nil
-            
         case .receiveLegacy:
             guard let btc = Currencies.shared.btc else { return nil }
             return makeReceiveView(currency: btc, isRequestAmountVisible: false, isBTCLegacy: true)
