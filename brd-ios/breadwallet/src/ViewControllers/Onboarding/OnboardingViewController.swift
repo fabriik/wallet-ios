@@ -155,9 +155,9 @@ class OnboardingViewController: UIViewController {
     var lastPageIndex: Int { return pageCount - 1 }
     
     // CTA's that appear at the bottom of the screen
-    private let topButton = BRDButton(title: "", type: .primary)
-    private let middleButton = BRDButton(title: "", type: .darkOpaque)
-    private let bottomButton = BRDButton(title: "", type: .secondary)
+    private let topButton = BRDButton(title: "", type: .secondary)
+    private let middleButton = BRDButton(title: "", type: .blackTransparent)
+    private let bottomButton = BRDButton(title: "", type: .blackTransparent)
     
     // Constraints used to show and hide the bottom buttons.
     private var topButtonAnimationConstraint: NSLayoutConstraint?
@@ -416,14 +416,7 @@ class OnboardingViewController: UIViewController {
     }
     
     private func topButtonText(pageIndex: Int) -> String {
-        if pageIndex == 0 {
-            if cloudBackupExists {
-                return L10n.CloudBackup.restoreButton
-            } else {
-                return L10n.CloudBackup.createButton
-            }
-        }
-        return ""
+        return L10n.CloudBackup.createButton
     }
 
     private func middleButtonText(pageIndex: Int) -> String {
@@ -435,14 +428,7 @@ class OnboardingViewController: UIViewController {
     }
     
     private func bottomButtonText(pageIndex: Int) -> String {
-        if pageIndex == 0 {
-            if cloudBackupExists {
-                return L10n.CloudBackup.createButton
-            } else {
-                return L10n.Onboarding.restoreWallet
-            }
-        }
-        return ""
+        return L10n.CloudBackup.restoreButton
     }
     
     let buttonHeight: CGFloat = 48.0
@@ -700,19 +686,12 @@ class OnboardingViewController: UIViewController {
             self?.animateIcons(metaData: nil)
         })
     }
-        
-    private func topButtonTapped() {
-        if self.pageIndex == 0 {
-            if cloudBackupExists {
-                exitWith(action: .restoreCloudBackup)
-            } else {
-               // 'Create new wallet'
-                exitWith(action: .createWallet)
-                logEvent(.browseFirstButton, screen: .finalPage)
-            }
-        }
-    }
     
+    private func topButtonTapped() {
+        exitWith(action: .createWallet)
+        logEvent(.browseFirstButton, screen: .finalPage)
+    }
+
     private func middleButtonTapped() {
         showAlert(message: L10n.CloudBackup.recoverWarning,
                   button: L10n.CloudBackup.recoverButton,
@@ -721,23 +700,14 @@ class OnboardingViewController: UIViewController {
                     self?.logEvent(.restoreWalletButton, screen: .landingPage)
                 })
     }
-    
+
     private func bottomButtonTapped() {
-        if pageIndex == 0 {
-            if cloudBackupExists {
-                showAlert(message: L10n.CloudBackup.createWarning, button: L10n.CloudBackup.createButton, completion: { [weak self] in
-                    self?.exitWith(action: .createWallet)
-                    self?.logEvent(.browseFirstButton, screen: .finalPage)
-                })
-            } else {
-               // 'Restore wallet'
-               exitWith(action: .restoreWallet)
-               logEvent(.restoreWalletButton, screen: .landingPage)
-            }
-        } else if pageIndex == self.lastPageIndex {
-            // 'I'll browse first'
-            exitWith(action: .createWallet)
-            logEvent(.browseFirstButton, screen: .finalPage)
+        if cloudBackupExists {
+            exitWith(action: .restoreCloudBackup)
+        } else {
+            // 'Restore wallet'
+            exitWith(action: .restoreWallet)
+            logEvent(.restoreWalletButton, screen: .landingPage)
         }
     }
                          
