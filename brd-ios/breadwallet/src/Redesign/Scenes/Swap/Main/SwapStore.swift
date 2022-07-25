@@ -15,21 +15,21 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     // MARK: - SwapDataStore
     
     var itemId: String?
+    
+    var from: Amount?
+    var to: Amount?
+    
+    var fromFee: TransferFeeBasis?
+    var toFee: TransferFeeBasis?
+    
+    var quote: Quote?
+    var fromRate: Decimal?
+    var toRate: Decimal?
+    
+    var fromCurrency: Currency?
+    var toCurrency: Currency?
+    
     var supportedCurrencies: [SupportedCurrency]?
-    
-    var sendingFee: TransferFeeBasis?
-    var receivingFee: TransferFeeBasis?
-    
-    var fromFiatAmount: Decimal?
-    var fromCryptoAmount: Decimal?
-    var toFiatAmount: Decimal?
-    var toCryptoAmount: Decimal?
-    
-    var fromBaseFiatFee: Decimal?
-    var fromBaseCryptoFee: Decimal?
-    
-    var fromTermFiatFee: Decimal?
-    var fromTermCryptoFee: Decimal?
     
     var minMaxToggleValue: FESegmentControl.Values?
     var defaultCurrencyCode: String?
@@ -38,9 +38,6 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var termCurrencies: [String] = []
     var baseAndTermCurrencies: [[String]] = []
     
-    var selectedBaseCurrency: String? = "BSV"
-    var selectedTermCurrency: String? = "BCHdoes"
-    
     var swap: Swap?
     
     var currencies: [Currency] = []
@@ -48,7 +45,7 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var keyStore: KeyStore?
     
     var side: Swap.Side {
-        if supportedCurrencies?.first(where: { $0.baseCurrency == selectedBaseCurrency }) != nil {
+        if supportedCurrencies?.first(where: { $0.baseCurrency == fromCurrency?.code }) != nil {
             return .sell
         } else {
             return .buy
@@ -58,11 +55,11 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     // MARK: - Aditional helpers
     var quoteTerm: String? {
         let item = supportedCurrencies?.first(where: { currency in
-            if currency.baseCurrency == selectedBaseCurrency,
-               currency.termCurrency == selectedTermCurrency {
+            if currency.baseCurrency == fromCurrency?.code,
+               currency.termCurrency == toCurrency?.code {
                 return true
-            } else if currency.termCurrency == selectedBaseCurrency,
-                      currency.baseCurrency == selectedTermCurrency {
+            } else if currency.termCurrency == fromCurrency?.code,
+                      currency.baseCurrency == toCurrency?.code {
                 return true
             } else {
                 return false
@@ -70,5 +67,21 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         })
         
         return item?.name
+    }
+    
+    var fromFeeAmount: Amount? {
+        guard let fee = fromFee?.fee,
+              let currency = fromCurrency
+        else { return nil }
+        
+        return Amount(cryptoAmount: fee, currency: currency)
+    }
+    
+    var toFeeAmount: Amount? {
+        guard let fee = toFee?.fee,
+              let currency = toCurrency
+        else { return nil }
+        
+        return Amount(cryptoAmount: fee, currency: currency)
     }
 }
