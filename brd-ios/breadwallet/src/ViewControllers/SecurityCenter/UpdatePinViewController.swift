@@ -112,16 +112,13 @@ class UpdatePinViewController: UIViewController, Subscriber {
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: faq)
         }
         
-        if isCreatingPin {
-            navigationItem.title = L10n.UnlockScreen.resetPin
-        }
-        
         header.textAlignment = .center
         instruction.textAlignment = .center
         
         addSubviews()
         addConstraints()
         setData()
+        setupBackButton()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -228,6 +225,24 @@ class UpdatePinViewController: UIViewController, Subscriber {
             navigationItem.hidesBackButton = true
         }
         addCloudView()
+    }
+    
+    func setupBackButton() {
+        let back = UIBarButtonItem(image: UIImage(named: "BackArrowWhite"),
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(backButtonPressed))
+        back.tintColor = Theme.blueBackground
+        navigationItem.leftBarButtonItem = back
+    }
+    
+    @objc func backButtonPressed() {
+        guard navigationController?.viewControllers.first == self else {
+            navigationController?.popViewController(animated: true)
+            return
+        }
+        
+        navigationController?.dismiss(animated: true)
     }
     
     func faqButtonPressed() {

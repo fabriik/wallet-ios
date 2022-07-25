@@ -96,13 +96,51 @@ class BaseCoordinator: NSObject,
     }
     
     func showSwap(currencies: [Currency], coreSystem: CoreSystem, keyStore: KeyStore) {
-        upgradeAccountOrShowPopup(checkForKyc: false) { [weak self] _ in
+        upgradeAccountOrShowPopup(checkForKyc: true) { [weak self] showPopup in
+            guard showPopup else { return }
+            
             self?.openModally(coordinator: SwapCoordinator.self, scene: Scenes.Swap) { vc in
                 vc?.dataStore?.currencies = currencies
                 vc?.dataStore?.coreSystem = coreSystem
                 vc?.dataStore?.keyStore = keyStore
                 vc?.dataStore?.defaultCurrencyCode = Store.state.defaultCurrencyCode
                 vc?.prepareData()
+            }
+        }
+    }
+    
+    func showBuy() {
+        upgradeAccountOrShowPopup(checkForKyc: true) { [unowned self] showPopup in
+            guard showPopup else { return }
+            
+            ReservationWorker().execute(requestData: ReservationRequestData()) { [unowned self] result in
+                switch result {
+                case .success(let data):
+                    guard let url = data.url,
+                          let code = data.reservation else { return }
+                    
+                    guard UserDefaults.showBuyAlert else {
+                        Store.perform(action: RootModalActions.Present(modal: .buy(url: url, reservationCode: code, currency: nil)))
+                        return
+                    }
+                    
+                    UserDefaults.showBuyAlert = false
+                    let message = "Fabriik is providing Buy functionality through Wyre, a third-party API provider."
+                    
+                    let alert = UIAlertController(title: "Partnership note",
+                                                  message: message,
+                                                  preferredStyle: .alert)
+                    let continueAction = UIAlertAction(title: L10n.Button.continueAction, style: .default) { _ in
+                        Store.perform(action: RootModalActions.Present(modal: .buy(url: url, reservationCode: code, currency: nil)))
+                    }
+                    
+                    alert.addAction(continueAction)
+                    navigationController.present(alert, animated: true, completion: nil)
+
+                case .failure(let error):
+                    showMessage(with: error)
+                    
+                }
             }
         }
     }
@@ -201,93 +239,55 @@ class BaseCoordinator: NSObject,
         navigationController.show(nvc, sender: nil)
     }
     
-    func showBuy() {
-        upgradeAccountOrShowPopup { [unowned self] show in
-            guard show else { return }
-            
-            let data = ReservationRequestData()
-            ReservationWorker().execute(requestData: data) { [unowned self] result in
-                switch result {
-                case .success(let data):
-                    guard let url = data.url,
-                          let code = data.reservation else { return }
-                    
-                    guard UserDefaults.showBuyAlert else {
-                        Store.perform(action: RootModalActions.Present(modal: .buy(url: url, reservationCode: code, currency: nil)))
-                        return
-                    }
-                    
-                    UserDefaults.showBuyAlert = false
-                    let message = "Fabriik is providing Buy functionality through Wyre, a third-party API provider."
-                    
-                    let alert = UIAlertController(title: "Partnership note",
-                                                  message: message,
-                                                  preferredStyle: .alert)
-                    let continueAction = UIAlertAction(title: L10n.Button.continueAction, style: .default) { _ in
-                        Store.perform(action: RootModalActions.Present(modal: .buy(url: url, reservationCode: code, currency: nil)))
-                    }
-                    
-                    alert.addAction(continueAction)
-                    navigationController.present(alert, animated: true, completion: nil)
-
-                case .failure(let error):
-                    showMessage(with: error)
-                    
-                }
-            }
-        }
-    }
-    
-    func showSwap(currencies: [String]) {
-        upgradeAccountOrShowPopup { [unowned self] showPopup in
-            guard showPopup else { return }
-            guard UserDefaults.showSwapAlert else {
-                Store.perform(action: RootModalActions.Present(modal: .trade(availibleCurrencies: currencies, amount: 1)))
-                return
-            }
-            UserDefaults.showSwapAlert = false
-            let message = "Fabriik is providing Swap functionality through Changelly, a third-party API provider."
-            
-            let alert = UIAlertController(title: "Partnership note",
-                                          message: message,
-                                          preferredStyle: .alert)
-            let continueAction = UIAlertAction(title: L10n.Button.continueAction, style: .default) { _ in
-                Store.perform(action: RootModalActions.Present(modal: .trade(availibleCurrencies: currencies, amount: 1)))
-            }
-            
-            alert.addAction(continueAction)
-            navigationController.present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    // TODO: really dont know how to name this :S
-    // IT prepares the next KYC coordinator OR returns true
-    // in which case we show 3rd party popup or continue to buy/swap
-    func upgradeAccountOrShowPopup(checkForKyc: Bool = true, completion: ((Bool) -> Void)?) {
+    // It prepares the next KYC coordinator OR returns true.
+    // In which case we show 3rd party popup or continue to Buy/Swap.
+    func upgradeAccountOrShowPopup(checkForKyc: Bool, completion: ((Bool) -> Void)?) {
+        let nvc = RootNavigationController()
+        var coordinator: Coordinatable?
+        
+        // TODO: If this logic passes QA, then unify the code in other places like "ApplicationController, HomeScreenViewController" and etc.
         UserManager.shared.refresh { [unowned self] result in
-            var coordinator: Coordinatable?
             switch result {
             case .success(let profile):
-                if profile.email == nil
-                    || !UserDefaults.emailConfirmed {
-                    coordinator = RegistrationCoordinator(navigationController: RootNavigationController())
-                } else if checkForKyc, UserManager.shared.profile?.status.canBuyTrade == false {
-                    coordinator = KYCCoordinator(navigationController: RootNavigationController())
+                let role = profile.role
+                let status = profile.status
+                let canBuyTrade = role == .kyc1 || role == .kyc2
+                
+                if role == .customer || canBuyTrade {
+                    if checkForKyc && canBuyTrade == false {
+                        coordinator = KYCCoordinator(navigationController: nvc)
+                        
+                    } else {
+                        completion?(true)
+                        
+                        return
+                        
+                    }
+                    
+                } else if role == .unverified || role == nil ||
+                            status == .emailPending {
+                    coordinator = RegistrationCoordinator(navigationController: nvc)
+                    
                 }
                 
             case .failure(let error):
                 guard error as? NetworkingError == .sessionExpired else {
                     completion?(false)
+                    
                     return
                 }
+                
                 coordinator = RegistrationCoordinator(navigationController: RootNavigationController())
                 
             default:
                 completion?(true)
+                
+                return
             }
             
             guard let coordinator = coordinator else {
-                completion?(true)
+                completion?(false)
+                
                 return
             }
             
@@ -295,6 +295,7 @@ class BaseCoordinator: NSObject,
             coordinator.parentCoordinator = self
             childCoordinators.append(coordinator)
             navigationController.show(coordinator.navigationController, sender: nil)
+            
             completion?(false)
         }
     }
@@ -302,6 +303,7 @@ class BaseCoordinator: NSObject,
     func showMessage(with error: Error? = nil, model: InfoViewModel? = nil, configuration: InfoViewConfiguration? = nil) {
         hideOverlay()
         LoadingView.hide()
+        
         guard (error as? NetworkingError) != .sessionExpired else {
             UserDefaults.emailConfirmed = false
             openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.RegistrationConfirmation)

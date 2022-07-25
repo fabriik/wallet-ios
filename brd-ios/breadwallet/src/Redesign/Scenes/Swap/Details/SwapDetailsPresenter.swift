@@ -15,6 +15,8 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
 
     // MARK: - SwapDetailsActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
+        guard let item = actionResponse.item as? Models.Item else { return }
+        
         let sections = [
             Models.Section.header,
             Models.Section.order,
@@ -26,33 +28,65 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             Models.Section.transactionTo
         ]
         
-        let image = TokenImageSquareBackground(code: "timelapse", color: LightColors.pending).renderedImage ?? UIImage()
+        let header: AssetViewModel
+        switch item.status {
+        case .pending: header = Presets.StatusView.pending
+        case .complete : header = Presets.StatusView.complete
+        case .failed : header = Presets.StatusView.failed
+        }
         
-        // TODO: Localize and update
+        let fromImage = getBaseCurrencyImage(currencyCode: item.currency)
+        let toImage = getBaseCurrencyImage(currencyCode: item.currencyDestination)
+        
+        let currencyCode = Store.state.defaultCurrencyCode
+        let format = "%.*f"
+        let decimal = 5
+        
+        let formattedUsdAmountString = String(format: format, decimal, item.usdAmount.doubleValue)
+        let formattedCurrencyAmountString = String(format: format, decimal, item.currencyAmount.doubleValue)
+        
+        let formattedUsdAmountDestination = String(format: format, decimal, item.usdAmountDestination.doubleValue)
+        let formattedCurrencyAmountDestination = String(format: format, decimal, item.currencyAmountDestination.doubleValue)
+        
+        let timestamp = TimeInterval(item.timestamp) / 1000
+        let date = Date(timeIntervalSince1970: timestamp)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMM YYYY, hh:mm a"
+        let dateString = formatter.string(from: date)
+        
+        // TODO: Localize
         let sectionRows = [
-            Models.Section.header: [
-                Presets.StatusView.pending
-            ],
+            Models.Section.header: [ header ],
             Models.Section.order: [
-                OrderViewModel(title: "Fabriik Order ID", value: "13rXEZoh5NFj4q9aasdfkLp2...", imageName: "copy")
+                OrderViewModel(title: "Fabriik Order ID",
+                               value: "\(item.orderId)",
+                               imageName: "copy")
             ],
             Models.Section.fromCurrency: [
-                AssetViewModel(icon: image, title: "From BSV", topRightText: "50 / $2,859.00 USD")
+                AssetViewModel(icon: fromImage,
+                               title: "From \(item.currency)",
+                               topRightText: "\(formattedCurrencyAmountString) / $\(formattedUsdAmountString) \(currencyCode)")
             ],
             Models.Section.image: [
                 ImageViewModel.imageName("arrowDown")
             ],
             Models.Section.toCurrency: [
-                AssetViewModel(icon: image, title: "To BTC", topRightText: "0.095 / $2,857.48 USD")
+                AssetViewModel(icon: toImage,
+                               title: "To \(item.currencyDestination)",
+                               topRightText: "\(formattedCurrencyAmountDestination) / $\(formattedUsdAmountDestination) \(currencyCode)")
             ],
             Models.Section.timestamp: [
-                TransactionViewModel(title: "Timestamp", description: "22 Feb 2022, 1:29pm")
+                TransactionViewModel(title: "Timestamp",
+                                     description: "\(dateString)")
             ],
             Models.Section.transactionFrom: [
-                OrderViewModel(title: "Bitcoin BSV Transaction ID", value: "39246726y89e1ruhut7e3xy78e1xg17gx71x2xuih7y7y8y8y8y2782yx78x8382643j21", imageName: "copy")
+                OrderViewModel(title: "\(item.currency) Transaction ID",
+                               value: "\(String(describing: item.transactionId))",
+                               imageName: "copy")
             ],
             Models.Section.transactionTo: [
-                TransactionViewModel(title: "BTC Transaction ID", description: "Pending")
+                TransactionViewModel(title: "\(item.currencyDestination) Transaction ID",
+                                     description: "\(item.status.rawValue.localizedCapitalized)")
             ]
         ]
         
@@ -61,4 +95,9 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
 
     // MARK: - Additional Helpers
 
+    private func getBaseCurrencyImage(currencyCode: String) -> UIImage? {
+        guard let currency = Store.state.currencies.first(where: { $0.code == currencyCode }) else { return nil }
+        
+        return currency.imageSquareBackground
+    }
 }

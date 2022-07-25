@@ -175,8 +175,8 @@ class BRDButton: UIControl {
             imageView?.tintColor = .grayTextTint
         case .blackTransparent:
             container.backgroundColor = .clear
-            label.textColor = .darkText
-            container.layer.borderColor = UIColor.darkText.cgColor
+            label.textColor = LightInversedColors.Text.one
+            container.layer.borderColor = Theme.blueBackground.cgColor
             container.layer.borderWidth = 1.0
             imageView?.tintColor = .grayTextTint
         case .darkOpaque:
