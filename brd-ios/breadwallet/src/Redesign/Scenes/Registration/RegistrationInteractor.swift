@@ -37,6 +37,7 @@ class RegistrationInteractor: NSObject, Interactor, RegistrationViewActions {
                 
                 UserDefaults.email = email
                 UserDefaults.kycSessionKeyValue = sessionKey
+                
                 UserManager.shared.refresh { _ in
                     self?.presenter?.presentNext(actionResponse: .init(email: email))
                 }

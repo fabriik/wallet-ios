@@ -18,7 +18,6 @@ enum CustomerRole: String, Codable {
 }
 
 struct ProfileResponseData: ModelResponse {
-    
     var country: String?
     var dateOfBirth: String?
     var firstName: String?

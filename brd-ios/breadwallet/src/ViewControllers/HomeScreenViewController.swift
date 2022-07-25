@@ -260,8 +260,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
                          flexibleSpace, buttons[2],
                          flexibleSpace, buttons[3],
                          flexibleSpace, buttons[4],
-                         flexibleSpace
-        ]
+                         flexibleSpace]
         
         let buttonWidth = (view.bounds.width - (paddingWidth * CGFloat(buttons.count + 1))) / CGFloat(buttons.count)
         let buttonHeight = CGFloat(44.0)
