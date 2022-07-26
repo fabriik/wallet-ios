@@ -702,6 +702,7 @@
 		C47F46FE286A2931002287F1 /* ResetPinVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47F46F7286A2931002287F1 /* ResetPinVIP.swift */; };
 		C47F46FF286A2931002287F1 /* ResetPinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47F46F8286A2931002287F1 /* ResetPinViewController.swift */; };
 		C47F4700286A2931002287F1 /* ResetPinInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47F46F9286A2931002287F1 /* ResetPinInteractor.swift */; };
+		C49E6177288EC4C000910D01 /* ExchangeHistoryWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49E6176288EC4BF00910D01 /* ExchangeHistoryWorker.swift */; };
 		C4BD1C69284A16E000AFA2A6 /* CountriesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BD1C68284A16E000AFA2A6 /* CountriesWorker.swift */; };
 		C4BDDA4528892D9E003A31E0 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BDDA4428892D9D003A31E0 /* TransactionView.swift */; };
 		C4D5E7FF284951DD000BEE6F /* VerifyAccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D5E7F8284951DD000BEE6F /* VerifyAccountStore.swift */; };
@@ -1628,6 +1629,7 @@
 		C47F46F7286A2931002287F1 /* ResetPinVIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPinVIP.swift; sourceTree = "<group>"; };
 		C47F46F8286A2931002287F1 /* ResetPinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPinViewController.swift; sourceTree = "<group>"; };
 		C47F46F9286A2931002287F1 /* ResetPinInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPinInteractor.swift; sourceTree = "<group>"; };
+		C49E6176288EC4BF00910D01 /* ExchangeHistoryWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeHistoryWorker.swift; sourceTree = "<group>"; };
 		C4BD1C68284A16E000AFA2A6 /* CountriesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesWorker.swift; sourceTree = "<group>"; };
 		C4BDDA4428892D9D003A31E0 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		C4D5E7F8284951DD000BEE6F /* VerifyAccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyAccountStore.swift; sourceTree = "<group>"; };
@@ -2499,6 +2501,7 @@
 				7E52B7A12872CD1E003D2249 /* SupportedCurrenciesWorker.swift */,
 				7ECCA9902873079100F99368 /* QuoteWorker.swift */,
 				7EC0F8AB2887D8C40037145C /* SwapWorker.swift */,
+				C49E6176288EC4BF00910D01 /* ExchangeHistoryWorker.swift */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
@@ -4489,6 +4492,7 @@
 				CE20C8F21DBAF71500C8397A /* ApplicationController.swift in Sources */,
 				7B54E5A527F4A2B0002DD1E4 /* Generic.swift in Sources */,
 				CE92F9F61DEDF6890046B516 /* UIViewControllerContextTransitioning+BRAdditions.swift in Sources */,
+				C49E6177288EC4C000910D01 /* ExchangeHistoryWorker.swift in Sources */,
 				7B54E59B27F4A2B0002DD1E4 /* AlertHelper.swift in Sources */,
 				7BDB4A052806F4470031F015 /* Extensions.swift in Sources */,
 				CEA362681E00EE320061FC0E /* CameraGuideView.swift in Sources */,
