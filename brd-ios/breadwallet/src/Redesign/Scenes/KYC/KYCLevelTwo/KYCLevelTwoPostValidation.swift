@@ -26,7 +26,7 @@ class KYCLevelTwoPostValidationViewController: CheckListViewController {
         confirmButton.setup(with: .init(title: "Continue"))
     }
     
-    override func confirmTapped(_ sender: UIButton?) {
+    override func buttonTapped() {
         UserManager.shared.refresh { [weak self] _ in
             (self?.coordinator as? KYCCoordinator)?.dismissFlow()
         }

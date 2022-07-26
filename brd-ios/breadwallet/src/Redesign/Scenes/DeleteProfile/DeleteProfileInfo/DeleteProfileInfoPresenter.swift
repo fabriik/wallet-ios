@@ -28,8 +28,7 @@ final class DeleteProfileInfoPresenter: NSObject, Presenter, DeleteProfileInfoAc
         let sections: [Models.Section] = [
             .title,
             .checkmarks,
-            .tickbox,
-            .confirm
+            .tickbox
         ]
         
         let sectionRows: [Models.Section: [Any]] = [
@@ -39,9 +38,6 @@ final class DeleteProfileInfoPresenter: NSObject, Presenter, DeleteProfileInfoAc
             .checkmarks: checkmarks,
             .tickbox: [
                 TickboxItemViewModel(title: .text("I understand that the only way to recover my wallet is by entering my recovery phrase"))
-            ],
-            .confirm: [
-                ButtonViewModel(title: "Continue", enabled: false)
             ]
         ]
         

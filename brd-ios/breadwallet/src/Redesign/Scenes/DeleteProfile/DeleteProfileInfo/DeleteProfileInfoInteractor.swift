@@ -25,10 +25,10 @@ class DeleteProfileInfoInteractor: NSObject, Interactor, DeleteProfileInfoViewAc
     
     func deleteProfile(viewAction: DeleteProfileInfoModels.DeleteProfile.ViewAction) {
         DeleteProfileWorker().execute { [weak self] result in
-            UserDefaults.shouldWipeWalletNoPrompt = true
-            
             switch result {
             case .success:
+                UserDefaults.shouldWipeWalletNoPrompt = true
+                
                 self?.presenter?.presentDeleteProfile(actionResponse: .init())
                 
             case .failure(let error):

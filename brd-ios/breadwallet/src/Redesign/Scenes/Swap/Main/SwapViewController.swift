@@ -42,19 +42,21 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             make.centerX.leading.equalToSuperview()
             make.bottom.equalTo(view.snp.bottomMargin)
         }
+        
         confirmButton.wrappedView.snp.makeConstraints { make in
             make.height.equalTo(ButtonHeights.common.rawValue)
             make.edges.equalTo(confirmButton.snp.margins)
         }
+        
         confirmButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)
         
         tableView.snp.remakeConstraints { make in
             make.leading.centerX.top.equalToSuperview()
             make.bottom.equalTo(confirmButton.snp.top)
         }
+        
         confirmButton.wrappedView.configure(with: Presets.Button.primary)
-        confirmButton.wrappedView.setup(with: .init(title: "Confirm"))
-        confirmButton.wrappedView.isEnabled = false
+        confirmButton.wrappedView.setup(with: .init(title: "Confirm", enabled: false))
         
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }

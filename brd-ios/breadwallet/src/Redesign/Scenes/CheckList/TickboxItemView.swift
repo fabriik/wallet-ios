@@ -11,7 +11,7 @@
 import UIKit
 
 struct TickboxItemConfiguration: Configurable {
-    var title: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Text.two)
+    var title: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Icons.one)
 }
 
 struct TickboxItemViewModel: ViewModel {
