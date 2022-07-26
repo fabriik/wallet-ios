@@ -20,7 +20,34 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
     // TODO: Localize.
     override var sceneLeftAlignedTitle: String? { return "You are about to delete your Fabriik account." }
     
+    lazy var confirmButton: FEButton = {
+        let button = FEButton()
+        return button
+    }()
+    
     // MARK: - Overrides
+    
+    override func setupSubviews() {
+        super.setupSubviews()
+        
+        view.addSubview(confirmButton)
+        confirmButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.snp.bottomMargin)
+            make.leading.equalToSuperview().inset(Margins.large.rawValue)
+            make.height.equalTo(ButtonHeights.common.rawValue)
+        }
+        
+        tableView.snp.remakeConstraints { make in
+            make.leading.trailing.top.equalToSuperview()
+            make.bottom.equalTo(confirmButton.snp.top)
+        }
+        
+        confirmButton.configure(with: Presets.Button.primary)
+        confirmButton.setup(with: .init(title: "Confirm", enabled: false))
+        
+        confirmButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
@@ -34,9 +61,6 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
             
         case .tickbox:
             cell = self.tableView(tableView, tickboxCellForRowAt: indexPath)
-            
-        case .confirm:
-            cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
             
         default:
             cell = UITableViewCell()
@@ -117,13 +141,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
     }
     
     func displayToggleTickbox(responseDisplay: DeleteProfileInfoModels.Tickbox.ResponseDisplay) {
-        guard let section = sections.firstIndex(of: Models.Section.confirm),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
-        
-        cell.setup { view in
-            let model = responseDisplay.model
-            view.setup(with: model)
-        }
+        confirmButton.setup(with: .init(title: "Confirm", enabled: responseDisplay.model.enabled))
     }
 
     // MARK: - Additional Helpers

@@ -25,7 +25,7 @@ class KYCLevelTwoEntryViewController: CheckListViewController {
         ]
     }
     
-    override func confirmTapped(_ sender: UIButton?) {
+    override func buttonTapped() {
         (coordinator as? KYCCoordinator)?.showIdentitySelector()
     }
 }
