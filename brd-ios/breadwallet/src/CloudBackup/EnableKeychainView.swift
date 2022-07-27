@@ -10,7 +10,6 @@
 
 import SwiftUI
 
-@available(iOS 13.6, *)
 struct EnableKeychainView: View {
     
     @SwiftUI.State private var isKeychainToggleOn: Bool = false
@@ -65,7 +64,6 @@ struct EnableKeychainView: View {
     }
 }
 
-@available(iOS 13.6, *)
 struct EnableKeychainView_Previews: PreviewProvider {
     static var previews: some View {
         EnableKeychainView(completion: {})

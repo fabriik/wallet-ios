@@ -122,10 +122,8 @@ protocol KeyMaster: WalletAuthenticator {
     // MARK: - iCloud Backup
     func doesCloudBackupExist() -> Bool
     
-    @available(iOS 13.6, *)
     func listBackups() -> [CloudBackup]
     
-    @available(iOS 13.6, *)
     func unlockBackup(pin: String, key: String) -> Result<Account, Error>
 }
 

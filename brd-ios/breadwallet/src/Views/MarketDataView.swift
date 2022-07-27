@@ -10,7 +10,6 @@
 
 import SwiftUI
 
-@available(iOS 13.0, *)
 struct MarketDataView: View {
     
     private let strokeColor = Color.white.opacity(0.15)
@@ -74,7 +73,6 @@ struct MarketDataView: View {
     
 }
 
-@available(iOS 13.0, *)
 struct MarketDataView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {

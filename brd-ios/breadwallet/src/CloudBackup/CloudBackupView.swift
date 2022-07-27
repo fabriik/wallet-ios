@@ -11,7 +11,6 @@
 import SwiftUI
 import Combine
 
-@available(iOS 13.6, *)
 struct CloudBackupView: View {
     
     @SwiftUI.State private var isBackupOnAtLoad: Bool
@@ -188,7 +187,6 @@ struct CloudBackupView: View {
     }
 }
 
-@available(iOS 13.6, *)
 struct CloudBackupViewBody: View {
     var body: some View {
         Group {
@@ -211,7 +209,6 @@ enum CloudBackupIconStyle: String {
     case down = "icloud.and.arrow.down"
 }
 
-@available(iOS 13.6, *)
 struct CloudBackupIcon: View {
     
     let style: CloudBackupIconStyle
@@ -236,7 +233,6 @@ struct CloudBackupIcon: View {
     }
 }
 
-@available(iOS 13.6, *)
 struct CloudBackupView_Previews: PreviewProvider {
     static var previews: some View {
         Group {

@@ -29,7 +29,7 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
             Models.Section.asset,
             Models.Section.order
         ]
-        let image = TokenImageSquareBackground(code: "BTC", color: .red).renderedImage ?? UIImage()
+        let _ = TokenImageSquareBackground(code: "BTC", color: .red).renderedImage ?? UIImage()
 
         sectionRows = [
             Models.Section.order: [

@@ -80,9 +80,8 @@ enum VerificationStatus: Equatable {
     var monthlyLimit: Double {
         return 0.0
     }
-#if swift(>=4.1)
-#else
-    static func >(lhs: VerificationStatus, rhs: VerificationStatus) -> Bool {
+    
+    static func > (lhs: VerificationStatus, rhs: VerificationStatus) -> Bool {
         switch (lhs, rhs) {
         case (.levelTwo(let lhs1), .levelTwo(let lhs2)):
             return lhs1 == lhs2
@@ -90,7 +89,6 @@ enum VerificationStatus: Equatable {
             return false
         }
     }
-#endif
 }
 
 struct StatusViewConfiguration: Configurable {

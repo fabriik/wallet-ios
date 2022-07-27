@@ -13,7 +13,6 @@ import CryptoKit
 import CommonCrypto
 import UIKit
 
-@available(iOS 13.6, *)
 struct CloudBackup: Codable {
     let identifier: String
     let createTime: Date
@@ -55,7 +54,6 @@ struct CloudBackup: Codable {
     }
 }
 
-@available(iOS 13.6, *)
 enum CloudBackupCrypto {
     
     static func encrypt(input: String, withPin pin: String, salt: Data) -> ChaChaPoly.SealedBox? {

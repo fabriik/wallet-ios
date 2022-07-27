@@ -16,7 +16,6 @@ enum BackupContext {
     case existingWallet
 }
 
-@available(iOS 13.6, *)
 class BackupSynchronizer {
     
     private let keyStore: KeyStore
