@@ -11,8 +11,8 @@
 import Foundation
 
 class UserManager: NSObject {
+    static var shared = UserManager()
     
-    static var shared: UserManager = UserManager()
     var dataChanged = [((Profile?, Error?) -> Void)]()
     var profile: Profile?
     var error: Error?

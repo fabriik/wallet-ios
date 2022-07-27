@@ -52,7 +52,7 @@ struct Profile: Model {
     var lifetimeLimit: Decimal = 0
     var usedDaily: Decimal = 0
     var usedLifetime: Decimal = 0
-    var role: CustomerRole?
+    var roles: [CustomerRole]
     
     var dailyRemainingLimit: Decimal {
         return dailyLimit - usedDaily
@@ -79,7 +79,7 @@ class ProfileMapper: ModelMapper<ProfileResponseData, Profile> {
                      lifetimeLimit: response.exchangeLimits?.allowanceLifetime ?? 0,
                      usedDaily: response.exchangeLimits?.usedDaily ?? 0,
                      usedLifetime: response.exchangeLimits?.usedLifetime ?? 0,
-                     role: response.roles.last)
+                     roles: response.roles)
     }
 }
 

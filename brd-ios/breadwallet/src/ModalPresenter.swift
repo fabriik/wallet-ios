@@ -1155,12 +1155,12 @@ class ModalPresenter: Subscriber, Trackable {
             }
         ]
         
-        // Add Delete KYC account
+        // Add Delete account
         let deleteAccount = MenuItem(title: "Delete account", color: LightColors.error) { [weak self] in
             self?.deleteAccountCallback?()
         }
         
-        if UserManager.shared.profile?.email != nil {
+        if UserDefaults.email != nil {
             securityItems.append(deleteAccount)
         }
         

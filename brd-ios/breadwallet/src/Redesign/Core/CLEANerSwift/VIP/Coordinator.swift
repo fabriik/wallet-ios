@@ -249,11 +249,15 @@ class BaseCoordinator: NSObject,
         UserManager.shared.refresh { [unowned self] result in
             switch result {
             case .success(let profile):
-                let role = profile.role
+                let roles = profile.roles
                 let status = profile.status
-                let canBuyTrade = role == .kyc1 || role == .kyc2
+                let canBuyTrade = status == .levelOne || status == .levelTwo(.levelTwo)
                 
-                if role == .customer || canBuyTrade {
+                if roles.contains(.unverified) || roles.isEmpty == true ||
+                    status == .emailPending || status == .none {
+                    coordinator = RegistrationCoordinator(navigationController: nvc)
+                    
+                } else if roles.contains(.customer) || canBuyTrade {
                     if checkForKyc && canBuyTrade == false {
                         coordinator = KYCCoordinator(navigationController: nvc)
                         
@@ -263,10 +267,6 @@ class BaseCoordinator: NSObject,
                         return
                         
                     }
-                    
-                } else if role == .unverified || role == nil ||
-                            status == .emailPending {
-                    coordinator = RegistrationCoordinator(navigationController: nvc)
                     
                 }
                 
