@@ -27,7 +27,11 @@ class DeleteProfileInfoInteractor: NSObject, Interactor, DeleteProfileInfoViewAc
         DeleteProfileWorker().execute { [weak self] result in
             switch result {
             case .success:
+                UserManager.shared.profile = nil
+                
                 UserDefaults.shouldWipeWalletNoPrompt = true
+                UserDefaults.email = nil
+                UserDefaults.kycSessionKeyValue = nil
                 
                 self?.presenter?.presentDeleteProfile(actionResponse: .init())
                 
