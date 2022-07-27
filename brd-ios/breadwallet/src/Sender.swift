@@ -146,12 +146,16 @@ class Sender: Subscriber {
         case .success(let transfer):
             self.comment = comment
             self.gift = gift
+            transfer.exchangeId = exchangeId
             self.transfer = transfer
             return .ok
+            
         case .failure(let error) where error == .invalidAddress:
             return .invalidAddress
-        default:
-            return .failed
+            
+        case .failure(let error):
+            print(error.localizedDescription)
+            return .insufficientGas
         }
     }
 
@@ -192,8 +196,9 @@ class Sender: Subscriber {
 
     // MARK: Submit
 
-    func sendTransaction(allowBiometrics: Bool, pinVerifier: @escaping PinVerifier, completion: @escaping SendCompletion) {
+    func sendTransaction(allowBiometrics: Bool, exchangeId: String? = nil, pinVerifier: @escaping PinVerifier, completion: @escaping SendCompletion) {
         guard let transfer = transfer else { return completion(.creationError(message: "no tx")) }
+        transfer.exchangeId = exchangeId
         if allowBiometrics && canUseBiometrics {
             sendWithBiometricVerification(transfer: transfer, completion: completion)
         } else {

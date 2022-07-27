@@ -14,7 +14,7 @@ class SwapInfoStore: NSObject, BaseDataStore, SwapInfoDataStore {
     
     // MARK: - SwapInfoDataStore
     var from: String = "BSV"
-    var to: String = "BCH"
+    var to: String = "BTC"
 
     // MARK: - Aditional helpers
 }

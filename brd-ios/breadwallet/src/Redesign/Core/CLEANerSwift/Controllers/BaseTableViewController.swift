@@ -85,7 +85,6 @@ class BaseTableViewController<C: CoordinatableRoutes,
         tableView.reloadData()
         
         tableView.backgroundView?.isHidden = !sections.isEmpty
-        
         LoadingView.hide()
     }
 

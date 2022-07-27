@@ -44,6 +44,8 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var coreSystem: CoreSystem?
     var keyStore: KeyStore?
     
+    var pin: String?
+    
     var side: Swap.Side {
         if supportedCurrencies?.first(where: { $0.baseCurrency == fromCurrency?.code }) != nil {
             return .sell
@@ -83,5 +85,14 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         else { return nil }
 
         return Amount(cryptoAmount: fee, currency: currency)
+    }
+    
+    private var pair: SupportedCurrency? {
+        return supportedCurrencies?.first(where: { $0.baseCurrency == fromCurrency?.code && $0.termCurrency == toCurrency?.code })
+        ?? supportedCurrencies?.first(where: { $0.baseCurrency == toCurrency?.code && $0.termCurrency == fromCurrency?.code })
+    }
+    
+    var minimumAmount: Decimal? {
+        return Decimal(pair?.minimumQuantity ?? 0)
     }
 }

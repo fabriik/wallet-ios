@@ -82,7 +82,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         
         content.addSubview(containerStackView)
         containerStackView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
         containerStackView.addArrangedSubview(baseSwapCurrencyView)
@@ -152,8 +152,8 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         baseSwapCurrencyView.setup(with: viewModel.from)
         termSwapCurrencyView.setup(with: viewModel.to)
         
-        layoutIfNeeded()
-        contentSizeChanged?()
+        baseSwapCurrencyView.didChangeContent = contentSizeChanged
+        termSwapCurrencyView.didChangeContent = contentSizeChanged
     }
     
     // MARK: - User interaction
@@ -171,10 +171,11 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         
         didChangePlaces?()
 
-        SwapCurrencyView.animateSwitchPlaces(sender: sender,
-                                             baseSwapCurrencyView: baseSwapCurrencyView,
-                                             termSwapCurrencyView: termSwapCurrencyView)
-        
+        // TODO: animations were breaking user interactions. disabled for now
+//        SwapCurrencyView.animateSwitchPlaces(sender: sender,
+//                                             baseSwapCurrencyView: baseSwapCurrencyView,
+//                                             termSwapCurrencyView: termSwapCurrencyView)
+//
         contentSizeChanged?()
     }
 }
