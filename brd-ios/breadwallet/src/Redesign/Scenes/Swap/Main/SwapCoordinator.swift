@@ -14,7 +14,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, SwapInfoRoutes {
     // MARK: - ProfileRoutes
     
     override func start() {
-        open(scene: Scenes.SwapDetails)
+        open(scene: Scenes.Swap)
     }
     
     override func goBack() {
