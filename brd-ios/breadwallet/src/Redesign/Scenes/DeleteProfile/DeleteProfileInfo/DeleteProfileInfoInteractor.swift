@@ -24,7 +24,7 @@ class DeleteProfileInfoInteractor: NSObject, Interactor, DeleteProfileInfoViewAc
     }
     
     func deleteProfile(viewAction: DeleteProfileInfoModels.DeleteProfile.ViewAction) {
-        DeleteProfileWorker().execute { [weak self] result in
+        DeleteProfileWorker().execute { [weak self] _ in
             UserManager.shared.profile = nil
             
             UserDefaults.shouldWipeWalletNoPrompt = true
