@@ -46,6 +46,7 @@ enum SwapModels {
             
             var minMaxToggleValue: FESegmentControl.Values?
             var baseBalance: Amount?
+            var minimumAmount: Decimal?
         }
         
         struct ResponseDisplay {

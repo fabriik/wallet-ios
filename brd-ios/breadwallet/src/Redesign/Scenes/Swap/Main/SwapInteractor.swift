@@ -54,8 +54,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             case .success(let quote):
                 self?.handleQuote(quote, isInitialLaunch: isInitialLaunch)
                 
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
+            case .failure:
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: quoteTerm)))
                 self?.handleQuote(nil, isInitialLaunch: isInitialLaunch)
             }
         }
@@ -69,8 +69,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         guard let baseCurrency = dataStore?.fromCurrency?.coinGeckoId,
               let termCurrency = dataStore?.toCurrency?.coinGeckoId else {
             self.dataStore?.quote = nil
-            setAmount(viewAction: .init())
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: dataStore?.quoteTerm)))
+            setAmount(viewAction: .init())
             return
         }
         
@@ -178,7 +178,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                            from: dataStore?.fromCurrency,
                                                            to: dataStore?.toCurrency))
         
-        getQuote()
+        getQuote(isInitialLaunch: true)
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
@@ -407,49 +407,65 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     private func calculateAmounts(viewAction: Models.Amounts.ViewAction) {
         guard let fromCurrency = dataStore?.fromCurrency,
-              let toCurrency = dataStore?.toCurrency,
-              let quote = dataStore?.quote
+              let toCurrency = dataStore?.toCurrency
         else {
+            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "No selected currencies.")))
+            return
+        }
+        
+        guard let quote = dataStore?.quote else {
+                presenter?.presentSetAmount(actionResponse: .init(from: .zero(fromCurrency),
+                                                                  to: .zero(toCurrency),
+                                                                  fromFee: .zero(fromCurrency),
+                                                                  toFee: .zero(toCurrency),
+                                                              baseBalance: getBaseBalance(),
+                                                              minimumAmount: 0))
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: dataStore?.quoteTerm)))
             return
         }
         
+        let fromFee = dataStore?.fromFeeAmount?.tokenValue ?? 0
+        let toFee = dataStore?.toFeeAmount?.tokenValue ?? 0
+        
+        let fromRate = dataStore?.fromRate ?? 0
+        let toRate = dataStore?.toRate ?? 0
+        
         let from: Decimal
         let to: Decimal
         if let fromCryptoAmount = viewAction.fromCryptoAmount {
-            let fromPrice = quote.closeAsk
-            
+            let price = quote.closeAsk
             from = NSDecimalNumber(string: fromCryptoAmount).decimalValue
-            to = (from - (dataStore?.fromFeeAmount?.tokenValue ?? 0)) * fromPrice - (dataStore?.toFeeAmount?.tokenValue ?? 0)
+            to = (from - fromFee) * price - toFee
+            
         } else if let fromFiatAmount = viewAction.fromFiatAmount {
-            let fromPrice = quote.closeAsk
-            
+            let price = quote.closeAsk
             let fromFiat = NSDecimalNumber(string: fromFiatAmount).decimalValue
-            from = fromFiat / (dataStore?.fromRate ?? 0)
-            to = (from - (dataStore?.fromFeeAmount?.tokenValue ?? 0)) * fromPrice - (dataStore?.fromFeeAmount?.tokenValue ?? 0)
+            from = fromFiat / fromRate
+            to = (from - fromFee) * price - fromFee
+            
         } else if let toCryptoAmount = viewAction.toCryptoAmount {
-            let fromPrice = quote.closeBid
-            
+            let price = quote.closeBid
             to = NSDecimalNumber(string: toCryptoAmount).decimalValue
-            from = (to + (dataStore?.toFeeAmount?.tokenValue ?? 0)) / fromPrice + (dataStore?.fromFeeAmount?.tokenValue ?? 0)
-        } else if let toFiatAmount = viewAction.toFiatAmount {
-            let fromPrice = quote.closeBid
+            from = (to + toFee) / price + fromFee
             
+        } else if let toFiatAmount = viewAction.toFiatAmount {
+            let price = quote.closeBid
             let toFiat = NSDecimalNumber(string: toFiatAmount).decimalValue
-            to = (toFiat - (dataStore?.toFeeAmount?.fiatValue ?? 0)) / (dataStore?.toRate ?? 0)
-            from = (to + (dataStore?.toFeeAmount?.tokenValue ?? 0)) / fromPrice + (dataStore?.fromFeeAmount?.tokenValue ?? 0)
+            to = (toFiat - toFee) / toRate
+            from = (to + toFee) / price + fromFee
+            
         } else {
             guard dataStore?.fromCurrency != nil,
                   dataStore?.toCurrency != nil
             else { return }
             
-            let fromPrice = quote.closeAsk
+            let price = quote.closeAsk
             if let value = dataStore?.from?.tokenValue {
                 from = value
             } else {
                 from = 0
             }
-            to = (from - (dataStore?.fromFeeAmount?.tokenValue ?? 0)) * fromPrice - (dataStore?.toFeeAmount?.tokenValue ?? 0)
+            to = (from - (dataStore?.fromFeeAmount?.tokenValue ?? 0)) * price - (dataStore?.toFeeAmount?.tokenValue ?? 0)
         }
         
         guard let dataStore = dataStore,
@@ -467,7 +483,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                           fromFee: dataStore.fromFeeAmount,
                                                           toFee: dataStore.toFeeAmount,
                                                           minMaxToggleValue: dataStore.minMaxToggleValue,
-                                                          baseBalance: getBaseBalance()))
+                                                          baseBalance: getBaseBalance(),
+                                                          minimumAmount: dataStore.quote?.minUsdAmount))
     }
     
     private func formatAmount(amount: Decimal?, for currency: Currency?) -> String? {

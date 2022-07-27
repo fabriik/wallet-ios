@@ -212,6 +212,16 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 view.configure(with: config)
             }
         }
+        
+        guard let error = responseDisplay.error as? SwapErrors else { return }
+        
+        switch error {
+        case .noQuote:
+            displayUpdateRate(responseDisplay: .init(rate: .init(quote: nil, from: nil, to: nil, exchangeRate: nil, timer: .init())))
+            
+        default:
+            return
+        }
     }
     
     func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
