@@ -93,7 +93,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         viewController?.displaySetAmount(responseDisplay: .init(amounts: swapModel,
                                                                 rate: exchangeRateViewModel,
                                                                 minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue)))
-        
+        // TODO: replace with 50, or be min amount?
+        let minimumAmount: Decimal = 5
         var hasError: Bool = actionResponse.from?.fiatValue == 0
         if actionResponse.baseBalance == nil
             || actionResponse.from?.currency.code == actionResponse.to?.currency.code {
@@ -119,8 +120,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 presentError(actionResponse: .init(error: error))
                 hasError = true
                 
-            case _ where value < 50:
-                presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: 50, currency: Store.state.defaultCurrencyCode)))
+            case _ where value < minimumAmount:
+                presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
                 hasError = true
                 
             case _ where value > dailyLimit:
