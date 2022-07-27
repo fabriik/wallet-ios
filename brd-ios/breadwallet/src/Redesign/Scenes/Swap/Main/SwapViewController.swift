@@ -196,21 +196,20 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     // MARK: - SwapResponseDisplay
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
-        LoadingView.hide()
+        if responseDisplay.error != nil {
+            LoadingView.hide()
+        }
         
         guard let section = sections.firstIndex(of: Models.Sections.errors),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else { return }
         
-        cell.setup { [weak self] view in
-            view.setup { [weak self] view in
+        cell.setup { view in
+            view.setup { view in
                 let model = responseDisplay.model
                 view.setup(with: model)
                 
                 let config = responseDisplay.config
                 view.configure(with: config)
-                
-                self?.tableView.beginUpdates()
-                self?.tableView.endUpdates()
             }
         }
     }
@@ -235,9 +234,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             let model = responseDisplay.minMaxToggleValue
             view.setup(with: model)
         }
-        
-        tableView.beginUpdates()
-        tableView.endUpdates()
     }
     
     func displayUpdateRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
@@ -270,13 +266,15 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         let _: WrapperPopupView<SwapConfirmationView>? = coordinator?.showPopup(with: responseDisplay.config,
                                                                                 viewModel: responseDisplay.viewModel,
                                                                                 confirmedCallback: { [weak self] in
-            self?.coordinator?.showPinInput { passed in
-                self?.interactor?.confirm(viewAction: .init(authenticated: passed))
+            self?.coordinator?.showPinInput { pin in
+                LoadingView.show()
+                self?.interactor?.confirm(viewAction: .init(pin: pin))
             }
         })
     }
     
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay) {
+        LoadingView.hide()
         coordinator?.showSwapInfo(from: responseDisplay.from, to: responseDisplay.to, exchangeId: responseDisplay.exchangeId)
     }
     

@@ -128,7 +128,7 @@ enum SwapModels {
     
     struct Confirm {
         struct ViewAction {
-            var authenticated: Bool
+            var pin: String?
         }
         struct ActionResponse {
             var from: String?

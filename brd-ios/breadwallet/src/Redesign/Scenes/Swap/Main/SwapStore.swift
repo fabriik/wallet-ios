@@ -84,4 +84,6 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
 
         return Amount(cryptoAmount: fee, currency: currency)
     }
+    
+    var pin: String?
 }

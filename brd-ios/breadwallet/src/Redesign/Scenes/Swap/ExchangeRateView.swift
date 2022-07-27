@@ -96,7 +96,7 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         else { return }
 
         super.setup(with: viewModel)
-        valueLabel.text = "1 \(from) = \(rate) \(to)"
+        valueLabel.text = String(format: "1 %@ = %.8f %@", from, rate.doubleValue, to)
         timerView.setup(with: viewModel.timer)
         rotate()
     }

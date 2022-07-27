@@ -42,7 +42,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             self?.viewController?.interactor?.updateRate(viewAction: .init())
         }))
         
-        
         // TODO: Get rid of empty values.
         let sectionRows: [Models.Sections: [Any]] = [
             .rateAndTimer: [
@@ -78,7 +77,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         let balance = actionResponse.baseBalance
-        let balanceText = "I have \(balance?.tokenValue.doubleValue ?? 0) \(balance?.currency.code ?? "BSV")"
+        let balanceText = String(format: "I have %.4f %@", balance?.tokenValue.doubleValue ?? 0, balance?.currency.code ?? "BSV")
         
         let swapModel = MainSwapViewModel(from: .init(amount: actionResponse.from,
                                                       fee: actionResponse.fromFee,
@@ -165,9 +164,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentConfirmation(actionResponse: SwapModels.ShowConfirmDialog.ActionResponse) {
         guard let from = actionResponse.from,
-              let fromFee = actionResponse.fromFee,
               let to = actionResponse.to,
-              let toFee = actionResponse.toFee,
               let rate = actionResponse.quote?.closeAsk.doubleValue else {
             return
         }
@@ -175,11 +172,15 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let fromText = String(format: "%.8f %@ (%.2f %@)", from.tokenValue.doubleValue, from.currency.code, from.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
         let toText = String(format: "%.8f %@ (%.2f %@)", to.tokenValue.doubleValue, to.currency.code, to.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
         let rateText = String(format: "1 %@ = %.8f %@", from.currency.code, rate, to.currency.code)
-        let fromFeeText = String(format: "%.8f %@\n(%.2f) %@", fromFee.tokenValue.doubleValue,
-                                 fromFee.currency.code,
+        
+        let fromFeeText = String(format: "%.8f %@\n(%.2f) %@", actionResponse.fromFee?.tokenValue.doubleValue ?? 0,
+                                 actionResponse.fromFee?.currency.code ?? from.currency.code,
                                  from.fiatValue.doubleValue,
                                  Store.state.defaultCurrencyCode)
-        let toFeeText = String(format: "%.8f %@\n(%.2f) %@", toFee.tokenValue.doubleValue, toFee.currency.code, Store.state.defaultCurrencyCode)
+        let toFeeText = String(format: "%.8f %@\n(%.2f) %@", actionResponse.toFee?.tokenValue.doubleValue ?? 0,
+                               actionResponse.toFee?.currency.code ?? to.currency.code,
+                               Store.state.defaultCurrencyCode)
+        
         let totalCostText = String(format: "%.8f %@", from.tokenValue.doubleValue, from.currency.code)
         
         let config: WrapperPopupConfiguration<SwapConfimationConfiguration> = .init(wrappedView: .init())
