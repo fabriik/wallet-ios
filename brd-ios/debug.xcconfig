@@ -16,6 +16,3 @@
 API_URL=$(DEBUG_URL)
 API_TOKEN=$(DEBUG_TOKEN)
 IS_TEST=$(IS_TEST)
-
-//API_URL=c95e-2a00-ee2-2607-1300-61a3-8d21-5842-cb14.ngrok.io/
-//API_TOKEN=n3i1dhibhncivu3mp27ser6duu4cmorrkgd120n7
