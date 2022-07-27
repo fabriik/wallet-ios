@@ -161,18 +161,46 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
 
     private func reload(txHash: String) -> Bool {
         assert(Thread.isMainThread)
+        
         guard let index = transactions.firstIndex(where: { txHash == $0.hash }) else { return false }
+        
         tableView.beginUpdates()
         tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
         tableView.endUpdates()
+        
         return true
     }
-
+    
     private func updateTransactions() {
         assert(Thread.isMainThread)
-        if let transfers = wallet?.transfers {
-           allTransactions = transfers
-           reload()
+        
+        guard let transfers = wallet?.transfers else { return }
+        
+        ExchangeHistoryWorker().execute { [weak self] result in
+            switch result {
+            case .success(let exchanges):
+                self?.allTransactions = transfers
+                
+                exchanges.forEach { exchange in
+                    let source = exchange.source
+                    let destination = exchange.destination
+                    let sourceId = source.transactionId
+                    let destinationId = destination.transactionId
+                    
+                    if let element = self?.allTransactions.first(where: { $0.transfer.hash?.description == sourceId || $0.transfer.hash?.description == destinationId }) {
+                        element.transactionType = .swapTransaction
+                        element.swapOrderId = exchange.orderId
+                        element.swapTransationStatus = exchange.status
+                        element.swapSource = exchange.source
+                        element.swapDestination = exchange.destination
+                    }
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+            
+            self?.reload()
         }
     }
 
@@ -205,14 +233,13 @@ extension TransactionsTableViewController {
 
     private func transactionCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: transactionCellIdentifier,
-                                                       for: indexPath) as? TxListCell
-            else { assertionFailure(); return UITableViewCell() }
-        let rate = self.rate ?? Rate.empty
-        let viewModel = TxListViewModel(tx: transactions[indexPath.row])
-        cell.setTransaction(viewModel,
+                                                       for: indexPath) as? TxListCell else { assertionFailure(); return UITableViewCell() }
+        
+        cell.setTransaction(TxListViewModel(tx: transactions[indexPath.row]),
                             showFiatAmounts: showFiatAmounts,
-                            rate: rate,
+                            rate: rate ?? Rate.empty,
                             isSyncing: currency.state?.syncState != .success)
+        
         return cell
     }
 }

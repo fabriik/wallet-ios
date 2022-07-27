@@ -25,19 +25,13 @@ class DeleteProfileInfoInteractor: NSObject, Interactor, DeleteProfileInfoViewAc
     
     func deleteProfile(viewAction: DeleteProfileInfoModels.DeleteProfile.ViewAction) {
         DeleteProfileWorker().execute { [weak self] result in
-            switch result {
-            case .success:
-                UserManager.shared.profile = nil
-                
-                UserDefaults.shouldWipeWalletNoPrompt = true
-                UserDefaults.email = nil
-                UserDefaults.kycSessionKeyValue = nil
-                
-                self?.presenter?.presentDeleteProfile(actionResponse: .init())
-                
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
-            }
+            UserManager.shared.profile = nil
+            
+            UserDefaults.shouldWipeWalletNoPrompt = true
+            UserDefaults.email = nil
+            UserDefaults.kycSessionKeyValue = nil
+            
+            self?.presenter?.presentDeleteProfile(actionResponse: .init())
         }
     }
     

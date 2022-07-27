@@ -22,6 +22,7 @@ enum StatusIcon {
     case received
     case pending(CGFloat) //progress associated value
     case failed
+    case swapComplete, swapPending, swapFailed
     case gift(GiftStatus)
     
     var icon: String {
@@ -30,6 +31,9 @@ enum StatusIcon {
         case .received: return "receivedArrow"
         case .pending: return "pendingIndicator"
         case .failed: return "failed"
+        case .swapComplete: return "swapCompleteIndicator"
+        case .swapPending: return "swapPendingIndicator"
+        case .swapFailed: return "failed"
         case .gift(let status):
             switch status {
             case .claimed:
@@ -44,16 +48,15 @@ enum StatusIcon {
         }
     }
     
-    @available(iOS 13.0, *)
     var color: Color {
         switch self {
         case .sent:
             return Color(UIColor.fromHex("EFEFF2"))
-        case .received:
+        case .received, .swapComplete:
             return Color(Theme.success).opacity(0.16)
-        case .pending:
+        case .pending, .swapPending:
             return Color(Theme.accent).opacity(0.16)
-        case .failed:
+        case .failed, .swapFailed:
             return Color(Theme.error).opacity(0.16)
         case .gift(let status):
             switch status {
@@ -70,9 +73,7 @@ enum StatusIcon {
     }
 }
 
-@available(iOS 13.0, *)
 struct TxStatusIcon: View {
-    
     let status: StatusIcon
     
     var body: some View {
@@ -94,9 +95,7 @@ struct TxStatusIcon: View {
     
 }
 
-@available(iOS 13.0, *)
 struct PendingCircle: View {
-    
     let progress: CGFloat
     
     var body: some View {
@@ -115,7 +114,6 @@ struct PendingCircle: View {
     }
 }
 
-@available(iOS 13.0, *)
 struct TxStatusIcon_Previews: PreviewProvider {
     static var previews: some View {
         VStack {

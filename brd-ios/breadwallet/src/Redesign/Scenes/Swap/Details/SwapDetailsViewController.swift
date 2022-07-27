@@ -17,9 +17,12 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
     typealias Models = SwapDetailsModels
     
     override var sceneLeftAlignedTitle: String? {
-        return "Swap details"
+        return "Swap details" // TODO: Localize
     }
-
+    
+    override var isModalDismissableEnabled: Bool { return isModalDismissable }
+    var isModalDismissable = true
+    
     // MARK: - Overrides
     override func setupSubviews() {
         super.setupSubviews()

@@ -47,31 +47,51 @@ class TxListCell: UITableViewCell {
         
         statusIndicator.status = viewModel.status
         
+        let isSwapFrom = viewModel.tx.swapSource?.currency.uppercased() == viewModel.currency.code.uppercased()
+        let swapString = isSwapFrom ? "from \(viewModel.tx.swapSource?.currency.uppercased() ?? "")" : "to \(viewModel.tx.swapDestination?.currency.uppercased() ?? "")"
+        
         switch viewModel.status {
         case .invalid:
             timestamp.text = L10n.Transaction.failed
             failedIndicator.isHidden = false
             statusIndicator.isHidden = true
             timestamp.isHidden = false
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
+            
         case .complete:
             timestamp.text = viewModel.shortTimestamp
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
+            
+        case .swapComplete:
+            timestamp.text = "Swapped \(swapString)"
+            failedIndicator.isHidden = true
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
+        case .swapPending:
+            timestamp.text = "Pending swap \(swapString)"
+            failedIndicator.isHidden = true
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
+        case .swapFailed:
+            timestamp.text = "Failed swap \(swapString)"
+            failedIndicator.isHidden = true
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
         default:
             failedIndicator.isHidden = true
             statusIndicator.isHidden = false
             timestamp.isHidden = false
             timestamp.text = "\(viewModel.confirmations)/\(viewModel.currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
             
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
         }
-  
+        
+        NSLayoutConstraint.activate(completeConstraints)
+        NSLayoutConstraint.deactivate(pendingConstraints)
+        
         failedIndicator.isHidden = true
         statusIndicator.isHidden = true
     }

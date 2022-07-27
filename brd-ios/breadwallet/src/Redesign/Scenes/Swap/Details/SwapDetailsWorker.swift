@@ -31,7 +31,7 @@ struct SwapDetailsResponseData: ModelResponse {
         var currency: String
         var currencyAmount: Decimal
         var usdAmount: Decimal
-        var transactionId: Int?
+        var transactionId: String?
     }
     
     var orderId: Int
@@ -49,12 +49,12 @@ struct SwapDetails: Model {
     var currency: String
     var currencyAmount: Decimal
     var usdAmount: Decimal
-    var transactionId: Int?
+    var transactionId: String
     
     var currencyDestination: String
     var currencyAmountDestination: Decimal
     var usdAmountDestination: Decimal
-    var transactionIdDestination: Int?
+    var transactionIdDestination: String
 }
 
 class SwapDetailsMapper: ModelMapper<SwapDetailsResponseData, SwapDetails> {
@@ -67,11 +67,11 @@ class SwapDetailsMapper: ModelMapper<SwapDetailsResponseData, SwapDetails> {
                      currency: response.source.currency.localizedUppercase,
                      currencyAmount: response.source.currencyAmount,
                      usdAmount: response.source.usdAmount,
-                     transactionId: response.source.transactionId,
+                     transactionId: response.source.transactionId ?? "",
                      currencyDestination: response.destination.currency.localizedUppercase,
                      currencyAmountDestination: response.destination.currencyAmount,
                      usdAmountDestination: response.destination.usdAmount,
-                     transactionIdDestination: response.destination.transactionId)
+                     transactionIdDestination: response.destination.transactionId ?? "")
     }
 }
 

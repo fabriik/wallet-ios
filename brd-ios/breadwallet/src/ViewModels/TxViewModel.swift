@@ -65,8 +65,6 @@ extension TxViewModel {
         
         if date.hasEqualDay(Date()) {
             return DateFormatter.justTime.string(from: date)
-        } else if date.hasEqualYear(Date()) {
-            return DateFormatter.shortDateFormatter.string(from: date)
         } else {
             return DateFormatter.mediumDateFormatter.string(from: date)
         }
@@ -89,6 +87,18 @@ extension TxViewModel {
             } else {
                 return .gift(.unclaimed)
             }
+        }
+        
+        if tx.status == .swapComplete {
+            return .swapComplete
+        }
+        
+        if tx.status == .swapPending {
+            return .swapPending
+        }
+        
+        if tx.status == .swapFailed {
+            return .failed
         }
         
         if tx.confirmations < currency.confirmationsUntilFinal {
