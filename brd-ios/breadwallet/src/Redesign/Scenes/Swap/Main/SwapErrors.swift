@@ -22,6 +22,7 @@ enum SwapErrors: FEError {
     case overDailyLimit
     case overLifetimeLimit
     // TODO: unoficial error xD
+    case noFees
     case networkFee
     case overExchangeLimit
     case pinConfirmation
@@ -52,6 +53,9 @@ enum SwapErrors: FEError {
             
         case .overLifetimeLimit:
             return "You have reached your lifetime swap limit of 10,000 USD. Please upgrade your limits or change the amount for this swap."
+            
+        case .noFees:
+            return "No network fees."
             
         case .networkFee:
             return "This swap doesn't cover the included network fee. Please add more funds to your wallet or change the amount you're swapping."

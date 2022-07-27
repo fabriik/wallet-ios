@@ -28,6 +28,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     var didChangeFiatAmount: ((String?) -> Void)?
     var didChangeCryptoAmount: ((String?) -> Void)?
+    var didChangeContent: (() -> Void)?
     
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
@@ -220,7 +221,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         selectorStackView.addArrangedSubview(iconImageView)
         iconImageView.snp.makeConstraints { make in
-            make.width.equalTo(selectorStackView.snp.height)
+            make.height.equalTo(ViewSizes.medium.rawValue)
+            make.width.equalTo(iconImageView.snp.height)
         }
         
         selectorStackView.addArrangedSubview(codeLabel)
@@ -241,9 +243,13 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         }
         
         mainStack.addArrangedSubview(feeAndAmountsStackView)
+        feeLabel.sizeToFit()
+        feeAndAmountsStackView.snp.makeConstraints { make in
+            make.height.equalTo(feeLabel.frame.height)
+        }
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
         feeAndAmountsStackView.addArrangedSubview(feeAmountLabel)
-        feeAndAmountsStackView.isHidden = true
+        feeAndAmountsStackView.alpha = 0
     }
     
     func toggleFeeAndAmountsStackView(state: FeeAndAmountsStackViewState, animated: Bool = true) {
@@ -282,6 +288,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
+        titleLabel.text = viewModel.title
+        
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 8
         
@@ -299,21 +307,25 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         if let selectedCurrencyIcon = viewModel.amount?.currency.imageSquareBackground {
                 iconImageView.setup(with: .image(selectedCurrencyIcon))
-        } else {
-            iconImageView.setup(with: .imageName("close"))
         }
         
         if let fee = viewModel.fee {
             feeAmountLabel.text = "\(fee.tokenDescription) \n\(fee.fiatDescription)"
-            feeAmountLabel.sizeToFit()
-            feeAndAmountsStackView.snp.makeConstraints { make in
-                make.height.equalTo(feeAmountLabel.frame.height)
-            }
         }
         
-        feeAndAmountsStackView.isHidden = viewModel.fee == nil || viewModel.fee?.tokenValue == 0
-        titleLabel.text = viewModel.title
-        layoutIfNeeded()
+        let isHidden = feeAndAmountsStackView.alpha == 0
+        let noFee = viewModel.fee == nil || viewModel.fee?.tokenValue == 0
+        
+        guard isHidden != noFee else { return }
+        
+        feeAndAmountsStackView.isHidden = false
+        feeAndAmountsStackView.alpha = isHidden ? 0 : 1
+        UIView.animate(withDuration: Presets.Animation.duration, animations: { [weak self] in
+            self?.feeAndAmountsStackView.alpha = isHidden ? 1: 0
+        }, completion: { [weak self] _ in
+            self?.feeAndAmountsStackView.isHidden = !isHidden
+            self?.didChangeContent?()
+        })
     }
 }
 
