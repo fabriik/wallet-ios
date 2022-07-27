@@ -24,6 +24,7 @@ struct QuoteModelResponse: ModelResponse {
     var closeAsk: Decimal
     var closeBid: Decimal
     var timestamp: Double
+    var minimumUsdValue: Decimal
 }
 
 struct Quote {
@@ -32,6 +33,7 @@ struct Quote {
     var closeAsk: Decimal
     var closeBid: Decimal
     var timestamp: Double
+    var minUsdAmount: Decimal
     
     struct FeeEstimate {
         var estimatedConfirmationIn: UInt64
@@ -53,7 +55,8 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
                      securityId: response.securityId,
                      closeAsk: response.closeAsk,
                      closeBid: response.closeBid,
-                     timestamp: response.timestamp)
+                     timestamp: response.timestamp,
+                     minUsdAmount: response.minimumUsdValue)
     }
 }
 

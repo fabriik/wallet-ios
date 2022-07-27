@@ -88,12 +88,9 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         exchangeRateViewModel.from = actionResponse.from?.currency.code
         exchangeRateViewModel.to = actionResponse.to?.currency.code
+        
+        let minimumAmount: Decimal = actionResponse.minimumAmount ?? 5
 
-        viewController?.displaySetAmount(responseDisplay: .init(amounts: swapModel,
-                                                                rate: exchangeRateViewModel,
-                                                                minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue)))
-        // TODO: replace with 50, or be min amount?
-        let minimumAmount: Decimal = 5
         var hasError: Bool = actionResponse.from?.fiatValue == 0
         if actionResponse.baseBalance == nil
             || actionResponse.from?.currency.code == actionResponse.to?.currency.code {
@@ -109,37 +106,45 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             let lifetimeLimit = profile?.lifetimeRemainingLimit ?? 0
             let exchangeLimit = profile?.exchangeLimit ?? 0
             let balance = actionResponse.baseBalance?.tokenValue ?? 0
+
             switch value {
             case _ where value <= 0:
+                // fiat value is bellow 0
                 presentError(actionResponse: .init(error: nil))
                 hasError = true
-                
+
             case _ where value > (actionResponse.baseBalance?.fiatValue ?? 0):
+                // value higher than balance
                 let error = SwapErrors.balanceTooLow(amount: fromCrypto, balance: balance, currency: actionResponse.from?.currency.code ?? "")
                 presentError(actionResponse: .init(error: error))
                 hasError = true
-                
+
             case _ where value < minimumAmount:
+                // value bellow minimum fiat
                 presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
                 hasError = true
-                
+
             case _ where value > dailyLimit:
+                // over daily limit
                 presentError(actionResponse: .init(error: SwapErrors.overDailyLimit))
                 hasError = true
-                
+
             case _ where value > lifetimeLimit:
+                // over lifetime limit
                 presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit))
                 hasError = true
-                
+
             case _ where value > exchangeLimit:
+                // over exchange limit ???
                 presentError(actionResponse: .init(error: SwapErrors.overExchangeLimit))
                 hasError = true
-                
+
             default:
+                // remove error
                 presentError(actionResponse: .init(error: nil))
             }
         }
-        
+//
         viewController?.displaySetAmount(responseDisplay: .init(continueEnabled: !hasError,
                                                                 amounts: swapModel,
                                                                 rate: exchangeRateViewModel,

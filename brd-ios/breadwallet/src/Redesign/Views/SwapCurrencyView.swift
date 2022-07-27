@@ -216,7 +216,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         }
         cryptoStack.addArrangedSubview(selectorStackView)
         selectorStackView.snp.makeConstraints { make in
-            make.width.equalTo(136)
+            make.width.equalTo(150)
         }
         
         selectorStackView.addArrangedSubview(iconImageView)

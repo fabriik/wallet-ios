@@ -93,7 +93,10 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
               let from = viewModel.from,
               let to = viewModel.to,
               let rate = viewModel.quote?.closeAsk
-        else { return }
+        else {
+            valueLabel.text = "No quote for pair."
+            return
+        }
 
         super.setup(with: viewModel)
         valueLabel.text = String(format: "1 %@ = %.8f %@", from, rate.doubleValue, to)

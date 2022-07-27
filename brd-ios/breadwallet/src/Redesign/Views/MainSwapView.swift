@@ -171,10 +171,10 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         
         didChangePlaces?()
 
-        SwapCurrencyView.animateSwitchPlaces(sender: sender,
-                                             baseSwapCurrencyView: baseSwapCurrencyView,
-                                             termSwapCurrencyView: termSwapCurrencyView)
-        
+//        SwapCurrencyView.animateSwitchPlaces(sender: sender,
+//                                             baseSwapCurrencyView: baseSwapCurrencyView,
+//                                             termSwapCurrencyView: termSwapCurrencyView)
+//
         contentSizeChanged?()
     }
 }
