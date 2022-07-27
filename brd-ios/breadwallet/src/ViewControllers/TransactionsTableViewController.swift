@@ -177,10 +177,10 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         guard let transfers = wallet?.transfers else { return }
         
         ExchangeHistoryWorker().execute { [weak self] result in
+            self?.allTransactions = transfers
+            
             switch result {
             case .success(let exchanges):
-                self?.allTransactions = transfers
-                
                 exchanges.forEach { exchange in
                     let source = exchange.source
                     let destination = exchange.destination
