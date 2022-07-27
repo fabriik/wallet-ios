@@ -171,6 +171,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         
         didChangePlaces?()
 
+        // TODO: animations were breaking user interactions. disabled for now
 //        SwapCurrencyView.animateSwitchPlaces(sender: sender,
 //                                             baseSwapCurrencyView: baseSwapCurrencyView,
 //                                             termSwapCurrencyView: termSwapCurrencyView)
