@@ -14,7 +14,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, SwapInfoRoutes {
     // MARK: - ProfileRoutes
     
     override func start() {
-        open(scene: Scenes.Swap)
+        open(scene: Scenes.SwapDetails)
     }
     
     override func goBack() {
@@ -31,15 +31,15 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, SwapInfoRoutes {
         }
     }
     
-    func showPinInput(callback: ((_ didPass: Bool) -> Void)?) {
+    func showPinInput(callback: ((_ pin: String?) -> Void)?) {
         guard let keyStore = try? KeyStore.create() else { return }
         let vc = LoginViewController(for: .confirmation,
                                      keyMaster: keyStore,
-                                     shouldDisableBiometrics: false)
+                                     shouldDisableBiometrics: true)
         
         let nvc = RootNavigationController(rootViewController: vc)
-        vc.confirmationCallback = { confirmed in
-            callback?(confirmed)
+        vc.confirmationCallback = { pin in
+            callback?(pin)
             nvc.dismiss(animated: true)
         }
         nvc.modalPresentationStyle = .fullScreen

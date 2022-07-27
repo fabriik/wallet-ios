@@ -301,9 +301,6 @@ class BaseCoordinator: NSObject,
     }
 
     func showMessage(with error: Error? = nil, model: InfoViewModel? = nil, configuration: InfoViewConfiguration? = nil) {
-        hideOverlay()
-        LoadingView.hide()
-        
         guard (error as? NetworkingError) != .sessionExpired else {
             UserDefaults.emailConfirmed = false
             openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.RegistrationConfirmation)

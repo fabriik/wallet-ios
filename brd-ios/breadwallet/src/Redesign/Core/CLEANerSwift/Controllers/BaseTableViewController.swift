@@ -78,6 +78,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
 
     // MARK: ResponseDisplay
     func displayData(responseDisplay: FetchModels.Get.ResponseDisplay) {
+        LoadingView.hide()
         sections = responseDisplay.sections
         sectionRows = responseDisplay.sectionRows
         
@@ -85,8 +86,6 @@ class BaseTableViewController<C: CoordinatableRoutes,
         tableView.reloadData()
         
         tableView.backgroundView?.isHidden = !sections.isEmpty
-        
-        LoadingView.hide()
     }
 
     // MARK: UITableViewDataSource

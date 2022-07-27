@@ -81,7 +81,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     private let debugLabel = UILabel.wrapping(font: Theme.body3, color: .almostBlack)
     private let shouldDisableBiometrics: Bool
     
-    var confirmationCallback: ((_ didPass: Bool) -> Void)?
+    var confirmationCallback: ((_ pin: String?) -> Void)?
     
     var isBiometricsEnabledForUnlocking: Bool {
         return self.keyMaster.isBiometricsEnabledForUnlocking
@@ -229,7 +229,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     }
     
     @objc func dismissModal() {
-        confirmationCallback?(false)
+        confirmationCallback?(nil)
     }
 
     private func addSubviews() {
@@ -343,17 +343,17 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     }
 
     private func authenticate(withPin pin: String) {
-        guard !E.isScreenshots else { return authenticationSucceded() }
+        guard !E.isScreenshots else { return authenticationSucceded(pin: pin) }
         if case .initialLaunch = context {
             guard let account = keyMaster.createAccount(withPin: pin) else { return authenticationFailed() }
-            authenticationSucceded(forLoginWithAccount: account)
+            authenticationSucceded(forLoginWithAccount: account, pin: pin)
         } else {
             guard keyMaster.authenticate(withPin: pin) else { return authenticationFailed() }
-            authenticationSucceded()
+            authenticationSucceded(pin: pin)
         }
     }
 
-    private func authenticationSucceded(forLoginWithAccount account: Account? = nil) {
+    private func authenticationSucceded(forLoginWithAccount account: Account? = nil, pin: String? = nil) {
         saveEvent("login.success")
         let label = UILabel(font: .customBody(size: 16.0))
         label.textColor = .black
@@ -391,7 +391,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
                 })
                 return
             }
-            self.confirmationCallback?(true)
+            self.confirmationCallback?(pin)
         })
     }
 

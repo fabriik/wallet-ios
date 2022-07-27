@@ -444,7 +444,7 @@ class ApplicationController: Subscriber, Trackable {
         }
         
         homeScreen.didTapBuy = { [unowned self] in
-            coordinator?.showBuy()
+            coordinator?.openModally(coordinator: SwapCoordinator.self, scene: Scenes.SwapDetails)
         }
         
         homeScreen.didTapTrade = { [unowned self] in

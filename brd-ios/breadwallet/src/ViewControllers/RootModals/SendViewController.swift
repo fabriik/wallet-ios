@@ -507,11 +507,11 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
             attributeText = attribute
         }
 
-        return handleValidationResult(sender.createTransaction(address: address,
-                                                        amount: amount,
-                                                        feeBasis: feeBasis,
-                                                        comment: memoCell.textView.text,
-                                                        attribute: attributeText))
+        return true//handleValidationResult(sender.createTransaction(address: address,
+//                                                        amount: amount,
+//                                                        feeBasis: feeBasis,
+//                                                        comment: memoCell.textView.text,
+//                                                        attribute: attributeText))
     }
     
     private func handleValidationResult(_ result: SenderValidationResult, protocolRequest: PaymentProtocolRequest? = nil) -> Bool {
