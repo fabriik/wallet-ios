@@ -17,6 +17,7 @@ enum SwapEndpoints: String, URLType {
     case quote = "quote?security=%@"
     case exchange = "create"
     case details = "exchange/%@"
+    case history = "exchanges"
     
     var url: String {
         return String(format: Self.baseURL, rawValue)

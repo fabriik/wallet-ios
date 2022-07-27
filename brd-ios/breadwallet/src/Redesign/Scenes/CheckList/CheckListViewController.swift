@@ -44,7 +44,7 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
         }
         confirmButton.configure(with: Presets.Button.primary)
         
-        confirmButton.addTarget(self, action: #selector(confirmTapped(_:)), for: .touchUpInside)
+        confirmButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
     override func prepareData() {
@@ -82,7 +82,9 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
     }
     
     // MARK: - User Interaction
-    @objc func confirmTapped(_ sender: UIButton?) {
+    override func buttonTapped() {
+        super.buttonTapped()
+        
         print("navigate in subclass!")
     }
     
