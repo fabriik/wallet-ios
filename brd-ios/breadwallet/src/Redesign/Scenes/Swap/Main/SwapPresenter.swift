@@ -33,10 +33,20 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             .errors
         ]
         
+        exchangeRateViewModel = ExchangeRateViewModel(quote: item.quote,
+                                                      from: item.from?.code,
+                                                      to: item.to?.code,
+                                                      timer: TimerViewModel(till: item.quote?.timestamp ?? 0,
+                                                                            repeats: false,
+                                                                            finished: { [weak self] in
+            self?.viewController?.interactor?.updateRate(viewAction: .init())
+        }))
+        
+        
         // TODO: Get rid of empty values.
         let sectionRows: [Models.Sections: [Any]] = [
             .rateAndTimer: [
-                ExchangeRateViewModel()
+                exchangeRateViewModel
             ],
             .swapCard: [
                 MainSwapViewModel(from: .init(amount: .zero(from), fee: .zero(from), title: "I have 0 \(from.code)"),

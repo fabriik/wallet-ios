@@ -73,7 +73,7 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         guard let fee = fromFee?.fee,
               let currency = fromCurrency
         else { return nil }
-        
+
         return Amount(cryptoAmount: fee, currency: currency)
     }
     
@@ -81,7 +81,7 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         guard let fee = toFee?.fee,
               let currency = toCurrency
         else { return nil }
-        
+
         return Amount(cryptoAmount: fee, currency: currency)
     }
 }

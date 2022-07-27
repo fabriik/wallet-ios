@@ -43,10 +43,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     private func getQuote(isInitialLaunch: Bool) {
-        guard !isInitialLaunch else {
-            presenter?.presentData(actionResponse: .init(item: Models.Item(from: dataStore?.fromCurrency, to: dataStore?.toCurrency)))
-            return
-        }
         guard let quoteTerm = dataStore?.quoteTerm else {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: "<empty>")))
             handleQuote(nil, isInitialLaunch: isInitialLaunch)
@@ -66,6 +62,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     private func handleQuote(_ quote: Quote?, isInitialLaunch: Bool) {
+        if isInitialLaunch {
+            presenter?.presentData(actionResponse: .init(item: Models.Item(from: dataStore?.fromCurrency, to: dataStore?.toCurrency, quote: quote)))
+        }
+        
         guard let baseCurrency = dataStore?.fromCurrency?.coinGeckoId,
               let termCurrency = dataStore?.toCurrency?.coinGeckoId else {
             self.dataStore?.quote = nil

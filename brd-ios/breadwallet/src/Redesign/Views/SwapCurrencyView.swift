@@ -171,7 +171,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         view.font = Fonts.caption
         view.textColor = LightColors.Text.two
         view.textAlignment = .left
-        view.numberOfLines = 0
+        view.numberOfLines = 2
         return view
     }()
     
@@ -180,7 +180,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         view.font = Fonts.caption
         view.textColor = LightColors.Text.two
         view.textAlignment = .right
-        view.numberOfLines = 0
+        view.numberOfLines = 2
         return view
     }()
     
@@ -240,12 +240,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        mainStack.addSubview(feeAndAmountsStackView)
-        feeAndAmountsStackView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.medium.rawValue)
-        }
-        
-        feeAndAmountsStackView.backgroundColor = .yellow
+        mainStack.addArrangedSubview(feeAndAmountsStackView)
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
         feeAndAmountsStackView.addArrangedSubview(feeAmountLabel)
         feeAndAmountsStackView.isHidden = true
@@ -256,12 +251,6 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
                        delay: 0,
                        options: .curveEaseOut) { [weak self] in
             self?.feeAndAmountsStackView.alpha = state == .hidden ? 0.0 : 1.0
-            
-            self?.feeAndAmountsStackView.snp.updateConstraints { make in
-                let bottomInset = state == .hidden ? -Margins.huge.rawValue : Margins.huge.rawValue
-                make.bottom.equalToSuperview().inset(bottomInset)
-            }
-            
             guard animated else { return }
             self?.feeAndAmountsStackView.layoutIfNeeded()
         }
@@ -315,7 +304,11 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         }
         
         if let fee = viewModel.fee {
-            feeAmountLabel.text = "\(fee.tokenDescription) /n\(fee.fiatDescription)"
+            feeAmountLabel.text = "\(fee.tokenDescription) \n\(fee.fiatDescription)"
+            feeAmountLabel.sizeToFit()
+            feeAndAmountsStackView.snp.makeConstraints { make in
+                make.height.equalTo(feeAmountLabel.frame.height)
+            }
         }
         
         feeAndAmountsStackView.isHidden = viewModel.fee == nil || viewModel.fee?.tokenValue == 0
