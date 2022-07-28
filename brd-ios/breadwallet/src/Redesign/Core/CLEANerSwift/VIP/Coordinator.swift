@@ -168,10 +168,8 @@ class BaseCoordinator: NSObject,
     func showDeleteProfileInfo(keyMaster: KeyStore) {
         let nvc = RootNavigationController()
         let coordinator = DeleteProfileInfoCoordinator(navigationController: nvc)
-        coordinator.start()
+        coordinator.start(with: keyMaster)
         coordinator.parentCoordinator = self
-        
-        (coordinator.navigationController.children.first as? DeleteProfileInfoViewController)?.dataStore?.keyMaster = keyMaster
         
         childCoordinators.append(coordinator)
         UIApplication.shared.activeWindow?.rootViewController?.presentedViewController?.present(coordinator.navigationController, animated: true)
