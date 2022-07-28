@@ -31,11 +31,11 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
         var header = AssetViewModel()
         
         switch item.status {
-        case .swapPending:
+        case .pending:
             header = Presets.StatusView.pending
-        case .swapComplete :
+        case .complete :
             header = Presets.StatusView.complete
-        case .swapFailed :
+        case .failed :
             header = Presets.StatusView.failed
         default:
             break
