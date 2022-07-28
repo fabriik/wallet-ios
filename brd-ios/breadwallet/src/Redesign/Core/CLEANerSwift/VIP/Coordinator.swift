@@ -171,9 +171,7 @@ class BaseCoordinator: NSObject,
         coordinator.start()
         coordinator.parentCoordinator = self
         
-        if let vc = coordinator.navigationController.children.first(where: { $0 is DeleteProfileInfoViewController }) as? DeleteProfileInfoViewController {
-            vc.dataStore?.keyMaster = keyMaster
-        }
+        (coordinator.navigationController.children.first as? DeleteProfileInfoViewController)?.dataStore?.keyMaster = keyMaster
         
         childCoordinators.append(coordinator)
         UIApplication.shared.activeWindow?.rootViewController?.presentedViewController?.present(coordinator.navigationController, animated: true)

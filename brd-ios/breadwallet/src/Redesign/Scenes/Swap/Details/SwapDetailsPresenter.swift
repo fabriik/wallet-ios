@@ -28,25 +28,31 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             Models.Section.transactionTo
         ]
         
-        let header: AssetViewModel
+        var header = AssetViewModel()
+        
         switch item.status {
-        case .pending: header = Presets.StatusView.pending
-        case .complete : header = Presets.StatusView.complete
-        case .failed : header = Presets.StatusView.failed
+        case .swapPending:
+            header = Presets.StatusView.pending
+        case .swapComplete :
+            header = Presets.StatusView.complete
+        case .swapFailed :
+            header = Presets.StatusView.failed
+        default:
+            break
         }
         
-        let fromImage = getBaseCurrencyImage(currencyCode: item.currency)
-        let toImage = getBaseCurrencyImage(currencyCode: item.currencyDestination)
+        let fromImage = getBaseCurrencyImage(currencyCode: item.source.currency)
+        let toImage = getBaseCurrencyImage(currencyCode: item.destination.currency)
         
         let currencyCode = Store.state.defaultCurrencyCode
         let format = "%.*f"
         let decimal = 5
         
-        let formattedUsdAmountString = String(format: format, decimal, item.usdAmount.doubleValue)
-        let formattedCurrencyAmountString = String(format: format, decimal, item.currencyAmount.doubleValue)
+        let formattedUsdAmountString = String(format: format, decimal, item.source.usdAmount)
+        let formattedCurrencyAmountString = String(format: format, decimal, item.source.currencyAmount)
         
-        let formattedUsdAmountDestination = String(format: format, decimal, item.usdAmountDestination.doubleValue)
-        let formattedCurrencyAmountDestination = String(format: format, decimal, item.currencyAmountDestination.doubleValue)
+        let formattedUsdAmountDestination = String(format: format, decimal, item.destination.usdAmount)
+        let formattedCurrencyAmountDestination = String(format: format, decimal, item.destination.currencyAmount)
         
         let timestamp = TimeInterval(item.timestamp) / 1000
         let date = Date(timeIntervalSince1970: timestamp)
@@ -64,7 +70,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             ],
             Models.Section.fromCurrency: [
                 AssetViewModel(icon: fromImage,
-                               title: "From \(item.currency)",
+                               title: "From \(item.source.currency)",
                                topRightText: "\(formattedCurrencyAmountString) / $\(formattedUsdAmountString) \(currencyCode)")
             ],
             Models.Section.image: [
@@ -72,7 +78,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             ],
             Models.Section.toCurrency: [
                 AssetViewModel(icon: toImage,
-                               title: "To \(item.currencyDestination)",
+                               title: "To \(item.destination.currency)",
                                topRightText: "\(formattedCurrencyAmountDestination) / $\(formattedUsdAmountDestination) \(currencyCode)")
             ],
             Models.Section.timestamp: [
@@ -80,12 +86,12 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
                                      description: "\(dateString)")
             ],
             Models.Section.transactionFrom: [
-                OrderViewModel(title: "\(item.currency) Transaction ID",
-                               value: "\(String(describing: item.transactionId))",
+                OrderViewModel(title: "\(item.source.currency) Transaction ID",
+                               value: "\(String(describing: item.source.transactionId))",
                                imageName: "copy")
             ],
             Models.Section.transactionTo: [
-                TransactionViewModel(title: "\(item.currencyDestination) Transaction ID",
+                TransactionViewModel(title: "\(item.destination.currency) Transaction ID",
                                      description: "\(item.status.rawValue.localizedCapitalized)")
             ]
         ]

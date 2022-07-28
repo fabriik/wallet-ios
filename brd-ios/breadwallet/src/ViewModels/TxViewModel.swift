@@ -17,6 +17,7 @@ protocol TxViewModel {
     var blockHeight: String { get }
     var longTimestamp: String { get }
     var status: TransactionStatus { get }
+    var transactionType: Transaction.TransactionType { get }
     var direction: TransferDirection { get }
     var displayAddress: String { get }
     var comment: String? { get }
@@ -29,6 +30,7 @@ extension TxViewModel {
 
     var currency: Currency { return tx.currency }
     var status: TransactionStatus { return tx.status }
+    var transactionType: Transaction.TransactionType { return tx.transactionType }
     var direction: TransferDirection { return tx.direction }
     var comment: String? { return tx.comment }
     
@@ -89,28 +91,33 @@ extension TxViewModel {
             }
         }
         
-        if tx.status == .swapComplete {
-            return .swapComplete
-        }
-        
-        if tx.status == .swapPending {
-            return .swapPending
-        }
-        
-        if tx.status == .swapFailed {
-            return .failed
-        }
-        
-        if tx.confirmations < currency.confirmationsUntilFinal {
-            return .pending(CGFloat(tx.confirmations)/CGFloat(currency.confirmationsUntilFinal))
-        }
-        
-        if tx.status == .invalid {
-            return .failed
-        }
-        
-        if tx.direction == .received || tx.direction == .recovered {
-            return .received
+        switch tx.transactionType {
+        case .defaultTransaction:
+            if tx.confirmations < currency.confirmationsUntilFinal {
+                return .pending(CGFloat(tx.confirmations)/CGFloat(currency.confirmationsUntilFinal))
+            }
+            
+            if tx.status == .invalid {
+                return .failed
+            }
+            
+            if tx.direction == .received || tx.direction == .recovered {
+                return .received
+            }
+            
+        case .swapTransaction:
+            if tx.status == .complete {
+                return .swapComplete
+            }
+            
+            if tx.status == .pending {
+                return .swapPending
+            }
+            
+            if tx.status == .failed {
+                return .failed
+            }
+            
         }
         
         return .sent

@@ -12,20 +12,15 @@ import WalletKit
 /// Transacton status
 enum TransactionStatus: String, ModelResponse {
     /// Zero confirmations
-    case pending
+    case pending = "PENDING"
     /// One or more confirmations
     case confirmed
     /// Sufficient confirmations to deem complete (coin-specific)
-    case complete
+    case complete = "COMPLETE"
     /// Invalid / error
     case invalid
-    
-    /// Swap complete
-    case swapComplete = "COMPLETE"
-    /// Swap pending
-    case swapPending = "PENDING"
-    /// Swap failed
-    case swapFailed = "FAILED"
+    /// Failed
+    case failed = "FAILED"
 }
 
 /// Wrapper for BRCrypto TransferFeeBasis
@@ -122,8 +117,8 @@ class Transaction {
     
     var transactionType: TransactionType = .defaultTransaction
     var swapTransationStatus: TransactionStatus?
-    var swapSource: Exchange.SourceDestination?
-    var swapDestination: Exchange.SourceDestination?
+    var swapSource: SwapDetail.SourceDestination?
+    var swapDestination: SwapDetail.SourceDestination?
     var swapOrderId: Int?
     
     var status: TransactionStatus {
@@ -154,7 +149,7 @@ class Transaction {
             }
             
         case .swapTransaction:
-            return swapTransationStatus ?? .swapFailed
+            return swapTransationStatus ?? .failed
             
         }
     }

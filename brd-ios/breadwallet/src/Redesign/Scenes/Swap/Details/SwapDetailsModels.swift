@@ -10,7 +10,7 @@ import UIKit
 
 enum SwapDetailsModels {
    // SwapDetails
-    typealias Item = SwapDetails
+    typealias Item = SwapDetail
     
     enum Section: Sectionable {
         case header

@@ -10,14 +10,15 @@
 
 import Foundation
 
-struct ExchangesHistoryResponseData: ModelResponse {
-    var exchanges: [ExchangeResponseData]
+struct SwapDetailsExchangesResponseData: ModelResponse {
+    var exchanges: [SwapDetailsResponseData]
 }
 
-struct ExchangeResponseData: ModelResponse {
+struct SwapDetailsResponseData: ModelResponse {
     struct SourceDestination: ModelResponse {
         var currency: String?
         var currencyAmount: Double?
+        var usdAmount: Double?
         var transactionId: String?
     }
     
@@ -26,14 +27,15 @@ struct ExchangeResponseData: ModelResponse {
     var statusDetails: String?
     var source: SourceDestination?
     var destination: SourceDestination?
-    var timestamp: UInt64?
+    var timestamp: Int?
 }
 
-struct Exchange: Model {
+struct SwapDetail: Model {
     struct SourceDestination: Model {
         var currency: String
         var currencyAmount: Double
-        var transactionId: String?
+        var usdAmount: Double
+        var transactionId: String
     }
     
     var orderId: Int
@@ -44,25 +46,27 @@ struct Exchange: Model {
     var timestamp: Int
 }
 
-class ExchangeHistoryMapper: ModelMapper<ExchangesHistoryResponseData, [Exchange]> {
-    override func getModel(from response: ExchangesHistoryResponseData?) -> [Exchange] {
+class SwapDetailsMapper: ModelMapper<SwapDetailsExchangesResponseData, [SwapDetail]> {
+    override func getModel(from response: SwapDetailsExchangesResponseData?) -> [SwapDetail] {
         return response?
             .exchanges
             .compactMap { return
-                Exchange(orderId: Int($0.orderId ?? 0),
-                         status: TransactionStatus(rawValue: $0.status?.rawValue ?? "") ?? .pending,
-                         statusDetails: $0.statusDetails ?? "",
-                         source: Exchange.SourceDestination(currency: $0.source?.currency ?? "",
-                                                            currencyAmount: $0.source?.currencyAmount ?? 0,
-                                                            transactionId: $0.source?.transactionId),
-                         destination: Exchange.SourceDestination(currency: $0.destination?.currency ?? "",
-                                                                 currencyAmount: $0.destination?.currencyAmount ?? 0,
-                                                                 transactionId: $0.destination?.transactionId),
-                         timestamp: Int($0.timestamp ?? 0)) } ?? []
+                SwapDetail(orderId: Int($0.orderId ?? 0),
+                           status: TransactionStatus(rawValue: $0.status?.rawValue ?? "") ?? .pending,
+                           statusDetails: $0.statusDetails ?? "",
+                           source: SwapDetail.SourceDestination(currency: $0.source?.currency?.uppercased() ?? "",
+                                                                currencyAmount: $0.source?.currencyAmount ?? 0,
+                                                                usdAmount: $0.source?.usdAmount ?? 0,
+                                                                transactionId: $0.source?.transactionId ?? ""),
+                           destination: SwapDetail.SourceDestination(currency: $0.destination?.currency?.uppercased() ?? "",
+                                                                     currencyAmount: $0.destination?.currencyAmount ?? 0,
+                                                                     usdAmount: $0.destination?.usdAmount ?? 0,
+                                                                     transactionId: $0.destination?.transactionId ?? ""),
+                           timestamp: Int($0.timestamp ?? 0)) } ?? []
     }
 }
 
-class ExchangeHistoryWorker: BaseApiWorker<ExchangeHistoryMapper> {
+class ExchangeHistoryWorker: BaseApiWorker<SwapDetailsMapper> {
     override func getUrl() -> String {
         return SwapEndpoints.history.url
     }
