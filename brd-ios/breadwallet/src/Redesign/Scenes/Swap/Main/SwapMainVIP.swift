@@ -72,7 +72,7 @@ protocol SwapDataPassing {
 }
 
 protocol SwapRoutes: CoordinatableRoutes {
-    func showAssetSelector(currencies: [Currency]?, assets: [String]?, supportedCurrenciesText: [String]?, isFromCurrency: Bool?, fromCurrency: Currency?, selected: ((Any?) -> Void)?)
+    func showAssetSelector(currencies: [Currency]?, supportedCurrenciesText: [String]?, isFromCurrency: Bool?, fromCurrency: Currency?, selected: ((Any?) -> Void)?)
     func showPinInput(callback: ((_ pin: String?) -> Void)?)
     func showSwapInfo(from: String, to: String, exchangeId: String)
 }
