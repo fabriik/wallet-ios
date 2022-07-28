@@ -421,7 +421,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: dataStore?.quoteTerm)))
             return
         }
-        
+        // TODO: update calculations to include markups!
         let fromFee = dataStore?.fromFeeAmount?.tokenValue ?? 0
         let toFee = dataStore?.toFeeAmount?.tokenValue ?? 0
         
@@ -431,23 +431,23 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let from: Decimal
         let to: Decimal
         if let fromCryptoAmount = viewAction.fromCryptoAmount {
-            let price = quote.closeAsk
+            let price = quote.exchangeRate
             from = NSDecimalNumber(string: fromCryptoAmount).decimalValue
             to = (from - fromFee) * price - toFee
             
         } else if let fromFiatAmount = viewAction.fromFiatAmount {
-            let price = quote.closeAsk
+            let price = quote.exchangeRate
             let fromFiat = NSDecimalNumber(string: fromFiatAmount).decimalValue
             from = fromFiat / fromRate
             to = (from - fromFee) * price - fromFee
             
         } else if let toCryptoAmount = viewAction.toCryptoAmount {
-            let price = quote.closeBid
+            let price = quote.exchangeRate
             to = NSDecimalNumber(string: toCryptoAmount).decimalValue
             from = (to + toFee) / price + fromFee
             
         } else if let toFiatAmount = viewAction.toFiatAmount {
-            let price = quote.closeBid
+            let price = quote.exchangeRate
             let toFiat = NSDecimalNumber(string: toFiatAmount).decimalValue
             to = (toFiat - toFee) / toRate
             from = (to + toFee) / price + fromFee
@@ -457,7 +457,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                   dataStore?.toCurrency != nil
             else { return }
             
-            let price = quote.closeAsk
+            let price = quote.exchangeRate
             if let value = dataStore?.from?.tokenValue {
                 from = value
             } else {

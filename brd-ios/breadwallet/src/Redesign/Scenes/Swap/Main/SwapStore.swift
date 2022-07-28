@@ -92,7 +92,7 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         ?? supportedCurrencies?.first(where: { $0.baseCurrency == toCurrency?.code && $0.termCurrency == fromCurrency?.code })
     }
     
-    var minimumAmount: Decimal? {
-        return Decimal(pair?.minimumQuantity ?? 0)
-    }
+//    var minimumAmount: Decimal? {
+//        return quote?.minUsdAmount
+//    }
 }

@@ -92,7 +92,7 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         guard let viewModel = viewModel,
               let from = viewModel.from,
               let to = viewModel.to,
-              let rate = viewModel.quote?.closeAsk
+              let rate = viewModel.quote?.exchangeRate
         else {
             valueLabel.text = "No quote for pair."
             return

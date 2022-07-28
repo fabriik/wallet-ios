@@ -174,7 +174,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     func presentConfirmation(actionResponse: SwapModels.ShowConfirmDialog.ActionResponse) {
         guard let from = actionResponse.from,
               let to = actionResponse.to,
-              let rate = actionResponse.quote?.closeAsk.doubleValue else {
+              let rate = actionResponse.quote?.exchangeRate.doubleValue else {
             return
         }
         

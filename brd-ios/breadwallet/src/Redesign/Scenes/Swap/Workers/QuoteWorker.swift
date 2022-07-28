@@ -21,30 +21,51 @@ struct QuoteRequestData: RequestModelData {
 struct QuoteModelResponse: ModelResponse {
     var quoteId: Int
     var securityId: String
-    var closeAsk: Decimal
-    var closeBid: Decimal
+    var exchangeRate: Decimal
+    var barTime: Double
     var timestamp: Double
+    
+    struct FeeEstimate: Codable {
+        struct Fee: Codable {
+            var currencyId: String
+            var amount: String
+        }
+        var fee: Fee
+        var estimatedConfirmationIn: Double
+        var tier: String
+    }
+    
+    var baseFeeEstimates: [FeeEstimate]
+    var termFeeEstimates: [FeeEstimate]
+    
+    var buyMarkup: Decimal
+    var sellMarkup: Decimal
     var minimumUsdValue: Decimal
 }
 
 struct Quote {
     var quoteId: Int
     var securityId: String
-    var closeAsk: Decimal
-    var closeBid: Decimal
+    var exchangeRate: Decimal
     var timestamp: Double
-    var minUsdAmount: Decimal
     
     struct FeeEstimate {
-        var estimatedConfirmationIn: UInt64
-        var tier: String
-        var fee: Amount
-        
-        struct Amount {
+        struct Fee {
             var currencyId: String
-            var amount: String
+            var amount: Decimal
         }
+        var fee: Fee
+        var estimatedConfirmationIn: Double
+        var tier: String
     }
+    
+    var fromFee: [FeeEstimate]
+    var toFee: [FeeEstimate]
+    
+    var buyMarkup: Decimal
+    var sellMarkup: Decimal
+    var minUsdAmount: Decimal
+    
 }
 
 class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
@@ -53,9 +74,18 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
 
         return .init(quoteId: response.quoteId,
                      securityId: response.securityId,
-                     closeAsk: response.closeAsk,
-                     closeBid: response.closeBid,
+                     exchangeRate: response.exchangeRate,
                      timestamp: response.timestamp,
+                     fromFee: response.baseFeeEstimates.compactMap { .init(fee: .init(currencyId: $0.fee.currencyId,
+                                                                                      amount: Decimal(string: $0.fee.amount) ?? 0),
+                                                                           estimatedConfirmationIn: $0.estimatedConfirmationIn,
+                                                                           tier: $0.tier) },
+                     toFee: response.termFeeEstimates.compactMap { .init(fee: .init(currencyId: $0.fee.currencyId,
+                                                                                    amount: Decimal(string: $0.fee.amount) ?? 0),
+                                                                         estimatedConfirmationIn: $0.estimatedConfirmationIn,
+                                                                         tier: $0.tier) },
+                     buyMarkup: response.buyMarkup,
+                     sellMarkup: response.sellMarkup,
                      minUsdAmount: response.minimumUsdValue)
     }
 }
