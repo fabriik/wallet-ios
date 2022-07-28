@@ -19,7 +19,7 @@ struct SwapDetailsResponseData: ModelResponse {
     }
     
     var orderId: Int?
-    var status: TransactionStatus?
+    var status: String?
     var statusDetails: String?
     var source: SourceDestination?
     var destination: SourceDestination?
@@ -45,7 +45,7 @@ struct SwapDetail: Model {
 class SwapDetailsMapper: ModelMapper<SwapDetailsResponseData, SwapDetail> {
     override func getModel(from response: SwapDetailsResponseData?) -> SwapDetail {
         return SwapDetail(orderId: Int(response?.orderId ?? 0),
-                          status: TransactionStatus(rawValue: response?.status?.rawValue ?? "") ?? .pending,
+                          status: .init(string: response?.status) ?? .failed,
                           statusDetails: response?.statusDetails ?? "",
                           source: SwapDetail.SourceDestination(currency: response?.source?.currency?.uppercased() ?? "",
                                                                currencyAmount: response?.source?.currencyAmount ?? 0,

@@ -21,6 +21,14 @@ enum TransactionStatus: String, ModelResponse {
     case invalid
     /// Failed
     case failed = "FAILED"
+    
+    init?(string: String?) {
+        guard let rawValue = string else {
+            self = .failed
+            return
+        }
+        self.init(rawValue: rawValue)
+    }
 }
 
 /// Wrapper for BRCrypto TransferFeeBasis
