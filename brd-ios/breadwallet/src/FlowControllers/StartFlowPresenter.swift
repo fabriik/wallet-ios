@@ -184,7 +184,6 @@ class StartFlowPresenter: Subscriber, Trackable {
         }
     }
     
-    @available(iOS 13.6, *)
     private func recoverBackup(_ backup: CloudBackup) {
         let update = UpdatePinViewController(keyMaster: self.keyMaster,
                                              type: .recoverBackup,

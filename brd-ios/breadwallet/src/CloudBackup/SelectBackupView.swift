@@ -14,10 +14,8 @@ enum SelectBackupError: Error {
     case didCancel
 }
 
-@available(iOS 13.6, *)
 typealias SelectBackupResult = Result<CloudBackup, Error>
 
-@available(iOS 13.6, *)
 struct SelectBackupView: View {
     
     let backups: [CloudBackup]
@@ -73,7 +71,6 @@ struct SelectBackupView: View {
     }
 }
 
-@available(iOS 13.6, *)
 struct BackupCell: View {
     
     let backup: CloudBackup
@@ -105,7 +102,6 @@ struct BackupCell: View {
     }
 }
 
-@available(iOS 13.6, *)
 struct RestoreCloudBackupView_Previews: PreviewProvider {
     static var previews: some View {
         SelectBackupView(backups: [

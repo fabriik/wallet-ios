@@ -10,14 +10,12 @@
 
 import SwiftUI
 
-@available(iOS 13.6, *)
 class LightStatusBarHost<T>: UIHostingController<T> where T: View {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 }
 
-@available(iOS 13.6, *)
 extension View {
     func `if`<Content: View>(_ conditional: Bool, content: (Self) -> Content) -> some View {
         if conditional {
@@ -28,7 +26,6 @@ extension View {
     }
 }
 
-@available(iOS 13.6, *)
 struct TitleText: View {
     
     private let text: String
@@ -47,7 +44,6 @@ enum BodyTextStyle {
     case seconday
 }
 
-@available(iOS 13.6, *)
 struct BodyText: View {
     
     private let text: String

@@ -166,10 +166,18 @@ class BaseCoordinator: NSObject,
     }
     
     func showDeleteProfileInfo(keyMaster: KeyStore) {
-        openModally(coordinator: DeleteProfileInfoCoordinator.self, scene: Scenes.DeleteProfileInfo) { vc in
-            vc?.dataStore?.keyMaster = keyMaster
-            vc?.prepareData()
-        }
+        let nvc = RootNavigationController()
+        let coordinator = DeleteProfileInfoCoordinator(navigationController: nvc)
+        coordinator.start(with: keyMaster)
+        coordinator.parentCoordinator = self
+        
+        childCoordinators.append(coordinator)
+        UIApplication.shared.activeWindow?.rootViewController?.presentedViewController?.present(coordinator.navigationController, animated: true)
+        
+        // TODO: Cleanup when everything is moved to Coordinators.
+        // There are problems with showing this vc from both menu and profile menu.
+        // Cannot get it work reliably. Navigation Controllers are messed up.
+        // More hint: deleteAccountCallback inside ModalPresenter.
     }
     
     /// Determines whether the viewcontroller or navigation stack are being dismissed

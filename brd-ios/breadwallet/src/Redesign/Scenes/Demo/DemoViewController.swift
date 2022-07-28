@@ -29,8 +29,7 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
             Models.Section.asset,
             Models.Section.order
         ]
-        let image = TokenImageSquareBackground(code: "BTC", color: .red).renderedImage ?? UIImage()
-
+        
         sectionRows = [
             Models.Section.order: [
                 OrderViewModel(title: "Fabriik Order ID", value: "13rXEZoh5NFj4q9aasdfkLp2...", imageName: "copy")

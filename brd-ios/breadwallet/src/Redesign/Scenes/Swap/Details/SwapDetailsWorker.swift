@@ -20,61 +20,6 @@ struct SwapDetailsRequestData: RequestModelData {
     }
 }
 
-struct SwapDetailsResponseData: ModelResponse {
-    enum Status: String, Codable {
-        case pending = "PENDING"
-        case complete = "COMPLETE"
-        case failed = "FAILED"
-    }
-    
-    struct Source: Codable {
-        var currency: String
-        var currencyAmount: Decimal
-        var usdAmount: Decimal
-        var transactionId: Int?
-    }
-    
-    var orderId: Int
-    var status: Status
-    var source: Source
-    var destination: Source
-    var timestamp: Int
-}
-
-struct SwapDetails: Model {
-    var orderId: Int
-    var timestamp: Int
-    var status: SwapDetailsResponseData.Status
-    
-    var currency: String
-    var currencyAmount: Decimal
-    var usdAmount: Decimal
-    var transactionId: Int?
-    
-    var currencyDestination: String
-    var currencyAmountDestination: Decimal
-    var usdAmountDestination: Decimal
-    var transactionIdDestination: Int?
-}
-
-class SwapDetailsMapper: ModelMapper<SwapDetailsResponseData, SwapDetails> {
-    override func getModel(from response: SwapDetailsResponseData?) -> SwapDetails? {
-        guard let response = response else { return nil }
-        
-        return .init(orderId: response.orderId,
-                     timestamp: response.timestamp,
-                     status: response.status,
-                     currency: response.source.currency.localizedUppercase,
-                     currencyAmount: response.source.currencyAmount,
-                     usdAmount: response.source.usdAmount,
-                     transactionId: response.source.transactionId,
-                     currencyDestination: response.destination.currency.localizedUppercase,
-                     currencyAmountDestination: response.destination.currencyAmount,
-                     usdAmountDestination: response.destination.usdAmount,
-                     transactionIdDestination: response.destination.transactionId)
-    }
-}
-
 class SwapDetailsWorker: BaseApiWorker<SwapDetailsMapper> {
     override func getUrl() -> String {
         guard let urlParams = (requestData as? SwapDetailsRequestData)?.exchangeId else { return "" }

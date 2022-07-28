@@ -225,7 +225,6 @@ class Theme: BRDTheme {
     }
 }
 
-@available(iOS 13.6, *)
 struct ThemePreview: View {
     
     func colorRectangle(color: Color, label: String) -> some View {
@@ -278,7 +277,6 @@ struct ThemePreview: View {
     }
 }
 
-@available(iOS 13.6, *)
 struct Theme_Previews: PreviewProvider {
     static var previews: some View {
         ThemePreview()

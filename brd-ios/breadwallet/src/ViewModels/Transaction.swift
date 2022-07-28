@@ -10,15 +10,17 @@ import Foundation
 import WalletKit
 
 /// Transacton status
-enum TransactionStatus {
+enum TransactionStatus: String, ModelResponse {
     /// Zero confirmations
-    case pending
+    case pending = "PENDING"
     /// One or more confirmations
     case confirmed
     /// Sufficient confirmations to deem complete (coin-specific)
-    case complete
+    case complete = "COMPLETE"
     /// Invalid / error
     case invalid
+    /// Failed
+    case failed = "FAILED"
 }
 
 /// Wrapper for BRCrypto TransferFeeBasis
@@ -105,29 +107,50 @@ class Transaction {
         }
         return timestamp
     }
-
+    
     var hash: String { return transfer.hash?.description ?? "" }
-
+    
+    enum TransactionType {
+        case defaultTransaction
+        case swapTransaction
+    }
+    
+    var transactionType: TransactionType = .defaultTransaction
+    var swapTransationStatus: TransactionStatus?
+    var swapSource: SwapDetail.SourceDestination?
+    var swapDestination: SwapDetail.SourceDestination?
+    var swapOrderId: Int?
+    
     var status: TransactionStatus {
-        switch transfer.state {
-        case .created, .signed, .submitted, .pending:
-            return .pending
-        case .included:
-            
-            guard transfer.confirmation?.error == nil else {
+        switch transactionType {
+        case .defaultTransaction:
+            switch transfer.state {
+            case .created, .signed, .submitted, .pending:
+                return .pending
+                
+            case .included:
+                guard transfer.confirmation?.error == nil else {
+                    return .invalid
+                }
+                
+                switch Int(confirmations) {
+                case 0:
+                    return .pending
+                    
+                case 1..<currency.confirmationsUntilFinal:
+                    return .confirmed
+                    
+                default:
+                    return .complete
+                    
+                }
+            case .failed, .deleted:
                 return .invalid
             }
             
-            switch Int(confirmations) {
-            case 0:
-                return .pending
-            case 1..<currency.confirmationsUntilFinal:
-                return .confirmed
-            default:
-                return .complete
-            }
-        case .failed, .deleted:
-            return .invalid
+        case .swapTransaction:
+            return swapTransationStatus ?? .failed
+            
         }
     }
     

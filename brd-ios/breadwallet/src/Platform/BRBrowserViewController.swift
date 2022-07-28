@@ -298,7 +298,6 @@ private class BRBrowserViewControllerInternal: UIViewController, WKNavigationDel
     }
 }
 
-@available(iOS 8.0, *)
 open class BRBrowserViewController: UINavigationController {
     var onDone: (() -> Void)?
     var isClosing = false

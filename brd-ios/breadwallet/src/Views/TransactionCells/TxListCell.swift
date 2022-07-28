@@ -44,36 +44,83 @@ class TxListCell: UITableViewCell {
         
         descriptionLabel.text = viewModel.shortDescription
         amount.attributedText = viewModel.amount(showFiatAmounts: showFiatAmounts, rate: rate)
-        
         statusIndicator.status = viewModel.status
         
+        switch viewModel.transactionType {
+        case .defaultTransaction:
+            handleDefaultTransactions()
+            
+        case .swapTransaction:
+            handleSwapTransactions()
+            
+        }
+        
+        failedIndicator.isHidden = true
+        statusIndicator.isHidden = true
+    }
+    
+    private func handleDefaultTransactions() {
         switch viewModel.status {
         case .invalid:
             timestamp.text = L10n.Transaction.failed
             failedIndicator.isHidden = false
             statusIndicator.isHidden = true
             timestamp.isHidden = false
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
+            
         case .complete:
             timestamp.text = viewModel.shortTimestamp
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
+            
         default:
             failedIndicator.isHidden = true
             statusIndicator.isHidden = false
             timestamp.isHidden = false
             timestamp.text = "\(viewModel.confirmations)/\(viewModel.currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
             
+        }
+        
+        NSLayoutConstraint.activate(completeConstraints)
+        NSLayoutConstraint.deactivate(pendingConstraints)
+    }
+    
+    private func handleSwapTransactions() {
+        let isSwapFrom = viewModel.tx.swapSource?.currency.uppercased() == viewModel.currency.code.uppercased()
+        let swapString = isSwapFrom ? "from \(viewModel.tx.swapSource?.currency.uppercased() ?? "")" : "to \(viewModel.tx.swapDestination?.currency.uppercased() ?? "")"
+        
+        switch viewModel.status {
+        case .complete:
+            timestamp.text = "Swapped \(swapString)"
+            failedIndicator.isHidden = true
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
             NSLayoutConstraint.activate(completeConstraints)
             NSLayoutConstraint.deactivate(pendingConstraints)
+            
+        case .pending:
+            timestamp.text = "Pending swap \(swapString)"
+            failedIndicator.isHidden = true
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
+            NSLayoutConstraint.deactivate(completeConstraints)
+            NSLayoutConstraint.activate(pendingConstraints)
+            
+        case .failed:
+            timestamp.text = "Failed swap \(swapString)"
+            failedIndicator.isHidden = true
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
+            
+        default:
+            break
+            
         }
-  
-        failedIndicator.isHidden = true
-        statusIndicator.isHidden = true
     }
     
     // MARK: - Private

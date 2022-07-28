@@ -11,8 +11,13 @@
 class DeleteProfileInfoCoordinator: BaseCoordinator, DeleteProfileInfoRoutes {
     // MARK: - ProfileRoutes
     
-    override func start() {
-        open(scene: Scenes.DeleteProfileInfo)
+    override func start() {}
+    
+    func start(with keyMaster: KeyStore) {
+        open(scene: Scenes.DeleteProfileInfo) { vc in
+            vc.dataStore?.keyMaster = keyMaster
+            vc.prepareData()
+        }
     }
     
     // MARK: - Aditional helpers

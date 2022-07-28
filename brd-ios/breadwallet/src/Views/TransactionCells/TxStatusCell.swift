@@ -81,6 +81,8 @@ class TxStatusCell: UITableViewCell, Subscriber {
             statusLabel.text = L10n.Transaction.complete
         case .invalid:
             statusLabel.text = L10n.Transaction.invalid
+        case .failed:
+            statusLabel.text = L10n.Transaction.failed
         }
     }
     

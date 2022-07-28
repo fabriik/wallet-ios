@@ -293,15 +293,28 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     // MARK: show transaction details
     
     private func didSelectTransaction(transactions: [Transaction], selectedIndex: Int) {
-        let transactionDetails = TxDetailViewController(transaction: transactions[selectedIndex], delegate: self)
-        
-        transactionDetails.modalPresentationStyle = .overCurrentContext
-        transactionDetails.transitioningDelegate = transitionDelegate
-        transactionDetails.modalPresentationCapturesStatusBarAppearance = true
-        
         hideSearchKeyboard()
         
-        present(transactionDetails, animated: true, completion: nil)
+        let transaction = transactions[selectedIndex]
+        
+        switch transaction.transactionType {
+        case .defaultTransaction:
+            let transactionDetails = TxDetailViewController(transaction: transactions[selectedIndex], delegate: self)
+            
+            transactionDetails.modalPresentationStyle = .overCurrentContext
+            transactionDetails.transitioningDelegate = transitionDelegate
+            transactionDetails.modalPresentationCapturesStatusBarAppearance = true
+            
+            present(transactionDetails, animated: true)
+            
+        case .swapTransaction:
+            let vc = SwapDetailsViewController()
+            vc.isModalDismissable = false
+            vc.dataStore?.itemId = String(transaction.swapOrderId ?? -1)
+            vc.prepareData()
+            
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     private func showSearchHeaderView() {

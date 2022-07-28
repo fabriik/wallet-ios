@@ -10,7 +10,6 @@
 
 import SwiftUI
 
-@available(iOS 13.6, *)
 struct RadioButton: View {
     @SwiftUI.Binding var isOn: Bool
     
