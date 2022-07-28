@@ -1160,7 +1160,7 @@ class ModalPresenter: Subscriber, Trackable {
             self?.deleteAccountCallback?()
         }
         
-        if UserManager.shared.profile?.roles.contains(.unverified) == false,
+        if UserManager.shared.profile?.roles.contains(.customer) == false,
            UserDefaults.email != nil {
             securityItems.append(deleteAccount)
         }
