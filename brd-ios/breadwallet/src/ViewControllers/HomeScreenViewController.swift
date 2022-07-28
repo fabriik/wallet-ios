@@ -203,7 +203,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         promptContainerStack.constrain([
             promptContainerStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[1]),
             promptContainerStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[1]),
-            promptContainerStack.topAnchor.constraint(equalTo: subHeaderView.bottomAnchor)])
+            promptContainerStack.topAnchor.constraint(equalTo: subHeaderView.bottomAnchor),
+                promptContainerStack.heightAnchor.constraint(equalToConstant: 0).priority(.defaultLow)])
         
         addChildViewController(assetListTableView, layout: {
             assetListTableView.view.constrain([

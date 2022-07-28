@@ -10,6 +10,55 @@
 
 import Foundation
 
+struct SwapDetailsResponseData: ModelResponse {
+    struct SourceDestination: ModelResponse {
+        var currency: String?
+        var currencyAmount: Double?
+        var usdAmount: Double?
+        var transactionId: String?
+    }
+    
+    var orderId: Int?
+    var status: TransactionStatus?
+    var statusDetails: String?
+    var source: SourceDestination?
+    var destination: SourceDestination?
+    var timestamp: Int?
+}
+
+struct SwapDetail: Model {
+    struct SourceDestination: Model {
+        var currency: String
+        var currencyAmount: Double
+        var usdAmount: Double
+        var transactionId: String
+    }
+    
+    var orderId: Int
+    var status: TransactionStatus
+    var statusDetails: String
+    var source: SourceDestination
+    var destination: SourceDestination
+    var timestamp: Int
+}
+
+class SwapDetailsMapper: ModelMapper<SwapDetailsResponseData, SwapDetail> {
+    override func getModel(from response: SwapDetailsResponseData?) -> SwapDetail {
+        return SwapDetail(orderId: Int(response?.orderId ?? 0),
+                          status: TransactionStatus(rawValue: response?.status?.rawValue ?? "") ?? .pending,
+                          statusDetails: response?.statusDetails ?? "",
+                          source: SwapDetail.SourceDestination(currency: response?.source?.currency?.uppercased() ?? "",
+                                                               currencyAmount: response?.source?.currencyAmount ?? 0,
+                                                               usdAmount: response?.source?.usdAmount ?? 0,
+                                                               transactionId: response?.source?.transactionId ?? ""),
+                          destination: SwapDetail.SourceDestination(currency: response?.destination?.currency?.uppercased() ?? "",
+                                                                    currencyAmount: response?.destination?.currencyAmount ?? 0,
+                                                                    usdAmount: response?.destination?.usdAmount ?? 0,
+                                                                    transactionId: response?.destination?.transactionId ?? ""),
+                          timestamp: Int(response?.timestamp ?? 0))
+    }
+}
+
 struct SwapDetailsRequestData: RequestModelData {
     var exchangeId: String?
     

@@ -176,7 +176,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         
         guard let transfers = wallet?.transfers else { return }
         
-        ExchangeHistoryWorker().execute { [weak self] result in
+        SwapHistoryWorker().execute { [weak self] result in
             self?.allTransactions = transfers
             
             switch result {
