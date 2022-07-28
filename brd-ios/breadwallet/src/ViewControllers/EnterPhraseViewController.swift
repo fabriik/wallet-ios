@@ -274,7 +274,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
             }
             UserDefaults.writePaperPhraseDate = Date()
             return callback(phrase)
-        case .validateForWipingWallet(let callback):
+        case .validateForWipingWallet(let callback), .validateForWipingWalletAndDeletingFromDevice(let callback):
             guard self.keyMaster.authenticate(withPhrase: phrase) else {
                 showErrorMessage()
                 return
