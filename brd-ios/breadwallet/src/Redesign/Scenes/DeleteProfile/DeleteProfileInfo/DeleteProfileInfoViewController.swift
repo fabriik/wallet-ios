@@ -114,7 +114,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
         guard let navigationController = coordinator?.navigationController, let keyStore = dataStore?.keyMaster else { return }
         RecoveryKeyFlowController.pushUnlinkWalletFlowWithoutIntro(from: navigationController,
                                                                    keyMaster: keyStore,
-                                                                   phraseEntryReason: .validateForWipingWallet({ [weak self] in
+                                                                   phraseEntryReason: .validateForWipingWalletAndDeletingFromDevice({ [weak self] in
             self?.interactor?.deleteProfile(viewAction: .init())
         }))
     }

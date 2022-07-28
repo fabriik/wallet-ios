@@ -12,6 +12,7 @@ enum PhraseEntryReason {
     case setSeed(LoginCompletionHandler)
     case validateForResettingPin(EnterPhraseCallback)
     case validateForWipingWallet(() -> Void)
+    case validateForWipingWalletAndDeletingFromDevice(() -> Void)
 }
 
 typealias EnterPhraseCallback = (String) -> Void
@@ -183,6 +184,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
     }
 
     private func setInitialData() {
+        scrollView.delegate = self
         view.backgroundColor = .darkBackground
         nextButton.setup(with: .init(title: "Next"))
         
@@ -207,9 +209,11 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
             saveEvent("enterPhrase.wipeWallet")
             heading.text = L10n.RecoveryKeyFlow.enterRecoveryKey
             subheading.text = L10n.RecoveryKeyFlow.enterRecoveryKeySubtitle
+        case .validateForWipingWalletAndDeletingFromDevice:
+            saveEvent("enterPhrase.wipeWallet")
+            heading.text = L10n.RecoveryKeyFlow.enterRecoveryKey
+            subheading.text = "Please enter your recovery phrase to delete this wallet from your device." // TODO: Localize
         }
-
-        scrollView.delegate = self
     }
     
     // MARK: - User Interaction
