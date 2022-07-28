@@ -329,6 +329,11 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         var error: FEError?
         switch result {
         case .ok:
+            // TODO: uncomment this once BE is fixed
+            let error = GeneralError(errorMessage: "Due to backend issues swapping is currencly disabled. Please try again later")
+            presenter?.presentError(actionResponse: .init(error: error))
+            
+            return ()
             sender.sendTransaction(allowBiometrics: true, exchangeId: exchangeId) { [weak self] data in
                 guard let pin = self?.dataStore?.pin else {
                     self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.pinConfirmation))
@@ -340,17 +345,17 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 switch result {
                 case .success:
                     self?.presenter?.presentConfirm(actionResponse: .init(from: from, to: to, exchangeId: exchangeId))
-                    
+
                 case .creationError(let message):
                     error = GeneralError(errorMessage: message)
-                    
+
                 case .insufficientGas:
                     error = SwapErrors.networkFee
-                    
+
                 case .publishFailure(let code, let message):
                     error = GeneralError(errorMessage: "Error \(code): \(message)")
                 }
-                
+
                 guard let error = error else { return }
                 self?.presenter?.presentError(actionResponse: .init(error: error))
             }
