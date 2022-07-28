@@ -14,8 +14,6 @@ struct SupportedCurrenciesResponseData: ModelResponse {
     struct SupportedCurrencyResponseData: ModelResponse {
         var baseCurrency: String
         var termCurrency: String
-        var minimumQuantity: Double
-        var maximumQuantity: Double
         var name: String
     }
     
@@ -25,8 +23,6 @@ struct SupportedCurrenciesResponseData: ModelResponse {
 struct SupportedCurrency {
     var baseCurrency: String
     var termCurrency: String
-    var minimumQuantity: Double
-    var maximumQuantity: Double
     var name: String
 }
 
@@ -34,8 +30,6 @@ class SupportedCurrenciesWorkerMapper: ModelMapper<SupportedCurrenciesResponseDa
     override func getModel(from response: SupportedCurrenciesResponseData?) -> [SupportedCurrency]? {
         return response?.tradingPairs.compactMap { return .init(baseCurrency: $0.baseCurrency,
                                                                 termCurrency: $0.termCurrency,
-                                                                minimumQuantity: $0.minimumQuantity,
-                                                                maximumQuantity: $0.maximumQuantity,
                                                                 name: $0.name) }
     }
 }
