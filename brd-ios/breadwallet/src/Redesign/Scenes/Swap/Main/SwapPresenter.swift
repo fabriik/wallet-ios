@@ -48,8 +48,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 exchangeRateViewModel
             ],
             .swapCard: [
-                MainSwapViewModel(from: .init(amount: .zero(from), fee: .zero(from), title: "I have 0 \(from.code)"),
-                                  to: .init(amount: .zero(to), fee: .zero(to), title: "I want"))
+                MainSwapViewModel(from: .init(amount: .zero(from), fee: .zero(from), title: "I have 0 \(from.code)", feeDescription: "Sending network fee\n(included)"),
+                                  to: .init(amount: .zero(to), fee: .zero(to), title: "I want", feeDescription: "Sending network fee\n(included)"))
             ],
             .amountSegment: [
                 SegmentControlViewModel(selectedIndex: nil)
@@ -78,13 +78,17 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         let balance = actionResponse.baseBalance
         let balanceText = String(format: "I have %.4f %@", balance?.tokenValue.doubleValue ?? 0, balance?.currency.code ?? "BSV")
+        let sendingFee = "Sending network fee\n(included)"
+        let receivingFee = "Receiving network fee\n(included)"
         
         let swapModel = MainSwapViewModel(from: .init(amount: actionResponse.from,
                                                       fee: actionResponse.fromFee,
-                                                      title: balanceText),
+                                                      title: balanceText,
+                                                      feeDescription: sendingFee),
                                           to: .init(amount: actionResponse.to,
                                                     fee: actionResponse.toFee,
-                                                    title: "I want"))
+                                                    title: "I want",
+                                                    feeDescription: receivingFee))
         
         exchangeRateViewModel.from = actionResponse.from?.currency.code
         exchangeRateViewModel.to = actionResponse.to?.currency.code
