@@ -15,8 +15,6 @@ class DeleteProfileWorker: BaseApiWorker<PlainMapper> {
         return APIURLHandler.getUrl(KYCAuthEndpoints.profile)
     }
     
-    override func processResponse(response: HTTPResponse) {}
-    
     override func getMethod() -> HTTPMethod {
         return .delete
     }
