@@ -498,4 +498,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         return formatter.string(for: amount)
         
     }
+    
+    func showInfoPopup(viewAction: SwapModels.InfoPopup.ViewAction) {
+        presenter?.presentInfoPopup(actionResponse: .init())
+    }
 }

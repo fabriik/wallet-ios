@@ -22,6 +22,7 @@ protocol SwapViewActions: BaseViewActions, FetchViewActions {
     func selectAsset(viewAction: SwapModels.Assets.ViewAction)
     func showConfirmation(viewAction: SwapModels.ShowConfirmDialog.ViewAction)
     func confirm(viewAction: SwapModels.Confirm.ViewAction)
+    func showInfoPopup(viewAction: SwapModels.InfoPopup.ViewAction)
 }
 
 protocol SwapActionResponses: BaseActionResponses, FetchActionResponses {
@@ -30,6 +31,7 @@ protocol SwapActionResponses: BaseActionResponses, FetchActionResponses {
     func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse)
     func presentConfirmation(actionResponse: SwapModels.ShowConfirmDialog.ActionResponse)
     func presentConfirm(actionResponse: SwapModels.Confirm.ActionResponse)
+    func presentInfoPopup(actionResponse: SwapModels.InfoPopup.ActionResponse)
 }
 
 protocol SwapResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
@@ -38,6 +40,7 @@ protocol SwapResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDis
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay)
     func displayConfirmation(responseDisplay: SwapModels.ShowConfirmDialog.ResponseDisplay)
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay)
+    func displayInfoPopup(responseDisplay: SwapModels.InfoPopup.ResponseDisplay)
 }
 
 protocol SwapDataStore: BaseDataStore, FetchDataStore {
