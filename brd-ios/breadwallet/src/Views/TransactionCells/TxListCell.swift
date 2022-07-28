@@ -55,8 +55,6 @@ class TxListCell: UITableViewCell {
             
         }
         
-        
-        
         failedIndicator.isHidden = true
         statusIndicator.isHidden = true
     }
