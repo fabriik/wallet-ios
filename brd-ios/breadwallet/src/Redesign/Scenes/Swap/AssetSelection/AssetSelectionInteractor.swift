@@ -23,7 +23,7 @@ class AssetSelectionInteractor: NSObject, Interactor, AssetSelectionViewActions 
                                   subtitle: $0.code,
                                   topRightText: HomeScreenAssetViewModel(currency: $0).tokenBalance,
                                   bottomRightText: HomeScreenAssetViewModel(currency: $0).fiatBalance,
-                                  isDisabled: isDisabledAsset(code: $0.code) ?? false) } ?? []
+                                  isDisabled: isDisabledAsset(code: $0.code, from: dataStore?.isFromCurrency) ?? false) } ?? []
         
         let sortedCurrencies = currencies.sorted { !$0.isDisabled && $1.isDisabled }
         
@@ -41,15 +41,27 @@ class AssetSelectionInteractor: NSObject, Interactor, AssetSelectionViewActions 
                                   subtitle: $0.code,
                                   topRightText: HomeScreenAssetViewModel(currency: $0).tokenBalance,
                                   bottomRightText: HomeScreenAssetViewModel(currency: $0).fiatBalance,
-                                  isDisabled: isDisabledAsset(code: $0.code) ?? false) } ?? []
+                                  isDisabled: isDisabledAsset(code: $0.code, from: dataStore?.isFromCurrency) ?? false) } ?? []
         
         presenter?.presentData(actionResponse: .init(item: Models.Item(searchCurrencies)))
     }
     
-    private func isDisabledAsset(code: String?) -> Bool? {
+    private func isDisabledAsset(code: String?, from: Bool? = false) -> Bool? {
         guard let assetCode = code else { return false }
         
-        return !(dataStore?.supportedCurrencies?.contains(assetCode) ?? false)
+        var supportedAssets: [String]?
+        guard let isFromCurrency = from else { return false }
+        
+        if isFromCurrency {
+            supportedAssets = dataStore?.supportedCurrenciesPair?.filter { $0.contains(assetCode) }
+        } else {
+            let supportedCurrenciesPair = dataStore?.supportedCurrenciesPair?.filter { $0.contains(dataStore?.baseCurrencySelected?.code ?? "") }
+            guard dataStore?.baseCurrencySelected?.code != assetCode else { return true }
+            
+            supportedAssets = supportedCurrenciesPair?.filter { $0.contains(assetCode) }
+        }
+        
+        return supportedAssets?.isEmpty
     }
     
     // MARK: - Aditional helpers
