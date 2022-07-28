@@ -149,6 +149,13 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
+        // There could be a better way
+        if baseSwapCurrencyView.selectorStackView.transform != .identity {
+            baseSwapCurrencyView.selectorStackView.transform = .identity
+            termSwapCurrencyView.selectorStackView.transform = .identity
+            layoutIfNeeded()
+        }
+        
         baseSwapCurrencyView.setup(with: viewModel.from)
         termSwapCurrencyView.setup(with: viewModel.to)
         
@@ -171,11 +178,10 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         
         didChangePlaces?()
 
-        // TODO: animations were breaking user interactions. disabled for now
-//        SwapCurrencyView.animateSwitchPlaces(sender: sender,
-//                                             baseSwapCurrencyView: baseSwapCurrencyView,
-//                                             termSwapCurrencyView: termSwapCurrencyView)
-//
+        SwapCurrencyView.animateSwitchPlaces(sender: sender,
+                                             baseSwapCurrencyView: baseSwapCurrencyView,
+                                             termSwapCurrencyView: termSwapCurrencyView)
+
         contentSizeChanged?()
     }
 }
