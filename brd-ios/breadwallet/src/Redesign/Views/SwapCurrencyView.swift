@@ -19,6 +19,7 @@ struct SwapCurrencyViewModel: ViewModel {
     var amount: Amount?
     var fee: Amount?
     var title: String?
+    var feeDescription: String?
 }
 
 class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel> {
@@ -312,6 +313,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         if let fee = viewModel.fee {
             feeAmountLabel.text = "\(fee.tokenDescription) \n\(fee.fiatDescription)"
         }
+        feeLabel.text = viewModel.feeDescription
         
         let isHidden = feeAndAmountsStackView.alpha == 0
         let noFee = viewModel.fee == nil || viewModel.fee?.tokenValue == 0

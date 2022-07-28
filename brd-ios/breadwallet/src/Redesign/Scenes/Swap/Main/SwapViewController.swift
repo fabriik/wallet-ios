@@ -204,12 +204,14 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else { return }
         
         cell.setup { view in
-            view.setup { view in
+            view.setup { [weak self] view in
                 let model = responseDisplay.model
                 view.setup(with: model)
                 
                 let config = responseDisplay.config
                 view.configure(with: config)
+                self?.tableView.beginUpdates()
+                self?.tableView.endUpdates()
             }
         }
         
