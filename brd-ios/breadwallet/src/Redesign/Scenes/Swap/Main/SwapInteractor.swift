@@ -122,13 +122,13 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let address = currency.wallet?.receiveAddress(for: addressScheme) ?? ""
         
         sender.estimateFee(address: address,
-                           amount: .init(tokenString: String(describing: amount.doubleValue), currency: currency),
+                           amount: .init(tokenString: amount.doubleValue.description, currency: currency),
                            tier: .regular,
                            isStake: false,
                            completion: { [weak self] result in
             switch result {
             case .success(let fee):
-                guard let currency = self?.dataStore?.currencies.first(where: { $0.code == fee.currency.code }) else {
+                guard let currency = self?.dataStore?.currencies.first(where: { $0.code == fee.currency.code.uppercased() }) else {
                     let error = SwapErrors.general
                     completion(.failure(error))
                     return
@@ -153,13 +153,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         guard let termCurrency = dataStore?.toCurrency else { return nil }
         
         return termCurrency.imageSquareBackground
-    }
-    
-    private func getBaseBalance() -> Amount? {
-        guard let baseCurrency = dataStore?.fromCurrency,
-              let baseBalance = baseCurrency.state?.balance else { return nil }
-        
-        return baseBalance
     }
     
     func switchPlaces(viewAction: SwapModels.SwitchPlaces.ViewAction) {
@@ -194,7 +187,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 viewAction.fromFiatAmount = String(describing: minAmount)
                 
             case .max:
-                viewAction.fromCryptoAmount = "\(getBaseBalance()?.tokenValue ?? 0)"
+                viewAction.fromCryptoAmount = "\(dataStore?.fromCurrency?.state?.balance?.tokenValue ?? 0)"
             }
         }
         
@@ -336,6 +329,11 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         var error: FEError?
         switch result {
         case .ok:
+            // TODO: uncomment this once BE is fixed
+            let error = GeneralError(errorMessage: "Due to backend issues swapping is currencly disabled. Please try again later")
+            presenter?.presentError(actionResponse: .init(error: error))
+            
+            return ()
             sender.sendTransaction(allowBiometrics: true, exchangeId: exchangeId) { [weak self] data in
                 guard let pin = self?.dataStore?.pin else {
                     self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.pinConfirmation))
@@ -347,17 +345,17 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 switch result {
                 case .success:
                     self?.presenter?.presentConfirm(actionResponse: .init(from: from, to: to, exchangeId: exchangeId))
-                    
+
                 case .creationError(let message):
                     error = GeneralError(errorMessage: message)
-                    
+
                 case .insufficientGas:
                     error = SwapErrors.networkFee
-                    
+
                 case .publishFailure(let code, let message):
                     error = GeneralError(errorMessage: "Error \(code): \(message)")
                 }
-                
+
                 guard let error = error else { return }
                 self?.presenter?.presentError(actionResponse: .init(error: error))
             }
@@ -372,7 +370,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             error = GeneralError(errorMessage: "Own address")
             
         case .insufficientFunds:
-            error = SwapErrors.balanceTooLow(amount: amount.tokenValue, balance: getBaseBalance()?.tokenValue ?? 0, currency: currency.code)
+            error = SwapErrors.balanceTooLow(amount: amount.tokenValue, balance: currency.state?.balance?.tokenValue ?? 0, currency: currency.code)
             
         case .noExchangeRate:
             error = SwapErrors.noQuote(pair: dataStore?.quoteTerm ?? "")
@@ -418,8 +416,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                                   to: .zero(toCurrency),
                                                                   fromFee: .zero(fromCurrency),
                                                                   toFee: .zero(toCurrency),
-                                                              baseBalance: getBaseBalance(),
-                                                              minimumAmount: 0))
+                                                                  baseBalance: fromCurrency.state?.balance,
+                                                                  minimumAmount: 0))
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: dataStore?.quoteTerm)))
             return
         }
@@ -483,7 +481,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                           fromFee: dataStore.fromFeeAmount,
                                                           toFee: dataStore.toFeeAmount,
                                                           minMaxToggleValue: dataStore.minMaxToggleValue,
-                                                          baseBalance: getBaseBalance(),
+                                                          baseBalance: fromCurrency.state?.balance,
                                                           minimumAmount: dataStore.quote?.minUsdAmount))
     }
     

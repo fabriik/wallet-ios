@@ -204,12 +204,14 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else { return }
         
         cell.setup { view in
-            view.setup { view in
+            view.setup { [weak self] view in
                 let model = responseDisplay.model
                 view.setup(with: model)
                 
                 let config = responseDisplay.config
                 view.configure(with: config)
+                self?.tableView.beginUpdates()
+                self?.tableView.endUpdates()
             }
         }
         
@@ -257,9 +259,14 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay) {
-        let assets = responseDisplay.to ?? responseDisplay.from
-        let currencies = dataStore?.currencies
-        coordinator?.showAssetSelector(currencies: currencies, assets: assets, selected: { [weak self] model in
+        let isFromCurrency = responseDisplay.from != nil
+        let supportedCurrenciesText = dataStore?.supportedCurrencies?.compactMap({ $0.name })
+        
+        coordinator?.showAssetSelector(currencies: dataStore?.currencies,
+                                       supportedCurrenciesText: supportedCurrenciesText,
+                                       isFromCurrency: isFromCurrency,
+                                       fromCurrency: dataStore?.fromCurrency,
+                                       selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }
             
             // TODO: replace with coordinator call
