@@ -65,7 +65,6 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
             }
         }
     }
-    private var tableViewTopConstraint: NSLayoutConstraint?
     
     private var createTimeoutTimer: Timer? {
         willSet {
@@ -233,19 +232,18 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     
     private func addTransactionsView() {
         if let transactionsTableView = transactionsTableView {
-           // Store this constraint so it can be easily updated later when showing/hiding the rewards view.
-           tableViewTopConstraint = transactionsTableView.view.topAnchor.constraint(equalTo: headerView.bottomAnchor)
-           
-           transactionsTableView.view.backgroundColor = .clear
-           view.backgroundColor = .white
-           addChildViewController(transactionsTableView, layout: {
-               transactionsTableView.view.constrain([
-                   tableViewTopConstraint,
-                   transactionsTableView.view.bottomAnchor.constraint(equalTo: footerView.topAnchor),
-                   transactionsTableView.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                   transactionsTableView.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)])
-           })
-           view.sendSubviewToBack(transactionsTableView.view)
+            transactionsTableView.view.backgroundColor = .clear
+            view.backgroundColor = .white
+            
+            addChildViewController(transactionsTableView, layout: {
+                transactionsTableView.view.constrain([
+                    transactionsTableView.view.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+                    transactionsTableView.view.bottomAnchor.constraint(equalTo: footerView.topAnchor),
+                    transactionsTableView.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                    transactionsTableView.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)])
+            })
+            
+            view.sendSubviewToBack(transactionsTableView.view)
             headerView.setExtendedTouchDelegate(transactionsTableView.tableView)
         }
     }
