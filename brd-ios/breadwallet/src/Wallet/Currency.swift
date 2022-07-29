@@ -203,10 +203,6 @@ class Currency: SharedCurrency, CurrencyWithIcon {
         
         return false
     }
-
-    var supportsStaking: Bool {
-        return isTezos
-    }
     
     // MARK: Init
 

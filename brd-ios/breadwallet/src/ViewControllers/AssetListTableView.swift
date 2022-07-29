@@ -156,13 +156,8 @@ class AssetListTableView: UITableViewController, Subscriber {
         let currency = Store.state.currencies[indexPath.row]
         let viewModel = HomeScreenAssetViewModel(currency: currency)
         
-        let cellIdentifier = (shouldHighlightCell(for: currency) ? HomeScreenCellIds.highlightableCell : HomeScreenCellIds.regularCell).rawValue
+        let cell = tableView.dequeueReusableCell(withIdentifier: HomeScreenCellIds.regularCell.rawValue, for: indexPath)
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        
-        if let highlightable: HighlightableCell = cell as? HighlightableCell {
-            handleCellHighlightingOnDisplay(cell: highlightable, currency: currency)
-        }
         
         if let cell = cell as? HomeScreenCell {
             cell.set(viewModel: viewModel)
@@ -181,7 +176,6 @@ class AssetListTableView: UITableViewController, Subscriber {
             (currency.isHBAR && Store.state.requiresCreation(currency)) else { return }
         
         didSelectCurrency?(currency)
-        handleCellHighlightingOnSelect(indexPath: indexPath, currency: currency)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -214,33 +208,5 @@ extension AssetListTableView {
     
     func showAddWalletsButton(_ show: Bool) {
         manageAssetsButton.isHidden = !show
-    }
-}
-
-// cell highlighting
-extension AssetListTableView {
-    
-    func shouldHighlightCell(for currency: Currency) -> Bool {
-        // Currently the only currency/wallet we highlight is BRD.
-        guard currency.isBRDToken else { return false }
-        return UserDefaults.shouldShowBRDCellHighlight
-    }
-    
-    func clearShouldHighlightForCurrency(currency: Currency) {
-        guard currency.isBRDToken else { return }
-        UserDefaults.shouldShowBRDCellHighlight = false
-    }
-    
-    func handleCellHighlightingOnDisplay(cell: HighlightableCell, currency: Currency) {
-        guard shouldHighlightCell(for: currency) else { return }
-        cell.highlight()
-    }
-    
-    func handleCellHighlightingOnSelect(indexPath: IndexPath, currency: Currency) {
-        guard shouldHighlightCell(for: currency) else { return }
-        guard let highlightable: HighlightableCell = tableView.cellForRow(at: indexPath) as? HighlightableCell else { return }
-        
-        highlightable.unhighlight()
-        clearShouldHighlightForCurrency(currency: currency)
     }
 }
