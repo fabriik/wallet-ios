@@ -438,7 +438,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                   let fromFiat = decimalFor(amount: fromFiatAmount) {
             let fromCrypto = fromFiat / fromRate
             let toFiat = (fromFiat - (fromFee?.fiatValue ?? 0)) * dataStore.markup
-            let toCryptoAmount = toFiat * toRate - (toFee?.tokenValue ?? 0)
+            let toCryptoAmount = toFiat / toRate - (toFee?.tokenValue ?? 0)
             
             from = fromCrypto
             to = toCryptoAmount
@@ -454,7 +454,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                   let toFiat = decimalFor(amount: toFiatAmount) {
             let toCrypto = toFiat / toRate
             let fromFiat = (toFiat - (toFee?.fiatValue ?? 0)) * dataStore.markup
-            let fromCrypto = fromFiat * fromRate - (fromFee?.tokenValue ?? 0)
+            let fromCrypto = fromFiat / fromRate - (fromFee?.tokenValue ?? 0)
             
             from = fromCrypto
             to = toCrypto
