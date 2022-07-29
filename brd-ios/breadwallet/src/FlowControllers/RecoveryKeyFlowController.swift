@@ -212,7 +212,7 @@ class RecoveryKeyFlowController {
     static func pushUnlinkWalletFlowWithoutIntro(from navigationController: UINavigationController,
                                                  keyMaster: KeyMaster,
                                                  phraseEntryReason: PhraseEntryReason,
-                                                 completion: @escaping ((FEButton, UIBarButtonItem) -> Void)) {
+                                                 completion: @escaping ((FEButton?, UIBarButtonItem?) -> Void)) {
         let enterPhraseVC = EnterPhraseViewController(keyMaster: keyMaster,
                                                       reason: phraseEntryReason,
                                                       showBackButton: false)
