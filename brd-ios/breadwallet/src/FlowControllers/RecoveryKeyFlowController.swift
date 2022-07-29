@@ -211,9 +211,16 @@ class RecoveryKeyFlowController {
     
     static func pushUnlinkWalletFlowWithoutIntro(from navigationController: UINavigationController,
                                                  keyMaster: KeyMaster,
-                                                 phraseEntryReason: PhraseEntryReason) {
-        let enterPhraseVC = EnterPhraseViewController(keyMaster: keyMaster, reason: phraseEntryReason,
+                                                 phraseEntryReason: PhraseEntryReason,
+                                                 completion: @escaping ((FEButton) -> Void)) {
+        let enterPhraseVC = EnterPhraseViewController(keyMaster: keyMaster,
+                                                      reason: phraseEntryReason,
                                                       showBackButton: false)
+        
+        enterPhraseVC.didToggleNextButton = { nextButton in
+            completion(nextButton)
+        }
+        
         // TODO: Move to Coordinators.
         navigationController.pushViewController(enterPhraseVC, animated: true)
     }

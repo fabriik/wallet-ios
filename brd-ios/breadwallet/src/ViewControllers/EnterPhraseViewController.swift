@@ -65,6 +65,8 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
         return button
     }()
     
+    var didToggleNextButton: ((FEButton) -> Void)?
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -279,6 +281,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
                 showErrorMessage()
                 return
             }
+            didToggleNextButton?(nextButton)
             return callback()
         }
     }
