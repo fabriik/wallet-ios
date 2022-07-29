@@ -473,6 +473,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             to = toCryptoAmount
         }
         
+        // WK expects dot separattors.. and crashes else
         guard let fromString = formatAmount(amount: from)?.replacingOccurrences(of: ".", with: "."),
               let toString = formatAmount(amount: to)?.replacingOccurrences(of: ".", with: ".")
         else {
