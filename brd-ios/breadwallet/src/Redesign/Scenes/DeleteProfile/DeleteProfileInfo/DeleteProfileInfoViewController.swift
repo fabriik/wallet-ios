@@ -20,6 +20,9 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
     // TODO: Localize.
     override var sceneLeftAlignedTitle: String? { return "You are about to delete your Fabriik account." }
     
+    private var recoveryKeyFlowNextButton: FEButton?
+    private var recoveryKeyFlowBarButton: UIBarButtonItem?
+    
     lazy var confirmButton: FEButton = {
         let button = FEButton()
         return button
@@ -116,7 +119,12 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
                                                                    keyMaster: keyStore,
                                                                    phraseEntryReason: .validateForWipingWalletAndDeletingFromDevice({ [weak self] in
             self?.interactor?.deleteProfile(viewAction: .init())
-        }))
+        })) { [weak self] nextButton, barButton in
+            self?.recoveryKeyFlowNextButton = nextButton
+            self?.recoveryKeyFlowBarButton = barButton
+            self?.recoveryKeyFlowNextButton?.isEnabled = false
+            self?.recoveryKeyFlowBarButton?.isEnabled = false
+        }
     }
     
     func tickboxToggled(value: Bool) {
@@ -144,5 +152,12 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
         confirmButton.setup(with: .init(title: "Confirm", enabled: responseDisplay.model.enabled))
     }
 
+    override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
+        super.displayMessage(responseDisplay: responseDisplay)
+        
+        recoveryKeyFlowNextButton?.isEnabled = true
+        recoveryKeyFlowBarButton?.isEnabled = true
+    }
+    
     // MARK: - Additional Helpers
 }
