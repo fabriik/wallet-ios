@@ -21,7 +21,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
     override var sceneLeftAlignedTitle: String? { return "You are about to delete your Fabriik account." }
     
     private var recoveryKeyFlowNextButton: FEButton?
-    private var recoveryKeyFlowBarButton: FEButton?
+    private var recoveryKeyFlowBarButton: UIBarButtonItem?
     
     lazy var confirmButton: FEButton = {
         let button = FEButton()
