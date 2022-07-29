@@ -422,36 +422,45 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             return
         }
         // TODO: update calculations to include markups!
-        let fromFee = dataStore?.fromFeeAmount?.tokenValue ?? 0
-        let toFee = dataStore?.toFeeAmount?.tokenValue ?? 0
+        let fromFee = dataStore?.fromFeeAmount
+        let toFee = dataStore?.toFeeAmount
         
         let fromRate = dataStore?.fromRate ?? 0
         let toRate = dataStore?.toRate ?? 0
         
         let from: Decimal
         let to: Decimal
-        if let fromCryptoAmount = viewAction.fromCryptoAmount {
-            let price = quote.exchangeRate
-            from = NSDecimalNumber(string: fromCryptoAmount).decimalValue
-            to = (from - fromFee) * price - toFee
+        if let fromCryptoAmount = viewAction.fromCryptoAmount,
+           let fromCrypto = decimalFor(amount: fromCryptoAmount) {
+            let fromFiat = fromCrypto * fromRate
+            let toFiat = (fromFiat - (fromFee?.fiatValue ?? 0)) * quote.buyMarkup
+            let toCryptoAmount = toFiat / quote.exchangeRate - (toFee?.tokenValue ?? 0)
             
-        } else if let fromFiatAmount = viewAction.fromFiatAmount {
-            let price = quote.exchangeRate
-            let fromFiat = NSDecimalNumber(string: fromFiatAmount).decimalValue
-            from = fromFiat / fromRate
-            to = (from - fromFee) * price - fromFee
+            from = fromCrypto
+            to = toCryptoAmount
             
-        } else if let toCryptoAmount = viewAction.toCryptoAmount {
-            let price = quote.exchangeRate
-            to = NSDecimalNumber(string: toCryptoAmount).decimalValue
-            from = (to + toFee) / price + fromFee
+        } else if let fromFiatAmount = viewAction.fromFiatAmount,
+                  let fromFiat = decimalFor(amount: fromFiatAmount) {
+            let fromCrypto = fromFiat / fromRate
+            let toFiat = (fromFiat - (fromFee?.fiatValue ?? 0)) * quote.buyMarkup
+            let toCryptoAmount = toFiat / quote.exchangeRate - (toFee?.tokenValue ?? 0)
             
-        } else if let toFiatAmount = viewAction.toFiatAmount {
-            let price = quote.exchangeRate
-            let toFiat = NSDecimalNumber(string: toFiatAmount).decimalValue
-            to = (toFiat - toFee) / toRate
-            from = (to + toFee) / price + fromFee
-            
+            from = fromCrypto
+            to = toCryptoAmount
+        } else if let toCryptoAmount = viewAction.toCryptoAmount,
+        let toCrypto = decimalFor(amount: toCryptoAmount) {
+            let toFiat = toCrypto * toRate
+            let fromFiat = (toFiat - (toFee?.fiatValue ?? 0)) * quote.sellMarkup
+            let fromCrypto = fromFiat / quote.exchangeRate - (fromFee?.tokenValue ?? 0)
+        
+             from = fromCrypto
+             to = toCrypto
+//        } else if let toFiatAmount = viewAction.toFiatAmount {
+//            let price = quote.exchangeRate
+//            let toFiat = NSDecimalNumber(string: toFiatAmount).decimalValue
+//            to = (toFiat - toFee) / toRate
+//            from = (to + toFee) / price + fromFee
+//
         } else {
             guard dataStore?.fromCurrency != nil,
                   dataStore?.toCurrency != nil
@@ -486,16 +495,24 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     private func formatAmount(amount: Decimal?, for currency: Currency?) -> String? {
-        guard let amount = amount,
-              let currency = currency
-        else {
+        guard let amount = amount else {
             return nil
         }
 
         let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 5 //Int(currency.baseUnit.decimals)
+        formatter.maximumFractionDigits = 8 //Int(currency.baseUnit.decimals)
         
         return formatter.string(for: amount)
+    }
+    
+    private func decimalFor(amount: String?) -> Decimal? {
+        guard let amount = amount else {
+            return nil
+        }
+
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 8 //Int(currency.baseUnit.decimals)
         
+        return formatter.number(from: amount)?.decimalValue
     }
 }
