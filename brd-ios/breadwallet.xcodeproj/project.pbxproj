@@ -595,8 +595,6 @@
 		9AE8011321FFF81F00D5058C /* rewardsIcon-57.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9AE800CD21FFF81E00D5058C /* rewardsIcon-57.gif */; };
 		9AE8011421FFF81F00D5058C /* rewardsIcon-63.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9AE800CE21FFF81F00D5058C /* rewardsIcon-63.gif */; };
 		9AE8011521FFF81F00D5058C /* rewardsIcon-64.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9AE800CF21FFF81F00D5058C /* rewardsIcon-64.gif */; };
-		9AE8FFF821FE64E200D5058C /* RewardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8FFF721FE64E200D5058C /* RewardsView.swift */; };
-		9AE8FFFA21FE6FE000D5058C /* RewardsIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8FFF921FE6FE000D5058C /* RewardsIconView.swift */; };
 		9F00EAD025DDF28400A99218 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F00EAAF25DDF15200A99218 /* Bundle+Extensions.swift */; };
 		9F00EAD725DDF28F00A99218 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F00EAAF25DDF15200A99218 /* Bundle+Extensions.swift */; };
 		9F0EA16425E2902700D4225E /* WidgetDataShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0EA16325E2902700D4225E /* WidgetDataShareService.swift */; };
@@ -1540,8 +1538,6 @@
 		9AE800CD21FFF81E00D5058C /* rewardsIcon-57.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "rewardsIcon-57.gif"; path = "src/Views/AnimatedIcons/Rewards Icon Frames/rewardsIcon-57.gif"; sourceTree = "<group>"; };
 		9AE800CE21FFF81F00D5058C /* rewardsIcon-63.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "rewardsIcon-63.gif"; path = "src/Views/AnimatedIcons/Rewards Icon Frames/rewardsIcon-63.gif"; sourceTree = "<group>"; };
 		9AE800CF21FFF81F00D5058C /* rewardsIcon-64.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "rewardsIcon-64.gif"; path = "src/Views/AnimatedIcons/Rewards Icon Frames/rewardsIcon-64.gif"; sourceTree = "<group>"; };
-		9AE8FFF721FE64E200D5058C /* RewardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RewardsView.swift; path = src/Views/RewardsView.swift; sourceTree = "<group>"; };
-		9AE8FFF921FE6FE000D5058C /* RewardsIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RewardsIconView.swift; path = src/Views/AnimatedIcons/RewardsIconView.swift; sourceTree = "<group>"; };
 		9F00EAAF25DDF15200A99218 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		9F0EA16325E2902700D4225E /* WidgetDataShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataShareService.swift; sourceTree = "<group>"; };
 		9F0EA17325E29DC500D4225E /* breadwalletWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = breadwalletWidgetExtension.entitlements; sourceTree = "<group>"; };
@@ -3463,7 +3459,6 @@
 				3A36328C225301D60043EBA4 /* PriceChangeView.swift */,
 				71173058220CCC91001931B3 /* PromptView.swift */,
 				CEC6AA3C1DEE687000EE5AFD /* RadialGradientView.swift */,
-				9AE8FFF721FE64E200D5058C /* RewardsView.swift */,
 				CE8F0AE21EB91BB500AA7642 /* SearchHeaderView.swift */,
 				CE6B6B491E54C0CA00B31405 /* SecurityCenterCell.swift */,
 				CEAFC8601E5D5B0500E4FD06 /* SegmentedButton.swift */,
@@ -3719,7 +3714,6 @@
 				CEF3E8311DE55540007C0A9E /* CheckView.swift */,
 				CEF3E8331DE57166007C0A9E /* AnimatableIcon.swift */,
 				9A39B1242202AE9E00E5018B /* MultiframeAnimation.swift */,
-				9AE8FFF921FE6FE000D5058C /* RewardsIconView.swift */,
 				9A39B1222202AA3400E5018B /* HomeScreenCellHighlightView.swift */,
 			);
 			name = AnimatedIcons;
@@ -4392,7 +4386,6 @@
 				7ED83AFB284F40EB00261565 /* CheckListInteractor.swift in Sources */,
 				7E87B32A2853368E0097671F /* KYCDocumentUploadWorker.swift in Sources */,
 				CEE0EF521EBD14B60018DB36 /* PinTransitioningDelegate.swift in Sources */,
-				9AE8FFFA21FE6FE000D5058C /* RewardsIconView.swift in Sources */,
 				754AE0BC1DFE8A46007FD001 /* SecureAllocator.swift in Sources */,
 				7B54E59D27F4A2B0002DD1E4 /* Shadowable.swift in Sources */,
 				7E5CB3A02835090E00EC787E /* VIPTableViewController.swift in Sources */,
@@ -4849,7 +4842,6 @@
 				7E5CB3832835090E00EC787E /* Presets.swift in Sources */,
 				7B54E5A327F4A2B0002DD1E4 /* HttpRequest.swift in Sources */,
 				C4D5E7FF284951DD000BEE6F /* VerifyAccountStore.swift in Sources */,
-				9AE8FFF821FE64E200D5058C /* RewardsView.swift in Sources */,
 				7E8E9799283F4830008606B0 /* ProfilePresenter.swift in Sources */,
 				C4BDDA4528892D9E003A31E0 /* TransactionView.swift in Sources */,
 				7EF45F88284768C100D1F7B0 /* ItemSelectionInteractor.swift in Sources */,

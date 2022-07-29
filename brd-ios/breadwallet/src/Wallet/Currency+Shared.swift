@@ -32,7 +32,6 @@ protocol CurrencyUID {
     var isBitcoinCash: Bool { get }
     var isEthereum: Bool { get }
     var isERC20Token: Bool { get }
-    var isBRDToken: Bool { get }
     var isXRP: Bool { get }
     var isHBAR: Bool { get }
     var isBitcoinCompatible: Bool { get }
@@ -86,7 +85,6 @@ class SharedCurrency: CurrencyUID {
     var isEthereumCompatible: Bool { return isEthereum || isERC20Token }
     
     // Unused
-    var isBRDToken: Bool { return uid == Currencies.shared.getUID(from: "brd") }
     var isHBAR: Bool { return uid == Currencies.shared.getUID(from: "hbar")}
     var isTezos: Bool { return uid == Currencies.shared.getUID(from: "xtz") }
     
