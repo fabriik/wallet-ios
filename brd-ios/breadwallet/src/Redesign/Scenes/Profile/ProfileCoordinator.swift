@@ -73,6 +73,7 @@ extension BaseCoordinator {
         popup.layoutIfNeeded()
         popup.configure(with: config)
         popup.setup(with: model)
+        popup.configure(shadow: Presets.Shadow.normal)
         popup.buttonCallbacks = callbacks
         
         popup.closeCallback = { [weak self] in

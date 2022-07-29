@@ -230,7 +230,7 @@ In order to succesfully perform a swap, make sure you have two or more of our su
                                             buttons: [.init(title: "Got it!")])
         
         viewController?.displayInfoPopup(responseDisplay: .init(popupViewModel: popupViewModel,
-                                                                popupConfig: Presets.Popup.whiteDimmed))
+                                                                popupConfig: Presets.Popup.white))
     }
     
     // MARK: - Additional Helpers

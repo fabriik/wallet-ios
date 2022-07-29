@@ -273,7 +273,11 @@ extension Presets {
                                                                 tintColor: LightColors.Contrast.two,
                                                                 border: Presets.Border.zero),
                                               title: .init(font: Fonts.Title.five, textColor: LightColors.Icons.one),
-                                              body: .init(font: Fonts.Body.one, textColor: LightColors.Icons.one),
+                                              body: .init(font: Fonts.Body.one, textColor: LightColors.Icons.one, textAlignment: .left),
+                                              buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
+                                                                                           selected: Presets.Border.selected,
+                                                                                           disabled: Presets.Border.disabled),
+                                                         Presets.Button.secondary ],
                                               closeButton: Presets.Button.blackIcon)
         
         static var whiteDimmed = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,

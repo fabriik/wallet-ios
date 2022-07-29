@@ -299,8 +299,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayInfoPopup(responseDisplay: SwapModels.InfoPopup.ResponseDisplay) {
-        
-        coordinator?.showPopup(on: navigationController,
+        coordinator?.showPopup(on: self,
                                blurred: true,
                                with: responseDisplay.popupViewModel,
                                config: responseDisplay.popupConfig,
