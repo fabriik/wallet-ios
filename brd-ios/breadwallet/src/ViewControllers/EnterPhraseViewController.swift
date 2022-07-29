@@ -281,7 +281,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
                 showErrorMessage()
                 return
             }
-            didToggleNextButton?(nextButton, navigationItem.rightBarButtonItem ?? <#default value#>)
+            didToggleNextButton?(nextButton, navigationItem.rightBarButtonItem)
             return callback()
         }
     }
