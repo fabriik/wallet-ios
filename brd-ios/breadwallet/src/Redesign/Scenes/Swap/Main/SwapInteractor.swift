@@ -470,13 +470,13 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                   dataStore.toCurrency != nil
             else { return }
             
-            let price = quote.exchangeRate
-            if let value = dataStore.from?.tokenValue {
-                from = value
-            } else {
-                from = 0
-            }
-            to = (from - (dataStore.fromFeeAmount?.tokenValue ?? 0)) * price - (dataStore.toFeeAmount?.tokenValue ?? 0)
+            let fromCrypto = dataStore.from?.tokenValue ?? 0
+            let fromFiat = fromCrypto * fromRate
+            let toFiat = (fromFiat - (fromFee?.fiatValue ?? 0)) * dataStore.markup
+            let toCryptoAmount = toFiat / toRate - (toFee?.tokenValue ?? 0)
+            
+            from = fromCrypto
+            to = toCryptoAmount
         }
         
         guard let fromString = formatAmount(amount: from, for: fromCurrency),
