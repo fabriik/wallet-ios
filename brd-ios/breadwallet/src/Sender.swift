@@ -252,7 +252,7 @@ class Sender: Subscriber {
             case .failure, .fallback:
                 completion(.creationError(message: L10n.Send.Error.authenticationError))
             default:
-                break
+                completion(.creationError(message: "Something went wrong"))
             }
         }
     }
