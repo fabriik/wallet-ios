@@ -143,4 +143,13 @@ enum SwapModels {
             var exchangeId: String
         }
     }
+    
+    struct InfoPopup {
+        struct ViewAction {}
+        struct ActionResponse {}
+        struct ResponseDisplay {
+            var popupViewModel: PopupViewModel
+            var popupConfig: PopupConfiguration
+        }
+    }
 }

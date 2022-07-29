@@ -513,4 +513,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         return formatter.number(from: amount)?.decimalValue
     }
+    
+    func showInfoPopup(viewAction: SwapModels.InfoPopup.ViewAction) {
+        presenter?.presentInfoPopup(actionResponse: .init())
+    }
 }

@@ -201,7 +201,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
         
         guard let section = sections.firstIndex(of: Models.Sections.errors),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else { return }
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else {
+                  interactor?.showInfoPopup(viewAction: .init())
+                  return
+              }
         
         cell.setup { view in
             view.setup { [weak self] view in
@@ -293,6 +296,19 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay) {
         LoadingView.hide()
         coordinator?.showSwapInfo(from: responseDisplay.from, to: responseDisplay.to, exchangeId: responseDisplay.exchangeId)
+    }
+    
+    func displayInfoPopup(responseDisplay: SwapModels.InfoPopup.ResponseDisplay) {
+        coordinator?.showPopup(on: self,
+                               blurred: true,
+                               with: responseDisplay.popupViewModel,
+                               config: responseDisplay.popupConfig,
+                               closeButtonCallback: { [weak self] in
+            self?.coordinator?.goBack()
+        }, callbacks: [ { [weak self] in
+            self?.coordinator?.hidePopup()
+            self?.coordinator?.goBack()
+        }])
     }
     
     // MARK: - Additional Helpers
