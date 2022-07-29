@@ -91,4 +91,30 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         return supportedCurrencies?.first(where: { $0.baseCurrency == fromCurrency?.code && $0.termCurrency == toCurrency?.code })
         ?? supportedCurrencies?.first(where: { $0.baseCurrency == toCurrency?.code && $0.termCurrency == fromCurrency?.code })
     }
+    
+    func exchangeRate(for currency: Currency) -> Decimal {
+        guard let pair = pair,
+              let quote = quote else {
+            return 0
+        }
+        
+        if pair.baseCurrency == currency.code {
+            return quote.exchangeRate
+        } else {
+            return 1 / quote.exchangeRate
+        }
+    }
+    
+    var markup: Decimal {
+        guard let pair = pair,
+              let quote = quote else {
+            return 0
+        }
+        
+        if pair.baseCurrency == fromCurrency?.code {
+            return quote.buyMarkup
+        } else {
+            return quote.sellMarkup
+        }
+    }
 }
