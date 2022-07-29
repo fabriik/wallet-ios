@@ -142,17 +142,7 @@ class BaseApiWorker<M: Mapper>: APIWorker {
     func getParameters() -> [String: Any] { return requestData?.getParameters() ?? [:] }
 
     func getHeaders() -> [String: String] {
-        let key: String
-        
-        if let value = UserDefaults.kycSessionKeyValue {
-            key = value
-        } else if let value = UserDefaults.walletTokenValue {
-            key = "Bread \(value)"
-        } else {
-            key = "no_token"
-        }
-        
-        return ["Authorization": key]
+        return ["Authorization": UserDefaults.kycSessionKeyValue].compactMapValues { $0 }
     }
     
     func getPagination() -> Pagination? { return nil }
