@@ -47,7 +47,7 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var pin: String?
     
     var side: Swap.Side {
-        if supportedCurrencies?.first(where: { $0.baseCurrency == fromCurrency?.code }) != nil {
+        if pair?.baseCurrency == fromCurrency?.code {
             return .sell
         } else {
             return .buy

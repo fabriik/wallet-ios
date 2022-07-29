@@ -281,7 +281,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         let data = SwapRequestData(quoteId: dataStore?.quote?.quoteId,
-                                   quantity: dataStore?.from?.tokenValue ?? 0,
+                                   quantity: dataStore?.to?.tokenValue ?? 0,
                                    destination: address,
                                    side: dataStore?.side.rawValue)
         
@@ -289,7 +289,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             switch result {
             case .success(let data):
                 self?.dataStore?.swap = data
-                self?.createTransaction(destination: data.address)
+                self?.createTransaction(from: data)
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
@@ -297,18 +297,17 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
     }
     
-    private func createTransaction(destination: String?) {
-        guard let currency = dataStore?.fromCurrency,
+    private func createTransaction(from swap: Swap?) {
+        guard let currency = dataStore?.currencies.first(where: { $0.code == swap?.currency }),
               let wallet = dataStore?.coreSystem?.wallet(for: currency),
               let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore else {
             // TODO: handle error
             return
         }
         
-        guard let destination = destination,
-              let fromAmount = formatAmount(amount: dataStore?.from?.tokenValue),
-              let fee = dataStore?.fromFee,
-              let pair = dataStore?.quoteTerm,
+        guard let destination = swap?.address,
+              let amountValue = swap?.amount,
+              let fee = dataStore?.toFee,
               let exchangeId = dataStore?.swap?.exchangeId
         else {
             return
@@ -316,15 +315,12 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
         
-        let amount = Amount(tokenString: fromAmount, currency: currency)
+        let amount = Amount(tokenString: formatAmount(amount: amountValue) ?? "0", currency: currency)
         let result = sender.createTransaction(address: destination,
                                               amount: amount,
                                               feeBasis: fee,
-                                              comment: "Swapping \(pair)",
+                                              comment: nil,
                                               exchangeId: exchangeId)
-        
-        let from = dataStore?.fromCurrency?.code
-        let to = dataStore?.toCurrency?.code
         
         var error: FEError?
         switch result {
@@ -339,6 +335,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 var error: FEError?
                 switch result {
                 case .success:
+                    let from = self?.dataStore?.fromCurrency?.code
+                    let to = self?.dataStore?.toCurrency?.code
+                    
                     self?.presenter?.presentConfirm(actionResponse: .init(from: from, to: to, exchangeId: exchangeId))
                     
                 case .creationError(let message):
