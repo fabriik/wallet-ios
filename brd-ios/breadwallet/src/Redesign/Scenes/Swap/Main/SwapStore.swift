@@ -114,7 +114,7 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         if pair.baseCurrency == fromCurrency?.code {
             return quote.buyMarkup
         } else {
-            return quote.sellMarkup
+            return 1/quote.sellMarkup
         }
     }
 }

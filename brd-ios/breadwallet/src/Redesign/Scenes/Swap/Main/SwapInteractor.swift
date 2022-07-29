@@ -122,7 +122,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let address = currency.wallet?.receiveAddress(for: addressScheme) ?? ""
         
         sender.estimateFee(address: address,
-                           amount: .init(tokenString: amount.doubleValue.description, currency: currency),
+                           amount: .init(tokenString: formatAmount(amount: amount) ?? "0", currency: currency),
                            tier: .regular,
                            isStake: false,
                            completion: { [weak self] result in
@@ -306,7 +306,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         guard let destination = destination,
-              let fromAmount = formatAmount(amount: dataStore?.from?.tokenValue, for: currency),
+              let fromAmount = formatAmount(amount: dataStore?.from?.tokenValue),
               let fee = dataStore?.fromFee,
               let pair = dataStore?.quoteTerm,
               let exchangeId = dataStore?.swap?.exchangeId
@@ -473,8 +473,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             to = toCryptoAmount
         }
         
-        guard let fromString = formatAmount(amount: from, for: fromCurrency),
-              let toString = formatAmount(amount: to, for: toCurrency)
+        guard let fromString = formatAmount(amount: from)?.replacingOccurrences(of: ".", with: "."),
+              let toString = formatAmount(amount: to)?.replacingOccurrences(of: ".", with: ".")
         else {
             // TODO: handle what kind of error?
             return
@@ -491,7 +491,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                           minimumAmount: dataStore.quote?.minUsdAmount))
     }
     
-    private func formatAmount(amount: Decimal?, for currency: Currency?) -> String? {
+    private func formatAmount(amount: Decimal?) -> String? {
         guard let amount = amount else {
             return nil
         }
