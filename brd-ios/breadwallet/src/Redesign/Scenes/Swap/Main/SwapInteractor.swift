@@ -411,7 +411,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             return
         }
         
-        guard let quote = dataStore?.quote else {
+        guard let quote = dataStore?.quote,
+              let dataStore = dataStore else {
                 presenter?.presentSetAmount(actionResponse: .init(from: .zero(fromCurrency),
                                                                   to: .zero(toCurrency),
                                                                   fromFee: .zero(fromCurrency),
@@ -422,19 +423,19 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             return
         }
         // TODO: update calculations to include markups!
-        let fromFee = dataStore?.fromFeeAmount
-        let toFee = dataStore?.toFeeAmount
+        let fromFee = dataStore.fromFeeAmount
+        let toFee = dataStore.toFeeAmount
         
-        let fromRate = dataStore?.fromRate ?? 0
-        let toRate = dataStore?.toRate ?? 0
+        let fromRate = dataStore.fromRate ?? 0
+        let toRate = dataStore.toRate ?? 0
         
         let from: Decimal
         let to: Decimal
         if let fromCryptoAmount = viewAction.fromCryptoAmount,
            let fromCrypto = decimalFor(amount: fromCryptoAmount) {
             let fromFiat = fromCrypto * fromRate
-            let toFiat = (fromFiat - (fromFee?.fiatValue ?? 0)) * quote.buyMarkup
-            let toCryptoAmount = toFiat / quote.exchangeRate - (toFee?.tokenValue ?? 0)
+            let toFiat = (fromFiat - (fromFee?.fiatValue ?? 0)) * dataStore.markup
+            let toCryptoAmount = toFiat / toRate - (toFee?.tokenValue ?? 0)
             
             from = fromCrypto
             to = toCryptoAmount
@@ -442,41 +443,43 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         } else if let fromFiatAmount = viewAction.fromFiatAmount,
                   let fromFiat = decimalFor(amount: fromFiatAmount) {
             let fromCrypto = fromFiat / fromRate
-            let toFiat = (fromFiat - (fromFee?.fiatValue ?? 0)) * quote.buyMarkup
-            let toCryptoAmount = toFiat / quote.exchangeRate - (toFee?.tokenValue ?? 0)
+            let toFiat = (fromFiat - (fromFee?.fiatValue ?? 0)) * dataStore.markup
+            let toCryptoAmount = toFiat * toRate - (toFee?.tokenValue ?? 0)
             
             from = fromCrypto
             to = toCryptoAmount
         } else if let toCryptoAmount = viewAction.toCryptoAmount,
-        let toCrypto = decimalFor(amount: toCryptoAmount) {
+                  let toCrypto = decimalFor(amount: toCryptoAmount) {
             let toFiat = toCrypto * toRate
-            let fromFiat = (toFiat - (toFee?.fiatValue ?? 0)) * quote.sellMarkup
-            let fromCrypto = fromFiat / quote.exchangeRate - (fromFee?.tokenValue ?? 0)
+            let fromFiat = (toFiat - (toFee?.fiatValue ?? 0)) * dataStore.markup
+            let fromCrypto = fromFiat / fromRate - (fromFee?.tokenValue ?? 0)
         
              from = fromCrypto
              to = toCrypto
-//        } else if let toFiatAmount = viewAction.toFiatAmount {
-//            let price = quote.exchangeRate
-//            let toFiat = NSDecimalNumber(string: toFiatAmount).decimalValue
-//            to = (toFiat - toFee) / toRate
-//            from = (to + toFee) / price + fromFee
-//
+        } else if let toFiatAmount = viewAction.toFiatAmount,
+                  let toFiat = decimalFor(amount: toFiatAmount) {
+            let toCrypto = toFiat / toRate
+            let fromFiat = (toFiat - (toFee?.fiatValue ?? 0)) * dataStore.markup
+            let fromCrypto = fromFiat * fromRate - (fromFee?.tokenValue ?? 0)
+            
+            from = fromCrypto
+            to = toCrypto
+
         } else {
-            guard dataStore?.fromCurrency != nil,
-                  dataStore?.toCurrency != nil
+            guard dataStore.fromCurrency != nil,
+                  dataStore.toCurrency != nil
             else { return }
             
             let price = quote.exchangeRate
-            if let value = dataStore?.from?.tokenValue {
+            if let value = dataStore.from?.tokenValue {
                 from = value
             } else {
                 from = 0
             }
-            to = (from - (dataStore?.fromFeeAmount?.tokenValue ?? 0)) * price - (dataStore?.toFeeAmount?.tokenValue ?? 0)
+            to = (from - (dataStore.fromFeeAmount?.tokenValue ?? 0)) * price - (dataStore.toFeeAmount?.tokenValue ?? 0)
         }
         
-        guard let dataStore = dataStore,
-              let fromString = formatAmount(amount: from, for: fromCurrency),
+        guard let fromString = formatAmount(amount: from, for: fromCurrency),
               let toString = formatAmount(amount: to, for: toCurrency)
         else {
             // TODO: handle what kind of error?
