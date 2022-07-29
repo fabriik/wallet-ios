@@ -16,6 +16,7 @@ class AssetSelectionStore: NSObject, BaseDataStore, AssetSelectionDataStore {
     var supportedCurrenciesPair: [String]?
     var isFromCurrency: Bool?
     var baseCurrencySelected: Currency?
+    var termCurrencySelected: Currency?
 
     // MARK: - Aditional helpers
 }

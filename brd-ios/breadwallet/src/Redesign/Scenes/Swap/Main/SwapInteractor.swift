@@ -17,6 +17,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     var presenter: SwapPresenter?
     var dataStore: SwapStore?
+    var aaaa: SupportedCurrency?
     
     // MARK: - SwapViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
