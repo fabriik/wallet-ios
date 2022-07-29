@@ -21,6 +21,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
     override var sceneLeftAlignedTitle: String? { return "You are about to delete your Fabriik account." }
     
     private var recoveryKeyFlowNextButton: FEButton?
+    private var recoveryKeyFlowBarButton: FEButton?
     
     lazy var confirmButton: FEButton = {
         let button = FEButton()
@@ -118,9 +119,11 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
                                                                    keyMaster: keyStore,
                                                                    phraseEntryReason: .validateForWipingWalletAndDeletingFromDevice({ [weak self] in
             self?.interactor?.deleteProfile(viewAction: .init())
-        })) { [weak self] nextButton in
+        })) { [weak self] nextButton, barButton in
             self?.recoveryKeyFlowNextButton = nextButton
+            self?.recoveryKeyFlowBarButton = barButton
             self?.recoveryKeyFlowNextButton?.isEnabled = false
+            self?.recoveryKeyFlowBarButton?.isEnabled = false
         }
     }
     
@@ -153,6 +156,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
         super.displayMessage(responseDisplay: responseDisplay)
         
         recoveryKeyFlowNextButton?.isEnabled = true
+        recoveryKeyFlowBarButton?.isEnabled = true
     }
     
     // MARK: - Additional Helpers
