@@ -99,7 +99,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     private func estimateFee(amount: Decimal?, currencyCode: String?, completion: @escaping ((Result<TransferFeeBasis, Error>) -> Void)) {
-            guard let amount = amount,
+        guard let amount = amount,
               amount > 0,
               amount.isNaN == false,
               let currency = dataStore?.currencies.first(where: { $0.code == currencyCode }),
@@ -315,7 +315,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-
+        
         let amount = Amount(tokenString: fromAmount, currency: currency)
         let result = sender.createTransaction(address: destination,
                                               amount: amount,
@@ -329,11 +329,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         var error: FEError?
         switch result {
         case .ok:
-            // TODO: uncomment this once BE is fixed
-            let error = GeneralError(errorMessage: "Due to backend issues swapping is currencly disabled. Please try again later")
-            presenter?.presentError(actionResponse: .init(error: error))
-            
-            return ()
             sender.sendTransaction(allowBiometrics: true, exchangeId: exchangeId) { [weak self] data in
                 guard let pin = self?.dataStore?.pin else {
                     self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.pinConfirmation))
@@ -345,17 +340,17 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 switch result {
                 case .success:
                     self?.presenter?.presentConfirm(actionResponse: .init(from: from, to: to, exchangeId: exchangeId))
-
+                    
                 case .creationError(let message):
                     error = GeneralError(errorMessage: message)
-
+                    
                 case .insufficientGas:
                     error = SwapErrors.networkFee
-
+                    
                 case .publishFailure(let code, let message):
                     error = GeneralError(errorMessage: "Error \(code): \(message)")
                 }
-
+                
                 guard let error = error else { return }
                 self?.presenter?.presentError(actionResponse: .init(error: error))
             }
@@ -411,14 +406,13 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             return
         }
         
-        guard let quote = dataStore?.quote,
-              let dataStore = dataStore else {
-                presenter?.presentSetAmount(actionResponse: .init(from: .zero(fromCurrency),
-                                                                  to: .zero(toCurrency),
-                                                                  fromFee: .zero(fromCurrency),
-                                                                  toFee: .zero(toCurrency),
-                                                                  baseBalance: fromCurrency.state?.balance,
-                                                                  minimumAmount: 0))
+        guard let dataStore = dataStore else {
+            presenter?.presentSetAmount(actionResponse: .init(from: .zero(fromCurrency),
+                                                              to: .zero(toCurrency),
+                                                              fromFee: .zero(fromCurrency),
+                                                              toFee: .zero(toCurrency),
+                                                              baseBalance: fromCurrency.state?.balance,
+                                                              minimumAmount: 0))
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: dataStore?.quoteTerm)))
             return
         }
@@ -453,9 +447,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             let toFiat = toCrypto * toRate
             let fromFiat = (toFiat - (toFee?.fiatValue ?? 0)) * dataStore.markup
             let fromCrypto = fromFiat / fromRate - (fromFee?.tokenValue ?? 0)
-        
-             from = fromCrypto
-             to = toCrypto
+            
+            from = fromCrypto
+            to = toCrypto
         } else if let toFiatAmount = viewAction.toFiatAmount,
                   let toFiat = decimalFor(amount: toFiatAmount) {
             let toCrypto = toFiat / toRate
@@ -464,7 +458,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             
             from = fromCrypto
             to = toCrypto
-
+            
         } else {
             guard dataStore.fromCurrency != nil,
                   dataStore.toCurrency != nil
@@ -501,7 +495,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         guard let amount = amount else {
             return nil
         }
-
+        
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 8 //Int(currency.baseUnit.decimals)
         
@@ -512,7 +506,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         guard let amount = amount else {
             return nil
         }
-
+        
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 8 //Int(currency.baseUnit.decimals)
         
