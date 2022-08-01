@@ -104,7 +104,6 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     lazy var selectorStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
-        view.distribution = .fillProportionally
         view.spacing = Margins.small.rawValue
         return view
     }()
@@ -348,7 +347,8 @@ extension SwapCurrencyView {
             
             let topFrame = baseSwapCurrencyView.selectorStackView
             let bottomFrame = termSwapCurrencyView.selectorStackView
-            let frame = topFrame.convert(topFrame.bounds, from: bottomFrame)
+            var frame = topFrame.convert(topFrame.bounds, from: bottomFrame)
+            frame.size.height = topFrame.bounds.height
             let verticalDistance = frame.minY - topFrame.bounds.maxY + topFrame.frame.height
             
             baseSwapCurrencyView.selectorStackView.transform = baseSwapCurrencyView.selectorStackView.transform == .identity

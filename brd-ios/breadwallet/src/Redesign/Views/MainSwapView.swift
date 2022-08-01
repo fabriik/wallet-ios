@@ -26,7 +26,6 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         let stack = UIStackView()
         stack.backgroundColor = .clear
         stack.axis = .vertical
-        stack.distribution = .fill
         return stack
     }()
     
@@ -82,7 +81,9 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         
         content.addSubview(containerStackView)
         containerStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.center.equalToSuperview()
+            make.leading.equalTo(content.snp.leadingMargin)
+            make.top.equalTo(content.snp.topMargin).priority(.low)
         }
         
         containerStackView.addArrangedSubview(baseSwapCurrencyView)
@@ -90,13 +91,12 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         containerStackView.addArrangedSubview(termSwapCurrencyView)
         
         dividerWithButtonView.snp.makeConstraints { make in
-            // TODO: Add to constants.
-            make.height.equalTo(32)
+            make.height.equalTo(ViewSizes.medium.rawValue)
         }
         
         dividerWithButtonView.addSubview(lineView)
         lineView.snp.makeConstraints { make in
-            make.height.equalTo(1)
+            make.height.equalTo(ViewSizes.minimum.rawValue)
             make.leading.trailing.equalToSuperview()
             make.center.equalToSuperview()
         }
@@ -161,6 +161,8 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         
         baseSwapCurrencyView.didChangeContent = contentSizeChanged
         termSwapCurrencyView.didChangeContent = contentSizeChanged
+        
+        contentSizeChanged?()
     }
     
     // MARK: - User interaction
