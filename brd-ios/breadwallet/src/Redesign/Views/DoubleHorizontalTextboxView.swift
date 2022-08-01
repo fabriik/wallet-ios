@@ -1,5 +1,5 @@
 //
-//  NameView.swift
+//  DoubleHorizontalTextboxView.swift
 //  breadwallet
 //
 //  Created by Rok on 30/05/2022.
