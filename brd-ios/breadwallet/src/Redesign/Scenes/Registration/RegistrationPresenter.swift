@@ -17,13 +17,19 @@ final class RegistrationPresenter: NSObject, Presenter, RegistrationActionRespon
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let item = actionResponse.item as? Models.Item else { return }
         
-        let sections: [Models.Section] = [
-            .image,
-            .title,
-            .instructions,
-            .email,
-            .confirm
-        ]
+        var sections: [Models.Section] {
+            var sections: [Models.Section] = [.image,
+                                              .title,
+                                              .instructions,
+                                              .email]
+            if item.showMarketingTickbox {
+                sections.append(.tickbox)
+            }
+            
+            sections.append(.confirm)
+            
+            return sections
+        }
         
         let sectionRows: [Models.Section: [Any]] = [
             .image: [
@@ -38,6 +44,9 @@ final class RegistrationPresenter: NSObject, Presenter, RegistrationActionRespon
             .email: [
                 // TODO: validator?
                 TextFieldModel(title: "Email", value: item.email)
+            ],
+            .tickbox: [
+                TickboxItemViewModel(title: .text("I'm ok with receiving future promotion, offers and communications")) // TODO: Localize
             ],
             .confirm: [
                 ButtonViewModel(title: "Next", enabled: false)

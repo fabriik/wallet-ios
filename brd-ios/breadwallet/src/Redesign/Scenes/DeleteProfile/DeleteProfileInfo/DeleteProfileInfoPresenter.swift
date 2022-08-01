@@ -37,7 +37,7 @@ final class DeleteProfileInfoPresenter: NSObject, Presenter, DeleteProfileInfoAc
             ],
             .checkmarks: checkmarks,
             .tickbox: [
-                TickboxItemViewModel(title: .text("I understand that the only way to recover my wallet is by entering my recovery phrase"))
+                TickboxItemViewModel(title: .text("I understand that the only way to recover my wallet is by entering my recovery phrase")) // TODO: Localize
             ]
         ]
         

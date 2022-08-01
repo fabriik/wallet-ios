@@ -35,13 +35,14 @@ enum RegistrationModels {
         }
     }
     
-    typealias Item = (email: String?, type: ViewType?)
+    typealias Item = (email: String?, type: ViewType?, showMarketingTickbox: Bool)
     
     enum Section: Sectionable {
         case image
         case title
         case instructions
         case email
+        case tickbox
         case confirm
         
         var header: AccessoryType? { return nil }
@@ -59,6 +60,12 @@ enum RegistrationModels {
         
         struct ResponseDisplay {
             var isValid: Bool
+        }
+    }
+    
+    struct Tickbox {
+        struct ViewAction {
+            var value: Bool
         }
     }
     

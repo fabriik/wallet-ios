@@ -10,13 +10,13 @@ import UIKit
 
 class RegistrationInteractor: NSObject, Interactor, RegistrationViewActions {
     typealias Models = RegistrationModels
-
+    
     var presenter: RegistrationPresenter?
     var dataStore: RegistrationStore?
-
+    
     // MARK: - RegistrationViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        let item = Models.Item(dataStore?.email, dataStore?.type)
+        let item = Models.Item(dataStore?.email, dataStore?.type, dataStore?.type == .registration)
         presenter?.presentData(actionResponse: .init(item: item))
     }
     
@@ -26,10 +26,16 @@ class RegistrationInteractor: NSObject, Interactor, RegistrationViewActions {
         presenter?.presentValidate(actionResponse: .init(item: dataStore?.email))
     }
     
+    func toggleTickbox(viewAction: RegistrationModels.Tickbox.ViewAction) {
+        dataStore?.subscribe = viewAction.value
+    }
+    
     func next(viewAction: RegistrationModels.Next.ViewAction) {
         guard let email = dataStore?.email, let token = UserDefaults.walletTokenValue else { return }
         
-        let data = RegistrationRequestData(email: email, token: token)
+        let data = RegistrationRequestData(email: email,
+                                           token: token,
+                                           subscribe: dataStore?.subscribe)
         RegistrationWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let data):
@@ -44,7 +50,6 @@ class RegistrationInteractor: NSObject, Interactor, RegistrationViewActions {
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
-                
             }
         }
     }
