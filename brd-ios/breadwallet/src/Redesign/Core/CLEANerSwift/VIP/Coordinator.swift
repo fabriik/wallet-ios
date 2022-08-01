@@ -261,7 +261,7 @@ class BaseCoordinator: NSObject,
             case .success(let profile):
                 let roles = profile.roles
                 let status = profile.status
-                let canBuyTrade = status == .levelOne || status == .levelTwo(.levelTwo)
+                let canBuyTrade = status.canBuyTrade
                 
                 if roles.contains(.unverified) || roles.isEmpty == true ||
                     status == .emailPending || status == .none {
