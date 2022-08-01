@@ -78,7 +78,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.quote = quote
         presenter?.presentUpdateRate(actionResponse: .init(rate: dataStore?.exchangeRate(for: from),
                                                            from: dataStore?.fromCurrency,
-                                                           to: dataStore?.toCurrency))
+                                                           to: dataStore?.toCurrency,
+                                                           expires: quote?.timestamp))
         
         let coinGeckoIds = [baseCurrency, termCurrency]
         let vs = dataStore?.defaultCurrencyCode?.lowercased() ?? ""
