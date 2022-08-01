@@ -92,8 +92,9 @@ class VIPTableViewController<C: CoordinatableRoutes,
         let small = Margins.small.rawValue
         let large = Margins.large.rawValue
         let extraLarge = Margins.extraLarge.rawValue
+        let huge = Margins.huge.rawValue
         let extraHuge = Margins.extraHuge.rawValue
-        
+
         view.addSubview(contentShadowView)
         tableView.heightUpdated = { height in
             self.contentShadowView.snp.remakeConstraints { make in
@@ -122,6 +123,8 @@ class VIPTableViewController<C: CoordinatableRoutes,
             make.bottom.equalTo(tableView.snp.top).inset(-small)
             make.leading.equalToSuperview().inset(-large)
         }
+        
+        tableView.verticalScrollIndicatorInsets.right = -huge
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

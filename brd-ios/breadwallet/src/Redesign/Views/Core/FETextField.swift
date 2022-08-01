@@ -275,6 +275,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
+        contentSizeChanged?()
         valueChanged?(textField.text)//?.lowercased())
     }
     

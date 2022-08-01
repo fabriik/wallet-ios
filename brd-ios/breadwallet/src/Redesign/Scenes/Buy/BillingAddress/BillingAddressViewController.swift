@@ -1,25 +1,25 @@
 //
-//  KYCBasicViewController.swift
+//  BillingAddressViewController.swift
 //  breadwallet
 //
-//  Created by Rok on 30/05/2022.
+//  Created by Kenan Mamedoff on 01/08/2022.
+//  Copyright © 2022 Fabriik Exchange, LLC. All rights reserved.
 //
+//  See the LICENSE file at the project root for license information.
 //
 
 import UIKit
 
-class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
-                              KYCBasicInteractor,
-                              KYCBasicPresenter,
-                              KYCBasicStore>,
-                              KYCBasicResponseDisplays {
-    typealias Models = KYCBasicModels
+class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
+                                    BillingAddressInteractor,
+                                    BillingAddressPresenter,
+                                    BillingAddressStore>,
+                                    BillingAddressResponseDisplays {
+    typealias Models = BillingAddressModels
     
-    override var isModalDismissableEnabled: Bool { return false }
-    
-    override var sceneLeftAlignedTitle: String? {
+    override var sceneTitle: String? {
         // TODO: localize
-        return "Personal Information"
+        return "Billing address"
     }
     private var isValid = false
 
@@ -29,7 +29,6 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
         super.setupSubviews()
         
         tableView.register(WrapperTableViewCell<DoubleHorizontalTextboxView>.self)
-        tableView.register(WrapperTableViewCell<DateView>.self)
         
         setRoundedShadowBackground()
     }
@@ -49,8 +48,14 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
         case .country:
             cell = self.tableView(tableView, countryTextFieldCellForRowAt: indexPath)
             
-        case .birthdate:
-            cell = self.tableView(tableView, dateCellForRowAt: indexPath)
+        case .stateProvince:
+            cell = self.tableView(tableView, textFieldCellForRowAt: indexPath)
+            
+        case .cityAndZipPostal:
+            cell = self.tableView(tableView, cityAndZipPostalCellForRowAt: indexPath)
+            
+        case .address:
+            cell = self.tableView(tableView, textFieldCellForRowAt: indexPath)
             
         case .confirm:
             cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
@@ -88,10 +93,10 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
         return cell
     }
     
-    func tableView(_ tableView: UITableView, dateCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cityAndZipPostalCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
-        guard let cell: WrapperTableViewCell<DateView> = tableView.dequeueReusableCell(for: indexPath),
-              let model = sectionRows[section]?[indexPath.row] as? DateViewModel else {
+        guard let cell: WrapperTableViewCell<DoubleHorizontalTextboxView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? DoubleHorizontalTextboxViewModel else {
             return UITableViewCell()
         }
         
@@ -99,10 +104,13 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
             view.configure(with: .init())
             view.setup(with: model)
             
-            view.didPresentPicker = { [weak self] in
-                self?.coordinator?.showDatePicker(model: model, completion: {
-                    view.animateTo(state: .filled)
-                })
+            view.contentSizeChanged = {
+                tableView.beginUpdates()
+                tableView.endUpdates()
+            }
+            
+            view.valueChanged = { [weak self] first, second in
+                self?.interactor?.cityAndZipPostalSet(viewAction: .init(city: first, zipPostal: second))
             }
         }
         
@@ -180,8 +188,8 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
         interactor?.submit(vieAction: .init())
     }
 
-    // MARK: - KYCBasicResponseDisplay
-    func displayValidate(responseDisplay: KYCBasicModels.Validate.ResponseDisplay) {
+    // MARK: - BillingAddressResponseDisplay
+    func displayValidate(responseDisplay: BillingAddressModels.Validate.ResponseDisplay) {
         guard let section = sections.firstIndex(of: Models.Section.confirm),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
         
@@ -189,7 +197,7 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
         cell.wrappedView.isEnabled = isValid
     }
     
-    func displaySubmit(responseDisplay: KYCBasicModels.Submit.ResponseDisplay) {
+    func displaySubmit(responseDisplay: BillingAddressModels.Submit.ResponseDisplay) {
         coordinator?.showOverlay(with: .success) {
             UserManager.shared.refresh { [weak self] _ in
                 self?.coordinator?.goBack(completion: {
@@ -200,4 +208,19 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
     }
     
     // MARK: - Additional Helpers
+    
+    override func textFieldDidUpdate(for indexPath: IndexPath, with text: String?, on section: AnyHashable) {
+        super.textFieldDidUpdate(for: indexPath, with: text, on: section)
+        
+        switch section as? Models.Section {
+        case .stateProvince:
+            interactor?.stateProvinceSet(viewAction: .init(stateProvince: text))
+            
+        case .address:
+            interactor?.addressSet(viewAction: .init(address: text))
+            
+        default:
+            break
+        }
+    }
 }
