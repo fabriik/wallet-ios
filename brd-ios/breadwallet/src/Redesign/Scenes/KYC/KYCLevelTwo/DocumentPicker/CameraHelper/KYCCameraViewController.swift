@@ -168,7 +168,9 @@ class KYCCameraViewController: UIViewController, ViewProtocol {
                 
             case .notAuthorized:
                 DispatchQueue.main.async {
-                    let alertController = UIAlertController(title: nil, message: "KYCCamera doesn't have permission to use the camera, please change privacy settings", preferredStyle: .alert)
+                    let alertController = UIAlertController(title: nil,
+                                                            message: "KYCCamera doesn't have permission to use the camera, please change privacy settings",
+                                                            preferredStyle: .alert)
                     
                     alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
                                                             style: .cancel,

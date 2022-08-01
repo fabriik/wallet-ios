@@ -14,4 +14,8 @@ extension UIApplication {
     var activeWindow: UIWindow? {
         return windows.filter { $0.isKeyWindow }.first
     }
+    
+    var currentScene: UIWindowScene? {
+        connectedScenes.first { $0.activationState == .foregroundActive } as? UIWindowScene
+    }
 }

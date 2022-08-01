@@ -52,12 +52,11 @@ enum PromptType: Int {
     case noPasscode
     case biometrics
     case announcement
-    case email
-
+    
     var order: Int { return rawValue }
     
     static var defaultTypes: [PromptType] = {
-        return [.upgradePin, .paperKey, .noPasscode, .biometrics, .email]
+        return [.upgradePin, .paperKey, .noPasscode, .biometrics]
     }()
     
     var title: String {
@@ -66,7 +65,6 @@ enum PromptType: Int {
         case .paperKey: return L10n.Prompts.PaperKey.title
         case .upgradePin: return L10n.Prompts.UpgradePin.title
         case .noPasscode: return L10n.Prompts.NoPasscode.title
-        case .email: return L10n.Prompts.Email.title
         default: return ""
         }
     }
@@ -77,7 +75,6 @@ enum PromptType: Int {
         case .paperKey: return "paperKeyPrompt"
         case .upgradePin: return "upgradePinPrompt"
         case .noPasscode: return "noPasscodePrompt"
-        case .email: return "emailPrompt"
         case .announcement: return "announcementPrompt"
         default: return ""
         }
@@ -89,7 +86,6 @@ enum PromptType: Int {
         case .paperKey: return L10n.Prompts.PaperKey.body
         case .upgradePin: return L10n.Prompts.UpgradePin.body
         case .noPasscode: return L10n.Prompts.NoPasscode.body
-        case .email: return L10n.Prompts.Email.body
         default: return ""
         }
     }
@@ -101,7 +97,6 @@ enum PromptType: Int {
         case .paperKey: return .promptPaperKey
         case .upgradePin: return .promptUpgradePin
         case .noPasscode: return nil
-        case .email: return .promptEmail
         default: return nil
         }
     }
@@ -293,64 +288,6 @@ protocol EmailCollectingPrompt: Prompt {
     func didSubscribe()
 }
 
-// Default email-prompt implementation, used for the standard email subscription prompt.
-struct StandardEmailCollectingPrompt: Prompt, EmailCollectingPrompt {
-    
-    var type: PromptType {
-        return .email
-    }
-    
-    var order: Int {
-        return PromptType.email.order
-    }
-    
-    var title: String {
-        return L10n.Prompts.Email.title
-    }
-    
-    var body: String {
-        return L10n.Prompts.Email.body
-    }
-    
-    var confirmationTitle: String {
-        return L10n.Prompts.Email.successTitle
-    }
-    
-    var confirmationBody: String {
-        return L10n.Prompts.Email.successBody
-    }
-    
-    var confirmationFootnote: String? {
-        return L10n.Prompts.Email.successFootnote
-    }
-    
-    var confirmationImageName: String? {
-        return "Email"
-    }
-
-    var imageName: String? {
-        return "Email"
-    }
-    
-    var emailList: String? {
-        // The standard get-email prompt does not have an email list -- users are just subscribed to our
-        // general updates mailing list.
-        return nil
-    }
-
-    func shouldPrompt(walletAuthenticator: WalletAuthenticator?) -> Bool {
-        return !UserDefaults.hasPromptedForEmail && !UserDefaults.hasSubscribedToEmailUpdates
-    }
-    
-    func didPrompt() {
-        UserDefaults.hasPromptedForEmail = true
-    }
-    
-    func didSubscribe() {
-        UserDefaults.hasSubscribedToEmailUpdates = true
-    }
-}
-
 // Creates prompt views based on a given type. The 'email' type requires a more
 // sophisticated view with an email input field.
 class PromptFactory: Subscriber {
@@ -382,12 +319,14 @@ class PromptFactory: Subscriber {
                 shared.prompts.append(StandardAnnouncementPrompt(announcement: $0))
             }
         })
+        
         shared.sort()
     }
     
     static func nextPrompt(walletAuthenticator: WalletAuthenticator) -> Prompt? {
         let prompts = PromptFactory.shared.prompts
         let next = prompts.first(where: { $0.shouldPrompt(walletAuthenticator: walletAuthenticator) })
+        
         return next
     }
     
@@ -403,17 +342,13 @@ class PromptFactory: Subscriber {
     
     private func addDefaultPrompts() {
         PromptType.defaultTypes.forEach { (type) in
-            if type == PromptType.email {
-                prompts.append(StandardEmailCollectingPrompt())
-            } else {
-                prompts.append(StandardPrompt(type: type))
-            }
+            prompts.append(StandardPrompt(type: type))
         }
+        
         sort()
     }
     
     private func sort() {
-        self.prompts.sort(by: { return $0.order < $1.order })
+        prompts.sort(by: { return $0.order < $1.order })
     }
-    
 }
