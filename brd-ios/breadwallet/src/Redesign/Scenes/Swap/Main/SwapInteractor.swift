@@ -282,7 +282,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         let data = SwapRequestData(quoteId: dataStore?.quote?.quoteId,
-                                   quantity: dataStore?.to?.tokenValue ?? 0,
+                                   quantity: dataStore?.from?.tokenValue ?? 0,
+                                   termQuantity: dataStore?.to?.tokenValue,
                                    destination: address,
                                    side: dataStore?.side.rawValue)
         

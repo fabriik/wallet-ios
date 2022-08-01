@@ -20,7 +20,8 @@ struct SwapRequestData: RequestModelData {
     func getParameters() -> [String: Any] {
         let params: [String: Any?] = [
            "quote_id": quoteId,
-           "base_quantity": "\(quantity)",
+           "base_quantity": quantity.description,
+           "term_quantity": termQuantity?.description,
            "destination": destination,
            "trade_side": side
         ]
