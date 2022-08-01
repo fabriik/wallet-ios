@@ -75,10 +75,10 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
         // TODO: localize
         let text = """
 If you verify your account, you are given access to:
-  - Unlimited deposits/withdraws
+  - Unlimited deposits/withdrawals
   - Enhanced security
   - Full asset support
-  - Buy crypto with card
+  - Buy assets with credit card
   - 24/7/365 live customer support
 """
         let model = PopupViewModel(title: .text("Why should I verify my account?"),
