@@ -49,7 +49,9 @@ enum Opacity: Float {
     case highest = 0.8
 }
 
+// TODO: consolidate the bottom enums!
 enum ViewSizes: CGFloat {
+    case minimum = 1.0
     /// 20
     case extraSmall = 20.0
     /// 24
@@ -60,6 +62,8 @@ enum ViewSizes: CGFloat {
     case large = 80.0
     /// 100
     case extraLarge = 100.0
+    /// 150
+    case huge = 150.0
 }
 
 enum FieldHeights: CGFloat {
@@ -69,6 +73,8 @@ enum FieldHeights: CGFloat {
     case medium = 28.0
     /// 48
     case common = 48.0
+    /// 65
+    case large = 65.0   
 }
 
 enum ButtonHeights: CGFloat {

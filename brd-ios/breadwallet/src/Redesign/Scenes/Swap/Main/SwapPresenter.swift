@@ -33,10 +33,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             .errors
         ]
         
-        exchangeRateViewModel = ExchangeRateViewModel(quote: item.quote,
-                                                      from: item.from?.code,
-                                                      to: item.to?.code,
-                                                      timer: TimerViewModel(till: item.quote?.timestamp ?? 0,
+        exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(till: item.quote?.timestamp ?? 0,
                                                                             repeats: false,
                                                                             finished: { [weak self] in
             self?.viewController?.interactor?.updateRate(viewAction: .init())
@@ -63,10 +60,17 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentUpdateRate(actionResponse: SwapModels.Rate.ActionResponse) {
-        exchangeRateViewModel = ExchangeRateViewModel(quote: actionResponse.quote,
-                                                      from: actionResponse.from?.code,
-                                                      to: actionResponse.to?.code,
-                                                      timer: TimerViewModel(till: actionResponse.quote?.timestamp ?? 0,
+        guard let from = actionResponse.from,
+              let to = actionResponse.to,
+              let rate = actionResponse.rate else {
+            return
+        }
+        
+        let text = String(format: "1 %@ = %.5f %@", from.code, rate.doubleValue, to.code)
+        
+        // TODO: MOVE THIS!
+        exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
+                                                      timer: TimerViewModel(till: actionResponse.expires ?? 0,
                                                                             repeats: false,
                                                                             finished: { [weak self] in
             self?.viewController?.interactor?.updateRate(viewAction: .init())
@@ -89,9 +93,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                     fee: actionResponse.toFee,
                                                     title: "I want",
                                                     feeDescription: receivingFee))
-        
-        exchangeRateViewModel.from = actionResponse.from?.currency.code
-        exchangeRateViewModel.to = actionResponse.to?.currency.code
         
         let minimumAmount: Decimal = actionResponse.minimumAmount ?? 5
 
@@ -178,19 +179,19 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             return
         }
         
-        let fromText = String(format: "%.8f %@ (%.2f %@)", from.tokenValue.doubleValue, from.currency.code, from.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
-        let toText = String(format: "%.8f %@ (%.2f %@)", to.tokenValue.doubleValue, to.currency.code, to.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
-        let rateText = String(format: "1 %@ = %.8f %@", from.currency.code, rate, to.currency.code)
+        let fromText = String(format: "%.5f %@ (%.2f %@)", from.tokenValue.doubleValue, from.currency.code, from.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
+        let toText = String(format: "%.5f %@ (%.2f %@)", to.tokenValue.doubleValue, to.currency.code, to.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
+        let rateText = String(format: "1 %@ = %.5f %@", from.currency.code, rate, to.currency.code)
         
-        let fromFeeText = String(format: "%.8f %@\n(%.2f) %@", actionResponse.fromFee?.tokenValue.doubleValue ?? 0,
+        let fromFeeText = String(format: "%.5f %@\n(%.2f) %@", actionResponse.fromFee?.tokenValue.doubleValue ?? 0,
                                  actionResponse.fromFee?.currency.code ?? from.currency.code,
                                  from.fiatValue.doubleValue,
                                  Store.state.defaultCurrencyCode)
-        let toFeeText = String(format: "%.8f %@\n(%.2f) %@", actionResponse.toFee?.tokenValue.doubleValue ?? 0,
+        let toFeeText = String(format: "%.5f %@\n(%.2f) %@", actionResponse.toFee?.tokenValue.doubleValue ?? 0,
                                actionResponse.toFee?.currency.code ?? to.currency.code,
                                Store.state.defaultCurrencyCode)
         
-        let totalCostText = String(format: "%.8f %@", from.tokenValue.doubleValue, from.currency.code)
+        let totalCostText = String(format: "%.5f %@", from.tokenValue.doubleValue, from.currency.code)
         
         let config: WrapperPopupConfiguration<SwapConfimationConfiguration> = .init(wrappedView: .init())
         

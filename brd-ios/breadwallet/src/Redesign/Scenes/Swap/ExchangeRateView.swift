@@ -18,9 +18,6 @@ struct ExchangeRateConfiguration: Configurable {
 }
 
 struct ExchangeRateViewModel: ViewModel {
-    var quote: Quote?
-    var from: String?
-    var to: String?
     var exchangeRate: String?
     var timer = TimerViewModel(till: 0, image: .imageName("timelapse"), repeats: true)
 }
@@ -89,18 +86,14 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
     }
     
     override func setup(with viewModel: ExchangeRateViewModel?) {
-        guard let viewModel = viewModel,
-              let from = viewModel.from,
-              let to = viewModel.to,
-              let rate = viewModel.quote?.exchangeRate
-        else {
+        guard let text = viewModel?.exchangeRate else {
             valueLabel.text = "No quote for pair."
             return
         }
 
         super.setup(with: viewModel)
-        valueLabel.text = String(format: "1 %@ = %.8f %@", from, rate.doubleValue, to)
-        timerView.setup(with: viewModel.timer)
+        valueLabel.text = text
+        timerView.setup(with: viewModel?.timer)
         rotate()
     }
     

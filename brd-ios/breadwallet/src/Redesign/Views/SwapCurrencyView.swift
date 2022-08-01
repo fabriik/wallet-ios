@@ -207,7 +207,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         fiatAmountField.addSubview(fiatLineView)
         fiatLineView.snp.makeConstraints { make in
-            make.height.equalTo(1)
+            make.height.equalTo(ViewSizes.minimum.rawValue)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
@@ -217,18 +217,17 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         }
         cryptoStack.addArrangedSubview(selectorStackView)
         selectorStackView.snp.makeConstraints { make in
-            make.width.equalTo(150)
+            make.width.equalTo(ViewSizes.huge.rawValue)
         }
         
         selectorStackView.addArrangedSubview(iconImageView)
         iconImageView.snp.makeConstraints { make in
-            make.height.equalTo(ViewSizes.medium.rawValue)
-            make.width.equalTo(iconImageView.snp.height)
+            make.width.equalTo(ViewSizes.medium.rawValue)
         }
         
         selectorStackView.addArrangedSubview(codeLabel)
         codeLabel.snp.makeConstraints { make in
-            make.width.equalTo(FieldHeights.common.rawValue)
+            make.width.equalTo(FieldHeights.large.rawValue)
         }
         selectorStackView.addArrangedSubview(selectorImageView)
         selectorImageView.snp.makeConstraints { make in
@@ -242,7 +241,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         cryptoAmountField.addSubview(cryptoLineView)
         cryptoLineView.snp.makeConstraints { make in
-            make.height.equalTo(1)
+            make.height.equalTo(ViewSizes.minimum.rawValue)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
@@ -319,8 +318,11 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         feeLabel.text = viewModel.feeDescription
         
         let isHidden = feeAndAmountsStackView.alpha == 0
-        let noFee = viewModel.fee == nil || viewModel.fee?.tokenValue == 0
+        let noFee = viewModel.fee == nil
+        || viewModel.fee?.tokenValue == 0
+        || viewModel.amount?.tokenValue == 0
         
+        feeAndAmountsStackView.isHidden = noFee
         guard isHidden != noFee else { return }
         
         feeAndAmountsStackView.isHidden = false

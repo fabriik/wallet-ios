@@ -222,7 +222,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         
         switch error {
         case .noQuote:
-            displayUpdateRate(responseDisplay: .init(rate: .init(quote: nil, from: nil, to: nil, exchangeRate: nil, timer: .init())))
+            displayUpdateRate(responseDisplay: .init(rate: .init()))
             
         default:
             return
