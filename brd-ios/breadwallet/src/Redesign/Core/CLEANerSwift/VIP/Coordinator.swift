@@ -279,9 +279,9 @@ class BaseCoordinator: NSObject,
                 }
                 
             case .failure(let error):
-                guard error as? NetworkingError == .sessionExpired else {
+                guard error as? NetworkingError == .sessionExpired
+                        || error as? NetworkingError == .parameterMissing else {
                     completion?(false)
-                    
                     return
                 }
                 
