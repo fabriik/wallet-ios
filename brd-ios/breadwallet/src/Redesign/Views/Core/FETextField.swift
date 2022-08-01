@@ -67,7 +67,6 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         get { return textField.text }
         set {
             textField.text = newValue
-            animateTo(state: newValue?.isEmpty == true ? .error : .filled)
         }
     }
     
@@ -259,8 +258,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         
         layoutSubviews()
         
-        guard viewModel.value?.isEmpty == false else { return }
-        animateTo(state: .filled, withAnimation: false)
+        animateTo(state: (viewModel.value ?? "").isEmpty ? .normal : .filled, withAnimation: false)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -272,8 +270,8 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
+        valueChanged?(textField.text)
         contentSizeChanged?()
-        valueChanged?(textField.text)//?.lowercased())
     }
     
     func animateTo(state: DisplayState, withAnimation: Bool = true) {
@@ -358,6 +356,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     
     override func configure(background: BackgroundConfiguration? = nil) {
         guard let border = background?.border else { return }
+        
         let content = textFieldContent
         
         content.layer.masksToBounds = true

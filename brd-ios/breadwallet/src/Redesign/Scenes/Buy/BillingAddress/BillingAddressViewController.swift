@@ -85,8 +85,8 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
                 tableView.endUpdates()
             }
             
-            view.valueChanged = { [weak self] first, last in
-                self?.interactor?.nameSet(viewAction: .init(first: first, last: last))
+            view.valueChanged = { [weak self] first, second in
+                self?.interactor?.nameSet(viewAction: .init(first: first, last: second))
             }
         }
         
