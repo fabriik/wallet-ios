@@ -76,8 +76,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         dataStore?.quote = quote
-        presenter?.presentUpdateRate(actionResponse: .init(side: dataStore?.side,
-                                                           rate: dataStore?.exchangeRate(for: from),
+        presenter?.presentUpdateRate(actionResponse: .init(rate: dataStore?.exchangeRate(for: from),
                                                            from: dataStore?.fromCurrency,
                                                            to: dataStore?.toCurrency))
         
@@ -155,8 +154,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.fromFee = nil
         dataStore?.toFee = nil
         
-        presenter?.presentUpdateRate(actionResponse: .init(side: dataStore?.side,
-                                                           rate: dataStore?.exchangeRate(for: dataStore?.fromCurrency),
+        presenter?.presentUpdateRate(actionResponse: .init(rate: dataStore?.exchangeRate(for: dataStore?.fromCurrency),
                                                            from: dataStore?.fromCurrency,
                                                            to: dataStore?.toCurrency))
         

@@ -62,19 +62,11 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     func presentUpdateRate(actionResponse: SwapModels.Rate.ActionResponse) {
         guard let from = actionResponse.from,
               let to = actionResponse.to,
-              let side = actionResponse.side,
               let rate = actionResponse.rate else {
             return
         }
         
-        let format = "1 %@ = %.5f %@"
-        
-        let text: String
-//        if side == .buy {
-        text = String(format: format, from.code, rate.doubleValue, to.code)
-//        } else {
-//            text = String(format: format, to.code, rate.doubleValue, from.code)
-//        }
+        let text = String(format: "1 %@ = %.5f %@", from.code, rate.doubleValue, to.code)
         
         // TODO: MOVE THIS!
         exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
