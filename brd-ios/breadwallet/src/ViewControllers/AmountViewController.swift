@@ -8,9 +8,6 @@
 
 import UIKit
 
-private let currencyHeight: CGFloat = 80.0
-private let feeHeight: CGFloat = 130.0
-
 class AmountViewController: UIViewController, Trackable {
     
     private let currency: Currency

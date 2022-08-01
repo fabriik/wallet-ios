@@ -17,7 +17,10 @@ extension Presets {
                                                backgroundConfiguration: .init(backgroundColor: LightColors.tertiary,
                                                                               tintColor: LightColors.Text.one,
                                                                               border: Presets.Border.zero),
-                                               imageConfig: .init(backgroundColor: LightColors.pending, tintColor: .white, border: .init(borderWidth: 0, cornerRadius: .medium)),
+                                               imageConfig: .init(backgroundColor: LightColors.pending,
+                                                                  tintColor: .white,
+                                                                  border: .init(borderWidth: 0,
+                                                                                cornerRadius: .medium)),
                                                imageSize: .small)
         
         static var Enabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one),

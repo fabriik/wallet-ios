@@ -125,7 +125,9 @@ class MessageUIPresenter: NSObject, Trackable {
 
     private func showMessageUnavailableAlert() {
         saveEvent("receive.messagingUnavailable")
-        let alert = UIAlertController(title: L10n.ErrorMessages.messagingUnavailableTitle, message: L10n.ErrorMessages.messagingUnavailableMessage, preferredStyle: .alert)
+        let alert = UIAlertController(title: L10n.ErrorMessages.messagingUnavailableTitle,
+                                      message: L10n.ErrorMessages.messagingUnavailableMessage,
+                                      preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: nil))
         presenter?.present(alert, animated: true, completion: nil)
     }

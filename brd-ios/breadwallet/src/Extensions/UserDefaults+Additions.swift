@@ -16,8 +16,6 @@ private let hasAquiredShareDataPermissionKey = "has_acquired_permission"
 private let legacyWalletNeedsBackupKey = "WALLET_NEEDS_BACKUP"
 private let writePaperPhraseDateKey = "writepaperphrasedatekey"
 private let hasPromptedBiometricsKey = "haspromptedtouched"
-private let hasPromptedForEmailKey = "hasPromptedForEmail"
-private let hasSubscribedToEmailUpdatesKey = "hasSubscribedToEmailUpdates"
 private let showFiatAmountsKey = "isBtcSwappedKey" // legacy key name
 private let pushTokenKey = "pushTokenKey"
 private let currentRateKey = "currentRateKey"
@@ -66,8 +64,6 @@ extension UserDefaults {
     // Add any keys here that you want to be able to reset without having
     // to reset the simulator settings.
     static let resettableBooleans: [ResettableBooleanSetting] = [
-        [hasPromptedForEmailKey: false],
-        [hasSubscribedToEmailUpdatesKey: false],
         [hasPromptedBiometricsKey: false],
         [isBiometricsEnabledKey: false],
         [isBiometricsEnabledForTransactionsKey: false],
@@ -372,16 +368,6 @@ extension UserDefaults {
     static var hasPromptedBiometrics: Bool {
         get { return defaults.bool(forKey: hasPromptedBiometricsKey) }
         set { defaults.set(newValue, forKey: hasPromptedBiometricsKey) }
-    }
-    
-    static var hasPromptedForEmail: Bool {
-        get { return defaults.bool(forKey: hasPromptedForEmailKey ) }
-        set { defaults.set(newValue, forKey: hasPromptedForEmailKey ) }
-    }
-    
-    static var hasSubscribedToEmailUpdates: Bool {
-        get { return defaults.bool(forKey: hasSubscribedToEmailUpdatesKey ) }
-        set { defaults.set(newValue, forKey: hasSubscribedToEmailUpdatesKey ) }
     }
     
     // Returns the number of times the user has deferred the notifications opt-in decision.
