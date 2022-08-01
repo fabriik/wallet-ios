@@ -86,11 +86,11 @@ enum SwapModels {
         }
         
         struct ActionResponse {
-            var quote: Quote?
+            var side: Swap.Side?
+            var rate: Decimal?
             var from: Currency?
             var to: Currency?
-            var fromRate: Decimal?
-            var toRate: Decimal?
+            var expires: Double?
         }
         
         struct ResponseDisplay {
