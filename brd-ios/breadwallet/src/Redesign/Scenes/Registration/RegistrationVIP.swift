@@ -14,6 +14,7 @@ extension Scenes {
 
 protocol RegistrationViewActions: BaseViewActions, FetchViewActions {
     func validate(viewAction: RegistrationModels.Validate.ViewAction)
+    func toggleTickbox(viewAction: RegistrationModels.Tickbox.ViewAction)
     func next(viewAction: RegistrationModels.Next.ViewAction)
 }
 
@@ -30,6 +31,7 @@ protocol RegistrationResponseDisplays: AnyObject, BaseResponseDisplays, FetchRes
 protocol RegistrationDataStore: BaseDataStore, FetchDataStore {
     var email: String? { get set }
     var type: RegistrationModels.ViewType { get set }
+    var subscribe: Bool? { get set }
     var shouldShowProfile: Bool { get set }
 }
 

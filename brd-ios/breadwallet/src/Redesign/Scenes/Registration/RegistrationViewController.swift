@@ -41,6 +41,9 @@ class RegistrationViewController: BaseTableViewController<RegistrationCoordinato
                 view.configure(with: Presets.TextField.email)
             }
             
+        case .tickbox:
+            cell = self.tableView(tableView, tickboxCellForRowAt: indexPath)
+            
         case .confirm:
             cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
             
@@ -53,7 +56,27 @@ class RegistrationViewController: BaseTableViewController<RegistrationCoordinato
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, tickboxCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<TickboxItemView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? TickboxItemViewModel else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+            
+            view.didToggleTickbox = { [weak self] value in
+                self?.interactor?.toggleTickbox(viewAction: .init(value: value))
+            }
+        }
+        
+        return cell
+    }
+    
     // MARK: - User Interaction
+    
     override func textFieldDidUpdate(for indexPath: IndexPath, with text: String?) {
         interactor?.validate(viewAction: .init(item: text))
     }

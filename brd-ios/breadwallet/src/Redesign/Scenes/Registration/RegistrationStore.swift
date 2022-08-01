@@ -14,6 +14,7 @@ class RegistrationStore: NSObject, BaseDataStore, RegistrationDataStore {
     var itemId: String?
     var email: String?
     var type: RegistrationModels.ViewType = .registration
+    var subscribe: Bool?
     var shouldShowProfile: Bool = false
     
     // MARK: - Aditional helpers

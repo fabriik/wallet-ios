@@ -34,12 +34,16 @@ struct RegistrationData: Model {
 struct RegistrationRequestData: RequestModelData {
     let email: String?
     let token: String?
+    let subscribe: Bool?
     
     func getParameters() -> [String: Any] {
-        return [
-            "email": email ?? "",
-            "token": token ?? ""
+        let params: [String: Any?] = [
+            "email": email,
+            "token": token,
+            "subscribe": subscribe
         ]
+        
+        return params.compactMapValues { $0 }
     }
 }
 
