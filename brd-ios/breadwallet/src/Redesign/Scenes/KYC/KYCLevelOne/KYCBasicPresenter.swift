@@ -34,8 +34,7 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
             .country: [
                 TextFieldModel(title: "Country",
                                value: item.countryFullName,
-                               trailing: .imageName("chevrondown"),
-                               validator: { $0?.isEmpty == false })
+                               trailing: .imageName("chevrondown"))
             ],
             .birthdate: [
                 DateViewModel(date: item.birthdate)

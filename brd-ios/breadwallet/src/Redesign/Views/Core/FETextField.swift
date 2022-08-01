@@ -41,14 +41,12 @@ struct TextFieldModel: ViewModel {
     var error: String?
     var info: InfoViewModel?
     var trailing: ImageViewModel?
-    var validator: ((String?) -> Bool)? = { text in return (text?.count ?? 0) >= 1 }
 }
 
 class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDelegate, StateDisplayable {
     
     var displayState: DisplayState = .normal
     
-    private var validator: ((String?) -> Bool)?
     var contentSizeChanged: (() -> Void)?
     var valueChanged: ((String?) -> Void)?
     
@@ -234,7 +232,6 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
-        validator = viewModel.validator
         titleLabel.setup(with: .text(viewModel.title))
         titleLabel.isHidden = viewModel.title == nil
         textField.text = viewModel.value
@@ -279,21 +276,8 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         valueChanged?(textField.text)//?.lowercased())
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        let isValid = validator?(textField.text) == true
-        let state: DisplayState = isValid ? .filled : .error
-        animateTo(state: state, withAnimation: true)
-        
-        return isValid
-    }
-    
     func animateTo(state: DisplayState, withAnimation: Bool = true) {
         let background: BackgroundConfiguration?
-        var state = state
-        
-        if validator?(textField.text) != true {
-            state = .error
-        }
         
         var hint = viewModel?.hint
         var hideTextField = textField.text?.isEmpty == true
