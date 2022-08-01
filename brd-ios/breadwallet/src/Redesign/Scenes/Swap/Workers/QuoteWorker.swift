@@ -25,19 +25,6 @@ struct QuoteModelResponse: ModelResponse {
     var barTime: Double
     var timestamp: Double
     
-    struct FeeEstimate: Codable {
-        struct Fee: Codable {
-            var currencyId: String
-            var amount: String
-        }
-        var fee: Fee
-        var estimatedConfirmationIn: Double
-        var tier: String
-    }
-    
-    var baseFeeEstimates: [FeeEstimate]
-    var termFeeEstimates: [FeeEstimate]
-    
     var buyMarkup: Decimal
     var sellMarkup: Decimal
     var minimumUsdValue: Decimal
@@ -48,19 +35,6 @@ struct Quote {
     var securityId: String
     var exchangeRate: Decimal
     var timestamp: Double
-    
-    struct FeeEstimate {
-        struct Fee {
-            var currencyId: String
-            var amount: Decimal
-        }
-        var fee: Fee
-        var estimatedConfirmationIn: Double
-        var tier: String
-    }
-    
-    var fromFee: [FeeEstimate]
-    var toFee: [FeeEstimate]
     
     var buyMarkup: Decimal
     var sellMarkup: Decimal
@@ -76,14 +50,6 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
                      securityId: response.securityId,
                      exchangeRate: response.exchangeRate,
                      timestamp: response.timestamp,
-                     fromFee: response.baseFeeEstimates.compactMap { .init(fee: .init(currencyId: $0.fee.currencyId,
-                                                                                      amount: Decimal(string: $0.fee.amount) ?? 0),
-                                                                           estimatedConfirmationIn: $0.estimatedConfirmationIn,
-                                                                           tier: $0.tier) },
-                     toFee: response.termFeeEstimates.compactMap { .init(fee: .init(currencyId: $0.fee.currencyId,
-                                                                                    amount: Decimal(string: $0.fee.amount) ?? 0),
-                                                                         estimatedConfirmationIn: $0.estimatedConfirmationIn,
-                                                                         tier: $0.tier) },
                      buyMarkup: response.buyMarkup,
                      sellMarkup: response.sellMarkup,
                      minUsdAmount: response.minimumUsdValue)
