@@ -26,6 +26,7 @@ protocol AssetSelectionDataStore: BaseDataStore, FetchDataStore {
     var supportedCurrenciesPair: [String]? { get set }
     var isFromCurrency: Bool? { get set }
     var baseCurrencySelected: Currency? { get set }
+    var termCurrencySelected: Currency? { get set }
 }
 
 protocol AssetSelectionDataPassing {

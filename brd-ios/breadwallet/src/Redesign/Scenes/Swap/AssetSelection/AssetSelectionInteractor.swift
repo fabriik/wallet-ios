@@ -53,6 +53,7 @@ class AssetSelectionInteractor: NSObject, Interactor, AssetSelectionViewActions 
         guard let isFromCurrency = from else { return false }
         
         if isFromCurrency {
+            guard dataStore?.termCurrencySelected?.code != assetCode else { return true }
             supportedAssets = dataStore?.supportedCurrenciesPair?.filter { $0.contains(assetCode) }
         } else {
             let supportedCurrenciesPair = dataStore?.supportedCurrenciesPair?.filter { $0.contains(dataStore?.baseCurrencySelected?.code ?? "") }

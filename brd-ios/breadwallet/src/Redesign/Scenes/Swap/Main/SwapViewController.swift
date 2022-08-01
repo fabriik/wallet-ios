@@ -269,6 +269,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                                        supportedCurrenciesText: supportedCurrenciesText,
                                        isFromCurrency: isFromCurrency,
                                        fromCurrency: dataStore?.fromCurrency,
+                                       toCurrency: dataStore?.toCurrency,
                                        selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }
             

@@ -29,8 +29,21 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 self?.dataStore?.baseCurrencies = Array(Set(currencies.compactMap({ $0.baseCurrency })))
                 self?.dataStore?.termCurrencies = Array(Set(currencies.compactMap({ $0.termCurrency })))
                 self?.dataStore?.baseAndTermCurrencies = currencies.compactMap({ [$0.baseCurrency, $0.termCurrency] })
-                self?.dataStore?.fromCurrency = self?.dataStore?.currencies.first(where: { $0.code == "BSV" })
-                self?.dataStore?.toCurrency = self?.dataStore?.currencies.first(where: { $0.code == "BTC" })
+                
+                guard let baseAndTermCurrencies = self?.dataStore?.baseAndTermCurrencies else { return }
+                
+                for baseAndTerm in baseAndTermCurrencies {
+                    let baseAndTermCurrencies = baseAndTerm.split(separator: ",")
+                    let base = baseAndTermCurrencies[0][0]
+                    let term = baseAndTermCurrencies[0][1]
+                    self?.dataStore?.fromCurrency = self?.dataStore?.currencies.first(where: { $0.code == base })
+                    self?.dataStore?.toCurrency = self?.dataStore?.currencies.first(where: { $0.code == term })
+                    
+                    if self?.dataStore?.fromCurrency != nil && self?.dataStore?.toCurrency != nil {
+                        self?.getQuote(isInitialLaunch: true)
+                        return
+                    }
+                }
                 self?.getQuote(isInitialLaunch: true)
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
