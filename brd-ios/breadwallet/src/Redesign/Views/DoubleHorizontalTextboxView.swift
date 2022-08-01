@@ -20,7 +20,6 @@ struct DoubleHorizontalTextboxViewModel: ViewModel {
 }
 
 class DoubleHorizontalTextboxView: FEView<DoubleHorizontalTextboxViewConfiguration, DoubleHorizontalTextboxViewModel> {
-    
     var contentSizeChanged: (() -> Void)?
     var valueChanged: ((_ first: String?, _ second: String?) -> Void)?
     
