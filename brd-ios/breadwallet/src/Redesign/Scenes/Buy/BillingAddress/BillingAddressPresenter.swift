@@ -32,35 +32,28 @@ final class BillingAddressPresenter: NSObject, Presenter, BillingAddressActionRe
         let sectionRows: [Models.Section: [Any]] = [
             .name: [
                 DoubleHorizontalTextboxViewModel(first: .init(title: "First Name",
-                                                              value: item.firstName,
-                                                              validator: { $0?.isEmpty == false }),
+                                                              value: item.firstName),
                                                  second: .init(title: "Last Name",
-                                                               value: item.lastName,
-                                                               validator: { $0?.isEmpty == false }))
+                                                               value: item.lastName))
             ],
             .country: [
                 TextFieldModel(title: "Country",
                                value: item.countryFullName,
-                               trailing: .imageName("chevrondown"),
-                               validator: { $0?.isEmpty == false })
+                               trailing: .imageName("chevrondown"))
             ],
             .stateProvince: [
                 TextFieldModel(title: "State/Province",
-                               value: item.stateProvince,
-                               validator: { $0?.isEmpty == false })
+                               value: item.stateProvince)
             ],
             .cityAndZipPostal: [
                 DoubleHorizontalTextboxViewModel(first: .init(title: "City",
-                                                              value: item.city,
-                                                              validator: { $0?.isEmpty == false }),
+                                                              value: item.city),
                                                  second: .init(title: "ZIP/Postal Code",
-                                                               value: item.zipPostal,
-                                                               validator: { $0?.isEmpty == false }))
+                                                               value: item.zipPostal))
             ],
             .address: [
                 TextFieldModel(title: "Address",
-                               value: item.address,
-                               validator: { $0?.isEmpty == false })
+                               value: item.address)
             ],
             .confirm: [
                 ButtonViewModel(title: "Confirm")

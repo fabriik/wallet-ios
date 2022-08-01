@@ -39,9 +39,9 @@ struct TextFieldModel: ViewModel {
     var placeholder: String?
     var hint: String?
     var error: String?
-    var info: InfoViewModel? //= InfoViewModel(description: .text("Please enter ur name."))
+    var info: InfoViewModel?
     var trailing: ImageViewModel?
-    var validator: ((String?) -> Bool)? = { text in return (text?.count ?? 0) >= 1 } // TODO: This is Interactor logic
+    var validator: ((String?) -> Bool)? = { text in return (text?.count ?? 0) >= 1 }
 }
 
 class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDelegate, StateDisplayable {
@@ -291,10 +291,10 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         let background: BackgroundConfiguration?
         var state = state
         
-        if validator?(textField.text) != true,
-           textField.text?.isEmpty != true {
+        if validator?(textField.text) != true {
             state = .error
         }
+        
         var hint = viewModel?.hint
         var hideTextField = textField.text?.isEmpty == true
         var hideTitleStack = false

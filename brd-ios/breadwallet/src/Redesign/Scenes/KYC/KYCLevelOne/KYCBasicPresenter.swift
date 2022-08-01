@@ -28,8 +28,8 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
         let sectionRows: [Models.Section: [Any]] = [
             .name: [
                 DoubleHorizontalTextboxViewModel(title: .text("Write your name as it appears on your ID"),
-                                                 first: .init(title: "First Name", value: item.firstName, validator: { $0?.isEmpty == false }),
-                                                 second: .init(title: "Last Name", value: item.lastName, validator: { $0?.isEmpty == false }))
+                                                 first: .init(title: "First Name", value: item.firstName),
+                                                 second: .init(title: "Last Name", value: item.lastName))
             ],
             .country: [
                 TextFieldModel(title: "Country",
