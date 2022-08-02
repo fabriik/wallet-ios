@@ -1,21 +1,24 @@
 //
-//  KYCBasicModels.swift
+//  BillingAddressModels.swift
 //  breadwallet
 //
-//  Created by Rok on 30/05/2022.
+//  Created by Kenan Mamedoff on 01/08/2022.
+//  Copyright © 2022 Fabriik Exchange, LLC. All rights reserved.
 //
+//  See the LICENSE file at the project root for license information.
 //
 
 import UIKit
 
-enum KYCBasicModels {
-    
-    typealias Item = KYCBasicStore
+enum BillingAddressModels {
+    typealias Item = BillingAddressStore
  
     enum Section: Sectionable {
         case name
         case country
-        case birthdate
+        case stateProvince
+        case cityAndZipPostal
+        case address
         case confirm
         
         var header: AccessoryType? { nil }
@@ -29,16 +32,29 @@ enum KYCBasicModels {
         }
     }
     
+    struct StateProvince {
+        struct ViewAction {
+            var stateProvince: String?
+        }
+    }
+    
+    struct Address {
+        struct ViewAction {
+            var address: String?
+        }
+    }
+    
+    struct CityAndZipPostal {
+        struct ViewAction {
+            var city: String?
+            var zipPostal: String?
+        }
+    }
+    
     struct Country {
         struct ViewAction {
             var code: String?
             var countryFullName: String?
-        }
-    }
-    
-    struct BirthDate {
-        struct ViewAction {
-            var date: Date?
         }
     }
     

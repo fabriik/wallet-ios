@@ -1,5 +1,5 @@
 //
-//  NameView.swift
+//  DoubleHorizontalTextboxView.swift
 //  breadwallet
 //
 //  Created by Rok on 30/05/2022.
@@ -8,23 +8,20 @@
 //  See the LICENSE file at the project root for license information.
 //
 
-import Foundation
 import UIKit
 
-struct NameViewConfiguration: Configurable {
-    
+struct DoubleHorizontalTextboxViewConfiguration: Configurable {
 }
 
-struct NameViewModel: ViewModel {
+struct DoubleHorizontalTextboxViewModel: ViewModel {
     var title: LabelViewModel?
-    var firstName: TextFieldModel?
-    var lastName: TextFieldModel?
+    var first: TextFieldModel?
+    var second: TextFieldModel?
 }
 
-class NameView: FEView<NameViewConfiguration, NameViewModel> {
-    
+class DoubleHorizontalTextboxView: FEView<DoubleHorizontalTextboxViewConfiguration, DoubleHorizontalTextboxViewModel> {
     var contentSizeChanged: (() -> Void)?
-    var valueChanged: ((_ first: String?, _ last: String?) -> Void)?
+    var valueChanged: ((_ first: String?, _ second: String?) -> Void)?
     
     private lazy var stack: UIStackView = {
         let view = UIStackView()
@@ -33,7 +30,7 @@ class NameView: FEView<NameViewConfiguration, NameViewModel> {
         return view
     }()
     
-    private lazy var nameStack: UIStackView = {
+    private lazy var contentStack: UIStackView = {
         let view = UIStackView()
         view.spacing = Margins.small.rawValue
         view.distribution = .fillEqually
@@ -45,18 +42,18 @@ class NameView: FEView<NameViewConfiguration, NameViewModel> {
         return view
     }()
     
-    private lazy var lastNameTextfield: FETextField = {
+    private lazy var firstTextField: FETextField = {
         let view = FETextField()
         return view
     }()
     
-    private lazy var firstNameTextField: FETextField = {
+    private lazy var secondTextfield: FETextField = {
         let view = FETextField()
         return view
     }()
     
-    private var firstName: String?
-    private var lastName: String?
+    private var first: String?
+    private var second: String?
     
     override func setupSubviews() {
         super.setupSubviews()
@@ -75,36 +72,37 @@ class NameView: FEView<NameViewConfiguration, NameViewModel> {
             make.height.equalTo(titleHeight)
         }
         
-        stack.addArrangedSubview(nameStack)
-        nameStack.addArrangedSubview(firstNameTextField)
-        nameStack.addArrangedSubview(lastNameTextfield)
+        stack.addArrangedSubview(contentStack)
+        contentStack.addArrangedSubview(firstTextField)
+        contentStack.addArrangedSubview(secondTextfield)
     }
     
-    override func configure(with config: NameViewConfiguration?) {
+    override func configure(with config: DoubleHorizontalTextboxViewConfiguration?) {
         super.configure(with: config)
         
         titleLabel.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two))
-        firstNameTextField.configure(with: Presets.TextField.primary)
-        lastNameTextfield.configure(with: Presets.TextField.primary)
+        firstTextField.configure(with: Presets.TextField.primary)
+        secondTextfield.configure(with: Presets.TextField.primary)
     }
     
-    override func setup(with viewModel: NameViewModel?) {
+    override func setup(with viewModel: DoubleHorizontalTextboxViewModel?) {
         super.setup(with: viewModel)
         
         titleLabel.setup(with: viewModel?.title)
+        titleLabel.isHidden = viewModel?.title == nil
         
-        firstName = viewModel?.firstName?.value
-        lastName = viewModel?.lastName?.value
-        firstNameTextField.setup(with: viewModel?.firstName)
-        lastNameTextfield.setup(with: viewModel?.lastName)
+        first = viewModel?.first?.value
+        second = viewModel?.second?.value
+        firstTextField.setup(with: viewModel?.first)
+        secondTextfield.setup(with: viewModel?.second)
         
-        firstNameTextField.valueChanged = { [weak self] in
-            self?.firstName = $0
+        firstTextField.valueChanged = { [weak self] in
+            self?.first = $0
             self?.stateChanged()
         }
         
-        lastNameTextfield.valueChanged = { [weak self] in
-            self?.lastName = $0
+        secondTextfield.valueChanged = { [weak self] in
+            self?.second = $0
             self?.stateChanged()
         }
         
@@ -112,7 +110,7 @@ class NameView: FEView<NameViewConfiguration, NameViewModel> {
     }
     
     private func stateChanged() {
-        valueChanged?(firstName, lastName)
+        valueChanged?(first, second)
         
         Self.animate(withDuration: Presets.Animation.duration) { [weak self] in
             self?.content.layoutIfNeeded()

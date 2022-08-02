@@ -14,7 +14,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
                               I: Interactor,
                               P: Presenter,
                               DS: BaseDataStore & NSObject>: VIPTableViewController<C, I, P, DS>,
-                                                                              FetchResponseDisplays {
+                                                             FetchResponseDisplays {
     override var isModalDismissableEnabled: Bool { return true }
     override var dismissText: String { return "close" }
     override var closeImage: UIImage? { return .init(named: "close")}
@@ -59,7 +59,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
         tableView.register(WrapperTableViewCell<WrapperView<FEInfoView>>.self)
         tableView.register(WrapperTableViewCell<NavigationItemView>.self)
         tableView.register(WrapperTableViewCell<ProfileView>.self)
-        tableView.register(WrapperTableViewCell<NameView>.self)
+        tableView.register(WrapperTableViewCell<DoubleHorizontalTextboxView>.self)
         tableView.register(WrapperTableViewCell<FEImageView>.self)
         tableView.register(WrapperTableViewCell<ScrollableButtonsView>.self)
         tableView.register(WrapperTableViewCell<ChecklistItemView>.self)
@@ -305,7 +305,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
             view.configure(with: Presets.TextField.primary)
             view.setup(with: model)
             view.valueChanged = { [weak self] text in
-                self?.textFieldDidUpdate(for: indexPath, with: text)
+                self?.textFieldDidUpdate(for: indexPath, with: text, on: section)
             }
             view.contentSizeChanged = {
                 tableView.beginUpdates()
@@ -443,9 +443,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
         // override in subclass
     }
 
-    func textFieldDidUpdate(for indexPath: IndexPath, with text: String?) {
-        tableView.beginUpdates()
-        tableView.endUpdates()
+    func textFieldDidUpdate(for indexPath: IndexPath, with text: String?, on section: AnyHashable) {
     }
     
     @objc func buttonTapped() {

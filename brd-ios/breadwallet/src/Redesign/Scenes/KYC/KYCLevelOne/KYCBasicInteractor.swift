@@ -72,7 +72,12 @@ class KYCBasicInteractor: NSObject, Interactor, KYCBasicViewActions {
     }
     
     func validate(viewAction: KYCBasicModels.Validate.ViewAction) {
-        presenter?.presentValidate(actionResponse: .init(item: dataStore))
+        let isValid = FieldValidator.validate(fields: [dataStore?.firstName,
+                                                       dataStore?.lastName,
+                                                       dataStore?.country,
+                                                       dataStore?.birthDateString])
+        
+        presenter?.presentValidate(actionResponse: .init(isValid: isValid))
     }
     
     func submit(vieAction: KYCBasicModels.Submit.ViewAction) {

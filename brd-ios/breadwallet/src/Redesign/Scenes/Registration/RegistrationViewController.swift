@@ -77,7 +77,9 @@ class RegistrationViewController: BaseTableViewController<RegistrationCoordinato
     
     // MARK: - User Interaction
     
-    override func textFieldDidUpdate(for indexPath: IndexPath, with text: String?) {
+    override func textFieldDidUpdate(for indexPath: IndexPath, with text: String?, on section: AnyHashable) {
+        super.textFieldDidUpdate(for: indexPath, with: text, on: section)
+        
         interactor?.validate(viewAction: .init(item: text))
     }
     
