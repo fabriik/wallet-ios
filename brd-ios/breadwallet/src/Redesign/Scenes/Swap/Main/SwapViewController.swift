@@ -122,10 +122,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             return super.tableView(tableView, cellForRowAt: indexPath)
         }
         
-        cell.wrappedView.snp.makeConstraints { make in
-            make.height.equalTo(300)
-        }
-        
         cell.setup { view in
             view.configure(with: .init(shadow: Presets.Shadow.light,
                                        background: .init(backgroundColor: LightColors.Background.two,
@@ -258,6 +254,9 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         cell.setup { view in
             let model = responseDisplay.rate
             view.setup(with: model)
+            view.completion = { [weak self] in
+                self?.interactor?.updateRate(viewAction: .init())
+            }
         }
     }
     

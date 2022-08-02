@@ -59,11 +59,24 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     
     var didChangeFromFiatAmount: ((String?) -> Void)?
     var didChangeFromCryptoAmount: ((String?) -> Void)?
-    var didTapFromAssetsSelection: (() -> Void)?
-    
+    var didTapFromAssetsSelection: (() -> Void)? {
+        get {
+            return baseSwapCurrencyView.didTapSelectAsset
+        }
+        set {
+            baseSwapCurrencyView.didTapSelectAsset = newValue
+        }
+    }
     var didChangeToFiatAmount: ((String?) -> Void)?
     var didChangeToCryptoAmount: ((String?) -> Void)?
-    var didTapToAssetsSelection: (() -> Void)?
+    var didTapToAssetsSelection: (() -> Void)? {
+        get {
+            return termSwapCurrencyView.didTapSelectAsset
+        }
+        set {
+            termSwapCurrencyView.didTapSelectAsset = newValue
+        }
+    }
     
     var didChangePlaces: (() -> Void)?
     
@@ -105,14 +118,6 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         swapButton.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        
-        baseSwapCurrencyView.selectorStackView
-            .addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                         action: #selector(topCurrencyTapped(_:))))
-        termSwapCurrencyView.selectorStackView
-            .addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                         action: #selector(bottomCurrencyTapped(_:))))
-        
         getAmounts()
     }
     

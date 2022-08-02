@@ -15,12 +15,12 @@ extension ProfileModels.NavigationItems {
         case .security:
             return .init(image: .imageName("lock_closed"),
                          label: .text("Security settings"),
-                         button: .init(image: "arrow_right"))
+                         button: .init(image: "arrowRight"))
             
         case .preferences:
             return .init(image: .imageName("settings"),
                          label: .text("Preferences"),
-                         button: .init(image: "arrow_right"))
+                         button: .init(image: "arrowRight"))
         }
     }
 }

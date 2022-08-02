@@ -27,6 +27,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         case shown, hidden
     }
     
+    var didTapSelectAsset: (() -> Void)?
     var didChangeFiatAmount: ((String?) -> Void)?
     var didChangeCryptoAmount: ((String?) -> Void)?
     var didChangeContent: (() -> Void)?
@@ -105,6 +106,9 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         let view = UIStackView()
         view.axis = .horizontal
         view.spacing = Margins.small.rawValue
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                         action: #selector(selectorTapped(_:))))
+        
         return view
     }()
     
@@ -332,6 +336,10 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
             self?.feeAndAmountsStackView.isHidden = !isHidden
             self?.didChangeContent?()
         })
+    }
+    
+    @objc private func selectorTapped(_ sender: Any) {
+        didTapSelectAsset?()
     }
 }
 

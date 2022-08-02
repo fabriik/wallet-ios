@@ -25,11 +25,10 @@ struct TimerViewModel: ViewModel {
     var till: Double = 0
     var image = ImageViewModel.imageName("timelapse")
     var repeats = false
-    var finished: (() -> Void)?
 }
 
 class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
-    
+    var completion:(() -> Void)?
     private lazy var stack: UIStackView = {
         let view = UIStackView()
         view.spacing = Margins.extraSmall.rawValue
@@ -112,7 +111,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         timer?.invalidate()
         timer = nil
         
-        viewModel?.finished?()
+        completion?()
         
         guard viewModel?.repeats == true else {
             content.layoutIfNeeded()
