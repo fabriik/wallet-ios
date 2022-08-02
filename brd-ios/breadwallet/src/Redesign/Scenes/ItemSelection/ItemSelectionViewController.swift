@@ -88,7 +88,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
             return
         }
         
-        interactor?.search(viewAction: .init(text: text))
+        interactor?.search(viewAction: .init(text: searchText))
     }
     
     // MARK: - User Interaction
