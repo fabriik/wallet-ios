@@ -66,8 +66,8 @@ extension BaseCoordinator {
         view.addSubview(popup)
         popup.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.leading.greaterThanOrEqualTo(view.snp.leadingMargin)
-            make.trailing.greaterThanOrEqualTo(view.snp.trailingMargin)
+            make.leading.greaterThanOrEqualTo(view.snp.leadingMargin).inset(Margins.huge.rawValue)
+            make.trailing.greaterThanOrEqualTo(view.snp.trailingMargin).inset(-Margins.huge.rawValue)
         }
         popup.alpha = 0.0
         popup.layoutIfNeeded()

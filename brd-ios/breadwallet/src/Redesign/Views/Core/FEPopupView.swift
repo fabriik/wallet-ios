@@ -95,7 +95,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         
         mainStack.addArrangedSubview(imageView)
         imageView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(Margins.extraSmall.rawValue)
+            make.leading.trailing.top.equalToSuperview().inset(Margins.small.rawValue)
         }
         
         mainStack.addArrangedSubview(titleLabel)
