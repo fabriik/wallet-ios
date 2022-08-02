@@ -58,9 +58,9 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     override func prepareData() {
         super.prepareData()
         
-//        DispatchQueue.main.async {
-//            LoadingView.show()
-//        }
+        DispatchQueue.main.async {
+            LoadingView.show()
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -161,7 +161,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-//        interactor?.showConfirmation(viewAction: .init())
+        // TODO: present confirmation
     }
     
     func rateExpired(forPair from: String, to: String) {

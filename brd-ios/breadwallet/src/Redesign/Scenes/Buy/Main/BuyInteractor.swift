@@ -99,6 +99,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     }
     
     // MARK: - Aditional helpers
+    // TODO: extract to helper class
     private func decimalFor(amount: String?) -> Decimal? {
         guard let amount = amount else {
             return nil
