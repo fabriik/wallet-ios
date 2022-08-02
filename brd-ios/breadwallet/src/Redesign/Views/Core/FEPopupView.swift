@@ -36,12 +36,6 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         return view
     }()
     
-    private lazy var titleStack: UIStackView = {
-        let view = UIStackView()
-        view.spacing = Margins.small.rawValue
-        return view
-    }()
-    
     private lazy var imageView: FEImageView = {
         let view = FEImageView()
         return view
@@ -86,31 +80,27 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
     override func setupSubviews() {
         super.setupSubviews()
         
+        content.addSubview(closeButton)
+        closeButton.snp.makeConstraints { make in
+            make.trailing.top.equalToSuperview().inset(Margins.extraLarge.rawValue)
+            make.width.height.equalTo(Margins.huge.rawValue)
+        }
+        
         content.addSubview(mainStack)
         mainStack.snp.makeConstraints { make in
-            make.edges.equalTo(content.snp.margins)
+            make.top.equalTo(closeButton).inset(Margins.large.rawValue)
+            make.leading.trailing.bottom.equalToSuperview().inset(Margins.large.rawValue)
         }
         content.setupCustomMargins(all: .huge)
         
-        mainStack.addArrangedSubview(titleStack)
-        titleStack.snp.makeConstraints { make in
-            make.height.equalTo(Margins.huge.rawValue)
-        }
-        titleStack.addArrangedSubview(titleLabel)
-        titleLabel.snp.makeConstraints { make in
-            make.width.equalToSuperview().priority(.low)
-        }
-        
-        titleStack.addArrangedSubview(closeButton)
-        closeButton.snp.makeConstraints { make in
-            make.width.equalTo(closeButton.snp.height)
-        }
-        closeButton.content.setupCustomMargins(all: .extraSmall)
-        
         mainStack.addArrangedSubview(imageView)
         imageView.snp.makeConstraints { make in
-            // TODO: Constant or just use the new popups.
-            make.height.equalTo(65)
+            make.leading.trailing.equalToSuperview().inset(Margins.extraSmall.rawValue)
+        }
+        
+        mainStack.addArrangedSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.width.equalToSuperview().priority(.low)
         }
         
         mainStack.addArrangedSubview(scrollView)
