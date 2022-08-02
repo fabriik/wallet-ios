@@ -170,6 +170,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     
     // MARK: - BuyResponseDisplay
     func displayAmount(actionResponse: BuyModels.Amounts.ResponseDisplay) {
+        LoadingView.hide()
+        
         guard let fromSection = sections.firstIndex(of: Models.Sections.from),
               let toSection = sections.firstIndex(of: Models.Sections.to),
               let fromCell = tableView.cellForRow(at: .init(row: 0, section: fromSection)) as? WrapperTableViewCell<SwapCurrencyView>,
@@ -183,6 +185,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }
     
     func displayExchangeRate(responseDisplay: BuyModels.Rate.ResponseDisplay) {
+        LoadingView.hide()
+        
         guard let section = sections.firstIndex(of: Models.Sections.rate),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> else { return }
         

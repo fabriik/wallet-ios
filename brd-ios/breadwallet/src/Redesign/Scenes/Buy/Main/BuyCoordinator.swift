@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BuyCoordinator: BaseCoordinator, BuyRoutes {
+class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
     // MARK: - BuyRoutes
 
     // MARK: - Aditional helpers
@@ -28,6 +28,12 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes {
     // TODO: pass card model
     func showCardSelector(selected: ((Any?) -> Void)?) {
         selected?("15449324923423")
+    }
+    
+    func showCountrySelector(selected: ((CountryResponseData?) -> Void)?) {
+        openModally(coordinator: ItemSelectionCoordinator.self, scene: Scenes.ItemSelection) { vc in
+            vc?.itemSelected = selected
+        }
     }
     
     func showPinInput(callback: ((_ pin: String?) -> Void)?) {
