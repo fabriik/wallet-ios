@@ -64,15 +64,7 @@ final class BillingAddressPresenter: NSObject, Presenter, BillingAddressActionRe
     }
     
     func presentValidate(actionResponse: BillingAddressModels.Validate.ActionResponse) {
-        let isValid = FieldValidator.validate(fields: [actionResponse.item?.firstName,
-                                                       actionResponse.item?.lastName,
-                                                       actionResponse.item?.country,
-                                                       actionResponse.item?.stateProvince,
-                                                       actionResponse.item?.city,
-                                                       actionResponse.item?.zipPostal,
-                                                       actionResponse.item?.address])
-        
-        viewController?.displayValidate(responseDisplay: .init(isValid: isValid))
+        viewController?.displayValidate(responseDisplay: .init(isValid: actionResponse.isValid))
     }
     
     func presentSubmit(actionResponse: BillingAddressModels.Submit.ActionResponse) {

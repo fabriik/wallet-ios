@@ -57,7 +57,15 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
     }
     
     func validate(viewAction: BillingAddressModels.Validate.ViewAction) {
-        presenter?.presentValidate(actionResponse: .init(item: dataStore))
+        let isValid = FieldValidator.validate(fields: [dataStore?.firstName,
+                                                       dataStore?.lastName,
+                                                       dataStore?.country,
+                                                       dataStore?.stateProvince,
+                                                       dataStore?.city,
+                                                       dataStore?.zipPostal,
+                                                       dataStore?.address])
+        
+        presenter?.presentValidate(actionResponse: .init(isValid: isValid))
     }
     
     func submit(vieAction: BillingAddressModels.Submit.ViewAction) {

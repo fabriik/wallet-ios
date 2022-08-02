@@ -48,12 +48,7 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
     }
     
     func presentValidate(actionResponse: KYCBasicModels.Validate.ActionResponse) {
-        let isValid = FieldValidator.validate(fields: [actionResponse.item?.firstName,
-                                                       actionResponse.item?.lastName,
-                                                       actionResponse.item?.country,
-                                                       actionResponse.item?.birthDateString])
-        
-        viewController?.displayValidate(responseDisplay: .init(isValid: isValid))
+        viewController?.displayValidate(responseDisplay: .init(isValid: actionResponse.isValid))
     }
     
     func presentSubmit(actionResponse: KYCBasicModels.Submit.ActionResponse) {

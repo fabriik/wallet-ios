@@ -62,7 +62,7 @@ enum BillingAddressModels {
         struct ViewAction {}
         
         struct ActionResponse {
-            var item: Item?
+            var isValid: Bool
         }
         
         struct ResponseDisplay {
