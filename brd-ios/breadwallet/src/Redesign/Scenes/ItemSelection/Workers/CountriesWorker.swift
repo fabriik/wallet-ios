@@ -4,18 +4,29 @@
 
 import Foundation
 
-struct CountryResponseData: ModelResponse {
-    var iso2: String?
-    var localizedName: String?
-}
-
 struct CountriesResponseData: ModelResponse {
+    struct CountryResponseData: ModelResponse {
+        var iso2: String
+        var localizedName: String
+    }
     var countries: [CountryResponseData]
 }
 
-class CountriesMapper: ModelMapper<CountriesResponseData, [CountryResponseData]> {
-    override func getModel(from response: CountriesResponseData?) -> [CountryResponseData]? {
-        return response?.countries
+protocol ItemSelectable {
+    var displayName: String? { get }
+    var displayImage: ImageViewModel? { get }
+}
+
+struct Country: Model, ItemSelectable {
+    var code: String
+    var name: String
+    
+    var displayName: String? { return name }
+    var displayImage: ImageViewModel? { return .imageName(code) }
+}
+class CountriesMapper: ModelMapper<CountriesResponseData, [Country]> {
+    override func getModel(from response: CountriesResponseData?) -> [Country]? {
+        return response?.countries.compactMap { return .init(code: $0.iso2, name: $0.localizedName) }
     }
 }
 

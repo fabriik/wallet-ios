@@ -57,13 +57,21 @@ struct AssetConfiguration: Configurable {
     var imageAlpha: CGFloat = 1.0
 }
 
-struct AssetViewModel: ViewModel {
+struct AssetViewModel: ViewModel, ItemSelectable {
     var icon: UIImage?
     var title: String?
     var subtitle: String?
     var topRightText: String?
     var bottomRightText: String?
     var isDisabled = false
+    
+    var displayName: String? {
+        return title
+    }
+    
+    var displayImage: ImageViewModel? {
+        return .image(icon ?? UIImage())
+    }
 }
 
 class AssetView: FEView<AssetConfiguration, AssetViewModel> {

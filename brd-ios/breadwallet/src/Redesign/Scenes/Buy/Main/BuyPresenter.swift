@@ -21,19 +21,14 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             .to,
             .error
         ]
-        let sectionRows: [Models.Sections: [ViewModel]] = [
+        
+        let sectionRows: [Models.Sections: [ViewModel]] =  [
             .rate: [ExchangeRateViewModel()],
             .from: [SwapCurrencyViewModel(title: "I have")],
-            .to: [CardSelectionViewModel()]
+            .to: [CardSelectionViewModel(userInteractionEnabled: true)]
         ]
+        
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
-    }
-    
-    func presentAmount(actionResponse: BuyModels.Amounts.ActionResponse) {
-        guard let amount = actionResponse.amount else { return }
-        let cryptoModel = SwapCurrencyViewModel(amount: amount, title: "From")
-        let cardModel = CardSelectionViewModel()
-        viewController?.displayAmount(actionResponse: .init(cryptoModel: cryptoModel, cardModel: cardModel))
     }
 
     func presentExchangeRate(actionResponse: BuyModels.Rate.ActionResponse) {
@@ -50,6 +45,28 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
                                                                   repeats: false))
         
         viewController?.displayExchangeRate(responseDisplay: model)
+    }
+    
+    func presentAssets(actionResponse: BuyModels.Assets.ActionResponse) {
+        let cryptoModel: SwapCurrencyViewModel
+        let cardModel: CardSelectionViewModel
+        
+        if let amount = actionResponse.amount {
+            cryptoModel = .init(amount: amount, title: "I have")
+        } else {
+            cryptoModel = SwapCurrencyViewModel(title: "I have")
+        }
+        
+        if let paymentCard = actionResponse.card {
+            cardModel = .init(logo: paymentCard.displayImage,
+                              cardNumber: .text(paymentCard.number),
+                              expiration: .text(paymentCard.expiration),
+                              userInteractionEnabled: true)
+        } else {
+            cardModel = CardSelectionViewModel(userInteractionEnabled: true)
+        }
+        
+        viewController?.displayAssets(actionResponse: .init(cryptoModel: cryptoModel, cardModel: cardModel))
     }
     
     // MARK: - Additional Helpers

@@ -16,7 +16,7 @@ struct ItemViewConfiguration: Configurable {
 
 struct ItemViewModel: ViewModel {
     var title: String
-    var imageName: String
+    var image: ImageViewModel?
 }
 
 class ItemView: FEView<ItemViewConfiguration, ItemViewModel> {
@@ -57,12 +57,8 @@ class ItemView: FEView<ItemViewConfiguration, ItemViewModel> {
         guard let viewModel = viewModel else { return }
         
         titleLabel.setup(with: .text(viewModel.title))
-        
-        let imageExists = UIImage(named: viewModel.imageName) != nil
-        guard imageExists else {
-            imageView.setup(with: .imageName("LogoBlue"))
-            return
-        }
-        imageView.setup(with: .imageName(viewModel.imageName))
+
+        let image = viewModel.image ?? .imageName("LogoBlue")
+        imageView.setup(with: image)
     }
 }
