@@ -15,12 +15,21 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
                                    ItemSelectionResponseDisplays,
                                    UISearchResultsUpdating,
                                    UISearchBarDelegate {
-   
     typealias Models = ItemSelectionModels
+    
     var itemSelected: ((CountryResponseData?) -> Void)?
     var searchController = UISearchController()
     
     // MARK: - Overrides
+    
+    override func prepareData() {
+        super.prepareData()
+        
+        DispatchQueue.main.async {
+            LoadingView.show()
+        }
+    }
+    
     override func setupSubviews() {
         super.setupSubviews()
         

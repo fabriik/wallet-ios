@@ -54,7 +54,6 @@ private let cachedErrors = "cachedErrors"
 private let userEmail = "registrationEmail"
 private let isEmailConfirmed = "isEmailConfirmed"
 private let shouldShowBuyAlert = "ShowBuyAlert"
-private let shouldShowSwapAlert = "ShowSwapAlert"
 
 typealias ResettableBooleanSetting = [String: Bool]
 typealias ResettableObjectSetting = String
