@@ -58,6 +58,7 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
             Models.Sections.checkmarks: checkmarks
         ]
         
+        // TODO: add multi button support
         confirmButton.setup(with: .init(title: "Confirm"))
         tableView.reloadData()
     }

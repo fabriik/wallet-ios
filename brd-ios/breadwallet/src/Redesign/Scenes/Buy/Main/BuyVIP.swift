@@ -19,17 +19,18 @@ protocol BuyViewActions: BaseViewActions, FetchViewActions {
 }
 
 protocol BuyActionResponses: BaseActionResponses, FetchActionResponses {
-    func presentAmount(actionResponse: BuyModels.Amounts.ActionResponse)
+    func presentAssets(actionResponse: BuyModels.Assets.ActionResponse)
     func presentExchangeRate(actionResponse: BuyModels.Rate.ActionResponse)
 }
 
 protocol BuyResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
-    func displayAmount(actionResponse: BuyModels.Amounts.ResponseDisplay)
+    func displayAssets(actionResponse: BuyModels.Assets.ResponseDisplay)
     func displayExchangeRate(responseDisplay: BuyModels.Rate.ResponseDisplay)
 }
 
 protocol BuyDataStore: BaseDataStore, FetchDataStore {
     var from: Amount? { get set }
+    var paymentCard: PaymentCard? { get set }
     var fromCurrency: Currency? { get set }
     var toCurrency: String? { get set }
     var rate: Decimal? { get set }

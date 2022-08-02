@@ -17,7 +17,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
                                    UISearchBarDelegate {
     typealias Models = ItemSelectionModels
     
-    var itemSelected: ((CountryResponseData?) -> Void)?
+    var itemSelected: ((Any?) -> Void)?
     var searchController = UISearchController()
     
     // MARK: - Overrides
@@ -61,11 +61,11 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         guard let cell: WrapperTableViewCell<ItemView> = tableView.dequeueReusableCell(for: indexPath),
-              let model = sectionRows[section]?[indexPath.row] as? CountryResponseData
+              let model = sectionRows[section]?[indexPath.row] as? ItemSelectable
         else { return UITableViewCell() }
         
         cell.setup { view in
-            view.setup(with: .init(title: model.localizedName ?? "", imageName: model.iso2 ?? ""))
+            view.setup(with: .init(title: model.displayName ?? "", image: model.displayImage))
             view.setupCustomMargins(all: .large)
         }
         
@@ -74,7 +74,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = sections[indexPath.section]
-        guard let model = sectionRows[section]?[indexPath.row] as? CountryResponseData else { return }
+        guard let model = sectionRows[section]?[indexPath.row] else { return }
         itemSelected?(model)
         coordinator?.goBack()
     }
@@ -88,11 +88,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
             return
         }
         
-        search(searchText)
-    }
-    
-    func search(_ text: String) {
-        interactor?.search(viewAction: .init(text: text))
+        interactor?.search(viewAction: .init(text: searchText))
     }
     
     // MARK: - User Interaction

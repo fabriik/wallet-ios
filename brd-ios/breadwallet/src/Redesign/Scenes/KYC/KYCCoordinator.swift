@@ -30,15 +30,24 @@ class KYCCoordinator: BaseCoordinator,
         }
     }
     
-    func showCountrySelector(selected: ((CountryResponseData?) -> Void)?) {
-        let nvc = RootNavigationController()
-        let coordinator = ItemSelectionCoordinator(navigationController: nvc)
-        coordinator.start()
-        coordinator.parentCoordinator = self
-        nvc.modalPresentationStyle = .formSheet
-        (nvc.topViewController as? ItemSelectionViewController)?.itemSelected = selected
-        childCoordinators.append(coordinator)
-        navigationController.present(nvc, animated: true)
+    func showCountrySelector(selected: ((Country?) -> Void)?) {
+        let data = CountriesRequestData()
+        CountriesWorker().execute(requestData: data) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.openModally(coordinator: ItemSelectionCoordinator.self,
+                                  scene: Scenes.ItemSelection) { vc in
+                    vc?.dataStore?.items = data
+                    vc?.prepareData()
+                    vc?.itemSelected = { item in
+                        selected?(item as? Country)
+                    }
+                }
+                
+            case .failure(let error):
+                self?.showMessage(with: error)
+            }
+        }
     }
     
     func showDocumentReview(checklist: [ChecklistItemViewModel], image: UIImage) {

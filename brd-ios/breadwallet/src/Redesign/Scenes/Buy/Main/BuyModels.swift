@@ -10,7 +10,10 @@ import UIKit
 
 enum BuyModels {
     
-    typealias Item = Amount?
+    struct Item {
+        var amount: Amount?
+        var paymentCard: PaymentCard?
+    }
     
     enum Sections: Sectionable {
         case rate
@@ -22,19 +25,27 @@ enum BuyModels {
         var footer: AccessoryType? { return nil }
     }
     
-    struct Amounts {
+    struct Assets {
         struct ViewAction {
-            var fiatValue: String?
-            var tokenValue: String?
+            var currency: String?
+            var card: PaymentCard?
         }
         
         struct ActionResponse {
             var amount: Amount?
+            var card: PaymentCard?
         }
         
         struct ResponseDisplay {
             var cryptoModel: SwapCurrencyViewModel?
             var cardModel: CardSelectionViewModel?
+        }
+    }
+    
+    struct Amounts {
+        struct ViewAction {
+            var fiatValue: String?
+            var tokenValue: String?
         }
     }
     
@@ -52,12 +63,5 @@ enum BuyModels {
         }
         
         typealias ResponseDisplay = ExchangeRateViewModel
-    }
-    
-    struct Assets {
-        struct ViewAction {
-            var currency: String?
-            var card: Any?
-        }
     }
 }

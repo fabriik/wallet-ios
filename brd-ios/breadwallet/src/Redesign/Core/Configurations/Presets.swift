@@ -371,7 +371,7 @@ extension Presets {
     struct VerificationInfoView {
         // TODO: localize
         static var none = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
-                                        headerTrailing: .init(image: "infoIcon"),
+                                        headerTrailing: .init(image: "help"),
                                         status: VerificationStatus.none,
                                         description: .text("Get full access to your Fabriik wallet"),
                                         button: .init(title: "Verify your account"),
@@ -385,33 +385,33 @@ extension Presets {
                                               dismissType: .persistent)
         
         static var verified = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
-                                            headerTrailing: .init(image: "infoIcon"),
+                                            headerTrailing: .init(image: "help"),
                                             status: VerificationStatus.levelOne,
                                             description: .text("Current limit: $1,000/day"),
                                             button: .init(title: "Upgrade your limits"),
                                             dismissType: .persistent)
         
         static var pending = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
-                                           headerTrailing: .init(image: "infoIcon"),
+                                           headerTrailing: .init(image: "help"),
                                            status: VerificationStatus.emailPending,
                                            description: .text("We’ll let you know when your account is verified."),
                                            dismissType: .persistent)
         
         static var verifiedLevelTwo = InfoViewModel(kyc: .levelTwo, headerTitle: .text("ACCOUNT LIMITS"),
-                                                    headerTrailing: .init(image: "infoIcon"),
+                                                    headerTrailing: .init(image: "help"),
                                                     status: VerificationStatus.levelTwo(.levelTwo),
                                                     description: .text("Congratulations! You now have full access to your Fabriik wallet."),
                                                     dismissType: .persistent)
         
         static var resubmit = InfoViewModel(kyc: .levelTwo, headerTitle: .text("ACCOUNT LIMITS"),
-                                            headerTrailing: .init(image: "infoIcon"),
+                                            headerTrailing: .init(image: "help"),
                                             status: VerificationStatus.levelTwo(.resubmit),
                                             description: .text("Oops! We had some issues processing your data"),
                                             button: .init(title: "Why is my verification declined?"),
                                             dismissType: .persistent)
         
         static var declined = InfoViewModel(kyc: .levelTwo, headerTitle: .text("ACCOUNT LIMITS"),
-                                            headerTrailing: .init(image: "infoIcon"),
+                                            headerTrailing: .init(image: "help"),
                                             status: VerificationStatus.levelTwo(.declined),
                                             description: .text("Oops! We had some issues processing your data"),
                                             button: .init(title: "Why is my verification declined?"),

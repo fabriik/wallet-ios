@@ -15,6 +15,7 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     var from: Amount?
     var fromCurrency: Currency? = Store.state.currencies.first(where: { $0.code.lowercased() == "btc" })
     var toCurrency: String? = Store.state.defaultCurrencyCode.lowercased()
+    var paymentCard: PaymentCard?
     
     var rate: Decimal?
 
