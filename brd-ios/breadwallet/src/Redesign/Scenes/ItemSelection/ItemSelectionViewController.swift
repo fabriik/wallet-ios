@@ -74,7 +74,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = sections[indexPath.section]
-        guard let model = sectionRows[section]?[indexPath.row] as? Model else { return }
+        guard let model = sectionRows[section]?[indexPath.row] else { return }
         itemSelected?(model)
         coordinator?.goBack()
     }
@@ -88,10 +88,6 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
             return
         }
         
-        search(searchText)
-    }
-    
-    func search(_ text: String) {
         interactor?.search(viewAction: .init(text: text))
     }
     
