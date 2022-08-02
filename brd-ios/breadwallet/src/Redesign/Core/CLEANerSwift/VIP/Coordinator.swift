@@ -112,36 +112,7 @@ class BaseCoordinator: NSObject,
     func showBuy() {
         upgradeAccountOrShowPopup(checkForKyc: true) { [unowned self] showPopup in
             guard showPopup else { return }
-            
-            ReservationWorker().execute(requestData: ReservationRequestData()) { [unowned self] result in
-                switch result {
-                case .success(let data):
-                    guard let url = data.url,
-                          let code = data.reservation else { return }
-                    
-                    guard UserDefaults.showBuyAlert else {
-                        Store.perform(action: RootModalActions.Present(modal: .buy(url: url, reservationCode: code, currency: nil)))
-                        return
-                    }
-                    
-                    UserDefaults.showBuyAlert = false
-                    let message = "Fabriik is providing Buy functionality through Wyre, a third-party API provider."
-                    
-                    let alert = UIAlertController(title: "Partnership note",
-                                                  message: message,
-                                                  preferredStyle: .alert)
-                    let continueAction = UIAlertAction(title: L10n.Button.continueAction, style: .default) { _ in
-                        Store.perform(action: RootModalActions.Present(modal: .buy(url: url, reservationCode: code, currency: nil)))
-                    }
-                    
-                    alert.addAction(continueAction)
-                    navigationController.present(alert, animated: true, completion: nil)
-
-                case .failure(let error):
-                    showMessage(with: error)
-                    
-                }
-            }
+            openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy)
         }
     }
     
@@ -259,7 +230,7 @@ class BaseCoordinator: NSObject,
             case .success(let profile):
                 let roles = profile.roles
                 let status = profile.status
-                let canBuyTrade = status == .levelOne || status == .levelTwo(.levelTwo)
+                let canBuyTrade = status.canBuyTrade
                 
                 if roles.contains(.unverified) || roles.isEmpty == true ||
                     status == .emailPending || status == .none {

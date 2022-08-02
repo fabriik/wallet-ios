@@ -27,16 +27,14 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
         
         let sectionRows: [Models.Section: [Any]] = [
             .name: [
-                NameViewModel(title: .text("Write your name as it appears on your ID"),
-                              firstName: .init(title: "First Name", value: item.firstName, validator: { $0?.isEmpty == false }),
-                              lastName: .init(title: "Last Name", value: item.lastName, validator: { $0?.isEmpty == false }))
+                DoubleHorizontalTextboxViewModel(title: .text("Write your name as it appears on your ID"),
+                                                 first: .init(title: "First Name", value: item.firstName),
+                                                 second: .init(title: "Last Name", value: item.lastName))
             ],
             .country: [
                 TextFieldModel(title: "Country",
                                value: item.countryFullName,
-                               error: "too short",
-                               trailing: .imageName("chevrondown"),
-                               validator: { $0?.isEmpty == false })
+                               trailing: .imageName("chevrondown"))
             ],
             .birthdate: [
                 DateViewModel(date: item.birthdate)
@@ -50,16 +48,7 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
     }
     
     func presentValidate(actionResponse: KYCBasicModels.Validate.ActionResponse) {
-        var fieldValidationIsAllowed = [String?: Bool]()
-        
-        fieldValidationIsAllowed[actionResponse.item?.firstName] = (actionResponse.item?.firstName?.count ?? 0) >= 1
-        fieldValidationIsAllowed[actionResponse.item?.lastName] = (actionResponse.item?.lastName?.count ?? 0) >= 1
-        fieldValidationIsAllowed[actionResponse.item?.country] = (actionResponse.item?.country?.count ?? 0) >= 1
-        fieldValidationIsAllowed[actionResponse.item?.birthDateString] = actionResponse.item?.birthDateString != nil
-        
-        let isValid = fieldValidationIsAllowed.values.contains(where: { $0 == false }) == false
-        
-        viewController?.displayValidate(responseDisplay: .init(isValid: isValid))
+        viewController?.displayValidate(responseDisplay: .init(isValid: actionResponse.isValid))
     }
     
     func presentSubmit(actionResponse: KYCBasicModels.Submit.ActionResponse) {

@@ -39,16 +39,14 @@ struct TextFieldModel: ViewModel {
     var placeholder: String?
     var hint: String?
     var error: String?
-    var info: InfoViewModel? //= InfoViewModel(description: .text("Please enter ur name."))
+    var info: InfoViewModel?
     var trailing: ImageViewModel?
-    var validator: ((String?) -> Bool)? = { text in return (text?.count ?? 0) >= 1 } // TODO: This is Interactor logic
 }
 
 class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDelegate, StateDisplayable {
     
     var displayState: DisplayState = .normal
     
-    private var validator: ((String?) -> Bool)?
     var contentSizeChanged: (() -> Void)?
     var valueChanged: ((String?) -> Void)?
     
@@ -69,7 +67,6 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         get { return textField.text }
         set {
             textField.text = newValue
-            animateTo(state: newValue?.isEmpty == true ? .error : .filled)
         }
     }
     
@@ -234,7 +231,6 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
-        validator = viewModel.validator
         titleLabel.setup(with: .text(viewModel.title))
         titleLabel.isHidden = viewModel.title == nil
         textField.text = viewModel.value
@@ -262,8 +258,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         
         layoutSubviews()
         
-        guard viewModel.value?.isEmpty == false else { return }
-        animateTo(state: .filled, withAnimation: false)
+        animateTo(state: (viewModel.value ?? "").isEmpty ? .normal : .filled, withAnimation: false)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -275,25 +270,13 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
-        valueChanged?(textField.text)//?.lowercased())
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        let isValid = validator?(textField.text) == true
-        let state: DisplayState = isValid ? .filled : .error
-        animateTo(state: state, withAnimation: true)
-        
-        return isValid
+        valueChanged?(textField.text)
+        contentSizeChanged?()
     }
     
     func animateTo(state: DisplayState, withAnimation: Bool = true) {
         let background: BackgroundConfiguration?
-        var state = state
         
-        if validator?(textField.text) != true,
-           textField.text?.isEmpty != true {
-            state = .error
-        }
         var hint = viewModel?.hint
         var hideTextField = textField.text?.isEmpty == true
         var hideTitleStack = false
@@ -373,6 +356,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     
     override func configure(background: BackgroundConfiguration? = nil) {
         guard let border = background?.border else { return }
+        
         let content = textFieldContent
         
         content.layer.masksToBounds = true
