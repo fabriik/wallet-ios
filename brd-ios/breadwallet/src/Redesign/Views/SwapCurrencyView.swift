@@ -218,6 +218,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         cryptoStack.snp.makeConstraints { make in
             make.height.equalTo(ViewSizes.medium.rawValue)
         }
+        
         cryptoStack.addArrangedSubview(selectorStackView)
         selectorStackView.snp.makeConstraints { make in
             make.width.equalTo(ViewSizes.huge.rawValue)
@@ -249,10 +250,10 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         }
         
         mainStack.addArrangedSubview(feeAndAmountsStackView)
-        feeLabel.sizeToFit()
         feeAndAmountsStackView.snp.makeConstraints { make in
-            make.height.equalTo(feeLabel.frame.height)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
+        
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
         feeAndAmountsStackView.addArrangedSubview(feeAmountLabel)
         feeAndAmountsStackView.alpha = 0

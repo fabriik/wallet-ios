@@ -33,7 +33,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         }
         
         getExchangeRate(viewAction: .init())
-        presenter?.presentData(actionResponse: .init(item: Amount.zero(currency)))
+        presenter?.presentData(actionResponse: .init(item: Models.Item(amount: .zero(currency), paymentCard: dataStore?.paymentCard)))
     }
     
     func setAmount(viewAction: BuyModels.Amounts.ViewAction) {
@@ -52,8 +52,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
 
         guard let tokenString = formatAmount(amount: tokenValue) else { return }
         
-        let amount = Amount(tokenString: tokenString, currency: from)
-        presenter?.presentAmount(actionResponse: .init(amount: amount))
+        dataStore?.from = Amount(tokenString: tokenString, currency: from)
+        presenter?.presentAssets(actionResponse: .init(amount: dataStore?.from, card: dataStore?.paymentCard))
     }
     
     func getExchangeRate(viewAction: Models.Rate.ViewAction) {
@@ -89,13 +89,12 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
            let currency = Store.state.currencies.first(where: { $0.code.lowercased() == value }) {
             dataStore?.fromCurrency = currency
             dataStore?.from = .init(tokenString: "1", currency: currency)
-            getData(viewAction: .init())
         } else if let value = viewAction.card {
-            // TODO: handle card selection
-            print(value)
+            dataStore?.paymentCard = value
         }
+        getData(viewAction: .init())
         
-        presenter?.presentAmount(actionResponse: .init(amount: dataStore?.from))
+        presenter?.presentAssets(actionResponse: .init(amount: dataStore?.from, card: dataStore?.paymentCard))
     }
     
     // MARK: - Aditional helpers

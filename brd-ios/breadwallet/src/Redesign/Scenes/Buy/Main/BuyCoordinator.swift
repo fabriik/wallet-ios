@@ -17,22 +17,48 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
     }
     
     func showAssetSelector(currencies: [Currency]?, selected: ((Any?) -> Void)?) {
-        openModally(coordinator: SwapCoordinator.self,
+        let data: [AssetViewModel]? = currencies?.compactMap {
+            return AssetViewModel(icon: $0.imageSquareBackground,
+                                  title: $0.name,
+                                  subtitle: $0.code,
+                                  topRightText: HomeScreenAssetViewModel(currency: $0).tokenBalance,
+                                  bottomRightText: HomeScreenAssetViewModel(currency: $0).fiatBalance,
+                                  isDisabled: false)
+        }
+        
+        let sortedCurrencies = data?.sorted { !$0.isDisabled && $1.isDisabled }
+        
+        openModally(coordinator: ItemSelectionCoordinator.self,
                     scene: Scenes.AssetSelection) { vc in
+            vc?.dataStore?.items = sortedCurrencies ?? []
             vc?.itemSelected = selected
-            vc?.dataStore?.currencies = currencies ?? []
             vc?.prepareData()
         }
     }
     
     // TODO: pass card model
-    func showCardSelector(selected: ((Any?) -> Void)?) {
-        selected?("15449324923423")
+    func showCardSelector(selected: ((PaymentCard?) -> Void)?) {
+        let items: [PaymentCard] = [
+            .init(type: "VISA", number: "999-999-99-9", expiration: "5/26", image: nil),
+            .init(type: "AMEX", number: "239-4232-11-0", expiration: "1/23", image: nil),
+            .init(type: "MASTERCARD", number: "5509-193-1928-25", expiration: "7/33", image: nil)
+        ]
+        openModally(coordinator: ItemSelectionCoordinator.self,
+                    scene: Scenes.CardSelection) { vc in
+            vc?.dataStore?.items = items
+            vc?.itemSelected = { item in
+                selected?(item as? PaymentCard)
+            }
+            vc?.prepareData()
+        }
     }
     
-    func showCountrySelector(selected: ((CountryResponseData?) -> Void)?) {
-        openModally(coordinator: ItemSelectionCoordinator.self, scene: Scenes.ItemSelection) { vc in
-            vc?.itemSelected = selected
+    func showCountrySelector(selected: ((Country?) -> Void)?) {
+        openModally(coordinator: ItemSelectionCoordinator.self,
+                    scene: Scenes.ItemSelection) { vc in
+            vc?.itemSelected = { item in
+                selected?(item as? Country)
+            }
         }
     }
     
@@ -42,5 +68,21 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
     
     func showInfo(from: String, to: String, exchangeId: String) {
         
+    }
+}
+
+struct PaymentCard: ItemSelectable {
+    // TODO: add w/e is needed
+    var type: String?
+    var number: String?
+    var expiration: String?
+    var image: UIImage?
+    
+    var displayName: String? { return number }
+    var displayImage: ImageViewModel? {
+        guard let image = image else {
+            return .imageName("close")
+        }
+        return .image(image)
     }
 }

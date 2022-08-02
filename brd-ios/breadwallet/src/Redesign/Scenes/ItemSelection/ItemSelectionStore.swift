@@ -11,7 +11,7 @@ import UIKit
 class ItemSelectionStore: NSObject, BaseDataStore, ItemSelectionDataStore {
     // MARK: - ItemSelectionDataStore
     var itemId: String?
-    var countries: [CountryResponseData] = []
+    var items: [ItemSelectable] = []
     
     // MARK: - Aditional helpers
 }

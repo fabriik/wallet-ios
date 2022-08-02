@@ -50,5 +50,5 @@ protocol BillingAddressDataPassing {
 }
 
 protocol BillingAddressRoutes: CoordinatableRoutes {
-    func showCountrySelector(selected: ((CountryResponseData?) -> Void)?)
+    func showCountrySelector(selected: ((Country?) -> Void)?)
 }

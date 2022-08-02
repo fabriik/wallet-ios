@@ -10,7 +10,7 @@ import UIKit
 
 enum ItemSelectionModels {
 
-    typealias Item = [CountryResponseData]
+    typealias Item = [ItemSelectable]
     enum Sections: Sectionable {
         case items
         

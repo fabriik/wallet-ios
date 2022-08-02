@@ -165,7 +165,7 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
                 guard model != nil else { return }
                 
                 cell.wrappedView.animateTo(state: .filled, withAnimation: false)
-                self?.interactor?.countrySelected(viewAction: .init(code: model?.iso2, countryFullName: model?.localizedName))
+                self?.interactor?.countrySelected(viewAction: .init(code: model?.code, countryFullName: model?.name))
             }
             
         default:

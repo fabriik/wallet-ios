@@ -12,7 +12,11 @@ import UIKit
 typealias CurrencyUnit = WalletKit.Unit
 
 /// Combination of the Core Currency model and its metadata properties
-class Currency: SharedCurrency, CurrencyWithIcon {
+class Currency: SharedCurrency, CurrencyWithIcon, ItemSelectable {
+    
+    var displayName: String? { return name }
+    var displayImage: ImageViewModel? { return .imageName(code) }
+    
     private let core: WalletKit.Currency
     let network: WalletKit.Network
 

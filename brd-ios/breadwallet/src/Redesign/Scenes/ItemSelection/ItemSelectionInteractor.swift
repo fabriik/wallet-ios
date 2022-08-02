@@ -16,25 +16,18 @@ class ItemSelectionInteractor: NSObject, Interactor, ItemSelectionViewActions {
 
     // MARK: - ItemSelectionViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        let data = CountriesRequestData()
-        CountriesWorker().execute(requestData: data) { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.dataStore?.countries = data
-                self?.presenter?.presentData(actionResponse: .init(item: data))
-                
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
-            }
+        guard dataStore?.items.isEmpty == false else {
+            return
         }
+        
+        presenter?.presentData(actionResponse: .init(item: dataStore?.items ?? []))
     }
     
     func search(viewAction: ItemSelectionModels.Search.ViewAction) {
-        guard let countries = dataStore?.countries,
+        guard let countries = dataStore?.items,
               let searchText = viewAction.text?.lowercased() else { return }
         
-        let searchData = searchText.isEmpty ? countries : countries.filter { $0.localizedName?.lowercased().contains(searchText) as? Bool ?? false }
-        
+        let searchData = searchText.isEmpty ? countries : countries.filter { $0.displayName?.lowercased().contains(searchText) ?? false }
         presenter?.presentData(actionResponse: .init(item: Models.Item(searchData)))
     }
     // MARK: - Aditional helpers

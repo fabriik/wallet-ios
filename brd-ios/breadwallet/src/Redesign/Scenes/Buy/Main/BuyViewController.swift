@@ -82,8 +82,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             cell = UITableViewCell()
         }
         
-        cell.setupCustomMargins(all: .large)
-        
         return cell
     }
     
@@ -101,6 +99,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                                          tintColor: LightColors.Text.one,
                                                          border: Presets.Border.zero)))
             view.setup(with: model)
+            
             view.didChangeFiatAmount = { [weak self] value in
                 self?.interactor?.setAmount(viewAction: .init(fiatValue: value))
             }
@@ -133,8 +132,9 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             view.configure(with: .init())
             view.setup(with: model)
             view.didTapSelectAsset = { [weak self] in
-                // TODO: select card flow
-                self?.coordinator?.showUnderConstruction("Payment selection")
+                self?.coordinator?.showCardSelector(selected: { card in
+                    self?.interactor?.setAssets(viewAction: .init(card: card))
+                })
             }
         }
         
@@ -147,10 +147,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             return super.tableView(tableView, cellForRowAt: indexPath)
         }
         
-        cell.setup { view in
-            view.setup { view in
-                view.setupCustomMargins(all: .large)
-            }
+        cell.wrappedView.setup { view in
+            view.setupCustomMargins(all: .large)
         }
         
         return cell
@@ -169,7 +167,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }
     
     // MARK: - BuyResponseDisplay
-    func displayAmount(actionResponse: BuyModels.Amounts.ResponseDisplay) {
+    func displayAssets(actionResponse: BuyModels.Assets.ResponseDisplay) {
         LoadingView.hide()
         
         guard let fromSection = sections.firstIndex(of: Models.Sections.from),

@@ -28,6 +28,7 @@ struct CardSelectionViewModel: ViewModel {
     var cardNumber: LabelViewModel? = .text("Select a payment method")
     var expiration: LabelViewModel?
     var arrow: ImageViewModel? = .imageName("arrowRight")
+    var userInteractionEnabled = false
 }
 
 class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewModel> {
@@ -106,8 +107,6 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         selectorStack.addArrangedSubview(expirationLabel)
         selectorStack.addArrangedSubview(arrowImageView)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(assetSelectorTapped(_:)))
-        selectorStack.addGestureRecognizer(tap)
     }
     
     override func configure(with config: CardSelectionConfiguration?) {
@@ -124,6 +123,7 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
     
     override func setup(with viewModel: CardSelectionViewModel?) {
         super.setup(with: viewModel)
+        
         titleLalbel.setup(with: viewModel?.title)
         titleLalbel.isHidden = viewModel?.title == nil
         
@@ -138,6 +138,14 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         
         arrowImageView.setup(with: viewModel?.arrow)
         arrowImageView.isHidden = viewModel?.arrow == nil
+        
+        guard viewModel?.userInteractionEnabled == true else {
+            selectorStack.gestureRecognizers?.forEach { selectorStack.removeGestureRecognizer($0) }
+            return
+        }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(assetSelectorTapped(_:)))
+        selectorStack.addGestureRecognizer(tap)
     }
     
     @objc private func assetSelectorTapped(_ sender: Any) {

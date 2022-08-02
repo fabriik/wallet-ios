@@ -378,6 +378,7 @@
 		7EC21A1D28991A6500FED711 /* BillingAddressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC21A1728991A6500FED711 /* BillingAddressStore.swift */; };
 		7EC21A1E28991A6500FED711 /* BillingAddressVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC21A1828991A6500FED711 /* BillingAddressVIP.swift */; };
 		7EC21A1F28991A6500FED711 /* BillingAddressPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC21A1928991A6500FED711 /* BillingAddressPresenter.swift */; };
+		7EC21A22289946C300FED711 /* CardSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC21A21289946C300FED711 /* CardSelectionViewController.swift */; };
 		7EC37909281C098900028CA1 /* ErrorStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC37908281C098900028CA1 /* ErrorStruct.swift */; };
 		7EC3790B281C09AE00028CA1 /* ErrorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */; };
 		7ECCA9642875A77300617067 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9632875A77300617067 /* OrderView.swift */; };
@@ -1347,6 +1348,7 @@
 		7EC21A1728991A6500FED711 /* BillingAddressStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillingAddressStore.swift; sourceTree = "<group>"; };
 		7EC21A1828991A6500FED711 /* BillingAddressVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillingAddressVIP.swift; sourceTree = "<group>"; };
 		7EC21A1928991A6500FED711 /* BillingAddressPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillingAddressPresenter.swift; sourceTree = "<group>"; };
+		7EC21A21289946C300FED711 /* CardSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSelectionViewController.swift; sourceTree = "<group>"; };
 		7EC37908281C098900028CA1 /* ErrorStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStruct.swift; sourceTree = "<group>"; };
 		7EC3790A281C09AE00028CA1 /* ErrorRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorRequest.swift; sourceTree = "<group>"; };
 		7ECCA9632875A77300617067 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -2878,6 +2880,14 @@
 			path = BillingAddress;
 			sourceTree = "<group>";
 		};
+		7EC21A20289946B100FED711 /* CardSelection */ = {
+			isa = PBXGroup;
+			children = (
+				7EC21A21289946C300FED711 /* CardSelectionViewController.swift */,
+			);
+			path = CardSelection;
+			sourceTree = "<group>";
+		};
 		7EC37907281C096F00028CA1 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -2942,6 +2952,7 @@
 		7EF2187D2862F07A006ABCC1 /* Buy */ = {
 			isa = PBXGroup;
 			children = (
+				7EC21A20289946B100FED711 /* CardSelection */,
 				7EB8FD192897D1F3000FF75C /* Main */,
 				7EB8FD282897F22B000FF75C /* CardSelectionView.swift */,
 				7EC21A1328991A6500FED711 /* BillingAddress */,
@@ -4892,6 +4903,7 @@
 				7B54E59F27F4A2B0002DD1E4 /* KYCAPI.swift in Sources */,
 				7EB8FD292897F22B000FF75C /* CardSelectionView.swift in Sources */,
 				7EBC6AF928488B10000A301F /* RegistrationVIP.swift in Sources */,
+				7EC21A22289946C300FED711 /* CardSelectionViewController.swift in Sources */,
 				7CBA74E62022784D00FBBFA9 /* HomeScreenAssetViewModel.swift in Sources */,
 				7CA1C47420EC25B9002E9E68 /* QRCode.swift in Sources */,
 				7BBBF4DB287421CF00E4D36B /* SwapInteractor.swift in Sources */,
