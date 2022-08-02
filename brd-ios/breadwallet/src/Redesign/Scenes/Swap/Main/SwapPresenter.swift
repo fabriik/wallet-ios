@@ -34,10 +34,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         ]
         
         exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(till: item.quote?.timestamp ?? 0,
-                                                                            repeats: false,
-                                                                            finished: { [weak self] in
-            self?.viewController?.interactor?.updateRate(viewAction: .init())
-        }))
+                                                                            repeats: false))
         
         // TODO: Get rid of empty values.
         let sectionRows: [Models.Sections: [Any]] = [
@@ -71,10 +68,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         // TODO: MOVE THIS!
         exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
                                                       timer: TimerViewModel(till: actionResponse.expires ?? 0,
-                                                                            repeats: false,
-                                                                            finished: { [weak self] in
-            self?.viewController?.interactor?.updateRate(viewAction: .init())
-        }))
+                                                                            repeats: false))
                                                       
         viewController?.displayUpdateRate(responseDisplay: .init(rate: exchangeRateViewModel))
     }

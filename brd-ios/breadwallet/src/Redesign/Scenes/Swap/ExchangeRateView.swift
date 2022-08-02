@@ -24,6 +24,15 @@ struct ExchangeRateViewModel: ViewModel {
 
 class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel> {
     
+    var completion: (() -> Void)? {
+        set {
+            timerView.completion = newValue
+        }
+        get {
+            return timerView.completion
+        }
+    }
+    
     private lazy var titleLabel: FELabel = {
         let view = FELabel()
         // TODO: localize
