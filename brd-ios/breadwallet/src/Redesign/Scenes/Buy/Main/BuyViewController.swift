@@ -132,9 +132,9 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         cell.setup { view in
             view.configure(with: .init())
             view.setup(with: model)
-            view.didTapSelectAsset = {
+            view.didTapSelectAsset = { [weak self] in
                 // TODO: select card flow
-                print("Select card flow!")
+                self?.coordinator?.showUnderConstruction("Payment selection")
             }
         }
         
