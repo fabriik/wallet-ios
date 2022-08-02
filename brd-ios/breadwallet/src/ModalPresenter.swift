@@ -237,17 +237,6 @@ class ModalPresenter: Subscriber, Trackable {
             }
                         
             return ModalViewController(childViewController: requestVc)
-        case .buy(let url, _, _):
-            guard let url = URL(string: url) else { return nil }
-            
-            let webViewController = SimpleWebViewController(url: url)
-            webViewController.setAsNonDismissableModal()
-            // TODO: localize
-            webViewController.setup(with: .init(title: "Buy"))
-            
-            let navController = RootNavigationController(rootViewController: webViewController)
-            topViewController?.show(navController, sender: nil)
-            return nil
             
         case .receiveLegacy:
             guard let btc = Currencies.shared.btc else { return nil }

@@ -146,7 +146,6 @@
 		7B2E50442897DC6C008CACD8 /* BillingAddressInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E503E2897DC6B008CACD8 /* BillingAddressInteractor.swift */; };
 		7B2E50462897F1BE008CACD8 /* BuyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E50452897F1BE008CACD8 /* BuyCoordinator.swift */; };
 		7B2E5048289800BB008CACD8 /* FieldValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E5047289800BB008CACD8 /* FieldValidator.swift */; };
-		7B2E504A28980217008CACD8 /* ReservationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E504928980217008CACD8 /* ReservationWorker.swift */; };
 		7B519A932835B506007AC80A /* currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B519A922835B505007AC80A /* currencies.json */; };
 		7B54E59B27F4A2B0002DD1E4 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54E57127F4A2B0002DD1E4 /* AlertHelper.swift */; };
 		7B54E59D27F4A2B0002DD1E4 /* Shadowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54E57327F4A2B0002DD1E4 /* Shadowable.swift */; };
@@ -1119,7 +1118,6 @@
 		7B2E503E2897DC6B008CACD8 /* BillingAddressInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillingAddressInteractor.swift; sourceTree = "<group>"; };
 		7B2E50452897F1BE008CACD8 /* BuyCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyCoordinator.swift; sourceTree = "<group>"; };
 		7B2E5047289800BB008CACD8 /* FieldValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldValidator.swift; sourceTree = "<group>"; };
-		7B2E504928980217008CACD8 /* ReservationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReservationWorker.swift; sourceTree = "<group>"; };
 		7B519A922835B505007AC80A /* currencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = currencies.json; path = Resources/currencies.json; sourceTree = "<group>"; };
 		7B54E57127F4A2B0002DD1E4 /* AlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 		7B54E57327F4A2B0002DD1E4 /* Shadowable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shadowable.swift; sourceTree = "<group>"; };
@@ -2916,7 +2914,6 @@
 		7EF2187D2862F07A006ABCC1 /* Buy */ = {
 			isa = PBXGroup;
 			children = (
-				7B2E504928980217008CACD8 /* ReservationWorker.swift */,
 				7B2E50452897F1BE008CACD8 /* BuyCoordinator.swift */,
 				7B2E50382897DB2E008CACD8 /* BillingAddress */,
 			);
@@ -4411,7 +4408,6 @@
 				C4520F0C2875C726003FFB7F /* AssetSelectionStore.swift in Sources */,
 				7BDB49F12806EABF0031F015 /* AssetArchive.swift in Sources */,
 				3A4972C52602E0ED0002C3EC /* IosBRDAuthProvider.swift in Sources */,
-				7B2E504A28980217008CACD8 /* ReservationWorker.swift in Sources */,
 				CEC6AA4D1DF0741100EE5AFD /* ModalDisplayable.swift in Sources */,
 				7EBC6B062848ABC5000A301F /* RegistrationConfirmationStore.swift in Sources */,
 				7CF9988D23202C75004AEC17 /* BRAPIClient+Experiments.swift in Sources */,
