@@ -22,7 +22,8 @@ protocol ItemSelectionResponseDisplays: AnyObject, BaseResponseDisplays, FetchRe
 }
 
 protocol ItemSelectionDataStore: BaseDataStore, FetchDataStore {
-    var items: [ItemSelectable] { get set }
+    var items: [ItemSelectable]? { get set }
+    var isAddingEnabled: Bool? { get set }
 }
 
 protocol ItemSelectionDataPassing {

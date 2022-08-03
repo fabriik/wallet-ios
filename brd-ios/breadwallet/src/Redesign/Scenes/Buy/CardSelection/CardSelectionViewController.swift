@@ -15,12 +15,17 @@ extension Scenes {
 }
 
 class CardSelectionViewController: ItemSelectionViewController {
+    
+    // TODO: localize
+    override var sceneTitle: String? { return "Select payment method" }
+    override var isSearchEnabled: Bool { return false }
+    
     override func setupSubviews() {
         super.setupSubviews()
         tableView.register(WrapperTableViewCell<CardSelectionView>.self)
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, itemCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         guard let cell: WrapperTableViewCell<CardSelectionView> = tableView.dequeueReusableCell(for: indexPath),
               let model = sectionRows[section]?[indexPath.row] as? PaymentCard
@@ -31,6 +36,22 @@ class CardSelectionViewController: ItemSelectionViewController {
         cell.setup { view in
             view.configure(with: .init())
             view.setup(with: .init(title: nil, logo: model.displayImage, cardNumber: .text(model.number), expiration: .text(model.expiration)))
+        }
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, addItemCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell: WrapperTableViewCell<CardSelectionView> = tableView.dequeueReusableCell(for: indexPath) else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: .init(title: .text("Card"),
+                                   logo: .imageName("close"),
+                                   cardNumber: .text("Add a debit or credit card"),
+                                   expiration: nil))
         }
         
         return cell

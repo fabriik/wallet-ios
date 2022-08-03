@@ -10,12 +10,14 @@ import UIKit
 
 class AssetSelectionViewController: ItemSelectionViewController {
     
+    override var sceneTitle: String? { return "Select assets" }
+    
     override func setupSubviews() {
         super.setupSubviews()
         tableView.register(WrapperTableViewCell<AssetView>.self)
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, itemCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         guard let cell: WrapperTableViewCell<AssetView> = tableView.dequeueReusableCell(for: indexPath),
               let model = sectionRows[section]?[indexPath.row] as? AssetViewModel

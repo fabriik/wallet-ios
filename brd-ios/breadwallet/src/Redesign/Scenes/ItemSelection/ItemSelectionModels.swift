@@ -10,8 +10,13 @@ import UIKit
 
 enum ItemSelectionModels {
 
-    typealias Item = [ItemSelectable]
+    struct Item {
+        var items: [ItemSelectable]?
+        var isAddingEnabled: Bool?
+    }
+    
     enum Sections: Sectionable {
+        case addItem
         case items
         
         var header: AccessoryType? { nil }
