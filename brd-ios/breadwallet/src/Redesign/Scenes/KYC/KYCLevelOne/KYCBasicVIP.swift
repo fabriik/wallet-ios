@@ -13,7 +13,7 @@ extension Scenes {
 }
 
 protocol KYCBasicViewActions: BaseViewActions, FetchViewActions {
-    func countrySelected(viewAction: KYCBasicModels.Country.ViewAction)
+    func pickCountry(viewAction: KYCBasicModels.SelectCountry.ViewAction)
     func birthDateSet(viewAction: KYCBasicModels.BirthDate.ViewAction)
     func nameSet(viewAction: KYCBasicModels.Name.ViewAction)
     func validate(viewAction: KYCBasicModels.Validate.ViewAction)
@@ -21,11 +21,13 @@ protocol KYCBasicViewActions: BaseViewActions, FetchViewActions {
 }
 
 protocol KYCBasicActionResponses: BaseActionResponses, FetchActionResponses {
+    func presentCountry(actionResponse: KYCBasicModels.SelectCountry.ActionResponse)
     func presentValidate(actionResponse: KYCBasicModels.Validate.ActionResponse)
     func presentSubmit(actionResponse: KYCBasicModels.Submit.ActionResponse)
 }
 
 protocol KYCBasicResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
+    func displayCountry(responseDisplay: KYCBasicModels.SelectCountry.ResponseDisplay)
     func displayValidate(responseDisplay: KYCBasicModels.Validate.ResponseDisplay)
     func displaySubmit(responseDisplay: KYCBasicModels.Submit.ResponseDisplay)
 }
@@ -45,7 +47,7 @@ protocol KYCBasicDataPassing {
 
 protocol KYCBasicRoutes: CoordinatableRoutes {
     func showKYCLevelOne()
-    func showCountrySelector(selected: ((Country?) -> Void)?)
+    func showCountrySelector(countries: [Country], selected: ((Country?) -> Void)?)
     func showKYCLevelTwo()
     func showIdentitySelector()
 }

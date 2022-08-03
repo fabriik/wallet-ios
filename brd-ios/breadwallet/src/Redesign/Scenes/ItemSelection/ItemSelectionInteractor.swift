@@ -16,11 +16,12 @@ class ItemSelectionInteractor: NSObject, Interactor, ItemSelectionViewActions {
 
     // MARK: - ItemSelectionViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        guard dataStore?.items.isEmpty == false else {
-            return
-        }
+        guard let items = dataStore?.items,
+              items.isEmpty == false,
+              let isAddingEnabled = dataStore?.isAddingEnabled else { return }
         
-        presenter?.presentData(actionResponse: .init(item: dataStore?.items ?? []))
+        let item = Models.Item(items: items, isAddingEnabled: isAddingEnabled)
+        presenter?.presentData(actionResponse: .init(item: item))
     }
     
     func search(viewAction: ItemSelectionModels.Search.ViewAction) {
@@ -28,7 +29,8 @@ class ItemSelectionInteractor: NSObject, Interactor, ItemSelectionViewActions {
               let searchText = viewAction.text?.lowercased() else { return }
         
         let searchData = searchText.isEmpty ? countries : countries.filter { $0.displayName?.lowercased().contains(searchText) ?? false }
-        presenter?.presentData(actionResponse: .init(item: Models.Item(searchData)))
+        let item = Models.Item(items: searchData, isAddingEnabled: dataStore?.isAddingEnabled)
+        presenter?.presentData(actionResponse: .init(item: item))
     }
     // MARK: - Aditional helpers
 }

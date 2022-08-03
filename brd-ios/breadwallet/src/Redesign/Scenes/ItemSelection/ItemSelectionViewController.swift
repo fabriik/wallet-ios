@@ -17,32 +17,36 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
                                    UISearchBarDelegate {
     typealias Models = ItemSelectionModels
     
+    /// Show search on item selection
+    var isSearchEnabled: Bool { return true }
+    
+    override var sceneTitle: String? { return "Country" }
+    
+    var addItemTapped: (() -> Void)?
     var itemSelected: ((Any?) -> Void)?
     var searchController = UISearchController()
     
     // MARK: - Overrides
     
-    override func prepareData() {
-        super.prepareData()
-        
-        DispatchQueue.main.async {
-            LoadingView.show()
-        }
-    }
-    
     override func setupSubviews() {
         super.setupSubviews()
         
-        navigationItem.title = "Country"
+        navigationItem.title = sceneTitle
         
         tableView.separatorInset = .zero
         tableView.separatorStyle = .singleLine
         tableView.register(WrapperTableViewCell<ItemView>.self)
         
+        guard isSearchEnabled else { return }
         setupSearchBar()
     }
     
     func setupSearchBar() {
+        guard isSearchEnabled else {
+            navigationItem.searchController = nil
+            return
+        }
+        
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.hidesNavigationBarDuringPresentation = false
@@ -59,6 +63,24 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell
+        switch sections[indexPath.section] as? Models.Sections {
+        case .addItem:
+            cell = self.tableView(tableView, addItemCellForRowAt: indexPath)
+            
+        case .items:
+            cell = self.tableView(tableView, itemCellForRowAt: indexPath)
+            
+        default:
+            cell = UITableViewCell()
+        }
+        
+        cell.contentView.setupCustomMargins(vertical: .small, horizontal: .zero)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, addItemCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         guard let cell: WrapperTableViewCell<ItemView> = tableView.dequeueReusableCell(for: indexPath),
               let model = sectionRows[section]?[indexPath.row] as? ItemSelectable
@@ -72,11 +94,36 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, itemCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<ItemView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? ItemSelectable
+        else { return UITableViewCell() }
+        
+        cell.setup { view in
+            view.setup(with: .init(title: model.displayName ?? "", image: model.displayImage))
+            view.setupCustomMargins(all: .large)
+        }
+        
+        return cell
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = sections[indexPath.section] as? Models.Sections
+        
+        guard section == Models.Sections.items else {
+            addItemTapped?()
+            return
+        }
+        
         guard let model = sectionRows[section]?[indexPath.row] else { return }
+        
         itemSelected?(model)
         coordinator?.goBack()
+    }
+    
+    override func displayData(responseDisplay: FetchModels.Get.ResponseDisplay) {
+        super.displayData(responseDisplay: responseDisplay)
     }
     
     // MARK: - Search View Delegate

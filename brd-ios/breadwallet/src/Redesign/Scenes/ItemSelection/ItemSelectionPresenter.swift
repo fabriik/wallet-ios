@@ -15,11 +15,19 @@ final class ItemSelectionPresenter: NSObject, Presenter, ItemSelectionActionResp
 
     // MARK: - ItemSelectionActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
-        guard let item = actionResponse.item as? Models.Item else { return }
+        guard let item = actionResponse.item as? Models.Item,
+              let items = item.items,
+              let isAddingEnabled = item.isAddingEnabled
+        else { return }
         
-        let sections = [Models.Sections.items]
-        let sectionRows = [
-            Models.Sections.items: item
+        var sections = [Models.Sections.items]
+        if isAddingEnabled {
+            sections.insert(Models.Sections.addItem, at: 0)
+        }
+        
+        let sectionRows: [Models.Sections: [Any]] = [
+            Models.Sections.items: items,
+            Models.Sections.addItem: ["Add item!"]
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))

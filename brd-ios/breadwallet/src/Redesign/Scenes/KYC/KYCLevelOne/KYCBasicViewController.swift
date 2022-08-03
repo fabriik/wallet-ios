@@ -160,13 +160,8 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
                   let cell = tableView.cellForRow(at: .init(row: 0, section: index)) as? WrapperTableViewCell<FETextField> else {
                 return
             }
-            
-            coordinator?.showCountrySelector { [weak self] model in
-                guard model != nil else { return }
-                
-                cell.wrappedView.animateTo(state: .filled, withAnimation: false)
-                self?.interactor?.countrySelected(viewAction: .init(code: model?.code, countryFullName: model?.name))
-            }
+            cell.wrappedView.animateTo(state: .filled, withAnimation: false)
+            interactor?.pickCountry(viewAction: .init())
             
         default:
             return
@@ -181,6 +176,12 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
     }
 
     // MARK: - KYCBasicResponseDisplay
+    func displayCountry(responseDisplay: KYCBasicModels.SelectCountry.ResponseDisplay) {
+        coordinator?.showCountrySelector(countries: responseDisplay.countries) { [weak self] model in
+            self?.interactor?.pickCountry(viewAction: .init(code: model?.code, countryFullName: model?.name))
+        }
+    }
+    
     func displayValidate(responseDisplay: KYCBasicModels.Validate.ResponseDisplay) {
         guard let section = sections.firstIndex(of: Models.Section.confirm),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
