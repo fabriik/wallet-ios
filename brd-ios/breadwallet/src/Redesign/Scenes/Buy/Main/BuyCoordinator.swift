@@ -30,7 +30,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
         
         openModally(coordinator: ItemSelectionCoordinator.self,
                     scene: Scenes.AssetSelection) { vc in
-            vc?.dataStore?.items = sortedCurrencies ?? []
+            vc?.dataStore?.items = sortedCurrencies
             vc?.itemSelected = selected
             vc?.prepareData()
         }
@@ -45,11 +45,18 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
         ]
         openModally(coordinator: ItemSelectionCoordinator.self,
                     scene: Scenes.CardSelection) { vc in
+            vc?.dataStore?.isAddingEnabled = true
             vc?.dataStore?.items = items
             vc?.itemSelected = { item in
                 selected?(item as? PaymentCard)
             }
             vc?.prepareData()
+            
+            vc?.addItemTapped = { [weak self] in
+                vc?.dismiss(animated: true, completion: {
+                    self?.showUnderConstruction("Add new card flow")
+                })
+            }
         }
     }
     

@@ -99,6 +99,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private lazy var cryptoStack: UIStackView = {
         let view = UIStackView()
+        view.spacing = Margins.extraSmall.rawValue
         return view
     }()
     
@@ -125,7 +126,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         let view = FELabel()
         view.font = Fonts.Title.four
         view.textColor = LightColors.Icons.one
-        view.textAlignment = .left
+        view.textAlignment = .center
         return view
     }()
     
@@ -221,7 +222,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         cryptoStack.addArrangedSubview(selectorStackView)
         selectorStackView.snp.makeConstraints { make in
-            make.width.equalTo(ViewSizes.huge.rawValue)
+            make.width.equalTo(114)
         }
         
         selectorStackView.addArrangedSubview(iconImageView)
@@ -231,11 +232,11 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         selectorStackView.addArrangedSubview(codeLabel)
         codeLabel.snp.makeConstraints { make in
-            make.width.equalTo(FieldHeights.large.rawValue)
+            make.width.equalToSuperview().priority(.low)
         }
         selectorStackView.addArrangedSubview(selectorImageView)
         selectorImageView.snp.makeConstraints { make in
-            make.width.equalTo(ViewSizes.medium.rawValue)
+            make.width.equalTo(ViewSizes.small.rawValue)
         }
         
         cryptoStack.addArrangedSubview(cryptoAmountField)

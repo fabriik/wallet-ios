@@ -50,7 +50,7 @@ extension BaseCoordinator {
                    config: PopupConfiguration = Presets.Popup.normal,
                    closeButtonCallback: (() -> Void)? = nil,
                    callbacks: [(() -> Void)] = []) {
-        guard let view = viewController?.view ?? navigationController.view else { return }
+        guard let view = viewController?.navigationController?.view ?? navigationController.view else { return }
         
         let blur = UIBlurEffect(style: blurred ? .regular : .systemThinMaterialDark)
         let blurView = UIVisualEffectView(effect: blur)
@@ -64,10 +64,11 @@ extension BaseCoordinator {
         
         let popup = FEPopupView()
         view.addSubview(popup)
+        view.bringSubviewToFront(popup)
         popup.snp.makeConstraints { make in
             make.center.equalToSuperview()
+            make.top.greaterThanOrEqualTo(view.snp.topMargin)
             make.leading.greaterThanOrEqualTo(view.snp.leadingMargin)
-            make.trailing.greaterThanOrEqualTo(view.snp.trailingMargin)
         }
         popup.alpha = 0.0
         popup.layoutIfNeeded()
