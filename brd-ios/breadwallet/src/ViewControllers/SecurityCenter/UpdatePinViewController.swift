@@ -250,7 +250,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
         let text = """
             The Fabriik Wallet app requires you to set a PIN to secure your wallet, separate from your device passcode.
             
-            You will be required to enter thin PIN to view your balance or send money,
+            You will be required to enter the PIN to view your balance or send money,
             which keeps your wallet private even if you let someone use your phone or if your phone is stolen by someone who knows your device passcode.
             
             Do not forget your wallet PIN! It can only be reset by using your Recovery Phrase. If you forget your PIN and lose your Recovery Phrase, your wallet will be lost.
