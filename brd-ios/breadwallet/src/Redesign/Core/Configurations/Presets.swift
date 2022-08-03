@@ -261,7 +261,7 @@ extension Presets {
         static var normal = PopupConfiguration(background: .init(backgroundColor: LightColors.secondary,
                                                                  tintColor: LightColors.Contrast.two,
                                                                  border: Presets.Border.zero),
-                                               title: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
+                                               title: .init(font: Fonts.Title.seven, textColor: LightColors.Contrast.two),
                                                body: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
                                                buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
                                                                                             selected: Presets.Border.selected,
@@ -416,5 +416,22 @@ extension Presets {
                                             description: .text("Oops! We had some issues processing your data"),
                                             button: .init(title: "Why is my verification declined?"),
                                             dismissType: .persistent)
+    }
+}
+
+extension Presets {
+    struct BuyPopupView {
+        // TODO: localize
+        static var cardFee = PopupViewModel(title: .text("Card fee"),
+                                            body: "An extra fee of 0.04% is required to cover processing of credit card purchases.")
+        
+        static var networkFee = PopupViewModel(title: .text("Network fees"),
+                                               body: """
+Network fee prices vary depending on the blockchain in which you are receiving your assets. This is an external fee to cover mining and transaction costs.
+""")
+        
+        static var cardSecurityCode = PopupViewModel(title: .text("Security code (CVV)"),
+                                                     imageName: "creditCard",
+                                                     body: "Please enter the 3 digit CVV number as it appears on the back of your card")
     }
 }
