@@ -22,14 +22,6 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     
     // MARK: - Overrides
     
-    override func prepareData() {
-        super.prepareData()
-        
-        DispatchQueue.main.async {
-            LoadingView.show()
-        }
-    }
-    
     override func setupSubviews() {
         super.setupSubviews()
         
@@ -77,6 +69,10 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
         guard let model = sectionRows[section]?[indexPath.row] else { return }
         itemSelected?(model)
         coordinator?.goBack()
+    }
+    
+    override func displayData(responseDisplay: FetchModels.Get.ResponseDisplay) {
+        super.displayData(responseDisplay: responseDisplay)
     }
     
     // MARK: - Search View Delegate

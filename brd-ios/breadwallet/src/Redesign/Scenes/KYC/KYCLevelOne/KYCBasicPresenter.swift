@@ -47,6 +47,11 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
     
+    func presentCountry(actionResponse: KYCBasicModels.SelectCountry.ActionResponse) {
+        guard let countries = actionResponse.countries else { return }
+        viewController?.displayCountry(responseDisplay: .init(countries: countries))
+    }
+    
     func presentValidate(actionResponse: KYCBasicModels.Validate.ActionResponse) {
         viewController?.displayValidate(responseDisplay: .init(isValid: actionResponse.isValid))
     }
