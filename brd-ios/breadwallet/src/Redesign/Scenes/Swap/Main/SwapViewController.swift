@@ -77,9 +77,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             
         case .swapCard:
             cell = self.tableView(tableView, swapMainCellForRowAt: indexPath)
-        
-        case .amountSegment:
-            cell = self.tableView(tableView, segmentControlCellForRowAt: indexPath)
             
         case .errors:
             cell = self.tableView(tableView, infoViewCellForRowAt: indexPath)
@@ -89,27 +86,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
         
         cell.setupCustomMargins(all: .large)
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, segmentControlCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = sections[indexPath.section]
-        guard let cell: WrapperTableViewCell<FESegmentControl> = tableView.dequeueReusableCell(for: indexPath),
-              let model = sectionRows[section]?[indexPath.row] as? SegmentControlViewModel
-        else {
-            return UITableViewCell()
-        }
-        
-        cell.setup { view in
-            view.configure(with: .init())
-            view.setup(with: model)
-            
-            view.didChangeValue = { [weak self] segment in
-                self?.view.endEditing(true)
-                self?.interactor?.setAmount(viewAction: .init(minMaxToggleValue: segment))
-            }
-        }
         
         return cell
     }
@@ -235,14 +211,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         
         cell.setup { view in
             let model = responseDisplay.amounts
-            view.setup(with: model)
-        }
-        
-        guard let section = sections.firstIndex(of: Models.Sections.amountSegment),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FESegmentControl> else { return }
-        
-        cell.setup { view in
-            let model = responseDisplay.minMaxToggleValue
             view.setup(with: model)
         }
     }

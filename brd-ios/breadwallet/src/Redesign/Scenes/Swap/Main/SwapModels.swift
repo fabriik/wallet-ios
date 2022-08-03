@@ -17,7 +17,6 @@ enum SwapModels {
     enum Sections: Sectionable {
         case rateAndTimer
         case swapCard
-        case amountSegment
         case errors
         
         var header: AccessoryType? { return nil }
