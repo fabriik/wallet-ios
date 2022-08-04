@@ -30,12 +30,15 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
         
         if let date = item.birthdate {
             let components = Calendar.current.dateComponents([.day, .year, .month], from: date)
-            guard let month = components.month, let day = components.day, let year = components.year else { return }
+            let dateFormat = "%02d"
+            guard let month = components.month,
+                  let day = components.day,
+                  let year = components.year else { return }
             
             dateViewModel = DateViewModel(date: date,
                                           title: title,
-                                          month: .init(value: "\(month)"),
-                                          day: .init(value: "\(day)"),
+                                          month: .init(value: String(format: dateFormat, month)),
+                                          day: .init(value: String(format: dateFormat, day)),
                                           year: .init(value: "\(year)"))
         } else {
             dateViewModel = DateViewModel(date: nil,
