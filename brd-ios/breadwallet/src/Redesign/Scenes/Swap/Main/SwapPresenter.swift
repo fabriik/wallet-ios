@@ -189,12 +189,11 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let wrappedViewModel: SwapConfirmationViewModel = .init(from: .init(title: .text("From"), value: .text(fromText)),
                                                                 to: .init(title: .text("To"), value: .text(toText)),
                                                                 rate: .init(title: .text("Rate"), value: .text(rateText)),
-                                                                sendingFee: .init(title: .text("Sending Network fee\n"), value: .text(fromFeeText)),
+                                                                sendingFee: .init(title: .text("Sending fee\n"), value: .text(fromFeeText)),
                                                                 receivingFee: .init(title: .text("Receiving fee\n"), value: .text(toFeeText)),
                                                                 totalCost: .init(title: .text("Total cost:"), value: .text(totalCostText)))
         
         let viewModel: WrapperPopupViewModel<SwapConfirmationViewModel> = .init(title: .text("Confirmation"),
-                                                                                trailing: .init(image: "close"),
                                                                                 confirm: .init(title: "Confirm"),
                                                                                 cancel: .init(title: "Cancel"),
                                                                                 wrappedView: wrappedViewModel)
