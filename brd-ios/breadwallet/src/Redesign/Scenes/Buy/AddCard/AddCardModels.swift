@@ -21,16 +21,11 @@ enum AddCardModels {
         var footer: AccessoryType? { nil }
     }
     
-    struct CardNumberAndCVV {
+    struct CardInfo {
         struct ViewAction {
             var number: String?
             var cvv: String?
-        }
-    }
-    
-    struct CardExpDate {
-        struct ViewAction {
-            var index: PickerViewViewController.Index?
+            var expirationDateIndex: PickerViewViewController.Index?
         }
     }
     

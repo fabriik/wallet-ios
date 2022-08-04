@@ -103,7 +103,7 @@ extension BuyCoordinator {
                                       title: nil,
                                       values: model,
                                       selection: .init(primaryRow: 0, secondaryRow: 0)) { _, _, index, _ in
-            viewController.interactor?.cardExpDateSet(viewAction: .init(index: index))
+            viewController.interactor?.cardInfoSet(viewAction: .init(expirationDateIndex: index))
         }
     }
 }

@@ -74,7 +74,7 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
             }
             
             view.valueChanged = { [weak self] number, cvv in
-                self?.interactor?.cardNumberAndCVVSet(viewAction: .init(number: number, cvv: cvv))
+                self?.interactor?.cardInfoSet(viewAction: .init(number: number, cvv: cvv))
             }
             
             view.didTriggerExpirationField = { [weak self] in

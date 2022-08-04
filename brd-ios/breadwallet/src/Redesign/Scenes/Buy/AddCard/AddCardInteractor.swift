@@ -29,22 +29,23 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
         presenter?.presentData(actionResponse: .init(item: dataStore))
     }
     
-    func cardNumberAndCVVSet(viewAction: AddCardModels.CardNumberAndCVV.ViewAction) {
-        dataStore?.cardNumber = viewAction.number
-        dataStore?.cardCVV = viewAction.cvv
-
-        validate(viewAction: .init())
-    }
-    
-    func cardExpDateSet(viewAction: AddCardModels.CardExpDate.ViewAction) {
-        guard let index = viewAction.index else { return }
+    func cardInfoSet(viewAction: AddCardModels.CardInfo.ViewAction) {
+        if let index = viewAction.expirationDateIndex {
+            var month = dataStore?.months[index.primaryRow] ?? ""
+            month = month.count == 1 ? "0\(month)" : month
+            let year = dataStore?.years[index.secondaryRow] ?? ""
+            dataStore?.cardExpDateString = "\(month)/\(year.dropFirst(2))"
+            
+            presenter?.presentData(actionResponse: .init(item: dataStore))
+        }
         
-        var month = dataStore?.months[index.primaryRow] ?? ""
-        month = month.count == 1 ? "0\(month)" : month
-        let year = dataStore?.years[index.secondaryRow] ?? ""
-        dataStore?.cardExpDateString = "\(month)/\(year.dropFirst(2))"
+        if let number = viewAction.number {
+            dataStore?.cardNumber = number
+        }
         
-        presenter?.presentData(actionResponse: .init(item: dataStore))
+        if let cvv = viewAction.cvv {
+            dataStore?.cardNumber = cvv
+        }
         
         validate(viewAction: .init())
     }

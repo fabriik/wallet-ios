@@ -15,8 +15,7 @@ extension Scenes {
 }
 
 protocol AddCardViewActions: BaseViewActions, FetchViewActions {
-    func cardNumberAndCVVSet(viewAction: AddCardModels.CardNumberAndCVV.ViewAction)
-    func cardExpDateSet(viewAction: AddCardModels.CardExpDate.ViewAction)
+    func cardInfoSet(viewAction: AddCardModels.CardInfo.ViewAction)
 }
 
 protocol AddCardActionResponses: BaseActionResponses, FetchActionResponses {
