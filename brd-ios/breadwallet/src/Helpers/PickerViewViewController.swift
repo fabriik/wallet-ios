@@ -147,10 +147,11 @@ extension PickerViewViewController: UIPickerViewDataSource, UIPickerViewDelegate
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         guard pickerView.numberOfComponents == values.count else { return }
+        let components = 0..<pickerView.numberOfComponents
         
-        if component == 0 {
+        if component == components.first {
             selection.primaryRow = row
-        } else if component == 1 {
+        } else if component == components.last {
             selection.secondaryRow = row
         }
     }
