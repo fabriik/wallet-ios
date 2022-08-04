@@ -45,6 +45,7 @@ class HTTPRequest {
         
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.decorate()
         
         request.httpBody = createMultipartDataBody(media: media, boundary: boundary)
         
@@ -107,6 +108,7 @@ class HTTPRequest {
         
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
+        request.decorate()
         
         let jsonData = try? JSONSerialization.data(withJSONObject: parameters,
                                                    options: .prettyPrinted)

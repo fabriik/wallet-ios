@@ -11,26 +11,16 @@
 import Foundation
 
 struct SupportedCurrenciesResponseData: ModelResponse {
-    struct SupportedCurrencyResponseData: ModelResponse {
-        var baseCurrency: String
-        var termCurrency: String
-        var name: String
-    }
-    
-    var tradingPairs: [SupportedCurrencyResponseData]
+    var supportedCurrencies: [String]
 }
 
 struct SupportedCurrency {
-    var baseCurrency: String
-    var termCurrency: String
     var name: String
 }
 
 class SupportedCurrenciesWorkerMapper: ModelMapper<SupportedCurrenciesResponseData, [SupportedCurrency]> {
     override func getModel(from response: SupportedCurrenciesResponseData?) -> [SupportedCurrency]? {
-        return response?.tradingPairs.compactMap { return .init(baseCurrency: $0.baseCurrency,
-                                                                termCurrency: $0.termCurrency,
-                                                                name: $0.name) }
+        return response?.supportedCurrencies.compactMap { return .init(name: $0) }
     }
 }
 
