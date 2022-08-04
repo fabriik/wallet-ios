@@ -115,7 +115,6 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     
     private lazy var leadingView: FEImageView = {
         let view = FEImageView()
-        view.setupCustomMargins(all: .extraSmall)
         return view
     }()
     
@@ -127,7 +126,6 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     
     private lazy var trailingView: FEImageView = {
         let view = FEImageView()
-        view.setupCustomMargins(all: .extraSmall)
         return view
     }()
     
@@ -143,10 +141,12 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         mainStack.addArrangedSubview(hintLabel)
         
         textFieldContent.addSubview(textFieldStack)
+        textFieldContent.addSubview(trailingView)
+        
         textFieldStack.snp.makeConstraints { make in
-            make.center.equalToSuperview()
             make.height.equalTo(FieldHeights.common.rawValue)
             make.leading.equalTo(Margins.large.rawValue)
+            make.trailing.equalTo(trailingView.snp.leading).offset(-Margins.minimum.rawValue)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview().priority(.low)
         }
@@ -159,11 +159,12 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
             make.width.equalToSuperview().priority(.low)
         }
         
-        textFieldContent.addSubview(trailingView)
         trailingView.snp.makeConstraints { make in
-            make.width.equalTo(44)
+            make.top.bottom.equalToSuperview()
+            make.height.equalTo(textFieldStack.snp.height)
+            make.width.equalTo(ViewSizes.extraSmall.rawValue)
             make.trailing.equalTo(-Margins.large.rawValue)
-            make.top.equalTo(Margins.small.rawValue)
+            make.centerY.equalToSuperview()
         }
         
         textFieldStack.addArrangedSubview(textField)
@@ -248,11 +249,14 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         }
         hintLabel.isHidden = viewModel.hint == nil
         
-        leadingView.isHidden = viewModel.leading == nil
         leadingView.setup(with: viewModel.leading)
+        leadingView.isHidden = viewModel.leading == nil
         
-        trailingView.isHidden = viewModel.trailing == nil
         trailingView.setup(with: viewModel.trailing)
+        trailingView.isHidden = viewModel.trailing == nil
+        trailingView.snp.updateConstraints { make in
+            make.width.equalTo(viewModel.trailing == nil ? 0 : ViewSizes.extraSmall.rawValue)
+        }
         
         titleStack.isHidden = leadingView.isHidden && trailingView.isHidden && titleLabel.isHidden
         

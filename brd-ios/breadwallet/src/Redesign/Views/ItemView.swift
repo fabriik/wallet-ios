@@ -11,7 +11,6 @@
 import UIKit
 
 struct ItemViewConfiguration: Configurable {
-    
 }
 
 struct ItemViewModel: ViewModel {

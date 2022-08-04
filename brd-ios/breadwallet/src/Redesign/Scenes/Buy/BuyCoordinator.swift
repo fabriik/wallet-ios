@@ -93,3 +93,17 @@ struct PaymentCard: ItemSelectable {
         return .image(image)
     }
 }
+
+extension BuyCoordinator {
+    func showMonthYearPicker(model: AddCardModels.MonthsYears) {
+        guard let viewController = navigationController.children.last(where: { $0 is AddCardViewController }) as? AddCardViewController else { return }
+        
+        PickerViewViewController.show(on: viewController,
+                                      sourceView: viewController.view,
+                                      title: nil,
+                                      values: [model.months, model.years],
+                                      selection: .init(primaryRow: 0, secondaryRow: 0)) { _, _, index, _ in
+            viewController.interactor?.cardExpDateSet(viewAction: .init(index: index))
+        }
+    }
+}

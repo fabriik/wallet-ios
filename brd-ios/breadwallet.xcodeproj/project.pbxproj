@@ -139,6 +139,12 @@
 		7B08D2262860574F00D65ED9 /* SimpleBackBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B08D2252860574F00D65ED9 /* SimpleBackBarButtonItem.swift */; };
 		7B2C9AFC27D9270B00D5135C /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B2C9AFB27D9270B00D5135C /* IQKeyboardManagerSwift */; };
 		7B2E5048289800BB008CACD8 /* FieldValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E5047289800BB008CACD8 /* FieldValidator.swift */; };
+		7B2E5052289A5F02008CACD8 /* AddCardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E504C289A5F02008CACD8 /* AddCardStore.swift */; };
+		7B2E5053289A5F02008CACD8 /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E504D289A5F02008CACD8 /* AddCardViewController.swift */; };
+		7B2E5054289A5F02008CACD8 /* AddCardInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E504E289A5F02008CACD8 /* AddCardInteractor.swift */; };
+		7B2E5055289A5F02008CACD8 /* AddCardVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E504F289A5F02008CACD8 /* AddCardVIP.swift */; };
+		7B2E5056289A5F02008CACD8 /* AddCardPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E5050289A5F02008CACD8 /* AddCardPresenter.swift */; };
+		7B2E5057289A5F02008CACD8 /* AddCardModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E5051289A5F02008CACD8 /* AddCardModels.swift */; };
 		7B519A932835B506007AC80A /* currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B519A922835B505007AC80A /* currencies.json */; };
 		7B54E59B27F4A2B0002DD1E4 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54E57127F4A2B0002DD1E4 /* AlertHelper.swift */; };
 		7B54E59D27F4A2B0002DD1E4 /* Shadowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54E57327F4A2B0002DD1E4 /* Shadowable.swift */; };
@@ -214,6 +220,7 @@
 		7BDB4A0D2806F54B0031F015 /* StakingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0C2806F54B0031F015 /* StakingCell.swift */; };
 		7BDB4A102806FA190031F015 /* brd-tokens-staging.tar in Resources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0E2806FA190031F015 /* brd-tokens-staging.tar */; };
 		7BDB4A112806FA190031F015 /* brd-tokens.tar in Resources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0F2806FA190031F015 /* brd-tokens.tar */; };
+		7BDE6E00289BAFB10060C09A /* BankCardInputDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE6DFF289BAFB10060C09A /* BankCardInputDetailsView.swift */; };
 		7C0A3ACE210A0E1D006C2783 /* NotificationAuthorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0A3ACD210A0E1D006C2783 /* NotificationAuthorizer.swift */; };
 		7C0F3DC42124A81100531E54 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F3DC32124A81100531E54 /* Backend.swift */; };
 		7C1931CD2327371A0061DE20 /* CoreDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1931CC2327371A0061DE20 /* CoreDatabase.swift */; };
@@ -1119,6 +1126,12 @@
 		7B02D62B28592FE700C5C384 /* KYCCameraShutter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCCameraShutter.swift; sourceTree = "<group>"; };
 		7B08D2252860574F00D65ED9 /* SimpleBackBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleBackBarButtonItem.swift; sourceTree = "<group>"; };
 		7B2E5047289800BB008CACD8 /* FieldValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldValidator.swift; sourceTree = "<group>"; };
+		7B2E504C289A5F02008CACD8 /* AddCardStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardStore.swift; sourceTree = "<group>"; };
+		7B2E504D289A5F02008CACD8 /* AddCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
+		7B2E504E289A5F02008CACD8 /* AddCardInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardInteractor.swift; sourceTree = "<group>"; };
+		7B2E504F289A5F02008CACD8 /* AddCardVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardVIP.swift; sourceTree = "<group>"; };
+		7B2E5050289A5F02008CACD8 /* AddCardPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardPresenter.swift; sourceTree = "<group>"; };
+		7B2E5051289A5F02008CACD8 /* AddCardModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardModels.swift; sourceTree = "<group>"; };
 		7B519A922835B505007AC80A /* currencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = currencies.json; path = Resources/currencies.json; sourceTree = "<group>"; };
 		7B54E57127F4A2B0002DD1E4 /* AlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 		7B54E57327F4A2B0002DD1E4 /* Shadowable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shadowable.swift; sourceTree = "<group>"; };
@@ -1180,6 +1193,7 @@
 		7BDB4A0C2806F54B0031F015 /* StakingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StakingCell.swift; path = src/ViewControllers/StakingCell.swift; sourceTree = "<group>"; };
 		7BDB4A0E2806FA190031F015 /* brd-tokens-staging.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; name = "brd-tokens-staging.tar"; path = "Resources/brd-tokens-staging.tar"; sourceTree = "<group>"; };
 		7BDB4A0F2806FA190031F015 /* brd-tokens.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; name = "brd-tokens.tar"; path = "Resources/brd-tokens.tar"; sourceTree = "<group>"; };
+		7BDE6DFF289BAFB10060C09A /* BankCardInputDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankCardInputDetailsView.swift; sourceTree = "<group>"; };
 		7C0A3ACD210A0E1D006C2783 /* NotificationAuthorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationAuthorizer.swift; path = src/NotificationAuthorizer.swift; sourceTree = "<group>"; };
 		7C0F3DC32124A81100531E54 /* Backend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Backend.swift; path = src/Backend.swift; sourceTree = "<group>"; };
 		7C1931CC2327371A0061DE20 /* CoreDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDatabase.swift; sourceTree = "<group>"; };
@@ -2341,6 +2355,19 @@
 			path = CameraHelper;
 			sourceTree = "<group>";
 		};
+		7B2E504B289A5EC0008CACD8 /* AddCard */ = {
+			isa = PBXGroup;
+			children = (
+				7B2E5050289A5F02008CACD8 /* AddCardPresenter.swift */,
+				7B2E504C289A5F02008CACD8 /* AddCardStore.swift */,
+				7B2E504F289A5F02008CACD8 /* AddCardVIP.swift */,
+				7B2E5051289A5F02008CACD8 /* AddCardModels.swift */,
+				7B2E504D289A5F02008CACD8 /* AddCardViewController.swift */,
+				7B2E504E289A5F02008CACD8 /* AddCardInteractor.swift */,
+			);
+			path = AddCard;
+			sourceTree = "<group>";
+		};
 		7B54E56F27F4A2B0002DD1E4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -2743,6 +2770,7 @@
 				7B78631B287427680092F35B /* MainSwapView.swift */,
 				7B78631D2874D36D0092F35B /* SwapCurrencyView.swift */,
 				7EF45F562845353000D1F7B0 /* DateView.swift */,
+				7BDE6DFF289BAFB10060C09A /* BankCardInputDetailsView.swift */,
 				7EF45F572845353100D1F7B0 /* DoubleHorizontalTextboxView.swift */,
 				7EF45F322844D26E00D1F7B0 /* VerificationView.swift */,
 				7E8E97A1283F78B0008606B0 /* ProfileView.swift */,
@@ -2840,11 +2868,10 @@
 		7EB8FD192897D1F3000FF75C /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				7EB8FD1A2897D212000FF75C /* BuyCoordinator.swift */,
-				7EB8FD1B2897D212000FF75C /* BuyStore.swift */,
 				7EB8FD1C2897D212000FF75C /* BuyPresenter.swift */,
-				7EB8FD1D2897D212000FF75C /* BuyModels.swift */,
+				7EB8FD1B2897D212000FF75C /* BuyStore.swift */,
 				7EB8FD1E2897D212000FF75C /* BuyVIP.swift */,
+				7EB8FD1D2897D212000FF75C /* BuyModels.swift */,
 				7EB8FD1F2897D212000FF75C /* BuyViewController.swift */,
 				7EB8FD202897D212000FF75C /* BuyInteractor.swift */,
 			);
@@ -2870,12 +2897,12 @@
 		7EC21A1328991A6500FED711 /* BillingAddress */ = {
 			isa = PBXGroup;
 			children = (
+				7EC21A1928991A6500FED711 /* BillingAddressPresenter.swift */,
+				7EC21A1728991A6500FED711 /* BillingAddressStore.swift */,
+				7EC21A1828991A6500FED711 /* BillingAddressVIP.swift */,
 				7EC21A1428991A6500FED711 /* BillingAddressModels.swift */,
 				7EC21A1528991A6500FED711 /* BillingAddressViewController.swift */,
 				7EC21A1628991A6500FED711 /* BillingAddressInteractor.swift */,
-				7EC21A1728991A6500FED711 /* BillingAddressStore.swift */,
-				7EC21A1828991A6500FED711 /* BillingAddressVIP.swift */,
-				7EC21A1928991A6500FED711 /* BillingAddressPresenter.swift */,
 			);
 			path = BillingAddress;
 			sourceTree = "<group>";
@@ -2883,6 +2910,7 @@
 		7EC21A20289946B100FED711 /* CardSelection */ = {
 			isa = PBXGroup;
 			children = (
+				7EB8FD282897F22B000FF75C /* CardSelectionView.swift */,
 				7EC21A21289946C300FED711 /* CardSelectionViewController.swift */,
 			);
 			path = CardSelection;
@@ -2952,10 +2980,11 @@
 		7EF2187D2862F07A006ABCC1 /* Buy */ = {
 			isa = PBXGroup;
 			children = (
-				7EC21A20289946B100FED711 /* CardSelection */,
+				7EB8FD1A2897D212000FF75C /* BuyCoordinator.swift */,
 				7EB8FD192897D1F3000FF75C /* Main */,
-				7EB8FD282897F22B000FF75C /* CardSelectionView.swift */,
+				7EC21A20289946B100FED711 /* CardSelection */,
 				7EC21A1328991A6500FED711 /* BillingAddress */,
+				7B2E504B289A5EC0008CACD8 /* AddCard */,
 			);
 			path = Buy;
 			sourceTree = "<group>";
@@ -4517,6 +4546,7 @@
 				CE8644251F2C160200033129 /* ConfirmationViewController.swift in Sources */,
 				7ED83AEC284F384F00261565 /* KYCDocumentPickerViewController.swift in Sources */,
 				7CBA74E820227D1300FBBFA9 /* MenuCell.swift in Sources */,
+				7B2E5057289A5F02008CACD8 /* AddCardModels.swift in Sources */,
 				7E5CB39D2835090E00EC787E /* Alertable.swift in Sources */,
 				CEE9A2E920AB4F9A00C5CF2F /* BRAPIClient+Metrics.swift in Sources */,
 				7E5CB3892835090E00EC787E /* Margins.swift in Sources */,
@@ -4624,6 +4654,7 @@
 				CE0CD1591DBFBCF5004023DA /* ModalPresenter.swift in Sources */,
 				7CEA35D5232A9D1200FB58C4 /* Identifier.swift in Sources */,
 				CEE20C2F1EA3E5820086F724 /* BlinkingView.swift in Sources */,
+				7B2E5055289A5F02008CACD8 /* AddCardVIP.swift in Sources */,
 				3A6C13FF257D463300EA0689 /* GiftHeaderView.swift in Sources */,
 				CEC6AA441DEFCDE900EE5AFD /* ModalViewController.swift in Sources */,
 				7ECCA99728742E1700F99368 /* UIApplication+ActiveWindow.swift in Sources */,
@@ -4828,6 +4859,7 @@
 				CEEC708A1E945E3B00EF788E /* UnEditableTextView.swift in Sources */,
 				CE3645481E7B424D0079D0CF /* WhiteNumberPad.swift in Sources */,
 				7B78631E2874D36D0092F35B /* SwapCurrencyView.swift in Sources */,
+				7BDE6E00289BAFB10060C09A /* BankCardInputDetailsView.swift in Sources */,
 				CE3840E81FD590BD00437C31 /* AssetListTableView.swift in Sources */,
 				71A3171022A6D55A0088F97C /* InAppNotificationViewController.swift in Sources */,
 				C4520F0D2875C726003FFB7F /* AssetSelectionPresenter.swift in Sources */,
@@ -4865,12 +4897,14 @@
 				7CE940E61FEB8A5F005A2B53 /* TxDetailRowCell.swift in Sources */,
 				3AB3EE0F227A23B400414616 /* ASADataFormatter.swift in Sources */,
 				3AFAD94F25699112005853E8 /* TxGiftCell.swift in Sources */,
+				7B2E5056289A5F02008CACD8 /* AddCardPresenter.swift in Sources */,
 				7EC0F8BC28892E2E0037145C /* IconDescriptionView.swift in Sources */,
 				CEAA9EA01DC2F9F50066731D /* UIFont+BRWAdditions.swift in Sources */,
 				CEF61B121ECF52C700C7EA6A /* AmountViewController.swift in Sources */,
 				CEBF32F21DDCE10D00348FC6 /* AccountHeaderView.swift in Sources */,
 				CECCE5B21E04B00D00D99448 /* SendCell.swift in Sources */,
 				CE6DCC301E6666470044257B /* NonScrollingCollectionView.swift in Sources */,
+				7B2E5053289A5F02008CACD8 /* AddCardViewController.swift in Sources */,
 				71C44E90225D135E00EF4459 /* ConfirmRecoveryKeyViewController.swift in Sources */,
 				7E5CB3802835090E00EC787E /* DemoInteractor.swift in Sources */,
 				7CF913BE1FFC7DC30085CB70 /* TxMemoCell.swift in Sources */,
@@ -4887,6 +4921,7 @@
 				7E5CB39C2835090E00EC787E /* Coordinator.swift in Sources */,
 				22122B721F0B8996000E9AB9 /* BRAPIClient+Events.swift in Sources */,
 				CEEC70861E94397D00EF788E /* UserDefaults+Additions.swift in Sources */,
+				7B2E5052289A5F02008CACD8 /* AddCardStore.swift in Sources */,
 				C4520F0B2875C726003FFB7F /* AssetSelectionCoordinator.swift in Sources */,
 				7E5CB3922835090E00EC787E /* FetchModels.swift in Sources */,
 				7EF2999027E3B8D200A2238A /* MarketData.swift in Sources */,
@@ -4956,6 +4991,7 @@
 				7B54E5BB27F4A2B1002DD1E4 /* LoadingView.swift in Sources */,
 				7E8E979A283F4830008606B0 /* ProfileModels.swift in Sources */,
 				CE6DCC271E6108D50044257B /* EnterPhraseCell.swift in Sources */,
+				7B2E5054289A5F02008CACD8 /* AddCardInteractor.swift in Sources */,
 				CE760EDD1E561DF900EFAC2B /* UpdatePinViewController.swift in Sources */,
 				22A9A9481DF61945000F0016 /* BRBitID.swift in Sources */,
 				CE0BC980215ACBE100E68B2B /* TokenImageNoBackground.swift in Sources */,

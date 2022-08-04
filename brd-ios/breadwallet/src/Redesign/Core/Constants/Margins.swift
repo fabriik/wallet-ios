@@ -51,6 +51,7 @@ enum Opacity: Float {
 
 // TODO: consolidate the bottom enums!
 enum ViewSizes: CGFloat {
+    /// 1
     case minimum = 1.0
     /// 20
     case extraSmall = 20.0
