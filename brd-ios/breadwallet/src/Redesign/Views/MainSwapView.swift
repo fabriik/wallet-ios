@@ -80,7 +80,12 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     
     var didChangePlaces: (() -> Void)?
     
-    var contentSizeChanged: (() -> Void)?
+    var contentSizeChanged: (() -> Void)? {
+        didSet {
+            baseSwapCurrencyView.didChangeContent = contentSizeChanged
+            termSwapCurrencyView.didChangeContent = contentSizeChanged
+        }
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()

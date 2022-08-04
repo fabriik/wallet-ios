@@ -245,7 +245,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         mainStack.addArrangedSubview(feeAndAmountsStackView)
         feeAndAmountsStackView.snp.makeConstraints { make in
-            make.height.equalTo(ViewSizes.extraSmall.rawValue)
+            make.height.equalTo(Margins.extraHuge.rawValue)
         }
         
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
