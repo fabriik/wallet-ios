@@ -46,30 +46,7 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     
     var pin: String?
     
-    var side: Swap.Side {
-        if pair?.baseCurrency == fromCurrency?.code {
-            return .sell
-        } else {
-            return .buy
-        }
-    }
-    
     // MARK: - Aditional helpers
-    var quoteTerm: String? {
-        let item = supportedCurrencies?.first(where: { currency in
-            if currency.baseCurrency == fromCurrency?.code,
-               currency.termCurrency == toCurrency?.code {
-                return true
-            } else if currency.termCurrency == fromCurrency?.code,
-                      currency.baseCurrency == toCurrency?.code {
-                return true
-            } else {
-                return false
-            }
-        })
-        
-        return item?.name
-    }
     
     var fromFeeAmount: Amount? {
         guard let fee = fromFee?.fee,
@@ -87,35 +64,9 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         return Amount(cryptoAmount: fee, currency: currency)
     }
     
-    private var pair: SupportedCurrency? {
-        return supportedCurrencies?.first(where: { $0.baseCurrency == fromCurrency?.code && $0.termCurrency == toCurrency?.code })
-        ?? supportedCurrencies?.first(where: { $0.baseCurrency == toCurrency?.code && $0.termCurrency == fromCurrency?.code })
+    var swapPair: String {
+        let from = fromCurrency?.code ?? "</>"
+        let to = toCurrency?.code ?? "</>"
+        return "\(from)-\(to)"
     }
-    
-    func exchangeRate(for currency: Currency?) -> Decimal {
-        guard let pair = pair,
-              let quote = quote else {
-            return 0
-        }
-        
-        if pair.baseCurrency == currency?.code {
-            return quote.exchangeRate
-        } else {
-            return 1 / quote.exchangeRate
-        }
-    }
-    
-    var markup: Decimal {
-        guard let pair = pair,
-              let quote = quote else {
-            return 0
-        }
-        
-        if pair.baseCurrency == fromCurrency?.code {
-            return quote.buyMarkup
-        } else {
-            return 1/quote.sellMarkup
-        }
-    }
-    
 }
