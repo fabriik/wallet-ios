@@ -17,7 +17,6 @@ enum SwapModels {
     enum Sections: Sectionable {
         case rateAndTimer
         case swapCard
-        case amountSegment
         case errors
         
         var header: AccessoryType? { return nil }
@@ -34,7 +33,6 @@ enum SwapModels {
             var fromCryptoAmount: String?
             var toFiatAmount: String?
             var toCryptoAmount: String?
-            var minMaxToggleValue: FESegmentControl.Values?
         }
         
         struct ActionResponse {
@@ -44,7 +42,6 @@ enum SwapModels {
             var fromFee: Amount?
             var toFee: Amount?
             
-            var minMaxToggleValue: FESegmentControl.Values?
             var baseBalance: Amount?
             var minimumAmount: Decimal?
         }
@@ -53,7 +50,6 @@ enum SwapModels {
             var continueEnabled = false
             var amounts: MainSwapViewModel
             var rate: ExchangeRateViewModel
-            var minMaxToggleValue: SegmentControlViewModel
         }
     }
     

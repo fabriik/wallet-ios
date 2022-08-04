@@ -29,7 +29,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let sections: [Models.Sections] = [
             .rateAndTimer,
             .swapCard,
-            .amountSegment,
             .errors
         ]
         
@@ -44,9 +43,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             .swapCard: [
                 MainSwapViewModel(from: .init(amount: .zero(from), fee: .zero(from), title: "I have 0 \(from.code)", feeDescription: "Sending network fee\n(included)"),
                                   to: .init(amount: .zero(to), fee: .zero(to), title: "I want", feeDescription: "Sending network fee\n(included)"))
-            ],
-            .amountSegment: [
-                SegmentControlViewModel(selectedIndex: nil)
             ],
             .errors: [
                 InfoViewModel()
@@ -143,11 +139,10 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 presentError(actionResponse: .init(error: nil))
             }
         }
-//
+
         viewController?.displaySetAmount(responseDisplay: .init(continueEnabled: !hasError,
                                                                 amounts: swapModel,
-                                                                rate: exchangeRateViewModel,
-                                                                minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue)))
+                                                                rate: exchangeRateViewModel))
     }
     
     func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse) {

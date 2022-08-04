@@ -50,7 +50,6 @@ protocol SwapDataStore: BaseDataStore, FetchDataStore {
     var fromFee: TransferFeeBasis? { get set }
     var toFee: TransferFeeBasis? { get set }
     
-    var minMaxToggleValue: FESegmentControl.Values? { get set }
     var defaultCurrencyCode: String? { get set }
     
     var quote: Quote? { get set }

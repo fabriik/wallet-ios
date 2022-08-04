@@ -31,7 +31,6 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     
     var supportedCurrencies: [SupportedCurrency]?
     
-    var minMaxToggleValue: FESegmentControl.Values?
     var defaultCurrencyCode: String?
     
     var baseCurrencies: [String] = []

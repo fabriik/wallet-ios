@@ -140,7 +140,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.fromCurrency = dataStore?.toCurrency
         dataStore?.toCurrency = from
         
-        dataStore?.minMaxToggleValue = nil
         dataStore?.quote = nil
         dataStore?.from = nil
         dataStore?.to = nil
@@ -155,22 +154,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
-        var viewAction = viewAction
-        
-        if let minMaxToggleValue = viewAction.minMaxToggleValue {
-            dataStore?.minMaxToggleValue = minMaxToggleValue
-            
-            let minAmount: Decimal = 50 // TODO: Constant
-            
-            switch minMaxToggleValue {
-            case .min:
-                viewAction.fromFiatAmount = String(describing: minAmount)
-                
-            case .max:
-                viewAction.fromCryptoAmount = "\(dataStore?.fromCurrency?.state?.balance?.tokenValue ?? 0)"
-            }
-        }
-        
         let group = DispatchGroup()
         group.enter()
         
@@ -220,7 +203,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.to = nil
         dataStore?.fromFee = nil
         dataStore?.toFee = nil
-        dataStore?.minMaxToggleValue = nil
         
         getQuote(isInitialLaunch: false)
     }
@@ -439,7 +421,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                           to: dataStore.to,
                                                           fromFee: dataStore.fromFeeAmount,
                                                           toFee: dataStore.toFeeAmount,
-                                                          minMaxToggleValue: dataStore.minMaxToggleValue,
                                                           baseBalance: fromCurrency.state?.balance,
                                                           minimumAmount: dataStore.quote?.minimumValue))
     }
