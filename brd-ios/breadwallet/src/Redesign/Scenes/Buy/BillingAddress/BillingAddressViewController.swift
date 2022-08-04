@@ -169,7 +169,6 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
             
             // TODO: add a cycle to fetch countires and pass them to the coordinator (currently the coordinator does the call)
             coordinator?.showCountrySelector { [weak self] model in
-                cell.wrappedView.animateTo(state: .filled, withAnimation: false)
                 self?.interactor?.countrySelected(viewAction: .init(code: model?.code, countryFullName: model?.name))
             }
             
