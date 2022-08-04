@@ -173,10 +173,12 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
         
         guard let section = sections.firstIndex(of: Models.Sections.errors),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>> else {
-                  interactor?.showInfoPopup(viewAction: .init())
-                  return
-              }
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>>
+        else {
+            // TODO: this shows the info popup even on other errors
+//            interactor?.showInfoPopup(viewAction: .init())
+            return
+        }
         
         cell.setup { view in
             view.setup { [weak self] view in
@@ -229,7 +231,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay) {
-        coordinator?.showAssetSelector(currencies: dataStore?.currencies,
+        let currencies = dataStore?.currencies.filter { item in dataStore?.supportedCurrencies?.contains(where: { $0.name == item.code}) ?? false } ?? []
+        coordinator?.showAssetSelector(currencies: currencies,
                                        selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }
             

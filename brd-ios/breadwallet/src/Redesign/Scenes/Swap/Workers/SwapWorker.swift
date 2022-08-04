@@ -50,7 +50,7 @@ class SwapMapper: ModelMapper<SwapResponseData, Swap> {
               let amount = Decimal(string: response.amount)
         else { return nil }
 
-        return .init(exchangeId: "\(response.exchangeId)", currency: response.currency, amount: amount, address: response.address)
+        return .init(exchangeId: "\(response.exchangeId)", currency: response.currency.uppercased(), amount: amount, address: response.address)
     }
 }
 

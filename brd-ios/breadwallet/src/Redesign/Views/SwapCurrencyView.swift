@@ -221,20 +221,15 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         }
         
         cryptoStack.addArrangedSubview(selectorStackView)
-        selectorStackView.snp.makeConstraints { make in
-            make.width.equalTo(114)
-        }
-        
         selectorStackView.addArrangedSubview(iconImageView)
         iconImageView.snp.makeConstraints { make in
             make.width.equalTo(ViewSizes.medium.rawValue)
         }
         
         selectorStackView.addArrangedSubview(codeLabel)
-        codeLabel.snp.makeConstraints { make in
-            make.width.greaterThanOrEqualTo(50)
-            make.width.equalToSuperview().priority(.medium)
-        }
+//        codeLabel.snp.makeConstraints { make in
+//            make.width.equalTo(FieldHeights.common.rawValue)
+//        }
         selectorStackView.addArrangedSubview(selectorImageView)
         selectorImageView.snp.makeConstraints { make in
             make.width.equalTo(ViewSizes.small.rawValue)
@@ -313,6 +308,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         }
         
         codeLabel.text = viewModel.amount?.currency.code
+        codeLabel.sizeToFit()
         
         if let selectedCurrencyIcon = viewModel.amount?.currency.imageSquareBackground {
                 iconImageView.setup(with: .image(selectedCurrencyIcon))
