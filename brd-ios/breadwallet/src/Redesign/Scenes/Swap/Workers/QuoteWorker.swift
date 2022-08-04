@@ -11,34 +11,37 @@
 import Foundation
 
 struct QuoteRequestData: RequestModelData {
-    var security: String?
+    var from: String?
+    var to: String?
     
     func getParameters() -> [String: Any] {
-        return [:]
+        let params = [
+            "from": from,
+            "to": to
+        ]
+        return params.compactMapValues { $0 }
     }
 }
 
 struct QuoteModelResponse: ModelResponse {
     var quoteId: Int
-    var securityId: String
     var exchangeRate: Decimal
     var barTime: Double
     var timestamp: Double
     
-    var buyMarkup: Decimal
-    var sellMarkup: Decimal
-    var minimumUsdValue: Decimal
+    var markup: Decimal
+    var minimumValue: Decimal
+    var maximumValue: Decimal
 }
 
 struct Quote {
     var quoteId: Int
-    var securityId: String
     var exchangeRate: Decimal
     var timestamp: Double
     
-    var buyMarkup: Decimal
-    var sellMarkup: Decimal
-    var minUsdAmount: Decimal
+    var markup: Decimal
+    var minimumValue: Decimal
+    var maximumValue: Decimal
     
 }
 
@@ -47,19 +50,21 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
         guard let response = response else { return nil }
 
         return .init(quoteId: response.quoteId,
-                     securityId: response.securityId,
                      exchangeRate: response.exchangeRate,
                      timestamp: response.timestamp,
-                     buyMarkup: response.buyMarkup,
-                     sellMarkup: response.sellMarkup,
-                     minUsdAmount: response.minimumUsdValue)
+                     markup: response.markup,
+                     minimumValue: response.minimumValue,
+                     maximumValue: response.maximumValue)
     }
 }
 
 class QuoteWorker: BaseApiWorker<QuoteMapper> {
     override func getUrl() -> String {
-        guard let urlParams = (requestData as? QuoteRequestData)?.security else { return "" }
+        guard let urlParams = (requestData as? QuoteRequestData),
+              let from = urlParams.from,
+              let to = urlParams.to
+        else { return "" }
         
-        return APIURLHandler.getUrl(SwapEndpoints.quote, parameters: urlParams)
+        return APIURLHandler.getUrl(SwapEndpoints.quote, parameters: from, to)
     }
 }

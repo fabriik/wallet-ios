@@ -14,7 +14,7 @@ enum SwapEndpoints: String, URLType {
     static var baseURL: String = "https://" + E.apiUrl + "blocksatoshi/exchange/%@"
     
     case supportedCurrencies = "supported-currencies"
-    case quote = "quote?security=%@"
+    case quote = "quote?from=%@&to=%@"
     case exchange = "create"
     case details = "exchange/%@"
     case history = "exchanges"

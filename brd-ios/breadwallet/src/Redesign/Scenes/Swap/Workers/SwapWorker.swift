@@ -11,19 +11,19 @@
 import UIKit
 
 struct SwapRequestData: RequestModelData {
+    var deviceId: String?
     var quoteId: Int?
-    var quantity: Decimal
-    var termQuantity: Decimal?
+    var depositQuantity: Decimal
+    var withdrawalQuantity: Decimal?
     var destination: String?
-    var side: String?
     
     func getParameters() -> [String: Any] {
         let params: [String: Any?] = [
+            "device_id": deviceId,
            "quote_id": quoteId,
-           "base_quantity": quantity.description,
-           "term_quantity": termQuantity?.description,
-           "destination": destination,
-           "trade_side": side
+           "deposit_quantity": depositQuantity.description,
+           "withdrawal_quantity": withdrawalQuantity?.description,
+           "destination": destination
         ]
         
         return params.compactMapValues { $0 }
@@ -38,17 +38,10 @@ struct SwapResponseData: ModelResponse {
 }
 
 struct Swap: Model {
-    enum Side: String {
-        case buy
-        case sell
-    }
-    
     var exchangeId: String
     var currency: String
     var amount: Decimal
     var address: String
-    
-    var side: Side = .buy
 }
 
 class SwapMapper: ModelMapper<SwapResponseData, Swap> {

@@ -218,6 +218,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentInfoPopup(actionResponse: SwapModels.InfoPopup.ActionResponse) {
         // TODO: Localize.
+        return ()
         let popupViewModel = PopupViewModel(title: .text("Check your assets!"),
                                             body: """
 In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet.
