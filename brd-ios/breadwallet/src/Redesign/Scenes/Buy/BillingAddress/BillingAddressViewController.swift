@@ -162,14 +162,8 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
         // TODO: move to cell tap callback
         switch sections[indexPath.section] as? Models.Section {
         case .country:
-            guard let index = sections.firstIndex(of: Models.Section.country),
-                  let cell = tableView.cellForRow(at: .init(row: 0, section: index)) as? WrapperTableViewCell<FETextField> else {
-                return
-            }
-            
             // TODO: add a cycle to fetch countires and pass them to the coordinator (currently the coordinator does the call)
             coordinator?.showCountrySelector { [weak self] model in
-                cell.wrappedView.animateTo(state: .filled, withAnimation: false)
                 self?.interactor?.countrySelected(viewAction: .init(code: model?.code, countryFullName: model?.name))
             }
             

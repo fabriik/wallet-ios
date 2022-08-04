@@ -110,9 +110,9 @@ class BaseCoordinator: NSObject,
     }
     
     func showBuy() {
-        upgradeAccountOrShowPopup(checkForKyc: true) { [unowned self] showPopup in
+        upgradeAccountOrShowPopup(checkForKyc: true) { [weak self] showPopup in
             guard showPopup else { return }
-            openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy)
+            self?.openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy)
         }
     }
     

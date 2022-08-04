@@ -29,7 +29,8 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
         let sortedCurrencies = data?.sorted { !$0.isDisabled && $1.isDisabled }
         
         openModally(coordinator: ItemSelectionCoordinator.self,
-                    scene: Scenes.AssetSelection) { vc in
+                    scene: Scenes.AssetSelection,
+                    presentationStyle: .formSheet) { vc in
             vc?.dataStore?.items = sortedCurrencies
             vc?.itemSelected = selected
             vc?.prepareData()
@@ -44,7 +45,8 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
             .init(type: "MASTERCARD", number: "5509-193-1928-25", expiration: "7/33", image: nil)
         ]
         openModally(coordinator: ItemSelectionCoordinator.self,
-                    scene: Scenes.CardSelection) { vc in
+                    scene: Scenes.CardSelection,
+                    presentationStyle: .formSheet) { vc in
             vc?.dataStore?.isAddingEnabled = true
             vc?.dataStore?.items = items
             vc?.itemSelected = { item in
@@ -62,7 +64,8 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
     
     func showCountrySelector(selected: ((Country?) -> Void)?) {
         openModally(coordinator: ItemSelectionCoordinator.self,
-                    scene: Scenes.ItemSelection) { vc in
+                    scene: Scenes.ItemSelection,
+                    presentationStyle: .formSheet) { vc in
             vc?.itemSelected = { item in
                 selected?(item as? Country)
             }

@@ -32,7 +32,8 @@ class KYCCoordinator: BaseCoordinator,
     
     func showCountrySelector(countries: [Country], selected: ((Country?) -> Void)?) {
         openModally(coordinator: ItemSelectionCoordinator.self,
-                          scene: Scenes.ItemSelection) { vc in
+                    scene: Scenes.ItemSelection,
+                    presentationStyle: .formSheet) { vc in
             vc?.dataStore?.items = countries
             vc?.itemSelected = { item in
                 selected?(item as? Country)
