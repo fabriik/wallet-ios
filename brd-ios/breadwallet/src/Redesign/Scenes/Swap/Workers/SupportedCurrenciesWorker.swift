@@ -20,7 +20,7 @@ struct SupportedCurrency {
 
 class SupportedCurrenciesWorkerMapper: ModelMapper<SupportedCurrenciesResponseData, [SupportedCurrency]> {
     override func getModel(from response: SupportedCurrenciesResponseData?) -> [SupportedCurrency]? {
-        return response?.supportedCurrencies.compactMap { return .init(name: $0) }
+        return response?.supportedCurrencies.compactMap { return .init(name: $0.uppercased()) }
     }
 }
 

@@ -109,9 +109,8 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let section = sections[indexPath.section] as? Models.Sections
-        
-        guard section == Models.Sections.items else {
+        guard let section = sections[indexPath.section] as? Models.Sections,
+              section == Models.Sections.items else {
             addItemTapped?()
             return
         }

@@ -103,7 +103,7 @@ class BaseCoordinator: NSObject,
                 vc?.dataStore?.currencies = currencies
                 vc?.dataStore?.coreSystem = coreSystem
                 vc?.dataStore?.keyStore = keyStore
-                vc?.dataStore?.defaultCurrencyCode = Store.state.defaultCurrencyCode
+                vc?.dataStore?.defaultCurrencyCode = Store.state.defaultCurrencyCode.lowercased()
                 vc?.prepareData()
             }
         }
