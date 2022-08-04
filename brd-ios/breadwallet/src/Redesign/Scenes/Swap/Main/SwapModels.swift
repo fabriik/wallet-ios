@@ -33,7 +33,6 @@ enum SwapModels {
             var fromCryptoAmount: String?
             var toFiatAmount: String?
             var toCryptoAmount: String?
-            var minMaxToggleValue: FESegmentControl.Values?
         }
         
         struct ActionResponse {
@@ -43,7 +42,6 @@ enum SwapModels {
             var fromFee: Amount?
             var toFee: Amount?
             
-            var minMaxToggleValue: FESegmentControl.Values?
             var baseBalance: Amount?
             var minimumAmount: Decimal?
         }
@@ -52,7 +50,6 @@ enum SwapModels {
             var continueEnabled = false
             var amounts: MainSwapViewModel
             var rate: ExchangeRateViewModel
-            var minMaxToggleValue: SegmentControlViewModel
         }
     }
     

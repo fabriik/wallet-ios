@@ -139,11 +139,10 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 presentError(actionResponse: .init(error: nil))
             }
         }
-//
+
         viewController?.displaySetAmount(responseDisplay: .init(continueEnabled: !hasError,
                                                                 amounts: swapModel,
-                                                                rate: exchangeRateViewModel,
-                                                                minMaxToggleValue: .init(selectedIndex: actionResponse.minMaxToggleValue)))
+                                                                rate: exchangeRateViewModel))
     }
     
     func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse) {
