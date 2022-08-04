@@ -17,10 +17,10 @@ struct DateConfiguration: Configurable {
 
 struct DateViewModel: ViewModel {
     var date: Date?
-    var title: LabelViewModel? = .text("Date of birth")
-    var month: TextFieldModel? = .init(title: "MM")
-    var day: TextFieldModel? = .init(title: "DD")
-    var year: TextFieldModel? = .init(title: "YYYY")
+    var title: LabelViewModel?
+    var month: TextFieldModel?
+    var day: TextFieldModel?
+    var year: TextFieldModel?
 }
 
 class DateView: FEView<DateConfiguration, DateViewModel>, StateDisplayable {
@@ -107,19 +107,6 @@ class DateView: FEView<DateConfiguration, DateViewModel>, StateDisplayable {
         monthTextfield.setup(with: viewModel?.month)
         dayTextField.setup(with: viewModel?.day)
         yearTextField.setup(with: viewModel?.year)
-        
-        guard let date = viewModel?.date else { return }
-        let components = Calendar.current.dateComponents([.day, .year, .month], from: date)
-        
-        guard let month = components.month,
-              let day = components.day,
-              let year = components.year else { return }
-        
-        monthTextfield.value = "\(month)"
-        dayTextField.value = "\(day)"
-        yearTextField.value = "\(year)"
-        
-        stack.layoutIfNeeded()
     }
     
     @objc private func triggerPresentPicker() {
