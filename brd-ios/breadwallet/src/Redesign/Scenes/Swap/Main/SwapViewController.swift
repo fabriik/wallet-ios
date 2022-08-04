@@ -214,6 +214,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         cell.setup { view in
             let model = responseDisplay.amounts
             view.setup(with: model)
+            view.contentSizeChanged = { [weak self] in
+                self?.tableView.beginUpdates()
+                self?.tableView.endUpdates()
+            }
         }
     }
     
