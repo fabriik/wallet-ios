@@ -25,6 +25,26 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
             .confirm
         ]
         
+        let dateViewModel: DateViewModel
+        let title: LabelViewModel? = .text("Date of birth")
+        
+        if let date = item.birthdate {
+            let components = Calendar.current.dateComponents([.day, .year, .month], from: date)
+            guard let month = components.month, let day = components.day, let year = components.year else { return }
+            
+            dateViewModel = DateViewModel(date: date,
+                                          title: title,
+                                          month: .init(value: "\(month)"),
+                                          day: .init(value: "\(day)"),
+                                          year: .init(value: "\(year)"))
+        } else {
+            dateViewModel = DateViewModel(date: nil,
+                                          title: title,
+                                          month: .init(title: "MM"),
+                                          day: .init(title: "DD"),
+                                          year: .init(title: "YYYY"))
+        }
+        
         let sectionRows: [Models.Section: [Any]] = [
             .name: [
                 DoubleHorizontalTextboxViewModel(primaryTitle: .text("Write your name as it appears on your ID"),
@@ -37,7 +57,7 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
                                trailing: .imageName("chevrondown"))
             ],
             .birthdate: [
-                DateViewModel(date: item.birthdate)
+                dateViewModel
             ],
             .confirm: [
                 ButtonViewModel(title: "Confirm")
