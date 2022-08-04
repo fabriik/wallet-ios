@@ -169,7 +169,7 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-        interactor?.submit(vieAction: .init())
+        interactor?.submit(viewAction: .init())
     }
 
     // MARK: - KYCBasicResponseDisplay

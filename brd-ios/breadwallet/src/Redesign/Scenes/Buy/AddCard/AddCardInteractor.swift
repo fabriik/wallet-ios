@@ -55,7 +55,7 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
         presenter?.presentValidate(actionResponse: .init(isValid: isValid))
     }
     
-    func submit(vieAction: AddCardModels.Submit.ViewAction) {
+    func submit(viewAction: AddCardModels.Submit.ViewAction) {
         presenter?.presentSubmit(actionResponse: .init())
     }
 }

@@ -94,7 +94,7 @@ class KYCBasicInteractor: NSObject, Interactor, KYCBasicViewActions {
         presenter?.presentValidate(actionResponse: .init(isValid: isValid))
     }
     
-    func submit(vieAction: KYCBasicModels.Submit.ViewAction) {
+    func submit(viewAction: KYCBasicModels.Submit.ViewAction) {
         guard let firstName = dataStore?.firstName,
               let lastName = dataStore?.lastName,
               let country = dataStore?.country,
