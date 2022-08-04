@@ -153,11 +153,6 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
         // TODO: move to cell tap callback
         switch sections[indexPath.section] as? Models.Section {
         case .country:
-            guard let index = sections.firstIndex(of: Models.Section.country),
-                  let cell = tableView.cellForRow(at: .init(row: 0, section: index)) as? WrapperTableViewCell<FETextField> else {
-                return
-            }
-            cell.wrappedView.animateTo(state: .filled, withAnimation: false)
             interactor?.pickCountry(viewAction: .init())
             
         default:
