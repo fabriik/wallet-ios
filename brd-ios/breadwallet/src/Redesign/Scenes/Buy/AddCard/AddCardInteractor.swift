@@ -22,7 +22,9 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
         let months: [String] = (1...12).compactMap { String($0) }
         let year = Calendar.current.component(.year, from: Date())
         let years: [String] = (year...year + 100).compactMap { String($0) }
-        dataStore?.monthsYears = .init(months: months, years: years)
+        
+        dataStore?.months = months
+        dataStore?.years = years
         
         presenter?.presentData(actionResponse: .init(item: dataStore))
     }
@@ -37,9 +39,9 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
     func cardExpDateSet(viewAction: AddCardModels.CardExpDate.ViewAction) {
         guard let index = viewAction.index else { return }
         
-        var month = dataStore?.monthsYears?.months[index.primaryRow] ?? ""
+        var month = dataStore?.months[index.primaryRow] ?? ""
         month = month.count == 1 ? "0\(month)" : month
-        let year = dataStore?.monthsYears?.years[index.secondaryRow] ?? ""
+        let year = dataStore?.years[index.secondaryRow] ?? ""
         dataStore?.cardExpDateString = "\(month)/\(year.dropFirst(2))"
         
         presenter?.presentData(actionResponse: .init(item: dataStore))
