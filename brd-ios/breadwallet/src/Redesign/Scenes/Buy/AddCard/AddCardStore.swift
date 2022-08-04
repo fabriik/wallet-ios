@@ -17,7 +17,8 @@ class AddCardStore: NSObject, BaseDataStore, AddCardDataStore {
     var cardNumber: String?
     var cardExpDateString: String?
     var cardCVV: String?
-    var monthsYears: AddCardModels.MonthsYears?
-    
+    var months: [String] = []
+    var years: [String] = []
+
     // MARK: - Aditional helpers
 }

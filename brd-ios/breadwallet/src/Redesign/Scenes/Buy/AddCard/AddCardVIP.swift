@@ -33,7 +33,8 @@ protocol AddCardDataStore: BaseDataStore, FetchDataStore {
     var cardNumber: String? { get set }
     var cardExpDateString: String? { get set }
     var cardCVV: String? { get set }
-    var monthsYears: AddCardModels.MonthsYears? { get set }
+    var months: [String] { get set }
+    var years: [String] { get set }
 }
 
 protocol AddCardDataPassing {

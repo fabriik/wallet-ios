@@ -78,8 +78,8 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
             }
             
             view.didTriggerExpirationField = { [weak self] in
-                guard let monthsYears = self?.dataStore?.monthsYears else { return }
-                self?.coordinator?.showMonthYearPicker(model: monthsYears)
+                guard let self = self, let dataStore = self.dataStore else { return }
+                self.coordinator?.showMonthYearPicker(model: [dataStore.months, dataStore.years])
             }
         }
         

@@ -21,11 +21,6 @@ enum AddCardModels {
         var footer: AccessoryType? { nil }
     }
     
-    struct MonthsYears {
-        var months: [String]
-        var years: [String]
-    }
-    
     struct CardNumberAndCVV {
         struct ViewAction {
             var number: String?
