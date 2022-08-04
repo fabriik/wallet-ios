@@ -227,9 +227,6 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         }
         
         selectorStackView.addArrangedSubview(codeLabel)
-//        codeLabel.snp.makeConstraints { make in
-//            make.width.equalTo(FieldHeights.common.rawValue)
-//        }
         selectorStackView.addArrangedSubview(selectorImageView)
         selectorImageView.snp.makeConstraints { make in
             make.width.equalTo(ViewSizes.small.rawValue)
