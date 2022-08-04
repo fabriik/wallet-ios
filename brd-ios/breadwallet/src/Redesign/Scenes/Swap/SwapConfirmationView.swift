@@ -27,8 +27,6 @@ struct SwapConfirmationViewModel: ViewModel {
     var sendingFee: TitleValueViewModel
     var receivingFee: TitleValueViewModel
     var totalCost: TitleValueViewModel
-    var info = IconDescriptionViewModel(image: .imageName("infoIcon"),
-                                        description: .text("Due to market volatility the final rate may slightly differ from the current one."))
 }
 
 class SwapConfirmationView: FEView<SwapConfimationConfiguration, SwapConfirmationViewModel> {
@@ -72,11 +70,6 @@ class SwapConfirmationView: FEView<SwapConfimationConfiguration, SwapConfirmatio
         return view
     }()
     
-    private lazy var infoView: IconDescriptionView = {
-        let view = IconDescriptionView()
-        return view
-    }()
-    
     override func setupSubviews() {
         super.setupSubviews()
         
@@ -114,11 +107,6 @@ class SwapConfirmationView: FEView<SwapConfimationConfiguration, SwapConfirmatio
         costView.snp.makeConstraints { make in
             make.height.equalTo(FieldHeights.small.rawValue)
         }
-        
-        mainStack.addArrangedSubview(infoView)
-        infoView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.common.rawValue)
-        }
     }
     
     override func configure(with config: SwapConfimationConfiguration?) {
@@ -130,7 +118,6 @@ class SwapConfirmationView: FEView<SwapConfimationConfiguration, SwapConfirmatio
         sendingFeeView.configure(with: config?.sendingFee)
         receivingFeeView.configure(with: config?.receivingFee)
         costView.configure(with: config?.totalCost)
-        infoView.configure(with: config?.info)
     }
     
     override func setup(with viewModel: SwapConfirmationViewModel?) {
@@ -142,6 +129,5 @@ class SwapConfirmationView: FEView<SwapConfimationConfiguration, SwapConfirmatio
         sendingFeeView.setup(with: viewModel?.sendingFee)
         receivingFeeView.setup(with: viewModel?.receivingFee)
         costView.setup(with: viewModel?.totalCost)
-        infoView.setup(with: viewModel?.info)
     }
 }
