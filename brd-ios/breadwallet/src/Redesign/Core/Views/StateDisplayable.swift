@@ -18,5 +18,6 @@ enum DisplayState {
 
 protocol StateDisplayable {
     var displayState: DisplayState { get set }
+    
     func animateTo(state: DisplayState, withAnimation: Bool)
 }

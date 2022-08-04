@@ -17,7 +17,7 @@ protocol KYCBasicViewActions: BaseViewActions, FetchViewActions {
     func birthDateSet(viewAction: KYCBasicModels.BirthDate.ViewAction)
     func nameSet(viewAction: KYCBasicModels.Name.ViewAction)
     func validate(viewAction: KYCBasicModels.Validate.ViewAction)
-    func submit(vieAction: KYCBasicModels.Submit.ViewAction)
+    func submit(viewAction: KYCBasicModels.Submit.ViewAction)
 }
 
 protocol KYCBasicActionResponses: BaseActionResponses, FetchActionResponses {

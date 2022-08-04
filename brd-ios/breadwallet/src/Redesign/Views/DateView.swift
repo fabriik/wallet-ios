@@ -72,9 +72,6 @@ class DateView: FEView<DateConfiguration, DateViewModel>, StateDisplayable {
     override func setupSubviews() {
         super.setupSubviews()
         
-        // TODO: Constant
-        let titleHeight: CGFloat = 20
-        
         content.addSubview(stack)
         stack.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -83,7 +80,7 @@ class DateView: FEView<DateConfiguration, DateViewModel>, StateDisplayable {
         
         stack.addArrangedSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.height.equalTo(titleHeight)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         stack.addArrangedSubview(dateStack)
@@ -133,13 +130,17 @@ class DateView: FEView<DateConfiguration, DateViewModel>, StateDisplayable {
     
     func animateTo(state: DisplayState, withAnimation: Bool = true) {
         guard let config = config else { return }
+        
         let background: BackgroundConfiguration?
+        
         switch state {
         case .selected:
             background = config.selected
+            
         default:
             background = config.normal
         }
+        
         displayState = state
         configure(background: background)
     }

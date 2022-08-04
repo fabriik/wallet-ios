@@ -25,11 +25,11 @@ struct ExchangeRateViewModel: ViewModel {
 class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel> {
     
     var completion: (() -> Void)? {
-        set {
-            timerView.completion = newValue
-        }
         get {
             return timerView.completion
+        }
+        set {
+            timerView.completion = newValue
         }
     }
     

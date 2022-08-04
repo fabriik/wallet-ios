@@ -21,7 +21,7 @@ protocol BillingAddressViewActions: BaseViewActions, FetchViewActions {
     func stateProvinceSet(viewAction: BillingAddressModels.StateProvince.ViewAction)
     func addressSet(viewAction: BillingAddressModels.Address.ViewAction)
     func validate(viewAction: BillingAddressModels.Validate.ViewAction)
-    func submit(vieAction: BillingAddressModels.Submit.ViewAction)
+    func submit(viewAction: BillingAddressModels.Submit.ViewAction)
 }
 
 protocol BillingAddressActionResponses: BaseActionResponses, FetchActionResponses {

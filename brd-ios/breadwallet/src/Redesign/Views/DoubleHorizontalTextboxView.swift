@@ -14,14 +14,16 @@ struct DoubleHorizontalTextboxViewConfiguration: Configurable {
 }
 
 struct DoubleHorizontalTextboxViewModel: ViewModel {
-    var title: LabelViewModel?
-    var first: TextFieldModel?
-    var second: TextFieldModel?
+    var primaryTitle: LabelViewModel?
+    var secondaryTitle: LabelViewModel?
+    var primary: TextFieldModel?
+    var secondary: TextFieldModel?
 }
 
 class DoubleHorizontalTextboxView: FEView<DoubleHorizontalTextboxViewConfiguration, DoubleHorizontalTextboxViewModel> {
     var contentSizeChanged: (() -> Void)?
     var valueChanged: ((_ first: String?, _ second: String?) -> Void)?
+    var didTriggerDateField: (() -> Void)?
     
     private lazy var stack: UIStackView = {
         let view = UIStackView()
@@ -37,17 +39,30 @@ class DoubleHorizontalTextboxView: FEView<DoubleHorizontalTextboxViewConfigurati
         return view
     }()
     
-    private lazy var titleLabel: FELabel = {
+    private lazy var titleStack: UIStackView = {
+        let view = UIStackView()
+        view.spacing = Margins.small.rawValue
+        view.distribution = .fillEqually
+        view.axis = .horizontal
+        return view
+    }()
+    
+    private lazy var mainTitleLabel: FELabel = {
         let view = FELabel()
         return view
     }()
     
-    private lazy var firstTextField: FETextField = {
+    private lazy var secondaryTitleLabel: FELabel = {
+        let view = FELabel()
+        return view
+    }()
+    
+    private lazy var primaryTextField: FETextField = {
         let view = FETextField()
         return view
     }()
     
-    private lazy var secondTextfield: FETextField = {
+    private lazy var secondaryTextField: FETextField = {
         let view = FETextField()
         return view
     }()
@@ -58,50 +73,55 @@ class DoubleHorizontalTextboxView: FEView<DoubleHorizontalTextboxViewConfigurati
     override func setupSubviews() {
         super.setupSubviews()
         
-        // TODO: Constant
-        let titleHeight: CGFloat = 20
-        
         content.addSubview(stack)
         stack.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().priority(.low)
         }
         
-        stack.addArrangedSubview(titleLabel)
-        titleLabel.snp.makeConstraints { make in
-            make.height.equalTo(titleHeight)
+        stack.addArrangedSubview(titleStack)
+        titleStack.snp.makeConstraints { make in
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
+        titleStack.addArrangedSubview(mainTitleLabel)
+        titleStack.addArrangedSubview(secondaryTitleLabel)
+        
         stack.addArrangedSubview(contentStack)
-        contentStack.addArrangedSubview(firstTextField)
-        contentStack.addArrangedSubview(secondTextfield)
+        contentStack.addArrangedSubview(primaryTextField)
+        contentStack.addArrangedSubview(secondaryTextField)
     }
     
     override func configure(with config: DoubleHorizontalTextboxViewConfiguration?) {
         super.configure(with: config)
         
-        titleLabel.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two))
-        firstTextField.configure(with: Presets.TextField.primary)
-        secondTextfield.configure(with: Presets.TextField.primary)
+        mainTitleLabel.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two))
+        secondaryTitleLabel.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two))
+        primaryTextField.configure(with: Presets.TextField.primary)
+        secondaryTextField.configure(with: Presets.TextField.primary)
     }
     
     override func setup(with viewModel: DoubleHorizontalTextboxViewModel?) {
         super.setup(with: viewModel)
         
-        titleLabel.setup(with: viewModel?.title)
-        titleLabel.isHidden = viewModel?.title == nil
+        mainTitleLabel.setup(with: viewModel?.primaryTitle)
+        secondaryTitleLabel.setup(with: viewModel?.secondaryTitle)
         
-        first = viewModel?.first?.value
-        second = viewModel?.second?.value
-        firstTextField.setup(with: viewModel?.first)
-        secondTextfield.setup(with: viewModel?.second)
+        mainTitleLabel.isHidden = viewModel?.primaryTitle == nil
+        secondaryTitleLabel.isHidden = viewModel?.secondaryTitle == nil
+        titleStack.isHidden = viewModel?.primaryTitle == nil && viewModel?.secondaryTitle == nil
         
-        firstTextField.valueChanged = { [weak self] in
+        first = viewModel?.primary?.value
+        second = viewModel?.secondary?.value
+        primaryTextField.setup(with: viewModel?.primary)
+        secondaryTextField.setup(with: viewModel?.secondary)
+        
+        primaryTextField.valueChanged = { [weak self] in
             self?.first = $0
             self?.stateChanged()
         }
         
-        secondTextfield.valueChanged = { [weak self] in
+        secondaryTextField.valueChanged = { [weak self] in
             self?.second = $0
             self?.stateChanged()
         }

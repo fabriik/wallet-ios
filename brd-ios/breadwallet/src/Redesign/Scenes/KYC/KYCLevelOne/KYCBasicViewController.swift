@@ -28,9 +28,6 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
     override func setupSubviews() {
         super.setupSubviews()
         
-        tableView.register(WrapperTableViewCell<DoubleHorizontalTextboxView>.self)
-        tableView.register(WrapperTableViewCell<DateView>.self)
-        
         setRoundedShadowBackground()
     }
     
@@ -172,7 +169,7 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-        interactor?.submit(vieAction: .init())
+        interactor?.submit(viewAction: .init())
     }
 
     // MARK: - KYCBasicResponseDisplay

@@ -18,7 +18,7 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     typealias Models = BillingAddressModels
     
     override var sceneTitle: String? {
-        // TODO: localize
+        // TODO: Localize
         return "Billing address"
     }
     private var isValid = false
@@ -27,8 +27,6 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     
     override func setupSubviews() {
         super.setupSubviews()
-        
-        tableView.register(WrapperTableViewCell<DoubleHorizontalTextboxView>.self)
         
         setRoundedShadowBackground()
     }
@@ -184,7 +182,7 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-        interactor?.submit(vieAction: .init())
+        interactor?.submit(viewAction: .init())
     }
 
     // MARK: - BillingAddressResponseDisplay
@@ -197,12 +195,10 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     }
     
     func displaySubmit(responseDisplay: BillingAddressModels.Submit.ResponseDisplay) {
-        coordinator?.showOverlay(with: .success) {
-            UserManager.shared.refresh { [weak self] _ in
-                self?.coordinator?.goBack(completion: {
-                    // TODO: .goBack() does not work!
-                })
-            }
+        coordinator?.showOverlay(with: .success) { [weak self] in
+            self?.coordinator?.goBack(completion: {
+                // TODO: .goBack() does not work!
+            })
         }
     }
     

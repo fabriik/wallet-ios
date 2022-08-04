@@ -31,10 +31,10 @@ final class BillingAddressPresenter: NSObject, Presenter, BillingAddressActionRe
         
         let sectionRows: [Models.Section: [Any]] = [
             .name: [
-                DoubleHorizontalTextboxViewModel(first: .init(title: "First Name",
-                                                              value: item.firstName),
-                                                 second: .init(title: "Last Name",
-                                                               value: item.lastName))
+                DoubleHorizontalTextboxViewModel(primary: .init(title: "First Name",
+                                                                value: item.firstName),
+                                                 secondary: .init(title: "Last Name",
+                                                                  value: item.lastName))
             ],
             .country: [
                 TextFieldModel(title: "Country",
@@ -46,10 +46,10 @@ final class BillingAddressPresenter: NSObject, Presenter, BillingAddressActionRe
                                value: item.stateProvince)
             ],
             .cityAndZipPostal: [
-                DoubleHorizontalTextboxViewModel(first: .init(title: "City",
-                                                              value: item.city),
-                                                 second: .init(title: "ZIP/Postal Code",
-                                                               value: item.zipPostal))
+                DoubleHorizontalTextboxViewModel(primary: .init(title: "City",
+                                                                value: item.city),
+                                                 secondary: .init(title: "ZIP/Postal Code",
+                                                                  value: item.zipPostal))
             ],
             .address: [
                 TextFieldModel(title: "Address",

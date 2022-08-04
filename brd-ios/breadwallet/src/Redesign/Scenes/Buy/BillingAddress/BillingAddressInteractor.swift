@@ -68,7 +68,7 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
         presenter?.presentValidate(actionResponse: .init(isValid: isValid))
     }
     
-    func submit(vieAction: BillingAddressModels.Submit.ViewAction) {
+    func submit(viewAction: BillingAddressModels.Submit.ViewAction) {
         presenter?.presentSubmit(actionResponse: .init())
     }
 }
