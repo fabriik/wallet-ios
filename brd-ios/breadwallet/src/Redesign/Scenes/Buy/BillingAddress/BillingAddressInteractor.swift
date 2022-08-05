@@ -22,6 +22,21 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
         presenter?.presentData(actionResponse: .init(item: dataStore))
     }
     
+    func getPaymentCards(viewAction: BillingAddressModels.PaymentCards.ViewAction) {
+        let data = PaymentCardsRequestData()
+        CardsWorker().execute(requestData: data) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let data):
+                self.presenter?.presentPaymentCards(actionResponse: .init(allPaymentCards: data))
+                
+            case .failure(let error):
+                self.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
+    }
+    
     func stateProvinceSet(viewAction: BillingAddressModels.StateProvince.ViewAction) {
         dataStore?.stateProvince = viewAction.stateProvince
         
@@ -48,12 +63,26 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
         validate(viewAction: .init())
     }
     
-    func countrySelected(viewAction: BillingAddressModels.Country.ViewAction) {
-        dataStore?.country = viewAction.code
-        dataStore?.countryFullName = viewAction.countryFullName
+    func pickCountry(viewAction: BillingAddressModels.SelectCountry.ViewAction) {
+        guard viewAction.code == nil else {
+            dataStore?.country = viewAction.code
+            dataStore?.countryFullName = viewAction.countryFullName
+            presenter?.presentData(actionResponse: .init(item: dataStore))
+            validate(viewAction: .init())
+            
+            return
+        }
         
-        presenter?.presentData(actionResponse: .init(item: dataStore))
-        validate(viewAction: .init())
+        let data = CountriesRequestData()
+        CountriesWorker().execute(requestData: data) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.presenter?.presentCountry(actionResponse: .init(countries: data))
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
     }
     
     func validate(viewAction: BillingAddressModels.Validate.ViewAction) {

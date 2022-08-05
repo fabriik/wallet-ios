@@ -19,6 +19,6 @@ class AddCardStore: NSObject, BaseDataStore, AddCardDataStore {
     var cardCVV: String?
     var months: [String] = []
     var years: [String] = []
-
+    
     // MARK: - Aditional helpers
 }

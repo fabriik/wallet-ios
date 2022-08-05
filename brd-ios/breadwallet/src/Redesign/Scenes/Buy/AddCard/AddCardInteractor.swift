@@ -44,7 +44,7 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
         }
         
         if let cvv = viewAction.cvv {
-            dataStore?.cardNumber = cvv
+            dataStore?.cardCVV = cvv
         }
         
         validate(viewAction: .init())

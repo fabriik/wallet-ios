@@ -11,9 +11,19 @@ import UIKit
 class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
     // MARK: - BuyRoutes
 
-    // MARK: - Aditional helpers
     override func start() {
         open(scene: Scenes.Buy)
+    }
+    
+    func setBuy(card: PaymentCard) {
+        set(coordinator: BuyCoordinator.self, scene: Scenes.Buy) { vc in
+            vc?.dataStore?.paymentCard = card
+            vc?.prepareData()
+        }
+    }
+    
+    func showBillingAddress() {
+        open(scene: Scenes.BillingAddress)
     }
     
     func showAssetSelector(currencies: [Currency]?, selected: ((Any?) -> Void)?) {
@@ -37,38 +47,35 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
         }
     }
     
-    // TODO: pass card model
-    func showCardSelector(selected: ((PaymentCard?) -> Void)?) {
-        let items: [PaymentCard] = [
-            .init(type: "VISA", number: "999-999-99-9", expiration: "5/26", image: nil),
-            .init(type: "AMEX", number: "239-4232-11-0", expiration: "1/23", image: nil),
-            .init(type: "MASTERCARD", number: "5509-193-1928-25", expiration: "7/33", image: nil)
-        ]
-        openModally(coordinator: ItemSelectionCoordinator.self,
-                    scene: Scenes.CardSelection,
-                    presentationStyle: .formSheet) { vc in
-            vc?.dataStore?.isAddingEnabled = true
-            vc?.dataStore?.items = items
-            vc?.itemSelected = { item in
-                selected?(item as? PaymentCard)
-            }
-            vc?.prepareData()
-            
-            vc?.addItemTapped = { [weak self] in
-                vc?.dismiss(animated: true, completion: {
-                    self?.showUnderConstruction("Add new card flow")
-                })
+    func showCardSelector(cards: [PaymentCard], selected: ((PaymentCard?) -> Void)?) {
+        if cards.isEmpty == true {
+            open(scene: Scenes.AddCard)
+        } else {
+            open(scene: Scenes.CardSelection) { [weak self] vc in
+                vc.dataStore?.isAddingEnabled = true
+                vc.dataStore?.items = cards
+                vc.itemSelected = { item in
+                    selected?(item as? PaymentCard)
+                    self?.popFlow()
+                }
+                vc.prepareData()
+                
+                vc.addItemTapped = { [weak self] in
+                    self?.open(scene: Scenes.AddCard)
+                }
             }
         }
     }
     
-    func showCountrySelector(selected: ((Country?) -> Void)?) {
+    func showCountrySelector(countries: [Country], selected: ((Country?) -> Void)?) {
         openModally(coordinator: ItemSelectionCoordinator.self,
                     scene: Scenes.ItemSelection,
                     presentationStyle: .formSheet) { vc in
+            vc?.dataStore?.items = countries
             vc?.itemSelected = { item in
                 selected?(item as? Country)
             }
+            vc?.prepareData()
         }
     }
     
@@ -79,21 +86,20 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
     func showInfo(from: String, to: String, exchangeId: String) {
         
     }
-}
-
-struct PaymentCard: ItemSelectable {
-    // TODO: add w/e is needed
-    var type: String?
-    var number: String?
-    var expiration: String?
-    var image: UIImage?
     
-    var displayName: String? { return number }
-    var displayImage: ImageViewModel? {
-        guard let image = image else {
-            return .imageName("close")
+    // MARK: - Aditional helpers
+    
+    func dismissFlow() {
+        navigationController.dismiss(animated: true)
+        parentCoordinator?.childDidFinish(child: self)
+    }
+    
+    @objc func popFlow() {
+        if navigationController.children.count == 1 {
+            dismissFlow()
         }
-        return .image(image)
+        
+        navigationController.popToRootViewController(animated: true)
     }
 }
 

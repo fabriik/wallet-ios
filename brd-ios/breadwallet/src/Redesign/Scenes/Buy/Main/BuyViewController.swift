@@ -132,8 +132,9 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             view.configure(with: .init())
             view.setup(with: model)
             view.didTapSelectAsset = { [weak self] in
-                self?.coordinator?.showCardSelector(selected: { card in
-                    self?.interactor?.setAssets(viewAction: .init(card: card))
+                guard let cards = self?.dataStore?.allPaymentCards else { return }
+                self?.coordinator?.showCardSelector(cards: cards, selected: { selectedCard in
+                    self?.interactor?.setAssets(viewAction: .init(card: selectedCard))
                 })
             }
         }

@@ -32,6 +32,33 @@ enum BillingAddressModels {
         }
     }
     
+    struct PaymentCards {
+        struct ViewAction {}
+        
+        struct ActionResponse {
+            var allPaymentCards: [PaymentCard]
+        }
+        
+        struct ResponseDisplay {
+            var allPaymentCards: [PaymentCard]
+        }
+    }
+    
+    struct SelectCountry {
+        struct ViewAction {
+            var code: String?
+            var countryFullName: String?
+        }
+        
+        struct ActionResponse {
+            var countries: [Country]?
+        }
+        
+        struct ResponseDisplay {
+            var countries: [Country]
+        }
+    }
+    
     struct StateProvince {
         struct ViewAction {
             var stateProvince: String?
@@ -48,13 +75,6 @@ enum BillingAddressModels {
         struct ViewAction {
             var city: String?
             var zipPostal: String?
-        }
-    }
-    
-    struct Country {
-        struct ViewAction {
-            var code: String?
-            var countryFullName: String?
         }
     }
     
