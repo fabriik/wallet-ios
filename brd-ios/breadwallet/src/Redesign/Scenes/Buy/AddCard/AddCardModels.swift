@@ -48,4 +48,12 @@ enum AddCardModels {
         
         struct ResponseDisplay {}
     }
+    
+    struct InfoPopup {
+        struct ViewAction {}
+        struct ActionResponse {}
+        struct ResponseDisplay {
+            var model: PopupViewModel
+        }
+    }
 }

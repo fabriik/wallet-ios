@@ -16,16 +16,19 @@ extension Scenes {
 
 protocol AddCardViewActions: BaseViewActions, FetchViewActions {
     func cardInfoSet(viewAction: AddCardModels.CardInfo.ViewAction)
+    func showInfoPopup(viewAction: AddCardModels.InfoPopup.ViewAction)
 }
 
 protocol AddCardActionResponses: BaseActionResponses, FetchActionResponses {
     func presentValidate(actionResponse: AddCardModels.Validate.ActionResponse)
     func presentSubmit(actionResponse: AddCardModels.Submit.ActionResponse)
+    func presentInfoPopup(actionResponse: AddCardModels.InfoPopup.ActionResponse)
 }
 
 protocol AddCardResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displayValidate(responseDisplay: AddCardModels.Validate.ResponseDisplay)
     func displaySubmit(responseDisplay: AddCardModels.Submit.ResponseDisplay)
+    func displayInfoPopup(responseDisplay: AddCardModels.InfoPopup.ResponseDisplay)
 }
 
 protocol AddCardDataStore: BaseDataStore, FetchDataStore {

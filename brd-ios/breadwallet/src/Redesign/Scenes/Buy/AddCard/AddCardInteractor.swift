@@ -61,4 +61,8 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
     func submit(viewAction: AddCardModels.Submit.ViewAction) {
         presenter?.presentSubmit(actionResponse: .init())
     }
+    
+    func showInfoPopup(viewAction: AddCardModels.InfoPopup.ViewAction) {
+        presenter?.presentInfoPopup(actionResponse: .init())
+    }
 }

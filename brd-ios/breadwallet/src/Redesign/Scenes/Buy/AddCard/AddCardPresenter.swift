@@ -52,4 +52,10 @@ final class AddCardPresenter: NSObject, Presenter, AddCardActionResponses {
     func presentSubmit(actionResponse: AddCardModels.Submit.ActionResponse) {
         viewController?.displaySubmit(responseDisplay: .init())
     }
+    
+    func presentInfoPopup(actionResponse: AddCardModels.InfoPopup.ActionResponse) {
+        let model = Presets.BuyPopupView.cardSecurityCode
+        
+        viewController?.displayInfoPopup(responseDisplay: .init(model: model))
+    }
 }
