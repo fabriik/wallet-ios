@@ -195,7 +195,7 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     func displayPaymentCards(responseDisplay: BillingAddressModels.PaymentCards.ResponseDisplay) {
         coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards, selected: { [weak self] selectedCard in
             guard let selectedCard = selectedCard else { return }
-            self?.coordinator?.setBuy(card: selectedCard)
+            self?.coordinator?.reloadBuy(card: selectedCard)
         })
     }
     
