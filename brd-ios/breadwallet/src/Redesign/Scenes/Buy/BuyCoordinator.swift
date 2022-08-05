@@ -15,11 +15,10 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
         open(scene: Scenes.Buy)
     }
     
-    func setBuy(card: PaymentCard) {
-        set(coordinator: BuyCoordinator.self, scene: Scenes.Buy) { vc in
-            vc?.dataStore?.paymentCard = card
-            vc?.prepareData()
-        }
+    func reloadBuy(card: PaymentCard) {
+        let buyVC = navigationController.children.first(where: { $0 is BuyViewController }) as? BuyViewController
+        buyVC?.dataStore?.paymentCard = card
+        buyVC?.prepareData()
     }
     
     func showBillingAddress() {
