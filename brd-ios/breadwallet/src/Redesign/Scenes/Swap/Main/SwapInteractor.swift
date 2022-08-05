@@ -141,6 +141,19 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         })
     }
     
+    private func getEstimateEthFee(amount: Decimal?,
+                                   currency: String?,
+                                   address: String?,
+                                   completion: @escaping ((Result<EstimateFee, Error>) -> Void)) {
+        let data = EstimateFeeRequestData(amount: amount,
+                                          currency: currency,
+                                          destination: address)
+        
+        EstimateFeeWorker().execute(requestData: data) { result in
+            completion(result)
+        }
+    }
+    
     func switchPlaces(viewAction: SwapModels.SwitchPlaces.ViewAction) {
         let from = dataStore?.fromCurrency
         dataStore?.fromCurrency = dataStore?.toCurrency
@@ -168,11 +181,24 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             switch result {
             case .success(let fee):
                 self?.dataStore?.fromFee = fee
+                group.leave()
                 
-            case .failure(let error):
-                print(error)
+            case .failure:
+                self?.dataStore?.fromFee = nil
+                self?.getEstimateEthFee(amount: self?.dataStore?.from?.tokenValue,
+                                        currency: self?.dataStore?.fromCurrency?.code,
+                                        address: self?.dataStore?.fromCurrency?.wallet?.receiveAddress,
+                                        completion: { [weak self] result in
+                    switch result {
+                    case .success(let fee):
+                        self?.dataStore?.fromFeeEth = fee.fee
+                        
+                    case .failure(let error):
+                        self?.presenter?.presentError(actionResponse: .init(error: error))
+                    }
+                    group.leave()
+                })
             }
-            group.leave()
         }
         
         group.enter()
@@ -182,11 +208,24 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             switch result {
             case .success(let fee):
                 self?.dataStore?.toFee = fee
+                group.leave()
                 
-            case .failure(let error):
-                print(error)
+            case .failure:
+                self?.dataStore?.toFee = nil
+                self?.getEstimateEthFee(amount: self?.dataStore?.to?.tokenValue,
+                                        currency: self?.dataStore?.toCurrency?.code,
+                                        address: self?.dataStore?.toCurrency?.wallet?.receiveAddress,
+                                        completion: { [weak self] result in
+                    switch result {
+                    case .success(let fee):
+                        self?.dataStore?.toFeeEth = fee.fee
+                        
+                    case .failure(let error):
+                        self?.presenter?.presentError(actionResponse: .init(error: error))
+                    }
+                    group.leave()
+                })
             }
-            group.leave()
         }
         
         group.notify(queue: .main) { [weak self] in
@@ -276,6 +315,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
               let fee = dataStore?.toFee,
               let exchangeId = dataStore?.swap?.exchangeId
         else {
+            presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee(fee: dataStore?.fromFeeEth ?? 0)))
             return
         }
         
@@ -382,36 +422,35 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: dataStore?.swapPair)))
             return
         }
-        let fromFee = dataStore.fromFeeAmount
-        let toFee = dataStore.toFeeAmount
+        let fromFee = dataStore.fromFeeAmount?.tokenValue ?? dataStore.fromFeeEth ?? 0
+        let toFee = dataStore.toFeeAmount?.tokenValue ?? dataStore.toFeeEth ?? 0
         
         let fromRate = dataStore.fromRate ?? 0
         let toRate = dataStore.toRate ?? 0
         
-//    buy: term_quantity = (base_quantity * exchange_rate) * buy_markup
         let from: Decimal
         let to: Decimal
         if let fromCryptoAmount = viewAction.fromCryptoAmount,
            let fromCrypto = decimalFor(amount: fromCryptoAmount) {
             
             from = fromCrypto
-            to = (fromCrypto - (fromFee?.tokenValue ?? 0)) * exchangeRate / markup - (toFee?.tokenValue ?? 0)
+            to = (fromCrypto - fromFee) * exchangeRate / markup - toFee
             
         } else if let fromFiatAmount = viewAction.fromFiatAmount,
                   let fromFiat = decimalFor(amount: fromFiatAmount) {
             
             from = fromFiat / fromRate
-            to = (from - (fromFee?.tokenValue ?? 0)) * exchangeRate / markup - (toFee?.tokenValue ?? 0)
+            to = (from - fromFee) * exchangeRate / markup - toFee
         } else if let toCryptoAmount = viewAction.toCryptoAmount,
                   let toCrypto = decimalFor(amount: toCryptoAmount) {
             
-            from = (toCrypto + (toFee?.tokenValue ?? 0)) / exchangeRate * markup + (fromFee?.tokenValue ?? 0)
+            from = (toCrypto + toFee) / exchangeRate * markup + fromFee
             to = toCrypto
         } else if let toFiatAmount = viewAction.toFiatAmount,
                   let toFiat = decimalFor(amount: toFiatAmount) {
             
             to = toFiat / toRate
-            from = (to + (toFee?.tokenValue ?? 0)) / exchangeRate * markup + (fromFee?.tokenValue ?? 0)
+            from = (to + toFee) / exchangeRate * markup + fromFee
             
         } else {
             guard dataStore.fromCurrency != nil,
@@ -419,7 +458,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             else { return }
             
             from = dataStore.from?.tokenValue ?? 0
-            to =  (from - (fromFee?.tokenValue ?? 0)) * exchangeRate / markup - (toFee?.tokenValue ?? 0)
+            to =  (from - fromFee) * exchangeRate / markup - toFee
         }
         
         dataStore.from = amountFrom(decimal: from, currency: fromCurrency)
@@ -427,8 +466,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore.to = amountFrom(decimal: to, currency: toCurrency)
         presenter?.presentSetAmount(actionResponse: .init(from: dataStore.from,
                                                           to: dataStore.to,
-                                                          fromFee: dataStore.fromFeeAmount,
-                                                          toFee: dataStore.toFeeAmount,
+                                                          fromFee: dataStore.fromFeeAmount ?? dataStore.fromEthFeeAmount,
+                                                          toFee: dataStore.toFeeAmount ?? dataStore.toEthFeeAmount,
                                                           baseBalance: fromCurrency.state?.balance,
                                                           minimumAmount: minimum.fiatValue
                                                          ))

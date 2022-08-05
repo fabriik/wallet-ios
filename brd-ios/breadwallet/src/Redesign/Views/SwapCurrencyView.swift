@@ -221,6 +221,9 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         }
         
         cryptoStack.addArrangedSubview(selectorStackView)
+        selectorStackView.snp.makeConstraints { make in
+            make.width.equalTo(ViewSizes.huge.rawValue)
+        }
         selectorStackView.addArrangedSubview(iconImageView)
         iconImageView.snp.makeConstraints { make in
             make.width.equalTo(ViewSizes.medium.rawValue)
@@ -292,7 +295,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         titleLabel.text = viewModel.title
         
         let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 8
+        formatter.maximumFractionDigits = 4
         
         if !fiatAmountField.isFirstResponder,
            let value = viewModel.amount?.fiatValue {

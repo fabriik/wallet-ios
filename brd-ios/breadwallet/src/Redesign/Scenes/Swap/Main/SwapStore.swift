@@ -21,6 +21,8 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     
     var fromFee: TransferFeeBasis?
     var toFee: TransferFeeBasis?
+    var fromFeeEth: Decimal?
+    var toFeeEth: Decimal?
     
     var quote: Quote?
     var fromRate: Decimal?
@@ -61,6 +63,24 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         else { return nil }
 
         return Amount(cryptoAmount: fee, currency: currency)
+    }
+    
+    var fromEthFeeAmount: Amount? {
+        guard fromFee?.fee == nil,
+              let currency = currencies.first(where: { $0.code == "ETH" }),
+              let fee = fromFeeEth
+        else { return nil }
+
+        return Amount(tokenString: fee.description, currency: currency)
+    }
+    
+    var toEthFeeAmount: Amount? {
+        guard toFee?.fee == nil,
+              let currency = currencies.first(where: { $0.code == "ETH" }),
+              let fee = toFeeEth
+        else { return nil }
+
+        return Amount(tokenString: fee.description, currency: currency)
     }
     
     var swapPair: String {

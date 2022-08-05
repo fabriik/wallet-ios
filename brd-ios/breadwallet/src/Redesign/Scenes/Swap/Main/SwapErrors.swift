@@ -22,6 +22,7 @@ enum SwapErrors: FEError {
     case overDailyLimit
     case overLifetimeLimit
     // TODO: unoficial error xD
+    case notEnouthEthForFee(fee: Decimal)
     case noFees
     case networkFee
     case overExchangeLimit
@@ -58,7 +59,7 @@ enum SwapErrors: FEError {
             return "No network fees."
             
         case .networkFee:
-            return "This swap doesn't cover the included network fee. Please add more funds to your wallet or change the amount you're swapping."
+            return "This swap doesn't cover the included network fee. Please add more funds to your ETH wallet or change the amount you're swapping."
             
         case .noQuote(let pair):
             return "No quote for currency pair \(pair ?? "<missing>")."
@@ -68,6 +69,9 @@ enum SwapErrors: FEError {
             
         case  .pinConfirmation:
             return "PIN Authentication failed"
+            
+        case .notEnouthEthForFee(let fee):
+            return "Not enouth ETH to pay for the network fee. Please deposit at least \(fee.description) ETH."
         }
     }
 }

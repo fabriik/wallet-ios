@@ -63,8 +63,10 @@ enum ViewSizes: CGFloat {
     case large = 80.0
     /// 100
     case extraLarge = 100.0
+    /// 130
+    case huge = 130.0
     /// 150
-    case huge = 150.0
+    case extraHuge = 150.0
 }
 
 enum FieldHeights: CGFloat {
