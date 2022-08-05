@@ -15,21 +15,26 @@ extension Scenes {
 }
 
 protocol BillingAddressViewActions: BaseViewActions, FetchViewActions {
-    func countrySelected(viewAction: BillingAddressModels.Country.ViewAction)
+    func pickCountry(viewAction: BillingAddressModels.SelectCountry.ViewAction)
     func nameSet(viewAction: BillingAddressModels.Name.ViewAction)
     func cityAndZipPostalSet(viewAction: BillingAddressModels.CityAndZipPostal.ViewAction)
     func stateProvinceSet(viewAction: BillingAddressModels.StateProvince.ViewAction)
     func addressSet(viewAction: BillingAddressModels.Address.ViewAction)
+    func getPaymentCards(viewAction: BillingAddressModels.PaymentCards.ViewAction)
     func validate(viewAction: BillingAddressModels.Validate.ViewAction)
     func submit(viewAction: BillingAddressModels.Submit.ViewAction)
 }
 
 protocol BillingAddressActionResponses: BaseActionResponses, FetchActionResponses {
+    func presentCountry(actionResponse: BillingAddressModels.SelectCountry.ActionResponse)
+    func presentPaymentCards(actionResponse: BillingAddressModels.PaymentCards.ActionResponse)
     func presentValidate(actionResponse: BillingAddressModels.Validate.ActionResponse)
     func presentSubmit(actionResponse: BillingAddressModels.Submit.ActionResponse)
 }
 
 protocol BillingAddressResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
+    func displayCountry(responseDisplay: BillingAddressModels.SelectCountry.ResponseDisplay)
+    func displayPaymentCards(responseDisplay: BillingAddressModels.PaymentCards.ResponseDisplay)
     func displayValidate(responseDisplay: BillingAddressModels.Validate.ResponseDisplay)
     func displaySubmit(responseDisplay: BillingAddressModels.Submit.ResponseDisplay)
 }
@@ -50,5 +55,5 @@ protocol BillingAddressDataPassing {
 }
 
 protocol BillingAddressRoutes: CoordinatableRoutes {
-    func showCountrySelector(selected: ((Country?) -> Void)?)
+    func showCountrySelector(countries: [Country], selected: ((Country?) -> Void)?)
 }

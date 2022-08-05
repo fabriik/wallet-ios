@@ -31,12 +31,6 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
         setRoundedShadowBackground()
     }
     
-    override func prepareData() {
-        super.prepareData()
-        
-        LoadingView.show()
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch sections[indexPath.section] as? Models.Section {
@@ -162,10 +156,7 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
         // TODO: move to cell tap callback
         switch sections[indexPath.section] as? Models.Section {
         case .country:
-            // TODO: add a cycle to fetch countires and pass them to the coordinator (currently the coordinator does the call)
-            coordinator?.showCountrySelector { [weak self] model in
-                self?.interactor?.countrySelected(viewAction: .init(code: model?.code, countryFullName: model?.name))
-            }
+            interactor?.pickCountry(viewAction: .init())
             
         default:
             return
@@ -180,6 +171,13 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     }
 
     // MARK: - BillingAddressResponseDisplay
+    
+    func displayCountry(responseDisplay: BillingAddressModels.SelectCountry.ResponseDisplay) {
+        coordinator?.showCountrySelector(countries: responseDisplay.countries) { [weak self] model in
+            self?.interactor?.pickCountry(viewAction: .init(code: model?.code, countryFullName: model?.name))
+        }
+    }
+    
     func displayValidate(responseDisplay: BillingAddressModels.Validate.ResponseDisplay) {
         guard let section = sections.firstIndex(of: Models.Section.confirm),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
@@ -190,10 +188,15 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     
     func displaySubmit(responseDisplay: BillingAddressModels.Submit.ResponseDisplay) {
         coordinator?.showOverlay(with: .success) { [weak self] in
-            self?.coordinator?.goBack(completion: {
-                // TODO: .goBack() does not work!
-            })
+            self?.interactor?.getPaymentCards(viewAction: .init())
         }
+    }
+    
+    func displayPaymentCards(responseDisplay: BillingAddressModels.PaymentCards.ResponseDisplay) {
+        coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards, selected: { [weak self] selectedCard in
+            guard let selectedCard = selectedCard else { return }
+            self?.coordinator?.setBuy(card: selectedCard)
+        })
     }
     
     // MARK: - Additional Helpers

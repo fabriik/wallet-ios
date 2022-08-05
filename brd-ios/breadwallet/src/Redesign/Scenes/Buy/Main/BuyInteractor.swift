@@ -32,8 +32,21 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             return
         }
         
-        getExchangeRate(viewAction: .init())
-        presenter?.presentData(actionResponse: .init(item: Models.Item(amount: .zero(currency), paymentCard: dataStore?.paymentCard)))
+        let data = PaymentCardsRequestData()
+        CardsWorker().execute(requestData: data) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let data):
+                self.dataStore?.allPaymentCards = data
+                
+                self.getExchangeRate(viewAction: .init())
+                self.presenter?.presentData(actionResponse: .init(item: Models.Item(amount: .zero(currency), paymentCard: self.dataStore?.paymentCard)))
+                
+            case .failure(let error):
+                self.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
     }
     
     func setAmount(viewAction: BuyModels.Amounts.ViewAction) {

@@ -100,6 +100,8 @@ class KYCCoordinator: BaseCoordinator,
         showUnderConstruction("\(document.title) verification")
     }
     
+    // MARK: - Aditional helpers
+    
     func dismissFlow() {
         navigationController.dismiss(animated: true)
         parentCoordinator?.childDidFinish(child: self)
