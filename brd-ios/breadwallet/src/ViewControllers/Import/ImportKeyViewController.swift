@@ -212,22 +212,38 @@ class ImportKeyViewController: UIViewController, Subscriber {
         }))
         present(alert, animated: true)
     }
-    
     private func submit(sweeper: WalletSweeper, fee: TransferFeeBasis) {
         guard let transfer = sweeper.submit(estimatedFeeBasis: fee) else {
             importingActivity.dismiss(animated: true)
             return showErrorMessage(L10n.Alerts.sendFailure)
         }
         wallet.subscribe(self) { event in
-            guard case .transferSubmitted(let eventTransfer, let success) = event,
-                eventTransfer.hash == transfer.hash else { return }
-            DispatchQueue.main.async {
-                self.importingActivity.dismiss(animated: true) {
-                    guard success else { return self.showErrorMessage(L10n.Import.Error.failedSubmit) }
-                    self.markAsReclaimed()
-                    self.showSuccess()
+            switch event {
+            case .transferSubmitted(let eventTransfer, let success):
+                guard eventTransfer.hash == transfer.hash,
+                        success
+                else {
+                    return self.showErrorMessage(L10n.Import.Error.failedSubmit)
                 }
+                
+                DispatchQueue.main.async {
+                    self.importingActivity.dismiss(animated: true) {
+                        self.markAsReclaimed()
+                        self.showSuccess()
+                    }
+                }
+                
+            default:
+                print("IMPORT: \(event.description)")
+                return
+                
             }
+        }
+        
+        // TODO: quick (not) fix... basically we just dismiss loading, cause WK is not returning any event updates
+        importingActivity.dismiss(animated: true) {
+            self.markAsReclaimed()
+            self.showSuccess()
         }
     }
     
