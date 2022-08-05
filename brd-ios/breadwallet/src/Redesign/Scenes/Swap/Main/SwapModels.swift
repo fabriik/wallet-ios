@@ -23,6 +23,12 @@ enum SwapModels {
         var footer: AccessoryType? { return nil }
     }
     
+    enum EstimateFeeResult {
+        case successFee(TransferFeeBasis)
+        case successEthFee(Decimal)
+        case failure(Error)
+    }
+    
     struct SwitchPlaces {
         struct ViewAction {}
     }

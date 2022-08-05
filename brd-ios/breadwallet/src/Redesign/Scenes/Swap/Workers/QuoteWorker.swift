@@ -35,7 +35,7 @@ struct QuoteModelResponse: ModelResponse {
     
     struct Fee: Codable {
         var feeCurrency: String
-        var rate: Double
+        var rate: Decimal
     }
     var fromFeeCurrency: Fee
     var toFeeCurrency: Fee
@@ -53,7 +53,7 @@ struct Quote {
     
     struct Fee: Codable {
         var feeCurrency: String
-        var rate: Double
+        var rate: Decimal
     }
     var fromFeeCurrency: Fee
     var toFeeCurrency: Fee
