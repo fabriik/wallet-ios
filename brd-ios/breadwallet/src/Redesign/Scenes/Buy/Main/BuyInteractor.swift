@@ -41,6 +41,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                 self.dataStore?.allPaymentCards = data
                 
                 self.getExchangeRate(viewAction: .init())
+                self.presenter?.presentAssets(actionResponse: .init(amount: self.dataStore?.from, card: self.dataStore?.paymentCard))
                 self.presenter?.presentData(actionResponse: .init(item: Models.Item(amount: .zero(currency), paymentCard: self.dataStore?.paymentCard)))
                 
             case .failure(let error):
