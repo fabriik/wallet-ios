@@ -103,7 +103,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         CoinGeckoClient().load(resource)
     }
     
-    private func estimateFee(amount: Decimal?, currencyCode: String?, completion: @escaping ((Result<TransferFeeBasis, Error>) -> Void)) {
+    private func estimateFee(amount: Decimal?, currencyCode: String?, completion: @escaping ((Models.EstimateFeeResult) -> Void)) {
         guard let amount = amount,
               amount > 0,
               amount.isNaN == false,
@@ -133,25 +133,24 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                            completion: { result in
             switch result {
             case .success(let fee):
-                completion(.success(fee))
+                completion(.successFee(fee))
                 
-            case .failure(let error):
-                completion(.failure(error))
+            case .failure:
+                let data = EstimateFeeRequestData(amount: amount,
+                                                  currency: currency.code,
+                                                  destination: address)
+                
+                EstimateFeeWorker().execute(requestData: data) { result in
+                    switch result {
+                    case .success(let fee):
+                        completion(.successEthFee(fee.fee))
+                        
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
             }
         })
-    }
-    
-    private func getEstimateEthFee(amount: Decimal?,
-                                   currency: String?,
-                                   address: String?,
-                                   completion: @escaping ((Result<EstimateFee, Error>) -> Void)) {
-        let data = EstimateFeeRequestData(amount: amount,
-                                          currency: currency,
-                                          destination: address)
-        
-        EstimateFeeWorker().execute(requestData: data) { result in
-            completion(result)
-        }
     }
     
     func switchPlaces(viewAction: SwapModels.SwitchPlaces.ViewAction) {
@@ -179,26 +178,16 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let from = dataStore?.from?.tokenValue == 0 ? NSDecimalNumber(string: viewAction.fromCryptoAmount ?? "0").decimalValue : dataStore?.from?.tokenValue
         estimateFee(amount: from, currencyCode: dataStore?.fromCurrency?.code) { [weak self] result in
             switch result {
-            case .success(let fee):
+            case .successFee(let fee):
                 self?.dataStore?.fromFee = fee
-                group.leave()
                 
-            case .failure:
-                self?.dataStore?.fromFee = nil
-                self?.getEstimateEthFee(amount: self?.dataStore?.from?.tokenValue,
-                                        currency: self?.dataStore?.fromCurrency?.code,
-                                        address: self?.dataStore?.fromCurrency?.wallet?.receiveAddress,
-                                        completion: { [weak self] result in
-                    switch result {
-                    case .success(let fee):
-                        self?.dataStore?.fromFeeEth = fee.fee
-                        
-                    case .failure(let error):
-                        self?.presenter?.presentError(actionResponse: .init(error: error))
-                    }
-                    group.leave()
-                })
+            case .successEthFee(let ethFee):
+                self?.dataStore?.fromFeeEth = ethFee
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             }
+            group.leave()
         }
         
         group.enter()
@@ -206,26 +195,16 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let to = dataStore?.to?.tokenValue == 0 ? NSDecimalNumber(string: viewAction.toCryptoAmount ?? "0").decimalValue : dataStore?.to?.tokenValue
         estimateFee(amount: to, currencyCode: dataStore?.toCurrency?.code) { [weak self] result in
             switch result {
-            case .success(let fee):
-                self?.dataStore?.toFee = fee
-                group.leave()
-                
-            case .failure:
-                self?.dataStore?.toFee = nil
-                self?.getEstimateEthFee(amount: self?.dataStore?.to?.tokenValue,
-                                        currency: self?.dataStore?.toCurrency?.code,
-                                        address: self?.dataStore?.toCurrency?.wallet?.receiveAddress,
-                                        completion: { [weak self] result in
-                    switch result {
-                    case .success(let fee):
-                        self?.dataStore?.toFeeEth = fee.fee
-                        
-                    case .failure(let error):
-                        self?.presenter?.presentError(actionResponse: .init(error: error))
-                    }
-                    group.leave()
-                })
+                case .successFee(let fee):
+                    self?.dataStore?.toFee = fee
+                    
+                case .successEthFee(let ethFee):
+                    self?.dataStore?.toFeeEth = ethFee
+                    
+                case .failure(let error):
+                    self?.presenter?.presentError(actionResponse: .init(error: error))
             }
+            group.leave()
         }
         
         group.notify(queue: .main) { [weak self] in
