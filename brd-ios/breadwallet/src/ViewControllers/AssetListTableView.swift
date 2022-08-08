@@ -158,7 +158,6 @@ class AssetListTableView: UITableViewController, Subscriber {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeScreenCellIds.regularCell.rawValue, for: indexPath)
         
-        
         if let cell = cell as? HomeScreenCell {
             cell.set(viewModel: viewModel)
         }

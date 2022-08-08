@@ -22,14 +22,18 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, SwapInfoRoutes {
         navigationController.dismiss(animated: true)
     }
     
-    func showAssetSelector(currencies: [Currency]?, selected: ((Any?) -> Void)?) {
-        let data: [AssetViewModel]? = currencies?.compactMap {
+    func showAssetSelector(currencies: [Currency]?, supportedCurrencies: [SupportedCurrency]?, selected: ((Any?) -> Void)?) {
+        let allCurrencies = CurrencyFileManager().getCurrencyMetaDataFromCache()
+        
+        let supportedCurrencies = allCurrencies.filter { item in supportedCurrencies?.contains(where: { $0.name.lowercased() == item.code}) ?? false }
+        
+        let data: [AssetViewModel]? = supportedCurrencies.compactMap {
             return AssetViewModel(icon: $0.imageSquareBackground,
                                   title: $0.name,
                                   subtitle: $0.code,
-                                  topRightText: HomeScreenAssetViewModel(currency: $0).tokenBalance,
-                                  bottomRightText: HomeScreenAssetViewModel(currency: $0).fiatBalance,
-                                  isDisabled: false)
+//                                  topRightText: HomeScreenAssetViewModel(currency: $0).tokenBalance,
+//                                  bottomRightText: HomeScreenAssetViewModel(currency: $0).fiatBalance,
+                                  isDisabled: isDisabledAsset(code: $0.code, currencies: currencies) ?? false)
         }
         
         let sortedCurrencies = data?.sorted { !$0.isDisabled && $1.isDisabled }
@@ -73,6 +77,13 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, SwapInfoRoutes {
             vc.prepareData()
         }
     }
+    
+    func isDisabledAsset(code: String?, currencies: [Currency]?) -> Bool? {
+        guard let assetCode = code?.uppercased() else { return false }
+        
+        return !(currencies?.contains(where: { $0.code == assetCode}) ?? false)
+    }
+    
     // MARK: - Aditional helpers
     
 }
