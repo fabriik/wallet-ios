@@ -50,26 +50,15 @@ struct CloudBackupView: View {
                 .fill(Color(Theme.primaryBackground))
             VStack {
                 CloudBackupViewBody()
-                if #available(iOS 14, *) {
-                    Toggle(isOn: $isBackupOn) {
-                        Text(L10n.CloudBackup.mainTitle)
-                            .font(Font(Theme.body1))
-                            .foregroundColor(Color(Theme.secondaryText))
-                    }
-                    .toggleStyle(SwitchToggleStyle(tint: Color(Theme.blueBackground)))
-                    .onReceive(Just(isBackupOn), perform: self.onToggleChange)
-                    .if(!E.isIPhone5, content: { $0.padding() })
-                    .if(E.isIPhone5, content: { $0.padding([.leading, .trailing]) })
-                } else {
-                    Toggle(isOn: $isBackupOn) {
-                        Text(L10n.CloudBackup.mainTitle)
-                            .font(Font(Theme.body1))
-                            .foregroundColor(Color(Theme.secondaryText))
-                    }
-                    .onReceive(Just(isBackupOn), perform: self.onToggleChange)
-                    .if(!E.isIPhone5, content: { $0.padding() })
-                    .if(E.isIPhone5, content: { $0.padding([.leading, .trailing]) })
+                Toggle(isOn: $isBackupOn) {
+                    Text(L10n.CloudBackup.mainTitle)
+                        .font(Font(Theme.body1))
+                        .foregroundColor(Color(Theme.secondaryText))
                 }
+                .toggleStyle(SwitchToggleStyle(tint: Color(Theme.blueBackground)))
+                .onReceive(Just(isBackupOn), perform: self.onToggleChange)
+                .if(!E.isIPhone5, content: { $0.padding() })
+                .if(E.isIPhone5, content: { $0.padding([.leading, .trailing]) })
                 
                 HStack {
                     Image(systemName: "exclamationmark.circle")
