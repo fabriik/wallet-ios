@@ -91,18 +91,14 @@ class EmailFeedbackManager: NSObject, MFMailComposeViewControllerDelegate {
     
     init?(feedback: Feedback, on viewController: UIViewController) {
         guard MFMailComposeViewController.canSendMail() else {
-            if #available(iOS 14.0, *) {
-                guard let mailTo = (EmailClients.defaultClient.scheme + String(format: EmailClients.defaultClient.params,
-                                                                               feedback.recipients,
-                                                                               feedback.subject,
-                                                                               feedback.body))
-                    .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                      let url = URL(string: mailTo) else { return nil }
-                
-                UIApplication.shared.open(url)
-            } else {
-                EmailFeedbackManager.showAvailableMailClientsAlert(on: viewController, with: feedback)
-            }
+            guard let mailTo = (EmailClients.defaultClient.scheme + String(format: EmailClients.defaultClient.params,
+                                                                           feedback.recipients,
+                                                                           feedback.subject,
+                                                                           feedback.body))
+                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                  let url = URL(string: mailTo) else { return nil }
+            
+            UIApplication.shared.open(url)
             
             return nil
         }
@@ -129,41 +125,6 @@ class EmailFeedbackManager: NSObject, MFMailComposeViewControllerDelegate {
             completion?(.failure(error))
         } else {
             completion?(.success(result))
-        }
-    }
-}
-
-extension EmailFeedbackManager {
-    static func showAvailableMailClientsAlert(on viewController: UIViewController, with feedback: EmailFeedbackManager.Feedback) {
-        let mailClients = getAllAvailableMailClients()
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        for client in mailClients {
-            let action = UIAlertAction(title: client.name, style: .default, handler: { _ in
-                guard let selectedClient = mailClients.first(where: { $0.scheme.contains(client.scheme) == true }),
-                      let mailTo = (selectedClient.scheme + String(format: selectedClient.params,
-                                                                   feedback.recipients,
-                                                                   feedback.subject,
-                                                                   feedback.body))
-                    .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                      let url = URL(string: mailTo) else { return }
-                
-                UIApplication.shared.open(url)
-            })
-            alert.addAction(action)
-        }
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        
-        viewController.present(alert, animated: true)
-    }
-    
-    private static func getAllAvailableMailClients() -> [EmailFeedbackManager.EmailClients] {
-        let allClients = EmailFeedbackManager.EmailClients.allCases
-        
-        return allClients.filter {
-            guard let url = URL(string: $0.scheme) else { return false }
-            return UIApplication.shared.canOpenURL(url)
         }
     }
 }

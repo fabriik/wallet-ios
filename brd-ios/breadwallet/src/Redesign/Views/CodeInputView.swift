@@ -111,14 +111,12 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
     override func configure(with config: CodeInputConfiguration?) {
         super.configure(with: config)
         
+        errorLabel.configure(with: config?.errorLabel)
+        configure(background: config?.normal)
+        
         inputStack.arrangedSubviews.forEach { field in
             (field as? FETextField)?.configure(with: config?.input)
         }
-        
-        errorLabel.configure(with: config?.errorLabel)
-        
-        configure(background: config?.normal)
-        animateTo(state: .normal, withAnimation: false)
     }
     
     @objc private func tapped() {
@@ -135,11 +133,11 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
         
         guard let text = textField.text,
               text.count <= numberOfFields else {
-                  if let text = textField.text?.prefix(numberOfFields) {
-                      textField.text = String(text)
-                  }
-                  return
-              }
+            if let text = textField.text?.prefix(numberOfFields) {
+                textField.text = String(text)
+            }
+            return
+        }
         
         animateTo(state: .selected)
         
