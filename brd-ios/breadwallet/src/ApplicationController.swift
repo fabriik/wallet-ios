@@ -384,28 +384,25 @@ class ApplicationController: Subscriber, Trackable {
                 self?.coordinator?.showRegistration()
                 
             case .failure(let error):
-                guard let error = error as? NetworkingError,
-                      error == .sessionExpired else {
-                    self?.coordinator?.showMessage(with: error)
-                    return
-                }
-                
-                guard let token = UserDefaults.walletTokenValue else {
-                    self?.coordinator?.showMessage(model: .init(description: .text("No token!")))
-                    return
-                }
-                
-                let newDeviceRequestData = NewDeviceRequestData(token: token)
-                NewDeviceWorker().execute(requestData: newDeviceRequestData) { [weak self] result in
-                    switch result {
-                    case .success(let data):
-                        UserDefaults.email = data.email
-                        UserDefaults.kycSessionKeyValue = data.sessionKey
-                        
-                        self?.coordinator?.showRegistration()
-                        
-                    case .failure(let error):
+                if let token = UserDefaults.walletTokenValue {
+                    let newDeviceRequestData = NewDeviceRequestData(token: token)
+                    NewDeviceWorker().execute(requestData: newDeviceRequestData) { [weak self] result in
+                        switch result {
+                        case .success(let data):
+                            UserDefaults.email = data.email
+                            UserDefaults.kycSessionKeyValue = data.sessionKey
+                            
+                            self?.coordinator?.showRegistration()
+                            
+                        case .failure(let error):
+                            self?.coordinator?.showMessage(with: error)
+                        }
+                    }
+                } else {
+                    guard let error = error as? NetworkingError,
+                          error == .sessionExpired else {
                         self?.coordinator?.showMessage(with: error)
+                        return
                     }
                 }
                 

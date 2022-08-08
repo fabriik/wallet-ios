@@ -45,17 +45,6 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
         return view
     }()
     
-    private lazy var inputTextfields: [FETextField] = {
-        var views = [FETextField]()
-        for _ in (0..<numberOfFields) {
-            let view = FETextField()
-            view.hideFilledTitleStack = true
-            view.isUserInteractionEnabled = false
-            views.append(view)
-        }
-        return views
-    }()
-    
     private lazy var errorLabel: FELabel = {
         let view = FELabel()
         view.text = "Invalid code"
@@ -87,6 +76,13 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
         stack.addArrangedSubview(inputStack)
         stack.addArrangedSubview(errorLabel)
         
+        for _ in (1...6) {
+            let view = FETextField()
+            view.hideFilledTitleStack = true
+            view.isUserInteractionEnabled = false
+            inputStack.addArrangedSubview(view)
+        }
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
         addGestureRecognizer(tap)
         
@@ -102,12 +98,22 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
         super.setup(with: viewModel)
     }
     
+    override func configure(background: BackgroundConfiguration? = nil) {
+        guard let border = background?.border else { return }
+        
+        inputStack.arrangedSubviews.forEach { textField in
+            textField.layer.masksToBounds = true
+            textField.layer.cornerRadius = border.cornerRadius.rawValue
+            textField.layer.borderWidth = border.borderWidth
+            textField.layer.borderColor = border.tintColor.cgColor
+        }
+    }
+    
     override func configure(with config: CodeInputConfiguration?) {
         super.configure(with: config)
         
-        inputTextfields.forEach { field in
-            inputStack.addArrangedSubview(field)
-            field.configure(with: config?.input)
+        inputStack.arrangedSubviews.forEach { field in
+            (field as? FETextField)?.configure(with: config?.input)
         }
         
         errorLabel.configure(with: config?.errorLabel)
@@ -137,14 +143,15 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
               }
         
         animateTo(state: .selected)
+        
         let textArray = Array(text)
-        for (index, field) in inputTextfields.enumerated() {
+        for (index, field) in inputStack.arrangedSubviews.enumerated() {
             var value: String?
             if textArray.count > index {
                 value = String(textArray[index])
             }
             
-            field.setup(with: .init(value: value))
+            (field as? FETextField)?.setup(with: .init(value: value))
         }
     }
     
@@ -173,19 +180,8 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
         }
     }
     
-    override func configure(background: BackgroundConfiguration? = nil) {
-        guard let border = background?.border else { return }
-        
-        inputTextfields.forEach { textField in
-            textField.layer.masksToBounds = true
-            textField.layer.cornerRadius = border.cornerRadius.rawValue
-            textField.layer.borderWidth = border.borderWidth
-            textField.layer.borderColor = border.tintColor.cgColor
-        }
-    }
-    
     func showErrorMessage() {
-        errorLabel.text = "Invalid code"
+        errorLabel.text = "Invalid code" // TODO: Localize
         animateTo(state: .error)
     }
 }
