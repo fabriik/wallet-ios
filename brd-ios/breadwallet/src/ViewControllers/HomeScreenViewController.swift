@@ -494,9 +494,9 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         
         prompt.alpha = 0.0
         
-        UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .curveLinear) { [weak self] in
-            self?.promptContainerStack.addArrangedSubview(prompt)
-            
+        promptContainerStack.addArrangedSubview(prompt)
+        
+        UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .curveLinear) { _ in
             prompt.alpha = 1.0
             prompt.isHidden = false
         } completion: { [weak self] _ in
