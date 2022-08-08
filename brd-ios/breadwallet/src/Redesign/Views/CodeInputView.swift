@@ -76,7 +76,7 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
         stack.addArrangedSubview(inputStack)
         stack.addArrangedSubview(errorLabel)
         
-        for _ in (1...numberOfFields) {
+        for _ in (0..<numberOfFields) {
             let view = FETextField()
             view.hideFilledTitleStack = true
             view.isUserInteractionEnabled = false
