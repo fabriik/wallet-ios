@@ -145,14 +145,6 @@
 	<false/>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>googlegmail</string>
-		<string>message</string>
-		<string>ms-outlook</string>
-		<string>readdle-spark</string>
-		<string>ymail</string>
-	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>

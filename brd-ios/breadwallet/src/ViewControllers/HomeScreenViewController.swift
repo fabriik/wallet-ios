@@ -82,6 +82,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     var didTapTrade: (() -> Void)?
     var didTapProfile: (() -> Void)?
     var didTapProfileFromPrompt: ((Result<Profile, Error>?) -> Void)?
+    var showPrompts: (() -> Void)?
     var didTapMenu: (() -> Void)?
     
     private lazy var totalAssetsNumberFormatter: NumberFormatter = {
@@ -122,16 +123,13 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     private func initialLoad() {
         setInitialData()
         setupSubscriptions()
-        attemptShowKYCPrompt()
-        
-        isInitialLaunch = false
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        guard isInitialLaunch == false else { return }
-        attemptShowKYCPrompt()
+        guard canShowPrompts else { return }
+        showPrompts?()
     }
     
     override func viewDidLoad() {
@@ -391,8 +389,13 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     private var kycStatusPromptView = FEInfoView()
     private var generalPromptView = PromptView()
-    private var isInitialLaunch = true
     private var profileResult: Result<Profile, Error>?
+    var canShowPrompts = false {
+        didSet {
+            guard canShowPrompts else { return }
+            showPrompts?()
+        }
+    }
     
     private func attemptShowGeneralPrompt() {
         guard promptContainerStack.arrangedSubviews.isEmpty == true,
@@ -423,7 +426,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         layoutPrompts(generalPromptView)
     }
     
-    private func attemptShowKYCPrompt() {
+    func attemptShowKYCPrompt() {
         UserManager.shared.refresh { [weak self] profileResult in
             self?.profileResult = profileResult
             
@@ -494,9 +497,9 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         
         prompt.alpha = 0.0
         
-        UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .curveLinear) { [weak self] in
-            self?.promptContainerStack.addArrangedSubview(prompt)
-            
+        promptContainerStack.addArrangedSubview(prompt)
+        
+        UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .curveLinear) {
             prompt.alpha = 1.0
             prompt.isHidden = false
         } completion: { [weak self] _ in

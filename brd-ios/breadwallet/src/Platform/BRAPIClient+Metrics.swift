@@ -113,11 +113,7 @@ extension BRAPIClient {
     private func handleAttribution(data: Data) {
         guard let responseJson = try? JSONDecoder().decode([String: Int].self, from: data) else { return }
         guard let conversionValue = responseJson["value"] else { return }
-        if #available(iOS 14.0, *) {
-            SKAdNetwork.updateConversionValue(conversionValue)
-        } else {
-            SKAdNetwork.registerAppForAdNetworkAttribution()
-        }
+        SKAdNetwork.updateConversionValue(conversionValue)
     }
 }
 

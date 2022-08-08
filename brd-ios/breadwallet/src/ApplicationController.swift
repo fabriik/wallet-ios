@@ -97,9 +97,7 @@ class ApplicationController: Subscriber, Trackable {
             self.isReachable = isReachable
         })
 
-        if #available(iOS 14.0, *) {
-            WidgetCenter.shared.reloadAllTimelines()
-        }
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     private func bumpLaunchCount() {
@@ -109,7 +107,6 @@ class ApplicationController: Subscriber, Trackable {
     
     private func mainSetup() {
         setupDefaults()
-        setupAppearance()
         setupRootViewController()
         window.makeKeyAndVisible()
         
@@ -285,9 +282,7 @@ class ApplicationController: Subscriber, Trackable {
             Store.trigger(name: .didSyncKVStore)
         }
 
-        if #available(iOS 14.0, *) {
-            WidgetCenter.shared.reloadAllTimelines()
-        }
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     private func resume() {
@@ -381,31 +376,31 @@ class ApplicationController: Subscriber, Trackable {
                       profile.email != nil else {
                     return
                 }
+                
                 self?.coordinator?.showRegistration()
                 
+                self?.homeScreenViewController?.canShowPrompts = true
+                
             case .failure(let error):
-                guard let error = error as? NetworkingError,
-                      error == .sessionExpired else {
+                if let error = error as? NetworkingError, error == .sessionExpired {
                     self?.coordinator?.showMessage(with: error)
-                    return
                 }
                 
-                guard let token = UserDefaults.walletTokenValue else {
-                    self?.coordinator?.showMessage(model: .init(description: .text("No token!")))
-                    return
-                }
-                
-                let newDeviceRequestData = NewDeviceRequestData(token: token)
-                NewDeviceWorker().execute(requestData: newDeviceRequestData) { [weak self] result in
-                    switch result {
-                    case .success(let data):
-                        UserDefaults.email = data.email
-                        UserDefaults.kycSessionKeyValue = data.sessionKey
+                if let token = UserDefaults.walletTokenValue {
+                    let newDeviceRequestData = NewDeviceRequestData(token: token)
+                    NewDeviceWorker().execute(requestData: newDeviceRequestData) { [weak self] result in
+                        switch result {
+                        case .success(let data):
+                            UserDefaults.email = data.email
+                            UserDefaults.kycSessionKeyValue = data.sessionKey
+                            
+                            self?.coordinator?.showRegistration()
+                            
+                        case .failure(let error):
+                            self?.coordinator?.showMessage(with: error)
+                        }
                         
-                        self?.coordinator?.showRegistration()
-                        
-                    case .failure(let error):
-                        self?.coordinator?.showMessage(with: error)
+                        self?.homeScreenViewController?.canShowPrompts = true
                     }
                 }
                 
@@ -415,18 +410,13 @@ class ApplicationController: Subscriber, Trackable {
         }
     }
     
-    private func setupAppearance() {
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: Fonts.Title.seven]
-        let backImage = #imageLiteral(resourceName: "BackArrowWhite").image(withInsets: UIEdgeInsets(top: 0.0, left: 8.0, bottom: 2.0, right: 0.0))
-        UINavigationBar.appearance().backIndicatorImage = backImage
-        UINavigationBar.appearance().backIndicatorTransitionMaskImage = backImage
-        // hide back button text
-        UIBarButtonItem.appearance().setBackButtonBackgroundImage(#imageLiteral(resourceName: "TransparentPixel"), for: .normal, barMetrics: .default)
-        UISwitch.appearance().onTintColor = Theme.accent
-    }
-    
     private func addHomeScreenHandlers(homeScreen: HomeScreenViewController,
                                        navigationController: UINavigationController) {
+        
+        homeScreen.showPrompts = { [weak self] in
+            // TODO: Should be refactored with Coordinators.
+            self?.homeScreenViewController?.attemptShowKYCPrompt()
+        }
         
         homeScreen.didSelectCurrency = { [unowned self] currency in
             let wallet = self.coreSystem.wallet(for: currency)

@@ -19,13 +19,16 @@ class RegistrationConfirmationViewController: BaseTableViewController<Registrati
     override var isModalDismissableEnabled: Bool { return true }
 
     // MARK: - Overrides
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationItem.setHidesBackButton(true, animated: false)
     }
     
     override func setupSubviews() {
         super.setupSubviews()
+        
         tableView.register(WrapperTableViewCell<CodeInputView>.self)
     }
     
