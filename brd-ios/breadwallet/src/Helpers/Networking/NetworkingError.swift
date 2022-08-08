@@ -31,7 +31,7 @@ enum NetworkingError: FEError {
     var errorMessage: String {
         switch self {
         case .noConnection:
-            return "Check your internet connection and try again later."
+            return "Please, check your internet connection and try again later."
 //        case .parameterMissing:
 //            <#code#>
 //        case .sessionExpired:
@@ -44,7 +44,7 @@ enum NetworkingError: FEError {
             return "Oops! Something went wrong, please try again later."
             
         default:
-            return "2 error or not 2 error?"
+            return "Unknown error."
         }
         
     } // TODO: Localize

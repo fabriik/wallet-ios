@@ -38,7 +38,6 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
     
     private lazy var titleLabel: FELabel = {
         let view = FELabel()
-        view.setup(with: .text("00:15s"))
         view.textAlignment = .right
         return view
     }()
@@ -84,8 +83,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         // TODO: replace with animation
         iconView.setup(with: viewModel.image)
         
-        timer?.invalidate()
-        timer = nil
+        invalidateTimer()
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         timer?.fire()
@@ -94,7 +92,15 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
     @objc private func updateTime() {
         guard let triggerDate = triggerDate else { return }
         
-        let components = Calendar.current.dateComponents([.minute, .second], from: Date() - 1, to: triggerDate)
+        if triggerDate < Date() {
+            invalidateTimer()
+            
+            completion?()
+            
+            return
+        }
+        
+        let components = Calendar.current.dateComponents([.minute, .second], from: Date(), to: triggerDate)
         
         guard let minutes = components.minute,
               let seconds = components.second else {
@@ -108,8 +114,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
             return
         }
         
-        timer?.invalidate()
-        timer = nil
+        invalidateTimer()
         
         completion?()
         
@@ -121,5 +126,10 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         setup(with: viewModel)
         
         content.layoutIfNeeded()
+    }
+    
+    private func invalidateTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
