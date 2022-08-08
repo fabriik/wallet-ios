@@ -71,6 +71,10 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
                 self?.interactor?.cardInfoSet(viewAction: .init(number: number, cvv: cvv))
             }
             
+            view.cvvInfoTapped = { [weak self] in
+                self?.interactor?.showInfoPopup(viewAction: .init())
+            }
+            
             view.didTriggerExpirationField = { [weak self] in
                 guard let self = self, let dataStore = self.dataStore else { return }
                 self.coordinator?.showMonthYearPicker(model: [dataStore.months, dataStore.years])
@@ -120,6 +124,10 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
         coordinator?.showOverlay(with: .success) { [weak self] in
             self?.coordinator?.showBillingAddress()
         }
+    }
+    
+    func displayInfoPopup(responseDisplay: AddCardModels.InfoPopup.ResponseDisplay) {
+        coordinator?.showPopup(with: responseDisplay.model)
     }
     
     // MARK: - Additional Helpers

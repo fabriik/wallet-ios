@@ -49,6 +49,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     
     var contentSizeChanged: (() -> Void)?
     var valueChanged: ((String?) -> Void)?
+    var didTapTrailingView: (() -> Void)?
     
     override var isUserInteractionEnabled: Bool {
         get {
@@ -174,6 +175,10 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         textField.delegate = self
         let tapped = UITapGestureRecognizer(target: self, action: #selector(tapped))
         addGestureRecognizer(tapped)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(trailingViewTapped))
+        trailingView.isUserInteractionEnabled = true
+        trailingView.addGestureRecognizer(tapGestureRecognizer)
     }
     
     @objc func tapped() {
@@ -276,6 +281,10 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     @objc private func textFieldDidChange(_ textField: UITextField) {
         valueChanged?(textField.text)
         contentSizeChanged?()
+    }
+    
+    @objc func trailingViewTapped() {
+        didTapTrailingView?()
     }
     
     func animateTo(state: DisplayState, withAnimation: Bool = true) {

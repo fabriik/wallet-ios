@@ -23,6 +23,7 @@ class BankCardInputDetailsView: FEView<BankCardInputDetailsViewConfiguration, Ba
     var contentSizeChanged: (() -> Void)?
     var valueChanged: ((_ number: String?, _ cvv: String?) -> Void)?
     var didTriggerExpirationField: (() -> Void)?
+    var cvvInfoTapped: (() -> Void)?
     
     private lazy var stack: UIStackView = {
         let view = UIStackView()
@@ -119,6 +120,10 @@ class BankCardInputDetailsView: FEView<BankCardInputDetailsViewConfiguration, Ba
             self?.stateChanged()
         }
         
+        cvvTextField.didTapTrailingView = { [weak self] in
+            self?.cvvInfoButtonTapped()
+        }
+        
         stack.layoutIfNeeded()
     }
     
@@ -130,5 +135,9 @@ class BankCardInputDetailsView: FEView<BankCardInputDetailsViewConfiguration, Ba
     
     private func stateChanged() {
         valueChanged?(number, cvv)
+    }
+    
+    private func cvvInfoButtonTapped() {
+        cvvInfoTapped?()
     }
 }
