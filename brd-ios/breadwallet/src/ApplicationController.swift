@@ -384,6 +384,10 @@ class ApplicationController: Subscriber, Trackable {
                 self?.coordinator?.showRegistration()
                 
             case .failure(let error):
+                if let error = error as? NetworkingError, error == .sessionExpired {
+                    self?.coordinator?.showMessage(with: error)
+                }
+                
                 if let token = UserDefaults.walletTokenValue {
                     let newDeviceRequestData = NewDeviceRequestData(token: token)
                     NewDeviceWorker().execute(requestData: newDeviceRequestData) { [weak self] result in
@@ -397,12 +401,6 @@ class ApplicationController: Subscriber, Trackable {
                         case .failure(let error):
                             self?.coordinator?.showMessage(with: error)
                         }
-                    }
-                } else {
-                    guard let error = error as? NetworkingError,
-                          error == .sessionExpired else {
-                        self?.coordinator?.showMessage(with: error)
-                        return
                     }
                 }
                 
