@@ -49,7 +49,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     
     var contentSizeChanged: (() -> Void)?
     var valueChanged: ((String?) -> Void)?
-    var isTrailingViewTapped: (() -> Void)?
+    var didTapTrailingView: (() -> Void)?
     
     override var isUserInteractionEnabled: Bool {
         get {
@@ -284,7 +284,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     }
     
     @objc func trailingViewTapped() {
-        isTrailingViewTapped?()
+        didTapTrailingView?()
     }
     
     func animateTo(state: DisplayState, withAnimation: Bool = true) {

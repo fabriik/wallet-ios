@@ -120,7 +120,7 @@ class BankCardInputDetailsView: FEView<BankCardInputDetailsViewConfiguration, Ba
             self?.stateChanged()
         }
         
-        cvvTextField.isTrailingViewTapped = { [weak self] in
+        cvvTextField.didTapTrailingView = { [weak self] in
             self?.cvvInfoButtonTapped()
         }
         
