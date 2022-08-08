@@ -83,8 +83,7 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
             inputStack.addArrangedSubview(view)
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
-        addGestureRecognizer(tap)
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide),
