@@ -19,6 +19,8 @@ class AddCardStore: NSObject, BaseDataStore, AddCardDataStore {
     var cardCVV: String?
     var months: [String] = []
     var years: [String] = []
+    var paymentReference: String?
+    var paymentstatus: AddCard.Status = .CANCELED
     
     // MARK: - Aditional helpers
 }

@@ -66,26 +66,30 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
               let month = date.first,
               let year = date.last else { return }
         
-        let checkoutAPIClient = CheckoutAPIClient(
-            publicKey: "pk_sbox_ees63clhrko6kta6j3cwloebg4#",
-            environment: E.isDebug ? .sandbox : .live)
+        let checkoutAPIClient = CheckoutAPIClient(publicKey: "pk_sbox_ees63clhrko6kta6j3cwloebg4#",
+                                                  environment: .sandbox)
         
-        // Create a CardTokenRequest instance with the phoneNumber and address values.
-        let cardTokenRequest = CkoCardTokenRequest(
-            number: number,
-            expiryMonth: month,
-            expiryYear: year,
-            cvv: cvv,
-            name: "Fabriik Customer")
+        let cardTokenRequest = CkoCardTokenRequest(number: number,
+                                                   expiryMonth: month,
+                                                   expiryYear: year,
+                                                   cvv: cvv,
+                                                   name: "Fabriik Customer")
         
-        // Request the card token.
         checkoutAPIClient.createCardToken(card: cardTokenRequest) { [weak self] result in
             switch result {
             case .success(let response):
                 AddCardWorker().execute(requestData: AddCardRequestData(token: response.token)) { result in
                     switch result {
                     case .success(let data):
-                        self?.presenter?.presentSubmit(actionResponse: .init())
+                        if let redirectUrl = data.redirectUrl {
+                            self?.dataStore?.paymentReference = data.paymentReference
+                            
+                            self?.presenter?.present3DSecure(actionResponse: .init(url: redirectUrl))
+                        } else {
+                            self?.dataStore?.paymentstatus = data.status
+                            
+                            self?.handlePresentSubmit()
+                        }
                         
                     case .failure(let error):
                         self?.presenter?.presentError(actionResponse: .init(error: error))
@@ -95,6 +99,29 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
             }
+        }
+    }
+    
+    func check3DSecureStatus(viewAction: AddCardModels.ThreeDSecureStatus.ViewAction) {
+        PaymentStatusWorker().execute(requestData: AddCardRequestData(token: dataStore?.paymentReference)) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.dataStore?.paymentstatus = data.status
+                
+                self?.handlePresentSubmit()
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
+    }
+    
+    private func handlePresentSubmit() {
+        switch dataStore?.paymentstatus {
+        case .CAPTURED, .CARDVERIFIED:
+            presenter?.presentSubmit(actionResponse: .init())
+        default:
+            break // TODO: Handle error
         }
     }
     

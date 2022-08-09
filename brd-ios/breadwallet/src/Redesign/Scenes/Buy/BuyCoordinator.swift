@@ -25,6 +25,20 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
         open(scene: Scenes.BillingAddress)
     }
     
+    func show3DSecure(url: String) {
+        guard let url = URL(string: url) else { return }
+        let webViewController = SimpleWebViewController(url: url)
+        webViewController.setup(with: .init(title: "3D Secure"))
+        webViewController.didDismiss = { [weak self] in
+            let vc = self?.navigationController.children.first(where: { $0 is AddCardViewController }) as? AddCardViewController
+            vc?.interactor?.check3DSecureStatus(viewAction: .init())
+        }
+        let navController = RootNavigationController(rootViewController: webViewController)
+        webViewController.setAsNonDismissableModal()
+        
+        navigationController.present(navController, animated: true)
+    }
+    
     func showAssetSelector(currencies: [Currency]?, selected: ((Any?) -> Void)?) {
         let data: [AssetViewModel]? = currencies?.compactMap {
             return AssetViewModel(icon: $0.imageSquareBackground,
