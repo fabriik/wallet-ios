@@ -18,20 +18,22 @@ struct AddCardResponseData: ModelResponse {
 
 struct AddCard: Model {
     enum Status: String, Codable {
-        case ACTIVE
-        case REQUESTED
-        case PENDING
-        case AUTHORIZED
-        case CARDVERIFIED = "CARD_VERIFIED"
-        case CANCELED
-        case EXPIRED
-        case PAID
-        case DECLINED
-        case VOIDED
-        case PARTIALLYCAPTURED = "PARTIALLY_CAPTURED"
-        case CAPTURED
-        case PARTIALLYREFUNDED = "PARTIALLY_REFUNDED"
-        case REFUNDED
+        case active = "ACTIVE"
+        case requested = "REQUESTED"
+        case pending = "PENDING"
+        case authorized = "AUTHORIZED"
+        case cardVerified = "CARD_VERIFIED"
+        case canceled = "CANCELED"
+        case expired = "EXPIRED"
+        case paid = "PAID"
+        case declined = "DECLINED"
+        case voided = "VOIDED"
+        case partiallyCaptured = "PARTIALLY_CAPTURED"
+        case captured = "CAPTURED"
+        case partiallyRefunded = "PARTIALLY_REFUNDED"
+        case refunded = "REFUNDED"
+        
+        case none
     }
     
     var status: Status
@@ -41,7 +43,7 @@ struct AddCard: Model {
 
 class AddCardMapper: ModelMapper<AddCardResponseData, AddCard> {
     override func getModel(from response: AddCardResponseData?) -> AddCard {
-        return AddCard(status: AddCard.Status(rawValue: response?.status ?? "") ?? .CANCELED,
+        return AddCard(status: AddCard.Status(rawValue: response?.status ?? "") ?? .none,
                        paymentReference: response?.paymentReference ?? "",
                        redirectUrl: response?.redirectUrl)
     }
