@@ -139,6 +139,7 @@
 		7B05887828A23D4500D7C971 /* AddCardWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05887728A23D4500D7C971 /* AddCardWorker.swift */; };
 		7B05888128A2431E00D7C971 /* Frames in Frameworks */ = {isa = PBXBuildFile; productRef = 7B05888028A2431E00D7C971 /* Frames */; };
 		7B05888328A254F900D7C971 /* PaymentStatusWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05888228A254F900D7C971 /* PaymentStatusWorker.swift */; };
+		7B05888528A2668F00D7C971 /* DeleteCardWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05888428A2668F00D7C971 /* DeleteCardWorker.swift */; };
 		7B08D2262860574F00D65ED9 /* SimpleBackBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B08D2252860574F00D65ED9 /* SimpleBackBarButtonItem.swift */; };
 		7B2C9AFC27D9270B00D5135C /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B2C9AFB27D9270B00D5135C /* IQKeyboardManagerSwift */; };
 		7B2E5048289800BB008CACD8 /* FieldValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E5047289800BB008CACD8 /* FieldValidator.swift */; };
@@ -1131,6 +1132,7 @@
 		7B02D62B28592FE700C5C384 /* KYCCameraShutter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCCameraShutter.swift; sourceTree = "<group>"; };
 		7B05887728A23D4500D7C971 /* AddCardWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardWorker.swift; sourceTree = "<group>"; };
 		7B05888228A254F900D7C971 /* PaymentStatusWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatusWorker.swift; sourceTree = "<group>"; };
+		7B05888428A2668F00D7C971 /* DeleteCardWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCardWorker.swift; sourceTree = "<group>"; };
 		7B08D2252860574F00D65ED9 /* SimpleBackBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleBackBarButtonItem.swift; sourceTree = "<group>"; };
 		7B2E5047289800BB008CACD8 /* FieldValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldValidator.swift; sourceTree = "<group>"; };
 		7B2E504C289A5F02008CACD8 /* AddCardStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardStore.swift; sourceTree = "<group>"; };
@@ -2375,6 +2377,7 @@
 				7B2E504D289A5F02008CACD8 /* AddCardViewController.swift */,
 				7B2E504E289A5F02008CACD8 /* AddCardInteractor.swift */,
 				7B05887728A23D4500D7C971 /* AddCardWorker.swift */,
+				7B05888428A2668F00D7C971 /* DeleteCardWorker.swift */,
 				7B05888228A254F900D7C971 /* PaymentStatusWorker.swift */,
 			);
 			path = AddCard;
@@ -4502,6 +4505,7 @@
 				CEE0EF521EBD14B60018DB36 /* PinTransitioningDelegate.swift in Sources */,
 				754AE0BC1DFE8A46007FD001 /* SecureAllocator.swift in Sources */,
 				7B54E59D27F4A2B0002DD1E4 /* Shadowable.swift in Sources */,
+				7B05888528A2668F00D7C971 /* DeleteCardWorker.swift in Sources */,
 				7E5CB3A02835090E00EC787E /* VIPTableViewController.swift in Sources */,
 				3A5C9B2B22A5676F00C907C1 /* PriceChange.swift in Sources */,
 				7E5CB3AC2835090E00EC787E /* WrapperView.swift in Sources */,

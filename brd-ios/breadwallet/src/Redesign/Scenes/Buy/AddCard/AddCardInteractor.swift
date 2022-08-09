@@ -67,7 +67,7 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
               let year = date.last else { return }
         
         let checkoutAPIClient = CheckoutAPIClient(publicKey: "pk_sbox_ees63clhrko6kta6j3cwloebg4#",
-                                                  environment: .sandbox) // TODO: Should be updated when we get the prod key. 
+                                                  environment: .sandbox) // TODO: Should be updated when we get the prod key.
         
         let cardTokenRequest = CkoCardTokenRequest(number: number,
                                                    expiryMonth: month,
