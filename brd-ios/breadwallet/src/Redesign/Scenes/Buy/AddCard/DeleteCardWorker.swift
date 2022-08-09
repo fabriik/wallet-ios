@@ -28,4 +28,3 @@ class DeleteCardWorker: BaseApiWorker<PlainMapper> {
         return APIURLHandler.getUrl(SwapEndpoints.paymentInstrumentId, parameters: urlParams)
     }
 }
-
