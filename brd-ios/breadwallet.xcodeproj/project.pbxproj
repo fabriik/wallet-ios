@@ -136,6 +136,7 @@
 		7B02D6282859201500C5C384 /* KYCCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B02D6272859201500C5C384 /* KYCCameraViewController.swift */; };
 		7B02D62A2859202B00C5C384 /* PhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B02D6292859202B00C5C384 /* PhotoCaptureDelegate.swift */; };
 		7B02D62C28592FE700C5C384 /* KYCCameraShutter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B02D62B28592FE700C5C384 /* KYCCameraShutter.swift */; };
+		7B05887B28A241A000D7C971 /* Frames in Frameworks */ = {isa = PBXBuildFile; productRef = 7B05887A28A241A000D7C971 /* Frames */; };
 		7B08D2262860574F00D65ED9 /* SimpleBackBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B08D2252860574F00D65ED9 /* SimpleBackBarButtonItem.swift */; };
 		7B2C9AFC27D9270B00D5135C /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B2C9AFB27D9270B00D5135C /* IQKeyboardManagerSwift */; };
 		7B2E5048289800BB008CACD8 /* FieldValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E5047289800BB008CACD8 /* FieldValidator.swift */; };
@@ -1888,6 +1889,7 @@
 				22A9A9601DF61FD8000F0016 /* CoreLocation.framework in Frameworks */,
 				22A9A95E1DF61FD0000F0016 /* PushKit.framework in Frameworks */,
 				7B2C9AFC27D9270B00D5135C /* IQKeyboardManagerSwift in Frameworks */,
+				7B05887B28A241A000D7C971 /* Frames in Frameworks */,
 				9F18E567261630EB00698ADB /* Cosmos.xcframework in Frameworks */,
 				22717B062315D3E300F77F4E /* CloudKit.framework in Frameworks */,
 				223DB21B1DF69F0F0076A151 /* libbz2.framework in Frameworks */,
@@ -3908,6 +3910,7 @@
 				3A0C6087242A5CC900F0FBC2 /* WalletKit */,
 				7B2C9AFB27D9270B00D5135C /* IQKeyboardManagerSwift */,
 				7E5CB32C2834E63400EC787E /* SnapKit */,
+				7B05887A28A241A000D7C971 /* Frames */,
 			);
 			productName = breadwallet;
 			productReference = 75A2A7901DA5934300A983D8 /* breadwallet.app */;
@@ -4099,6 +4102,7 @@
 			packageReferences = (
 				7B2C9AFA27D9270B00D5135C /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				7E5CB32B2834E63400EC787E /* XCRemoteSwiftPackageReference "SnapKit" */,
+				7B05887928A241A000D7C971 /* XCRemoteSwiftPackageReference "frames-ios" */,
 			);
 			productRefGroup = 75A2A7911DA5934300A983D8 /* Products */;
 			projectDirPath = "";
@@ -6566,6 +6570,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7B05887928A241A000D7C971 /* XCRemoteSwiftPackageReference "frames-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/checkout/frames-ios.git";
+			requirement = {
+				kind = exactVersion;
+				version = 3.5.3;
+			};
+		};
 		7B2C9AFA27D9270B00D5135C /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -6588,6 +6600,11 @@
 		3A0C6087242A5CC900F0FBC2 /* WalletKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WalletKit;
+		};
+		7B05887A28A241A000D7C971 /* Frames */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B05887928A241A000D7C971 /* XCRemoteSwiftPackageReference "frames-ios" */;
+			productName = Frames;
 		};
 		7B2C9AFB27D9270B00D5135C /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
