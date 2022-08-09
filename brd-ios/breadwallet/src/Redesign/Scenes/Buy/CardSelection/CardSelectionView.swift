@@ -11,9 +11,9 @@
 import UIKit
 
 struct CardSelectionConfiguration: Configurable {
-    var title: LabelConfiguration?
+    var title: LabelConfiguration? = .init(font: Fonts.overline, textColor: LightColors.Icons.one)
     var logo: BackgroundConfiguration?
-    var cardNumber: LabelConfiguration?
+    var cardNumber: LabelConfiguration? = .init(font: Fonts.Subtitle.two, textColor: LightColors.Icons.one)
     var expiration: LabelConfiguration?
     var arrow: BackgroundConfiguration?
     var shadow: ShadowConfiguration? = Presets.Shadow.light
@@ -32,9 +32,6 @@ struct CardSelectionViewModel: ViewModel {
 }
 
 class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewModel> {
-    
-    var didTapSelectAsset: (() -> Void)?
-    
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -72,6 +69,8 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         return view
     }()
     
+    var didTapSelectAsset: (() -> Void)?
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -106,7 +105,6 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         }
         selectorStack.addArrangedSubview(expirationLabel)
         selectorStack.addArrangedSubview(arrowImageView)
-        
     }
     
     override func configure(with config: CardSelectionConfiguration?) {

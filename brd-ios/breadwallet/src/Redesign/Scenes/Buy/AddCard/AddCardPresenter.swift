@@ -26,7 +26,7 @@ final class AddCardPresenter: NSObject, Presenter, AddCardActionResponses {
         ]
         
         // TODO: Localize
-        guard let trailingImage = UIImage(named: "help")?.withTintColor(LightColors.Icons.two) else { return }
+        guard let trailingImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal) else { return }
         let sectionRows: [Models.Section: [Any]] = [
             .cardDetails: [
                 BankCardInputDetailsViewModel(number: .init(leading: .imageName("credit_card_icon"),

@@ -57,7 +57,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         
         confirmButton.wrappedView.configure(with: Presets.Button.primary)
         confirmButton.wrappedView.setup(with: .init(title: "Confirm", enabled: false))
-        
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     

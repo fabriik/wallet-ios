@@ -22,9 +22,11 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             .error
         ]
         
+        // TODO: Localize
+
         let sectionRows: [Models.Sections: [ViewModel]] =  [
             .rate: [ExchangeRateViewModel()],
-            .from: [SwapCurrencyViewModel(title: "I have")],
+            .from: [SwapCurrencyViewModel(title: "I want")],
             .to: [CardSelectionViewModel(userInteractionEnabled: true)]
         ]
         
@@ -51,10 +53,11 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let cryptoModel: SwapCurrencyViewModel
         let cardModel: CardSelectionViewModel
         
+        // TODO: Localize
         if let amount = actionResponse.amount {
-            cryptoModel = .init(amount: amount, title: "I have")
+            cryptoModel = .init(amount: amount, title: "I want")
         } else {
-            cryptoModel = SwapCurrencyViewModel(title: "I have")
+            cryptoModel = SwapCurrencyViewModel(title: "I want")
         }
         
         if let paymentCard = actionResponse.card {
