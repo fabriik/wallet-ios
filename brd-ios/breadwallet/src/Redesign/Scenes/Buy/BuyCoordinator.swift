@@ -28,7 +28,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
     func show3DSecure(url: String) {
         guard let url = URL(string: url) else { return }
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "3D Secure"))
+        webViewController.setup(with: .init(title: "3D Secure")) // TODO: Localize
         webViewController.didDismiss = { [weak self] in
             let vc = self?.navigationController.children.first(where: { $0 is AddCardViewController }) as? AddCardViewController
             vc?.interactor?.check3DSecureStatus(viewAction: .init())
