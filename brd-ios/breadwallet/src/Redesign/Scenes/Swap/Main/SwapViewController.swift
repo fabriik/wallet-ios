@@ -235,8 +235,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay) {
-        let currencies = dataStore?.currencies.filter { item in dataStore?.supportedCurrencies?.contains(where: { $0.name == item.code}) ?? false } ?? []
-        coordinator?.showAssetSelector(currencies: currencies,
+        coordinator?.showAssetSelector(currencies: dataStore?.currencies,
+                                       supportedCurrencies: dataStore?.supportedCurrencies,
                                        selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }
             

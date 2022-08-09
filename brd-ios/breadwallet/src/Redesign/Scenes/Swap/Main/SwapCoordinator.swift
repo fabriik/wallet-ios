@@ -22,15 +22,30 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, SwapInfoRoutes {
         navigationController.dismiss(animated: true)
     }
     
-    func showAssetSelector(currencies: [Currency]?, selected: ((Any?) -> Void)?) {
-        let data: [AssetViewModel]? = currencies?.compactMap {
+    func showAssetSelector(currencies: [Currency]?, supportedCurrencies: [SupportedCurrency]?, selected: ((Any?) -> Void)?) {
+        let allCurrencies = CurrencyFileManager().getCurrencyMetaDataFromCache()
+        
+        let supportedAssets = allCurrencies.filter { item in supportedCurrencies?.contains(where: { $0.name.lowercased() == item.code}) ?? false }
+        
+        var data: [AssetViewModel]? = currencies?.compactMap {
             return AssetViewModel(icon: $0.imageSquareBackground,
                                   title: $0.name,
                                   subtitle: $0.code,
                                   topRightText: HomeScreenAssetViewModel(currency: $0).tokenBalance,
                                   bottomRightText: HomeScreenAssetViewModel(currency: $0).fiatBalance,
-                                  isDisabled: false)
+                                  isDisabled: isDisabledAsset(code: $0.code, supportedCurrencies: supportedCurrencies) ?? false)
         }
+        
+        let unsupportedAssets = supportedAssets.filter { item in !(data?.contains(where: { $0.subtitle?.lowercased() == item.code }) ?? false) }
+        
+        let disabledData: [AssetViewModel]? = unsupportedAssets.compactMap {
+            return AssetViewModel(icon: $0.imageSquareBackground,
+                                  title: $0.name,
+                                  subtitle: $0.code,
+                                  isDisabled: true)
+        }
+        
+        data?.append(contentsOf: disabledData ?? [])
         
         let sortedCurrencies = data?.sorted { !$0.isDisabled && $1.isDisabled }
         
@@ -46,8 +61,8 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, SwapInfoRoutes {
     func showPinInput(callback: ((_ pin: String?) -> Void)?) {
         guard let keyStore = try? KeyStore.create() else { return }
         let vc = LoginViewController(for: .confirmation,
-                                     keyMaster: keyStore,
-                                     shouldDisableBiometrics: true)
+                                        keyMaster: keyStore,
+                                        shouldDisableBiometrics: true)
         
         let nvc = RootNavigationController(rootViewController: vc)
         vc.confirmationCallback = { pin in
@@ -73,6 +88,13 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, SwapInfoRoutes {
             vc.prepareData()
         }
     }
+    
+    func isDisabledAsset(code: String?, supportedCurrencies: [SupportedCurrency]?) -> Bool? {
+        guard let assetCode = code else { return false }
+        
+        return !(supportedCurrencies?.contains(where: { $0.name == assetCode}) ?? false)
+    }
+    
     // MARK: - Aditional helpers
     
 }
