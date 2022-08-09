@@ -139,7 +139,7 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
     
     private func handlePresentSubmit() {
         switch dataStore?.paymentstatus {
-        case .CAPTURED, .CARDVERIFIED:
+        case .captured, .cardVerified:
             presenter?.presentSubmit(actionResponse: .init())
         default:
             break // TODO: Handle error
