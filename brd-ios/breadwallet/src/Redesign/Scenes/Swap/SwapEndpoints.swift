@@ -18,7 +18,7 @@ enum SwapEndpoints: String, URLType {
     case exchange = "create"
     case details = "exchange/%@"
     case history = "exchanges"
-    case paymentInstrument = "exchange/payment-instrument"
+    case paymentInstrument = "payment-instrument"
     case estimateFee = "estimate-fee"
     
     var url: String {

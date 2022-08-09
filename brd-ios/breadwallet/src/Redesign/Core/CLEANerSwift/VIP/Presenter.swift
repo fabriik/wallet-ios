@@ -35,7 +35,7 @@ extension Presenter {
             responseDisplay = .init(model: model, config: config)
         } else {
             // TODO: Investigate localized errors
-            let model = InfoViewModel(headerTitle: .text("Error"), description: .text("we know nothing of this :/"))
+            let model = InfoViewModel(headerTitle: .text("Error"), description: .text("Unknown error."))
             // TODO: create Error preset
             let config = Presets.InfoView.primary
             responseDisplay = .init(model: model, config: config)

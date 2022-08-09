@@ -59,8 +59,10 @@ struct AddCardRequestData: RequestModelData {
 
 class AddCardWorker: BaseApiWorker<AddCardMapper> {
     override func getUrl() -> String {
-        guard let urlParams = (requestData as? AddCardRequestData)?.token else { return "" }
-        
-        return APIURLHandler.getUrl(SwapEndpoints.paymentInstrument, parameters: urlParams)
+        return SwapEndpoints.paymentInstrument.url
+    }
+    
+    override func getMethod() -> HTTPMethod {
+        return .post
     }
 }
