@@ -60,6 +60,27 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
     }
     
     func submit(viewAction: AddCardModels.Submit.ViewAction) {
+        // FETCH ALL ADDED CARDS AND DELETE IF NEEDED. WILL BE USED. 
+        /*
+        CardDetailsWorker().execute(requestData: CardDetailsRequestData()) { [weak self] result in
+            switch result {
+            case .success(let data):
+                DeleteCardWorker().execute(requestData: DeleteCardRequestData(instrumentId: data[0].id)) { [weak self] result in
+                    switch result {
+                    case .success(let data):
+                        print(data)
+                        
+                    case .failure(let error):
+                        self?.presenter?.presentError(actionResponse: .init(error: error))
+                    }
+                }
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
+        */
+        
         guard let number = dataStore?.cardNumber,
               let cvv = dataStore?.cardCVV,
               let date = dataStore?.cardExpDateString?.components(separatedBy: "/"),

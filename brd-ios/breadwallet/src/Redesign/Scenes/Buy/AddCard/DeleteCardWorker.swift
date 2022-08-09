@@ -11,19 +11,19 @@
 import Foundation
 
 struct DeleteCardRequestData: RequestModelData {
-    var reference: String?
+    var instrumentId: String?
     
     func getParameters() -> [String: Any] {
         return [:]
     }
 }
 
-class DeleteCardWorker: BaseApiWorker<AddCardMapper> {
+class DeleteCardWorker: BaseApiWorker<PlainMapper> {
     override func getMethod() -> HTTPMethod {
         return .delete
     }
     override func getUrl() -> String {
-        guard let urlParams = (requestData as? DeleteCardRequestData)?.reference else { return "" }
+        guard let urlParams = (requestData as? DeleteCardRequestData)?.instrumentId else { return "" }
         
         return APIURLHandler.getUrl(SwapEndpoints.paymentInstrumentId, parameters: urlParams)
     }
