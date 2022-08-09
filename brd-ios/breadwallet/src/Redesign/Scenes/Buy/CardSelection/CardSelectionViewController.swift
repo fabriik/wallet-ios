@@ -49,7 +49,7 @@ class CardSelectionViewController: ItemSelectionViewController {
         cell.setup { view in
             view.configure(with: .init())
             view.setup(with: .init(title: .text("Card"),
-                                   logo: .imageName("close"),
+                                   logo: .imageName("card"),
                                    cardNumber: .text("Add a debit or credit card"),
                                    expiration: nil))
         }

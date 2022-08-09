@@ -11,8 +11,8 @@
 import UIKit
 
 struct CardSelectionConfiguration: Configurable {
-    var title: LabelConfiguration? = .init(font: Fonts.overline, textColor: LightColors.Icons.one)
-    var logo: BackgroundConfiguration?
+    var title: LabelConfiguration? = .init(font: Fonts.Title.six, textColor: LightColors.Icons.one)
+    var logo: BackgroundConfiguration? = .init(tintColor: LightColors.Icons.two)
     var cardNumber: LabelConfiguration? = .init(font: Fonts.Subtitle.two, textColor: LightColors.Icons.one)
     var expiration: LabelConfiguration?
     var arrow: BackgroundConfiguration?
@@ -39,7 +39,7 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         return view
     }()
     
-    private lazy var titleLalbel: FELabel = {
+    private lazy var titleLabel: FELabel = {
         let view = FELabel()
         return view
     }()
@@ -87,8 +87,8 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         }
         content.setupCustomMargins(all: .large)
         
-        mainStack.addArrangedSubview(titleLalbel)
-        titleLalbel.snp.makeConstraints { make in
+        mainStack.addArrangedSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
             make.height.equalTo(Margins.large.rawValue)
         }
         mainStack.addArrangedSubview(selectorStack)
@@ -109,7 +109,7 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
     
     override func configure(with config: CardSelectionConfiguration?) {
         super.configure(with: config)
-        titleLalbel.configure(with: config?.title)
+        titleLabel.configure(with: config?.title)
         logoImageView.configure(with: config?.logo)
         cardNumberLabel.configure(with: config?.cardNumber)
         expirationLabel.configure(with: config?.expiration)
@@ -122,8 +122,8 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
     override func setup(with viewModel: CardSelectionViewModel?) {
         super.setup(with: viewModel)
         
-        titleLalbel.setup(with: viewModel?.title)
-        titleLalbel.isHidden = viewModel?.title == nil
+        titleLabel.setup(with: viewModel?.title)
+        titleLabel.isHidden = viewModel?.title == nil
         
         logoImageView.setup(with: viewModel?.logo)
         logoImageView.isHidden = viewModel?.logo == nil

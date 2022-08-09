@@ -30,7 +30,7 @@ struct PaymentCard: ItemSelectable {
     var displayName: String? { return number }
     var displayImage: ImageViewModel? {
         guard let image = image else {
-            return .imageName("close")
+            return .imageName("card")
         }
         return .image(image)
     }
