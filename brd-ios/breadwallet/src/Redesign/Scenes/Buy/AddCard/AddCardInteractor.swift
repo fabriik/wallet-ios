@@ -93,8 +93,7 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
         let cardTokenRequest = CkoCardTokenRequest(number: number,
                                                    expiryMonth: month,
                                                    expiryYear: year,
-                                                   cvv: cvv,
-                                                   name: "Fabriik Customer")
+                                                   cvv: cvv)
         
         checkoutAPIClient.createCardToken(card: cardTokenRequest) { [weak self] result in
             switch result {
@@ -124,7 +123,7 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
     }
     
     func check3DSecureStatus(viewAction: AddCardModels.ThreeDSecureStatus.ViewAction) {
-        PaymentStatusWorker().execute(requestData: AddCardRequestData(token: dataStore?.paymentReference)) { [weak self] result in
+        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: dataStore?.paymentReference)) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.dataStore?.paymentstatus = data.status
