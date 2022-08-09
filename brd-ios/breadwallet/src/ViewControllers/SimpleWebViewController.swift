@@ -6,8 +6,16 @@ import UIKit
 import SafariServices
 
 class SimpleWebViewController: SFSafariViewController, SFSafariViewControllerDelegate {
+    var didDismiss: (() -> Void)?
+    
     struct Model {
         var title: String
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        didDismiss?()
     }
     
     func setup(with model: Model) {

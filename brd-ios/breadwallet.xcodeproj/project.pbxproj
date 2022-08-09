@@ -136,7 +136,11 @@
 		7B02D6282859201500C5C384 /* KYCCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B02D6272859201500C5C384 /* KYCCameraViewController.swift */; };
 		7B02D62A2859202B00C5C384 /* PhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B02D6292859202B00C5C384 /* PhotoCaptureDelegate.swift */; };
 		7B02D62C28592FE700C5C384 /* KYCCameraShutter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B02D62B28592FE700C5C384 /* KYCCameraShutter.swift */; };
-		7B05887B28A241A000D7C971 /* Frames in Frameworks */ = {isa = PBXBuildFile; productRef = 7B05887A28A241A000D7C971 /* Frames */; };
+		7B05887828A23D4500D7C971 /* AddCardWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05887728A23D4500D7C971 /* AddCardWorker.swift */; };
+		7B05888128A2431E00D7C971 /* Frames in Frameworks */ = {isa = PBXBuildFile; productRef = 7B05888028A2431E00D7C971 /* Frames */; };
+		7B05888328A254F900D7C971 /* PaymentStatusWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05888228A254F900D7C971 /* PaymentStatusWorker.swift */; };
+		7B05888528A2668F00D7C971 /* DeleteCardWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05888428A2668F00D7C971 /* DeleteCardWorker.swift */; };
+		7B05888728A2698A00D7C971 /* CardDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05888628A2698A00D7C971 /* CardDetailsWorker.swift */; };
 		7B08D2262860574F00D65ED9 /* SimpleBackBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B08D2252860574F00D65ED9 /* SimpleBackBarButtonItem.swift */; };
 		7B2C9AFC27D9270B00D5135C /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B2C9AFB27D9270B00D5135C /* IQKeyboardManagerSwift */; };
 		7B2E5048289800BB008CACD8 /* FieldValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E5047289800BB008CACD8 /* FieldValidator.swift */; };
@@ -1127,6 +1131,10 @@
 		7B02D6272859201500C5C384 /* KYCCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCCameraViewController.swift; sourceTree = "<group>"; };
 		7B02D6292859202B00C5C384 /* PhotoCaptureDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureDelegate.swift; sourceTree = "<group>"; };
 		7B02D62B28592FE700C5C384 /* KYCCameraShutter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCCameraShutter.swift; sourceTree = "<group>"; };
+		7B05887728A23D4500D7C971 /* AddCardWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardWorker.swift; sourceTree = "<group>"; };
+		7B05888228A254F900D7C971 /* PaymentStatusWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatusWorker.swift; sourceTree = "<group>"; };
+		7B05888428A2668F00D7C971 /* DeleteCardWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCardWorker.swift; sourceTree = "<group>"; };
+		7B05888628A2698A00D7C971 /* CardDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailsWorker.swift; sourceTree = "<group>"; };
 		7B08D2252860574F00D65ED9 /* SimpleBackBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleBackBarButtonItem.swift; sourceTree = "<group>"; };
 		7B2E5047289800BB008CACD8 /* FieldValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldValidator.swift; sourceTree = "<group>"; };
 		7B2E504C289A5F02008CACD8 /* AddCardStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardStore.swift; sourceTree = "<group>"; };
@@ -1889,7 +1897,7 @@
 				22A9A9601DF61FD8000F0016 /* CoreLocation.framework in Frameworks */,
 				22A9A95E1DF61FD0000F0016 /* PushKit.framework in Frameworks */,
 				7B2C9AFC27D9270B00D5135C /* IQKeyboardManagerSwift in Frameworks */,
-				7B05887B28A241A000D7C971 /* Frames in Frameworks */,
+				7B05888128A2431E00D7C971 /* Frames in Frameworks */,
 				9F18E567261630EB00698ADB /* Cosmos.xcframework in Frameworks */,
 				22717B062315D3E300F77F4E /* CloudKit.framework in Frameworks */,
 				223DB21B1DF69F0F0076A151 /* libbz2.framework in Frameworks */,
@@ -2370,6 +2378,10 @@
 				7B2E5051289A5F02008CACD8 /* AddCardModels.swift */,
 				7B2E504D289A5F02008CACD8 /* AddCardViewController.swift */,
 				7B2E504E289A5F02008CACD8 /* AddCardInteractor.swift */,
+				7B05887728A23D4500D7C971 /* AddCardWorker.swift */,
+				7B05888228A254F900D7C971 /* PaymentStatusWorker.swift */,
+				7B05888428A2668F00D7C971 /* DeleteCardWorker.swift */,
+				7B05888628A2698A00D7C971 /* CardDetailsWorker.swift */,
 			);
 			path = AddCard;
 			sourceTree = "<group>";
@@ -3910,7 +3922,7 @@
 				3A0C6087242A5CC900F0FBC2 /* WalletKit */,
 				7B2C9AFB27D9270B00D5135C /* IQKeyboardManagerSwift */,
 				7E5CB32C2834E63400EC787E /* SnapKit */,
-				7B05887A28A241A000D7C971 /* Frames */,
+				7B05888028A2431E00D7C971 /* Frames */,
 			);
 			productName = breadwallet;
 			productReference = 75A2A7901DA5934300A983D8 /* breadwallet.app */;
@@ -4102,7 +4114,7 @@
 			packageReferences = (
 				7B2C9AFA27D9270B00D5135C /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				7E5CB32B2834E63400EC787E /* XCRemoteSwiftPackageReference "SnapKit" */,
-				7B05887928A241A000D7C971 /* XCRemoteSwiftPackageReference "frames-ios" */,
+				7B05887F28A2431E00D7C971 /* XCRemoteSwiftPackageReference "frames-ios" */,
 			);
 			productRefGroup = 75A2A7911DA5934300A983D8 /* Products */;
 			projectDirPath = "";
@@ -4496,6 +4508,7 @@
 				CEE0EF521EBD14B60018DB36 /* PinTransitioningDelegate.swift in Sources */,
 				754AE0BC1DFE8A46007FD001 /* SecureAllocator.swift in Sources */,
 				7B54E59D27F4A2B0002DD1E4 /* Shadowable.swift in Sources */,
+				7B05888528A2668F00D7C971 /* DeleteCardWorker.swift in Sources */,
 				7E5CB3A02835090E00EC787E /* VIPTableViewController.swift in Sources */,
 				3A5C9B2B22A5676F00C907C1 /* PriceChange.swift in Sources */,
 				7E5CB3AC2835090E00EC787E /* WrapperView.swift in Sources */,
@@ -4545,6 +4558,7 @@
 				3A1D4180250965730089FE63 /* MarketDataPublisher.swift in Sources */,
 				7EBC6AF628488B10000A301F /* RegistrationStore.swift in Sources */,
 				7E9B13FB2857404600BD9EF5 /* DocumentReviewPresenter.swift in Sources */,
+				7B05887828A23D4500D7C971 /* AddCardWorker.swift in Sources */,
 				CEF3E82D1DE528BF007C0A9E /* AlertView.swift in Sources */,
 				CEF3E82B1DE51612007C0A9E /* GradientCircle.swift in Sources */,
 				7E852748286C551C0058F4C0 /* ServerResponse.swift in Sources */,
@@ -4642,6 +4656,7 @@
 				CEC6AA401DEFC87300EE5AFD /* SendViewController.swift in Sources */,
 				7C72D13622662BB40091B185 /* Wallet.swift in Sources */,
 				CEC6F8451E886723000795B8 /* PaymentRequest.swift in Sources */,
+				7B05888328A254F900D7C971 /* PaymentStatusWorker.swift in Sources */,
 				CE274A611FD7C902000A4E62 /* RootNavigationController.swift in Sources */,
 				3A6C1406257D594A00EA0689 /* ShareGiftViewController.swift in Sources */,
 				7E5CB3B42835090E00EC787E /* FEButton.swift in Sources */,
@@ -4778,6 +4793,7 @@
 				7C9BC58F231765190011732F /* WalletConnectionSettings.swift in Sources */,
 				7B9434322886A7FA00638703 /* DeleteProfileInfoModels.swift in Sources */,
 				CEE20C2D1EA288FA0086F724 /* UpdatingLabel.swift in Sources */,
+				7B05888728A2698A00D7C971 /* CardDetailsWorker.swift in Sources */,
 				714F5D6E22037F2400F7CA70 /* EventMonitor.swift in Sources */,
 				CE3D4C591EF743EF0016B1C8 /* Functions.swift in Sources */,
 				7E8E979B283F4830008606B0 /* ProfileVIP.swift in Sources */,
@@ -6570,7 +6586,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7B05887928A241A000D7C971 /* XCRemoteSwiftPackageReference "frames-ios" */ = {
+		7B05887F28A2431E00D7C971 /* XCRemoteSwiftPackageReference "frames-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/checkout/frames-ios.git";
 			requirement = {
@@ -6601,9 +6617,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = WalletKit;
 		};
-		7B05887A28A241A000D7C971 /* Frames */ = {
+		7B05888028A2431E00D7C971 /* Frames */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7B05887928A241A000D7C971 /* XCRemoteSwiftPackageReference "frames-ios" */;
+			package = 7B05887F28A2431E00D7C971 /* XCRemoteSwiftPackageReference "frames-ios" */;
 			productName = Frames;
 		};
 		7B2C9AFB27D9270B00D5135C /* IQKeyboardManagerSwift */ = {
