@@ -57,7 +57,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         if let amount = actionResponse.amount {
             cryptoModel = .init(amount: amount, title: "I want")
         } else {
-            cryptoModel = SwapCurrencyViewModel(title: "I want")
+            cryptoModel = .init(title: "I want")
         }
         
         if let paymentCard = actionResponse.card {
