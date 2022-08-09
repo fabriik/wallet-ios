@@ -82,6 +82,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             cell = UITableViewCell()
         }
         
+        cell.setupCustomMargins(all: .large)
+        
         return cell
     }
     
@@ -131,6 +133,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         cell.setup { view in
             view.configure(with: .init())
             view.setup(with: model)
+            
             view.didTapSelectAsset = { [weak self] in
                 guard let cards = self?.dataStore?.allPaymentCards else { return }
                 self?.coordinator?.showCardSelector(cards: cards, selected: { selectedCard in
