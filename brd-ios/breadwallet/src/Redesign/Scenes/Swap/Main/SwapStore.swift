@@ -50,37 +50,25 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     // MARK: - Aditional helpers
     
     var fromFeeAmount: Amount? {
-        guard let fee = fromFee?.fee,
-              let currency = currencies.first(where: { $0.code == fee.currency.code.uppercased() })
-        else { return nil }
-
-        return Amount(cryptoAmount: fee, currency: currency)
+        if let value = fromFeeEth,
+           let currency = currencies.first(where: { $0.code == "ETH" }) {
+            return .init(tokenString: value.description, currency: currency)
+        } else if let value = fromFee?.fee,
+                  let currency = currencies.first(where: { $0.code == value.currency.code.uppercased() }) {
+            return .init(cryptoAmount: value, currency: currency)
+        }
+        return nil
     }
     
     var toFeeAmount: Amount? {
-        guard let fee = toFee?.fee,
-              let currency = currencies.first(where: { $0.code == fee.currency.code.uppercased() })
-        else { return nil }
-
-        return Amount(cryptoAmount: fee, currency: currency)
-    }
-    
-    var fromEthFeeAmount: Amount? {
-        guard fromFee?.fee == nil,
-              let currency = currencies.first(where: { $0.code == "ETH" }),
-              let fee = fromFeeEth
-        else { return nil }
-
-        return Amount(tokenString: fee.description, currency: currency)
-    }
-    
-    var toEthFeeAmount: Amount? {
-        guard toFee?.fee == nil,
-              let currency = currencies.first(where: { $0.code == "ETH" }),
-              let fee = toFeeEth
-        else { return nil }
-
-        return Amount(tokenString: fee.description, currency: currency)
+        if let value = toFeeEth,
+           let currency = currencies.first(where: { $0.code == "ETH" }) {
+            return .init(tokenString: value.description, currency: currency)
+        } else if let value = toFee?.fee,
+                  let currency = currencies.first(where: { $0.code == value.currency.code.uppercased() }) {
+            return .init(cryptoAmount: value, currency: currency)
+        }
+        return nil
     }
     
     var swapPair: String {

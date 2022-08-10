@@ -71,8 +71,8 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
                      maximumValue: response.maximumValue,
                      fromFeeCurrency: .init(feeCurrency: response.fromFeeCurrency.feeCurrency,
                                             rate: response.fromFeeCurrency.rate),
-                     toFeeCurrency: .init(feeCurrency: response.fromFeeCurrency.feeCurrency,
-                                          rate: response.fromFeeCurrency.rate))
+                     toFeeCurrency: .init(feeCurrency: response.toFeeCurrency.feeCurrency,
+                                          rate: response.toFeeCurrency.rate))
     }
 }
 

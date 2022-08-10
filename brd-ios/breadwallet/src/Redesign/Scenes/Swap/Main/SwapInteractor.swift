@@ -103,7 +103,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         CoinGeckoClient().load(resource)
     }
     
-    private func estimateFee(amount: Decimal?, currencyCode: String?, completion: @escaping ((Models.EstimateFeeResult) -> Void)) {
+    private func estimateFee(amount: Decimal?, currencyCode: String?, needFee: Bool = false, completion: @escaping ((Models.EstimateFeeResult) -> Void)) {
         guard let amount = amount,
               amount > 0,
               amount.isNaN == false,
@@ -115,8 +115,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             return
         }
         
-        let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-        
         var addressScheme: AddressScheme
         if currency.isBitcoin {
             addressScheme = UserDefaults.hasOptedInSegwit ? .btcSegwit : .btcLegacy
@@ -126,31 +124,37 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         let address = currency.wallet?.receiveAddress(for: addressScheme) ?? ""
         
+        guard needFee else {
+            let data = EstimateFeeRequestData(amount: amount,
+                                              currency: currency.code,
+                                              destination: address)
+            
+            EstimateFeeWorker().execute(requestData: data) { result in
+                switch result {
+                case .success(let fee):
+                    completion(.successEthFee(fee.fee))
+                    
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+            return
+        }
+            
+        let value = amountFrom(decimal: amount, currency: currency)
+        let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
         sender.estimateFee(address: address,
-                           amount: amountFrom(decimal: amount, currency: currency),
+                           amount: value,
                            tier: .regular,
-                           isStake: false,
-                           completion: { result in
+                           isStake: false) { result in
             switch result {
             case .success(let fee):
                 completion(.successFee(fee))
                 
-            case .failure:
-                let data = EstimateFeeRequestData(amount: amount,
-                                                  currency: currency.code,
-                                                  destination: address)
-                
-                EstimateFeeWorker().execute(requestData: data) { result in
-                    switch result {
-                    case .success(let fee):
-                        completion(.successEthFee(fee.fee))
-                        
-                    case .failure(let error):
-                        completion(.failure(error))
-                    }
-                }
+            case .failure(let error):
+                completion(.failure(error))
             }
-        })
+        }
     }
     
     func switchPlaces(viewAction: SwapModels.SwitchPlaces.ViewAction) {
@@ -172,19 +176,23 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
+        LoadingView.show()
         let group = DispatchGroup()
         group.enter()
         
         let from = dataStore?.from?.tokenValue == 0 ? NSDecimalNumber(string: viewAction.fromCryptoAmount ?? "0").decimalValue : dataStore?.from?.tokenValue
-        estimateFee(amount: from, currencyCode: dataStore?.fromCurrency?.code) { [weak self] result in
+        estimateFee(amount: from, currencyCode: dataStore?.fromCurrency?.code, needFee: true) { [weak self] result in
             switch result {
             case .successFee(let fee):
+                self?.dataStore?.fromFeeEth = nil
                 self?.dataStore?.fromFee = fee
                 
             case .successEthFee(let ethFee):
                 self?.dataStore?.fromFeeEth = ethFee
                 
             case .failure(let error):
+                self?.dataStore?.fromFee = nil
+                self?.dataStore?.fromFeeEth = nil
                 self?.presenter?.presentError(actionResponse: .init(error: error))
             }
             group.leave()
@@ -196,12 +204,16 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         estimateFee(amount: to, currencyCode: dataStore?.toCurrency?.code) { [weak self] result in
             switch result {
             case .successFee(let fee):
+                self?.dataStore?.toFeeEth = nil
                 self?.dataStore?.toFee = fee
                 
             case .successEthFee(let ethFee):
+                self?.dataStore?.toFee = nil
                 self?.dataStore?.toFeeEth = ethFee
                 
             case .failure(let error):
+                self?.dataStore?.toFee = nil
+                self?.dataStore?.toFeeEth = nil
                 self?.presenter?.presentError(actionResponse: .init(error: error))
             }
             group.leave()
@@ -209,6 +221,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         group.notify(queue: .main) { [weak self] in
             self?.calculateAmounts(viewAction: viewAction)
+            LoadingView.hide()
         }
     }
     
@@ -291,7 +304,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         guard let destination = swap?.address,
               let amountValue = swap?.amount,
-              let fee = dataStore?.toFee,
+              let fee = dataStore?.fromFee,
               let exchangeId = dataStore?.swap?.exchangeId
         else {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee(fee: dataStore?.fromFeeEth ?? 0)))
@@ -401,8 +414,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: dataStore?.swapPair)))
             return
         }
-        let fromFee = dataStore.fromFeeAmount?.tokenValue ?? dataStore.fromFeeEth ?? 0
-        let toFee = dataStore.toFeeAmount?.tokenValue ?? dataStore.toFeeEth ?? 0
+        let toFeeRate = dataStore.quote?.toFeeCurrency.rate ?? 1
+        let toFee = (dataStore.toFeeAmount?.tokenValue ?? 0) / toFeeRate
         
         let fromRate = dataStore.fromRate ?? 0
         let toRate = dataStore.toRate ?? 0
@@ -413,23 +426,23 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
            let fromCrypto = decimalFor(amount: fromCryptoAmount) {
             
             from = fromCrypto
-            to = (fromCrypto - fromFee) * exchangeRate / markup - toFee
+            to = fromCrypto * exchangeRate / markup - toFee
             
         } else if let fromFiatAmount = viewAction.fromFiatAmount,
                   let fromFiat = decimalFor(amount: fromFiatAmount) {
             
             from = fromFiat / fromRate
-            to = (from - fromFee) * exchangeRate / markup - toFee
+            to = from * exchangeRate / markup - toFee
         } else if let toCryptoAmount = viewAction.toCryptoAmount,
                   let toCrypto = decimalFor(amount: toCryptoAmount) {
             
-            from = (toCrypto + toFee) / exchangeRate * markup + fromFee
+            from = (toCrypto + toFee * toFeeRate) / exchangeRate * markup
             to = toCrypto
         } else if let toFiatAmount = viewAction.toFiatAmount,
                   let toFiat = decimalFor(amount: toFiatAmount) {
             
             to = toFiat / toRate
-            from = (to + toFee) / exchangeRate * markup + fromFee
+            from = (to + toFee) / exchangeRate * markup
             
         } else {
             guard dataStore.fromCurrency != nil,
@@ -437,16 +450,15 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             else { return }
             
             from = dataStore.from?.tokenValue ?? 0
-            to =  (from - fromFee) * exchangeRate / markup - toFee
+            to =  from * exchangeRate / markup - toFee
         }
-        
         dataStore.from = amountFrom(decimal: from, currency: fromCurrency)
         let minimum = Amount(tokenString: dataStore.quote?.minimumValue.description ?? "", currency: fromCurrency)
         dataStore.to = amountFrom(decimal: to, currency: toCurrency)
         presenter?.presentSetAmount(actionResponse: .init(from: dataStore.from,
                                                           to: dataStore.to,
-                                                          fromFee: dataStore.fromFeeAmount ?? dataStore.fromEthFeeAmount,
-                                                          toFee: dataStore.toFeeAmount ?? dataStore.toEthFeeAmount,
+                                                          fromFee: dataStore.fromFeeAmount,
+                                                          toFee: dataStore.toFeeAmount,
                                                           baseBalance: fromCurrency.state?.balance,
                                                           minimumAmount: minimum.fiatValue
                                                          ))
