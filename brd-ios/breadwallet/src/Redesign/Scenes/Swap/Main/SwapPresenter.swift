@@ -72,8 +72,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         let balance = actionResponse.baseBalance
         let balanceText = String(format: "I have %.4f %@", balance?.tokenValue.doubleValue ?? 0, balance?.currency.code ?? "BSV")
-        let sameCurrency = actionResponse.from?.currency.code == actionResponse.fromFee?.currency.code
-        let sendingFee = "Sending network fee\n(\(sameCurrency ? "" : "not " )included)"
+        let sendingFee = "Sending network fee\n(not included)"
         let receivingFee = "Receiving network fee\n(included)"
         
         let swapModel = MainSwapViewModel(from: .init(amount: actionResponse.from,
