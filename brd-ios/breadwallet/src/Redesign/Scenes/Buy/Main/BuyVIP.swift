@@ -29,7 +29,7 @@ protocol BuyResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisp
 }
 
 protocol BuyDataStore: BaseDataStore, FetchDataStore {
-    var from: Amount? { get set }
+    var fromAmount: Amount? { get set }
     var paymentCard: PaymentCard? { get set }
     var allPaymentCards: [PaymentCard]? { get set }
     var fromCurrency: Currency? { get set }

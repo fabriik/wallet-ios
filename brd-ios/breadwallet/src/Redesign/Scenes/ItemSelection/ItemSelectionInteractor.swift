@@ -25,10 +25,10 @@ class ItemSelectionInteractor: NSObject, Interactor, ItemSelectionViewActions {
     }
     
     func search(viewAction: ItemSelectionModels.Search.ViewAction) {
-        guard let countries = dataStore?.items,
+        guard let items = dataStore?.items,
               let searchText = viewAction.text?.lowercased() else { return }
         
-        let searchData = searchText.isEmpty ? countries : countries.filter { $0.displayName?.lowercased().contains(searchText) ?? false }
+        let searchData = searchText.isEmpty ? items : items.filter { $0.displayName?.lowercased().contains(searchText) ?? false }
         let item = Models.Item(items: searchData, isAddingEnabled: dataStore?.isAddingEnabled)
         presenter?.presentData(actionResponse: .init(item: item))
     }

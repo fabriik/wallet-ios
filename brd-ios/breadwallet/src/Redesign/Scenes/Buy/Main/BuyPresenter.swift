@@ -66,7 +66,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
                               expiration: .text(paymentCard.expiration),
                               userInteractionEnabled: true)
         } else {
-            cardModel = CardSelectionViewModel(userInteractionEnabled: true)
+            cardModel = .init(userInteractionEnabled: true)
         }
         
         viewController?.displayAssets(actionResponse: .init(cryptoModel: cryptoModel, cardModel: cardModel))
