@@ -35,6 +35,8 @@ class CardSelectionViewController: ItemSelectionViewController {
         
         cell.setup { view in
             view.configure(with: .init())
+            
+            // TODO: Should be in Presenter?
             view.setup(with: .init(title: nil,
                                    logo: model.displayImage,
                                    cardNumber: .text(CardDetailsFormatter.formatNumber(last4: model.last4)),
