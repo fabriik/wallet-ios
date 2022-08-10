@@ -1,5 +1,5 @@
 // 
-//  CardDetailsWorker.swift
+//  PaymentCardsWorker.swift
 //  breadwallet
 //
 //  Created by Kenan Mamedoff on 09/08/2022.
@@ -41,7 +41,7 @@ struct PaymentCard: ItemSelectable {
     }
 }
 
-class CardDetailsMapper: ModelMapper<PaymentCardsResponseData, [PaymentCard]> {
+class PaymentCardsMapper: ModelMapper<PaymentCardsResponseData, [PaymentCard]> {
     override func getModel(from response: PaymentCardsResponseData?) -> [PaymentCard] {
         return response?.paymentInstruments.compactMap {
             return PaymentCard(id: $0.id ?? "",
@@ -54,13 +54,13 @@ class CardDetailsMapper: ModelMapper<PaymentCardsResponseData, [PaymentCard]> {
     }
 }
 
-struct CardDetailsRequestData: RequestModelData {
+struct PaymentCardsRequestData: RequestModelData {
     func getParameters() -> [String: Any] {
         return [:]
     }
 }
 
-class CardDetailsWorker: BaseApiWorker<CardDetailsMapper> {
+class PaymentCardsWorker: BaseApiWorker<PaymentCardsMapper> {
     override func getUrl() -> String {
         return SwapEndpoints.paymentInstruments.url
     }
