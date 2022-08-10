@@ -41,7 +41,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, SwapInfoRoutes {
         let disabledData: [AssetViewModel]? = unsupportedAssets.compactMap {
             return AssetViewModel(icon: $0.imageSquareBackground,
                                   title: $0.name,
-                                  subtitle: $0.code,
+                                  subtitle: $0.code.uppercased(),
                                   isDisabled: true)
         }
         
