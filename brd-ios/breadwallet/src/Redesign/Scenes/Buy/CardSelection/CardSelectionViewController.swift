@@ -39,7 +39,7 @@ class CardSelectionViewController: ItemSelectionViewController {
             // TODO: Should be in Presenter?
             view.setup(with: .init(title: nil,
                                    logo: model.displayImage,
-                                   cardNumber: .text(CardDetailsFormatter.formatNumber(last4: model.last4)),
+                                   cardNumber: .text(model.displayName),
                                    expiration: .text(CardDetailsFormatter.formatExpirationDate(month: model.expiryMonth, year: model.expiryYear))))
         }
         

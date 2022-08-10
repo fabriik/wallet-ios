@@ -32,7 +32,7 @@ struct PaymentCard: ItemSelectable {
     var last4: String
     var image: UIImage?
     
-    var displayName: String? { return last4 }
+    var displayName: String? { return CardDetailsFormatter.formatNumber(last4: last4) }
     var displayImage: ImageViewModel? {
         guard let image = image else {
             return .imageName("card")
