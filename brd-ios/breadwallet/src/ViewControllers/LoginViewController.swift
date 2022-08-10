@@ -445,6 +445,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
             return
         }
         saveEvent("login.locked")
+        navigationController?.isNavigationBarHidden = true
         let disabledUntil = keyMaster.walletDisabledUntil
         let disabledUntilDate = Date(timeIntervalSince1970: disabledUntil)
         let unlockInterval = disabledUntil - Date().timeIntervalSince1970
@@ -464,10 +465,6 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
                 self.setNeedsStatusBarAppearanceUpdate()
             }
         }
-
-        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.walletDisabled, position: .right)
-        faqButton.tintColor = Theme.primaryText
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: faqButton)
 
         if disabledView.superview == nil {
             view.addSubview(disabledView)
