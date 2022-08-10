@@ -8,9 +8,9 @@
 //  See the LICENSE file at the project root for license information.
 //
 
-import Foundation
+import UIKit
 
-struct CardDetailsResponseData: ModelResponse {
+struct PaymentCardsResponseData: ModelResponse {
     struct PaymentInstruments: ModelResponse {
         var id: String?
         var fingerprint: String?
@@ -23,19 +23,28 @@ struct CardDetailsResponseData: ModelResponse {
     var paymentInstruments: [PaymentInstruments]
 }
 
-struct CardDetails: Model {
+struct PaymentCard: ItemSelectable {
     var id: String
     var fingerprint: String
     var expiryMonth: Int
     var expiryYear: Int
     var scheme: String
     var last4: String
+    var image: UIImage?
+    
+    var displayName: String? { return last4 }
+    var displayImage: ImageViewModel? {
+        guard let image = image else {
+            return .imageName("card")
+        }
+        return .image(image)
+    }
 }
 
-class CardDetailsMapper: ModelMapper<CardDetailsResponseData, [CardDetails]> {
-    override func getModel(from response: CardDetailsResponseData?) -> [CardDetails] {
+class CardDetailsMapper: ModelMapper<PaymentCardsResponseData, [PaymentCard]> {
+    override func getModel(from response: PaymentCardsResponseData?) -> [PaymentCard] {
         return response?.paymentInstruments.compactMap {
-            return CardDetails(id: $0.id ?? "",
+            return PaymentCard(id: $0.id ?? "",
                                fingerprint: $0.fingerprint ?? "",
                                expiryMonth: $0.expiryMonth ?? 0,
                                expiryYear: $0.expiryYear ?? 0,

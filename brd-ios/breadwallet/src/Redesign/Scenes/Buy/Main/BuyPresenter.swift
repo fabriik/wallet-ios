@@ -62,8 +62,8 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         
         if let paymentCard = actionResponse.card {
             cardModel = .init(logo: paymentCard.displayImage,
-                              cardNumber: .text(paymentCard.number),
-                              expiration: .text(paymentCard.expiration),
+                              cardNumber: .text(CardDetailsFormatter.formatNumber(last4: paymentCard.last4)),
+                              expiration: .text(CardDetailsFormatter.formatExpirationDate(month: paymentCard.expiryMonth, year: paymentCard.expiryYear)),
                               userInteractionEnabled: true)
         } else {
             cardModel = .init(userInteractionEnabled: true)
@@ -74,4 +74,19 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
     
     // MARK: - Additional Helpers
 
+}
+
+struct CardDetailsFormatter {
+    static func formatNumber(last4: String) -> String {
+        return "**** **** **** \(last4)"
+    }
+    
+    static func formatExpirationDate(month: Int, year: Int) -> String {
+        let formattedMonth = String(format: "%02d", month)
+        
+        let year = String(year)
+        let formattedYear: String = year.count == 4 ? String(year.dropFirst(2)) : year
+        
+        return "\(formattedMonth)/\(formattedYear)"
+    }
 }

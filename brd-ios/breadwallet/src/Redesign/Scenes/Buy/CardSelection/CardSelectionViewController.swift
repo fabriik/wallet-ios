@@ -35,7 +35,10 @@ class CardSelectionViewController: ItemSelectionViewController {
         
         cell.setup { view in
             view.configure(with: .init())
-            view.setup(with: .init(title: nil, logo: model.displayImage, cardNumber: .text(model.number), expiration: .text(model.expiration)))
+            view.setup(with: .init(title: nil,
+                                   logo: model.displayImage,
+                                   cardNumber: .text(CardDetailsFormatter.formatNumber(last4: model.last4)),
+                                   expiration: .text(CardDetailsFormatter.formatExpirationDate(month: model.expiryMonth, year: model.expiryYear))))
         }
         
         return cell
