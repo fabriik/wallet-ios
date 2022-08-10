@@ -105,7 +105,6 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         if let value = viewAction.currency?.lowercased(),
            let currency = Store.state.currencies.first(where: { $0.code.lowercased() == value }) {
             dataStore?.fromCurrency = currency
-            dataStore?.fromAmount = .init(tokenString: "0", currency: currency)
         } else if let value = viewAction.card {
             dataStore?.paymentCard = value
         }
