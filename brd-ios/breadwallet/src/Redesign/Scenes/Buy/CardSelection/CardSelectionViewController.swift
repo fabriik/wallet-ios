@@ -52,7 +52,8 @@ class CardSelectionViewController: ItemSelectionViewController {
         }
         
         cell.setup { view in
-            view.configure(with: .init())
+            let config = CardSelectionConfiguration(title: .init(font: Fonts.Title.six, textColor: LightColors.Icons.one))
+            view.configure(with: config)
             view.setup(with: .init(title: .text("Card"),
                                    logo: .imageName("card"),
                                    cardNumber: .text("Add a debit or credit card"),

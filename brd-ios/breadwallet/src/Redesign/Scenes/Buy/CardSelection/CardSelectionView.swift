@@ -11,7 +11,7 @@
 import UIKit
 
 struct CardSelectionConfiguration: Configurable {
-    var title: LabelConfiguration? = .init(font: Fonts.Title.six, textColor: LightColors.Icons.one)
+    var title: LabelConfiguration? = .init(font: Fonts.caption, textColor: LightColors.Text.one)
     var logo: BackgroundConfiguration? = .init(tintColor: LightColors.Icons.two)
     var cardNumber: LabelConfiguration? = .init(font: Fonts.Subtitle.two, textColor: LightColors.Icons.one)
     var expiration: LabelConfiguration?
