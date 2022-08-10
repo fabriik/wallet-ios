@@ -34,7 +34,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         
         dataStore?.fromAmount = .init(tokenString: "0", currency: currency)
         
-        CardDetailsWorker().execute(requestData: CardDetailsRequestData()) { [weak self] result in
+        PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
