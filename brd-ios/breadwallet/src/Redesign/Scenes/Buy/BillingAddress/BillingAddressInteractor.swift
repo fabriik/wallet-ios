@@ -23,7 +23,7 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
     }
     
     func getPaymentCards(viewAction: BillingAddressModels.PaymentCards.ViewAction) {
-        CardDetailsWorker().execute(requestData: CardDetailsRequestData()) { [weak self] result in
+        PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
