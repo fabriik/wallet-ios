@@ -140,7 +140,7 @@
 		7B05888128A2431E00D7C971 /* Frames in Frameworks */ = {isa = PBXBuildFile; productRef = 7B05888028A2431E00D7C971 /* Frames */; };
 		7B05888328A254F900D7C971 /* PaymentStatusWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05888228A254F900D7C971 /* PaymentStatusWorker.swift */; };
 		7B05888528A2668F00D7C971 /* DeleteCardWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05888428A2668F00D7C971 /* DeleteCardWorker.swift */; };
-		7B05888728A2698A00D7C971 /* CardDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05888628A2698A00D7C971 /* CardDetailsWorker.swift */; };
+		7B05888728A2698A00D7C971 /* PaymentCardsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05888628A2698A00D7C971 /* PaymentCardsWorker.swift */; };
 		7B08D2262860574F00D65ED9 /* SimpleBackBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B08D2252860574F00D65ED9 /* SimpleBackBarButtonItem.swift */; };
 		7B2C9AFC27D9270B00D5135C /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B2C9AFB27D9270B00D5135C /* IQKeyboardManagerSwift */; };
 		7B2E5048289800BB008CACD8 /* FieldValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E5047289800BB008CACD8 /* FieldValidator.swift */; };
@@ -181,6 +181,7 @@
 		7B88C4872837B8E70089CFBE /* Currency+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B88C4842837B8710089CFBE /* Currency+Shared.swift */; };
 		7B88C48A283CD2D80089CFBE /* currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B519A922835B505007AC80A /* currencies.json */; };
 		7B88C48B283CD2D80089CFBE /* currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B519A922835B505007AC80A /* currencies.json */; };
+		7B8CF81E28A3D0C600D54D14 /* CardDetailsFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8CF81D28A3D0C600D54D14 /* CardDetailsFormatter.swift */; };
 		7B8EC630280896F0008C6DE5 /* brd-tokens.tar in Resources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0F2806FA190031F015 /* brd-tokens.tar */; };
 		7B8EC631280896F1008C6DE5 /* brd-tokens.tar in Resources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0F2806FA190031F015 /* brd-tokens.tar */; };
 		7B8EC632280896F3008C6DE5 /* brd-tokens-staging.tar in Resources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0E2806FA190031F015 /* brd-tokens-staging.tar */; };
@@ -202,7 +203,6 @@
 		7BBBF4DF287421CF00E4D36B /* SwapStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBF4D9287421CF00E4D36B /* SwapStore.swift */; };
 		7BBBF4E0287421CF00E4D36B /* SwapMainVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBF4DA287421CF00E4D36B /* SwapMainVIP.swift */; };
 		7BC49D1B282E69A3000BF284 /* ManageAssetsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC49D1A282E69A3000BF284 /* ManageAssetsButton.swift */; };
-		7BDADED2289D25E9001B7D41 /* CardsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDADED1289D25E9001B7D41 /* CardsWorker.swift */; };
 		7BDB49B62805AC780031F015 /* EmailFeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB49B52805AC780031F015 /* EmailFeedbackManager.swift */; };
 		7BDB49D62806C03A0031F015 /* BRTarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB49D52806C03A0031F015 /* BRTarTests.swift */; };
 		7BDB49E22806CB590031F015 /* ImageStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB49E12806CB590031F015 /* ImageStorageService.swift */; };
@@ -1127,7 +1127,7 @@
 		7B05887728A23D4500D7C971 /* AddCardWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardWorker.swift; sourceTree = "<group>"; };
 		7B05888228A254F900D7C971 /* PaymentStatusWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatusWorker.swift; sourceTree = "<group>"; };
 		7B05888428A2668F00D7C971 /* DeleteCardWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCardWorker.swift; sourceTree = "<group>"; };
-		7B05888628A2698A00D7C971 /* CardDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailsWorker.swift; sourceTree = "<group>"; };
+		7B05888628A2698A00D7C971 /* PaymentCardsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCardsWorker.swift; sourceTree = "<group>"; };
 		7B08D2252860574F00D65ED9 /* SimpleBackBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleBackBarButtonItem.swift; sourceTree = "<group>"; };
 		7B2E5047289800BB008CACD8 /* FieldValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldValidator.swift; sourceTree = "<group>"; };
 		7B2E504C289A5F02008CACD8 /* AddCardStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardStore.swift; sourceTree = "<group>"; };
@@ -1162,6 +1162,7 @@
 		7B78631D2874D36D0092F35B /* SwapCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapCurrencyView.swift; sourceTree = "<group>"; };
 		7B8140B927FD6DBB00662724 /* Currency+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency+Extensions.swift"; sourceTree = "<group>"; };
 		7B88C4842837B8710089CFBE /* Currency+Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency+Shared.swift"; sourceTree = "<group>"; };
+		7B8CF81D28A3D0C600D54D14 /* CardDetailsFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailsFormatter.swift; sourceTree = "<group>"; };
 		7B94342A2886A7F900638703 /* DeleteProfileInfoInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoInteractor.swift; sourceTree = "<group>"; };
 		7B94342B2886A7F900638703 /* DeleteProfileInfoModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoModels.swift; sourceTree = "<group>"; };
 		7B94342C2886A7F900638703 /* DeleteProfileInfoVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoVIP.swift; sourceTree = "<group>"; };
@@ -1179,7 +1180,6 @@
 		7BBBF4D9287421CF00E4D36B /* SwapStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwapStore.swift; sourceTree = "<group>"; };
 		7BBBF4DA287421CF00E4D36B /* SwapMainVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwapMainVIP.swift; sourceTree = "<group>"; };
 		7BC49D1A282E69A3000BF284 /* ManageAssetsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManageAssetsButton.swift; path = src/Views/ManageAssetsButton.swift; sourceTree = "<group>"; };
-		7BDADED1289D25E9001B7D41 /* CardsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsWorker.swift; sourceTree = "<group>"; };
 		7BDB49B52805AC780031F015 /* EmailFeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailFeedbackManager.swift; sourceTree = "<group>"; };
 		7BDB49D52806C03A0031F015 /* BRTarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRTarTests.swift; sourceTree = "<group>"; };
 		7BDB49E12806CB590031F015 /* ImageStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageService.swift; sourceTree = "<group>"; };
@@ -2367,7 +2367,7 @@
 				7B05887728A23D4500D7C971 /* AddCardWorker.swift */,
 				7B05888228A254F900D7C971 /* PaymentStatusWorker.swift */,
 				7B05888428A2668F00D7C971 /* DeleteCardWorker.swift */,
-				7B05888628A2698A00D7C971 /* CardDetailsWorker.swift */,
+				7B05888628A2698A00D7C971 /* PaymentCardsWorker.swift */,
 			);
 			path = AddCard;
 			sourceTree = "<group>";
@@ -2814,6 +2814,7 @@
 				7E87B32C285346E00097671F /* UIImage+compress.swift */,
 				7ECDE12528817021002872E6 /* RangeReplaceableCollection+Digits.swift */,
 				7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */,
+				7B8CF81D28A3D0C600D54D14 /* CardDetailsFormatter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2878,7 +2879,6 @@
 				7EB8FD1D2897D212000FF75C /* BuyModels.swift */,
 				7EB8FD1F2897D212000FF75C /* BuyViewController.swift */,
 				7EB8FD202897D212000FF75C /* BuyInteractor.swift */,
-				7BDADED1289D25E9001B7D41 /* CardsWorker.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -4481,6 +4481,7 @@
 				7EBC6B062848ABC5000A301F /* RegistrationConfirmationStore.swift in Sources */,
 				7CF9988D23202C75004AEC17 /* BRAPIClient+Experiments.swift in Sources */,
 				7E9B13F02857213400BD9EF5 /* KYCLevelOneWorker.swift in Sources */,
+				7B8CF81E28A3D0C600D54D14 /* CardDetailsFormatter.swift in Sources */,
 				7ED83AFB284F40EB00261565 /* CheckListInteractor.swift in Sources */,
 				7E87B32A2853368E0097671F /* KYCDocumentUploadWorker.swift in Sources */,
 				CEE0EF521EBD14B60018DB36 /* PinTransitioningDelegate.swift in Sources */,
@@ -4768,7 +4769,7 @@
 				7C9BC58F231765190011732F /* WalletConnectionSettings.swift in Sources */,
 				7B9434322886A7FA00638703 /* DeleteProfileInfoModels.swift in Sources */,
 				CEE20C2D1EA288FA0086F724 /* UpdatingLabel.swift in Sources */,
-				7B05888728A2698A00D7C971 /* CardDetailsWorker.swift in Sources */,
+				7B05888728A2698A00D7C971 /* PaymentCardsWorker.swift in Sources */,
 				714F5D6E22037F2400F7CA70 /* EventMonitor.swift in Sources */,
 				CE3D4C591EF743EF0016B1C8 /* Functions.swift in Sources */,
 				7E8E979B283F4830008606B0 /* ProfileVIP.swift in Sources */,
@@ -5001,7 +5002,6 @@
 				710B036421F8C208007E8A2A /* AppRatingManager.swift in Sources */,
 				7B88C4852837B8710089CFBE /* Currency+Shared.swift in Sources */,
 				7BDB4A072806F4720031F015 /* LinkStatusCircle.swift in Sources */,
-				7BDADED2289D25E9001B7D41 /* CardsWorker.swift in Sources */,
 				CE9057181DFF0FA8006BA848 /* String+Additions.swift in Sources */,
 				7BDB4A032806F4290031F015 /* CsvExporter.swift in Sources */,
 				713CD8872240117A004657D4 /* RecoveryKeyFlowController.swift in Sources */,

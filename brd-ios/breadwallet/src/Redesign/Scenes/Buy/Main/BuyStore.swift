@@ -12,7 +12,7 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     // MARK: - BuyDataStore
     var itemId: String?
     
-    var from: Amount?
+    var fromAmount: Amount?
     var fromCurrency: Currency? = Store.state.currencies.first(where: { $0.code.lowercased() == "btc" })
     var toCurrency: String? = Store.state.defaultCurrencyCode.lowercased()
     var paymentCard: PaymentCard?

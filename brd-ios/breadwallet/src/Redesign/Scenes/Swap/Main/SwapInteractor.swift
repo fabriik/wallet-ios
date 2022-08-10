@@ -195,14 +195,14 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let to = dataStore?.to?.tokenValue == 0 ? NSDecimalNumber(string: viewAction.toCryptoAmount ?? "0").decimalValue : dataStore?.to?.tokenValue
         estimateFee(amount: to, currencyCode: dataStore?.toCurrency?.code) { [weak self] result in
             switch result {
-                case .successFee(let fee):
-                    self?.dataStore?.toFee = fee
-                    
-                case .successEthFee(let ethFee):
-                    self?.dataStore?.toFeeEth = ethFee
-                    
-                case .failure(let error):
-                    self?.presenter?.presentError(actionResponse: .init(error: error))
+            case .successFee(let fee):
+                self?.dataStore?.toFee = fee
+                
+            case .successEthFee(let ethFee):
+                self?.dataStore?.toFeeEth = ethFee
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             }
             group.leave()
         }

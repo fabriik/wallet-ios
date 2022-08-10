@@ -32,8 +32,9 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             return
         }
         
-        let data = PaymentCardsRequestData()
-        CardsWorker().execute(requestData: data) { [weak self] result in
+        dataStore?.fromAmount = .init(tokenString: "0", currency: currency)
+        
+        PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -42,7 +43,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                 
                 self.getExchangeRate(viewAction: .init())
                 self.presenter?.presentData(actionResponse: .init(item: Models.Item(amount: .zero(currency), paymentCard: self.dataStore?.paymentCard)))
-                self.presenter?.presentAssets(actionResponse: .init(amount: self.dataStore?.from, card: self.dataStore?.paymentCard))
+                self.presenter?.presentAssets(actionResponse: .init(amount: self.dataStore?.fromAmount, card: self.dataStore?.paymentCard))
                 
             case .failure(let error):
                 self.presenter?.presentError(actionResponse: .init(error: error))
@@ -66,8 +67,9 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
 
         guard let tokenString = formatAmount(amount: tokenValue) else { return }
         
-        dataStore?.from = Amount(tokenString: tokenString, currency: from)
-        presenter?.presentAssets(actionResponse: .init(amount: dataStore?.from, card: dataStore?.paymentCard))
+        dataStore?.fromAmount = Amount(tokenString: tokenString, currency: from)
+        
+        presenter?.presentAssets(actionResponse: .init(amount: dataStore?.fromAmount, card: dataStore?.paymentCard))
     }
     
     func getExchangeRate(viewAction: Models.Rate.ViewAction) {
@@ -88,7 +90,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                                                                            to: to,
                                                                            rate: self?.dataStore?.rate,
                                                                            expires: Date().timeIntervalSince1970 + 15))
-                self?.setAmount(viewAction: .init(tokenValue: self?.dataStore?.from?.tokenValue.description))
+                self?.setAmount(viewAction: .init(tokenValue: self?.dataStore?.fromAmount?.tokenValue.description))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
@@ -102,16 +104,15 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         if let value = viewAction.currency?.lowercased(),
            let currency = Store.state.currencies.first(where: { $0.code.lowercased() == value }) {
             dataStore?.fromCurrency = currency
-            dataStore?.from = .init(tokenString: "1", currency: currency)
         } else if let value = viewAction.card {
             dataStore?.paymentCard = value
         }
-        getData(viewAction: .init())
         
-        presenter?.presentAssets(actionResponse: .init(amount: dataStore?.from, card: dataStore?.paymentCard))
+        getData(viewAction: .init())
     }
     
     // MARK: - Aditional helpers
+    
     // TODO: extract to helper class
     private func decimalFor(amount: String?) -> Decimal? {
         guard let amount = amount else {
