@@ -62,8 +62,8 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         
         if let paymentCard = actionResponse.card {
             cardModel = .init(logo: paymentCard.displayImage,
-                              cardNumber: .text(paymentCard.number),
-                              expiration: .text(paymentCard.expiration),
+                              cardNumber: .text(paymentCard.displayName),
+                              expiration: .text(CardDetailsFormatter.formatExpirationDate(month: paymentCard.expiryMonth, year: paymentCard.expiryYear)),
                               userInteractionEnabled: true)
         } else {
             cardModel = .init(userInteractionEnabled: true)

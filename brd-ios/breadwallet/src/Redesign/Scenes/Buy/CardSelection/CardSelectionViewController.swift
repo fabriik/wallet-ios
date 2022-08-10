@@ -35,7 +35,12 @@ class CardSelectionViewController: ItemSelectionViewController {
         
         cell.setup { view in
             view.configure(with: .init())
-            view.setup(with: .init(title: nil, logo: model.displayImage, cardNumber: .text(model.number), expiration: .text(model.expiration)))
+            
+            // TODO: Should be in Presenter?
+            view.setup(with: .init(title: nil,
+                                   logo: model.displayImage,
+                                   cardNumber: .text(model.displayName),
+                                   expiration: .text(CardDetailsFormatter.formatExpirationDate(month: model.expiryMonth, year: model.expiryYear))))
         }
         
         return cell
