@@ -8,6 +8,10 @@
 
 import UIKit
 
+extension Scenes {
+    static let AssetSelection = AssetSelectionViewController.self
+}
+
 class AssetSelectionViewController: ItemSelectionViewController {
     
     override var sceneTitle: String? { return "Select assets" }
