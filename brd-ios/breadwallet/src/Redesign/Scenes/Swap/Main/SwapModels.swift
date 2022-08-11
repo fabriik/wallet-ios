@@ -12,9 +12,10 @@ import UIKit
 import WalletKit
 
 enum SwapModels {
-    typealias Item = (from: Currency?, to: Currency?, quote: Quote?)
+    typealias Item = (from: Currency?, to: Currency?, quote: Quote?, isKYCTwo: Bool?)
     
     enum Sections: Sectionable {
+        case accountLimits
         case rateAndTimer
         case swapCard
         case errors

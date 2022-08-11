@@ -26,7 +26,11 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
               let to = item.to
         else { return }
         
+        guard let isKYCTwo = item.isKYCTwo else { return }
+        let limitValue = isKYCTwo ? "$10,000.00" : "$1,000.00"
+        
         let sections: [Models.Sections] = [
+            .accountLimits,
             .rateAndTimer,
             .swapCard,
             .errors
@@ -37,6 +41,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         // TODO: Get rid of empty values.
         let sectionRows: [Models.Sections: [Any]] = [
+            .accountLimits: [ LabelViewModel.text("Currently, minimum limit for swap is $50.00 USD and maximum limit is \(limitValue) USD/day.")
+            ],
             .rateAndTimer: [
                 exchangeRateViewModel
             ],

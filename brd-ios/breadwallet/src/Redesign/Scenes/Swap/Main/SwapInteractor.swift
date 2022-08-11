@@ -68,7 +68,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     private func handleQuote(_ quote: Quote?, isInitialLaunch: Bool) {
         if isInitialLaunch {
-            presenter?.presentData(actionResponse: .init(item: Models.Item(from: dataStore?.fromCurrency, to: dataStore?.toCurrency, quote: quote)))
+            presenter?.presentData(actionResponse: .init(item: Models.Item(from: dataStore?.fromCurrency,
+                                                                           to: dataStore?.toCurrency,
+                                                                           quote: quote,
+                                                                           isKYCTwo: dataStore?.isKYCTwo)))
         }
         
         guard let from = dataStore?.fromCurrency,

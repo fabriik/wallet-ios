@@ -46,6 +46,7 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var keyStore: KeyStore?
     
     var pin: String?
+    var isKYCTwo: Bool?
     
     // MARK: - Aditional helpers
     
