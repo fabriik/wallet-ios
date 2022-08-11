@@ -120,6 +120,7 @@ struct VerificationViewModel: ViewModel {
     var infoButton: ButtonViewModel?
     var description: LabelViewModel?
     var benefits: LabelViewModel?
+    var buyBenefits: LabelViewModel?
     var isActive: Bool?
 }
 
@@ -187,6 +188,11 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
         return view
     }()
     
+    private lazy var buyBenefitsLabel: WrapperView<FELabel>  = {
+        let view = WrapperView<FELabel>()
+        return view
+    }()
+    
     override func setupSubviews() {
         super.setupSubviews()
         
@@ -225,6 +231,10 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
             make.height.equalTo(Margins.huge.rawValue)
             make.width.equalToSuperview().inset(Margins.small.rawValue)
         }
+        mainStack.addArrangedSubview(buyBenefitsLabel)
+        buyBenefitsLabel.snp.makeConstraints { make in
+            make.height.width.equalTo(benefitsLabel)
+        }
         setupClearMargins()
     }
     
@@ -251,6 +261,7 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
 
         descriptionLabel.configure(with: config.description)
         benefitsLabel.wrappedView.configure(with: config.benefits)
+        buyBenefitsLabel.wrappedView.configure(with: config.benefits)
     }
     
     override func setup(with viewModel: VerificationViewModel?) {
@@ -275,12 +286,20 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
         
         benefitsLabel.wrappedView.setup(with: viewModel.benefits)
         benefitsLabel.isHidden = viewModel.benefits == nil
+        
+        buyBenefitsLabel.wrappedView.setup(with: viewModel.buyBenefits)
+        buyBenefitsLabel.isHidden = viewModel.buyBenefits == nil
+        
+        let backgroundConfiguration: BackgroundConfiguration?
+        
         if viewModel.isActive ?? true {
-            benefitsLabel.configure(background: Presets.Background.Primary.normal.withBorder(border: Presets.Border.normal))
+            backgroundConfiguration = Presets.Background.Primary.normal.withBorder(border: Presets.Border.normal)
         } else {
-            benefitsLabel.configure(background: Presets.Background.Primary.disabled.withBorder(border: Presets.Border.normal))
+            backgroundConfiguration = Presets.Background.Primary.disabled.withBorder(border: Presets.Border.normal)
             statusImageView.tintColor = LightColors.InteractionPrimary.disabled
         }
+        benefitsLabel.configure(background: backgroundConfiguration)
+        buyBenefitsLabel.configure(background: backgroundConfiguration)
         
         if viewModel.status == .levelTwo(.declined) || viewModel.status == .levelTwo(.resubmit) {
             statusImageView.wrappedView.setup(with: .init(.imageName("errorIcon")))
