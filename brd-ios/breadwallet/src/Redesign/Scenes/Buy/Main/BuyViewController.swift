@@ -66,6 +66,9 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch sections[indexPath.section] as? Models.Sections {
+        case .accountLimits:
+            cell = self.tableView(tableView, labelCellForRowAt: indexPath)
+            
         case .rate:
             cell = self.tableView(tableView, timerCellForRowAt: indexPath)
 
