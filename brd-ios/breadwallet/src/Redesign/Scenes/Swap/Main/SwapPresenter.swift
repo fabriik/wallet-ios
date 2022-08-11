@@ -26,8 +26,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
               let to = item.to
         else { return }
         
-        guard let isKYCTwo = item.isKYCTwo else { return }
-        let limitValue = isKYCTwo ? "$10,000.00" : "$1,000.00"
+        guard let isKYCLevelTwo = item.isKYCLevelTwo else { return }
+        let limitValue = isKYCLevelTwo ? "$10,000.00" : "$1,000.00"
         
         let sections: [Models.Sections] = [
             .accountLimits,

@@ -48,7 +48,7 @@ class BaseCoordinator: NSObject,
     var parentCoordinator: Coordinatable?
     var childCoordinators: [Coordinatable] = []
     var navigationController: UINavigationController
-    var isKYCTwo: Bool?
+    var isKYCLevelTwo: Bool?
 
     required init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -105,7 +105,7 @@ class BaseCoordinator: NSObject,
                 vc?.dataStore?.coreSystem = coreSystem
                 vc?.dataStore?.keyStore = keyStore
                 vc?.dataStore?.defaultCurrencyCode = Store.state.defaultCurrencyCode.lowercased()
-                vc?.dataStore?.isKYCTwo = self?.isKYCTwo
+                vc?.dataStore?.isKYCLevelTwo = self?.isKYCLevelTwo
                 vc?.prepareData()
             }
         }
@@ -235,7 +235,7 @@ class BaseCoordinator: NSObject,
                 let status = profile.status
                 let canBuyTrade = status.canBuyTrade
                 
-                isKYCTwo = status == .levelTwo(.levelTwo)
+                isKYCLevelTwo = status == .levelTwo(.levelTwo)
                 
                 if roles.contains(.unverified) || roles.isEmpty == true ||
                     status == .emailPending || status == .none {

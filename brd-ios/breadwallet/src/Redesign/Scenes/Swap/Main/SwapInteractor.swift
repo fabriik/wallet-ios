@@ -71,7 +71,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             presenter?.presentData(actionResponse: .init(item: Models.Item(from: dataStore?.fromCurrency,
                                                                            to: dataStore?.toCurrency,
                                                                            quote: quote,
-                                                                           isKYCTwo: dataStore?.isKYCTwo)))
+                                                                           isKYCLevelTwo: dataStore?.isKYCLevelTwo)))
         }
         
         guard let from = dataStore?.fromCurrency,
