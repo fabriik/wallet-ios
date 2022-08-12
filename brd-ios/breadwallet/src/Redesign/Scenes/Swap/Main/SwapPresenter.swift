@@ -52,7 +52,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
     
-    func presentUpdateRate(actionResponse: SwapModels.Rate.ActionResponse) {
+    func presentRate(actionResponse: SwapModels.Rate.ActionResponse) {
         guard let from = actionResponse.from,
               let to = actionResponse.to,
               let rate = actionResponse.rate else {
@@ -65,11 +65,11 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
                                                       timer: TimerViewModel(till: actionResponse.expires ?? 0,
                                                                             repeats: false))
-                                                      
-        viewController?.displayUpdateRate(responseDisplay: .init(rate: exchangeRateViewModel))
+        
+        viewController?.displayRate(responseDisplay: .init(rate: exchangeRateViewModel))
     }
     
-    func presentSetAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
+    func presentAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         let balance = actionResponse.baseBalance
         let balanceText = String(format: "I have %.4f %@", balance?.tokenValue.doubleValue ?? 0, balance?.currency.code ?? "BSV")
         let sendingFee = "Sending network fee\n(not included)"
@@ -85,7 +85,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                     feeDescription: receivingFee))
         
         let minimumAmount: Decimal = actionResponse.minimumAmount ?? 5
-
+        
         var hasError: Bool = actionResponse.from?.fiatValue == 0
         if actionResponse.baseBalance == nil
             || actionResponse.from?.currency.code == actionResponse.to?.currency.code {
@@ -101,48 +101,48 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             let lifetimeLimit = profile?.lifetimeRemainingLimit ?? 0
             let exchangeLimit = profile?.exchangeLimit ?? 0
             let balance = actionResponse.baseBalance?.tokenValue ?? 0
-
+            
             switch value {
             case _ where value <= 0:
                 // fiat value is bellow 0
                 presentError(actionResponse: .init(error: nil))
                 hasError = true
-
+                
             case _ where value > (actionResponse.baseBalance?.fiatValue ?? 0):
                 // value higher than balance
                 let error = SwapErrors.balanceTooLow(amount: fromCrypto, balance: balance, currency: actionResponse.from?.currency.code ?? "")
                 presentError(actionResponse: .init(error: error))
                 hasError = true
-
+                
             case _ where value < minimumAmount:
                 // value bellow minimum fiat
                 presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
                 hasError = true
-
+                
             case _ where value > dailyLimit:
                 // over daily limit
                 presentError(actionResponse: .init(error: SwapErrors.overDailyLimit))
                 hasError = true
-
+                
             case _ where value > lifetimeLimit:
                 // over lifetime limit
                 presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit))
                 hasError = true
-
+                
             case _ where value > exchangeLimit:
                 // over exchange limit ???
                 presentError(actionResponse: .init(error: SwapErrors.overExchangeLimit))
                 hasError = true
-
+                
             default:
                 // remove error
                 presentError(actionResponse: .init(error: nil))
             }
         }
-
-        viewController?.displaySetAmount(responseDisplay: .init(continueEnabled: !hasError,
-                                                                amounts: swapModel,
-                                                                rate: exchangeRateViewModel))
+        
+        viewController?.displayAmount(responseDisplay: .init(continueEnabled: !hasError,
+                                                             amounts: swapModel,
+                                                             rate: exchangeRateViewModel))
     }
     
     func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse) {
