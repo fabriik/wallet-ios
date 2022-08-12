@@ -65,4 +65,12 @@ enum BuyModels {
         
         typealias ResponseDisplay = ExchangeRateViewModel
     }
+    
+    struct Confirm {
+        struct ViewAction {}
+        
+        struct ActionResponse {}
+        
+        struct ResponseDisplay {}
+    }
 }

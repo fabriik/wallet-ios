@@ -1,140 +1,51 @@
-//
+// 
 //  SwapInfoViewController.swift
 //  breadwallet
 //
-//  Created by Dijana Angelovska on 13.7.22.
+//  Created by Rok on 12/08/2022.
+//  Copyright © 2022 Fabriik Exchange, LLC. All rights reserved.
 //
+//  See the LICENSE file at the project root for license information.
 //
 
 import UIKit
 
-class SwapInfoViewController: BaseTableViewController<SwapCoordinator,
-                              SwapInfoInteractor,
-                              SwapInfoPresenter,
-                              SwapInfoStore>,
-                              SwapInfoResponseDisplays {
-    typealias Models = SwapInfoModels
+extension Scenes {
+    static let SwapInfo = SwapInfoViewController.self
+}
+
+class SwapInfoViewController: BaseInfoViewController {
     
-    lazy var backHomeButton: FEButton = {
-        let button = FEButton()
-        return button
-    }()
+    typealias Item = (from: String, to: String)
     
-    lazy var swapDetails: FELabel = {
-        let label = FELabel()
-        let tap = UITapGestureRecognizer(target: self, action: #selector(swapDetailsTapped))
-        label.isUserInteractionEnabled = true
-        label.addGestureRecognizer(tap)
-        return label
-    }()
-    
-    // MARK: - Overrides
-    
-    override var closeImage: UIImage? { return .init(named: "")}
-    
-    override func setupSubviews() {
-        super.setupSubviews()
+    override var imageName: String? { return "swapInfo" }
+    override var titleText: String? { return "Swapping \((dataStore?.item as? Item)?.from ?? "")/\((dataStore?.item as? Item)?.to ?? "")" }
+    override var descriptionText: String? {
+        let to = (dataStore?.item as? Item)?.to ?? ""
         
-        tableView.snp.updateConstraints { make in
-            make.top.equalToSuperview().inset(ViewSizes.extraLarge.rawValue * 2)
-        }
-        view.addSubview(backHomeButton)
-        backHomeButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.leading.equalToSuperview().inset(Margins.large.rawValue)
-            make.height.equalTo(ButtonHeights.common.rawValue)
-        }
-        
-        view.addSubview(swapDetails)
-        swapDetails.snp.makeConstraints { make in
-            make.top.equalTo(backHomeButton.snp.bottom).offset(Margins.small.rawValue)
-            make.centerX.equalToSuperview()
-            make.leading.height.equalTo(backHomeButton)
-            make.bottom.equalTo(view.snp.bottomMargin).offset(Margins.large.rawValue)
-        }
-        
-        // TODO: Localize
-        backHomeButton.configure(with: Presets.Button.primary)
-        backHomeButton.setup(with: .init(title: "Back to Home"))
-        
-        swapDetails.configure(with: .init(font: Fonts.button, textColor: LightColors.primary, textAlignment: .center))
-        swapDetails.setup(with: .text("Swap details"))
-        
-        backHomeButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        return "Your \(to) is estimated to arrive in 30 minutes. You can continue to use your wallet. We'll let you know when your swap has finished."
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell
-        switch sections[indexPath.section] as? Models.Section {
-        case .image:
-            cell = self.tableView(tableView, coverCellForRowAt: indexPath)
-            
-        case .title:
-            cell = self.tableView(tableView, titleLabelCellForRowAt: indexPath)
-            
-        case .description:
-            cell = self.tableView(tableView, descriptionLabelCellForRowAt: indexPath)
-            
-        default:
-            cell = super.tableView(tableView, cellForRowAt: indexPath)
-        }
-        
-        cell.setupCustomMargins(all: .extraHuge)
-        
-        return cell
+    override var buttonViewModels: [ButtonViewModel] {
+        return [
+            .init(title: "Back to Home"),
+            .init(title: "Swap details")
+        ]
     }
     
-    override func tableView(_ tableView: UITableView, titleLabelCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = sections[indexPath.section]
-        guard let model = sectionRows[section]?[indexPath.row] as? LabelViewModel,
-              let cell: WrapperTableViewCell<FELabel> = tableView.dequeueReusableCell(for: indexPath)
-        else {
-            return super.tableView(tableView, cellForRowAt: indexPath)
-        }
-        
-        cell.setup { view in
-            view.configure(with: .init(font: Fonts.Title.five, textColor: LightColors.Text.one, textAlignment: .center))
-            view.setup(with: model)
-        }
-        
-        return cell
+    override var buttonCallbacks: [(() -> Void)] {
+        return [
+            homeTapped,
+            swapDetailsTapped
+        ]
     }
     
-    override func tableView(_ tableView: UITableView, descriptionLabelCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = sections[indexPath.section]
-        guard let model = sectionRows[section]?[indexPath.row] as? LabelViewModel,
-              let cell: WrapperTableViewCell<FELabel> = tableView.dequeueReusableCell(for: indexPath)
-        else {
-            return super.tableView(tableView, cellForRowAt: indexPath)
-        }
-        
-        cell.setup { view in
-            view.configure(with: .init(font: Fonts.Body.one, textColor: LightColors.Text.two, textAlignment: .center))
-            view.setup(with: model)
-            view.setupCustomMargins(vertical: .extraHuge, horizontal: .extraHuge)
-            view.snp.makeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.leading.trailing.equalToSuperview().inset(Margins.extraHuge.rawValue)
-            }
-        }
-        
-        return cell
-    }
-    
-    // MARK: - User Interaction
-    
-    override func buttonTapped() {
-        super.buttonTapped()
-        
+    func homeTapped() {
         coordinator?.goBack()
     }
     
-    @objc func swapDetailsTapped() {
+    func swapDetailsTapped() {
         guard let itemId = dataStore?.itemId else { return }
-        coordinator?.showSwapDetails(exchangeId: itemId)
+        (coordinator as? SwapCoordinator)?.showSwapDetails(exchangeId: itemId)
     }
-    
-    // MARK: - SwapInfoResponseDisplay
-    
-    // MARK: - Additional Helpers
 }
