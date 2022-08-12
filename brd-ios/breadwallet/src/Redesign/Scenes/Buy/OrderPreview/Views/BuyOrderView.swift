@@ -16,7 +16,10 @@ struct BuyOrderConfiguration: Configurable {
     var cardFee: TitleValueConfiguration = Presets.TitleValue.vertical
     var networkFee: TitleValueConfiguration = Presets.TitleValue.vertical
     var totalCost: TitleValueConfiguration = Presets.TitleValue.subtitle
-    var info: IconDescriptionConfiguration = .init()
+    var shadow: ShadowConfiguration? = Presets.Shadow.light
+    var background: BackgroundConfiguration? = .init(backgroundColor: LightColors.Background.one,
+                                                     tintColor: LightColors.Text.one,
+                                                     border: Presets.Border.zero)
 }
 
 struct BuyOrderViewModel: ViewModel {
@@ -29,22 +32,33 @@ struct BuyOrderViewModel: ViewModel {
 
 class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
     
+    var cardFeeInfoTapped: (() -> Void)?
+    var networkFeeInfoTapped: (() -> Void)?
+    
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
-        view.spacing = Margins.large.rawValue
+        view.spacing = Margins.medium.rawValue
+        return view
+    }()
+    
+    private lazy var rateView: ExchangeRateView = {
+        let view = ExchangeRateView()
+        return view
+    }()
+    
+    private lazy var lineView: UIView = {
+        let view = UIView()
         return view
     }()
     
     private lazy var priceView: TitleValueView = {
         let view = TitleValueView()
-        view.axis = .vertical
         return view
     }()
     
     private lazy var amountView: TitleValueView = {
         let view = TitleValueView()
-        view.axis = .vertical
         return view
     }()
     
@@ -58,6 +72,11 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         return view
     }()
     
+    private lazy var secondLineView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     private lazy var totalCostView: TitleValueView = {
         let view = TitleValueView()
         return view
@@ -67,8 +86,19 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         super.setupSubviews()
         
         content.addSubview(mainStack)
+        content.setupCustomMargins(all: .large)
         mainStack.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalTo(content.snp.margins)
+        }
+        
+        mainStack.addArrangedSubview(rateView)
+        rateView.snp.makeConstraints { make in
+            make.height.equalTo(FieldHeights.small.rawValue)
+        }
+        
+        mainStack.addArrangedSubview(lineView)
+        lineView.snp.makeConstraints { make in
+            make.height.equalTo(ViewSizes.minimum.rawValue)
         }
         
         mainStack.addArrangedSubview(priceView)
@@ -91,10 +121,20 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
             make.height.equalTo(FieldHeights.common.rawValue)
         }
         
+        mainStack.addArrangedSubview(secondLineView)
+        secondLineView.snp.makeConstraints { make in
+            make.height.equalTo(ViewSizes.minimum.rawValue)
+        }
+        
         mainStack.addArrangedSubview(totalCostView)
         totalCostView.snp.makeConstraints { make in
             make.height.equalTo(FieldHeights.small.rawValue)
         }
+        
+        lineView.layer.borderWidth = 1.0
+        lineView.layer.borderColor = LightColors.Outline.three.cgColor
+        secondLineView.layer.borderWidth = 1.0
+        secondLineView.layer.borderColor = LightColors.Outline.three.cgColor
     }
     
     override func configure(with config: BuyOrderConfiguration?) {
@@ -105,6 +145,9 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         cardFeeView.configure(with: config?.cardFee)
         networkFeeView.configure(with: config?.networkFee)
         totalCostView.configure(with: config?.totalCost)
+        
+        configure(background: config?.background)
+        configure(shadow: config?.shadow)
     }
     
     override func setup(with viewModel: BuyOrderViewModel?) {
@@ -115,6 +158,21 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         cardFeeView.setup(with: viewModel?.cardFee)
         networkFeeView.setup(with: viewModel?.networkFee)
         totalCostView.setup(with: viewModel?.totalCost)
+        
+        cardFeeView.didTapInfoButton = { [weak self] in
+            self?.cardFeeInfoButtonTapped()
+        }
+        
+        networkFeeView.didTapInfoButton = { [weak self] in
+            self?.networkFeeViewInfoButtonTapped()
+        }
+    }
+    
+    private func cardFeeInfoButtonTapped() {
+        cardFeeInfoTapped?()
+    }
+    
+    private func networkFeeViewInfoButtonTapped() {
+        networkFeeInfoTapped?()
     }
 }
-

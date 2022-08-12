@@ -21,6 +21,10 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     func getData(viewAction: FetchModels.Get.ViewAction) {
         presenter?.presentData(actionResponse: .init(item: nil))
     }
+    
+    func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction) {
+        presenter?.presentInfoPopup(actionResponse: .init(isCardFee: viewAction.isCardFee))
+    }
 
     // MARK: - Aditional helpers
 }

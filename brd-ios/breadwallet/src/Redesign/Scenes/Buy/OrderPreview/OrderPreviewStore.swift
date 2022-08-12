@@ -12,6 +12,7 @@ import UIKit
 
 class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
     var itemId: String?
+    var fromCurrency: String?
     
     // MARK: - OrderPreviewDataStore
 

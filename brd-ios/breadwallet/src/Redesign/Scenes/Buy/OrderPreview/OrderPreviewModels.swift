@@ -21,4 +21,16 @@ enum OrderPreviewModels {
         var header: AccessoryType? { return nil }
         var footer: AccessoryType? { return nil }
     }
+    
+    struct InfoPopup {
+        struct ViewAction {
+            var isCardFee: Bool
+        }
+        struct ActionResponse {
+            var isCardFee: Bool
+        }
+        struct ResponseDisplay {
+            var model: PopupViewModel
+        }
+    }
 }

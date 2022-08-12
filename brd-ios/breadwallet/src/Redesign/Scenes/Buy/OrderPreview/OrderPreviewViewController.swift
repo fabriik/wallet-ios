@@ -34,7 +34,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         let cell: UITableViewCell
         switch sections[indexPath.section] as? Models.Sections {
         case .orderInfoCard:
-            cell = self.tableView(tableView, labelCellForRowAt: indexPath)
+            cell = self.tableView(tableView, orderCellForRowAt: indexPath)
             
         case .payment:
             cell = self.tableView(tableView, labelCellForRowAt: indexPath)
@@ -53,6 +53,28 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, orderCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<BuyOrderView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? BuyOrderViewModel
+        else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+            view.cardFeeInfoTapped = { [weak self] in
+                self?.interactor?.showInfoPopup(viewAction: .init(isCardFee: true))
+            }
+            view.networkFeeInfoTapped = { [weak self] in
+                self?.interactor?.showInfoPopup(viewAction: .init(isCardFee: false))
+            }
+        }
+        
+        return cell
+    }
 
     // MARK: - User Interaction
     
@@ -63,6 +85,10 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     }
 
     // MARK: - OrderPreviewResponseDisplay
+    
+    func displayInfoPopup(responseDisplay: OrderPreviewModels.InfoPopup.ResponseDisplay) {
+        coordinator?.showPopup(with: responseDisplay.model)
+    }
 
     // MARK: - Additional Helpers
 }

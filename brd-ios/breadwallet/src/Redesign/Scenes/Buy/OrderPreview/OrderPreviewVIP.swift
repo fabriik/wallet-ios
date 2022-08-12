@@ -15,15 +15,19 @@ extension Scenes {
 }
 
 protocol OrderPreviewViewActions: BaseViewActions, FetchViewActions {
+    func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction)
 }
 
 protocol OrderPreviewActionResponses: BaseActionResponses, FetchActionResponses {
+    func presentInfoPopup(actionResponse: OrderPreviewModels.InfoPopup.ActionResponse)
 }
 
 protocol OrderPreviewResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
+    func displayInfoPopup(responseDisplay: OrderPreviewModels.InfoPopup.ResponseDisplay)
 }
 
 protocol OrderPreviewDataStore: BaseDataStore, FetchDataStore {
+    var fromCurrency: String? { get }
 }
 
 protocol OrderPreviewDataPassing {
