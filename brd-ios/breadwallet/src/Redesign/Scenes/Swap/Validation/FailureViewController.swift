@@ -38,8 +38,9 @@ class FailureViewController: BaseInfoViewController {
         guard let cell = cell as? WrapperTableViewCell<FEImageView> else {
             return cell
         }
-        cell.wrappedView.snp.updateConstraints { make in
-            make.height.equalTo(80)
+        cell.wrappedView.snp.makeConstraints { make in
+            make.edges.equalTo(cell.contentView.snp.margins)
+            make.height.equalTo(ViewSizes.large.rawValue)
         }
         
         return cell
