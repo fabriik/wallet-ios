@@ -74,6 +74,10 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         viewController?.displayAssets(actionResponse: .init(cryptoModel: cryptoModel, cardModel: cardModel))
     }
     
+    func presentOrderPreview(actionResponse: BuyModels.OrderPreview.ActionResponse) {
+        viewController?.displayOrderPreview(responseDisplay: .init())
+    }
+    
     // MARK: - Additional Helpers
 
 }

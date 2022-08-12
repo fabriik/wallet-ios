@@ -16,16 +16,19 @@ protocol BuyViewActions: BaseViewActions, FetchViewActions {
     func setAmount(viewAction: BuyModels.Amounts.ViewAction)
     func getExchangeRate(viewAction: BuyModels.Rate.ViewAction)
     func setAssets(viewAction: BuyModels.Assets.ViewAction)
+    func showOrderPreview(viewAction: BuyModels.OrderPreview.ViewAction)
 }
 
 protocol BuyActionResponses: BaseActionResponses, FetchActionResponses {
     func presentAssets(actionResponse: BuyModels.Assets.ActionResponse)
     func presentExchangeRate(actionResponse: BuyModels.Rate.ActionResponse)
+    func presentOrderPreview(actionResponse: BuyModels.OrderPreview.ActionResponse)
 }
 
 protocol BuyResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displayAssets(actionResponse: BuyModels.Assets.ResponseDisplay)
     func displayExchangeRate(responseDisplay: BuyModels.Rate.ResponseDisplay)
+    func displayOrderPreview(responseDisplay: BuyModels.OrderPreview.ResponseDisplay)
 }
 
 protocol BuyDataStore: BaseDataStore, FetchDataStore {

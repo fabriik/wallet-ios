@@ -100,6 +100,10 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
         
     }
     
+    func showOrderPreview() {
+        open(scene: Scenes.OrderPreview)
+    }
+    
     // MARK: - Aditional helpers
     
     func dismissFlow() {

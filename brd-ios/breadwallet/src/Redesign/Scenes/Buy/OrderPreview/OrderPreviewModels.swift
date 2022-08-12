@@ -1,0 +1,24 @@
+//
+//  OrderPreviewModels.swift
+//  breadwallet
+//
+//  Created by Dijana Angelovska on 12.8.22.
+//  Copyright © 2022 Fabriik Exchange, LLC. All rights reserved.
+//
+//  See the LICENSE file at the project root for license information.
+//
+
+import UIKit
+
+enum OrderPreviewModels {
+    
+    enum Sections: Sectionable {
+        case orderInfoCard
+        case payment
+        case termsAndConditions
+        case confirm
+        
+        var header: AccessoryType? { return nil }
+        var footer: AccessoryType? { return nil }
+    }
+}

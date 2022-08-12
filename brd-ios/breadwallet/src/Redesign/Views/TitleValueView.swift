@@ -17,6 +17,9 @@ extension Presets {
         
         static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                       value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one))
+        
+        static var subtitle = TitleValueConfiguration(title: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one),
+                                                      value: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one))
     }
 }
 

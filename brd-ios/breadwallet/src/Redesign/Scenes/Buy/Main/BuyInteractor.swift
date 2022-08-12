@@ -135,4 +135,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         
         return formatter.string(for: amount)
     }
+    
+    func showOrderPreview(viewAction: BuyModels.OrderPreview.ViewAction) {
+        presenter?.presentOrderPreview(actionResponse: .init())
+    }
 }
