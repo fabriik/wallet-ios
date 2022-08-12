@@ -107,6 +107,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         scrollView.snp.makeConstraints { make in
             make.height.equalTo(Int.max).priority(.low)
         }
+        
         scrollView.addSubview(scrollingStack)
         scrollingStack.snp.makeConstraints { make in
             make.leading.trailing.equalTo(mainStack).inset(Margins.extraSmall.rawValue)

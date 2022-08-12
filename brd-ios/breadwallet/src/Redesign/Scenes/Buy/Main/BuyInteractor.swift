@@ -89,7 +89,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                 self?.presenter?.presentExchangeRate(actionResponse: .init(from: viewAction.from ?? self?.dataStore?.fromCurrency?.code,
                                                                            to: to,
                                                                            rate: self?.dataStore?.rate,
-                                                                           expires: Date().timeIntervalSince1970 + 15))
+                                                                           expires: Date().timeIntervalSince1970 + 60))
                 self?.setAmount(viewAction: .init(tokenValue: self?.dataStore?.fromAmount?.tokenValue.description))
                 
             case .failure(let error):
@@ -109,6 +109,15 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         }
         
         getData(viewAction: .init())
+    }
+    
+    func confirm(viewAction: BuyModels.Confirm.ViewAction) {
+        // TODO: continue flow
+        presenter?.presentConfirm(actionResponse: .init())
+    }
+    
+    func showOrderPreview(viewAction: BuyModels.OrderPreview.ViewAction) {
+        presenter?.presentOrderPreview(actionResponse: .init())
     }
     
     // MARK: - Aditional helpers
@@ -134,9 +143,5 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         formatter.maximumFractionDigits = 8 //Int(currency.baseUnit.decimals)
         
         return formatter.string(for: amount)
-    }
-    
-    func showOrderPreview(viewAction: BuyModels.OrderPreview.ViewAction) {
-        presenter?.presentOrderPreview(actionResponse: .init())
     }
 }

@@ -1,5 +1,5 @@
 //
-//  SwapInfoModels.swift
+//  BaseInfoModels.swift
 //  breadwallet
 //
 //  Created by Dijana Angelovska on 13.7.22.
@@ -8,9 +8,7 @@
 
 import UIKit
 
-enum SwapInfoModels {
-    
-    typealias Item = (from: String, to: String)
+enum BaseInfoModels {
     
     enum Section: Sectionable {
         case image

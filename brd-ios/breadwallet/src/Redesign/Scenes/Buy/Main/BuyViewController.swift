@@ -166,7 +166,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-        interactor?.showOrderPreview(viewAction: .init())
+        interactor?.confirm(viewAction: .init())
     }
     
     func rateExpired(forPair from: String, to: String) {
@@ -208,6 +208,10 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     
     func displayOrderPreview(responseDisplay: BuyModels.OrderPreview.ResponseDisplay) {
         coordinator?.showOrderPreview()
+    }
+    
+    func displayConfirm(responseDisplay: BuyModels.Confirm.ResponseDisplay) {
+        coordinator?.open(scene: Scenes.Failure)
     }
     
     // MARK: - Additional Helpers

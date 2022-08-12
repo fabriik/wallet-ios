@@ -93,7 +93,18 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
     }
     
     func showPinInput(callback: ((_ pin: String?) -> Void)?) {
+        guard let keyStore = try? KeyStore.create() else { return }
+        let vc = LoginViewController(for: .confirmation,
+                                        keyMaster: keyStore,
+                                        shouldDisableBiometrics: true)
         
+        let nvc = RootNavigationController(rootViewController: vc)
+        vc.confirmationCallback = { pin in
+            callback?(pin)
+            nvc.dismiss(animated: true)
+        }
+        nvc.modalPresentationStyle = .fullScreen
+        navigationController.show(nvc, sender: nil)
     }
     
     func showInfo(from: String, to: String, exchangeId: String) {
