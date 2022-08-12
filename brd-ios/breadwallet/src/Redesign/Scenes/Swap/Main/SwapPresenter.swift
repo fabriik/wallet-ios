@@ -174,19 +174,22 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             return
         }
         
-        let fromText = String(format: "%.5f %@ (%.2f %@)", from.tokenValue.doubleValue, from.currency.code, from.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
-        let toText = String(format: "%.5f %@ (%.2f %@)", to.tokenValue.doubleValue, to.currency.code, to.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
+        let fromText = String(format: "%.8f %@ (%.2f %@)", from.tokenValue.doubleValue, from.currency.code, from.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
+        let toText = String(format: "%.8f %@ (%.2f %@)", to.tokenValue.doubleValue, to.currency.code, to.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
         let rateText = String(format: "1 %@ = %.5f %@", from.currency.code, rate, to.currency.code)
         
-        let fromFeeText = String(format: "%.5f %@\n(%.2f) %@", actionResponse.fromFee?.tokenValue.doubleValue ?? 0,
+        let fromFeeText = String(format: "%.8f %@\n(%.8f) %@",
+                                 actionResponse.fromFee?.tokenValue.doubleValue ?? 0,
                                  actionResponse.fromFee?.currency.code ?? from.currency.code,
-                                 from.fiatValue.doubleValue,
+                                 actionResponse.fromFee?.fiatValue.doubleValue ?? 0,
                                  Store.state.defaultCurrencyCode)
-        let toFeeText = String(format: "%.5f %@\n(%.2f) %@", actionResponse.toFee?.tokenValue.doubleValue ?? 0,
+        let toFeeText = String(format: "%.8f %@\n(%.8f) %@",
+                               actionResponse.toFee?.tokenValue.doubleValue ?? 0,
                                actionResponse.toFee?.currency.code ?? to.currency.code,
+                               actionResponse.toFee?.fiatValue.doubleValue ?? 0,
                                Store.state.defaultCurrencyCode)
         
-        let totalCostText = String(format: "%.5f %@", from.tokenValue.doubleValue, from.currency.code)
+        let totalCostText = String(format: "%.8f %@", from.tokenValue.doubleValue, from.currency.code)
         
         let config: WrapperPopupConfiguration<SwapConfimationConfiguration> = .init(wrappedView: .init())
         
