@@ -17,6 +17,8 @@ struct SwapCurrencyConfiguration: Configurable {
 
 struct SwapCurrencyViewModel: ViewModel {
     var amount: Amount?
+    var formattedFiatString: String?
+    var formattedTokenString: String?
     var fee: Amount?
     var title: String?
     var feeDescription: String?
@@ -168,6 +170,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         let view = UIStackView()
         view.axis = .horizontal
         view.distribution = .equalSpacing
+        view.alpha = 0
         return view
     }()
     
@@ -222,7 +225,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         cryptoStack.addArrangedSubview(selectorStackView)
         selectorStackView.snp.makeConstraints { make in
-            make.width.equalTo(ViewSizes.huge.rawValue + 10)
+            make.width.equalTo(ViewSizes.extraHuge.rawValue)
         }
         selectorStackView.addArrangedSubview(iconImageView)
         iconImageView.snp.makeConstraints { make in
@@ -235,9 +238,11 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
             make.width.equalTo(ViewSizes.small.rawValue)
         }
         
+        let spacer = UIView()
+        cryptoStack.addArrangedSubview(spacer)
         cryptoStack.addArrangedSubview(cryptoAmountField)
         cryptoAmountField.snp.makeConstraints { make in
-            make.width.equalToSuperview().priority(.low)
+            make.width.lessThanOrEqualToSuperview().priority(.low)
         }
         
         cryptoAmountField.addSubview(cryptoLineView)
@@ -253,7 +258,6 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
         feeAndAmountsStackView.addArrangedSubview(feeAmountLabel)
-        feeAndAmountsStackView.alpha = 0
     }
     
     func toggleFeeAndAmountsStackView(state: FeeAndAmountsStackViewState, animated: Bool = true) {
@@ -267,11 +271,13 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     }
     
     @objc func fiatAmountDidChange(_ textField: UITextField) {
-        didChangeFiatAmount?(textField.text)
+        let text = textField.text?.isEmpty != false ? "0" : textField.text
+        didChangeFiatAmount?(text)
     }
     
     @objc func cryptoAmountDidChange(_ textField: UITextField) {
-        didChangeCryptoAmount?(textField.text)
+        let text = textField.text?.isEmpty != false ? "0" : textField.text
+        didChangeCryptoAmount?(text)
     }
     
     override func layoutSubviews() {
@@ -294,35 +300,29 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         titleLabel.text = viewModel.title
         
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 4
-        
-        if !fiatAmountField.isFirstResponder,
-           let value = viewModel.amount?.fiatValue {
-            fiatAmountField.text = formatter.string(for: value)
+        if !fiatAmountField.isFirstResponder {
+            fiatAmountField.text = viewModel.formattedFiatString
         }
         
-        if !cryptoAmountField.isFirstResponder,
-           let value = viewModel.amount?.tokenValue {
-            cryptoAmountField.text = formatter.string(for: value)
+        if !cryptoAmountField.isFirstResponder {
+            cryptoAmountField.text = viewModel.formattedTokenString
         }
         
         codeLabel.text = viewModel.amount?.currency.code
         codeLabel.sizeToFit()
         
         if let selectedCurrencyIcon = viewModel.amount?.currency.imageSquareBackground {
-                iconImageView.setup(with: .image(selectedCurrencyIcon))
+            iconImageView.setup(with: .image(selectedCurrencyIcon))
         }
         
         if let fee = viewModel.fee {
             feeAmountLabel.text = "\(fee.tokenDescription) \n\(fee.fiatDescription)"
         }
+        
         feeLabel.text = viewModel.feeDescription
         
         let isHidden = feeAndAmountsStackView.alpha == 0
-        let noFee = viewModel.fee == nil
-        || viewModel.fee?.tokenValue == 0
-        || viewModel.amount?.tokenValue == 0
+        let noFee = viewModel.fee == nil || viewModel.fee?.tokenValue == 0 || viewModel.amount?.tokenValue == 0
         
         feeAndAmountsStackView.isHidden = noFee
         guard isHidden != noFee else { return }

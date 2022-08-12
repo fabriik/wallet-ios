@@ -93,7 +93,11 @@ class Sender: Subscriber {
     // MARK: Create
 
     func estimateFee(address: String, amount: Amount, tier: FeeLevel, isStake: Bool, completion: @escaping (Result<TransferFeeBasis, Error>) -> Void) {
-        wallet.estimateFee(address: address, amount: amount, fee: tier, isStake: isStake, completion: completion)
+        wallet.estimateFee(address: address, amount: amount, fee: tier, isStake: isStake) { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
     }
     
     public func estimateLimitMaximum (address: String,

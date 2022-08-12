@@ -132,6 +132,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             }
             
             view.didChangePlaces = { [weak self] in
+                self?.view.endEditing(true)
                 self?.interactor?.switchPlaces(viewAction: .init())
             }
             
@@ -198,14 +199,14 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         
         switch error {
         case .noQuote:
-            displayUpdateRate(responseDisplay: .init(rate: .init()))
+            displayRate(responseDisplay: .init(rate: .init()))
             
         default:
             return
         }
     }
     
-    func displaySetAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
+    func displayAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
         // TODO: replace with Coordinator call
         LoadingView.hide()
         
@@ -223,7 +224,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
     }
     
-    func displayUpdateRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
+    func displayRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
         guard let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> else { return }
         
@@ -231,9 +232,11 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             let model = responseDisplay.rate
             view.setup(with: model)
             view.completion = { [weak self] in
-                self?.interactor?.updateRate(viewAction: .init())
+                self?.interactor?.getRate(viewAction: .init())
             }
         }
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
     
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay) {
