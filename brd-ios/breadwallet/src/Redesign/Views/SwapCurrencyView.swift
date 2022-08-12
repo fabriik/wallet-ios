@@ -271,11 +271,13 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     }
     
     @objc func fiatAmountDidChange(_ textField: UITextField) {
-        didChangeFiatAmount?(textField.text)
+        let text = textField.text?.isEmpty == true ? "0" : textField.text
+        didChangeFiatAmount?(text)
     }
     
     @objc func cryptoAmountDidChange(_ textField: UITextField) {
-        didChangeCryptoAmount?(textField.text)
+        let text = textField.text?.isEmpty == true ? "0" : textField.text
+        didChangeCryptoAmount?(text)
     }
     
     override func layoutSubviews() {
