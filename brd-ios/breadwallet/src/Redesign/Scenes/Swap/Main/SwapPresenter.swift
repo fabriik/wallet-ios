@@ -18,7 +18,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     // MARK: - SwapActionResponses
     
-    var exchangeRateViewModel = ExchangeRateViewModel()
+    private var exchangeRateViewModel = ExchangeRateViewModel()
     
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let item = actionResponse.item as? Models.Item,
@@ -81,11 +81,20 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let sendingFee = "Sending network fee\n(not included)"
         let receivingFee = "Receiving network fee\n(included)"
         
+        let fromFiatValue = actionResponse.from?.fiatValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.from?.fiatValue ?? 0) as NSNumber)
+        let fromTokenValue = actionResponse.from?.tokenValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.from?.tokenValue ?? 0) as NSNumber)
+        let toFiatValue = actionResponse.to?.fiatValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.to?.fiatValue ?? 0) as NSNumber)
+        let toTokenValue = actionResponse.to?.tokenValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.to?.tokenValue ?? 0) as NSNumber)
+        
         let swapModel = MainSwapViewModel(from: .init(amount: actionResponse.from,
+                                                      formattedFiatString: fromFiatValue,
+                                                      formattedTokenString: fromTokenValue,
                                                       fee: actionResponse.fromFee,
                                                       title: balanceText,
                                                       feeDescription: sendingFee),
                                           to: .init(amount: actionResponse.to,
+                                                    formattedFiatString: toFiatValue,
+                                                    formattedTokenString: toTokenValue,
                                                     fee: actionResponse.toFee,
                                                     title: "I want",
                                                     feeDescription: receivingFee))

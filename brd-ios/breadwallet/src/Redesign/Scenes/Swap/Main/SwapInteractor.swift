@@ -358,7 +358,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = spaces
         
-        let amountString = formatter.string(for: amount)?.replacingOccurrences(of: ".", with: ".") ?? ""
+        let amountString = formatter.string(for: amount) ?? ""
         let value = Amount(tokenString: amountString, currency: currency)
         
         guard value.tokenValue != 0 else {
