@@ -85,8 +85,7 @@ enum SwapModels {
     }
     
     struct Rate {
-        struct ViewAction {
-        }
+        struct ViewAction {}
         
         struct ActionResponse {
             var rate: Decimal?
@@ -101,6 +100,11 @@ enum SwapModels {
     }
     
     struct Fee {
+        struct ViewAction {
+            var from: Amount?
+            var to: Amount?
+        }
+        
         struct ActionResponse {
             var from: Decimal?
             var to: Decimal?
