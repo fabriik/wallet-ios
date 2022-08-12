@@ -27,6 +27,8 @@ final class AccountVerificationPresenter: NSObject, Presenter, AccountVerificati
         }
         let isActive = levelOneStatus == .levelOne || item.status == .levelOne
         let sections = [ Models.Section.verificationLevel ]
+        
+        // TODO: Localize
         let sectionRows: [Models.Section: [Any]] = [
             .verificationLevel: [
                 VerificationViewModel(kyc: .levelOne,
@@ -39,7 +41,8 @@ final class AccountVerificationPresenter: NSObject, Presenter, AccountVerificati
                                       title: .text("Level 2"),
                                       status: levelTwoStatus,
                                       description: .text(description),
-                                      benefits: .text("Swap limit: $10,000 per Swap, no lifetime limit"),
+                                      benefits: .text("Swap limits: $10,000 USD/day, no lifetime limit"),
+                                      buyBenefits: .text("Buy limits: $500 USD/day, no lifetime limit"),
                                       isActive: isActive)
             ]
         ]

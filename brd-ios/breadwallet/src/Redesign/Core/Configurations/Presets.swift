@@ -412,7 +412,7 @@ extension Presets {
         static var verifiedLevelTwo = InfoViewModel(kyc: .levelTwo, headerTitle: .text("ACCOUNT LIMITS"),
                                                     headerTrailing: .init(image: "help"),
                                                     status: VerificationStatus.levelTwo(.levelTwo),
-                                                    description: .text("Congratulations! You now have full access to your Fabriik wallet."),
+                                                    description: .text("Swap limit: $10,000 USD/day\nBuy limit: $500 USD/day"),
                                                     dismissType: .persistent)
         
         static var resubmit = InfoViewModel(kyc: .levelTwo, headerTitle: .text("ACCOUNT LIMITS"),

@@ -16,6 +16,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
     // MARK: - BuyActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         let sections: [Models.Sections] = [
+            .accountLimits,
             .rate,
             .from,
             .to,
@@ -25,6 +26,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         // TODO: Localize
 
         let sectionRows: [Models.Sections: [ViewModel]] =  [
+            .accountLimits: [ LabelViewModel.text("Currently, the required minimum for purchasing assets is $30.00 USD per transaction, and the maximum per day is $500.00 USD.")],
             .rate: [ExchangeRateViewModel()],
             .from: [SwapCurrencyViewModel(title: "I want")],
             .to: [CardSelectionViewModel(userInteractionEnabled: true)]
@@ -62,8 +64,8 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         
         if let paymentCard = actionResponse.card {
             cardModel = .init(logo: paymentCard.displayImage,
-                              cardNumber: .text(paymentCard.number),
-                              expiration: .text(paymentCard.expiration),
+                              cardNumber: .text(paymentCard.displayName),
+                              expiration: .text(CardDetailsFormatter.formatExpirationDate(month: paymentCard.expiryMonth, year: paymentCard.expiryYear)),
                               userInteractionEnabled: true)
         } else {
             cardModel = .init(userInteractionEnabled: true)
