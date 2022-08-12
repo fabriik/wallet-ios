@@ -10,6 +10,10 @@
 
 import UIKit
 
+extension Scenes {
+    static let SwapInfo = SwapInfoViewController.self
+}
+
 class SwapInfoViewController: BaseInfoViewController {
     
     typealias Item = (from: String, to: String)

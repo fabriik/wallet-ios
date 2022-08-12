@@ -211,7 +211,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         // this should be called from the buy confirmation screen
         // but we dont have it yet :D
         
-        coordinator?.open(scene: Scenes.Success)
+        coordinator?.open(scene: Scenes.Failure)
 //        coordinator?.showPinInput { [weak self] pin in
 //            LoadingView.hide()
 //        }

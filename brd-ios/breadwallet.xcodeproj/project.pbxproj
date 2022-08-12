@@ -282,6 +282,7 @@
 		7E52B7A22872CD1E003D2249 /* SupportedCurrenciesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E52B7A12872CD1E003D2249 /* SupportedCurrenciesWorker.swift */; };
 		7E5B305B28A67FC60065D2D8 /* SwapInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B305A28A67FC60065D2D8 /* SwapInfoViewController.swift */; };
 		7E5B306028A680300065D2D8 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B305F28A680300065D2D8 /* SuccessViewController.swift */; };
+		7E5B306228A681760065D2D8 /* FailureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B306128A681760065D2D8 /* FailureViewController.swift */; };
 		7E5CB32D2834E63400EC787E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7E5CB32C2834E63400EC787E /* SnapKit */; };
 		7E5CB37C2835090E00EC787E /* DemoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CB3312835090D00EC787E /* DemoPresenter.swift */; };
 		7E5CB37D2835090E00EC787E /* DemoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CB3322835090D00EC787E /* DemoCoordinator.swift */; };
@@ -1261,6 +1262,7 @@
 		7E59CB142869A7F900A495E1 /* staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = staging.xcconfig; sourceTree = "<group>"; };
 		7E5B305A28A67FC60065D2D8 /* SwapInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoViewController.swift; sourceTree = "<group>"; };
 		7E5B305F28A680300065D2D8 /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
+		7E5B306128A681760065D2D8 /* FailureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureViewController.swift; sourceTree = "<group>"; };
 		7E5CB3312835090D00EC787E /* DemoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPresenter.swift; sourceTree = "<group>"; };
 		7E5CB3322835090D00EC787E /* DemoCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCoordinator.swift; sourceTree = "<group>"; };
 		7E5CB3332835090D00EC787E /* DemoVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoVIP.swift; sourceTree = "<group>"; };
@@ -2547,7 +2549,7 @@
 				7ECCA98E2873059300F99368 /* SwapEndpoints.swift */,
 				7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */,
 				7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */,
-				7E5B305E28A680070065D2D8 /* Success */,
+				7E5B305E28A680070065D2D8 /* Validation */,
 				7ED427E628755C9B00AA19A8 /* Details */,
 				C4520F032875C613003FFB7F /* AssetSelection */,
 				C46C28F5287EBEAC0035C843 /* SwapInfo */,
@@ -2589,12 +2591,13 @@
 			path = BaseInfo;
 			sourceTree = "<group>";
 		};
-		7E5B305E28A680070065D2D8 /* Success */ = {
+		7E5B305E28A680070065D2D8 /* Validation */ = {
 			isa = PBXGroup;
 			children = (
 				7E5B305F28A680300065D2D8 /* SuccessViewController.swift */,
+				7E5B306128A681760065D2D8 /* FailureViewController.swift */,
 			);
-			path = Success;
+			path = Validation;
 			sourceTree = "<group>";
 		};
 		7E5CB32E2835090D00EC787E /* Redesign */ = {
@@ -4763,6 +4766,7 @@
 				75A2A7941DA5934300A983D8 /* AppDelegate.swift in Sources */,
 				711730572204FDFB001931B3 /* HomeScreenHiglightableCell.swift in Sources */,
 				CEEC70901E95D5C100EF788E /* PushNotificationsViewController.swift in Sources */,
+				7E5B306228A681760065D2D8 /* FailureViewController.swift in Sources */,
 				C46C2903287EBF4F0035C843 /* BaseInfoInteractor.swift in Sources */,
 				3AFB571524E2E0BA00087527 /* UIHelpers.swift in Sources */,
 				4F3AB11B25D53F4300B378DC /* ExternalAPIRequest.swift in Sources */,

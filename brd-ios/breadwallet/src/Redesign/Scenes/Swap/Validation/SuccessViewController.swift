@@ -11,10 +11,6 @@
 import UIKit
 
 extension Scenes {
-    static let SwapInfo = SwapInfoViewController.self
-}
-
-extension Scenes {
     static let Success = SuccessViewController.self
 }
 
