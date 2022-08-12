@@ -182,6 +182,7 @@
 		7B88C48A283CD2D80089CFBE /* currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B519A922835B505007AC80A /* currencies.json */; };
 		7B88C48B283CD2D80089CFBE /* currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B519A922835B505007AC80A /* currencies.json */; };
 		7B8CF81E28A3D0C600D54D14 /* CardDetailsFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8CF81D28A3D0C600D54D14 /* CardDetailsFormatter.swift */; };
+		7B8CF82028A64B9300D54D14 /* ExchangeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8CF81F28A64B9300D54D14 /* ExchangeFormatter.swift */; };
 		7B8EC630280896F0008C6DE5 /* brd-tokens.tar in Resources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0F2806FA190031F015 /* brd-tokens.tar */; };
 		7B8EC631280896F1008C6DE5 /* brd-tokens.tar in Resources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0F2806FA190031F015 /* brd-tokens.tar */; };
 		7B8EC632280896F3008C6DE5 /* brd-tokens-staging.tar in Resources */ = {isa = PBXBuildFile; fileRef = 7BDB4A0E2806FA190031F015 /* brd-tokens-staging.tar */; };
@@ -402,7 +403,6 @@
 		7ECCA9992874342C00F99368 /* FETimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9982874342C00F99368 /* FETimerView.swift */; };
 		7ECCA99B28744CD600F99368 /* ExchangeRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */; };
 		7ECCA99D28745E0400F99368 /* AssetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99C28745E0400F99368 /* AssetView.swift */; };
-		7ECDE12628817021002872E6 /* RangeReplaceableCollection+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECDE12528817021002872E6 /* RangeReplaceableCollection+Digits.swift */; };
 		7ED427EF28755CB200AA19A8 /* SwapDetailsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427E828755CB200AA19A8 /* SwapDetailsStore.swift */; };
 		7ED427F028755CB200AA19A8 /* SwapDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427E928755CB200AA19A8 /* SwapDetailsPresenter.swift */; };
 		7ED427F128755CB200AA19A8 /* SwapDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427EA28755CB200AA19A8 /* SwapDetailsModels.swift */; };
@@ -1163,6 +1163,7 @@
 		7B8140B927FD6DBB00662724 /* Currency+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency+Extensions.swift"; sourceTree = "<group>"; };
 		7B88C4842837B8710089CFBE /* Currency+Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency+Shared.swift"; sourceTree = "<group>"; };
 		7B8CF81D28A3D0C600D54D14 /* CardDetailsFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailsFormatter.swift; sourceTree = "<group>"; };
+		7B8CF81F28A64B9300D54D14 /* ExchangeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeFormatter.swift; sourceTree = "<group>"; };
 		7B94342A2886A7F900638703 /* DeleteProfileInfoInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoInteractor.swift; sourceTree = "<group>"; };
 		7B94342B2886A7F900638703 /* DeleteProfileInfoModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoModels.swift; sourceTree = "<group>"; };
 		7B94342C2886A7F900638703 /* DeleteProfileInfoVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteProfileInfoVIP.swift; sourceTree = "<group>"; };
@@ -1378,7 +1379,6 @@
 		7ECCA9982874342C00F99368 /* FETimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FETimerView.swift; sourceTree = "<group>"; };
 		7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateView.swift; sourceTree = "<group>"; };
 		7ECCA99C28745E0400F99368 /* AssetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetView.swift; sourceTree = "<group>"; };
-		7ECDE12528817021002872E6 /* RangeReplaceableCollection+Digits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RangeReplaceableCollection+Digits.swift"; sourceTree = "<group>"; };
 		7ED427E828755CB200AA19A8 /* SwapDetailsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapDetailsStore.swift; sourceTree = "<group>"; };
 		7ED427E928755CB200AA19A8 /* SwapDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapDetailsPresenter.swift; sourceTree = "<group>"; };
 		7ED427EA28755CB200AA19A8 /* SwapDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapDetailsModels.swift; sourceTree = "<group>"; };
@@ -2812,9 +2812,9 @@
 			isa = PBXGroup;
 			children = (
 				7E87B32C285346E00097671F /* UIImage+compress.swift */,
-				7ECDE12528817021002872E6 /* RangeReplaceableCollection+Digits.swift */,
 				7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */,
 				7B8CF81D28A3D0C600D54D14 /* CardDetailsFormatter.swift */,
+				7B8CF81F28A64B9300D54D14 /* ExchangeFormatter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -4482,6 +4482,7 @@
 				7CF9988D23202C75004AEC17 /* BRAPIClient+Experiments.swift in Sources */,
 				7E9B13F02857213400BD9EF5 /* KYCLevelOneWorker.swift in Sources */,
 				7B8CF81E28A3D0C600D54D14 /* CardDetailsFormatter.swift in Sources */,
+				7B8CF82028A64B9300D54D14 /* ExchangeFormatter.swift in Sources */,
 				7ED83AFB284F40EB00261565 /* CheckListInteractor.swift in Sources */,
 				7E87B32A2853368E0097671F /* KYCDocumentUploadWorker.swift in Sources */,
 				CEE0EF521EBD14B60018DB36 /* PinTransitioningDelegate.swift in Sources */,
@@ -4784,7 +4785,6 @@
 				C46C2900287EBF4F0035C843 /* SwapInfoModels.swift in Sources */,
 				7BDB4A0D2806F54B0031F015 /* StakingCell.swift in Sources */,
 				CEDB09331FEAA21C001AF56A /* TxDetailViewModel.swift in Sources */,
-				7ECDE12628817021002872E6 /* RangeReplaceableCollection+Digits.swift in Sources */,
 				7BDB49E42806CB980031F015 /* ImageStorageService.swift in Sources */,
 				7E5CB38A2835090E00EC787E /* CornerRadius.swift in Sources */,
 				7ED83AF9284F40EB00261565 /* CheckListModels.swift in Sources */,

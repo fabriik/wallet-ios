@@ -21,7 +21,7 @@ enum SwapErrors: FEError {
     case balanceTooLow(amount: Decimal, balance: Decimal, currency: String)
     case overDailyLimit
     case overLifetimeLimit
-    // TODO: unoficial error xD
+    // TODO: Unoficial errors
     case notEnouthEthForFee(fee: Decimal)
     case noFees
     case networkFee
@@ -31,7 +31,7 @@ enum SwapErrors: FEError {
     var errorMessage: String {
         switch self {
         case .balanceTooLow(let amount, let balance, let currency):
-            return String(format: "You don't have enough %@ to complete this swap. Your need %.5f, but your balance is %.5f.",
+            return String(format: "You don't have enough %@ to complete this swap. You need %.5f, but your balance is %.5f.",
                           currency,
                           amount.doubleValue,
                           balance.doubleValue)
