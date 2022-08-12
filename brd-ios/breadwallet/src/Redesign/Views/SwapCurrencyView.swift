@@ -70,7 +70,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         view.font = Fonts.Subtitle.two
         view.tintColor = view.textColor
         view.textAlignment = .right
-        view.keyboardType = .decimalPad
+        view.keyboardType = .numberPad
         view.addTarget(self, action: #selector(fiatAmountDidChange(_:)), for: .editingChanged)
         
         if let textColor = view.textColor, let font = view.font {
@@ -142,7 +142,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         view.font = Fonts.Title.four
         view.tintColor = view.textColor
         view.textAlignment = .right
-        view.keyboardType = .decimalPad
+        view.keyboardType = .numberPad
         view.addTarget(self, action: #selector(cryptoAmountDidChange(_:)), for: .editingChanged)
         
         if let textColor = view.textColor, let font = view.font {
@@ -267,16 +267,14 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     @objc func fiatAmountDidChange(_ textField: UITextField) {
         let text = textField.text?.isEmpty != false ? "0" : textField.text
-        let digits = text?.digits ?? "0"
         
-        didChangeFiatAmount?(digits)
+        didChangeFiatAmount?(text)
     }
     
     @objc func cryptoAmountDidChange(_ textField: UITextField) {
         let text = textField.text?.isEmpty != false ? "0" : textField.text
-        let digits = text?.digits ?? ""
         
-        didChangeCryptoAmount?(digits)
+        didChangeCryptoAmount?(text)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

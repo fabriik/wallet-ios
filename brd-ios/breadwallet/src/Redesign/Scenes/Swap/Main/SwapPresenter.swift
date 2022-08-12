@@ -81,10 +81,10 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let sendingFee = "Sending network fee\n(not included)"
         let receivingFee = "Receiving network fee\n(included)"
         
-        let fromFiatValue = actionResponse.from?.fiatValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.from?.fiatValue ?? 0) as NSNumber)
-        let fromTokenValue = actionResponse.from?.tokenValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.from?.tokenValue ?? 0) as NSNumber)
-        let toFiatValue = actionResponse.to?.fiatValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.to?.fiatValue ?? 0) as NSNumber)
-        let toTokenValue = actionResponse.to?.tokenValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.to?.tokenValue ?? 0) as NSNumber)
+        let fromFiatValue = ExchangeFormatter.main.string(from: (actionResponse.from?.fiatValue ?? 0) as NSNumber)
+        let fromTokenValue = ExchangeFormatter.main.string(from: (actionResponse.from?.tokenValue ?? 0) as NSNumber)
+        let toFiatValue = ExchangeFormatter.main.string(from: (actionResponse.to?.fiatValue ?? 0) as NSNumber)
+        let toTokenValue = ExchangeFormatter.main.string(from: (actionResponse.to?.tokenValue ?? 0) as NSNumber)
         
         let swapModel = MainSwapViewModel(from: .init(amount: actionResponse.from,
                                                       formattedFiatString: fromFiatValue,
