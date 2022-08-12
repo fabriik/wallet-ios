@@ -34,10 +34,11 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 self?.dataStore?.fromCurrency = self?.dataStore?.currencies.first(where: { $0.code == first.name })
                 self?.dataStore?.toCurrency = self?.dataStore?.currencies.first(where: { $0.code == second.name })
                 
-                self?.presenter?.presentData(actionResponse: .init(item: Models.Item(from: self?.dataStore?.fromCurrency,
-                                                                               to: self?.dataStore?.toCurrency,
-                                                                               quote: self?.dataStore?.quote)))
-                
+                let item = Models.Item(from: self?.dataStore?.fromCurrency,
+                                       to: self?.dataStore?.toCurrency,
+                                       quote: self?.dataStore?.quote,
+                                       isKYCLevelTwo: self?.dataStore?.isKYCLevelTwo)
+                self?.presenter?.presentData(actionResponse: .init(item: item))
                 self?.getRate(viewAction: .init())
                 
             case .failure(let error):
