@@ -55,8 +55,8 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let cryptoModel: SwapCurrencyViewModel
         let cardModel: CardSelectionViewModel
         
-        let fromFiatValue = actionResponse.amount?.fiatValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.amount?.fiatValue ?? 0) as NSNumber)
-        let fromTokenValue = actionResponse.amount?.tokenValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.amount?.tokenValue ?? 0) as NSNumber)
+        let fromFiatValue = ExchangeFormatter.main.string(from: (actionResponse.amount?.fiatValue ?? 0) as NSNumber)
+        let fromTokenValue = ExchangeFormatter.main.string(from: (actionResponse.amount?.tokenValue ?? 0) as NSNumber)
         
         // TODO: Localize
         cryptoModel = .init(amount: actionResponse.amount,
