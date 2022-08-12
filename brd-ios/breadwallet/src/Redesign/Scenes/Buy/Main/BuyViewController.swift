@@ -51,7 +51,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         }
         
         confirmButton.wrappedView.configure(with: Presets.Button.primary)
-        confirmButton.wrappedView.setup(with: .init(title: "Confirm", enabled: false))
+        confirmButton.wrappedView.setup(with: .init(title: "Confirm", enabled: true))
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
@@ -165,8 +165,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
 
     @objc override func buttonTapped() {
         super.buttonTapped()
-        
-        // TODO: present confirmation
+        interactor?.confirm(viewAction: .init())
     }
     
     func rateExpired(forPair from: String, to: String) {
@@ -204,6 +203,18 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         
         tableView.beginUpdates()
         tableView.endUpdates()
+    }
+    
+    func displayConfirm(responseDisplay: BuyModels.Confirm.ResponseDisplay) {
+        // TODO: show buy confirmation
+        
+        // this should be called from the buy confirmation screen
+        // but we dont have it yet :D
+        
+        coordinator?.open(scene: Scenes.Success)
+//        coordinator?.showPinInput { [weak self] pin in
+//            LoadingView.hide()
+//        }
     }
     
     // MARK: - Additional Helpers

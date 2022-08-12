@@ -74,6 +74,10 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         viewController?.displayAssets(actionResponse: .init(cryptoModel: cryptoModel, cardModel: cardModel))
     }
     
+    func presentConfirm(actionResponse: BuyModels.Confirm.ActionResponse) {
+        viewController?.displayConfirm(responseDisplay: .init())
+    }
+    
     // MARK: - Additional Helpers
 
 }
