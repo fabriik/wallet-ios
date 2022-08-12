@@ -24,7 +24,7 @@ struct SwapCurrencyViewModel: ViewModel {
     var feeDescription: String?
 }
 
-class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel> {
+class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>, UITextFieldDelegate {
     enum FeeAndAmountsStackViewState {
         case shown, hidden
     }
@@ -70,15 +70,11 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         view.font = Fonts.Subtitle.two
         view.tintColor = view.textColor
         view.textAlignment = .right
-        view.keyboardType = .decimalPad
+        view.keyboardType = .numberPad
         view.addTarget(self, action: #selector(fiatAmountDidChange(_:)), for: .editingChanged)
         
         if let textColor = view.textColor, let font = view.font {
-            view.attributedPlaceholder = NSAttributedString(
-                string: "0.00",
-                attributes: [NSAttributedString.Key.foregroundColor: textColor,
-                             NSAttributedString.Key.font: font]
-            )
+            setAttributedPlaceholder(view, color: textColor, font: font)
         }
         
         return view
@@ -146,15 +142,11 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         view.font = Fonts.Title.four
         view.tintColor = view.textColor
         view.textAlignment = .right
-        view.keyboardType = .decimalPad
+        view.keyboardType = .numberPad
         view.addTarget(self, action: #selector(cryptoAmountDidChange(_:)), for: .editingChanged)
         
         if let textColor = view.textColor, let font = view.font {
-            view.attributedPlaceholder = NSAttributedString(
-                string: "0.00",
-                attributes: [NSAttributedString.Key.foregroundColor: textColor,
-                             NSAttributedString.Key.font: font]
-            )
+            setAttributedPlaceholder(view, color: textColor, font: font)
         }
         
         return view
@@ -258,6 +250,9 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
         feeAndAmountsStackView.addArrangedSubview(feeAmountLabel)
+        
+        fiatAmountField.delegate = self
+        cryptoAmountField.delegate = self
     }
     
     func toggleFeeAndAmountsStackView(state: FeeAndAmountsStackViewState, animated: Bool = true) {
@@ -272,12 +267,31 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     @objc func fiatAmountDidChange(_ textField: UITextField) {
         let text = textField.text?.isEmpty != false ? "0" : textField.text
+        
         didChangeFiatAmount?(text)
     }
     
     @objc func cryptoAmountDidChange(_ textField: UITextField) {
         let text = textField.text?.isEmpty != false ? "0" : textField.text
+        
         didChangeCryptoAmount?(text)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        setAttributedPlaceholder(textField, color: LightColors.Outline.two, font: textField.font)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        setAttributedPlaceholder(textField, color: LightColors.Icons.one, font: textField.font)
+    }
+    
+    private func setAttributedPlaceholder(_ textField: UITextField, color: UIColor, font: UIFont?) {
+        guard let font = font else { return }
+        textField.attributedPlaceholder = NSAttributedString(
+            string: "0.00",
+            attributes: [NSAttributedString.Key.foregroundColor: color,
+                         NSAttributedString.Key.font: font]
+        )
     }
     
     override func layoutSubviews() {
@@ -300,13 +314,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         titleLabel.text = viewModel.title
         
-        if !fiatAmountField.isFirstResponder {
-            fiatAmountField.text = viewModel.formattedFiatString
-        }
-        
-        if !cryptoAmountField.isFirstResponder {
-            cryptoAmountField.text = viewModel.formattedTokenString
-        }
+        fiatAmountField.text = viewModel.formattedFiatString
+        cryptoAmountField.text = viewModel.formattedTokenString
         
         codeLabel.text = viewModel.amount?.currency.code
         codeLabel.sizeToFit()

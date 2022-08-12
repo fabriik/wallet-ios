@@ -14,8 +14,12 @@ struct ExchangeFormatter {
     static var main: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
         
         return formatter
     }
+}
+
+extension RangeReplaceableCollection where Self: StringProtocol {
+    var digits: Self { filter(\.isWholeNumber) }
 }
