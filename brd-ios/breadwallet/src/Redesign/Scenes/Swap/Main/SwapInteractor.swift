@@ -136,23 +136,23 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let from: Decimal
         let to: Decimal
         if let fromCryptoAmount = viewAction.fromCryptoAmount,
-           let fromCrypto = decimalFor(amount: fromCryptoAmount.digits) {
+           let fromCrypto = decimalFor(amount: fromCryptoAmount) {
             
             from = fromCrypto
             to = fromCrypto * exchangeRate / markup - toFee
             
         } else if let fromFiatAmount = viewAction.fromFiatAmount,
-                  let fromFiat = decimalFor(amount: fromFiatAmount.digits) {
+                  let fromFiat = decimalFor(amount: fromFiatAmount) {
             
             from = fromFiat / fromRate
             to = from * exchangeRate / markup - toFee
         } else if let toCryptoAmount = viewAction.toCryptoAmount,
-                  let toCrypto = decimalFor(amount: toCryptoAmount.digits) {
+                  let toCrypto = decimalFor(amount: toCryptoAmount) {
             
             from = (toCrypto + toFee * toFeeRate) / exchangeRate * markup
             to = toCrypto
         } else if let toFiatAmount = viewAction.toFiatAmount,
-                  let toFiat = decimalFor(amount: toFiatAmount.digits) {
+                  let toFiat = decimalFor(amount: toFiatAmount) {
             
             to = toFiat / toRate
             from = (to + toFee) / exchangeRate * markup
