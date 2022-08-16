@@ -425,7 +425,7 @@ class ApplicationController: Subscriber, Trackable {
         }
         
         homeScreen.didTapBuy = { [unowned self] in
-            coordinator?.showBuy()
+            coordinator?.showBuy(coreSystem: coreSystem)
         }
         
         homeScreen.didTapTrade = { [unowned self] in

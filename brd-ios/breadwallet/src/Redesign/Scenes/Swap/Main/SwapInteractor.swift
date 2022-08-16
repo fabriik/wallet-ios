@@ -127,7 +127,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let exchangeRate = dataStore.quote?.exchangeRate ?? 1
         let markup = dataStore.quote?.markup ?? 1
         
-        let toFeeRate = dataStore.quote?.toFeeCurrency.rate ?? 1
+        let toFeeRate = dataStore.quote?.toFeeCurrency?.rate ?? 1
         let toFee = (dataStore.toFeeAmount?.tokenValue ?? 0) / toFeeRate
         
         let fromRate = dataStore.fromRate ?? 0

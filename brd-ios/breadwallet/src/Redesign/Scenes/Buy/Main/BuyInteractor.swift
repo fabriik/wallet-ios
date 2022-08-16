@@ -52,7 +52,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     }
     
     func setAmount(viewAction: BuyModels.Amounts.ViewAction) {
-        guard let rate = dataStore?.rate else {
+        guard let rate = dataStore?.quote?.exchangeRate else {
             presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote))
             return
         }
@@ -69,31 +69,26 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     }
     
     func getExchangeRate(viewAction: Models.Rate.ViewAction) {
-        let coingeckoId = Store.state.currencies.first(where: { $0.code == viewAction.from })?.coinGeckoId
-        
-        guard let crypto = coingeckoId ?? dataStore?.toCurrency?.coinGeckoId,
-              let fiat = dataStore?.fromCurrency else {
+        guard let from = dataStore?.fromCurrency,
+              let to = dataStore?.toCurrency?.code else {
             return
         }
-
-        let resource = Resources.simplePrice(ids: [crypto],
-                                             vsCurrency: fiat,
-                                             options: [.change]) { [weak self] (result: Result<[SimplePrice], CoinGeckoError>) in
+        
+        let data = QuoteRequestData(from: from, to: to)
+        QuoteWorker().execute(requestData: data) { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.dataStore?.rate = Decimal(data.first(where: { $0.id == crypto })?.price ?? 0)
-                self?.presenter?.presentExchangeRate(actionResponse: .init(from: viewAction.from ?? self?.dataStore?.toCurrency?.code,
-                                                                           to: fiat,
-                                                                           rate: self?.dataStore?.rate,
-                                                                           expires: Date().timeIntervalSince1970 + 60))
+            case .success(let quote):
+                self?.dataStore?.quote = quote
+                self?.presenter?.presentExchangeRate(actionResponse: .init(from: from,
+                                                                           to: to,
+                                                                           rate: quote.exchangeRate,
+                                                                           expires: quote.timestamp + 60))
                 self?.setAmount(viewAction: .init(tokenValue: self?.dataStore?.toAmount?.tokenValue.description))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
-        
-        CoinGeckoClient().load(resource)
     }
     
     func setAssets(viewAction: BuyModels.Assets.ViewAction) {
@@ -105,11 +100,6 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         }
         
         getData(viewAction: .init())
-    }
-    
-    func confirm(viewAction: BuyModels.Confirm.ViewAction) {
-        // TODO: continue flow
-        presenter?.presentConfirm(actionResponse: .init())
     }
     
     func showOrderPreview(viewAction: BuyModels.OrderPreview.ViewAction) {

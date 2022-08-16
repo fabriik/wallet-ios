@@ -12,7 +12,7 @@ import UIKit
 
 enum OrderPreviewModels {
     
-    typealias Item = (to: Amount?, from: Decimal?, cardFee: Decimal?, networkFee: Decimal?)
+    typealias Item = (to: Amount?, from: Decimal?, quote: Quote?)
     
     enum Sections: Sectionable {
         case orderInfoCard
@@ -33,6 +33,32 @@ enum OrderPreviewModels {
         }
         struct ResponseDisplay {
             var model: PopupViewModel
+        }
+    }
+    
+    struct Confirm {
+        struct ViewAction {}
+        
+        struct ActionResponse {
+            var url: String?
+        }
+        
+        struct ResponseDisplay {
+            var url: URL
+        }
+    }
+    
+    struct CvvValidation {
+        struct ViewAction {
+            var cvv: String?
+        }
+        
+        struct ActionResponse {
+            var cvv: String?
+        }
+        
+        struct ResponseDisplay {
+            var continueEnabled: Bool
         }
     }
 }
