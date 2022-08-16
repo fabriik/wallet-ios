@@ -35,12 +35,12 @@ struct SwapRequestData: RequestModelData {
 }
 
 struct SwapResponseData: ModelResponse {
-    var exchangeId: Int
-    var currency: String
-    var amount: String
-    var address: String
+    var exchangeId: Int?
+    var currency: String?
+    var amount: String?
+    var address: String?
     var status: String?
-    var paymentReference: Int?
+    var paymentReference: String?
     var redirectUrl: String?
 }
 
@@ -58,28 +58,29 @@ struct Swap: Model {
 //        cas
 //        'ACTIVE', 'REQUESTED', 'PENDING', 'AUTHORIZED', 'CARD_VERIFIED', 'CANCELED', 'EXPIRED', 'PAID', 'DECLINED', 'VOIDED', 'PARTIALLY_CAPTURED', 'CAPTURED', 'PARTIALLY_REFUNDED', 'REFUNDED'
 //    }
-    var exchangeId: String
-    var currency: String
-    var amount: Decimal
-    var address: String
+    var exchangeId: String?
+    var currency: String?
+    var amount: Decimal?
+    var address: String?
     var status: String?
-    var paymentReference: Int?
+    var paymentReference: String?
     var redirectUrl: String?
 }
 
 class SwapMapper: ModelMapper<SwapResponseData, Swap> {
     override func getModel(from response: SwapResponseData?) -> Swap? {
         guard let response = response,
-              let amount = Decimal(string: response.amount)
-        else { return nil }
+              let amount = Decimal(string: response.amount ?? "")
+        else {
+            return .init(status: response?.status,
+                         paymentReference: response?.paymentReference,
+                         redirectUrl: response?.redirectUrl)
+        }
         
-        return .init(exchangeId: "\(response.exchangeId)",
-                     currency: response.currency.uppercased(),
+        return .init(exchangeId: "\(response.exchangeId ?? 0)",
+                     currency: response.currency?.uppercased() ?? "",
                      amount: amount,
-                     address: response.address,
-                     status: response.status,
-                     paymentReference: response.paymentReference,
-                     redirectUrl: response.redirectUrl)
+                     address: response.address)
     }
 }
 
