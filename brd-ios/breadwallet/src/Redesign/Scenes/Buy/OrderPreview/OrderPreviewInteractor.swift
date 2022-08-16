@@ -86,7 +86,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
             }
         }
     }
-    
+    // TODO: Merge the logic with Billing Details. They are the same things. The whole card and 3D secure flow should be reusable.
     private func handlePresentSubmit() {
         switch dataStore?.paymentstatus {
         case .captured, .cardVerified:
