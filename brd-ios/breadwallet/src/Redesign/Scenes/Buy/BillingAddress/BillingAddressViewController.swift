@@ -199,6 +199,10 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
         })
     }
     
+    func displayThreeDSecure(responseDisplay: BillingAddressModels.ThreeDSecure.ResponseDisplay) {
+        coordinator?.showThreeDSecure(url: responseDisplay.url)
+    }
+    
     // MARK: - Additional Helpers
     
     override func textFieldDidUpdate(for indexPath: IndexPath, with text: String?, on section: AnyHashable) {

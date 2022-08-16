@@ -113,10 +113,6 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
 
     // MARK: - AddCardResponseDisplay
     
-    func display3DSecure(responseDisplay: AddCardModels.ThreeDSecure.ResponseDisplay) {
-        coordinator?.show3DSecure(url: responseDisplay.url)
-    }
-    
     func displayValidate(responseDisplay: AddCardModels.Validate.ResponseDisplay) {
         guard let section = sections.firstIndex(of: Models.Section.confirm),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
@@ -126,9 +122,7 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
     }
     
     func displaySubmit(responseDisplay: AddCardModels.Submit.ResponseDisplay) {
-        coordinator?.showOverlay(with: .success) { [weak self] in
-            self?.coordinator?.showBillingAddress()
-        }
+        coordinator?.showBillingAddress(addCardDataStore: responseDisplay.addCardDataStore)
     }
     
     func displayInfoPopup(responseDisplay: AddCardModels.InfoPopup.ResponseDisplay) {

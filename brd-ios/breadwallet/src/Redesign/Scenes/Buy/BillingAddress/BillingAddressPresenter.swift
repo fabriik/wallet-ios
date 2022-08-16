@@ -72,6 +72,10 @@ final class BillingAddressPresenter: NSObject, Presenter, BillingAddressActionRe
         viewController?.displayPaymentCards(responseDisplay: .init(allPaymentCards: actionResponse.allPaymentCards))
     }
     
+    func presentThreeDSecure(actionResponse: BillingAddressModels.ThreeDSecure.ActionResponse) {
+        viewController?.displayThreeDSecure(responseDisplay: .init(url: actionResponse.url))
+    }
+    
     func presentValidate(actionResponse: BillingAddressModels.Validate.ActionResponse) {
         viewController?.displayValidate(responseDisplay: .init(isValid: actionResponse.isValid))
     }

@@ -22,6 +22,9 @@ class BillingAddressStore: NSObject, BaseDataStore, BillingAddressDataStore {
     var city: String?
     var zipPostal: String?
     var address: String?
+    var paymentReference: String?
+    var paymentstatus: AddCard.Status = .none
+    var addCardDataStore: AddCardStore?
     
     // MARK: - Aditional helpers
 }
