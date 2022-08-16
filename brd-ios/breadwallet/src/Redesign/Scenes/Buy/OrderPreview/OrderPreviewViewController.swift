@@ -115,7 +115,14 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     
     func displayConfirm(responseDisplay: OrderPreviewModels.Confirm.ResponseDisplay) {
         LoadingView.hide()
+        // TODO: home / details buttons need to be linked
         coordinator?.open(scene: Scenes.Success)
+    }
+    
+    override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
+        LoadingView.hide()
+        // TODO: other payment methods / back home need to be linked
+        coordinator?.open(scene: Scenes.Failure)
     }
     
     func displayCvv(responseDisplay: OrderPreviewModels.CvvValidation.ResponseDisplay) {
@@ -125,10 +132,6 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         cell.wrappedView.isEnabled = responseDisplay.continueEnabled
     }
     
-    override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
-        LoadingView.hide()
-        coordinator?.open(scene: Scenes.Failure)
-    }
 
     // MARK: - Additional Helpers
 }

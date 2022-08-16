@@ -46,7 +46,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
                                    withdrawalQuantity: to,
                                    destination: address,
                                    sourceInstrumentId: dataStore?.card?.id,
-                                   nologCvv: "100")
+                                   nologCvv: dataStore?.cvv?.description)
         
         SwapWorker().execute(requestData: data) { [weak self] result in
             switch result {
@@ -60,9 +60,9 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     }
     
     func updateCvv(viewAction: OrderPreviewModels.CvvValidation.ViewAction) {
-        dataStore.cvv = viewAction.cvv
+        dataStore?.cvv = viewAction.cvv
         
-        presenter?.presentCvv(actionResponse: .init(cvv: cvv))
+        presenter?.presentCvv(actionResponse: .init(cvv: dataStore?.cvv))
     }
 
     // TODO: add rate refreshing logic!
