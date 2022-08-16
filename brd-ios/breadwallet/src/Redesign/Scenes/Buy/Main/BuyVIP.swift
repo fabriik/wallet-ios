@@ -35,11 +35,13 @@ protocol BuyResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisp
 }
 
 protocol BuyDataStore: BaseDataStore, FetchDataStore {
-    var fromAmount: Amount? { get set }
+    var from: Decimal? { get set }
+    var to: Decimal? { get set }
+    var fromCurrency: String? { get set }
+    var toCurrency: Currency? { get set }
+    
     var paymentCard: PaymentCard? { get set }
     var allPaymentCards: [PaymentCard]? { get set }
-    var fromCurrency: Currency? { get set }
-    var toCurrency: String? { get set }
     var rate: Decimal? { get set }
 }
 

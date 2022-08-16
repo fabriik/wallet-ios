@@ -16,6 +16,8 @@ struct SwapRequestData: RequestModelData {
     var depositQuantity: Decimal
     var withdrawalQuantity: Decimal?
     var destination: String?
+    var sourceInstrumentId: String?
+    var nologCvv: String?
     
     func getParameters() -> [String: Any] {
         let params: [String: Any?] = [
@@ -23,7 +25,9 @@ struct SwapRequestData: RequestModelData {
            "quote_id": quoteId,
            "deposit_quantity": depositQuantity.description,
            "withdrawal_quantity": withdrawalQuantity?.description,
-           "destination": destination
+           "destination": destination,
+            "source_instrument_id": sourceInstrumentId,
+            "nolog_cvv": nologCvv
         ]
         
         return params.compactMapValues { $0 }

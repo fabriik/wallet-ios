@@ -18,6 +18,26 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
 
     // MARK: - OrderPreviewActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
+        guard let item = actionResponse.item as? Models.Item,
+              let toAmount = item.to,
+              let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal) else { return }
+        
+        let to = toAmount.fiatValue
+        let from = item.from ?? 0
+        let cardFee = item.cardFee ?? 0
+        let networkFee = item.networkFee ?? 0
+        let fiatCurrency = "USD"
+        
+        // TODO: pass exchange rate / expiration as well
+        // TODO: format currency
+        let rate = "1 \(toAmount.currency.code) = [see TODO above] \(fiatCurrency)"
+        
+        let wrappedViewModel: BuyOrderViewModel = .init(rate: .init(exchangeRate: rate, timer: nil),
+                                                        price: .init(title: .text("Price"), value: .text("\(from) \(fiatCurrency)")),
+                                                        amount: .init(title: .text("Amount"), value: .text("\(to) \(fiatCurrency)")),
+                                                        cardFee: .init(title: .text("Card fee (4%)"), value: .text("\(cardFee.description) \(fiatCurrency)"), infoImage: .image(infoImage)),
+                                                        networkFee: .init(title: .text("Mining network fee"), value: .text("\(networkFee.description) \(fiatCurrency)"), infoImage: .image(infoImage)),
+                                                        totalCost: .init(title: .text("Total:"), value: .text("\(to + networkFee + cardFee) \(fiatCurrency)")))
         
         let sections: [Models.Sections] = [
             .orderInfoCard,
@@ -25,15 +45,6 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
             .termsAndConditions,
             .confirm
         ]
-        
-        // TODO: localize and change values when BE is ready
-        guard let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal) else { return }
-        
-        let wrappedViewModel: BuyOrderViewModel = .init(price: .init(title: .text("Price"), value: .text("$64.22 USD")),
-                                                        amount: .init(title: .text("Amount"), value: .text("$100 USD")),
-                                                        cardFee: .init(title: .text("Card fee (4%)"), value: .text("$4.00 USD"), infoImage: .image(infoImage)),
-                                                        networkFee: .init(title: .text("Mining network fee"), value: .text("$1.00 USD"), infoImage: .image(infoImage)),
-                                                        totalCost: .init(title: .text("Total:"), value: .text("$105.00 USD")))
         
         let sectionRows: [Models.Sections: [Any]] = [
             .orderInfoCard: [

@@ -12,6 +12,8 @@ import UIKit
 
 enum OrderPreviewModels {
     
+    typealias Item = (to: Amount?, from: Decimal?, cardFee: Decimal?, networkFee: Decimal?)
+    
     enum Sections: Sectionable {
         case orderInfoCard
         case payment

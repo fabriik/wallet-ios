@@ -23,6 +23,7 @@ struct BuyOrderConfiguration: Configurable {
 }
 
 struct BuyOrderViewModel: ViewModel {
+    var rate: ExchangeRateViewModel
     var price: TitleValueViewModel
     var amount: TitleValueViewModel
     var cardFee: TitleValueViewModel
@@ -135,6 +136,14 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         lineView.layer.borderColor = LightColors.Outline.three.cgColor
         secondLineView.layer.borderWidth = 1.0
         secondLineView.layer.borderColor = LightColors.Outline.three.cgColor
+        
+        cardFeeView.didTapInfoButton = { [weak self] in
+            self?.cardFeeInfoButtonTapped()
+        }
+        
+        networkFeeView.didTapInfoButton = { [weak self] in
+            self?.networkFeeViewInfoButtonTapped()
+        }
     }
     
     override func configure(with config: BuyOrderConfiguration?) {
@@ -153,19 +162,12 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
     override func setup(with viewModel: BuyOrderViewModel?) {
         super.setup(with: viewModel)
         
+        rateView.setup(with: viewModel?.rate)
         priceView.setup(with: viewModel?.price)
         amountView.setup(with: viewModel?.amount)
         cardFeeView.setup(with: viewModel?.cardFee)
         networkFeeView.setup(with: viewModel?.networkFee)
         totalCostView.setup(with: viewModel?.totalCost)
-        
-        cardFeeView.didTapInfoButton = { [weak self] in
-            self?.cardFeeInfoButtonTapped()
-        }
-        
-        networkFeeView.didTapInfoButton = { [weak self] in
-            self?.networkFeeViewInfoButtonTapped()
-        }
     }
     
     private func cardFeeInfoButtonTapped() {

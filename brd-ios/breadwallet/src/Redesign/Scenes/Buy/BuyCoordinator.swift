@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
+class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPreviewRoutes {
     // MARK: - BuyRoutes
 
     override func start() {
@@ -111,8 +111,14 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
         
     }
     
-    func showOrderPreview() {
-        open(scene: Scenes.OrderPreview)
+    func showOrderPreview(to: Amount?, from: Decimal?, networkFee: Decimal?, cardFee: Decimal?) {
+        open(scene: Scenes.OrderPreview) { vc in
+            vc.dataStore?.from = from
+            vc.dataStore?.to = to
+            vc.dataStore?.networkFee = networkFee
+            vc.dataStore?.cardFee = cardFee
+            vc.prepareData()
+        }
     }
     
     // MARK: - Aditional helpers

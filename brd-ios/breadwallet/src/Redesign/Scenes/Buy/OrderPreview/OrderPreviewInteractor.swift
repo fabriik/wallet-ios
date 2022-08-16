@@ -19,12 +19,14 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     // MARK: - OrderPreviewViewActions
     
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        presenter?.presentData(actionResponse: .init(item: nil))
+        let item: Models.Item = (to: dataStore?.to, from: dataStore?.from, cardFee: dataStore?.cardFee, networkFee: dataStore?.networkFee)
+        presenter?.presentData(actionResponse: .init(item: item))
     }
     
     func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction) {
         presenter?.presentInfoPopup(actionResponse: .init(isCardFee: viewAction.isCardFee))
     }
 
+    // TODO: add rate refreshing logic!
     // MARK: - Aditional helpers
 }

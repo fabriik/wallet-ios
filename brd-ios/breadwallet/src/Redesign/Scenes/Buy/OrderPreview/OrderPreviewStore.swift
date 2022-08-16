@@ -12,8 +12,11 @@ import UIKit
 
 class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
     var itemId: String?
-    var fromCurrency: String?
-    
+    var to: Amount?
+    var from: Decimal?
+    var toCurrency: String?
+    var cardFee: Decimal?
+    var networkFee: Decimal?
     // MARK: - OrderPreviewDataStore
 
     // MARK: - Aditional helpers

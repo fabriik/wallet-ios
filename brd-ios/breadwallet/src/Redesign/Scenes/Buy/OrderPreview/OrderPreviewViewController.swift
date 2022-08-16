@@ -81,7 +81,10 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-      //  interactor?.submit(viewAction: .init())
+        coordinator?.showPinInput { [weak self] pin in
+            LoadingView.hide()
+            self?.coordinator?.open(scene: Scenes.Failure)
+        }
     }
 
     // MARK: - OrderPreviewResponseDisplay
