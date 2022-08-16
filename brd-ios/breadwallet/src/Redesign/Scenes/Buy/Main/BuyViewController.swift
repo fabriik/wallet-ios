@@ -209,6 +209,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     func displayOrderPreview(responseDisplay: BuyModels.OrderPreview.ResponseDisplay) {
         coordinator?.showOrderPreview(to: dataStore?.toAmount,
                                       from: dataStore?.from,
+                                      card: dataStore?.paymentCard,
                                       networkFee: 0,
                                       cardFee: 0)
     }

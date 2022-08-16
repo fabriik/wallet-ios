@@ -15,6 +15,7 @@ class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
     var to: Amount?
     var from: Decimal?
     var toCurrency: String?
+    var card: PaymentCard?
     var cardFee: Decimal?
     var networkFee: Decimal?
     // MARK: - OrderPreviewDataStore

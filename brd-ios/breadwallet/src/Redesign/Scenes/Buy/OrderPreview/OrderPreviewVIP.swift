@@ -32,6 +32,7 @@ protocol OrderPreviewDataStore: BaseDataStore, FetchDataStore {
     var toCurrency: String? { get set }
     var cardFee: Decimal? { get set}
     var networkFee: Decimal? { get set }
+    var card: PaymentCard? { get set }
 }
 
 protocol OrderPreviewDataPassing {
@@ -39,5 +40,5 @@ protocol OrderPreviewDataPassing {
 }
 
 protocol OrderPreviewRoutes: CoordinatableRoutes {
-    func showOrderPreview(to: Amount?, from: Decimal?, networkFee: Decimal?, cardFee: Decimal?)
+    func showOrderPreview(to: Amount?, from: Decimal?, card: PaymentCard?, networkFee: Decimal?, cardFee: Decimal?)
 }
