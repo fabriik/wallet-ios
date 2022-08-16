@@ -8,7 +8,6 @@
 //  See the LICENSE file at the project root for license information.
 //
 
-import Frames
 import UIKit
 
 class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
@@ -37,6 +36,10 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
             let year = dataStore?.years[index.secondaryRow] ?? ""
             dataStore?.cardExpDateString = "\(month)/\(year.dropFirst(2))"
             
+            let date = dataStore?.cardExpDateString?.components(separatedBy: "/")
+            dataStore?.cardExpDateMonth = date?.first
+            dataStore?.cardExpDateYear = date?.last
+            
             presenter?.presentData(actionResponse: .init(item: dataStore))
         }
         
@@ -62,87 +65,28 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
     func submit(viewAction: AddCardModels.Submit.ViewAction) {
         // FETCH ALL ADDED CARDS AND DELETE IF NEEDED. WILL BE USED. 
         /*
-        CardDetailsWorker().execute(requestData: CardDetailsRequestData()) { [weak self] result in
+        PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
             switch result {
             case .success(let data):
-                DeleteCardWorker().execute(requestData: DeleteCardRequestData(instrumentId: data[0].id)) { [weak self] result in
-                    switch result {
-                    case .success(let data):
-                        print(data)
-                        
-                    case .failure(let error):
-                        self?.presenter?.presentError(actionResponse: .init(error: error))
+                for d in data {
+                    DeleteCardWorker().execute(requestData: DeleteCardRequestData(instrumentId: d.id)) { [weak self] result in
+                        switch result {
+                        case .success(let data):
+                            print(data)
+                            
+                        case .failure(let error):
+                            self?.presenter?.presentError(actionResponse: .init(error: error))
+                        }
                     }
                 }
-                
+            
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
         */
         
-        guard let number = dataStore?.cardNumber,
-              let cvv = dataStore?.cardCVV,
-              let date = dataStore?.cardExpDateString?.components(separatedBy: "/"),
-              let month = date.first,
-              let year = date.last else { return }
-        
-        let checkoutAPIClient = CheckoutAPIClient(publicKey: "pk_sbox_ees63clhrko6kta6j3cwloebg4#",
-                                                  environment: .sandbox) // TODO: Should be updated when we get the prod key.
-        
-        let cardTokenRequest = CkoCardTokenRequest(number: number,
-                                                   expiryMonth: month,
-                                                   expiryYear: year,
-                                                   cvv: cvv)
-        
-        checkoutAPIClient.createCardToken(card: cardTokenRequest) { [weak self] result in
-            switch result {
-            case .success(let response):
-                AddCardWorker().execute(requestData: AddCardRequestData(token: response.token)) { result in
-                    switch result {
-                    case .success(let data):
-                        if let redirectUrl = data.redirectUrl {
-                            self?.dataStore?.paymentReference = data.paymentReference
-                            
-                            self?.presenter?.present3DSecure(actionResponse: .init(url: redirectUrl))
-                        } else {
-                            self?.dataStore?.paymentstatus = data.status
-                            
-                            self?.handlePresentSubmit()
-                        }
-                        
-                    case .failure(let error):
-                        self?.presenter?.presentError(actionResponse: .init(error: error))
-                    }
-                }
-                
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
-            }
-        }
-    }
-    
-    func check3DSecureStatus(viewAction: AddCardModels.ThreeDSecureStatus.ViewAction) {
-        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: dataStore?.paymentReference)) { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.dataStore?.paymentstatus = data.status
-                
-                self?.handlePresentSubmit()
-                
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
-            }
-        }
-    }
-    
-    private func handlePresentSubmit() {
-        switch dataStore?.paymentstatus {
-        case .captured, .cardVerified:
-            presenter?.presentSubmit(actionResponse: .init())
-        default:
-            break // TODO: Handle error
-        }
+        presenter?.presentSubmit(actionResponse: .init())
     }
     
     func showInfoPopup(viewAction: AddCardModels.InfoPopup.ViewAction) {

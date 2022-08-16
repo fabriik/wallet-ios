@@ -45,10 +45,6 @@ final class AddCardPresenter: NSObject, Presenter, AddCardActionResponses {
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
     
-    func present3DSecure(actionResponse: AddCardModels.ThreeDSecure.ActionResponse) {
-        viewController?.display3DSecure(responseDisplay: .init(url: actionResponse.url))
-    }
-    
     func presentValidate(actionResponse: AddCardModels.Validate.ActionResponse) {
         viewController?.displayValidate(responseDisplay: .init(isValid: actionResponse.isValid))
     }

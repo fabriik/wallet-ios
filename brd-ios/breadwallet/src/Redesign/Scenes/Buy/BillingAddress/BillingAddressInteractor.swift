@@ -8,6 +8,7 @@
 //  See the LICENSE file at the project root for license information.
 //
 
+import Frames
 import UIKit
 
 class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions {
@@ -97,6 +98,77 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
     }
     
     func submit(viewAction: BillingAddressModels.Submit.ViewAction) {
-        presenter?.presentSubmit(actionResponse: .init())
+        guard let number = dataStore?.addCardDataStore?.cardNumber,
+              let cvv = dataStore?.addCardDataStore?.cardCVV,
+              let month = dataStore?.addCardDataStore?.cardExpDateMonth,
+              let year = dataStore?.addCardDataStore?.cardExpDateYear else { return }
+        
+        let checkoutAPIClient = CheckoutAPIClient(publicKey: "pk_sbox_ees63clhrko6kta6j3cwloebg4#",
+                                                  environment: .sandbox) // TODO: Should be updated when we get the prod key.
+        
+        let cardTokenRequest = CkoCardTokenRequest(number: number,
+                                                   expiryMonth: month,
+                                                   expiryYear: year,
+                                                   cvv: cvv)
+        
+        checkoutAPIClient.createCardToken(card: cardTokenRequest) { [weak self] result in
+            switch result {
+            case .success(let response):
+                guard let dataStore = self?.dataStore else { return }
+                
+                let data = AddCardRequestData(token: response.token,
+                                              firstName: dataStore.firstName,
+                                              lastName: dataStore.lastName,
+                                              countryCode: dataStore.country,
+                                              state: dataStore.stateProvince,
+                                              city: dataStore.city,
+                                              zip: dataStore.zipPostal,
+                                              address: dataStore.address)
+                
+                AddCardWorker().execute(requestData: data) { result in
+                    switch result {
+                    case .success(let data):
+                        if let redirectUrlString = data.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
+                            self?.dataStore?.paymentReference = data.paymentReference
+                            
+                            self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
+                        } else {
+                            self?.dataStore?.paymentstatus = data.status
+                            
+                            self?.handlePresentSubmit()
+                        }
+                        
+                    case .failure(let error):
+                        self?.presenter?.presentError(actionResponse: .init(error: error))
+                    }
+                }
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
+    }
+    
+    func checkThreeDSecureStatus(viewAction: BillingAddressModels.ThreeDSecureStatus.ViewAction) {
+        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: dataStore?.paymentReference)) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.dataStore?.paymentstatus = data.status
+                
+                self?.handlePresentSubmit()
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
+    }
+    
+    private func handlePresentSubmit() {
+        switch dataStore?.paymentstatus {
+        case .captured, .cardVerified:
+            presenter?.presentSubmit(actionResponse: .init())
+        default:
+            break // TODO: Handle error
+        }
     }
 }
