@@ -34,11 +34,11 @@ struct QuoteModelResponse: ModelResponse {
     var maximumValue: Decimal
     
     struct Fee: Codable {
-        var feeCurrency: String
-        var rate: Decimal
+        var feeCurrency: String?
+        var rate: Decimal?
     }
-    var fromFeeCurrency: Fee
-    var toFeeCurrency: Fee
+    var fromFeeCurrency: Fee?
+    var toFeeCurrency: Fee?
     
 }
 
@@ -51,28 +51,38 @@ struct Quote {
     var minimumValue: Decimal
     var maximumValue: Decimal
     
-    struct Fee: Codable {
+    struct Fee {
         var feeCurrency: String
         var rate: Decimal
     }
-    var fromFeeCurrency: Fee
-    var toFeeCurrency: Fee
+    var fromFeeCurrency: Fee?
+    var toFeeCurrency: Fee?
 }
 
 class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
     override func getModel(from response: QuoteModelResponse?) -> Quote? {
         guard let response = response else { return nil }
 
+        var fromFee: Quote.Fee?
+        if let currency = response.fromFeeCurrency?.feeCurrency,
+           let rate = response.fromFeeCurrency?.rate {
+            fromFee = .init(feeCurrency: currency, rate: rate)
+        }
+        
+        var toFee: Quote.Fee?
+        if let currency = response.toFeeCurrency?.feeCurrency,
+           let rate = response.toFeeCurrency?.rate {
+            toFee = .init(feeCurrency: currency, rate: rate)
+        }
+        
         return .init(quoteId: response.quoteId,
                      exchangeRate: response.exchangeRate,
                      timestamp: response.timestamp,
                      markup: response.markup,
                      minimumValue: response.minimumValue,
                      maximumValue: response.maximumValue,
-                     fromFeeCurrency: .init(feeCurrency: response.fromFeeCurrency.feeCurrency,
-                                            rate: response.fromFeeCurrency.rate),
-                     toFeeCurrency: .init(feeCurrency: response.toFeeCurrency.feeCurrency,
-                                          rate: response.toFeeCurrency.rate))
+                     fromFeeCurrency: fromFee,
+                     toFeeCurrency: toFee)
     }
 }
 

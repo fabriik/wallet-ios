@@ -9,16 +9,33 @@
 //
 
 import UIKit
+import WalletKit
 
 class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
     var itemId: String?
+    
+    // MARK: - OrderPreviewDataStore
     var to: Amount?
     var from: Decimal?
     var toCurrency: String?
     var card: PaymentCard?
-    var cardFee: Decimal?
-    var networkFee: Decimal?
-    // MARK: - OrderPreviewDataStore
-
+    var quote: Quote?
+    var cvv: String?
+    
     // MARK: - Aditional helpers
+    var coreSystem: CoreSystem?
+    
+    func address(for currency: Currency?) -> String? {
+        guard let currency = currency else {
+            return nil
+        }
+
+        let addressScheme: AddressScheme
+        if currency.isBitcoin {
+            addressScheme = UserDefaults.hasOptedInSegwit ? .btcSegwit : .btcLegacy
+        } else {
+            addressScheme = currency.network.defaultAddressScheme
+        }
+        return currency.wallet?.receiveAddress(for: addressScheme)
+    }
 }

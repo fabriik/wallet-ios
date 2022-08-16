@@ -111,11 +111,15 @@ class BaseCoordinator: NSObject,
         }
     }
     
-    func showBuy() {
+    func showBuy(coreSystem: CoreSystem?) {
         upgradeAccountOrShowPopup(checkForKyc: true) { [weak self] showPopup in
             guard showPopup else { return }
             
-            self?.openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy)
+            self?.openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy) { vc in
+                vc?.dataStore?.coreSystem = coreSystem
+                vc?.dataStore?.fromCurrency = Store.state.defaultCurrencyCode.lowercased()
+                vc?.prepareData()
+            }
         }
     }
     

@@ -207,16 +207,11 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }
     
     func displayOrderPreview(responseDisplay: BuyModels.OrderPreview.ResponseDisplay) {
-        coordinator?.showOrderPreview(to: dataStore?.toAmount,
+        coordinator?.showOrderPreview(coreSystem: dataStore?.coreSystem,
+                                      to: dataStore?.toAmount,
                                       from: dataStore?.from,
                                       card: dataStore?.paymentCard,
-                                      networkFee: 0,
-                                      cardFee: 0)
-    }
-    
-    func displayConfirm(responseDisplay: BuyModels.Confirm.ResponseDisplay) {
-        coordinator?.open(scene: Scenes.Failure)
-        // TODO: show buy confirmation
+                                      quote: dataStore?.quote)
     }
     
     // MARK: - Additional Helpers

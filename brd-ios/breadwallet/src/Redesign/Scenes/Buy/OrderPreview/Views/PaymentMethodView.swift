@@ -32,6 +32,7 @@ struct PaymentMethodViewModel: ViewModel {
 }
 
 class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewModel> {
+    
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -65,7 +66,15 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
         return view
     }()
     
-    var didTypeCVV: ((String?) -> Void)?
+    var didTypeCVV: ((String?) -> Void)? {
+        get {
+            cvvTextField.valueChanged
+        }
+        
+        set {
+            cvvTextField.valueChanged = newValue
+        }
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -129,4 +138,6 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
                                           cardNumber: viewModel?.cardNumber,
                                           expiration: viewModel?.expiration))
     }
+    
+    // MARK: - User interaction
 }

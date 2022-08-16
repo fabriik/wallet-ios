@@ -66,6 +66,9 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         cell.setup { view in
             view.configure(with: .init())
             view.setup(with: model)
+            view.didTypeCVV = { [weak self] cvv in
+                self?.interactor?.updateCvv(viewAction: .init(cvv: cvv))
+            }
         }
         
         return cell
@@ -98,10 +101,9 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-        coordinator?.showPinInput { [weak self] pin in
-            LoadingView.hide()
-            // TODO: handle proper responses herre
-            self?.coordinator?.open(scene: Scenes.Failure)
+        coordinator?.showPinInput { [weak self] _ in
+            LoadingView.show()
+            self?.interactor?.confirm(viewAction: .init())
         }
     }
 
@@ -109,6 +111,23 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     
     func displayInfoPopup(responseDisplay: OrderPreviewModels.InfoPopup.ResponseDisplay) {
         coordinator?.showPopup(with: responseDisplay.model)
+    }
+    
+    func displayConfirm(responseDisplay: OrderPreviewModels.Confirm.ResponseDisplay) {
+        LoadingView.hide()
+        coordinator?.open(scene: Scenes.Success)
+    }
+    
+    func displayCvv(responseDisplay: OrderPreviewModels.CvvValidation.ResponseDisplay) {
+        guard let section = sections.firstIndex(of: Models.Sections.confirm),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
+        
+        cell.wrappedView.isEnabled = responseDisplay.continueEnabled
+    }
+    
+    override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
+        LoadingView.hide()
+        coordinator?.open(scene: Scenes.Failure)
     }
 
     // MARK: - Additional Helpers

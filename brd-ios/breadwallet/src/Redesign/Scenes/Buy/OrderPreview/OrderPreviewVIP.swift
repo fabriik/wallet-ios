@@ -16,23 +16,29 @@ extension Scenes {
 
 protocol OrderPreviewViewActions: BaseViewActions, FetchViewActions {
     func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction)
+    func confirm(viewAction: OrderPreviewModels.Confirm.ViewAction)
+    func updateCvv(viewAction: OrderPreviewModels.CvvValidation.ViewAction)
 }
 
 protocol OrderPreviewActionResponses: BaseActionResponses, FetchActionResponses {
     func presentInfoPopup(actionResponse: OrderPreviewModels.InfoPopup.ActionResponse)
+    func presentConfirm(actionResponse: OrderPreviewModels.Confirm.ActionResponse)
+    func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse)
 }
 
 protocol OrderPreviewResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displayInfoPopup(responseDisplay: OrderPreviewModels.InfoPopup.ResponseDisplay)
+    func displayConfirm(responseDisplay: OrderPreviewModels.Confirm.ResponseDisplay)
+    func displayCvv(responseDisplay: OrderPreviewModels.CvvValidation.ResponseDisplay)
 }
 
 protocol OrderPreviewDataStore: BaseDataStore, FetchDataStore {
     var to: Amount? { get set }
     var from: Decimal? { get set }
     var toCurrency: String? { get set }
-    var cardFee: Decimal? { get set}
-    var networkFee: Decimal? { get set }
     var card: PaymentCard? { get set }
+    var quote: Quote? { get set }
+    var cvv: String? { get set }
 }
 
 protocol OrderPreviewDataPassing {
@@ -40,5 +46,5 @@ protocol OrderPreviewDataPassing {
 }
 
 protocol OrderPreviewRoutes: CoordinatableRoutes {
-    func showOrderPreview(to: Amount?, from: Decimal?, card: PaymentCard?, networkFee: Decimal?, cardFee: Decimal?)
+    func showOrderPreview(coreSystem: CoreSystem?, to: Amount?, from: Decimal?, card: PaymentCard?, quote: Quote?)
 }

@@ -113,13 +113,13 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         
     }
     
-    func showOrderPreview(to: Amount?, from: Decimal?, card: PaymentCard?, networkFee: Decimal?, cardFee: Decimal?) {
+    func showOrderPreview(coreSystem: CoreSystem?, to: Amount?, from: Decimal?, card: PaymentCard?, quote: Quote?) {
         open(scene: Scenes.OrderPreview) { vc in
+            vc.dataStore?.coreSystem = coreSystem
             vc.dataStore?.from = from
             vc.dataStore?.to = to
             vc.dataStore?.card = card
-            vc.dataStore?.networkFee = networkFee
-            vc.dataStore?.cardFee = cardFee
+            vc.dataStore?.quote = quote
             vc.prepareData()
         }
     }

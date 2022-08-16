@@ -20,23 +20,24 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let item = actionResponse.item as? Models.Item,
               let toAmount = item.to,
+              let quote = item.quote,
               let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal) else { return }
         
         let to = toAmount.fiatValue
         let from = item.from ?? 0
-        let cardFee = item.cardFee ?? 0
-        let networkFee = item.networkFee ?? 0
-        let fiatCurrency = "USD"
+        let cardFee = quote.fromFeeCurrency?.rate ?? 0
+        let networkFee = quote.toFeeCurrency?.rate ?? 0
+        let fiatCurrency = quote.fromFeeCurrency?.feeCurrency ?? "/"
+        let feeCurrency = quote.toFeeCurrency?.feeCurrency ?? "/"
         
         // TODO: pass exchange rate / expiration as well
         // TODO: format currency
-        let rate = "1 \(toAmount.currency.code) = [see TODO above] \(fiatCurrency)"
-        
+        let rate = String(format: "1 %@ = %.5f %@", toAmount.currency.code, quote.exchangeRate.doubleValue, fiatCurrency)
         let wrappedViewModel: BuyOrderViewModel = .init(rate: .init(exchangeRate: rate, timer: nil),
                                                         price: .init(title: .text("Price"), value: .text("\(from) \(fiatCurrency)")),
                                                         amount: .init(title: .text("Amount"), value: .text("\(to) \(fiatCurrency)")),
                                                         cardFee: .init(title: .text("Card fee (4%)"), value: .text("\(cardFee.description) \(fiatCurrency)"), infoImage: .image(infoImage)),
-                                                        networkFee: .init(title: .text("Mining network fee"), value: .text("\(networkFee.description) \(fiatCurrency)"), infoImage: .image(infoImage)),
+                                                        networkFee: .init(title: .text("Mining network fee"), value: .text("\(networkFee.description) \(feeCurrency)"), infoImage: .image(infoImage)),
                                                         totalCost: .init(title: .text("Total:"), value: .text("\(to + networkFee + cardFee) \(fiatCurrency)")))
         
         let sections: [Models.Sections] = [
@@ -68,6 +69,15 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let model = actionResponse.isCardFee ? Presets.BuyPopupView.cardFee : Presets.BuyPopupView.networkFee
         
         viewController?.displayInfoPopup(responseDisplay: .init(model: model))
+    }
+    
+    func presentConfirm(actionResponse: OrderPreviewModels.Confirm.ActionResponse) {
+        viewController?.displayConfirm(responseDisplay: .init())
+    }
+    
+    func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse) {
+        let enabled = actionResponse.cvv?.count == 3
+        viewController?.displayCvv(responseDisplay: .init(continueEnabled: enabled))
     }
 
     // MARK: - Additional Helpers
