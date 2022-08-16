@@ -17,7 +17,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         return "Buy"
     }
     
-    lazy var confirmButton: WrapperView<FEButton> = {
+    lazy var continueButton: WrapperView<FEButton> = {
         let button = WrapperView<FEButton>()
         return button
     }()
@@ -32,27 +32,27 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         tableView.delaysContentTouches = false
         
         // TODO: Same code as CheckListViewController. Refactor
-        view.addSubview(confirmButton)
-        confirmButton.snp.makeConstraints { make in
+        view.addSubview(continueButton)
+        continueButton.snp.makeConstraints { make in
             make.centerX.leading.equalToSuperview()
             make.bottom.equalTo(view.snp.bottomMargin)
         }
         
-        confirmButton.wrappedView.snp.makeConstraints { make in
+        continueButton.wrappedView.snp.makeConstraints { make in
             make.height.equalTo(ButtonHeights.common.rawValue)
-            make.edges.equalTo(confirmButton.snp.margins)
+            make.edges.equalTo(continueButton.snp.margins)
         }
         
-        confirmButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)
+        continueButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)
         
         tableView.snp.remakeConstraints { make in
             make.leading.centerX.top.equalToSuperview()
-            make.bottom.equalTo(confirmButton.snp.top)
+            make.bottom.equalTo(continueButton.snp.top)
         }
         
-        confirmButton.wrappedView.configure(with: Presets.Button.primary)
-        confirmButton.wrappedView.setup(with: .init(title: "Confirm", enabled: true))
-        confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        continueButton.wrappedView.configure(with: Presets.Button.primary)
+        continueButton.wrappedView.setup(with: .init(title: "Continue", enabled: true))
+        continueButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
     override func prepareData() {
@@ -165,7 +165,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
 
     @objc override func buttonTapped() {
         super.buttonTapped()
-        interactor?.confirm(viewAction: .init())
+        
+        interactor?.showOrderPreview(viewAction: .init())
     }
     
     func rateExpired(forPair from: String, to: String) {
@@ -205,16 +206,16 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         tableView.endUpdates()
     }
     
+    func displayOrderPreview(responseDisplay: BuyModels.OrderPreview.ResponseDisplay) {
+        coordinator?.showOrderPreview(to: dataStore?.toAmount,
+                                      from: dataStore?.from,
+                                      networkFee: 0,
+                                      cardFee: 0)
+    }
+    
     func displayConfirm(responseDisplay: BuyModels.Confirm.ResponseDisplay) {
-        // TODO: show buy confirmation
-        
-        // this should be called from the buy confirmation screen
-        // but we dont have it yet :D
-        
         coordinator?.open(scene: Scenes.Failure)
-//        coordinator?.showPinInput { [weak self] pin in
-//            LoadingView.hide()
-//        }
+        // TODO: show buy confirmation
     }
     
     // MARK: - Additional Helpers

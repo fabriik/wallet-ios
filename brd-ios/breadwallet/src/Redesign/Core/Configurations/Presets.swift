@@ -47,6 +47,7 @@ struct Presets {
         static var normal = BorderConfiguration(tintColor: LightColors.Outline.one, borderWidth: 1, cornerRadius: .medium)
         static var selected = BorderConfiguration(tintColor: LightColors.primary, borderWidth: 1, cornerRadius: .medium)
         static var disabled = BorderConfiguration(tintColor: .lightGray, borderWidth: 1, cornerRadius: .medium)
+        static var cardDetails = BorderConfiguration(borderWidth: 0, cornerRadius: .extraSmall)
         static var error = BorderConfiguration(tintColor: LightColors.error, borderWidth: 1, cornerRadius: .medium)
     }
     

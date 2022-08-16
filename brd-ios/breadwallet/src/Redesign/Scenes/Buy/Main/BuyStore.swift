@@ -12,9 +12,18 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     // MARK: - BuyDataStore
     var itemId: String?
     
-    var fromAmount: Amount?
-    var fromCurrency: Currency? = Store.state.currencies.first(where: { $0.code.lowercased() == "btc" })
-    var toCurrency: String? = Store.state.defaultCurrencyCode.lowercased()
+    var from: Decimal?
+    var to: Decimal?
+    var toCurrency: Currency? = Store.state.currencies.first(where: { $0.code.lowercased() == "btc" })
+    var fromCurrency: String? = Store.state.defaultCurrencyCode.lowercased()
+    
+    var toAmount: Amount? {
+        guard let toCurrency = toCurrency else { return nil }
+        guard let to = to else { return.zero(toCurrency) }
+        
+        return Amount(tokenString: to.description, currency: toCurrency)
+    }
+    
     var paymentCard: PaymentCard?
     var allPaymentCards: [PaymentCard]?
     

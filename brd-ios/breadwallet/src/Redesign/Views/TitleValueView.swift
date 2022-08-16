@@ -16,21 +16,28 @@ extension Presets {
                                                       value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
         
         static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                      value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one))
+                                                      value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
+        
+        static var subtitle = TitleValueConfiguration(title: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one),
+                                                      value: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, textAlignment: .right))
     }
 }
 
 struct TitleValueConfiguration: Configurable {
     var title: LabelConfiguration
     var value: LabelConfiguration
+    var infoButtonConfiguration: BackgroundConfiguration?
 }
 
 struct TitleValueViewModel: ViewModel {
     var title: LabelViewModel
     var value: LabelViewModel
+    var infoImage: ImageViewModel?
 }
 
 class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
+    
+    var didTapInfoButton: (() -> Void)?
     
     var axis: NSLayoutConstraint.Axis = .horizontal {
         didSet {
@@ -49,6 +56,11 @@ class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
         return view
     }()
     
+    private lazy var infoButton: FEImageView = {
+        let view = FEImageView()
+        return view
+    }()
+    
     private lazy var valueLabel: FELabel = {
         let view = FELabel()
         return view
@@ -63,7 +75,16 @@ class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
         }
         
         mainStack.addArrangedSubview(titleLabel)
+        mainStack.addArrangedSubview(infoButton)
+        infoButton.snp.makeConstraints { make in
+            make.width.height.equalTo(ViewSizes.extraSmall.rawValue)
+            make.leading.equalTo(titleLabel.snp.trailing).inset(Margins.minimum.rawValue)
+        }
         mainStack.addArrangedSubview(valueLabel)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoButtonTapped))
+        infoButton.isUserInteractionEnabled = true
+        infoButton.addGestureRecognizer(tapGestureRecognizer)
     }
     
     override func configure(with config: TitleValueConfiguration?) {
@@ -71,12 +92,19 @@ class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
 
         super.configure(with: config)
         titleLabel.configure(with: config.title)
+        infoButton.configure(with: config.infoButtonConfiguration)
         valueLabel.configure(with: config.value)
     }
     
     override func setup(with viewModel: TitleValueViewModel?) {
         super.setup(with: viewModel)
         titleLabel.setup(with: viewModel?.title)
+        infoButton.setup(with: viewModel?.infoImage)
+        infoButton.isHidden = viewModel?.infoImage == nil
         valueLabel.setup(with: viewModel?.value)
+    }
+    
+    @objc func infoButtonTapped() {
+        didTapInfoButton?()
     }
 }

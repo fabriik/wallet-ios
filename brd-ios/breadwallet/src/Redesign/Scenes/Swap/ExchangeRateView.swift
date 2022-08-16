@@ -19,7 +19,7 @@ struct ExchangeRateConfiguration: Configurable {
 
 struct ExchangeRateViewModel: ViewModel {
     var exchangeRate: String?
-    var timer = TimerViewModel(till: 0, image: .imageName("timelapse"), repeats: true)
+    var timer: TimerViewModel? = TimerViewModel(till: 0, image: .imageName("timelapse"), repeats: true)
 }
 
 class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel> {
@@ -103,6 +103,7 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         super.setup(with: viewModel)
         valueLabel.text = text
         timerView.setup(with: viewModel?.timer)
+        timerView.isHidden = viewModel?.timer == nil
         rotate()
     }
     

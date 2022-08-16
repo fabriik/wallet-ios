@@ -73,4 +73,12 @@ enum BuyModels {
         
         struct ResponseDisplay {}
     }
+    
+    struct OrderPreview {
+        struct ViewAction {}
+        
+        struct ActionResponse {}
+        
+        struct ResponseDisplay {}
+    }
 }

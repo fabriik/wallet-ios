@@ -1,8 +1,8 @@
 // 
-//  CardSelectionView.swift
+//  PaymentMethodView.swift
 //  breadwallet
 //
-//  Created by Rok on 01/08/2022.
+//  Created by Kenan Mamedoff on 16/08/2022.
 //  Copyright © 2022 Fabriik Exchange, LLC. All rights reserved.
 //
 //  See the LICENSE file at the project root for license information.
@@ -10,7 +10,7 @@
 
 import UIKit
 
-struct CardSelectionConfiguration: Configurable {
+struct PaymentMethodConfiguration: Configurable {
     var title: LabelConfiguration? = .init(font: Fonts.caption, textColor: LightColors.Text.one)
     var logo: BackgroundConfiguration? = .init(tintColor: LightColors.Icons.two)
     var cardNumber: LabelConfiguration? = .init(font: Fonts.Subtitle.two, textColor: LightColors.Icons.one)
@@ -22,16 +22,16 @@ struct CardSelectionConfiguration: Configurable {
                                                      border: Presets.Border.zero)
 }
 
-struct CardSelectionViewModel: ViewModel {
-    var title: LabelViewModel? = .text("Pay with")
+struct PaymentMethodViewModel: ViewModel {
+    var methodTitle: LabelViewModel? = .text("Payment method")
     var logo: ImageViewModel?
     var cardNumber: LabelViewModel? = .text("Select a payment method")
     var expiration: LabelViewModel?
-    var arrow: ImageViewModel? = .imageName("arrowRight")
-    var userInteractionEnabled = false
+    var cvvTitle: LabelViewModel? = .text("Please confirm your CVV")
+    var cvv: TextFieldModel? = .init(placeholder: "CVV")
 }
 
-class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewModel> {
+class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewModel> {
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -39,7 +39,7 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         return view
     }()
     
-    private lazy var titleLabel: FELabel = {
+    private lazy var methodTitleLabel: FELabel = {
         let view = FELabel()
         return view
     }()
@@ -54,12 +54,18 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         return view
     }()
     
-    private lazy var arrowImageView: FEImageView = {
-        let view = FEImageView()
+    private lazy var cvvTitleLabel: FELabel = {
+        let view = FELabel()
         return view
     }()
     
-    var didTapSelectAsset: (() -> Void)?
+    private lazy var cvvTextField: FETextField = {
+        let view = FETextField()
+        view.hideFilledTitleStack = true
+        return view
+    }()
+    
+    var didTypeCVV: ((String?) -> Void)?
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -77,8 +83,8 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         }
         content.setupCustomMargins(all: .large)
         
-        mainStack.addArrangedSubview(titleLabel)
-        titleLabel.snp.makeConstraints { make in
+        mainStack.addArrangedSubview(methodTitleLabel)
+        methodTitleLabel.snp.makeConstraints { make in
             make.height.equalTo(Margins.large.rawValue)
         }
         mainStack.addArrangedSubview(selectorStack)
@@ -90,41 +96,37 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         cardDetailsView.snp.makeConstraints { make in
             make.height.equalTo(ViewSizes.medium.rawValue)
         }
-        selectorStack.addArrangedSubview(arrowImageView)
+        
+        mainStack.addArrangedSubview(cvvTitleLabel)
+        mainStack.addArrangedSubview(cvvTextField)
+        cvvTextField.snp.makeConstraints { make in
+            make.height.equalTo(FieldHeights.common.rawValue)
+        }
     }
     
-    override func configure(with config: CardSelectionConfiguration?) {
+    override func configure(with config: PaymentMethodConfiguration?) {
         super.configure(with: config)
-        titleLabel.configure(with: config?.title)
-        arrowImageView.configure(with: config?.arrow)
+        methodTitleLabel.configure(with: config?.title)
+        cvvTitleLabel.configure(with: config?.title)
+        cvvTextField.configure(with: Presets.TextField.number)
         
         configure(background: config?.background)
         configure(shadow: config?.shadow)
     }
     
-    override func setup(with viewModel: CardSelectionViewModel?) {
+    override func setup(with viewModel: PaymentMethodViewModel?) {
         super.setup(with: viewModel)
         
-        titleLabel.setup(with: viewModel?.title)
-        titleLabel.isHidden = viewModel?.title == nil
+        methodTitleLabel.setup(with: viewModel?.methodTitle)
+        methodTitleLabel.isHidden = viewModel?.methodTitle == nil
+        
+        cvvTitleLabel.setup(with: viewModel?.cvvTitle)
+        cvvTitleLabel.isHidden = viewModel?.cvvTitle == nil
+        
+        cvvTextField.setup(with: viewModel?.cvv)
         
         cardDetailsView.setup(with: .init(logo: viewModel?.logo,
                                           cardNumber: viewModel?.cardNumber,
                                           expiration: viewModel?.expiration))
-        
-        arrowImageView.setup(with: viewModel?.arrow)
-        arrowImageView.isHidden = viewModel?.arrow == nil
-        
-        guard viewModel?.userInteractionEnabled == true else {
-            selectorStack.gestureRecognizers?.forEach { selectorStack.removeGestureRecognizer($0) }
-            return
-        }
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(assetSelectorTapped(_:)))
-        selectorStack.addGestureRecognizer(tap)
-    }
-    
-    @objc private func assetSelectorTapped(_ sender: Any) {
-        didTapSelectAsset?()
     }
 }
