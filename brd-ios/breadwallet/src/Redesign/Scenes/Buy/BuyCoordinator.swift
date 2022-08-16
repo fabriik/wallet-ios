@@ -21,17 +21,19 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
         buyVC?.prepareData()
     }
     
-    func showBillingAddress() {
-        open(scene: Scenes.BillingAddress)
+    func showBillingAddress(addCardDataStore: AddCardStore?) {
+        open(scene: Scenes.BillingAddress) { vc in
+            vc.interactor?.dataStore?.addCardDataStore = addCardDataStore
+            vc.prepareData()
+        }
     }
     
-    func show3DSecure(url: String) {
-        guard let url = URL(string: url) else { return }
+    func showThreeDSecure(url: URL) {
         let webViewController = SimpleWebViewController(url: url)
         webViewController.setup(with: .init(title: "3D Secure")) // TODO: Localize
         webViewController.didDismiss = { [weak self] in
-            let vc = self?.navigationController.children.first(where: { $0 is AddCardViewController }) as? AddCardViewController
-            vc?.interactor?.check3DSecureStatus(viewAction: .init())
+            let vc = self?.navigationController.children.first(where: { $0 is BillingAddressViewController }) as? BillingAddressViewController
+            vc?.interactor?.checkThreeDSecureStatus(viewAction: .init())
         }
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()

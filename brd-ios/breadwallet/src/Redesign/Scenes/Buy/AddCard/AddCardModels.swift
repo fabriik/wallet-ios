@@ -29,20 +29,6 @@ enum AddCardModels {
         }
     }
     
-    struct ThreeDSecure {
-        struct ActionResponse {
-            var url: String
-        }
-        
-        struct ResponseDisplay {
-            var url: String
-        }
-    }
-    
-    struct ThreeDSecureStatus {
-        struct ViewAction {}
-    }
-    
     struct Validate {
         struct ViewAction {}
         

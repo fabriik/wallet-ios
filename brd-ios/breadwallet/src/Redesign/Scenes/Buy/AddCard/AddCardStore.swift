@@ -16,11 +16,11 @@ class AddCardStore: NSObject, BaseDataStore, AddCardDataStore {
     var itemId: String?
     var cardNumber: String?
     var cardExpDateString: String?
+    var cardExpDateMonth: String?
+    var cardExpDateYear: String?
     var cardCVV: String?
     var months: [String] = []
     var years: [String] = []
-    var paymentReference: String?
-    var paymentstatus: AddCard.Status = .none
-    
+
     // MARK: - Aditional helpers
 }

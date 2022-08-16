@@ -51,9 +51,23 @@ class AddCardMapper: ModelMapper<AddCardResponseData, AddCard> {
 
 struct AddCardRequestData: RequestModelData {
     var token: String?
-    
+    var firstName: String?
+    var lastName: String?
+    var countryCode: String?
+    var state: String?
+    var city: String?
+    var zip: String?
+    var address: String?
+
     func getParameters() -> [String: Any] {
-        let params = ["token": token]
+        let params = ["token": token,
+                      "first_name": firstName,
+                      "last_name": lastName,
+                      "country_code": countryCode,
+                      "state": state,
+                      "city": city,
+                      "zip": zip,
+                      "address": address]
         
         return params.compactMapValues { $0 }
     }

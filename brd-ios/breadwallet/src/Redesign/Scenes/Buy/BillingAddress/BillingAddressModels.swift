@@ -78,6 +78,20 @@ enum BillingAddressModels {
         }
     }
     
+    struct ThreeDSecure {
+        struct ActionResponse {
+            var url: URL
+        }
+        
+        struct ResponseDisplay {
+            var url: URL
+        }
+    }
+    
+    struct ThreeDSecureStatus {
+        struct ViewAction {}
+    }
+    
     struct Validate {
         struct ViewAction {}
         
