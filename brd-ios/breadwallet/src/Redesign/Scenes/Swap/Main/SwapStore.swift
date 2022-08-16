@@ -77,7 +77,8 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         let to = toCurrency?.code ?? "</>"
         return "\(from)-\(to)"
     }
-    
+
+    // TODO: extract (it being used in swap and buy)
     func address(for currency: Currency?) -> String? {
         guard let currency = currency else {
             return nil
