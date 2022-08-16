@@ -50,6 +50,9 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
             .orderInfoCard: [
                 wrappedViewModel
             ],
+            .payment: [
+                PaymentMethodViewModel()
+            ],
             .termsAndConditions: [
                 LabelViewModel.text("By placing this order you agree to our Terms and Conditions")
             ],

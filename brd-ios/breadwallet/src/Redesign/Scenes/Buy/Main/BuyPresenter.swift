@@ -81,7 +81,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
     }
     
     func presentOrderPreview(actionResponse: BuyModels.OrderPreview.ActionResponse) {
-            viewController?.displayOrderPreview(responseDisplay: .init())
+        viewController?.displayOrderPreview(responseDisplay: .init())
     }
     
     // MARK: - Additional Helpers

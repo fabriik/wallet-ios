@@ -28,6 +28,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         super.setupSubviews()
         
         tableView.register(WrapperTableViewCell<BuyOrderView>.self)
+        tableView.register(WrapperTableViewCell<PaymentMethodView>.self)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -37,7 +38,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
             cell = self.tableView(tableView, orderCellForRowAt: indexPath)
             
         case .payment:
-            cell = self.tableView(tableView, labelCellForRowAt: indexPath)
+            cell = self.tableView(tableView, paymentMethodCellForRowAt: indexPath)
             
         case .termsAndConditions:
             cell = self.tableView(tableView, labelCellForRowAt: indexPath)
@@ -50,6 +51,22 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         }
         
         cell.setupCustomMargins(all: .large)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, paymentMethodCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<PaymentMethodView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? PaymentMethodViewModel
+        else {
+            return super.tableView(tableView, cellForRowAt: indexPath)
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+        }
         
         return cell
     }
