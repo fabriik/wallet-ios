@@ -200,7 +200,7 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     }
     
     func displayThreeDSecure(responseDisplay: BillingAddressModels.ThreeDSecure.ResponseDisplay) {
-        coordinator?.showThreeDSecure(url: responseDisplay.url)
+        coordinator?.showThreeDSecure(url: responseDisplay.url, flow: .addCard)
     }
     
     // MARK: - Additional Helpers

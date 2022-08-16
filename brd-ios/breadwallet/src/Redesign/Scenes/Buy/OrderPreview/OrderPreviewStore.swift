@@ -21,6 +21,8 @@ class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
     var card: PaymentCard?
     var quote: Quote?
     var cvv: String?
+    var paymentReference: String?
+    var paymentstatus: AddCard.Status = .none
     
     // MARK: - Aditional helpers
     var coreSystem: CoreSystem?

@@ -43,7 +43,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         case .termsAndConditions:
             cell = self.tableView(tableView, labelCellForRowAt: indexPath)
             
-        case .confirm:
+        case .submit:
             cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
             
         default:
@@ -103,7 +103,8 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         
         coordinator?.showPinInput { [weak self] _ in
             LoadingView.show()
-            self?.interactor?.confirm(viewAction: .init())
+            
+            self?.interactor?.submit(viewAction: .init())
         }
     }
 
@@ -113,21 +114,25 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         coordinator?.showPopup(with: responseDisplay.model)
     }
     
-    func displayConfirm(responseDisplay: OrderPreviewModels.Confirm.ResponseDisplay) {
+    func displaySubmit(responseDisplay: OrderPreviewModels.Submit.ResponseDisplay) {
         LoadingView.hide()
-        coordinator?.showThreeDSecure(url: responseDisplay.url)
-//        // TODO: home / details buttons need to be linked
-//        coordinator?.open(scene: Scenes.Success)
+        
+        coordinator?.showSuccess(paymentReference: responseDisplay.paymentReference)
+    }
+    
+    func displayThreeDSecure(responseDisplay: BillingAddressModels.ThreeDSecure.ResponseDisplay) {
+        coordinator?.showThreeDSecure(url: responseDisplay.url, flow: .addCard)
     }
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
         LoadingView.hide()
+        
         // TODO: other payment methods / back home need to be linked
-        coordinator?.open(scene: Scenes.Failure)
+        coordinator?.showFailure()
     }
     
-    func displayCvv(responseDisplay: OrderPreviewModels.CvvValidation.ResponseDisplay) {
-        guard let section = sections.firstIndex(of: Models.Sections.confirm),
+    func displayCvv(responseDisplay: OrderPreviewModels.CVVValidation.ResponseDisplay) {
+        guard let section = sections.firstIndex(of: Models.Sections.submit),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
         
         cell.wrappedView.isEnabled = responseDisplay.continueEnabled

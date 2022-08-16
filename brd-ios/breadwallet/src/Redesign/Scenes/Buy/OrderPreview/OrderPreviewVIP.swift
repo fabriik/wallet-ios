@@ -15,21 +15,22 @@ extension Scenes {
 }
 
 protocol OrderPreviewViewActions: BaseViewActions, FetchViewActions {
+    func checkThreeDSecureStatus(viewAction: OrderPreviewModels.ThreeDSecureStatus.ViewAction)
     func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction)
-    func confirm(viewAction: OrderPreviewModels.Confirm.ViewAction)
-    func updateCvv(viewAction: OrderPreviewModels.CvvValidation.ViewAction)
+    func updateCvv(viewAction: OrderPreviewModels.CVVValidation.ViewAction)
+    func submit(viewAction: OrderPreviewModels.Submit.ViewAction)
 }
 
 protocol OrderPreviewActionResponses: BaseActionResponses, FetchActionResponses {
     func presentInfoPopup(actionResponse: OrderPreviewModels.InfoPopup.ActionResponse)
-    func presentConfirm(actionResponse: OrderPreviewModels.Confirm.ActionResponse)
-    func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse)
+    func presentCvv(actionResponse: OrderPreviewModels.CVVValidation.ActionResponse)
+    func presentSubmit(actionResponse: OrderPreviewModels.Submit.ActionResponse)
 }
 
 protocol OrderPreviewResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displayInfoPopup(responseDisplay: OrderPreviewModels.InfoPopup.ResponseDisplay)
-    func displayConfirm(responseDisplay: OrderPreviewModels.Confirm.ResponseDisplay)
-    func displayCvv(responseDisplay: OrderPreviewModels.CvvValidation.ResponseDisplay)
+    func displayCvv(responseDisplay: OrderPreviewModels.CVVValidation.ResponseDisplay)
+    func displaySubmit(responseDisplay: OrderPreviewModels.Submit.ResponseDisplay)
 }
 
 protocol OrderPreviewDataStore: BaseDataStore, FetchDataStore {
@@ -39,6 +40,8 @@ protocol OrderPreviewDataStore: BaseDataStore, FetchDataStore {
     var card: PaymentCard? { get set }
     var quote: Quote? { get set }
     var cvv: String? { get set }
+    var paymentReference: String? { get set }
+    var paymentstatus: AddCard.Status { get set }
 }
 
 protocol OrderPreviewDataPassing {
