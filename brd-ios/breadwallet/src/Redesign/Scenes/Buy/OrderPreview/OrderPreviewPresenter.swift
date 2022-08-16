@@ -72,7 +72,11 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
     }
     
     func presentConfirm(actionResponse: OrderPreviewModels.Confirm.ActionResponse) {
-        viewController?.displayConfirm(responseDisplay: .init())
+        guard let url = URL(string: actionResponse.url ?? "") else {
+            presentError(actionResponse: .init(error: GeneralError(errorMessage: "No redirect url!")))
+            return
+        }
+        viewController?.displayConfirm(responseDisplay: .init(url: url))
     }
     
     func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse) {

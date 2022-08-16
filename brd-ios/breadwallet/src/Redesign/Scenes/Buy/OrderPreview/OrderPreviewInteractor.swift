@@ -51,7 +51,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         SwapWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.presenter?.presentConfirm(actionResponse: .init())
+                self?.presenter?.presentConfirm(actionResponse: .init(url: data.redirectUrl))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))

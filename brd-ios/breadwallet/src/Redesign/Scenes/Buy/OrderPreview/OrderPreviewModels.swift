@@ -39,9 +39,13 @@ enum OrderPreviewModels {
     struct Confirm {
         struct ViewAction {}
         
-        struct ActionResponse {}
+        struct ActionResponse {
+            var url: String?
+        }
         
-        struct ResponseDisplay {}
+        struct ResponseDisplay {
+            var url: URL
+        }
     }
     
     struct CvvValidation {

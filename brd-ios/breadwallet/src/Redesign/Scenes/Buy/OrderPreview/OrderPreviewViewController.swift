@@ -115,8 +115,9 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     
     func displayConfirm(responseDisplay: OrderPreviewModels.Confirm.ResponseDisplay) {
         LoadingView.hide()
-        // TODO: home / details buttons need to be linked
-        coordinator?.open(scene: Scenes.Success)
+        coordinator?.showThreeDSecure(url: responseDisplay.url)
+//        // TODO: home / details buttons need to be linked
+//        coordinator?.open(scene: Scenes.Success)
     }
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
@@ -132,6 +133,5 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         cell.wrappedView.isEnabled = responseDisplay.continueEnabled
     }
     
-
     // MARK: - Additional Helpers
 }

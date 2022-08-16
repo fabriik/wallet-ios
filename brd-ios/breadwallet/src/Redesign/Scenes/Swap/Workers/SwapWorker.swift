@@ -22,10 +22,10 @@ struct SwapRequestData: RequestModelData {
     func getParameters() -> [String: Any] {
         let params: [String: Any?] = [
             "device_id": deviceId,
-           "quote_id": quoteId,
-           "deposit_quantity": depositQuantity.description,
-           "withdrawal_quantity": withdrawalQuantity?.description,
-           "destination": destination,
+            "quote_id": quoteId,
+            "deposit_quantity": depositQuantity.description,
+            "withdrawal_quantity": withdrawalQuantity?.description,
+            "destination": destination,
             "source_instrument_id": sourceInstrumentId,
             "nolog_cvv": nologCvv
         ]
@@ -39,13 +39,32 @@ struct SwapResponseData: ModelResponse {
     var currency: String
     var amount: String
     var address: String
+    var status: String?
+    var paymentReference: Int?
+    var redirectUrl: String?
 }
 
 struct Swap: Model {
+//    enum PaymentStatus: String {
+//        case active
+//        case requested
+//        case pending
+//        case authorized
+//        case cardVerified
+//        case canceled
+//        case expired
+//        case paid
+//        case declined
+//        cas
+//        'ACTIVE', 'REQUESTED', 'PENDING', 'AUTHORIZED', 'CARD_VERIFIED', 'CANCELED', 'EXPIRED', 'PAID', 'DECLINED', 'VOIDED', 'PARTIALLY_CAPTURED', 'CAPTURED', 'PARTIALLY_REFUNDED', 'REFUNDED'
+//    }
     var exchangeId: String
     var currency: String
     var amount: Decimal
     var address: String
+    var status: String?
+    var paymentReference: Int?
+    var redirectUrl: String?
 }
 
 class SwapMapper: ModelMapper<SwapResponseData, Swap> {
@@ -53,8 +72,14 @@ class SwapMapper: ModelMapper<SwapResponseData, Swap> {
         guard let response = response,
               let amount = Decimal(string: response.amount)
         else { return nil }
-
-        return .init(exchangeId: "\(response.exchangeId)", currency: response.currency.uppercased(), amount: amount, address: response.address)
+        
+        return .init(exchangeId: "\(response.exchangeId)",
+                     currency: response.currency.uppercased(),
+                     amount: amount,
+                     address: response.address,
+                     status: response.status,
+                     paymentReference: response.paymentReference,
+                     redirectUrl: response.redirectUrl)
     }
 }
 
