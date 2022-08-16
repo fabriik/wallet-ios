@@ -50,7 +50,7 @@ final class AddCardPresenter: NSObject, Presenter, AddCardActionResponses {
     }
     
     func presentSubmit(actionResponse: AddCardModels.Submit.ActionResponse) {
-        viewController?.displaySubmit(responseDisplay: .init(addCardDataStore: actionResponse.addCardDataStore))
+        viewController?.displaySubmit(responseDisplay: .init())
     }
     
     func presentInfoPopup(actionResponse: AddCardModels.InfoPopup.ActionResponse) {

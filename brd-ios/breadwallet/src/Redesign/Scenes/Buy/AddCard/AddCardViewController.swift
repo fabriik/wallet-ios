@@ -122,7 +122,7 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
     }
     
     func displaySubmit(responseDisplay: AddCardModels.Submit.ResponseDisplay) {
-        coordinator?.showBillingAddress(addCardDataStore: responseDisplay.addCardDataStore)
+        coordinator?.showBillingAddress(addCardDataStore: dataStore)
     }
     
     func displayInfoPopup(responseDisplay: AddCardModels.InfoPopup.ResponseDisplay) {

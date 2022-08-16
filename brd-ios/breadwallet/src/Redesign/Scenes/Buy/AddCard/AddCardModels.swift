@@ -44,13 +44,9 @@ enum AddCardModels {
     struct Submit {
         struct ViewAction {}
         
-        struct ActionResponse {
-            var addCardDataStore: AddCardStore?
-        }
+        struct ActionResponse {}
         
-        struct ResponseDisplay {
-            var addCardDataStore: AddCardStore?
-        }
+        struct ResponseDisplay {}
     }
     
     struct InfoPopup {
