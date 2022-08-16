@@ -52,7 +52,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
             switch result {
             case .success(let data):
                 if let redirectUrlString = data.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
-                    self?.dataStore?.paymentReference = String(data.paymentReference ?? -1)
+                    self?.dataStore?.paymentReference = data.paymentReference
                     
                     self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
                 } else {
