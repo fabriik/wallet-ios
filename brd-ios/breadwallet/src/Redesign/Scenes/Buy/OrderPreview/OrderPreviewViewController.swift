@@ -83,6 +83,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         
         coordinator?.showPinInput { [weak self] pin in
             LoadingView.hide()
+            // TODO: handle proper responses herre
             self?.coordinator?.open(scene: Scenes.Failure)
         }
     }
