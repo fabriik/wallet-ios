@@ -28,8 +28,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes {
         }
     }
     
-    func showThreeDSecure(url: String) {
-        guard let url = URL(string: url) else { return }
+    func showThreeDSecure(url: URL) {
         let webViewController = SimpleWebViewController(url: url)
         webViewController.setup(with: .init(title: "3D Secure")) // TODO: Localize
         webViewController.didDismiss = { [weak self] in

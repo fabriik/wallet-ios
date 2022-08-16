@@ -80,11 +80,11 @@ enum BillingAddressModels {
     
     struct ThreeDSecure {
         struct ActionResponse {
-            var url: String
+            var url: URL
         }
         
         struct ResponseDisplay {
-            var url: String
+            var url: URL
         }
     }
     

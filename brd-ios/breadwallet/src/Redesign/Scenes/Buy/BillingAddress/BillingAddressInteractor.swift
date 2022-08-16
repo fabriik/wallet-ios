@@ -128,7 +128,7 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
                 AddCardWorker().execute(requestData: data) { result in
                     switch result {
                     case .success(let data):
-                        if let redirectUrl = data.redirectUrl {
+                        if let redirectUrlString = data.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
                             self?.dataStore?.paymentReference = data.paymentReference
                             
                             self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
