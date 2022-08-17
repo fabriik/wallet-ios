@@ -67,7 +67,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
                 LabelViewModel.text("By placing this order you agree to our Terms and Conditions")
             ],
             .submit: [
-                ButtonViewModel(title: "Confirm")
+                ButtonViewModel(title: "Confirm", enabled: false)
             ]
         ]
         
@@ -84,7 +84,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         viewController?.displayThreeDSecure(responseDisplay: .init(url: actionResponse.url))
     }
     
-    func presentCvv(actionResponse: OrderPreviewModels.CVVValidation.ActionResponse) {
+    func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse) {
         let enabled = actionResponse.cvv?.count == 3
         viewController?.displayCvv(responseDisplay: .init(continueEnabled: enabled))
     }

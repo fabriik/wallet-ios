@@ -32,16 +32,28 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             return
         }
         
-        PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
+        fetchCards { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                self.getExchangeRate(viewAction: .init())
+                self.presenter?.presentData(actionResponse: .init(item: Models.Item(amount: .zero(currency), paymentCard: self.dataStore?.paymentCard)))
+                self.presenter?.presentAssets(actionResponse: .init(amount: self.dataStore?.toAmount, card: self.dataStore?.paymentCard))
+                
+            case .failure(let error):
+                self.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
+    }
+    
+    func getPaymentCards(viewAction: BuyModels.PaymentCards.ViewAction) {
+        fetchCards { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .success(let data):
-                self.dataStore?.allPaymentCards = data
-                
-                self.getExchangeRate(viewAction: .init())
-                self.presenter?.presentData(actionResponse: .init(item: Models.Item(amount: .zero(currency), paymentCard: self.dataStore?.paymentCard)))
-                self.presenter?.presentAssets(actionResponse: .init(amount: self.dataStore?.toAmount, card: self.dataStore?.paymentCard))
+                self.presenter?.presentPaymentCards(actionResponse: .init(allPaymentCards: data ?? []))
                 
             case .failure(let error):
                 self.presenter?.presentError(actionResponse: .init(error: error))
@@ -127,5 +139,19 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         formatter.maximumFractionDigits = 8 //Int(currency.baseUnit.decimals)
         
         return formatter.string(for: amount)
+    }
+    
+    private func fetchCards(completion: ((Result<[PaymentCard]?, Error>) -> Void)?) {
+        PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.dataStore?.allPaymentCards = data
+                
+            default:
+                break
+            }
+            
+            completion?(result)
+        }
     }
 }

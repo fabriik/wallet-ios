@@ -168,6 +168,7 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
         switch dataStore?.paymentstatus {
         case .captured, .cardVerified:
             presenter?.presentSubmit(actionResponse: .init())
+            
         default:
             presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "Payment failed")))
         }

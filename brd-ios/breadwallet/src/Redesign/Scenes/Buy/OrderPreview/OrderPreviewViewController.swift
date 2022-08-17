@@ -100,9 +100,8 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     
     @objc override func buttonTapped() {
         super.buttonTapped()
-        LoadingView.show()
+        
         coordinator?.showPinInput { [weak self] _ in
-            
             self?.interactor?.submit(viewAction: .init())
         }
     }
@@ -120,7 +119,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     }
     
     func displayThreeDSecure(responseDisplay: BillingAddressModels.ThreeDSecure.ResponseDisplay) {
-        coordinator?.showThreeDSecure(url: responseDisplay.url, flow: .addCard)
+        coordinator?.showThreeDSecure(url: responseDisplay.url)
     }
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
@@ -130,7 +129,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         coordinator?.showFailure()
     }
     
-    func displayCvv(responseDisplay: OrderPreviewModels.CVVValidation.ResponseDisplay) {
+    func displayCvv(responseDisplay: OrderPreviewModels.CvvValidation.ResponseDisplay) {
         guard let section = sections.firstIndex(of: Models.Sections.submit),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
         

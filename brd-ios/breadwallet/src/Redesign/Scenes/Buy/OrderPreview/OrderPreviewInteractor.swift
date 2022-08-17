@@ -81,7 +81,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         }
     }
     
-    func updateCvv(viewAction: OrderPreviewModels.CVVValidation.ViewAction) {
+    func updateCvv(viewAction: OrderPreviewModels.CvvValidation.ViewAction) {
         dataStore?.cvv = viewAction.cvv
         
         presenter?.presentCvv(actionResponse: .init(cvv: dataStore?.cvv))
@@ -92,8 +92,9 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         switch dataStore?.paymentstatus {
         case .captured, .cardVerified:
             presenter?.presentSubmit(actionResponse: .init(paymentReference: dataStore?.paymentReference ?? ""))
+            
         default:
-            break // TODO: Handle error
+            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "Payment failed")))
         }
     }
 

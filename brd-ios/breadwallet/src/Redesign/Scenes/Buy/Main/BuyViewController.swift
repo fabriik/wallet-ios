@@ -51,7 +51,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         }
         
         continueButton.wrappedView.configure(with: Presets.Button.primary)
-        continueButton.wrappedView.setup(with: .init(title: "Continue", enabled: true))
+        continueButton.wrappedView.setup(with: .init(title: "Continue", enabled: false))
         continueButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
@@ -138,10 +138,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             view.setup(with: model)
             
             view.didTapSelectAsset = { [weak self] in
-                guard let cards = self?.dataStore?.allPaymentCards else { return }
-                self?.coordinator?.showCardSelector(cards: cards, selected: { selectedCard in
-                    self?.interactor?.setAssets(viewAction: .init(card: selectedCard))
-                })
+                self?.interactor?.getPaymentCards(viewAction: .init())
             }
         }
         
@@ -174,26 +171,38 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }
     
     // MARK: - BuyResponseDisplay
-    func displayAssets(actionResponse: BuyModels.Assets.ResponseDisplay) {
+    
+    func displayPaymentCards(responseDisplay: BuyModels.PaymentCards.ResponseDisplay) {
+        coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards, selected: { [weak self] selectedCard in
+            self?.interactor?.setAssets(viewAction: .init(card: selectedCard))
+        })
+    }
+    
+    func displayAssets(responseDisplay actionResponse: BuyModels.Assets.ResponseDisplay) {
         LoadingView.hide()
         
         guard let fromSection = sections.firstIndex(of: Models.Sections.from),
               let toSection = sections.firstIndex(of: Models.Sections.to),
               let fromCell = tableView.cellForRow(at: .init(row: 0, section: fromSection)) as? WrapperTableViewCell<SwapCurrencyView>,
-              let toCell = tableView.cellForRow(at: .init(row: 0, section: toSection)) as? WrapperTableViewCell<CardSelectionView> else { return }
+              let toCell = tableView.cellForRow(at: .init(row: 0, section: toSection)) as? WrapperTableViewCell<CardSelectionView>
+        else { return continueButton.wrappedView.isEnabled = false }
         
         fromCell.wrappedView.setup(with: actionResponse.cryptoModel)
         toCell.wrappedView.setup(with: actionResponse.cardModel)
         
         tableView.beginUpdates()
         tableView.endUpdates()
+        
+        let tokenAmount = actionResponse.cryptoModel?.amount?.tokenValue ?? 0
+        continueButton.wrappedView.isEnabled = tokenAmount > 0 && dataStore?.paymentCard != nil
     }
     
     func displayExchangeRate(responseDisplay: BuyModels.Rate.ResponseDisplay) {
         LoadingView.hide()
         
         guard let section = sections.firstIndex(of: Models.Sections.rate),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> else { return }
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView>
+        else { return continueButton.wrappedView.isEnabled = false }
         
         cell.setup { view in
             view.setup(with: responseDisplay)
