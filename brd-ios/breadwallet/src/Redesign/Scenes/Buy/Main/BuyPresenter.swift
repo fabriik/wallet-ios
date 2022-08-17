@@ -42,11 +42,10 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             return
         }
         
-        let text = String(format: "1 %@ = %.1f %@", from.uppercased(), rate.doubleValue, to.uppercased())
+        let text = String(format: "1 %@ = %@ %@", from.uppercased(), ExchangeFormatter.main.string(for: rate) ?? "/", to.uppercased())
         
         let model = ExchangeRateViewModel(exchangeRate: text,
-                                            timer: TimerViewModel(till: (actionResponse.expires ?? 0) * 1000,
-                                                                  repeats: false))
+                                            timer: TimerViewModel(till: actionResponse.expires ?? 0, repeats: true))
         
         viewController?.displayExchangeRate(responseDisplay: model)
     }
@@ -55,7 +54,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let cryptoModel: SwapCurrencyViewModel
         let cardModel: CardSelectionViewModel
         
-        let fromFiatValue = actionResponse.amount?.fiatValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.amount?.fiatValue ?? 0) as NSNumber)
+        let fromFiatValue = actionResponse.amount?.fiatValue == 0 ? nil : ExchangeFormatter.main.string(for: actionResponse.amount?.fiatValue ?? 0)
         let fromTokenValue = actionResponse.amount?.tokenValue == 0 ? nil : ExchangeFormatter.main.string(from: (actionResponse.amount?.tokenValue ?? 0) as NSNumber)
         
         // TODO: Localize

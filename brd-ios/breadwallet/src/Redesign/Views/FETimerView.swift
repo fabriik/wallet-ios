@@ -77,7 +77,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
-        let dateValue = TimeInterval(viewModel.till) / 1000.0
+        let dateValue = TimeInterval(viewModel.till / 1000.0)
         triggerDate = Date(timeIntervalSince1970: dateValue)
         
         // TODO: replace with animation

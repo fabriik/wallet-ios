@@ -64,7 +64,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 self?.presenter?.presentRate(actionResponse: .init(rate: quote?.exchangeRate,
                                                                    from: from,
                                                                    to: to,
-                                                                   expires: quote?.timestamp))
+                                                                   expires: quote?.timestamp ?? 0))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
