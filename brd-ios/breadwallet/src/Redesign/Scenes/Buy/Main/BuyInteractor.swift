@@ -93,7 +93,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                                                                            to: to,
                                                                            rate: quote?.exchangeRate,
                                                                            expires: (quote?.timestamp ?? 0) + 60))
-                self?.setAmount(viewAction: .init(tokenValue: self?.dataStore?.toAmount?.tokenValue.description))
+                self?.setAmount(viewAction: .init(tokenValue: (self?.dataStore?.to ?? 0).description))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
@@ -109,7 +109,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             dataStore?.paymentCard = value
         }
         
-        getData(viewAction: .init())
+        getExchangeRate(viewAction: .init())
     }
     
     func showOrderPreview(viewAction: BuyModels.OrderPreview.ViewAction) {
