@@ -3431,10 +3431,10 @@
 			isa = PBXGroup;
 			children = (
 				C491ABFE28A6430900E79954 /* Views */,
-				C491ABF128A6395C00E79954 /* OrderPreviewStore.swift */,
 				C491ABF228A6395C00E79954 /* OrderPreviewPresenter.swift */,
-				C491ABF328A6395C00E79954 /* OrderPreviewModels.swift */,
+				C491ABF128A6395C00E79954 /* OrderPreviewStore.swift */,
 				C491ABF428A6395C00E79954 /* OrderPreviewVIP.swift */,
+				C491ABF328A6395C00E79954 /* OrderPreviewModels.swift */,
 				C491ABF528A6395C00E79954 /* OrderPreviewViewController.swift */,
 				C491ABF628A6395C00E79954 /* OrderPreviewInteractor.swift */,
 			);

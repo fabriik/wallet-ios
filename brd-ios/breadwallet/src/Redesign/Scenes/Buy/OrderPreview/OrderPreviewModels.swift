@@ -18,7 +18,7 @@ enum OrderPreviewModels {
         case orderInfoCard
         case payment
         case termsAndConditions
-        case confirm
+        case submit
         
         var header: AccessoryType? { return nil }
         var footer: AccessoryType? { return nil }
@@ -36,11 +36,9 @@ enum OrderPreviewModels {
         }
     }
     
-    struct Confirm {
-        struct ViewAction {}
-        
+    struct ThreeDSecure {
         struct ActionResponse {
-            var url: String?
+            var url: URL
         }
         
         struct ResponseDisplay {
@@ -48,7 +46,11 @@ enum OrderPreviewModels {
         }
     }
     
-    struct CvvValidation {
+    struct ThreeDSecureStatus {
+        struct ViewAction {}
+    }
+    
+    struct CVVValidation {
         struct ViewAction {
             var cvv: String?
         }
@@ -59,6 +61,18 @@ enum OrderPreviewModels {
         
         struct ResponseDisplay {
             var continueEnabled: Bool
+        }
+    }
+    
+    struct Submit {
+        struct ViewAction {}
+        
+        struct ActionResponse {
+            var paymentReference: String
+        }
+        
+        struct ResponseDisplay {
+            var paymentReference: String
         }
     }
 }

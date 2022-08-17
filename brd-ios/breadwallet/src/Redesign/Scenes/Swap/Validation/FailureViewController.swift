@@ -27,16 +27,19 @@ class FailureViewController: BaseInfoViewController {
 
     override var buttonCallbacks: [(() -> Void)] {
         return [
-            goHome,
-            showDetails
+            first,
+            second
         ]
     }
 
-    func goHome() {
-        print("first!")
+    var firstCallback: (() -> Void)?
+    var secondCallback: (() -> Void)?
+    
+    func first() {
+        firstCallback?()
     }
 
-    func showDetails() {
-        print("second!")
+    func second() {
+        secondCallback?()
     }
 }

@@ -9,8 +9,13 @@
 import UIKit
 
 class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPreviewRoutes {
+    enum Flow {
+        case addCard
+        case placeOrder
+    }
+    
     // MARK: - BuyRoutes
-
+    
     override func start() {
         open(scene: Scenes.Buy)
     }
@@ -28,17 +33,69 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         }
     }
     
-    func showThreeDSecure(url: URL) {
+    func showThreeDSecure(url: URL, flow: Flow) {
         let webViewController = SimpleWebViewController(url: url)
         webViewController.setup(with: .init(title: "3D Secure")) // TODO: Localize
         webViewController.didDismiss = { [weak self] in
-            let vc = self?.navigationController.children.first(where: { $0 is BillingAddressViewController }) as? BillingAddressViewController
-            vc?.interactor?.checkThreeDSecureStatus(viewAction: .init())
+            switch flow {
+            case .addCard:
+                let vc = self?.navigationController.children.first(where: { $0 is BillingAddressViewController }) as? BillingAddressViewController
+                vc?.interactor?.checkThreeDSecureStatus(viewAction: .init())
+                
+            case .placeOrder:
+                let vc = self?.navigationController.children.first(where: { $0 is OrderPreviewViewController }) as? OrderPreviewViewController
+                vc?.interactor?.checkThreeDSecureStatus(viewAction: .init())
+                
+            }
         }
+        
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         
         navigationController.present(navController, animated: true)
+    }
+    
+    func showSuccess(paymentReference: String) {
+        open(scene: Scenes.Success) { vc in
+            vc.dataStore?.itemId = paymentReference
+            
+            vc.firstCallback = { [weak self] in
+                self?.popFlow()
+            }
+            
+            vc.secondCallback = { [weak self] in
+                self?.showSwapDetails(exchangeId: paymentReference)
+            }
+        }
+    }
+    
+    func showFailure() {
+        open(scene: Scenes.Failure) { vc in
+            vc.firstCallback = { [weak self] in
+                // TODO: How does this work? How do we navigate to cards screen?
+            }
+            
+            vc.secondCallback = { [weak self] in
+                self?.showSupport()
+            }
+        }
+    }
+    
+    func showSupport() {
+        guard let url = URL(string: C.supportLink) else { return }
+        let webViewController = SimpleWebViewController(url: url)
+        webViewController.setup(with: .init(title: "Support"))
+        let navController = RootNavigationController(rootViewController: webViewController)
+        webViewController.setAsNonDismissableModal()
+        
+        navigationController.present(navController, animated: true)
+    }
+    
+    func showSwapDetails(exchangeId: String) {
+        open(scene: SwapDetailsViewController.self) { vc in
+            vc.dataStore?.itemId = exchangeId
+            vc.prepareData()
+        }
     }
     
     func showAssetSelector(currencies: [Currency]?, selected: ((Any?) -> Void)?) {

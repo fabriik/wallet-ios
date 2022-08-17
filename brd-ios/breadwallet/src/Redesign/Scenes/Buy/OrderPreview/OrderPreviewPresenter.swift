@@ -44,7 +44,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
             .orderInfoCard,
             .payment,
             .termsAndConditions,
-            .confirm
+            .submit
         ]
         
         let sectionRows: [Models.Sections: [Any]] = [
@@ -57,7 +57,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
             .termsAndConditions: [
                 LabelViewModel.text("By placing this order you agree to our Terms and Conditions")
             ],
-            .confirm: [
+            .submit: [
                 ButtonViewModel(title: "Confirm")
             ]
         ]
@@ -71,19 +71,19 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         viewController?.displayInfoPopup(responseDisplay: .init(model: model))
     }
     
-    func presentConfirm(actionResponse: OrderPreviewModels.Confirm.ActionResponse) {
-        guard let url = URL(string: actionResponse.url ?? "") else {
-            presentError(actionResponse: .init(error: GeneralError(errorMessage: "No redirect url!")))
-            return
-        }
-        viewController?.displayConfirm(responseDisplay: .init(url: url))
+    func presentThreeDSecure(actionResponse: OrderPreviewModels.ThreeDSecure.ActionResponse) {
+        viewController?.displayThreeDSecure(responseDisplay: .init(url: actionResponse.url))
     }
     
-    func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse) {
+    func presentCvv(actionResponse: OrderPreviewModels.CVVValidation.ActionResponse) {
         let enabled = actionResponse.cvv?.count == 3
         viewController?.displayCvv(responseDisplay: .init(continueEnabled: enabled))
     }
-
+    
+    func presentSubmit(actionResponse: OrderPreviewModels.Submit.ActionResponse) {
+        viewController?.displaySubmit(responseDisplay: .init(paymentReference: actionResponse.paymentReference))
+    }
+    
     // MARK: - Additional Helpers
 
 }
