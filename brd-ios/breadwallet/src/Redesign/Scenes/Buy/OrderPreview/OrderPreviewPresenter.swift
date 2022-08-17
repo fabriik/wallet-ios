@@ -21,14 +21,15 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         guard let item = actionResponse.item as? Models.Item,
               let toAmount = item.to,
               let quote = item.quote,
-              let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal) else { return }
+              let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal),
+              let card = item.card else { return }
         
         let to = toAmount.fiatValue
         let from = item.from ?? 0
-        let cardFee = quote.fromFeeCurrency?.rate ?? 0
-        let networkFee = quote.toFeeCurrency?.rate ?? 0
-        let fiatCurrency = quote.fromFeeCurrency?.feeCurrency ?? "/"
-        let feeCurrency = quote.toFeeCurrency?.feeCurrency ?? "/"
+        let cardFee: Decimal = 0
+        let networkFee: Decimal = 0
+        let fiatCurrency = (quote.fromFeeCurrency?.feeCurrency ?? "USD").uppercased()
+        let feeCurrency = (quote.toFeeCurrency?.feeCurrency ?? toAmount.currency.code).uppercased()
         
         // TODO: pass exchange rate / expiration as well
         // TODO: format currency
@@ -47,18 +48,26 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
             .submit
         ]
         
+        let imageVM: ImageViewModel
+        if let image = card.image {
+            imageVM = .image(image)
+        } else {
+            imageVM = .imageName("credit_card_icon")
+        }
         let sectionRows: [Models.Sections: [Any]] = [
             .orderInfoCard: [
                 wrappedViewModel
             ],
             .payment: [
-                PaymentMethodViewModel()
+                PaymentMethodViewModel(logo: imageVM,
+                                       cardNumber: .text(CardDetailsFormatter.formatNumber(last4: card.last4)),
+                                       expiration: .text(CardDetailsFormatter.formatExpirationDate(month: card.expiryMonth, year: card.expiryYear)))
             ],
             .termsAndConditions: [
                 LabelViewModel.text("By placing this order you agree to our Terms and Conditions")
             ],
             .submit: [
-                ButtonViewModel(title: "Confirm")
+                ButtonViewModel(title: "Confirm", enabled: false)
             ]
         ]
         

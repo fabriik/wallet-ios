@@ -102,8 +102,6 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         super.buttonTapped()
         
         coordinator?.showPinInput { [weak self] _ in
-            LoadingView.show()
-            
             self?.interactor?.submit(viewAction: .init())
         }
     }
