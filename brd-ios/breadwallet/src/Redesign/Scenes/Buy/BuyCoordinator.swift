@@ -9,11 +9,6 @@
 import UIKit
 
 class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPreviewRoutes {
-    enum Flow {
-        case addCard
-        case placeOrder
-    }
-    
     // MARK: - BuyRoutes
     
     override func start() {
@@ -33,7 +28,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         }
     }
     
-    func showThreeDSecure(url: URL, flow: Flow) {
+    func showThreeDSecure(url: URL) {
         let webViewController = SimpleWebViewController(url: url)
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
