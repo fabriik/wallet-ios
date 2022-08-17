@@ -59,7 +59,7 @@ class SwapMapper: ModelMapper<SwapResponseData, Swap> {
         guard let response = response,
               let amount = Decimal(string: response.amount ?? "")
         else {
-            return .init(status: .init(rawValue: response?.status) ?? .none,
+            return .init(status: .init(rawValue: response?.status ?? ""),
                          paymentReference: response?.paymentReference,
                          redirectUrl: response?.redirectUrl)
         }

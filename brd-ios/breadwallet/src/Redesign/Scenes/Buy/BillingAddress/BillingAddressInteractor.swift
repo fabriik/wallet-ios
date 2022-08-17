@@ -143,13 +143,13 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
                 AddCardWorker().execute(requestData: data) { result in
                     switch result {
                     case .success(let data):
+                        self?.dataStore?.paymentstatus = data?.status
+                        
                         if let redirectUrlString = data?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
                             self?.dataStore?.paymentReference = data?.paymentReference
                             
                             self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
                         } else {
-                            self?.dataStore?.paymentstatus = data?.status
-                            
                             self?.handlePresentSubmit()
                         }
                         
@@ -169,7 +169,7 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
         case .captured, .cardVerified:
             presenter?.presentSubmit(actionResponse: .init())
         default:
-            break // TODO: Handle error
+            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "Payment failed")))
         }
     }
 }

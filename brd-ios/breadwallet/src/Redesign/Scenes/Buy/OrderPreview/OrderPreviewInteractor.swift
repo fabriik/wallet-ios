@@ -66,15 +66,13 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         SwapWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let data):
+                self?.dataStore?.paymentstatus = data?.status
                 if let redirectUrlString = data?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
                     self?.dataStore?.paymentReference = data?.paymentReference
                     
                     self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
-                } else if data?.status == .authorized {
-                    self?.dataStore?.paymentstatus = .authorized //  TODO: Fix the default value
-                    self?.handlePresentSubmit()
                 } else {
-                    self?.presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "Card declined.")))
+                    self?.handlePresentSubmit()
                 }
                 
             case .failure(let error):
