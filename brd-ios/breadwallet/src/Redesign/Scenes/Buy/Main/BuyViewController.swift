@@ -138,10 +138,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             view.setup(with: model)
             
             view.didTapSelectAsset = { [weak self] in
-                guard let cards = self?.dataStore?.allPaymentCards else { return }
-                self?.coordinator?.showCardSelector(cards: cards, selected: { selectedCard in
-                    self?.interactor?.setAssets(viewAction: .init(card: selectedCard))
-                })
+                self?.interactor?.getPaymentCards(viewAction: .init())
             }
         }
         
@@ -174,7 +171,14 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }
     
     // MARK: - BuyResponseDisplay
-    func displayAssets(actionResponse: BuyModels.Assets.ResponseDisplay) {
+    
+    func displayPaymentCards(responseDisplay: BuyModels.PaymentCards.ResponseDisplay) {
+        coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards, selected: { [weak self] selectedCard in
+            self?.interactor?.setAssets(viewAction: .init(card: selectedCard))
+        })
+    }
+    
+    func displayAssets(responseDisplay actionResponse: BuyModels.Assets.ResponseDisplay) {
         LoadingView.hide()
         
         guard let fromSection = sections.firstIndex(of: Models.Sections.from),

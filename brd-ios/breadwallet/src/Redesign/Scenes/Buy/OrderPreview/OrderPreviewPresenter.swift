@@ -75,7 +75,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         viewController?.displayThreeDSecure(responseDisplay: .init(url: actionResponse.url))
     }
     
-    func presentCvv(actionResponse: OrderPreviewModels.CVVValidation.ActionResponse) {
+    func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse) {
         let enabled = actionResponse.cvv?.count == 3
         viewController?.displayCvv(responseDisplay: .init(continueEnabled: enabled))
     }

@@ -63,7 +63,12 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     func showFailure() {
         open(scene: Scenes.Failure) { vc in
             vc.firstCallback = { [weak self] in
-                // TODO: How does this work? How do we navigate to cards screen?
+                CATransaction.begin()
+                CATransaction.setCompletionBlock {
+                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getPaymentCards(viewAction: .init())
+                }
+                self?.navigationController.popToRootViewController(animated: true)
+                CATransaction.commit()
             }
             
             vc.secondCallback = { [weak self] in

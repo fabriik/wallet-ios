@@ -50,7 +50,7 @@ enum OrderPreviewModels {
         struct ViewAction {}
     }
     
-    struct CVVValidation {
+    struct CvvValidation {
         struct ViewAction {
             var cvv: String?
         }

@@ -131,7 +131,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         coordinator?.showFailure()
     }
     
-    func displayCvv(responseDisplay: OrderPreviewModels.CVVValidation.ResponseDisplay) {
+    func displayCvv(responseDisplay: OrderPreviewModels.CvvValidation.ResponseDisplay) {
         guard let section = sections.firstIndex(of: Models.Sections.submit),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
         

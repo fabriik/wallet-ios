@@ -81,7 +81,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         }
     }
     
-    func updateCvv(viewAction: OrderPreviewModels.CVVValidation.ViewAction) {
+    func updateCvv(viewAction: OrderPreviewModels.CvvValidation.ViewAction) {
         dataStore?.cvv = viewAction.cvv
         
         presenter?.presentCvv(actionResponse: .init(cvv: dataStore?.cvv))
