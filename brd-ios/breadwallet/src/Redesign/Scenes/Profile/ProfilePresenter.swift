@@ -33,9 +33,10 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
 
     // MARK: - ProfileActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
-        guard let item = actionResponse.item as? Models.Item else { return }
+        guard let item = actionResponse.item as? Models.Item,
+              let status = item.status
+        else { return }
         
-        let status = item.status
         var infoView: InfoViewModel
         switch status {
         case .none, .email:
@@ -60,7 +61,7 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
         
         let sectionRows: [Models.Section: [Any]] = [
             .profile: [
-                ProfileViewModel(name: item.title ?? "<unknown", image: item.image)
+                ProfileViewModel(name: item.title ?? "<unknown", image: item.image ?? "")
             ],
             .verification: [
                 infoView

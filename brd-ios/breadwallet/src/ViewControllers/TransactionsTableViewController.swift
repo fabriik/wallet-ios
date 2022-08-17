@@ -181,7 +181,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
             
             switch result {
             case .success(let exchanges):
-                exchanges.forEach { exchange in
+                exchanges?.forEach { exchange in
                     let source = exchange.source
                     let destination = exchange.destination
                     let sourceId = source.transactionId

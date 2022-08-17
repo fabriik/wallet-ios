@@ -81,8 +81,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                 self?.dataStore?.quote = quote
                 self?.presenter?.presentExchangeRate(actionResponse: .init(from: from,
                                                                            to: to,
-                                                                           rate: quote.exchangeRate,
-                                                                           expires: quote.timestamp + 60))
+                                                                           rate: quote?.exchangeRate,
+                                                                           expires: (quote?.timestamp ?? 0) + 60))
                 self?.setAmount(viewAction: .init(tokenValue: self?.dataStore?.toAmount?.tokenValue.description))
                 
             case .failure(let error):

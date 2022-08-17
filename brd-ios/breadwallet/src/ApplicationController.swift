@@ -373,7 +373,7 @@ class ApplicationController: Subscriber, Trackable {
             switch result {
             case .success(let profile):
                 guard !UserDefaults.emailConfirmed,
-                      profile.email != nil else {
+                      profile?.email != nil else {
                     return
                 }
                 
@@ -391,8 +391,8 @@ class ApplicationController: Subscriber, Trackable {
                     NewDeviceWorker().execute(requestData: newDeviceRequestData) { [weak self] result in
                         switch result {
                         case .success(let data):
-                            UserDefaults.email = data.email
-                            UserDefaults.kycSessionKeyValue = data.sessionKey
+                            UserDefaults.email = data?.email
+                            UserDefaults.kycSessionKeyValue = data?.sessionKey
                             
                             self?.coordinator?.showRegistration()
                             
@@ -445,7 +445,7 @@ class ApplicationController: Subscriber, Trackable {
         homeScreen.didTapProfileFromPrompt = { [unowned self] profile in
             switch profile {
             case .success(let profile):
-                if profile.email == nil
+                if profile?.email == nil
                     || !UserDefaults.emailConfirmed {
                     coordinator?.showRegistration(shouldShowProfile: true)
                 } else if UserManager.shared.profile?.status.canBuyTrade == false {

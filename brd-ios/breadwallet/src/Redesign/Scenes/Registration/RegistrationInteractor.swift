@@ -39,7 +39,7 @@ class RegistrationInteractor: NSObject, Interactor, RegistrationViewActions {
         RegistrationWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let data):
-                guard let sessionKey = data.sessionKey else { return }
+                guard let sessionKey = data?.sessionKey else { return }
                 
                 UserDefaults.email = email
                 UserDefaults.kycSessionKeyValue = sessionKey

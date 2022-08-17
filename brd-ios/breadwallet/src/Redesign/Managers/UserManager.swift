@@ -22,13 +22,13 @@ class UserManager: NSObject {
         refresh()
     }
     
-    func refresh(completion: ((Result<Profile, Error>?) -> Void)? = nil) {
+    func refresh(completion: ((Result<Profile?, Error>?) -> Void)? = nil) {
         ProfileWorker().execute { [weak self] result in
             switch result {
             case .success(let profile):
                 self?.profile = profile
                 
-                if let email = profile.email {
+                if let email = profile?.email {
                     UserDefaults.email = email
                 }
                 

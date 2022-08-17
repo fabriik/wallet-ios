@@ -19,8 +19,23 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     // MARK: - OrderPreviewViewActions
     
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        let item: Models.Item = (to: dataStore?.to, from: dataStore?.from, quote: dataStore?.quote)
-        presenter?.presentData(actionResponse: .init(item: item))
+        guard let reference = dataStore?.paymentReference else {
+            let item: Models.Item = (to: dataStore?.to, from: dataStore?.from, quote: dataStore?.quote)
+            presenter?.presentData(actionResponse: .init(item: item))
+            return
+        }
+        
+        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: reference)) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.dataStore?.paymentstatus = data?.status
+                
+                self?.handlePresentSubmit()
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
     }
     
     func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction) {
@@ -51,13 +66,12 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         SwapWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let data):
-                if let redirectUrlString = data.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
-                    self?.dataStore?.paymentReference = data.paymentReference
+                self?.dataStore?.paymentstatus = data?.status
+                if let redirectUrlString = data?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
+                    self?.dataStore?.paymentReference = data?.paymentReference
                     
                     self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
                 } else {
-                    self?.dataStore?.paymentstatus = .authorized //  TODO: Fix the default value
-                    
                     self?.handlePresentSubmit()
                 }
                 
@@ -72,20 +86,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         
         presenter?.presentCvv(actionResponse: .init(cvv: dataStore?.cvv))
     }
-    
-    func checkThreeDSecureStatus(viewAction: OrderPreviewModels.ThreeDSecureStatus.ViewAction) {
-        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: dataStore?.paymentReference)) { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.dataStore?.paymentstatus = data.status
-                
-                self?.handlePresentSubmit()
-                
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
-            }
-        }
-    }
+
     // TODO: Merge the logic with Billing Details. They are the same things. The whole card and 3D secure flow should be reusable.
     private func handlePresentSubmit() {
         switch dataStore?.paymentstatus {

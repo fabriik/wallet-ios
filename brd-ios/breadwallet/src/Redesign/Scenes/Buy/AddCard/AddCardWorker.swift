@@ -17,7 +17,7 @@ struct AddCardResponseData: ModelResponse {
 }
 
 struct AddCard: Model {
-    enum Status: String, Codable {
+    enum Status: String {
         case active = "ACTIVE"
         case requested = "REQUESTED"
         case pending = "PENDING"

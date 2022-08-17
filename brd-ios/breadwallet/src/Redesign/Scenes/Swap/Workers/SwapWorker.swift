@@ -45,24 +45,11 @@ struct SwapResponseData: ModelResponse {
 }
 
 struct Swap: Model {
-//    enum PaymentStatus: String {
-//        case active
-//        case requested
-//        case pending
-//        case authorized
-//        case cardVerified
-//        case canceled
-//        case expired
-//        case paid
-//        case declined
-//        cas
-//        'ACTIVE', 'REQUESTED', 'PENDING', 'AUTHORIZED', 'CARD_VERIFIED', 'CANCELED', 'EXPIRED', 'PAID', 'DECLINED', 'VOIDED', 'PARTIALLY_CAPTURED', 'CAPTURED', 'PARTIALLY_REFUNDED', 'REFUNDED'
-//    }
     var exchangeId: String?
     var currency: String?
     var amount: Decimal?
     var address: String?
-    var status: String?
+    var status: AddCard.Status?
     var paymentReference: String?
     var redirectUrl: String?
 }
@@ -72,7 +59,7 @@ class SwapMapper: ModelMapper<SwapResponseData, Swap> {
         guard let response = response,
               let amount = Decimal(string: response.amount ?? "")
         else {
-            return .init(status: response?.status,
+            return .init(status: .init(rawValue: response?.status ?? ""),
                          paymentReference: response?.paymentReference,
                          redirectUrl: response?.redirectUrl)
         }

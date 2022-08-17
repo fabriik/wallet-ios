@@ -22,12 +22,12 @@ class KYCBasicInteractor: NSObject, Interactor, KYCBasicViewActions {
                 CountriesWorker().execute(requestData: CountriesRequestData()) { [weak self] result in
                     switch result {
                     case .success(let data):
-                        self?.dataStore?.firstName = profileData.firstName
-                        self?.dataStore?.lastName = profileData.lastName
-                        self?.dataStore?.country = profileData.country
-                        self?.dataStore?.countryFullName = data.first(where: { $0.code == self?.dataStore?.country })?.name
+                        self?.dataStore?.firstName = profileData?.firstName
+                        self?.dataStore?.lastName = profileData?.lastName
+                        self?.dataStore?.country = profileData?.country
+                        self?.dataStore?.countryFullName = data?.first(where: { $0.code == self?.dataStore?.country })?.name
                         
-                        self?.dataStore?.birthdate = self?.getBirthDateFormatter().date(from: profileData.dateOfBirth ?? "")
+                        self?.dataStore?.birthdate = self?.getBirthDateFormatter().date(from: profileData?.dateOfBirth ?? "")
                         if let birthDate = self?.dataStore?.birthdate {
                             self?.dataStore?.birthDateString = self?.getBirthDateFormatter().string(from: birthDate)
                         }

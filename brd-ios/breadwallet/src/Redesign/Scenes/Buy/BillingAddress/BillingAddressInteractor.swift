@@ -20,7 +20,22 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
     // MARK: - BillingAddressViewActions
     
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        presenter?.presentData(actionResponse: .init(item: dataStore))
+        guard let reference = dataStore?.paymentReference else {
+            presenter?.presentData(actionResponse: .init(item: dataStore))
+            return
+        }
+        
+        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: reference)) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.dataStore?.paymentstatus = data?.status
+                
+                self?.handlePresentSubmit()
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
     }
     
     func getPaymentCards(viewAction: BillingAddressModels.PaymentCards.ViewAction) {
@@ -128,13 +143,13 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
                 AddCardWorker().execute(requestData: data) { result in
                     switch result {
                     case .success(let data):
-                        if let redirectUrlString = data.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
-                            self?.dataStore?.paymentReference = data.paymentReference
+                        self?.dataStore?.paymentstatus = data?.status
+                        
+                        if let redirectUrlString = data?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
+                            self?.dataStore?.paymentReference = data?.paymentReference
                             
                             self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
                         } else {
-                            self?.dataStore?.paymentstatus = data.status
-                            
                             self?.handlePresentSubmit()
                         }
                         
@@ -148,27 +163,13 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
             }
         }
     }
-    
-    func checkThreeDSecureStatus(viewAction: BillingAddressModels.ThreeDSecureStatus.ViewAction) {
-        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: dataStore?.paymentReference)) { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.dataStore?.paymentstatus = data.status
-                
-                self?.handlePresentSubmit()
-                
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
-            }
-        }
-    }
-    
+
     private func handlePresentSubmit() {
         switch dataStore?.paymentstatus {
         case .captured, .cardVerified:
             presenter?.presentSubmit(actionResponse: .init())
         default:
-            break // TODO: Handle error
+            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "Payment failed")))
         }
     }
 }
