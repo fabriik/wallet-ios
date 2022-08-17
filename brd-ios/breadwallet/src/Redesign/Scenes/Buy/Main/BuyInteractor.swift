@@ -143,7 +143,6 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         return formatter.string(for: amount)
     }
     
-    
     private func fetchCards(completion: ((Result<[PaymentCard]?, Error>) -> Void)?) {
         PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
             switch result {
@@ -157,5 +156,4 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             completion?(result)
         }
     }
-    
 }
