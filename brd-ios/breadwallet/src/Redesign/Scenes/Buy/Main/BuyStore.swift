@@ -44,6 +44,14 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
             return amountFrom(decimal: decimal, currency: currency, spaces: spaces - 1)
         }
         return value
-        
+    }
+    
+    var isFormValid: Bool {
+        guard let amount = toAmount,
+              amount.tokenValue > 0,
+              paymentCard != nil else {
+            return false
+        }
+        return true
     }
 }

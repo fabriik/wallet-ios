@@ -193,8 +193,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         tableView.beginUpdates()
         tableView.endUpdates()
         
-        let tokenAmount = actionResponse.cryptoModel?.amount?.tokenValue ?? 0
-        continueButton.wrappedView.isEnabled = tokenAmount > 0 && dataStore?.paymentCard != nil
+        continueButton.wrappedView.isEnabled = dataStore?.isFormValid ?? false
     }
     
     func displayExchangeRate(responseDisplay: BuyModels.Rate.ResponseDisplay) {
