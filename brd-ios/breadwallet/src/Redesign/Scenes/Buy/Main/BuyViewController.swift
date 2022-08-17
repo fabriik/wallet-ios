@@ -216,6 +216,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     
     func displayOrderPreview(responseDisplay: BuyModels.OrderPreview.ResponseDisplay) {
         coordinator?.showOrderPreview(coreSystem: dataStore?.coreSystem,
+                                      keyStore: dataStore?.keyStore,
                                       to: dataStore?.toAmount,
                                       from: dataStore?.from,
                                       card: dataStore?.paymentCard,

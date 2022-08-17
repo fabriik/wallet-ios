@@ -111,12 +111,13 @@ class BaseCoordinator: NSObject,
         }
     }
     
-    func showBuy(coreSystem: CoreSystem?) {
+    func showBuy(coreSystem: CoreSystem?, keyStore: KeyStore?) {
         upgradeAccountOrShowPopup(checkForKyc: true) { [weak self] showPopup in
             guard showPopup else { return }
             
             self?.openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy) { vc in
                 vc?.dataStore?.coreSystem = coreSystem
+                vc?.dataStore?.keyStore = keyStore
                 vc?.dataStore?.fromCurrency = Store.state.defaultCurrencyCode.lowercased()
                 vc?.prepareData()
             }

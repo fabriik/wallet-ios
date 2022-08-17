@@ -142,8 +142,8 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         }
     }
     
-    func showPinInput(callback: ((_ pin: String?) -> Void)?) {
-        guard let keyStore = try? KeyStore.create() else {
+    func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?) {
+        guard let keyStore = keyStore else {
             fatalError("KeyStore error.")
         }
         
@@ -164,9 +164,10 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         
     }
     
-    func showOrderPreview(coreSystem: CoreSystem?, to: Amount?, from: Decimal?, card: PaymentCard?, quote: Quote?) {
+    func showOrderPreview(coreSystem: CoreSystem?, keyStore: KeyStore?, to: Amount?, from: Decimal?, card: PaymentCard?, quote: Quote?) {
         open(scene: Scenes.OrderPreview) { vc in
             vc.dataStore?.coreSystem = coreSystem
+            vc.dataStore?.keyStore = keyStore
             vc.dataStore?.from = from
             vc.dataStore?.to = to
             vc.dataStore?.card = card

@@ -101,7 +101,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-        coordinator?.showPinInput { [weak self] _ in
+        coordinator?.showPinInput(keyStore: dataStore?.keyStore) { [weak self] _ in
             LoadingView.show()
             self?.interactor?.submit(viewAction: .init())
         }
