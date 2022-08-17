@@ -32,8 +32,6 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             return
         }
         
-        dataStore?.to = 0
-        
         PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
             guard let self = self else { return }
             
