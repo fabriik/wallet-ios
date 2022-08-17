@@ -92,8 +92,9 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         switch dataStore?.paymentstatus {
         case .captured, .cardVerified:
             presenter?.presentSubmit(actionResponse: .init(paymentReference: dataStore?.paymentReference ?? ""))
+            
         default:
-            break // TODO: Handle error
+            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "Payment failed")))
         }
     }
 
