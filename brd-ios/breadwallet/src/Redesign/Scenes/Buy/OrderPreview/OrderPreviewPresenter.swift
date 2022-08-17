@@ -26,10 +26,10 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         
         let to = toAmount.fiatValue
         let from = item.from ?? 0
-        let cardFee = 0
-        let networkFee = 0
-        let fiatCurrency = quote.fromFeeCurrency?.feeCurrency ?? "USD"
-        let feeCurrency = quote.toFeeCurrency?.feeCurrency ?? toAmount.currency.code.uppercased()
+        let cardFee: Decimal = 0
+        let networkFee: Decimal = 0
+        let fiatCurrency = (quote.fromFeeCurrency?.feeCurrency ?? "USD").uppercased()
+        let feeCurrency = (quote.toFeeCurrency?.feeCurrency ?? toAmount.currency.code).uppercased()
         
         // TODO: pass exchange rate / expiration as well
         // TODO: format currency
@@ -61,8 +61,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
             .payment: [
                 PaymentMethodViewModel(logo: imageVM,
                                        cardNumber: .text(CardDetailsFormatter.formatNumber(last4: card.last4)),
-                                       expiration: .text(CardDetailsFormatter.formatExpirationDate(month: card.expiryMonth, year: card.expiryYear)),
-                                       cvvTitle: .text("CVV"))
+                                       expiration: .text(CardDetailsFormatter.formatExpirationDate(month: card.expiryMonth, year: card.expiryYear)))
             ],
             .termsAndConditions: [
                 LabelViewModel.text("By placing this order you agree to our Terms and Conditions")
