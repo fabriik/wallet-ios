@@ -12,7 +12,7 @@ import UIKit
 
 enum OrderPreviewModels {
     
-    typealias Item = (to: Amount?, from: Decimal?, quote: Quote?)
+    typealias Item = (to: Amount?, from: Decimal?, quote: Quote?, card: PaymentCard?)
     
     enum Sections: Sectionable {
         case orderInfoCard
