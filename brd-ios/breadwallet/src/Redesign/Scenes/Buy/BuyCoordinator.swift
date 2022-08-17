@@ -39,8 +39,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         webViewController.setAsNonDismissableModal()
         webViewController.setup(with: .init(title: "3D Secure")) // TODO: Localize
         webViewController.didDismiss = { [weak self] in
-            (self?.navigationController.topViewController as? FetchViewActions)?.getData(viewAction: .init())
-            LoadingView.hide()
+            (self?.navigationController.topViewController as? DataPresentable)?.prepareData()
             navController.dismiss(animated: true)
         }
         

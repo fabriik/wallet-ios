@@ -8,6 +8,10 @@
 import UIKit
 import SnapKit
 
+protocol DataPresentable {
+    func prepareData()
+}
+
 class VIPViewController<C: CoordinatableRoutes,
                         I: Interactor,
                         P: Presenter,
@@ -17,7 +21,8 @@ class VIPViewController<C: CoordinatableRoutes,
                                                        BaseDataPassing,
                                                        BaseResponseDisplays,
                                                        ModalDismissable,
-                                                       Blurrable {
+                                                       Blurrable,
+                                                       DataPresentable {
     
     // MARK: Title and tab bar appearance
     var sceneTitle: String? { return nil }
