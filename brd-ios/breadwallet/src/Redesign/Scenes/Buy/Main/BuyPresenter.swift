@@ -73,7 +73,11 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             cardModel = .init(userInteractionEnabled: true)
         }
         
-        viewController?.displayAssets(actionResponse: .init(cryptoModel: cryptoModel, cardModel: cardModel))
+        viewController?.displayAssets(responseDisplay: .init(cryptoModel: cryptoModel, cardModel: cardModel))
+    }
+    
+    func presentPaymentCards(actionResponse: BuyModels.PaymentCards.ActionResponse) {
+        viewController?.displayPaymentCards(responseDisplay: .init(allPaymentCards: actionResponse.allPaymentCards))
     }
     
     func presentOrderPreview(actionResponse: BuyModels.OrderPreview.ActionResponse) {

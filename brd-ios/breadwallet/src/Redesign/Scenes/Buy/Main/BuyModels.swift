@@ -43,6 +43,18 @@ enum BuyModels {
         }
     }
     
+    struct PaymentCards {
+        struct ViewAction {}
+        
+        struct ActionResponse {
+            var allPaymentCards: [PaymentCard]
+        }
+        
+        struct ResponseDisplay {
+            var allPaymentCards: [PaymentCard]
+        }
+    }
+    
     struct Amounts {
         struct ViewAction {
             var fiatValue: String?

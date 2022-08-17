@@ -16,19 +16,19 @@ extension Scenes {
 
 protocol OrderPreviewViewActions: BaseViewActions, FetchViewActions {
     func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction)
-    func updateCvv(viewAction: OrderPreviewModels.CVVValidation.ViewAction)
+    func updateCvv(viewAction: OrderPreviewModels.CvvValidation.ViewAction)
     func submit(viewAction: OrderPreviewModels.Submit.ViewAction)
 }
 
 protocol OrderPreviewActionResponses: BaseActionResponses, FetchActionResponses {
     func presentInfoPopup(actionResponse: OrderPreviewModels.InfoPopup.ActionResponse)
-    func presentCvv(actionResponse: OrderPreviewModels.CVVValidation.ActionResponse)
+    func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse)
     func presentSubmit(actionResponse: OrderPreviewModels.Submit.ActionResponse)
 }
 
 protocol OrderPreviewResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displayInfoPopup(responseDisplay: OrderPreviewModels.InfoPopup.ResponseDisplay)
-    func displayCvv(responseDisplay: OrderPreviewModels.CVVValidation.ResponseDisplay)
+    func displayCvv(responseDisplay: OrderPreviewModels.CvvValidation.ResponseDisplay)
     func displaySubmit(responseDisplay: OrderPreviewModels.Submit.ResponseDisplay)
 }
 
