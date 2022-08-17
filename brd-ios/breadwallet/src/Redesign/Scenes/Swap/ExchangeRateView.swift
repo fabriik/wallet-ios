@@ -108,14 +108,14 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
     }
     
     private func rotate() {
-        hideValue(true)
+        toggleValueVisibility(true)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + (1 - Presets.Animation.duration) + Presets.Animation.duration) { [weak self] in
-            self?.hideValue(false)
+        DispatchQueue.main.asyncAfter(deadline: .now() + Presets.Animation.duration) { [weak self] in
+            self?.toggleValueVisibility(false)
         }
     }
     
-    private func hideValue(_ isHidden: Bool) {
+    private func toggleValueVisibility(_ isHidden: Bool) {
         UIView.animate(withDuration: Presets.Animation.duration) { [weak self] in
             self?.valueLabel.alpha = isHidden ? 0 : 1
             self?.refreshImageView.alpha = isHidden ? 1 : 0

@@ -145,8 +145,8 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     func showPinInput(callback: ((_ pin: String?) -> Void)?) {
         guard let keyStore = try? KeyStore.create() else { return }
         let vc = LoginViewController(for: .confirmation,
-                                        keyMaster: keyStore,
-                                        shouldDisableBiometrics: true)
+                                     keyMaster: keyStore,
+                                     shouldDisableBiometrics: true)
         
         let nvc = RootNavigationController(rootViewController: vc)
         vc.confirmationCallback = { pin in
