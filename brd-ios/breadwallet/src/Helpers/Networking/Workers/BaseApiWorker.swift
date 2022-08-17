@@ -21,7 +21,7 @@ protocol APIWorker {
  */
 class BaseApiWorker<M: Mapper>: APIWorker {
     
-    typealias Completion = (Result<M.ToModel, Error>) -> Void
+    typealias Completion = (Result<M.ToModel?, Error>) -> Void
     typealias PlainCompletion = (Error?) -> Void
     
     var requestData: RequestModelData?
@@ -130,10 +130,13 @@ class BaseApiWorker<M: Mapper>: APIWorker {
      */
     
     func apiCallDidFinish(response: HTTPResponse) {
-        if let data = result {
+        if let error = response.error {
+           completion?(.failure(error))
+        } else if let data = result {
             completion?(.success(data))
-        } else if let error = response.error {
-            completion?(.failure(error))
+        } else {
+            // No content
+            completion?(.success(nil))
         }
     }
     

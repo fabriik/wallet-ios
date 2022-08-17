@@ -25,7 +25,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         SupportedCurrenciesWorker().execute { [weak self] result in
             switch result {
             case .success(let currencies):
-                guard currencies.count >= 2 else { return }
+                guard let currencies = currencies,
+                      currencies.count >= 2 else { return }
                 
                 let first = currencies[0]
                 let second = currencies[1]
@@ -60,10 +61,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             switch result {
             case .success(let quote):
                 self?.dataStore?.quote = quote
-                self?.presenter?.presentRate(actionResponse: .init(rate: quote.exchangeRate,
+                self?.presenter?.presentRate(actionResponse: .init(rate: quote?.exchangeRate,
                                                                    from: from,
                                                                    to: to,
-                                                                   expires: quote.timestamp))
+                                                                   expires: quote?.timestamp))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
@@ -202,7 +203,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             EstimateFeeWorker().execute(requestData: data) { [weak self] result in
                 switch result {
                 case .success(let fee):
-                    self?.dataStore?.fromFeeEth = fee.fee
+                    self?.dataStore?.fromFeeEth = fee?.fee
                     
                 case .failure(let error):
                     self?.presenter?.presentError(actionResponse: .init(error: error))

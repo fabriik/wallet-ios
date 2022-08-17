@@ -35,22 +35,14 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showThreeDSecure(url: URL, flow: Flow) {
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "3D Secure")) // TODO: Localize
-        webViewController.didDismiss = { [weak self] in
-            switch flow {
-            case .addCard:
-                let vc = self?.navigationController.children.first(where: { $0 is BillingAddressViewController }) as? BillingAddressViewController
-                vc?.interactor?.checkThreeDSecureStatus(viewAction: .init())
-                
-            case .placeOrder:
-                let vc = self?.navigationController.children.first(where: { $0 is OrderPreviewViewController }) as? OrderPreviewViewController
-                vc?.interactor?.checkThreeDSecureStatus(viewAction: .init())
-                
-            }
-        }
-        
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
+        webViewController.setup(with: .init(title: "3D Secure")) // TODO: Localize
+        webViewController.didDismiss = { [weak self] in
+            (self?.navigationController.topViewController as? FetchViewActions)?.getData(viewAction: .init())
+            LoadingView.hide()
+            navController.dismiss(animated: true)
+        }
         
         navigationController.present(navController, animated: true)
     }

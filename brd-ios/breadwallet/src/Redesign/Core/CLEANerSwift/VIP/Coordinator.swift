@@ -235,6 +235,8 @@ class BaseCoordinator: NSObject,
         UserManager.shared.refresh { [unowned self] result in
             switch result {
             case .success(let profile):
+                guard let profile = profile else { return }
+                
                 let roles = profile.roles
                 let status = profile.status
                 let canBuyTrade = status.canBuyTrade

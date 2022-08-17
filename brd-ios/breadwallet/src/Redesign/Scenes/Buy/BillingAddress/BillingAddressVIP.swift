@@ -21,7 +21,6 @@ protocol BillingAddressViewActions: BaseViewActions, FetchViewActions {
     func stateProvinceSet(viewAction: BillingAddressModels.StateProvince.ViewAction)
     func addressSet(viewAction: BillingAddressModels.Address.ViewAction)
     func getPaymentCards(viewAction: BillingAddressModels.PaymentCards.ViewAction)
-    func checkThreeDSecureStatus(viewAction: BillingAddressModels.ThreeDSecureStatus.ViewAction)
     func validate(viewAction: BillingAddressModels.Validate.ViewAction)
     func submit(viewAction: BillingAddressModels.Submit.ViewAction)
 }
@@ -52,7 +51,7 @@ protocol BillingAddressDataStore: BaseDataStore, FetchDataStore {
     var zipPostal: String? { get set }
     var address: String? { get set }
     var paymentReference: String? { get set }
-    var paymentstatus: AddCard.Status { get set }
+    var paymentstatus: AddCard.Status? { get set }
     var addCardDataStore: AddCardStore? { get set }
 }
 

@@ -81,7 +81,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     var didTapBuy: (() -> Void)?
     var didTapTrade: (() -> Void)?
     var didTapProfile: (() -> Void)?
-    var didTapProfileFromPrompt: ((Result<Profile, Error>?) -> Void)?
+    var didTapProfileFromPrompt: ((Result<Profile?, Error>?) -> Void)?
     var showPrompts: (() -> Void)?
     var didTapMenu: (() -> Void)?
     
@@ -389,7 +389,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     private var kycStatusPromptView = FEInfoView()
     private var generalPromptView = PromptView()
-    private var profileResult: Result<Profile, Error>?
+    private var profileResult: Result<Profile?, Error>?
     var canShowPrompts = false {
         didSet {
             guard canShowPrompts else { return }
@@ -432,7 +432,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
             
             switch profileResult {
             case .success(let profile):
-                if profile.email == nil || !UserDefaults.emailConfirmed || UserManager.shared.profile?.status.canBuyTrade == false {
+                if profile?.email == nil || !UserDefaults.emailConfirmed || UserManager.shared.profile?.status.canBuyTrade == false {
                     self?.hidePrompt(self?.generalPromptView)
                     self?.setupKYCPrompt(result: self?.profileResult)
                 } else {
@@ -457,7 +457,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         }
     }
     
-    private func setupKYCPrompt(result: Result<Profile, Error>?) {
+    private func setupKYCPrompt(result: Result<Profile?, Error>?) {
         guard promptContainerStack.arrangedSubviews.isEmpty == true else { return }
         
         let infoView: InfoViewModel = Presets.VerificationInfoView.nonePrompt

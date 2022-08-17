@@ -15,7 +15,6 @@ extension Scenes {
 }
 
 protocol OrderPreviewViewActions: BaseViewActions, FetchViewActions {
-    func checkThreeDSecureStatus(viewAction: OrderPreviewModels.ThreeDSecureStatus.ViewAction)
     func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction)
     func updateCvv(viewAction: OrderPreviewModels.CVVValidation.ViewAction)
     func submit(viewAction: OrderPreviewModels.Submit.ViewAction)
@@ -41,7 +40,7 @@ protocol OrderPreviewDataStore: BaseDataStore, FetchDataStore {
     var quote: Quote? { get set }
     var cvv: String? { get set }
     var paymentReference: String? { get set }
-    var paymentstatus: AddCard.Status { get set }
+    var paymentstatus: AddCard.Status? { get set }
 }
 
 protocol OrderPreviewDataPassing {
