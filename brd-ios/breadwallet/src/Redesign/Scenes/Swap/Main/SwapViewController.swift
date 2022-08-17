@@ -259,7 +259,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         let _: WrapperPopupView<SwapConfirmationView>? = coordinator?.showPopup(with: responseDisplay.config,
                                                                                 viewModel: responseDisplay.viewModel,
                                                                                 confirmedCallback: { [weak self] in
-            self?.coordinator?.showPinInput { pin in
+            self?.coordinator?.showPinInput(keyStore: self?.dataStore?.keyStore) { pin in
                 LoadingView.show()
                 self?.interactor?.confirm(viewAction: .init(pin: pin))
             }

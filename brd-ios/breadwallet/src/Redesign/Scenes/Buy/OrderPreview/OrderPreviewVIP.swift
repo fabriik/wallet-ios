@@ -48,5 +48,5 @@ protocol OrderPreviewDataPassing {
 }
 
 protocol OrderPreviewRoutes: CoordinatableRoutes {
-    func showOrderPreview(coreSystem: CoreSystem?, to: Amount?, from: Decimal?, card: PaymentCard?, quote: Quote?)
+    func showOrderPreview(coreSystem: CoreSystem?, keyStore: KeyStore?, to: Amount?, from: Decimal?, card: PaymentCard?, quote: Quote?)
 }

@@ -26,6 +26,7 @@ class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
     
     // MARK: - Aditional helpers
     var coreSystem: CoreSystem?
+    var keyStore: KeyStore?
     
     func address(for currency: Currency?) -> String? {
         guard let currency = currency else {

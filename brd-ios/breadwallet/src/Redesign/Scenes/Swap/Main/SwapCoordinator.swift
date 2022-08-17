@@ -58,8 +58,9 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes {
         }
     }
     
-    func showPinInput(callback: ((_ pin: String?) -> Void)?) {
-        guard let keyStore = try? KeyStore.create() else { return }
+    func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?) {
+        guard let keyStore = keyStore else { fatalError("No key store") }
+        
         let vc = LoginViewController(for: .confirmation,
                                         keyMaster: keyStore,
                                         shouldDisableBiometrics: true)

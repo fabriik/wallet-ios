@@ -29,7 +29,8 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     var quote: Quote?
     var coreSystem: CoreSystem?
-
+    var keyStore: KeyStore?
+    
     // MARK: - Aditional helpers
     private func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
         guard let amount = decimal, spaces > 0 else { return .zero(currency) }
