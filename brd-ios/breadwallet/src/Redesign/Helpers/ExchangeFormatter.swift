@@ -15,6 +15,7 @@ struct ExchangeFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 8
         
         return formatter
     }

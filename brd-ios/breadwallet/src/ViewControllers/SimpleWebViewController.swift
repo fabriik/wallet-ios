@@ -27,4 +27,5 @@ class SimpleWebViewController: SFSafariViewController, SFSafariViewControllerDel
         guard URL.lastPathComponent == "success" else { return }
         navigationController?.dismiss(animated: true)
     }
+    
 }
