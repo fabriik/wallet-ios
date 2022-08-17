@@ -143,7 +143,10 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     }
     
     func showPinInput(callback: ((_ pin: String?) -> Void)?) {
-        guard let keyStore = try? KeyStore.create() else { return }
+        guard let keyStore = try? KeyStore.create() else {
+            fatalError("KeyStore error.")
+        }
+        
         let vc = LoginViewController(for: .confirmation,
                                         keyMaster: keyStore,
                                         shouldDisableBiometrics: true)
