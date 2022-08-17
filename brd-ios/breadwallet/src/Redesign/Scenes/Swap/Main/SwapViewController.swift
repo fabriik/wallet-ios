@@ -261,6 +261,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                                                                                 confirmedCallback: { [weak self] in
             self?.coordinator?.showPinInput(keyStore: self?.dataStore?.keyStore) { pin in
                 LoadingView.show()
+                
                 self?.interactor?.confirm(viewAction: .init(pin: pin))
             }
         })

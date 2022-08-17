@@ -148,8 +148,8 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         }
         
         let vc = LoginViewController(for: .confirmation,
-                                        keyMaster: keyStore,
-                                        shouldDisableBiometrics: true)
+                                     keyMaster: keyStore,
+                                     shouldDisableBiometrics: true)
         
         let nvc = RootNavigationController(rootViewController: vc)
         vc.confirmationCallback = { pin in
