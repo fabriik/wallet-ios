@@ -53,7 +53,7 @@ protocol BuyDataPassing {
 
 protocol BuyRoutes: CoordinatableRoutes {
     // TODO: refactor :S
-    func showAssetSelector(currencies: [Currency]?, supportedCurrencies: [SupportedCurrency]?, selected: ((Any?) -> Void)?)
+    func showOrderPreview(coreSystem: CoreSystem?, keyStore: KeyStore?, to: Amount?, from: Decimal?, card: PaymentCard?, quote: Quote?, networkFee: Amount?)
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?)
     func showInfo(from: String, to: String, exchangeId: String)
 }

@@ -38,6 +38,7 @@ protocol OrderPreviewDataStore: BaseDataStore, FetchDataStore {
     var toCurrency: String? { get set }
     var card: PaymentCard? { get set }
     var quote: Quote? { get set }
+    var networkFee: Amount? { get set }
     var cvv: String? { get set }
     var paymentReference: String? { get set }
     var paymentstatus: AddCard.Status? { get set }
@@ -48,5 +49,4 @@ protocol OrderPreviewDataPassing {
 }
 
 protocol OrderPreviewRoutes: CoordinatableRoutes {
-    func showOrderPreview(coreSystem: CoreSystem?, keyStore: KeyStore?, to: Amount?, from: Decimal?, card: PaymentCard?, quote: Quote?)
 }

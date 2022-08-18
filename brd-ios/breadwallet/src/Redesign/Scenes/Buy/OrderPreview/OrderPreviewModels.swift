@@ -9,10 +9,11 @@
 //
 
 import UIKit
+import WalletKit
 
 enum OrderPreviewModels {
     
-    typealias Item = (to: Amount?, from: Decimal?, quote: Quote?, card: PaymentCard?)
+    typealias Item = (to: Amount?, from: Decimal?, quote: Quote?, networkFee: Amount?, card: PaymentCard?)
     
     enum Sections: Sectionable {
         case orderInfoCard

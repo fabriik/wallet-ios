@@ -39,7 +39,7 @@ struct QuoteModelResponse: ModelResponse {
     }
     var fromFeeCurrency: Fee?
     var toFeeCurrency: Fee?
-    
+    var buyFees: Decimal?
 }
 
 struct Quote {
@@ -57,6 +57,7 @@ struct Quote {
     }
     var fromFeeCurrency: Fee?
     var toFeeCurrency: Fee?
+    var buyFee: Decimal?
 }
 
 class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
@@ -82,7 +83,8 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
                      minimumValue: response.minimumValue,
                      maximumValue: response.maximumValue,
                      fromFeeCurrency: fromFee,
-                     toFeeCurrency: toFee)
+                     toFeeCurrency: toFee,
+                     buyFee: response.buyFees)
     }
 }
 

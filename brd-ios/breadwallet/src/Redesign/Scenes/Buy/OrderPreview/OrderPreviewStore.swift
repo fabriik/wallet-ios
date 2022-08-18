@@ -20,6 +20,7 @@ class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
     var toCurrency: String?
     var card: PaymentCard?
     var quote: Quote?
+    var networkFee: Amount?
     var cvv: String?
     var paymentReference: String?
     var paymentstatus: AddCard.Status?
