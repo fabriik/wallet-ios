@@ -121,4 +121,8 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
             self?.refreshImageView.alpha = isHidden ? 1 : 0
         }
     }
+    
+    func invalidate() {
+        timerView.invalidate()
+    }
 }

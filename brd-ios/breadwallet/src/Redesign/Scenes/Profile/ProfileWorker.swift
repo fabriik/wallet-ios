@@ -30,12 +30,16 @@ struct ProfileResponseData: ModelResponse {
     var exchangeLimits: ExchangeLimits?
     
     struct ExchangeLimits: Codable {
-        var allowanceLifetime: Decimal
-        var allowanceDaily: Decimal
-        var allowancePerExchange: Decimal
-        var usedLifetime: Decimal
-        var usedDaily: Decimal
-        var nextExchangeLimit: Decimal
+        var swapAllowanceLifetime: Decimal
+        var swapAllowanceDaily: Decimal
+        var swapAllowancePerExchange: Decimal
+        var buyAllowanceLifetime: Decimal
+        var buyAllowanceDaily: Decimal
+        var buyAllowancePerPurchase: Decimal
+        var usedSwapLifetime: Decimal
+        var usedSwapDaily: Decimal
+        var usedBuyLifetime: Decimal
+        var usedBuyDaily: Decimal
     }
 }
 
@@ -47,25 +51,52 @@ struct Profile: Model {
     var email: String?
     var status: VerificationStatus
     var failureReason: String?
-    var exchangeLimit: Decimal = 0
-    var dailyLimit: Decimal = 0
-    var lifetimeLimit: Decimal = 0
-    var usedDaily: Decimal = 0
-    var usedLifetime: Decimal = 0
+    var swapAllowanceLifetime: Decimal
+    var swapAllowanceDaily: Decimal
+    var swapAllowancePerExchange: Decimal
+    var buyAllowanceLifetime: Decimal
+    var buyAllowanceDaily: Decimal
+    var buyAllowancePerPurchase: Decimal
+    var usedSwapLifetime: Decimal
+    var usedSwapDaily: Decimal
+    var usedBuyLifetime: Decimal
+    var usedBuyDaily: Decimal
     var roles: [CustomerRole]
     
-    var dailyRemainingLimit: Decimal {
-        return dailyLimit - usedDaily
+    
+    var swapDailyRemainingLimit: Decimal {
+        return swapAllowanceDaily - usedSwapDaily
     }
     
-    var lifetimeRemainingLimit: Decimal {
-        return lifetimeLimit - usedLifetime
+    var swapLifetimeRemainingLimit: Decimal {
+        return swapAllowanceLifetime - usedSwapLifetime
+    }
+    
+    
+    var buyDailyRemainingLimit: Decimal {
+        return buyAllowanceDaily - usedBuyDaily
+    }
+    
+    var buyLifetimeRemainingLimit: Decimal {
+        return buyAllowanceLifetime - usedBuyLifetime
     }
 }
 
 class ProfileMapper: ModelMapper<ProfileResponseData, Profile> {
     override func getModel(from response: ProfileResponseData?) -> Profile? {
         guard let response = response else { return nil }
+        let limits = response.exchangeLimits
+        
+        let swapAllowanceLifetime = limits?.swapAllowanceLifetime ?? 0
+        let swapAllowanceDaily = limits?.swapAllowanceDaily ?? 0
+        let swapAllowancePerExchange = limits?.swapAllowancePerExchange ?? 0
+        let buyAllowanceLifetime = limits?.buyAllowanceLifetime ?? 0
+        let buyAllowanceDaily = limits?.buyAllowanceDaily ?? 0
+        let buyAllowancePerPurchase = limits?.buyAllowancePerPurchase ?? 0
+        let usedSwapLifetime = limits?.usedSwapLifetime ?? 0
+        let usedSwapDaily = limits?.usedSwapDaily ?? 0
+        let usedBuyLifetime = limits?.usedBuyLifetime ?? 0
+        let usedBuyDaily = limits?.usedBuyDaily ?? 0
 
         return .init(country: response.country,
                      dateOfBirth: response.dateOfBirth,
@@ -74,11 +105,16 @@ class ProfileMapper: ModelMapper<ProfileResponseData, Profile> {
                      email: response.email,
                      status: .init(rawValue: response.kycStatus),
                      failureReason: response.kycFailureReason,
-                     exchangeLimit: response.exchangeLimits?.nextExchangeLimit ?? 0,
-                     dailyLimit: response.exchangeLimits?.allowanceDaily ?? 0,
-                     lifetimeLimit: response.exchangeLimits?.allowanceLifetime ?? 0,
-                     usedDaily: response.exchangeLimits?.usedDaily ?? 0,
-                     usedLifetime: response.exchangeLimits?.usedLifetime ?? 0,
+                     swapAllowanceLifetime: swapAllowanceLifetime,
+                     swapAllowanceDaily: swapAllowanceDaily,
+                     swapAllowancePerExchange: swapAllowancePerExchange,
+                     buyAllowanceLifetime: buyAllowanceLifetime,
+                     buyAllowanceDaily: buyAllowanceDaily,
+                     buyAllowancePerPurchase: buyAllowancePerPurchase,
+                     usedSwapLifetime: usedSwapLifetime,
+                     usedSwapDaily: usedSwapDaily,
+                     usedBuyLifetime: usedBuyLifetime,
+                     usedBuyDaily: usedBuyDaily,
                      roles: response.roles)
     }
 }

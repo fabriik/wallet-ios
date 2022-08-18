@@ -23,6 +23,15 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }()
     
     // MARK: - Overrides
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        guard let section = sections.firstIndex(of: Models.Sections.rate),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView>
+        else { return continueButton.wrappedView.isEnabled = false }
+        
+        cell.wrappedView.invalidate()
+    }
     
     override func setupSubviews() {
         super.setupSubviews()
@@ -114,11 +123,12 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             }
             
             view.didTapSelectAsset = { [weak self] in
-                self?.coordinator?.showAssetSelector(currencies: Store.state.currencies, selected: { item in
+                guard let dataStore = self?.dataStore else { return }
+                
+                self?.coordinator?.showAssetSelector(currencies: dataStore.currencies, supportedCurrencies: dataStore.supportedCurrencies) { item in
                     guard let item = item as? AssetViewModel else { return }
-                    
                     self?.interactor?.setAssets(viewAction: .init(currency: item.subtitle))
-                })
+                }
             }
         }
         
@@ -164,10 +174,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         super.buttonTapped()
         
         interactor?.showOrderPreview(viewAction: .init())
-    }
-    
-    func rateExpired(forPair from: String, to: String) {
-        interactor?.getExchangeRate(viewAction: .init(from: from, to: to))
     }
     
     // MARK: - BuyResponseDisplay

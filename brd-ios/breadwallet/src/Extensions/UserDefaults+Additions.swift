@@ -163,13 +163,17 @@ extension UserDefaults {
         defaults.set(nil, forKey: isBiometricsEnabledKey)
     }
 
+    // TODO: change the setter back to newValue when currency changing is reenabled (also dont forget to reenable currency selection in ModelPresenter)
     static var defaultCurrencyCode: String {
         get {
-            let code = defaults.string(forKey: defaultCurrencyCodeKey) ?? "USD"
+            let code = /*defaults.string(forKey: defaultCurrencyCodeKey) ?? */ "USD"
             guard FiatCurrency.isCodeAvailable(code) else { return "USD" }
             return code
         }
-        set { defaults.set(newValue, forKey: defaultCurrencyCodeKey) }
+        set {
+            var newValue = newValue
+            newValue = "USD"
+            defaults.set(newValue, forKey: defaultCurrencyCodeKey) }
     }
 
     static var hasAquiredShareDataPermission: Bool {
