@@ -81,7 +81,15 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
     }
     
     func presentInfoPopup(actionResponse: OrderPreviewModels.InfoPopup.ActionResponse) {
-        let model = actionResponse.isCardFee ? Presets.BuyPopupView.cardFee : Presets.BuyPopupView.networkFee
+        let model: PopupViewModel
+        
+        if  actionResponse.isCardFee,
+            let fee = actionResponse.fee {
+            let feeText = String(format: "An extra fee of %.0f%% is required to cover processing of credit card purchases.%.0f", fee.doubleValue)
+            model = .init(title: .text("Card fee"), body: feeText)
+        } else {
+            model = Presets.BuyPopupView.cardSecurityCode
+        }
         
         viewController?.displayInfoPopup(responseDisplay: .init(model: model))
     }

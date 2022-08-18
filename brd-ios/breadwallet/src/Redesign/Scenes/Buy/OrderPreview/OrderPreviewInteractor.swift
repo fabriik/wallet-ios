@@ -39,7 +39,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     }
     
     func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction) {
-        presenter?.presentInfoPopup(actionResponse: .init(isCardFee: viewAction.isCardFee))
+        presenter?.presentInfoPopup(actionResponse: .init(isCardFee: viewAction.isCardFee, fee: dataStore?.quote?.buyFee))
     }
     
     func submit(viewAction: OrderPreviewModels.Submit.ViewAction) {

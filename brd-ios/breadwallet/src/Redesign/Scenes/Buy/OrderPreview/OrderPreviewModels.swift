@@ -31,6 +31,7 @@ enum OrderPreviewModels {
         }
         struct ActionResponse {
             var isCardFee: Bool
+            var fee: Decimal?
         }
         struct ResponseDisplay {
             var model: PopupViewModel
