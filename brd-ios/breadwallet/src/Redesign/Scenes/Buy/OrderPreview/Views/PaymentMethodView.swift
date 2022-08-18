@@ -15,7 +15,6 @@ struct PaymentMethodConfiguration: Configurable {
     var logo: BackgroundConfiguration? = .init(tintColor: LightColors.Icons.two)
     var cardNumber: LabelConfiguration? = .init(font: Fonts.Subtitle.two, textColor: LightColors.Icons.one)
     var expiration: LabelConfiguration?
-    var arrow: BackgroundConfiguration?
     var shadow: ShadowConfiguration? = Presets.Shadow.light
     var background: BackgroundConfiguration? = .init(backgroundColor: LightColors.Background.one,
                                                      tintColor: LightColors.Text.one,
@@ -25,14 +24,13 @@ struct PaymentMethodConfiguration: Configurable {
 struct PaymentMethodViewModel: ViewModel {
     var methodTitle: LabelViewModel? = .text("Payment method")
     var logo: ImageViewModel?
-    var cardNumber: LabelViewModel? = .text("Select a payment method")
+    var cardNumber: LabelViewModel?
     var expiration: LabelViewModel?
     var cvvTitle: LabelViewModel? = .text("Please confirm your CVV")
     var cvv: TextFieldModel? = .init(placeholder: "CVV")
 }
 
 class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewModel> {
-    
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -111,6 +109,8 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
         cvvTextField.snp.makeConstraints { make in
             make.height.equalTo(FieldHeights.common.rawValue)
         }
+        
+        layoutIfNeeded()
     }
     
     override func configure(with config: PaymentMethodConfiguration?) {
