@@ -91,6 +91,11 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
             make.height.equalTo(ViewSizes.medium.rawValue)
         }
         
+        let spacer = UIView()
+        containerStack.addArrangedSubview(spacer)
+        spacer.snp.makeConstraints { make in
+            make.width.lessThanOrEqualToSuperview().priority(.low)
+        }
         containerStack.addArrangedSubview(arrowImageView)
         arrowImageView.snp.makeConstraints { make in
             make.width.equalTo(ViewSizes.small.rawValue)
@@ -124,7 +129,7 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         cardDetailsView.isHidden = viewModel?.logo == nil
         
         arrowImageView.setup(with: viewModel?.arrow)
-        arrowImageView.isHidden = viewModel?.expiration != nil
+        arrowImageView.isHidden = viewModel?.expiration != nil && titleLabel.isHidden
         
         layoutIfNeeded()
         

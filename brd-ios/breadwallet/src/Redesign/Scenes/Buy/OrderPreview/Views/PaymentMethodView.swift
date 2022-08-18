@@ -109,8 +109,6 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
         cvvTextField.snp.makeConstraints { make in
             make.height.equalTo(FieldHeights.common.rawValue)
         }
-        
-        layoutIfNeeded()
     }
     
     override func configure(with config: PaymentMethodConfiguration?) {
@@ -137,6 +135,8 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
         cardDetailsView.setup(with: .init(logo: viewModel?.logo,
                                           cardNumber: viewModel?.cardNumber,
                                           expiration: viewModel?.expiration))
+        
+        layoutIfNeeded()
     }
     
     // MARK: - User interaction
