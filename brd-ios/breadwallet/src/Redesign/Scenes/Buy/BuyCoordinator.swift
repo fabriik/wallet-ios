@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPreviewRoutes {
+class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPreviewRoutes, AssetSelectionDisplayable {
     // MARK: - BuyRoutes
     
     override func start() {
@@ -86,27 +86,6 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         open(scene: SwapDetailsViewController.self) { vc in
             vc.dataStore?.itemId = exchangeId
             vc.prepareData()
-        }
-    }
-    
-    func showAssetSelector(currencies: [Currency]?, selected: ((Any?) -> Void)?) {
-        let data: [AssetViewModel]? = currencies?.compactMap {
-            return AssetViewModel(icon: $0.imageSquareBackground,
-                                  title: $0.name,
-                                  subtitle: $0.code,
-                                  topRightText: HomeScreenAssetViewModel(currency: $0).tokenBalance,
-                                  bottomRightText: HomeScreenAssetViewModel(currency: $0).fiatBalance,
-                                  isDisabled: false)
-        }
-        
-        let sortedCurrencies = data?.sorted { !$0.isDisabled && $1.isDisabled }
-        
-        openModally(coordinator: ItemSelectionCoordinator.self,
-                    scene: Scenes.AssetSelection,
-                    presentationStyle: .formSheet) { vc in
-            vc?.dataStore?.items = sortedCurrencies
-            vc?.itemSelected = selected
-            vc?.prepareData()
         }
     }
     
