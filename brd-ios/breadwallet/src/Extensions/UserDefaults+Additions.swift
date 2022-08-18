@@ -166,13 +166,13 @@ extension UserDefaults {
     // TODO: change the setter back to newValue when currency changing is reenabled (also dont forget to reenable currency selection in ModelPresenter)
     static var defaultCurrencyCode: String {
         get {
-            let code = /*defaults.string(forKey: defaultCurrencyCodeKey) ?? */ "USD"
-            guard FiatCurrency.isCodeAvailable(code) else { return "USD" }
+            let code = /*defaults.string(forKey: defaultCurrencyCodeKey) ?? */ C.usdCurrencyCode
+            guard FiatCurrency.isCodeAvailable(code) else { return C.usdCurrencyCode }
             return code
         }
         set {
             var newValue = newValue
-            newValue = "USD"
+            newValue = C.usdCurrencyCode
             defaults.set(newValue, forKey: defaultCurrencyCodeKey) }
     }
 
