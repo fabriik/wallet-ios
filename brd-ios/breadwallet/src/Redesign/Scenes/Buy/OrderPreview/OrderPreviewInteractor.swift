@@ -20,7 +20,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     
     func getData(viewAction: FetchModels.Get.ViewAction) {
         guard let reference = dataStore?.paymentReference else {
-            let item: Models.Item = (to: dataStore?.to, from: dataStore?.from, quote: dataStore?.quote, card: dataStore?.card)
+            let item: Models.Item = (to: dataStore?.to, from: dataStore?.from, quote: dataStore?.quote, networkFee: dataStore?.networkFee, card: dataStore?.card)
             presenter?.presentData(actionResponse: .init(item: item))
             return
         }
@@ -39,7 +39,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     }
     
     func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction) {
-        presenter?.presentInfoPopup(actionResponse: .init(isCardFee: viewAction.isCardFee))
+        presenter?.presentInfoPopup(actionResponse: .init(isCardFee: viewAction.isCardFee, fee: dataStore?.quote?.buyFee))
     }
     
     func submit(viewAction: OrderPreviewModels.Submit.ViewAction) {

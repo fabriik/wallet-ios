@@ -82,27 +82,27 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         if let value = viewAction.tokenValue {
             dataStore?.to = decimalFor(amount: value)
             dataStore?.from = (dataStore?.to ?? 0) / rate
+            getFees()
         } else if let value = viewAction.fiatValue {
             dataStore?.from = decimalFor(amount: value)
             dataStore?.to = (dataStore?.from ?? 0) * rate
+        } else {
         }
-        
-        presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount, card: dataStore?.paymentCard))   
+        presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount, card: dataStore?.paymentCard))
     }
     
     func getExchangeRate(viewAction: Models.Rate.ViewAction) {
         guard let from = dataStore?.fromCurrency,
-              let to = dataStore?.toCurrency?.code else {
-            return
-        }
+              let toCurrency = dataStore?.toCurrency?.code
+        else { return }
         
-        let data = QuoteRequestData(from: from, to: to)
+        let data = QuoteRequestData(from: from, to: toCurrency)
         QuoteWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let quote):
                 self?.dataStore?.quote = quote
                 self?.presenter?.presentExchangeRate(actionResponse: .init(from: from,
-                                                                           to: to,
+                                                                           to: toCurrency,
                                                                            rate: quote?.exchangeRate,
                                                                            expires: (quote?.timestamp ?? 0) + 60))
                 self?.setAmount(viewAction: .init(tokenValue: (self?.dataStore?.to ?? 0).description))
@@ -113,10 +113,53 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         }
     }
     
+    func getFees() {
+        guard let to = dataStore?.toAmount,
+              let wallet = dataStore?.coreSystem?.wallet(for: to.currency),
+              let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore,
+              let address = dataStore?.address(for: to.currency),
+              let value = dataStore?.amountFrom(decimal: to.tokenValue, currency: to.currency)
+        else { return }
+        
+        if to.currency.isEthereumCompatible {
+            let address = dataStore?.address(for: to.currency)
+            let data = EstimateFeeRequestData(amount: to.tokenValue,
+                                              currency: to.currency.code,
+                                              destination: address)
+            EstimateFeeWorker().execute(requestData: data) { [weak self] result in
+                switch result {
+                case .success(let fee):
+                    self?.dataStore?.ethFee = fee?.fee
+                    self?.setAmount(viewAction: .init())
+                    
+                case .failure(let error):
+                    self?.presenter?.presentError(actionResponse: .init(error: error))
+                }
+            }
+        } else {
+            let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
+            sender.estimateFee(address: address,
+                               amount: value,
+                               tier: .regular,
+                               isStake: false) { [weak self] result in
+                switch result {
+                case .success(let fee):
+                    self?.dataStore?.toFee = fee
+                    self?.setAmount(viewAction: .init())
+                    
+                case .failure(let error):
+                    self?.presenter?.presentError(actionResponse: .init(error: error))
+                }
+            }
+        }
+    }
+    
     func setAssets(viewAction: BuyModels.Assets.ViewAction) {
         if let value = viewAction.currency?.lowercased(),
            let currency = Store.state.currencies.first(where: { $0.code.lowercased() == value }) {
             dataStore?.toCurrency = currency
+            dataStore?.ethFee = nil
+            dataStore?.toFee = nil
         } else if let value = viewAction.card {
             dataStore?.paymentCard = value
         }

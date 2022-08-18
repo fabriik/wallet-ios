@@ -432,17 +432,9 @@ extension Presets {
     }
 }
 
+// TODO: presets were ment for designing views.. if u want reuse VMs we need some other struct for that :o
 extension Presets {
     struct BuyPopupView {
-        // TODO: localize
-        static var cardFee = PopupViewModel(title: .text("Card fee"),
-                                            body: "An extra fee of 4% is required to cover processing of credit card purchases.")
-        
-        static var networkFee = PopupViewModel(title: .text("Network fees"),
-                                               body: """
-Network fee prices vary depending on the blockchain in which you are receiving your assets. This is an external fee to cover mining and transaction costs.
-""")
-        
         static var cardSecurityCode = PopupViewModel(title: .text("Security code (CVV)"),
                                                      imageName: "creditCard",
                                                      body: "Please enter the 3 digit CVV number as it appears on the back of your card")

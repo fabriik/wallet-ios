@@ -226,7 +226,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                       to: dataStore?.toAmount,
                                       from: dataStore?.from,
                                       card: dataStore?.paymentCard,
-                                      quote: dataStore?.quote)
+                                      quote: dataStore?.quote,
+                                      networkFee: dataStore?.networkFee)
     }
     
     // MARK: - Additional Helpers

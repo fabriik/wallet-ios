@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WalletKit
 
 class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     // MARK: - BuyDataStore
@@ -15,6 +16,22 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     var from: Decimal?
     var to: Decimal?
     var toCurrency: Currency? = Store.state.currencies.first(where: { $0.code.lowercased() == "btc" })
+    var toFee: TransferFeeBasis?
+    
+    var ethFee: Decimal?
+    var transferFee: TransferFeeBasis?
+    
+    var networkFee: Amount? {
+        if let value = ethFee,
+           let currency = currencies.first(where: { $0.code == "ETH" }) {
+            return .init(tokenString: value.description, currency: currency)
+        } else if let value = toFee,
+                  let currency = currencies.first(where: { $0.code == value.currency.code.uppercased() }) {
+            return .init(cryptoAmount: value.fee, currency: currency)
+        }
+        return nil
+    }
+    
     var fromCurrency: String? = Store.state.defaultCurrencyCode.lowercased()
     
     var toAmount: Amount? {
@@ -36,7 +53,7 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     var keyStore: KeyStore?
     
     // MARK: - Aditional helpers
-    private func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
+    func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
         guard let amount = decimal, spaces > 0 else { return .zero(currency) }
         
         let formatter = NumberFormatter()
@@ -58,5 +75,20 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
             return false
         }
         return true
+    }
+    
+    // TODO: extract (it being used in swap and buy)
+    func address(for currency: Currency?) -> String? {
+        guard let currency = currency else {
+            return nil
+        }
+
+        let addressScheme: AddressScheme
+        if currency.isBitcoin {
+            addressScheme = UserDefaults.hasOptedInSegwit ? .btcSegwit : .btcLegacy
+        } else {
+            addressScheme = currency.network.defaultAddressScheme
+        }
+        return currency.wallet?.receiveAddress(for: addressScheme)
     }
 }
