@@ -33,7 +33,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         
         // TODO: pass exchange rate / expiration as well
         // TODO: format currency
-        let rate = String(format: "1 %@ = %.5f %@", fiatCurrency, quote.exchangeRate.doubleValue, toAmount.currency.code)
+        let rate = String(format: "1 %@ = %.5f %@", toAmount.currency.code, 1 / quote.exchangeRate.doubleValue, fiatCurrency)
         let wrappedViewModel: BuyOrderViewModel = .init(rate: .init(exchangeRate: rate, timer: nil),
                                                         price: .init(title: .text("Price"), value: .text("\(from) \(fiatCurrency)")),
                                                         amount: .init(title: .text("Amount"), value: .text("\(to) \(fiatCurrency)")),
