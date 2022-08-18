@@ -12,9 +12,7 @@ import UIKit
 
 struct CardSelectionConfiguration: Configurable {
     var title: LabelConfiguration? = .init(font: Fonts.caption, textColor: LightColors.Text.one)
-    var logo: BackgroundConfiguration? = .init(tintColor: LightColors.Icons.two)
-    var cardNumber: LabelConfiguration? = .init(font: Fonts.Subtitle.two, textColor: LightColors.Icons.one)
-    var expiration: LabelConfiguration?
+    var subtitle: LabelConfiguration? =  .init(font: Fonts.Subtitle.two, textColor: LightColors.Icons.one)
     var arrow: BackgroundConfiguration?
     var shadow: ShadowConfiguration? = Presets.Shadow.light
     var background: BackgroundConfiguration? = .init(backgroundColor: LightColors.Background.one,
@@ -24,14 +22,21 @@ struct CardSelectionConfiguration: Configurable {
 
 struct CardSelectionViewModel: ViewModel {
     var title: LabelViewModel? = .text("Pay with")
+    var subtitle: LabelViewModel? = .text("Select a payment method")
     var logo: ImageViewModel?
-    var cardNumber: LabelViewModel? = .text("Select a payment method")
+    var cardNumber: LabelViewModel?
     var expiration: LabelViewModel?
     var arrow: ImageViewModel? = .imageName("arrowRight")
     var userInteractionEnabled = false
 }
 
 class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewModel> {
+    private lazy var containerStack: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        return view
+    }()
+    
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -44,8 +49,8 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         return view
     }()
     
-    private lazy var selectorStack: UIStackView = {
-        let view = UIStackView()
+    private lazy var subtitleLabel: FELabel = {
+        let view = FELabel()
         return view
     }()
     
@@ -59,7 +64,7 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         return view
     }()
     
-    var didTapSelectAsset: (() -> Void)?
+    var didTapSelectCard: (() -> Void)?
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -71,31 +76,37 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
     override func setupSubviews() {
         super.setupSubviews()
         
-        content.addSubview(mainStack)
-        mainStack.snp.makeConstraints { make in
+        content.addSubview(containerStack)
+        containerStack.snp.makeConstraints { make in
             make.edges.equalTo(content.snp.margins)
         }
         content.setupCustomMargins(all: .large)
         
+        containerStack.addArrangedSubview(mainStack)
         mainStack.addArrangedSubview(titleLabel)
-        titleLabel.snp.makeConstraints { make in
-            make.height.equalTo(Margins.large.rawValue)
-        }
-        mainStack.addArrangedSubview(selectorStack)
-        selectorStack.snp.makeConstraints { make in
-            make.height.equalTo(ViewSizes.medium.rawValue)
-        }
+        mainStack.addArrangedSubview(subtitleLabel)
+        mainStack.addArrangedSubview(cardDetailsView)
         
-        selectorStack.addArrangedSubview(cardDetailsView)
         cardDetailsView.snp.makeConstraints { make in
             make.height.equalTo(ViewSizes.medium.rawValue)
         }
-        selectorStack.addArrangedSubview(arrowImageView)
+        
+        let spacer = UIView()
+        containerStack.addArrangedSubview(spacer)
+        spacer.snp.makeConstraints { make in
+            make.width.lessThanOrEqualToSuperview().priority(.low)
+        }
+        containerStack.addArrangedSubview(arrowImageView)
+        arrowImageView.snp.makeConstraints { make in
+            make.width.equalTo(ViewSizes.small.rawValue)
+        }
     }
     
     override func configure(with config: CardSelectionConfiguration?) {
         super.configure(with: config)
         titleLabel.configure(with: config?.title)
+        subtitleLabel.configure(with: config?.subtitle)
+        cardDetailsView.configure(with: .init())
         arrowImageView.configure(with: config?.arrow)
         
         configure(background: config?.background)
@@ -106,25 +117,31 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         super.setup(with: viewModel)
         
         titleLabel.setup(with: viewModel?.title)
-        titleLabel.isHidden = viewModel?.title == nil
+        titleLabel.isHidden = viewModel?.subtitle == nil
+        
+        subtitleLabel.setup(with: viewModel?.subtitle)
+        subtitleLabel.isHidden = viewModel?.logo != nil && viewModel?.cardNumber != nil && viewModel?.expiration != nil
         
         cardDetailsView.setup(with: .init(logo: viewModel?.logo,
+                                          title: titleLabel.isHidden == true ? viewModel?.title : nil,
                                           cardNumber: viewModel?.cardNumber,
                                           expiration: viewModel?.expiration))
+        cardDetailsView.isHidden = viewModel?.logo == nil
         
         arrowImageView.setup(with: viewModel?.arrow)
-        arrowImageView.isHidden = viewModel?.arrow == nil
+        arrowImageView.isHidden = viewModel?.expiration != nil && titleLabel.isHidden
+        
+        layoutIfNeeded()
         
         guard viewModel?.userInteractionEnabled == true else {
-            selectorStack.gestureRecognizers?.forEach { selectorStack.removeGestureRecognizer($0) }
+            gestureRecognizers?.forEach { removeGestureRecognizer($0) }
             return
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(assetSelectorTapped(_:)))
-        selectorStack.addGestureRecognizer(tap)
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cardSelectorTapped(_:))))
     }
     
-    @objc private func assetSelectorTapped(_ sender: Any) {
-        didTapSelectAsset?()
+    @objc private func cardSelectorTapped(_ sender: Any) {
+        didTapSelectCard?()
     }
 }

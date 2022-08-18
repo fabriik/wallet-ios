@@ -24,20 +24,23 @@ struct PaymentCardsResponseData: ModelResponse {
 }
 
 struct PaymentCard: ItemSelectable {
+    enum Scheme: String {
+        case visa = "VISA"
+        case mastercard = "MASTERCARD"
+        case none = "credit_card_icon"
+    }
+    
     var id: String
     var fingerprint: String
     var expiryMonth: Int
     var expiryYear: Int
-    var scheme: String
+    var scheme: Scheme
     var last4: String
     var image: UIImage?
     
     var displayName: String? { return CardDetailsFormatter.formatNumber(last4: last4) }
     var displayImage: ImageViewModel? {
-        guard let image = image else {
-            return .imageName("card")
-        }
-        return .image(image)
+        return .imageName(scheme.rawValue)
     }
 }
 
@@ -48,7 +51,7 @@ class PaymentCardsMapper: ModelMapper<PaymentCardsResponseData, [PaymentCard]> {
                                fingerprint: $0.fingerprint ?? "",
                                expiryMonth: $0.expiryMonth ?? 0,
                                expiryYear: $0.expiryYear ?? 0,
-                               scheme: $0.scheme ?? "",
+                               scheme: PaymentCard.Scheme(rawValue: $0.scheme ?? "") ?? .none,
                                last4: $0.last4 ?? "")
         } ?? []
     }

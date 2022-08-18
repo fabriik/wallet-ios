@@ -22,6 +22,8 @@ class CardSelectionViewController: ItemSelectionViewController {
     
     override func setupSubviews() {
         super.setupSubviews()
+        
+        tableView.separatorStyle = .none
         tableView.register(WrapperTableViewCell<CardSelectionView>.self)
     }
     
@@ -36,11 +38,13 @@ class CardSelectionViewController: ItemSelectionViewController {
         cell.setup { view in
             view.configure(with: .init())
             
-            // TODO: Should be in Presenter?
             view.setup(with: .init(title: nil,
+                                   subtitle: nil,
                                    logo: model.displayImage,
                                    cardNumber: .text(model.displayName),
                                    expiration: .text(CardDetailsFormatter.formatExpirationDate(month: model.expiryMonth, year: model.expiryYear))))
+            
+            view.setupCustomMargins(top: .zero, leading: .large, bottom: .zero, trailing: .large)
         }
         
         return cell
@@ -55,9 +59,12 @@ class CardSelectionViewController: ItemSelectionViewController {
             let config = CardSelectionConfiguration(title: .init(font: Fonts.Title.six, textColor: LightColors.Icons.one))
             view.configure(with: config)
             view.setup(with: .init(title: .text("Card"),
-                                   logo: .imageName("card"),
+                                   subtitle: nil,
+                                   logo: .imageName("credit_card_icon"),
                                    cardNumber: .text("Add a debit or credit card"),
                                    expiration: nil))
+            
+            view.setupCustomMargins(top: .zero, leading: .large, bottom: .zero, trailing: .large)
         }
         
         return cell

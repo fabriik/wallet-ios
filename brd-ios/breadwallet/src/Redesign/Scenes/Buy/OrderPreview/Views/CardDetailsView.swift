@@ -11,18 +11,16 @@
 import UIKit
 
 struct CardDetailsConfiguration: Configurable {
-    var logo: BackgroundConfiguration? = .init(tintColor: LightColors.Icons.two)
-    var cardNumber: LabelConfiguration? = .init(font: Fonts.Subtitle.two, textColor: LightColors.Icons.one)
-    var expiration: LabelConfiguration?
-    var shadow: ShadowConfiguration? = Presets.Shadow.light
-    var background: BackgroundConfiguration? = .init(backgroundColor: LightColors.primary,
-                                                     tintColor: LightColors.Text.one,
-                                                     border: Presets.Border.cardDetails)
+    var logo: BackgroundConfiguration?
+    var title: LabelConfiguration? = .init(font: Fonts.Title.six, textColor: LightColors.secondary, numberOfLines: 1)
+    var cardNumber: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Icons.one, numberOfLines: 1)
+    var expiration: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Icons.one)
 }
 
 struct CardDetailsViewModel: ViewModel {
     var logo: ImageViewModel?
-    var cardNumber: LabelViewModel? = .text("Select a payment method")
+    var title: LabelViewModel?
+    var cardNumber: LabelViewModel?
     var expiration: LabelViewModel?
 }
 
@@ -36,11 +34,7 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
     
     private lazy var selectorStack: UIStackView = {
         let view = UIStackView()
-        return view
-    }()
-    
-    private lazy var cardNumberLabel: FELabel = {
-        let view = FELabel()
+        view.spacing = Margins.medium.rawValue
         return view
     }()
     
@@ -49,18 +43,29 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         return view
     }()
     
-    private lazy var expirationLabel: FELabel = {
+    private lazy var titleStack: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.distribution = .fillEqually
+        view.spacing = Margins.minimum.rawValue
+        return view
+    }()
+    
+    private lazy var titleLabel: FELabel = {
         let view = FELabel()
         return view
     }()
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        configure(background: config?.background)
-        configure(shadow: config?.shadow)
-    }
+    private lazy var cardNumberLabel: FELabel = {
+        let view = FELabel()
+        return view
+    }()
     
+    private lazy var expirationLabel: FELabel = {
+        let view = FELabel()
+        return view
+    }()
+
     override func setupSubviews() {
         super.setupSubviews()
         
@@ -71,36 +76,51 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         
         mainStack.addArrangedSubview(selectorStack)
         selectorStack.snp.makeConstraints { make in
-            make.height.equalTo(ViewSizes.medium.rawValue)
+            make.leading.height.equalTo(Margins.medium.rawValue)
         }
         
         selectorStack.addArrangedSubview(logoImageView)
-        selectorStack.addArrangedSubview(cardNumberLabel)
+        logoImageView.snp.makeConstraints { make in
+            make.width.lessThanOrEqualTo(ViewSizes.medium.rawValue)
+        }
+        
+        selectorStack.addArrangedSubview(titleStack)
+        titleStack.snp.makeConstraints { make in
+            make.width.lessThanOrEqualToSuperview().priority(.low)
+        }
+        
+        titleStack.addArrangedSubview(titleLabel)
+        titleStack.addArrangedSubview(cardNumberLabel)
+        
         let spacer = UIView()
         selectorStack.addArrangedSubview(spacer)
         spacer.snp.makeConstraints { make in
-            make.width.equalToSuperview().priority(.low)
+            make.width.lessThanOrEqualToSuperview().priority(.low)
         }
+        
         selectorStack.addArrangedSubview(expirationLabel)
     }
     
     override func configure(with config: CardDetailsConfiguration?) {
         super.configure(with: config)
         logoImageView.configure(with: config?.logo)
+        titleLabel.configure(with: config?.title)
         cardNumberLabel.configure(with: config?.cardNumber)
         expirationLabel.configure(with: config?.expiration)
-        
-        configure(background: config?.background)
-        configure(shadow: config?.shadow)
     }
     
     override func setup(with viewModel: CardDetailsViewModel?) {
         super.setup(with: viewModel)
         
+        titleLabel.setup(with: viewModel?.title)
+        titleLabel.isHidden = viewModel?.title == nil
+        
+        cardNumberLabel.setup(with: viewModel?.cardNumber)
+        cardNumberLabel.isHidden = viewModel?.cardNumber == nil
+        
         logoImageView.setup(with: viewModel?.logo)
         logoImageView.isHidden = viewModel?.logo == nil
         
-        cardNumberLabel.setup(with: viewModel?.cardNumber)
         expirationLabel.setup(with: viewModel?.expiration)
     }
 }
