@@ -28,6 +28,10 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     var allPaymentCards: [PaymentCard]?
     
     var quote: Quote?
+    
+    var currencies: [Currency] = Store.state.currencies
+    var supportedCurrencies: [SupportedCurrency]?
+    
     var coreSystem: CoreSystem?
     var keyStore: KeyStore?
     

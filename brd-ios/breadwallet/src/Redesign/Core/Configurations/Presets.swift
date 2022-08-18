@@ -436,7 +436,7 @@ extension Presets {
     struct BuyPopupView {
         // TODO: localize
         static var cardFee = PopupViewModel(title: .text("Card fee"),
-                                            body: "An extra fee of 0.04% is required to cover processing of credit card purchases.")
+                                            body: "An extra fee of 4% is required to cover processing of credit card purchases.")
         
         static var networkFee = PopupViewModel(title: .text("Network fees"),
                                                body: """

@@ -83,7 +83,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         // TODO: replace with animation
         iconView.setup(with: viewModel.image)
         
-        invalidateTimer()
+        invalidate()
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         timer?.fire()
@@ -93,7 +93,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         guard let triggerDate = triggerDate else { return }
         
         if triggerDate < Date() {
-            invalidateTimer()
+            invalidate()
             
             completion?()
             
@@ -114,7 +114,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
             return
         }
         
-        invalidateTimer()
+        invalidate()
         
         completion?()
         
@@ -128,7 +128,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         content.layoutIfNeeded()
     }
     
-    private func invalidateTimer() {
+    func invalidate() {
         timer?.invalidate()
         timer = nil
     }
