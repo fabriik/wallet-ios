@@ -38,7 +38,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let cardFeeText = String(format: currencyFormatter, cardFee.doubleValue, fiatCurrency)
         let networkFeeText = String(format: currencyFormatter, networkFee.doubleValue, fiatCurrency)
         
-        let rate = String(format: "1 %@ = %@", toAmount.currency.code, currencyFormatter, 1 / quote.exchangeRate.doubleValue, fiatCurrency)
+        let rate = String(format: "1 %@ = %@", toAmount.currency.code, String(format: currencyFormatter, 1 / quote.exchangeRate.doubleValue, fiatCurrency))
         let totalText = String(format: currencyFormatter, (to + networkFee + cardFee).doubleValue, fiatCurrency)
         let wrappedViewModel: BuyOrderViewModel = .init(rate: .init(exchangeRate: rate, timer: nil),
                                                         price: .init(title: .text("Price"), value: .text(fromText)),
