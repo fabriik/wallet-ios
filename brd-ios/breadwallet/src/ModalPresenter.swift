@@ -491,14 +491,15 @@ class ModalPresenter: Subscriber, Trackable {
         // MARK: Preferences
         let preferencesItems: [MenuItem] = [
             // Display Currency
-            MenuItem(title: L10n.Settings.currency, accessoryText: {
-                let code = Store.state.defaultCurrencyCode
-                let components: [String: String] = [NSLocale.Key.currencyCode.rawValue: code]
-                let identifier = Locale.identifier(fromComponents: components)
-                return Locale(identifier: identifier).currencyCode ?? ""
-            }, callback: {
-                menuNav.pushViewController(DefaultCurrencyViewController(), animated: true)
-            }),
+            // TODO: uncomment to restore currency selection (also update UserDefaults+Additions-defaultCurrencyCode)
+//            MenuItem(title: L10n.Settings.currency, accessoryText: {
+//                let code = Store.state.defaultCurrencyCode
+//                let components: [String: String] = [NSLocale.Key.currencyCode.rawValue: code]
+//                let identifier = Locale.identifier(fromComponents: components)
+//                return Locale(identifier: identifier).currencyCode ?? ""
+//            }, callback: {
+//                menuNav.pushViewController(DefaultCurrencyViewController(), animated: true)
+//            }),
             
             btcMenu,
             bchMenu,
