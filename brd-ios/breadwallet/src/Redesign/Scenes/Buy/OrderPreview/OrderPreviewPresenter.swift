@@ -24,22 +24,31 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
               let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal),
               let card = item.card else { return }
         
-        let to = toAmount.fiatValue
-        let from = item.from ?? 0
+        let currencyFormatter = "%.2f"
+        
         let cardFee: Decimal = 0
         let networkFee: Decimal = 0
-        let fiatCurrency = (quote.fromFeeCurrency?.feeCurrency ?? "USD").uppercased()
+        let fiatCurrencySign = (quote.fromFeeCurrency?.feeCurrency ?? C.usdCurrencyCode).uppercased()
         let feeCurrency = (quote.toFeeCurrency?.feeCurrency ?? toAmount.currency.code).uppercased()
         
         // TODO: pass exchange rate / expiration as well
-        // TODO: format currency
-        let rate = String(format: "1 %@ = %.5f %@", toAmount.currency.code, 1 / quote.exchangeRate.doubleValue, fiatCurrency)
+        let rate = String(format: "1 %@ = %@ %@", toAmount.currency.code, String(format: currencyFormatter, (1 / quote.exchangeRate.doubleValue)), fiatCurrencySign)
+        
+        let toFormatted = String(format: currencyFormatter, toAmount.fiatValue.doubleValue)
+        let fromFormatted = String(format: currencyFormatter, item.from?.doubleValue ?? 0)
+        let cardFeeFormatted = String(format: currencyFormatter, cardFee.doubleValue)
+        let totalFormatted = String(format: currencyFormatter, (toAmount.fiatValue.doubleValue + networkFee.doubleValue + cardFee.doubleValue))
         let wrappedViewModel: BuyOrderViewModel = .init(rate: .init(exchangeRate: rate, timer: nil),
-                                                        price: .init(title: .text("Price"), value: .text("\(from) \(fiatCurrency)")),
-                                                        amount: .init(title: .text("Amount"), value: .text("\(to) \(fiatCurrency)")),
-                                                        cardFee: .init(title: .text("Card fee (4%)"), value: .text("\(cardFee.description) \(fiatCurrency)"), infoImage: .image(infoImage)),
-                                                        networkFee: .init(title: .text("Mining network fee"), value: .text("\(networkFee.description) \(feeCurrency)"), infoImage: .image(infoImage)),
-                                                        totalCost: .init(title: .text("Total:"), value: .text("\(to + networkFee + cardFee) \(fiatCurrency)")))
+                                                        price: .init(title: .text("Price"), value: .text("\(fromFormatted) \(fiatCurrencySign)")),
+                                                        amount: .init(title: .text("Amount"), value: .text("\(toFormatted) \(fiatCurrencySign)")),
+                                                        cardFee: .init(title: .text("Card fee (4%)"),
+                                                                       value: .text("\(cardFeeFormatted) \(fiatCurrencySign)"),
+                                                                       infoImage: .image(infoImage)),
+                                                        networkFee: .init(title: .text("Mining network fee"),
+                                                                          value: .text("\(networkFee.description) \(feeCurrency)"),
+                                                                          infoImage: .image(infoImage)),
+                                                        totalCost: .init(title: .text("Total:"),
+                                                                         value: .text("\(totalFormatted) \(fiatCurrencySign)")))
         
         let sections: [Models.Sections] = [
             .orderInfoCard,
