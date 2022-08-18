@@ -112,9 +112,9 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             let value = actionResponse.from?.fiatValue ?? 0
             let fromCrypto = actionResponse.from?.tokenValue ?? 0.0
             let profile = UserManager.shared.profile
-            let dailyLimit = profile?.dailyRemainingLimit ?? 0
-            let lifetimeLimit = profile?.lifetimeRemainingLimit ?? 0
-            let exchangeLimit = profile?.exchangeLimit ?? 0
+            let dailyLimit = profile?.swapDailyRemainingLimit ?? 0
+            let lifetimeLimit = profile?.swapLifetimeRemainingLimit ?? 0
+            let exchangeLimit = profile?.swapAllowancePerExchange    ?? 0
             let balance = actionResponse.baseBalance?.tokenValue ?? 0
             
             switch value {
