@@ -64,7 +64,7 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         return view
     }()
     
-    var didTapSelectAsset: (() -> Void)?
+    var didTapSelectCard: (() -> Void)?
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -138,10 +138,10 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
             return
         }
         
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(assetSelectorTapped(_:))))
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cardSelectorTapped(_:))))
     }
     
-    @objc private func assetSelectorTapped(_ sender: Any) {
-        didTapSelectAsset?()
+    @objc private func cardSelectorTapped(_ sender: Any) {
+        didTapSelectCard?()
     }
 }

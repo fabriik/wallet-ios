@@ -147,7 +147,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             view.configure(with: .init())
             view.setup(with: model)
             
-            view.didTapSelectAsset = { [weak self] in
+            view.didTapSelectCard = { [weak self] in
                 self?.interactor?.getPaymentCards(viewAction: .init())
             }
         }
