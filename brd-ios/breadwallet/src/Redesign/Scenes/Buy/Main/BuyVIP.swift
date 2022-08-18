@@ -40,6 +40,8 @@ protocol BuyDataStore: BaseDataStore, FetchDataStore {
     var fromCurrency: String? { get set }
     var toCurrency: Currency? { get set }
     
+    var currencies: [Currency] { get set }
+    var supportedCurrencies: [SupportedCurrency]? { get set }
     var paymentCard: PaymentCard? { get set }
     var allPaymentCards: [PaymentCard]? { get set }
     var quote: Quote? { get set }
@@ -51,7 +53,7 @@ protocol BuyDataPassing {
 
 protocol BuyRoutes: CoordinatableRoutes {
     // TODO: refactor :S
-    func showAssetSelector(currencies: [Currency]?, selected: ((Any?) -> Void)?)
+    func showAssetSelector(currencies: [Currency]?, supportedCurrencies: [SupportedCurrency]?, selected: ((Any?) -> Void)?)
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?)
     func showInfo(from: String, to: String, exchangeId: String)
 }

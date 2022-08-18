@@ -45,6 +45,18 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                 self.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
+        
+        guard dataStore?.supportedCurrencies?.isEmpty != false else { return }
+        
+        SupportedCurrenciesWorker().execute { [weak self] result in
+            switch result {
+            case .success(let currencies):
+                self?.dataStore?.supportedCurrencies = currencies
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
     }
     
     func getPaymentCards(viewAction: BuyModels.PaymentCards.ViewAction) {

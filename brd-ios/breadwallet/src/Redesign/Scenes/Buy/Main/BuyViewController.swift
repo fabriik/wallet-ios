@@ -123,11 +123,12 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             }
             
             view.didTapSelectAsset = { [weak self] in
-                self?.coordinator?.showAssetSelector(currencies: Store.state.currencies, selected: { item in
+                guard let dataStore = self?.dataStore else { return }
+                
+                self?.coordinator?.showAssetSelector(currencies: dataStore.currencies, supportedCurrencies: dataStore.supportedCurrencies) { item in
                     guard let item = item as? AssetViewModel else { return }
-                    
                     self?.interactor?.setAssets(viewAction: .init(currency: item.subtitle))
-                })
+                }
             }
         }
         
