@@ -8,17 +8,6 @@
 
 import UIKit
 
-enum BuyErrors: FEError {
-    case noQuote
-    
-    var errorMessage: String {
-        switch self {
-        case .noQuote:
-            return "no quote"
-        }
-    }
-}
-
 class BuyInteractor: NSObject, Interactor, BuyViewActions {
     typealias Models = BuyModels
 
@@ -75,7 +64,9 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     
     func setAmount(viewAction: BuyModels.Amounts.ViewAction) {
         guard let rate = dataStore?.quote?.exchangeRate else {
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote))
+            let toCode = dataStore?.toCurrency?.code ?? "/"
+            let fromCode = dataStore?.fromCurrency ?? "/"
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(pair: "\(fromCode)-\(toCode)")))
             return
         }
         
@@ -170,6 +161,57 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     }
     
     func showOrderPreview(viewAction: BuyModels.OrderPreview.ViewAction) {
+        let fiat = dataStore?.from ?? 0
+        let profile = UserManager.shared.profile
+        let dailyLimit = profile?.buyDailyRemainingLimit ?? 0
+        let lifetimeLimit = profile?.buyLifetimeRemainingLimit ?? 0
+        let exchangeLimit = profile?.buyAllowancePerPurchase    ?? 0
+        let minimumAmount = dataStore?.quote?.minimumValue ?? 0
+        let maximumAmount = dataStore?.quote?.maximumValue ?? 0
+            
+        var hasError = false
+        switch fiat {
+        case _ where fiat <= 0:
+            // fiat value is bellow 0
+            presenter?.presentError(actionResponse: .init(error: nil))
+            hasError = true
+            
+        case _ where minimumAmount > maximumAmount:
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.notPermitted))
+            hasError = true
+            
+        case _ where fiat < minimumAmount:
+            // value bellow minimum fiat
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
+            hasError = true
+            
+        case _ where fiat > dailyLimit:
+            // over daily limit
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.overDailyLimit))
+            hasError = true
+            
+        case _ where fiat > lifetimeLimit:
+            // over lifetime limit
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.overLifetimeLimit))
+            hasError = true
+            
+        case _ where fiat > exchangeLimit:
+            // over exchange limit ???
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.overExchangeLimit))
+            hasError = true
+            
+        case _ where fiat > maximumAmount:
+            // over exchange limit ???
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.tooHigh(amount: fiat, currency: "USD")))
+            hasError = true
+            
+        default:
+            // remove error
+            presenter?.presentError(actionResponse: .init(error: nil))
+        }
+        
+        guard hasError == false else { return }
+
         presenter?.presentOrderPreview(actionResponse: .init())
     }
     
