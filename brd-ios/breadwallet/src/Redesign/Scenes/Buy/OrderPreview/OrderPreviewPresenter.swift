@@ -25,21 +25,20 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
               let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal),
               let card = item.card else { return }
         
-        let currencyFormatter = "%.2f %@"
-        
         let to = toAmount.fiatValue
         let from = item.from ?? 0
         let cardFee = from * (quote.buyFee ?? 0) / 100
         let networkFee = item.networkFee?.fiatValue ?? 0
         let fiatCurrency = (quote.fromFeeCurrency?.feeCurrency ?? "USD").uppercased()
         
-        let fromText = String(format: currencyFormatter, from.doubleValue, fiatCurrency)
-        let amountText = String(format: currencyFormatter, to.doubleValue, fiatCurrency)
-        let cardFeeText = String(format: currencyFormatter, cardFee.doubleValue, fiatCurrency)
-        let networkFeeText = String(format: currencyFormatter, networkFee.doubleValue, fiatCurrency)
+        let currencyFormatter = "%@ %@"
+        let fromText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: from) ?? "", fiatCurrency)
+        let amountText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: to) ?? "", fiatCurrency)
+        let cardFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: cardFee.doubleValue) ?? "", fiatCurrency)
+        let networkFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: networkFee.doubleValue) ?? "", fiatCurrency)
         
-        let rate = String(format: "1 %@ = %@", toAmount.currency.code, String(format: currencyFormatter, 1 / quote.exchangeRate.doubleValue, fiatCurrency))
-        let totalText = String(format: currencyFormatter, (to + networkFee + cardFee).doubleValue, fiatCurrency)
+        let rate = String(format: "1 %@ = %@ %@", toAmount.currency.code, ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate.doubleValue) ?? "", fiatCurrency)
+        let totalText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: to + networkFee + cardFee) ?? "", fiatCurrency)
         let wrappedViewModel: BuyOrderViewModel = .init(rate: .init(exchangeRate: rate, timer: nil),
                                                         price: .init(title: .text("Price"), value: .text(fromText)),
                                                         amount: .init(title: .text("Amount"), value: .text(amountText)),

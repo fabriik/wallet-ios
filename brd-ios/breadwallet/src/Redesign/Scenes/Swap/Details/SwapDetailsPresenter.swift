@@ -45,14 +45,12 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
         let toImage = getBaseCurrencyImage(currencyCode: item.destination.currency)
         
         let currencyCode = Store.state.defaultCurrencyCode
-        let format = "%.*f"
-        let decimal = 5
         
-        let formattedUsdAmountString = String(format: format, decimal, item.source.usdAmount)
-        let formattedCurrencyAmountString = String(format: format, decimal, item.source.currencyAmount)
+        let formattedUsdAmountString = ExchangeFormatter.fiat.string(for: item.source.usdAmount) ?? ""
+        let formattedCurrencyAmountString = ExchangeFormatter.crypto.string(for: item.source.currencyAmount) ?? ""
         
-        let formattedUsdAmountDestination = String(format: format, decimal, item.destination.usdAmount)
-        let formattedCurrencyAmountDestination = String(format: format, decimal, item.destination.currencyAmount)
+        let formattedUsdAmountDestination = ExchangeFormatter.fiat.string(for: item.destination.usdAmount) ?? ""
+        let formattedCurrencyAmountDestination = ExchangeFormatter.crypto.string(for: item.destination.currencyAmount) ?? ""
         
         let timestamp = TimeInterval(item.timestamp) / 1000
         let date = Date(timeIntervalSince1970: timestamp)
