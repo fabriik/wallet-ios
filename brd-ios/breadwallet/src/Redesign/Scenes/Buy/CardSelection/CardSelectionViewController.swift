@@ -37,7 +37,6 @@ class CardSelectionViewController: ItemSelectionViewController {
         
         cell.setup { view in
             view.configure(with: .init())
-            
             view.setup(with: .init(title: nil,
                                    subtitle: nil,
                                    logo: model.displayImage,
@@ -56,8 +55,7 @@ class CardSelectionViewController: ItemSelectionViewController {
         }
         
         cell.setup { view in
-            let config = CardSelectionConfiguration(title: .init(font: Fonts.Title.six, textColor: LightColors.Icons.one))
-            view.configure(with: config)
+            view.configure(with: .init())
             view.setup(with: .init(title: .text("Card"),
                                    subtitle: nil,
                                    logo: .imageName("credit_card_icon"),
