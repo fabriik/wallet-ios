@@ -19,7 +19,7 @@ struct ExchangeRateConfiguration: Configurable {
 
 struct ExchangeRateViewModel: ViewModel {
     var exchangeRate: String?
-    var timer: TimerViewModel? = TimerViewModel(till: 0, image: .imageName("timelapse"), repeats: true)
+    var timer: TimerViewModel? = TimerViewModel(till: 0, image: .imageName("timelapse"), repeats: true, isVisible: true)
 }
 
 class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel> {
