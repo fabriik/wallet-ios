@@ -252,6 +252,8 @@ class BaseCoordinator: NSObject,
                 } else if let kycLevel = checkForCustomerRole,
                           roles.contains(kycLevel) {
                     completion?(true)
+                } else if checkForCustomerRole == nil {
+                    completion?(true)
                 } else {
                     coordinator = KYCCoordinator(navigationController: nvc)
                 }
