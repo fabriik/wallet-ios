@@ -34,10 +34,10 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let currencyFormatter = "%@ %@"
         let fromText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: from) ?? "", fiatCurrency)
         let amountText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: to) ?? "", fiatCurrency)
-        let cardFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: cardFee.doubleValue) ?? "", fiatCurrency)
-        let networkFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: networkFee.doubleValue) ?? "", fiatCurrency)
+        let cardFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: cardFee) ?? "", fiatCurrency)
+        let networkFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: networkFee) ?? "", fiatCurrency)
         
-        let rate = String(format: "1 %@ = %@ %@", toAmount.currency.code, ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate.doubleValue) ?? "", fiatCurrency)
+        let rate = String(format: "1 %@ = %@ %@", toAmount.currency.code, ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "", fiatCurrency)
         let totalText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: to + networkFee + cardFee) ?? "", fiatCurrency)
         let wrappedViewModel: BuyOrderViewModel = .init(rate: .init(exchangeRate: rate, timer: nil),
                                                         price: .init(title: .text("Price"), value: .text(fromText)),
