@@ -13,5 +13,7 @@ class SwapDetailsStore: NSObject, BaseDataStore, SwapDetailsDataStore {
     
     // MARK: - SwapDetailsDataStore
 
+    var sceneTitle: String?
+    
     // MARK: - Aditional helpers
 }

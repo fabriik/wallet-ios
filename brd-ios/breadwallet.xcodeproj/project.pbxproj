@@ -3012,13 +3012,13 @@
 			isa = PBXGroup;
 			children = (
 				7ECCA9622875A75300617067 /* Views */,
-				7ED427E828755CB200AA19A8 /* SwapDetailsStore.swift */,
 				7ED427E928755CB200AA19A8 /* SwapDetailsPresenter.swift */,
-				7EC0F8BD288986460037145C /* SwapDetailsWorker.swift */,
-				7ED427EA28755CB200AA19A8 /* SwapDetailsModels.swift */,
+				7ED427E828755CB200AA19A8 /* SwapDetailsStore.swift */,
 				7ED427EB28755CB200AA19A8 /* SwapDetailsVIP.swift */,
+				7ED427EA28755CB200AA19A8 /* SwapDetailsModels.swift */,
 				7ED427EC28755CB200AA19A8 /* SwapDetailsViewController.swift */,
 				7ED427ED28755CB200AA19A8 /* SwapDetailsInteractor.swift */,
+				7EC0F8BD288986460037145C /* SwapDetailsWorker.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
