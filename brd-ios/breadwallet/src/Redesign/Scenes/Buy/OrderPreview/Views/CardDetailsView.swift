@@ -76,7 +76,7 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         
         mainStack.addArrangedSubview(selectorStack)
         selectorStack.snp.makeConstraints { make in
-            make.leading.height.equalTo(Margins.medium.rawValue)
+            make.leading.equalTo(Margins.medium.rawValue)
         }
         
         selectorStack.addArrangedSubview(logoImageView)
@@ -122,7 +122,5 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         logoImageView.isHidden = viewModel?.logo == nil
         
         expirationLabel.setup(with: viewModel?.expiration)
-        
-        layoutIfNeeded()
     }
 }

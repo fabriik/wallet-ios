@@ -137,8 +137,6 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         arrowImageView.isHidden = viewModel?.expiration != nil && titleLabel.isHidden
         spacerView.isHidden = arrowImageView.isHidden
         
-        layoutIfNeeded()
-        
         guard viewModel?.userInteractionEnabled == true else {
             gestureRecognizers?.forEach { removeGestureRecognizer($0) }
             return

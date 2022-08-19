@@ -136,8 +136,6 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
         cardDetailsView.setup(with: .init(logo: viewModel?.logo,
                                           cardNumber: viewModel?.cardNumber,
                                           expiration: viewModel?.expiration))
-        
-        layoutIfNeeded()
     }
     
     // MARK: - User interaction
