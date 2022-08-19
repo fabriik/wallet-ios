@@ -104,7 +104,6 @@ class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
         infoButton.isHidden = viewModel?.infoImage == nil
         valueLabel.setup(with: viewModel?.value)
         
-        titleLabel.sizeToFit()
         titleLabel.snp.makeConstraints { make in
             make.width.equalTo(titleLabel.frame.width)
         }
