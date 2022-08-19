@@ -71,14 +71,14 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         }
         
         if let value = viewAction.tokenValue {
-            dataStore?.to = decimalFor(amount: value)
+            dataStore?.to = ExchangeFormatter.fiat.number(from: value)?.decimalValue
             dataStore?.from = (dataStore?.to ?? 0) / rate
             getFees()
         } else if let value = viewAction.fiatValue {
-            dataStore?.from = decimalFor(amount: value)
+            dataStore?.from = ExchangeFormatter.fiat.number(from: value)?.decimalValue
             dataStore?.to = (dataStore?.from ?? 0) * rate
-        } else {
         }
+        
         presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount, card: dataStore?.paymentCard))
     }
     
@@ -104,7 +104,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         }
     }
     
-    func getFees() {
+    private func getFees() {
         guard let to = dataStore?.toAmount,
               let wallet = dataStore?.coreSystem?.wallet(for: to.currency),
               let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore,
@@ -216,29 +216,6 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     }
     
     // MARK: - Aditional helpers
-    
-    // TODO: extract to helper class
-    private func decimalFor(amount: String?) -> Decimal? {
-        guard let amount = amount else {
-            return nil
-        }
-        
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 8 //Int(currency.baseUnit.decimals)
-        
-        return formatter.number(from: amount)?.decimalValue
-    }
-    
-    private func formatAmount(amount: Decimal?) -> String? {
-        guard let amount = amount else {
-            return nil
-        }
-        
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 8 //Int(currency.baseUnit.decimals)
-        
-        return formatter.string(for: amount)
-    }
     
     private func fetchCards(completion: ((Result<[PaymentCard]?, Error>) -> Void)?) {
         PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
