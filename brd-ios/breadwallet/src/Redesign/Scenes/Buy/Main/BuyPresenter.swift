@@ -45,7 +45,9 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let text = String(format: "1 %@ = %@ %@", from.uppercased(), ExchangeFormatter.crypto.string(for: rate) ?? "/", to.uppercased())
         
         let model = ExchangeRateViewModel(exchangeRate: text,
-                                            timer: TimerViewModel(till: actionResponse.expires ?? 0, repeats: true))
+                                          timer: TimerViewModel(till: actionResponse.expires ?? 0,
+                                                                repeats: false,
+                                                                isVisible: false))
         
         viewController?.displayExchangeRate(responseDisplay: model)
     }

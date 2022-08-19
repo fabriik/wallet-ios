@@ -25,6 +25,7 @@ struct TimerViewModel: ViewModel {
     var till: Double = 0
     var image = ImageViewModel.imageName("timelapse")
     var repeats = false
+    var isVisible = true
 }
 
 class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
@@ -79,6 +80,8 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         
         let dateValue = TimeInterval(viewModel.till / 1000.0)
         triggerDate = Date(timeIntervalSince1970: dateValue)
+        
+        stack.isHidden = !viewModel.isVisible
         
         // TODO: replace with animation
         iconView.setup(with: viewModel.image)

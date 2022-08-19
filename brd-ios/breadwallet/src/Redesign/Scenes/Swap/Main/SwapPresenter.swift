@@ -39,7 +39,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(till: item.quote?.timestamp ?? 0,
                                                                             repeats: false))
         
-        // TODO: Get rid of empty values.
+        // TODO: Localize
+        
         let sectionRows: [Models.Sections: [Any]] = [
             .accountLimits: [ LabelViewModel.text("Currently, minimum limit for swap is $50.00 USD and maximum limit is \(limitValue) USD/day.")
             ],
@@ -67,10 +68,10 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         let text = String(format: "1 %@ = %.5f %@", from.code, rate.doubleValue, to.code)
         
-        // TODO: MOVE THIS!
         exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
                                                       timer: TimerViewModel(till: actionResponse.expires ?? 0,
-                                                                            repeats: false))
+                                                                            repeats: false,
+                                                                            isVisible: true))
         
         viewController?.displayRate(responseDisplay: .init(rate: exchangeRateViewModel))
     }
