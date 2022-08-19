@@ -122,5 +122,7 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         logoImageView.isHidden = viewModel?.logo == nil
         
         expirationLabel.setup(with: viewModel?.expiration)
+        
+        layoutIfNeeded()
     }
 }

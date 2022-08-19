@@ -115,6 +115,7 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
         super.configure(with: config)
         methodTitleLabel.configure(with: config?.title)
         cvvTitleLabel.configure(with: config?.title)
+        cardDetailsView.configure(with: .init())
         cvvTextField.configure(with: Presets.TextField.number)
         
         configure(background: config?.background)
