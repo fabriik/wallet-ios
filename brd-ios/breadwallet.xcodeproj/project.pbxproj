@@ -282,6 +282,7 @@
 		7E0968B8284A29CE006B4FC2 /* TransparentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0968B7284A29CE006B4FC2 /* TransparentView.swift */; };
 		7E2E1A2B284E097900E56E69 /* KYCCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E1A2A284E097900E56E69 /* KYCCoordinator.swift */; };
 		7E2E1A41284E267000E56E69 /* ProfileWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E1A40284E267000E56E69 /* ProfileWorker.swift */; };
+		7E383A9B28AF68160000D2F7 /* BuyErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E383A9A28AF68160000D2F7 /* BuyErrors.swift */; };
 		7E383B4928AE1AFD00A5339F /* AssetSelectionDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E383B4828AE1AFD00A5339F /* AssetSelectionDisplayable.swift */; };
 		7E52B7A22872CD1E003D2249 /* SupportedCurrenciesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E52B7A12872CD1E003D2249 /* SupportedCurrenciesWorker.swift */; };
 		7E5B305B28A67FC60065D2D8 /* SwapInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B305A28A67FC60065D2D8 /* SwapInfoViewController.swift */; };
@@ -1271,6 +1272,7 @@
 		7E2C2F8327D7BE7A00114923 /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
 		7E2E1A2A284E097900E56E69 /* KYCCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCCoordinator.swift; sourceTree = "<group>"; };
 		7E2E1A40284E267000E56E69 /* ProfileWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileWorker.swift; sourceTree = "<group>"; };
+		7E383A9A28AF68160000D2F7 /* BuyErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyErrors.swift; sourceTree = "<group>"; };
 		7E383B4828AE1AFD00A5339F /* AssetSelectionDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetSelectionDisplayable.swift; sourceTree = "<group>"; };
 		7E52B7A12872CD1E003D2249 /* SupportedCurrenciesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedCurrenciesWorker.swift; sourceTree = "<group>"; };
 		7E59CB142869A7F900A495E1 /* staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = staging.xcconfig; sourceTree = "<group>"; };
@@ -2945,6 +2947,7 @@
 				7EB8FD1D2897D212000FF75C /* BuyModels.swift */,
 				7EB8FD1F2897D212000FF75C /* BuyViewController.swift */,
 				7EB8FD202897D212000FF75C /* BuyInteractor.swift */,
+				7E383A9A28AF68160000D2F7 /* BuyErrors.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -4583,6 +4586,7 @@
 				7EF2999127E3B8D200A2238A /* MarketChart.swift in Sources */,
 				CEA9178620C07FBB00F29B31 /* SyncingHeaderView.swift in Sources */,
 				7BDB49F92806F1090031F015 /* PlatformAuthResult.swift in Sources */,
+				7E383A9B28AF68160000D2F7 /* BuyErrors.swift in Sources */,
 				CEC6AA3B1DEE4EB000EE5AFD /* CGRect+Additions.swift in Sources */,
 				4F3AB12A25D58AB400B378DC /* SelectBakerViewController.swift in Sources */,
 				E843C1172188D19000F46672 /* OnboardingViewController.swift in Sources */,
