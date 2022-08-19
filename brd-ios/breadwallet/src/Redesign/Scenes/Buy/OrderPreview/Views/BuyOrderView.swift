@@ -168,6 +168,8 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         cardFeeView.setup(with: viewModel?.cardFee)
         networkFeeView.setup(with: viewModel?.networkFee)
         totalCostView.setup(with: viewModel?.totalCost)
+        
+        needsUpdateConstraints()
     }
     
     private func cardFeeInfoButtonTapped() {

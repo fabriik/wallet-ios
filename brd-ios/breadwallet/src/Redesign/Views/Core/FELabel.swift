@@ -52,6 +52,7 @@ class FELabel: UILabel, ViewProtocol {
             attributedText = value
         }
         
+        sizeToFit()
         needsUpdateConstraints()
     }
 }

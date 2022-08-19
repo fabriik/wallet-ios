@@ -48,6 +48,8 @@ class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
     
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
+        view.spacing = Margins.small.rawValue
+        view.distribution = .fill
         return view
     }()
     
@@ -77,8 +79,7 @@ class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
         mainStack.addArrangedSubview(titleLabel)
         mainStack.addArrangedSubview(infoButton)
         infoButton.snp.makeConstraints { make in
-            make.width.height.equalTo(ViewSizes.extraSmall.rawValue)
-            make.leading.equalTo(titleLabel.snp.trailing).inset(Margins.minimum.rawValue)
+            make.width.equalTo(ViewSizes.extraSmall.rawValue)
         }
         mainStack.addArrangedSubview(valueLabel)
         
@@ -102,6 +103,11 @@ class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
         infoButton.setup(with: viewModel?.infoImage)
         infoButton.isHidden = viewModel?.infoImage == nil
         valueLabel.setup(with: viewModel?.value)
+        
+        titleLabel.snp.makeConstraints { make in
+            make.width.equalTo(titleLabel.frame.width)
+        }
+        needsUpdateConstraints()
     }
     
     @objc func infoButtonTapped() {
