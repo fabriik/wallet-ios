@@ -41,6 +41,7 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
         return amountFrom(decimal: to, currency: toCurrency)
     }
     
+    var isInputFiat = false
     var paymentCard: PaymentCard?
     var allPaymentCards: [PaymentCard]?
     

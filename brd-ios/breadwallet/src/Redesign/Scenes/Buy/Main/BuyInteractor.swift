@@ -71,14 +71,16 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         }
         
         if let value = viewAction.tokenValue {
-            dataStore?.to = decimalFor(amount: value)
+            dataStore?.to = ExchangeFormatter.crypto.number(from: value)?.decimalValue
             dataStore?.from = (dataStore?.to ?? 0) / rate
+            dataStore?.isInputFiat = false
             getFees()
         } else if let value = viewAction.fiatValue {
-            dataStore?.from = decimalFor(amount: value)
+            dataStore?.isInputFiat = true
+            dataStore?.from = ExchangeFormatter.fiat.number(from: value)?.decimalValue
             dataStore?.to = (dataStore?.from ?? 0) * rate
-        } else {
         }
+        
         presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount, card: dataStore?.paymentCard))
     }
     
@@ -95,8 +97,12 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                 self?.presenter?.presentExchangeRate(actionResponse: .init(from: from,
                                                                            to: toCurrency,
                                                                            rate: quote?.exchangeRate,
-                                                                           expires: (quote?.timestamp ?? 0) + 60))
-                self?.setAmount(viewAction: .init(tokenValue: (self?.dataStore?.to ?? 0).description))
+                                                                           expires: (quote?.timestamp ?? 0) + 600))
+                guard self?.dataStore?.isInputFiat == true else {
+                    self?.setAmount(viewAction: .init(tokenValue: (self?.dataStore?.to ?? 0).description))
+                    return
+                }
+                self?.setAmount(viewAction: .init(fiatValue: (self?.dataStore?.from ?? 0).description))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
