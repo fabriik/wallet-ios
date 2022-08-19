@@ -49,6 +49,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
     func showSwapDetails(exchangeId: String) {
         open(scene: SwapDetailsViewController.self) { vc in
             vc.dataStore?.itemId = exchangeId
+            vc.dataStore?.sceneTitle = "Swap details" // TODO: Localize
             vc.prepareData()
         }
     }
