@@ -129,6 +129,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             EstimateFeeWorker().execute(requestData: data) { [weak self] result in
                 switch result {
                 case .success(let fee):
+                    self?.dataStore?.toFee = nil
                     self?.dataStore?.ethFee = fee?.fee
                     self?.setAmount(viewAction: .init())
                     
@@ -144,6 +145,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                                isStake: false) { [weak self] result in
                 switch result {
                 case .success(let fee):
+                    self?.dataStore?.ethFee = nil
                     self?.dataStore?.toFee = fee
                     self?.setAmount(viewAction: .init())
                     
