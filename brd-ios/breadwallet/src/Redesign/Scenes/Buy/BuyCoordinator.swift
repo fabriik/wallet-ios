@@ -132,7 +132,10 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
                                      shouldDisableBiometrics: true)
         
         let nvc = RootNavigationController(rootViewController: vc)
-        vc.confirmationCallback = { pin in
+        vc.confirmationCallback = { [weak self] pin in
+            if pin == nil {
+                self?.showMessage(with: BuyErrors.pinConfirmation)
+            }
             callback?(pin)
             nvc.dismiss(animated: true)
         }
