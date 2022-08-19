@@ -54,19 +54,13 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
             .submit
         ]
         
-        let imageVM: ImageViewModel
-        if let image = card.image {
-            imageVM = .image(image)
-        } else {
-            imageVM = .imageName("credit_card_icon")
-        }
         let sectionRows: [Models.Sections: [Any]] = [
             .orderInfoCard: [
                 wrappedViewModel
             ],
             .payment: [
-                PaymentMethodViewModel(logo: imageVM,
-                                       cardNumber: .text(CardDetailsFormatter.formatNumber(last4: card.last4)),
+                PaymentMethodViewModel(logo: card.displayImage,
+                                       cardNumber: .text(card.displayName),
                                        expiration: .text(CardDetailsFormatter.formatExpirationDate(month: card.expiryMonth, year: card.expiryYear)))
             ],
             .termsAndConditions: [

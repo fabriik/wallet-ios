@@ -59,6 +59,11 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         return view
     }()
     
+    private lazy var spacerView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     private lazy var arrowImageView: FEImageView = {
         let view = FEImageView()
         return view
@@ -91,11 +96,11 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
             make.height.equalTo(ViewSizes.medium.rawValue)
         }
         
-        let spacer = UIView()
-        containerStack.addArrangedSubview(spacer)
-        spacer.snp.makeConstraints { make in
+        containerStack.addArrangedSubview(spacerView)
+        spacerView.snp.makeConstraints { make in
             make.width.lessThanOrEqualToSuperview().priority(.low)
         }
+        
         containerStack.addArrangedSubview(arrowImageView)
         arrowImageView.snp.makeConstraints { make in
             make.width.equalTo(ViewSizes.small.rawValue)
@@ -130,6 +135,7 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         
         arrowImageView.setup(with: viewModel?.arrow)
         arrowImageView.isHidden = viewModel?.expiration != nil && titleLabel.isHidden
+        spacerView.isHidden = arrowImageView.isHidden
         
         layoutIfNeeded()
         
