@@ -22,6 +22,7 @@ struct ExchangeFormatter {
     static var fiat: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2
         return formatter
     }
