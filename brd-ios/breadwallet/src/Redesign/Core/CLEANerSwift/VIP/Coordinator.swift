@@ -97,7 +97,7 @@ class BaseCoordinator: NSObject,
     }
     
     func showSwap(currencies: [Currency], coreSystem: CoreSystem, keyStore: KeyStore) {
-        upgradeAccountOrShowPopup(checkForKyc: true) { [weak self] showPopup in
+        upgradeAccountOrShowPopup(checkForCustomerRole: .kyc1) { [weak self] showPopup in
             guard showPopup else { return }
             
             self?.openModally(coordinator: SwapCoordinator.self, scene: Scenes.Swap) { vc in
@@ -112,7 +112,7 @@ class BaseCoordinator: NSObject,
     }
     
     func showBuy(coreSystem: CoreSystem?, keyStore: KeyStore?) {
-        upgradeAccountOrShowPopup(checkForKyc: true) { [weak self] showPopup in
+        upgradeAccountOrShowPopup(checkForCustomerRole: .kyc2) { [weak self] showPopup in
             guard showPopup else { return }
             
             self?.openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy) { vc in
@@ -125,7 +125,7 @@ class BaseCoordinator: NSObject,
     }
     
     func showProfile() {
-        upgradeAccountOrShowPopup(checkForKyc: false) { [weak self] _ in
+        upgradeAccountOrShowPopup { [weak self] _ in
             self?.openModally(coordinator: ProfileCoordinator.self, scene: Scenes.Profile)
         }
     }
@@ -228,7 +228,7 @@ class BaseCoordinator: NSObject,
     
     // It prepares the next KYC coordinator OR returns true.
     // In which case we show 3rd party popup or continue to Buy/Swap.
-    func upgradeAccountOrShowPopup(checkForKyc: Bool, completion: ((Bool) -> Void)?) {
+    func upgradeAccountOrShowPopup(checkForCustomerRole: CustomerRole? = nil, completion: ((Bool) -> Void)?) {
         let nvc = RootNavigationController()
         var coordinator: Coordinatable?
         
@@ -240,25 +240,20 @@ class BaseCoordinator: NSObject,
                 
                 let roles = profile.roles
                 let status = profile.status
-                let canBuyTrade = status.canBuyTrade
                 
                 isKYCLevelTwo = status == .levelTwo(.levelTwo)
                 
-                if roles.contains(.unverified) || roles.isEmpty == true ||
-                    status == .emailPending || status == .none {
+                if roles.contains(.unverified)
+                    || roles.isEmpty == true
+                    || status == .emailPending
+                    || status == .none {
                     coordinator = RegistrationCoordinator(navigationController: nvc)
                     
-                } else if roles.contains(.customer) || canBuyTrade {
-                    if checkForKyc && canBuyTrade == false {
-                        coordinator = KYCCoordinator(navigationController: nvc)
-                        
-                    } else {
-                        completion?(true)
-                        
-                        return
-                        
-                    }
-                    
+                } else if let kycLevel = checkForCustomerRole,
+                          roles.contains(kycLevel) {
+                    completion?(true)
+                } else {
+                    coordinator = KYCCoordinator(navigationController: nvc)
                 }
                 
             case .failure(let error):
