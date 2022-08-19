@@ -79,7 +79,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         
         if  actionResponse.isCardFee,
             let fee = actionResponse.fee {
-            let feeText = String(format: "An extra fee of %.0f%% is required to cover processing of credit card purchases.%.0f", fee.doubleValue)
+            let feeText = String(format: "An extra fee of %.0f%% is required to cover processing of credit card purchases.", fee.doubleValue)
             model = .init(title: .text("Card fee"), body: feeText)
         } else {
             model = Presets.BuyPopupView.cardSecurityCode
