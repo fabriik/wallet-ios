@@ -11,12 +11,18 @@
 import Foundation
 
 struct ExchangeFormatter {
-    static var main: NumberFormatter {
+    static var crypto: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 8
-        
+        return formatter
+    }
+    
+    static var fiat: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
         return formatter
     }
 }

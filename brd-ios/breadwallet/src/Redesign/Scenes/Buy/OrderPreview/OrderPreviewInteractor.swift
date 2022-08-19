@@ -56,8 +56,10 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
             return
         }
         
+        let total = from + (dataStore?.networkFee?.fiatValue ?? 0) + from * (dataStore?.quote?.buyFee ?? 1) / 100
+        let rounded = Double(round(total.doubleValue * 100) / 100)
         let data = SwapRequestData(quoteId: dataStore?.quote?.quoteId,
-                                   depositQuantity: from,
+                                   depositQuantity: Decimal(rounded),
                                    withdrawalQuantity: to,
                                    destination: address,
                                    sourceInstrumentId: dataStore?.card?.id,
