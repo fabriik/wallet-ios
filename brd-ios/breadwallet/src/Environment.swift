@@ -12,13 +12,14 @@ import UIKit
 
 /// Environment Flags
 struct E {
-
+    
     static let isTestnet: Bool = {
-        #if TESTNET
+        /*#if TESTNET
             return true
         #else
             return false
-        #endif
+        #endif*/
+        return true
     }()
     
     static let isTestFlight: Bool = {
@@ -114,6 +115,7 @@ struct E {
               !url.isEmpty else {
             fatalError("Env not configured properly")
         }
+        //let url = String("")
         return url
     }
     

@@ -44,12 +44,21 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
+            BlueprintIdentifier = "75A2A78F1DA5934300A983D8"
+            BuildableName = "breadwallet.app"
+            BlueprintName = "breadwallet"
+            ReferencedContainer = "container:breadwallet.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
             BlueprintIdentifier = "3AFAD8FD25674F56005853E8"
             BuildableName = "BRDClip.app"
             BlueprintName = "BRDClip"
             ReferencedContainer = "container:breadwallet.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "_XCAppClipURL"

@@ -285,11 +285,46 @@ struct CurrencyFileManager {
     
     // Converts an array of CurrencyMetaData to a dictionary keyed on uid
     static func processCurrencies(_ currencies: [CurrencyMetaData], completion: ([CurrencyId: CurrencyMetaData]) -> Void) {
-        let currencyMetaData = currencies.reduce(into: [CurrencyId: CurrencyMetaData](), { (dict, token) in
+        //let currencyMetaData = currencies.reduce(into: [CurrencyId: CurrencyMetaData](), { (dict, token) in
+        var currencyMetaData = currencies.reduce(into: [CurrencyId: CurrencyMetaData](), { (dict, token) in
             dict[token.uid] = token
         })
         
         print("[CurrencyList] tokens updated: \(currencies.count) tokens")
+        
+        var tokenSfp: CurrencyMetaData
+        let color1Sfp: UIColor = UIColor.blue
+        let color2Sfp: UIColor = UIColor.almostBlack
+        let colorsSfp: (UIColor, UIColor) = (color1Sfp, color2Sfp)
+        if(E.isTestnet) {
+            let currencySfp:CurrencyId = CurrencyId(rawValue: String("bitcoinrpc-testnet:__native__"))
+            
+            tokenSfp = CurrencyMetaData(uid:currencySfp,code:"sfp",isSupported:true,colors:colorsSfp,name:"SFP",tokenAddress:"__native__",decimals:UInt8(0),type:"native")
+            
+            currencyMetaData[currencySfp] = tokenSfp
+        } else {
+            let currencySfp:CurrencyId = CurrencyId(rawValue: String("bitcoinrpc-mainnet:__native__"))
+            
+            tokenSfp = CurrencyMetaData(uid:currencySfp,code:"sfp",isSupported:true,colors:colorsSfp,name:"SFP",tokenAddress:"__native__",decimals:UInt8(0),type:"native")
+            currencyMetaData[currencySfp] = tokenSfp
+        }
+        
+        var tokenRun:CurrencyMetaData
+        let color1Run:UIColor = UIColor.almostBlack
+        let color2Run:UIColor = UIColor.magenta
+        let colorsRun:(UIColor, UIColor) = (color1Run,color2Run)
+        if(E.isTestnet) {
+            let currencyRun:CurrencyId = CurrencyId(rawValue: String("whatsonchain-testnet:__native__"))
+            
+            tokenRun = CurrencyMetaData(uid:currencyRun,code:"run",isSupported:true,colors:colorsRun,name:"RUN",tokenAddress:"__native__",decimals:UInt8(0),type:"native")
+            
+            currencyMetaData[currencyRun] = tokenRun
+        } else {
+            let currencyRun:CurrencyId = CurrencyId(rawValue: String("whatsonchain-mainnet:__native__"))
+            
+            tokenRun = CurrencyMetaData(uid:currencyRun,code:"run",isSupported:true,colors:colorsRun,name:"RUN",tokenAddress:"__native__",decimals:UInt8(0),type:"native",coinGeckoId:"run")
+            currencyMetaData[currencyRun] = tokenRun
+        }
         
         completion(currencyMetaData)
     }

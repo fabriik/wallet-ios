@@ -26,17 +26,25 @@ struct KeychainKey {
     public static let biometricsTransactions = "biometricsTransactions"
     public static let mnemonic = "mnemonic"
     public static let creationTime = "creationtime"
+    //ACCOUNT 1
     public static let pin = "pin"
+    public static let apiUserAccount = "https://" + E.apiUrl + "blocksatoshi/wallet"
+    public static let systemAccount = "systemAccount"
+    public static let seed = "seed" // deprecated
+    public static let masterPubKey = "masterpubkey" // deprecated 
+    //ACCOUNT 2
+    /*public static let pin = "pin2"
+    public static let apiUserAccount = "https://" + E.apiUrl + "blocksatoshi/wallet2"
+    public static let systemAccount = "systemAccount2"
+    public static let seed = "seed2" // deprecated
+    public static let masterPubKey = "masterpubkey2" // deprecated */
+
     public static let pinFailCount = "pinfailcount"
     public static let pinFailTime = "pinfailheight"
     public static let apiAuthKey = "authprivkey"
-    public static let apiUserAccount = "https://" + E.apiUrl + "blocksatoshi/wallet"
     public static let bdbClientToken = "bdbClientToken3"
     public static let bdbAuthUser = "bdbAuthUser3"
     public static let bdbAuthToken = "bdbAuthToken3"
-    public static let systemAccount = "systemAccount"
-    public static let seed = "seed" // deprecated
-    public static let masterPubKey = "masterpubkey" // deprecated
     public static let ethPrivKey = "ethprivkey" // deprecated
     public static let fixerAPIToken = "fixerAPIToken"
     public static let cloudPinFailCount = "cloudPinFailCount"

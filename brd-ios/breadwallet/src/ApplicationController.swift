@@ -14,6 +14,8 @@ import IQKeyboardManagerSwift
 import WidgetKit
 #endif
 
+import BitcoinCore
+
 private let timeSinceLastExitKey = "TimeSinceLastExit"
 private let shouldRequireLoginTimeoutKey = "ShouldRequireLoginTimeoutKey"
 
@@ -213,6 +215,10 @@ class ApplicationController: Subscriber, Trackable {
                     
                     self.wipeWalletIfNeeded()
                 }
+                
+                let storagePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path
+                
+                authorizerInitializeTables(storagePath)
             }
         }
     }

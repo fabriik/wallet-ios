@@ -82,6 +82,9 @@ class HomeScreenCell: UITableViewCell, Subscriber {
         fiatBalance.textColor = viewModel.currency.isSupported ? .black : .transparentBlack
         tokenBalance.text = viewModel.tokenBalance
         priceChangeView.isHidden = false
+        if(viewModel.currency.metaData.code == "sfp" || viewModel.currency.metaData.code == "run") {
+            priceChangeView.isHidden = true
+        }
         priceChangeView.currency = viewModel.currency
         container.setNeedsDisplay()
         Store.subscribe(self, selector: { $0[viewModel.currency]?.syncState != $1[viewModel.currency]?.syncState },
