@@ -27,6 +27,14 @@ enum AddCardModels {
             var cvv: String?
             var expirationDateIndex: PickerViewViewController.Index?
         }
+        
+        struct ActionResponse {
+            var dataStore: AddCardStore?
+        }
+        
+        struct ResponseDisplay {
+            var model: BankCardInputDetailsViewModel
+        }
     }
     
     struct Validate {

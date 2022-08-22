@@ -20,12 +20,14 @@ protocol AddCardViewActions: BaseViewActions, FetchViewActions {
 }
 
 protocol AddCardActionResponses: BaseActionResponses, FetchActionResponses {
+    func presentCardInfo(actionResponse: AddCardModels.CardInfo.ActionResponse)
     func presentValidate(actionResponse: AddCardModels.Validate.ActionResponse)
     func presentSubmit(actionResponse: AddCardModels.Submit.ActionResponse)
     func presentInfoPopup(actionResponse: AddCardModels.InfoPopup.ActionResponse)
 }
 
 protocol AddCardResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
+    func displayCardInfo(responseDisplay: AddCardModels.CardInfo.ResponseDisplay)
     func displayValidate(responseDisplay: AddCardModels.Validate.ResponseDisplay)
     func displaySubmit(responseDisplay: AddCardModels.Submit.ResponseDisplay)
     func displayInfoPopup(responseDisplay: AddCardModels.InfoPopup.ResponseDisplay)

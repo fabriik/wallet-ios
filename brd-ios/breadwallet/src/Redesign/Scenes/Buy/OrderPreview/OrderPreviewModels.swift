@@ -58,7 +58,7 @@ enum OrderPreviewModels {
         }
         
         struct ActionResponse {
-            var cvv: String?
+            var isValid: Bool
         }
         
         struct ResponseDisplay {

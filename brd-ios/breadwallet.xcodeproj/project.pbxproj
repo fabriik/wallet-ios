@@ -174,6 +174,7 @@
 		7B54E5B727F4A2B1002DD1E4 /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54E59127F4A2B0002DD1E4 /* RoundedView.swift */; };
 		7B54E5BB27F4A2B1002DD1E4 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54E59527F4A2B0002DD1E4 /* LoadingView.swift */; };
 		7B62ACF928B381BE00CE81E7 /* TimeoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B62ACF828B381BE00CE81E7 /* TimeoutViewController.swift */; };
+		7B62ACFB28B3BDA000CE81E7 /* String+Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B62ACFA28B3BDA000CE81E7 /* String+Chunk.swift */; };
 		7B78631A2874266A0092F35B /* SwapCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7863192874266A0092F35B /* SwapCoordinator.swift */; };
 		7B78631C287427680092F35B /* MainSwapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B78631B287427680092F35B /* MainSwapView.swift */; };
 		7B78631E2874D36D0092F35B /* SwapCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B78631D2874D36D0092F35B /* SwapCurrencyView.swift */; };
@@ -1175,6 +1176,7 @@
 		7B54E59127F4A2B0002DD1E4 /* RoundedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
 		7B54E59527F4A2B0002DD1E4 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		7B62ACF828B381BE00CE81E7 /* TimeoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeoutViewController.swift; sourceTree = "<group>"; };
+		7B62ACFA28B3BDA000CE81E7 /* String+Chunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Chunk.swift"; sourceTree = "<group>"; };
 		7B7863192874266A0092F35B /* SwapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapCoordinator.swift; sourceTree = "<group>"; };
 		7B78631B287427680092F35B /* MainSwapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSwapView.swift; sourceTree = "<group>"; };
 		7B78631D2874D36D0092F35B /* SwapCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapCurrencyView.swift; sourceTree = "<group>"; };
@@ -2886,6 +2888,7 @@
 				7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */,
 				7B8CF81D28A3D0C600D54D14 /* CardDetailsFormatter.swift */,
 				7B8CF81F28A64B9300D54D14 /* ExchangeFormatter.swift */,
+				7B62ACFA28B3BDA000CE81E7 /* String+Chunk.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -4758,6 +4761,7 @@
 				CEE20C2F1EA3E5820086F724 /* BlinkingView.swift in Sources */,
 				7B2E5055289A5F02008CACD8 /* AddCardVIP.swift in Sources */,
 				3A6C13FF257D463300EA0689 /* GiftHeaderView.swift in Sources */,
+				7B62ACFB28B3BDA000CE81E7 /* String+Chunk.swift in Sources */,
 				CEC6AA441DEFCDE900EE5AFD /* ModalViewController.swift in Sources */,
 				7ECCA99728742E1700F99368 /* UIApplication+ActiveWindow.swift in Sources */,
 				CEF7D94622CE6AC000939D19 /* HistoryPeriodButton.swift in Sources */,

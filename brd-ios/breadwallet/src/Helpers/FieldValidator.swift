@@ -20,4 +20,10 @@ struct FieldValidator {
         
         return fieldValidationIsAllowed.values.contains(where: { $0 == false }) == false
     }
+    
+    static func validate(CVV: String) -> Bool {
+        let isValid = CVV.count > 2 && CVV.count < 5
+        
+        return isValid
+    }
 }

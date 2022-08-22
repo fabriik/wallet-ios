@@ -113,6 +113,13 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
 
     // MARK: - AddCardResponseDisplay
     
+    func displayCardInfo(responseDisplay: AddCardModels.CardInfo.ResponseDisplay) {
+        guard let section = sections.firstIndex(of: Models.Section.cardDetails),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<BankCardInputDetailsView> else { return }
+        
+        cell.wrappedView.setup(with: responseDisplay.model)
+    }
+    
     func displayValidate(responseDisplay: AddCardModels.Validate.ResponseDisplay) {
         guard let section = sections.firstIndex(of: Models.Section.confirm),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton> else { return }
