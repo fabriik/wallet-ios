@@ -27,6 +27,7 @@ enum SwapErrors: FEError {
     case networkFee
     case overExchangeLimit
     case pinConfirmation
+    case failed(error: Error?)
     
     var errorMessage: String {
         switch self {
@@ -72,6 +73,9 @@ enum SwapErrors: FEError {
             
         case .notEnouthEthForFee(let fee):
             return "Not enouth ETH to pay for the network fee. Please deposit at least \(fee.description) ETH."
+            
+        case .failed(let error):
+            return "Swap failed. Reason: \(error?.localizedDescription ?? "unknown")"
         }
     }
 }

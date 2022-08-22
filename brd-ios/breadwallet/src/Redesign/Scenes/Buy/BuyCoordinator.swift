@@ -58,6 +58,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showFailure() {
         open(scene: Scenes.Failure) { vc in
+            vc.failure = FailureReason.buy
             vc.firstCallback = { [weak self] in
                 CATransaction.begin()
                 CATransaction.setCompletionBlock {

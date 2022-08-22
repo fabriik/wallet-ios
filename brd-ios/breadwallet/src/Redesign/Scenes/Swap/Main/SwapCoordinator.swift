@@ -54,5 +54,23 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
         }
     }
     
+    func showFailure() {
+        open(scene: Scenes.Failure) { vc in
+            vc.failure = FailureReason.swap
+            vc.firstCallback = { [weak self] in
+                CATransaction.begin()
+                CATransaction.setCompletionBlock {
+                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getPaymentCards(viewAction: .init())
+                }
+                self?.navigationController.popToRootViewController(animated: true)
+                CATransaction.commit()
+            }
+            
+            vc.secondCallback = { [weak self] in
+                self?.navigationController.dismiss(animated: true)
+            }
+        }
+    }
+    
     // MARK: - Aditional helpers
 }

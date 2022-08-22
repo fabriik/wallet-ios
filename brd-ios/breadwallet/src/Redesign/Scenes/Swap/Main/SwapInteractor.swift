@@ -332,7 +332,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 self?.createTransaction(from: data)
                 
             case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.failed(error: error)))
             }
         }
     }

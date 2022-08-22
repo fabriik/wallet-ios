@@ -73,6 +73,14 @@ class BaseInfoViewController: BaseTableViewController<BaseCoordinator,
         }
     }
     
+    override func prepareData() {
+        super.prepareData()
+        
+        for (button, model) in zip(buttonStack.arrangedSubviews, buttonViewModels) {
+            (button as? FEButton)?.setup(with: model)
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch sections[section] as? Models.Section {
         case .image:
