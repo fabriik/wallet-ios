@@ -15,8 +15,8 @@ enum SwapModels {
     typealias Item = (from: Currency?, to: Currency?, quote: Quote?, isKYCLevelTwo: Bool?)
     
     enum Sections: Sectionable {
-        case accountLimits
         case rateAndTimer
+        case accountLimits
         case swapCard
         case errors
         

@@ -30,8 +30,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let limitValue = isKYCLevelTwo ? "$10,000.00" : "$1,000.00"
         
         let sections: [Models.Sections] = [
-            .accountLimits,
             .rateAndTimer,
+            .accountLimits,
             .swapCard,
             .errors
         ]
@@ -42,10 +42,10 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         // TODO: Localize
         
         let sectionRows: [Models.Sections: [Any]] = [
-            .accountLimits: [ LabelViewModel.text("Currently, minimum limit for swap is $50.00 USD and maximum limit is \(limitValue) USD/day.")
-            ],
             .rateAndTimer: [
                 exchangeRateViewModel
+            ],
+            .accountLimits: [ LabelViewModel.text("Currently, minimum limit for swap is $50.00 USD and maximum limit is \(limitValue) USD/day.")
             ],
             .swapCard: [
                 MainSwapViewModel(from: .init(amount: .zero(from), fee: .zero(from), title: "I have 0 \(from.code)", feeDescription: "Sending network fee\n(included)"),
