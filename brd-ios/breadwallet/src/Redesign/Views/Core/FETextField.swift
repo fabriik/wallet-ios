@@ -30,6 +30,7 @@ struct TextFieldConfiguration: Configurable {
     var autocapitalizationType: UITextAutocapitalizationType = .sentences
     var autocorrectionType: UITextAutocorrectionType = .default
     var keyboardType: UIKeyboardType = .default
+    var secureTextEntry: Bool = false
 }
 
 struct TextFieldModel: ViewModel {
@@ -221,6 +222,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         textField.autocapitalizationType = config.autocapitalizationType
         textField.autocorrectionType = config.autocorrectionType
         textField.keyboardType = config.keyboardType
+        textField.isSecureTextEntry = config.secureTextEntry
         
         if let textConfig = config.textConfiguration {
             textField.font = textConfig.font
