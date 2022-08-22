@@ -74,12 +74,12 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             dataStore?.to = ExchangeFormatter.crypto.number(from: value)?.decimalValue
             dataStore?.from = (dataStore?.to ?? 0) / rate
             dataStore?.isInputFiat = false
-            getFees()
         } else if let value = viewAction.fiatValue {
             dataStore?.isInputFiat = true
             dataStore?.from = ExchangeFormatter.fiat.number(from: value)?.decimalValue
             dataStore?.to = (dataStore?.from ?? 0) * rate
         }
+        getFees()
         
         presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount, card: dataStore?.paymentCard))
     }
@@ -123,36 +123,39 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
               let value = dataStore?.amountFrom(decimal: to.tokenValue, currency: to.currency)
         else { return }
         
-        if to.currency.isEthereumCompatible {
-            let address = dataStore?.address(for: to.currency)
-            let data = EstimateFeeRequestData(amount: to.tokenValue,
-                                              currency: to.currency.code,
-                                              destination: address)
-            EstimateFeeWorker().execute(requestData: data) { [weak self] result in
-                switch result {
-                case .success(let fee):
-                    self?.dataStore?.toFee = nil
-                    self?.dataStore?.ethFee = fee?.fee
-                    self?.setAmount(viewAction: .init())
-                    
-                case .failure(let error):
+        let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
+        sender.estimateFee(address: address,
+                           amount: value,
+                           tier: .regular,
+                           isStake: false) { [weak self] result in
+            switch result {
+            case .success(let fee):
+                self?.dataStore?.ethFee = nil
+                self?.dataStore?.toFee = fee
+                
+                self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
+                                                                     card: self?.dataStore?.paymentCard))
+                
+            case .failure(let error):
+                guard to.currency.isEthereumCompatible == true else {
                     self?.presenter?.presentError(actionResponse: .init(error: error))
+                    return
                 }
-            }
-        } else {
-            let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-            sender.estimateFee(address: address,
-                               amount: value,
-                               tier: .regular,
-                               isStake: false) { [weak self] result in
-                switch result {
-                case .success(let fee):
-                    self?.dataStore?.ethFee = nil
-                    self?.dataStore?.toFee = fee
-                    self?.setAmount(viewAction: .init())
-                    
-                case .failure(let error):
-                    self?.presenter?.presentError(actionResponse: .init(error: error))
+                let address = self?.dataStore?.address(for: to.currency)
+                let data = EstimateFeeRequestData(amount: to.tokenValue,
+                                                  currency: to.currency.code,
+                                                  destination: address)
+                EstimateFeeWorker().execute(requestData: data) { [weak self] result in
+                    switch result {
+                    case .success(let fee):
+                        self?.dataStore?.toFee = nil
+                        self?.dataStore?.ethFee = fee?.fee
+                        self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
+                                                                             card: self?.dataStore?.paymentCard))
+                        
+                    case .failure(let error):
+                        self?.presenter?.presentError(actionResponse: .init(error: error))
+                    }
                 }
             }
         }
