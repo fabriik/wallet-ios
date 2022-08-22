@@ -13,7 +13,7 @@ import SnapKit
 
 extension TextFieldConfiguration {
     mutating func setSecure(_ isSecure: Bool) -> TextFieldConfiguration {
-        secureTextEntry = isSecure
+        isSecureTextEntry = isSecure
         return self
     }
 }
