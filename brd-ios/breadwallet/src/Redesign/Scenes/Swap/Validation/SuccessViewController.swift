@@ -15,7 +15,7 @@ extension Scenes {
 }
 
 class SuccessViewController: BaseInfoViewController {
-    override var imageName: String? { return "statusIcon" }
+    override var imageName: String? { return "successStatusIcon" }
     override var titleText: String? { return "Your assets are on the way!" }
     override var descriptionText: String? { return "This purchase will appear as ‘Fabriik Wallet’ on your bank statement." }
     override var buttonViewModels: [ButtonViewModel] {

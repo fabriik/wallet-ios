@@ -66,6 +66,18 @@ enum OrderPreviewModels {
         }
     }
     
+    struct ExpirationValidations {
+        struct ViewAction {}
+        
+        struct ActionResponse {
+            var isTimedOut: Bool
+        }
+        
+        struct ResponseDisplay {
+            var isTimedOut: Bool
+        }
+    }
+    
     struct Submit {
         struct ViewAction {}
         

@@ -94,10 +94,15 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             switch result {
             case .success(let quote):
                 self?.dataStore?.quote = quote
+                
+                // TODO: Should be updated when BE returns the right value.
+                // (quote?.timestamp ?? 0) + (9 * 60 * 1000) = 1 Min + 540.000 Seconds = 10 Mins.
+                self?.dataStore?.expirationTimestamp = (quote?.timestamp ?? 0) + (9 * 60 * 1000)
+                
                 self?.presenter?.presentExchangeRate(actionResponse: .init(from: from,
                                                                            to: toCurrency,
                                                                            rate: quote?.exchangeRate,
-                                                                           expires: (quote?.timestamp ?? 0) + 600))
+                                                                           expires: self?.dataStore?.expirationTimestamp))
                 guard self?.dataStore?.isInputFiat == true else {
                     self?.setAmount(viewAction: .init(tokenValue: (self?.dataStore?.to ?? 0).description))
                     return

@@ -42,7 +42,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             return
         }
         
-        let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1/rate) ?? "/", from.uppercased())
+        let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1 / rate) ?? "/", from.uppercased())
         
         let model = ExchangeRateViewModel(exchangeRate: text,
                                           timer: TimerViewModel(till: actionResponse.expires ?? 0,

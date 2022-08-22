@@ -96,8 +96,13 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
     }
     
     func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse) {
-        let enabled = actionResponse.cvv?.count == 3
+        let cvvCount = actionResponse.cvv?.count ?? 0
+        let enabled = cvvCount > 2 && cvvCount < 5
         viewController?.displayCvv(responseDisplay: .init(continueEnabled: enabled))
+    }
+    
+    func presentTimeOut(actionResponse: OrderPreviewModels.ExpirationValidations.ActionResponse) {
+        viewController?.displayTimeOut(responseDisplay: .init(isTimedOut: actionResponse.isTimedOut))
     }
     
     func presentSubmit(actionResponse: OrderPreviewModels.Submit.ActionResponse) {

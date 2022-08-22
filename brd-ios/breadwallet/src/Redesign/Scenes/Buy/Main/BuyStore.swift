@@ -50,6 +50,8 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     var currencies: [Currency] = Store.state.currencies
     var supportedCurrencies: [SupportedCurrency]?
     
+    var expirationTimestamp: Double = 0.0
+    
     var coreSystem: CoreSystem?
     var keyStore: KeyStore?
     

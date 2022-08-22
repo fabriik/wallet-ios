@@ -15,18 +15,21 @@ extension Scenes {
 }
 
 protocol OrderPreviewViewActions: BaseViewActions, FetchViewActions {
+    func checkTimeOut(viewAction: OrderPreviewModels.ExpirationValidations.ViewAction)
     func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction)
     func updateCvv(viewAction: OrderPreviewModels.CvvValidation.ViewAction)
     func submit(viewAction: OrderPreviewModels.Submit.ViewAction)
 }
 
 protocol OrderPreviewActionResponses: BaseActionResponses, FetchActionResponses {
+    func presentTimeOut(actionResponse: OrderPreviewModels.ExpirationValidations.ActionResponse)
     func presentInfoPopup(actionResponse: OrderPreviewModels.InfoPopup.ActionResponse)
     func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse)
     func presentSubmit(actionResponse: OrderPreviewModels.Submit.ActionResponse)
 }
 
 protocol OrderPreviewResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
+    func displayTimeOut(responseDisplay: OrderPreviewModels.ExpirationValidations.ResponseDisplay)
     func displayInfoPopup(responseDisplay: OrderPreviewModels.InfoPopup.ResponseDisplay)
     func displayCvv(responseDisplay: OrderPreviewModels.CvvValidation.ResponseDisplay)
     func displaySubmit(responseDisplay: OrderPreviewModels.Submit.ResponseDisplay)
@@ -42,6 +45,7 @@ protocol OrderPreviewDataStore: BaseDataStore, FetchDataStore {
     var cvv: String? { get set }
     var paymentReference: String? { get set }
     var paymentstatus: AddCard.Status? { get set }
+    var expirationTimestamp: Double { get set }
 }
 
 protocol OrderPreviewDataPassing {

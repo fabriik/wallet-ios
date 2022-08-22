@@ -103,12 +103,21 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         
         coordinator?.showPinInput(keyStore: dataStore?.keyStore) { [weak self] pin in
             guard pin != nil else { return }
-            LoadingView.show()
-            self?.interactor?.submit(viewAction: .init())
+            
+            self?.interactor?.checkTimeOut(viewAction: .init())
         }
     }
 
     // MARK: - OrderPreviewResponseDisplay
+    
+    func displayTimeOut(responseDisplay: OrderPreviewModels.ExpirationValidations.ResponseDisplay) {
+        if responseDisplay.isTimedOut {
+            coordinator?.showTimeout()
+        } else {
+            LoadingView.show()
+            interactor?.submit(viewAction: .init())
+        }
+    }
     
     func displayInfoPopup(responseDisplay: OrderPreviewModels.InfoPopup.ResponseDisplay) {
         coordinator?.showPopup(with: responseDisplay.model)
