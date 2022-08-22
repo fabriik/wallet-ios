@@ -30,6 +30,14 @@ struct TextFieldConfiguration: Configurable {
     var autocapitalizationType: UITextAutocapitalizationType = .sentences
     var autocorrectionType: UITextAutocorrectionType = .default
     var keyboardType: UIKeyboardType = .default
+    var isSecureTextEntry = false
+}
+
+extension TextFieldConfiguration {
+    mutating func setSecure(_ isSecure: Bool) -> TextFieldConfiguration {
+        isSecureTextEntry = isSecure
+        return self
+    }
 }
 
 struct TextFieldModel: ViewModel {
@@ -227,6 +235,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
             textField.textColor = textConfig.textColor
             textField.textAlignment = textConfig.textAlignment
             textField.tintColor = config.backgroundConfiguration?.tintColor
+            textField.isSecureTextEntry = config.isSecureTextEntry
         }
         
         leadingView.configure(with: config.leadingImageConfiguration)
