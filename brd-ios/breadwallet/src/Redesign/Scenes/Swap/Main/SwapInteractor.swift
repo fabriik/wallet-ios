@@ -194,45 +194,48 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let group = DispatchGroup()
         group.enter()
         
-        if from.currency.isEthereumCompatible {
-            let address = dataStore?.address(for: from.currency)
-            let data = EstimateFeeRequestData(amount: from.tokenValue,
-                                              currency: from.currency.code,
-                                              destination: address)
-            
-            EstimateFeeWorker().execute(requestData: data) { [weak self] result in
-                switch result {
-                case .success(let fee):
-                    self?.dataStore?.fromFeeEth = fee?.fee
-                    
-                case .failure(let error):
-                    self?.presenter?.presentError(actionResponse: .init(error: error))
-                }
+
+        guard let wallet = dataStore?.coreSystem?.wallet(for: from.currency),
+              let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore,
+              let address = dataStore?.address(for: from.currency)
+        else {
+            presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
+            return
+        }
+        
+        var value = amountFrom(decimal: from.tokenValue, currency: from.currency)
+        var sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
+        sender.estimateFee(address: address,
+                           amount: value,
+                           tier: .regular,
+                           isStake: false) { [weak self] result in
+            switch result {
+            case .success(let fee):
+                self?.dataStore?.fromFee = fee
                 group.leave()
-            }
-        } else {
-            guard let wallet = dataStore?.coreSystem?.wallet(for: from.currency),
-                  let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore,
-                  let address = dataStore?.address(for: from.currency)
-            else {
-                presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
-                return
-            }
-            
-            let value = amountFrom(decimal: from.tokenValue, currency: from.currency)
-            let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-            sender.estimateFee(address: address,
-                               amount: value,
-                               tier: .regular,
-                               isStake: false) { [weak self] result in
-                switch result {
-                case .success(let fee):
-                    self?.dataStore?.fromFee = fee
-                    
-                case .failure(let error):
+                
+            case .failure(let error):
+                guard from.currency.isEthereumCompatible == true else {
                     self?.presenter?.presentError(actionResponse: .init(error: error))
+                    group.leave()
+                    return
                 }
-                group.leave()
+                
+                let address = self?.dataStore?.address(for: from.currency)
+                let data = EstimateFeeRequestData(amount: from.tokenValue,
+                                                  currency: from.currency.code,
+                                                  destination: address)
+                
+                EstimateFeeWorker().execute(requestData: data) { [weak self] result in
+                    switch result {
+                    case .success(let fee):
+                        self?.dataStore?.fromFeeEth = fee?.fee
+                        
+                    case .failure(let error):
+                        self?.presenter?.presentError(actionResponse: .init(error: error))
+                    }
+                    group.leave()
+                }
             }
         }
         
@@ -245,8 +248,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         group.enter()
-        let value = amountFrom(decimal: to.tokenValue, currency: to.currency)
-        let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
+        value = amountFrom(decimal: to.tokenValue, currency: to.currency)
+        sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
         sender.estimateFee(address: address,
                            amount: value,
                            tier: .regular,
