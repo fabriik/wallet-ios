@@ -19,7 +19,7 @@ struct BankCardInputDetailsViewModel: ViewModel {
     var cvv: TextFieldModel?
 }
 
-class BankCardInputDetailsView: FEView<BankCardInputDetailsViewConfiguration, BankCardInputDetailsViewModel> {
+class BankCardInputDetailsView: FEView<BankCardInputDetailsViewConfiguration, BankCardInputDetailsViewModel>, UITextFieldDelegate {
     var contentSizeChanged: (() -> Void)?
     var valueChanged: ((_ number: String?, _ cvv: String?) -> Void)?
     var didTriggerExpirationField: (() -> Void)?

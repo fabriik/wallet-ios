@@ -171,10 +171,20 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
         displayState = state
         configure(background: background)
         
-        Self.animate(withDuration: withAnimation ? Presets.Animation.duration : 0) { [weak self] in
-            self?.layoutIfNeeded()
-            self?.contentSizeChanged?()
+        if withAnimation {
+            Self.animate(withDuration: Presets.Animation.duration) { [weak self] in
+                self?.updateLayout()
+            }
+        } else {
+            UIView.performWithoutAnimation { [weak self] in
+                self?.updateLayout()
+            }
         }
+    }
+    
+    private func updateLayout() {
+        layoutIfNeeded()
+        contentSizeChanged?()
     }
     
     func showErrorMessage() {

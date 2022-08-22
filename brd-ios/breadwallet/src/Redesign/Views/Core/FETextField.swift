@@ -344,13 +344,20 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         configure(background: background)
         configure(shadow: config?.shadowConfiguration)
         
-        titleLabel.layoutIfNeeded()
-        
-        Self.animate(withDuration: withAnimation ? Presets.Animation.duration : 0, animations: {
-            self.textFieldContent.layoutIfNeeded()
-        }, completion: { _ in
-            self.contentSizeChanged?()
-        })
+        if withAnimation {
+            Self.animate(withDuration: Presets.Animation.duration) { [weak self] in
+                self?.updateLayout()
+            }
+        } else {
+            UIView.performWithoutAnimation { [weak self] in
+                self?.updateLayout()
+            }
+        }
+    }
+    
+    private func updateLayout() {
+        layoutIfNeeded()
+        contentSizeChanged?()
     }
     
     override func configure(shadow: ShadowConfiguration?) {

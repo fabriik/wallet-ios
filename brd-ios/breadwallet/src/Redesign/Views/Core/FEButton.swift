@@ -140,10 +140,20 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
         titleLabel?.textColor = background?.tintColor
         titleLabel?.font = Fonts.button
         
-        Self.animate(withDuration: withAnimation ? Presets.Animation.duration : 0) { [weak self] in
-            self?.configure(background: background)
-            self?.configure(shadow: shadow)
+        if withAnimation {
+            Self.animate(withDuration: Presets.Animation.duration) { [weak self] in
+                self?.updateLayout(background: background, shadow: shadow)
+            }
+        } else {
+            UIView.performWithoutAnimation { [weak self] in
+                self?.updateLayout(background: background, shadow: shadow)
+            }
         }
+    }
+    
+    private func updateLayout(background: BackgroundConfiguration?, shadow:  ShadowConfiguration?) {
+        configure(background: background)
+        configure(shadow: shadow)
     }
     
     func configure(shadow: ShadowConfiguration?) {

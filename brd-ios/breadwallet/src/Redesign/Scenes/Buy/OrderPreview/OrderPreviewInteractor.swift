@@ -92,7 +92,9 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     func updateCvv(viewAction: OrderPreviewModels.CvvValidation.ViewAction) {
         dataStore?.cvv = viewAction.cvv
         
-        presenter?.presentCvv(actionResponse: .init(cvv: dataStore?.cvv))
+        let isValid = FieldValidator.validate(CVV: dataStore?.cvv ?? "")
+        
+        presenter?.presentCvv(actionResponse: .init(isValid: isValid))
     }
 
     // TODO: Merge the logic with Billing Details. They are the same things. The whole card and 3D secure flow should be reusable.
