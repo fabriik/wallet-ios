@@ -81,7 +81,11 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
             let feeText = String(format: "An extra fee of %.0f%% is required to cover processing of credit card purchases.", fee.doubleValue)
             model = .init(title: .text("Card fee"), body: feeText)
         } else {
-            model = Presets.BuyPopupView.cardSecurityCode
+            
+            model = .init(title: .text("Network fees"),
+                          body: """
+    Network fee prices vary depending on the blockchain in which you are receiving your assets. This is an external fee to cover mining and transaction costs.
+    """)
         }
         
         viewController?.displayInfoPopup(responseDisplay: .init(model: model))
