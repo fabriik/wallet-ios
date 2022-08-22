@@ -47,7 +47,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let model = ExchangeRateViewModel(exchangeRate: text,
                                           timer: TimerViewModel(till: actionResponse.expires ?? 0,
                                                                 repeats: false,
-                                                                isVisible: true))
+                                                                isVisible: false))
         
         viewController?.displayExchangeRate(responseDisplay: model)
     }
