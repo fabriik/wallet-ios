@@ -54,5 +54,18 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
         }
     }
     
+    func showFailure() {
+        open(scene: Scenes.Failure) { vc in
+            vc.failure = FailureReason.swap
+            vc.firstCallback = { [weak self] in
+                self?.navigationController.popToRootViewController(animated: true)
+            }
+            
+            vc.secondCallback = { [weak self] in
+                self?.navigationController.dismiss(animated: true)
+            }
+        }
+    }
+    
     // MARK: - Aditional helpers
 }

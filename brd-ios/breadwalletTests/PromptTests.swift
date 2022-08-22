@@ -38,20 +38,6 @@ class PromptTests: XCTestCase {
         return nil
     }
     
-    func testStandardEmailPromptShowsOnce() {
-        UserDefaults.resetAll()
-        let emailPrompt = StandardEmailCollectingPrompt()
-        XCTAssertTrue(emailPrompt.shouldPrompt(walletAuthenticator: nil))
-        
-        emailPrompt.didPrompt()
-        XCTAssertTrue(UserDefaults.hasPromptedForEmail)
-        
-        emailPrompt.didSubscribe()
-        XCTAssertTrue(UserDefaults.hasSubscribedToEmailUpdates)
-        
-        XCTAssertFalse(emailPrompt.shouldPrompt(walletAuthenticator: nil))
-    }
-    
     func testGetEmailAnnouncement() {
         // 'getAnnouncementsFromFile()' mimics how BRAPIClient+Announcements handles the /announcements endpoint response.
         guard let announcements = getAnnouncementsFromFile(file: "announcement-email"), !announcements.isEmpty else {
@@ -145,10 +131,9 @@ class PromptTests: XCTestCase {
         let noPasscodePrompt = StandardPrompt(type: .noPasscode)
         let paperKeyPrompt = StandardPrompt(type: .paperKey)
         let announcementPrompt = StandardAnnouncementPrompt(announcement: Announcement())
-        let emailPrompt = StandardEmailCollectingPrompt()
         let upgradePinPrompt = StandardPrompt(type: .upgradePin)
         
-        var unsortedPrompts: [Prompt] = [noPasscodePrompt, emailPrompt, announcementPrompt, biometricsPrompt, paperKeyPrompt]
+        var unsortedPrompts: [Prompt] = [noPasscodePrompt, announcementPrompt, biometricsPrompt, paperKeyPrompt]
         unsortedPrompts.sort { (p1, p2) -> Bool in
             return p1.order < p2.order
         }
@@ -166,9 +151,6 @@ class PromptTests: XCTestCase {
 
         // biometrics beats announcements
         XCTAssertTrue(biometricsPrompt.order < announcementPrompt.order)
-        
-        // last prompt should be the email prompt
-        XCTAssertTrue(sorted.last?.order == PromptType.email.rawValue)
     }
     
     func testSupportedAnnouncementTypes() {

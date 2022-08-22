@@ -201,6 +201,9 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         case .noQuote:
             displayRate(responseDisplay: .init(rate: .init()))
             
+        case .failed:
+            coordinator?.showFailure()
+            
         default:
             return
         }

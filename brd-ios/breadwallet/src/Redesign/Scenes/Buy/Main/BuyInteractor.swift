@@ -10,12 +10,12 @@ import UIKit
 
 class BuyInteractor: NSObject, Interactor, BuyViewActions {
     typealias Models = BuyModels
-
+    
     var presenter: BuyPresenter?
     var dataStore: BuyStore?
-
+    
     // MARK: - BuyViewActions
-
+    
     func getData(viewAction: FetchModels.Get.ViewAction) {
         guard let currency = dataStore?.toCurrency else {
             return
@@ -174,7 +174,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         let exchangeLimit = profile?.buyAllowancePerPurchase    ?? 0
         let minimumAmount = dataStore?.quote?.minimumValue ?? 0
         let maximumAmount = dataStore?.quote?.maximumValue ?? 0
-            
+        
         var hasError = false
         switch fiat {
         case _ where fiat <= 0:
@@ -193,7 +193,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             
         case _ where fiat > maximumAmount:
             // over exchange limit ???
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.tooHigh(amount: fiat, currency: "USD")))
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.tooHigh(amount: maximumAmount, currency: "USD")))
             hasError = true
             
         case _ where fiat > dailyLimit:
@@ -217,7 +217,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         }
         
         guard hasError == false else { return }
-
+        
         presenter?.presentOrderPreview(actionResponse: .init())
     }
     
