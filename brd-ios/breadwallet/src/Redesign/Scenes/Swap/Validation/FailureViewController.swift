@@ -69,7 +69,7 @@ enum FailureReason: SimpleMessage {
 import UIKit
 
 extension Scenes {
-    static var Failure = FailureViewController.self
+    static let Failure = FailureViewController.self
 }
 
 class FailureViewController: BaseInfoViewController {
