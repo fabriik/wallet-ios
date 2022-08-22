@@ -154,6 +154,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                                                                              card: self?.dataStore?.paymentCard))
                         
                     case .failure(let error):
+                        self?.dataStore?.ethFee = nil
+                        self?.dataStore?.toFee = nil
                         self?.presenter?.presentError(actionResponse: .init(error: error))
                     }
                 }
