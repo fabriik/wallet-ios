@@ -166,6 +166,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             
             from = dataStore.from?.tokenValue ?? 0
             to =  from * exchangeRate / markup - toFee
+            
         }
         
         dataStore.from = amountFrom(decimal: from, currency: fromCurrency)

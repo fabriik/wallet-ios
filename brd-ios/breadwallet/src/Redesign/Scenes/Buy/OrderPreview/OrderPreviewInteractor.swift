@@ -83,6 +83,12 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         }
     }
     
+    func checkTimeOut(viewAction: OrderPreviewModels.ExpirationValidations.ViewAction) {
+        let isTimedOut = Date().timeIntervalSince1970 > (dataStore?.expirationTimestamp ?? 0) / 1000
+        
+        presenter?.presentTimeOut(actionResponse: .init(isTimedOut: isTimedOut))
+    }
+    
     func updateCvv(viewAction: OrderPreviewModels.CvvValidation.ViewAction) {
         dataStore?.cvv = viewAction.cvv
         

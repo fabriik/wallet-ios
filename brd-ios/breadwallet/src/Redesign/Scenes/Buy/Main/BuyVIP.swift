@@ -45,6 +45,7 @@ protocol BuyDataStore: BaseDataStore, FetchDataStore {
     var paymentCard: PaymentCard? { get set }
     var allPaymentCards: [PaymentCard]? { get set }
     var quote: Quote? { get set }
+    var expirationTimestamp: Double { get set }
 }
 
 protocol BuyDataPassing {
@@ -53,7 +54,14 @@ protocol BuyDataPassing {
 
 protocol BuyRoutes: CoordinatableRoutes {
     // TODO: refactor :S
-    func showOrderPreview(coreSystem: CoreSystem?, keyStore: KeyStore?, to: Amount?, from: Decimal?, card: PaymentCard?, quote: Quote?, networkFee: Amount?)
+    func showOrderPreview(coreSystem: CoreSystem?,
+                          keyStore: KeyStore?,
+                          to: Amount?,
+                          from: Decimal?,
+                          card: PaymentCard?,
+                          quote: Quote?,
+                          networkFee: Amount?,
+                          expirationTimestamp: Double)
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?)
     func showInfo(from: String, to: String, exchangeId: String)
 }
