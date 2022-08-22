@@ -259,6 +259,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayConfirmation(responseDisplay: SwapModels.ShowConfirmDialog.ResponseDisplay) {
+        coordinator?.showFailure()
+        
+        return ()
+        
         let _: WrapperPopupView<SwapConfirmationView>? = coordinator?.showPopup(with: responseDisplay.config,
                                                                                 viewModel: responseDisplay.viewModel,
                                                                                 confirmedCallback: { [weak self] in

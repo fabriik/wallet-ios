@@ -47,7 +47,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.dataStore?.itemId = paymentReference
             
             vc.firstCallback = { [weak self] in
-                self?.popFlow()
+                self?.navigationController.dismiss(animated: true)
             }
             
             vc.secondCallback = { [weak self] in
