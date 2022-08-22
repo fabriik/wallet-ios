@@ -10,7 +10,8 @@
 
 import UIKit
 
-struct BankCardInputDetailsViewConfiguration: Configurable {}
+struct BankCardInputDetailsViewConfiguration: Configurable {
+}
 
 struct BankCardInputDetailsViewModel: ViewModel {
     var number: TextFieldModel?
