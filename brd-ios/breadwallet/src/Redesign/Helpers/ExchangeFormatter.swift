@@ -13,6 +13,7 @@ import Foundation
 struct ExchangeFormatter {
     static var crypto: NumberFormatter {
         let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_US")
         formatter.numberStyle = .decimal
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 8
@@ -21,6 +22,7 @@ struct ExchangeFormatter {
     
     static var fiat: NumberFormatter {
         let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_US")
         formatter.numberStyle = .decimal
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2

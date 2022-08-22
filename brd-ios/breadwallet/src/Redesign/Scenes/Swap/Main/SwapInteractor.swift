@@ -137,38 +137,42 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let from: Decimal
         let to: Decimal
         if let fromCryptoAmount = viewAction.fromCryptoAmount,
-           let fromCrypto = decimalFor(amount: fromCryptoAmount) {
+           let fromCrypto = ExchangeFormatter.crypto.number(from: fromCryptoAmount)?.decimalValue {
             
             from = fromCrypto
             to = fromCrypto * exchangeRate / markup - toFee
             
         } else if let fromFiatAmount = viewAction.fromFiatAmount,
-                  let fromFiat = decimalFor(amount: fromFiatAmount) {
+                  let fromFiat = ExchangeFormatter.fiat.number(from: fromFiatAmount)?.decimalValue {
             
             from = fromFiat / fromRate
             to = from * exchangeRate / markup - toFee
+            
         } else if let toCryptoAmount = viewAction.toCryptoAmount,
-                  let toCrypto = decimalFor(amount: toCryptoAmount) {
+                  let toCrypto = ExchangeFormatter.crypto.number(from: toCryptoAmount)?.decimalValue {
             
             from = (toCrypto + toFee * toFeeRate) / exchangeRate * markup
             to = toCrypto
+            
         } else if let toFiatAmount = viewAction.toFiatAmount,
-                  let toFiat = decimalFor(amount: toFiatAmount) {
+                  let toFiat = ExchangeFormatter.fiat.number(from: toFiatAmount)?.decimalValue {
             
             to = toFiat / toRate
             from = (to + toFee) / exchangeRate * markup
             
         } else {
             guard dataStore.fromCurrency != nil,
-                  dataStore.toCurrency != nil
-            else { return }
+                  dataStore.toCurrency != nil else { return }
             
             from = dataStore.from?.tokenValue ?? 0
             to =  from * exchangeRate / markup - toFee
         }
+        
         dataStore.from = amountFrom(decimal: from, currency: fromCurrency)
-        let minimum = Amount(tokenString: dataStore.quote?.minimumValue.description ?? "", currency: fromCurrency)
         dataStore.to = amountFrom(decimal: to, currency: toCurrency)
+        
+        let minimum = Amount(tokenString: dataStore.quote?.minimumValue.description ?? "", currency: fromCurrency)
+        
         presenter?.presentAmount(actionResponse: .init(from: dataStore.from,
                                                        to: dataStore.to,
                                                        fromFee: dataStore.fromFeeAmount,
@@ -342,16 +346,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     // MARK: - Aditional helpers
-    private func decimalFor(amount: String?) -> Decimal? {
-        guard let amount = amount else {
-            return nil
-        }
-        
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 8 //Int(currency.baseUnit.decimals)
-        
-        return formatter.number(from: amount)?.decimalValue
-    }
     
     private func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
         guard let amount = decimal, spaces > 0 else { return .zero(currency) }
