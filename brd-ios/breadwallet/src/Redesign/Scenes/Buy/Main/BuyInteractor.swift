@@ -191,6 +191,11 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             presenter?.presentError(actionResponse: .init(error: BuyErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
             hasError = true
             
+        case _ where fiat > maximumAmount:
+            // over exchange limit ???
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.tooHigh(amount: fiat, currency: "USD")))
+            hasError = true
+            
         case _ where fiat > dailyLimit:
             // over daily limit
             presenter?.presentError(actionResponse: .init(error: BuyErrors.overDailyLimit))
@@ -204,11 +209,6 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         case _ where fiat > exchangeLimit:
             // over exchange limit ???
             presenter?.presentError(actionResponse: .init(error: BuyErrors.overExchangeLimit))
-            hasError = true
-            
-        case _ where fiat > maximumAmount:
-            // over exchange limit ???
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.tooHigh(amount: fiat, currency: "USD")))
             hasError = true
             
         default:

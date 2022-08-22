@@ -31,7 +31,7 @@ enum BuyErrors: FEError {
                           currency)
             
         case .tooHigh(let amount, let currency):
-            return String(format: "The amount is higher than the buy maximum of %.2f %@ per day.",
+            return String(format: "The amount is higher than your daily limit of %.0f %@.",
                           amount.doubleValue,
                           currency)
             

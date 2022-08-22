@@ -42,7 +42,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             return
         }
         
-        let text = String(format: "1 %@ = %@ %@", from.uppercased(), ExchangeFormatter.crypto.string(for: rate) ?? "/", to.uppercased())
+        let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1/rate) ?? "/", from.uppercased())
         
         let model = ExchangeRateViewModel(exchangeRate: text,
                                           timer: TimerViewModel(till: actionResponse.expires ?? 0,
@@ -83,6 +83,18 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
     
     func presentOrderPreview(actionResponse: BuyModels.OrderPreview.ActionResponse) {
         viewController?.displayOrderPreview(responseDisplay: .init())
+    }
+    
+    func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
+        guard let error = actionResponse.error as? FEError else {
+            viewController?.displayMessage(responseDisplay: .init())
+            return
+        }
+        
+        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
+        let config = Presets.InfoView.swapError
+        
+        viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
     }
     
     // MARK: - Additional Helpers
