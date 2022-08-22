@@ -11,6 +11,13 @@
 import UIKit
 import SnapKit
 
+extension TextFieldConfiguration {
+    mutating func setSecure(_ isSecure: Bool) -> TextFieldConfiguration {
+        secureTextEntry = isSecure
+        return self
+    }
+}
+
 struct TextFieldConfiguration: Configurable {
     var leadingImageConfiguration: BackgroundConfiguration?
     var titleConfiguration: LabelConfiguration?
@@ -30,6 +37,7 @@ struct TextFieldConfiguration: Configurable {
     var autocapitalizationType: UITextAutocapitalizationType = .sentences
     var autocorrectionType: UITextAutocorrectionType = .default
     var keyboardType: UIKeyboardType = .default
+    var isSecureTextEntry: Bool = false
 }
 
 struct TextFieldModel: ViewModel {
@@ -221,6 +229,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         textField.autocapitalizationType = config.autocapitalizationType
         textField.autocorrectionType = config.autocorrectionType
         textField.keyboardType = config.keyboardType
+        textField.isSecureTextEntry = config.isSecureTextEntry
         
         if let textConfig = config.textConfiguration {
             textField.font = textConfig.font
