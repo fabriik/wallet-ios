@@ -85,6 +85,18 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         viewController?.displayOrderPreview(responseDisplay: .init())
     }
     
+    func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
+        guard let error = actionResponse.error as? FEError else {
+            viewController?.displayMessage(responseDisplay: .init())
+            return
+        }
+        
+        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
+        let config = Presets.InfoView.swapError
+        
+        viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
+    }
+    
     // MARK: - Additional Helpers
 
 }
