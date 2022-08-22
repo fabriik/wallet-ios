@@ -10,11 +10,7 @@
 
 import UIKit
 
-struct BankCardInputDetailsViewConfiguration: Configurable {
-    var number: TextFieldConfiguration? = Presets.TextField.number
-    var expiration: TextFieldConfiguration? = Presets.TextField.number
-    var cvv: TextFieldConfiguration? = Presets.TextField.cvv
-}
+struct BankCardInputDetailsViewConfiguration: Configurable {}
 
 struct BankCardInputDetailsViewModel: ViewModel {
     var number: TextFieldModel?
@@ -99,9 +95,8 @@ class BankCardInputDetailsView: FEView<BankCardInputDetailsViewConfiguration, Ba
     override func configure(with config: BankCardInputDetailsViewConfiguration?) {
         super.configure(with: config)
         
-        numberTextField.configure(with: config?.number)
-        expirationTextField.configure(with: config?.expiration)
-        cvvTextField.configure(with: config?.cvv)
+        [numberTextField, expirationTextField].forEach { $0.configure(with: Presets.TextField.number) }
+        cvvTextField.configure(with: Presets.TextField.number.setSecure(true))
     }
     
     override func setup(with viewModel: BankCardInputDetailsViewModel?) {

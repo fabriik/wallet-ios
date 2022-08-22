@@ -151,19 +151,6 @@ extension Presets {
                                                    disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
                                                    errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error),
                                                    keyboardType: .numberPad)
-        
-        static var cvv = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Icons.two),
-                                                titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
-                                                textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                hintConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
-                                                backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
-                                                selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
-                                                disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
-                                                errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error),
-                                                keyboardType: .numberPad,
-                                                secureTextEntry: true)
     }
 }
 
