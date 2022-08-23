@@ -121,6 +121,7 @@ class Transaction {
     enum TransactionType {
         case defaultTransaction
         case swapTransaction
+        case buyTransaction
     }
     
     var transactionType: TransactionType = .defaultTransaction
@@ -131,7 +132,8 @@ class Transaction {
     
     var status: TransactionStatus {
         switch transactionType {
-        case .defaultTransaction:
+        case .defaultTransaction,
+                .buyTransaction:
             switch transfer.state {
             case .created, .signed, .submitted, .pending:
                 return .pending
@@ -158,7 +160,6 @@ class Transaction {
             
         case .swapTransaction:
             return swapTransationStatus ?? .failed
-            
         }
     }
     

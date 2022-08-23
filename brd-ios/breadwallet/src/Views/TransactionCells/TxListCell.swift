@@ -53,6 +53,8 @@ class TxListCell: UITableViewCell {
         case .swapTransaction:
             handleSwapTransactions()
             
+        case .buyTransaction:
+            handleBuyTransactions()
         }
         
         failedIndicator.isHidden = true
@@ -79,6 +81,31 @@ class TxListCell: UITableViewCell {
             timestamp.isHidden = false
             timestamp.text = "\(viewModel.confirmations)/\(viewModel.currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
             
+        }
+        
+        NSLayoutConstraint.activate(completeConstraints)
+        NSLayoutConstraint.deactivate(pendingConstraints)
+    }
+    
+    private func handleBuyTransactions() {
+        switch viewModel.status {
+        case .invalid:
+            timestamp.text = "Purchase failed"
+            failedIndicator.isHidden = false
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
+        case .complete:
+            timestamp.text = "Purchased"
+            failedIndicator.isHidden = true
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
+        default:
+            timestamp.text = "Pending purchase"
+            failedIndicator.isHidden = true
+            statusIndicator.isHidden = false
+            timestamp.isHidden = false
         }
         
         NSLayoutConstraint.activate(completeConstraints)

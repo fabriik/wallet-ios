@@ -27,15 +27,19 @@ class TransferManager {
         })
     }
     
-    func reload() {
+    func reload(completion: (([SwapDetail]?) -> Void)? = nil) {
         worker.execute { [weak self] result in
+            let exchanges: [SwapDetail]
             switch result {
             case .success(let data):
-                self?.exchanges = data ?? []
+                exchanges = data ?? []
                 
             case .failure:
-                self?.exchanges = []
+                exchanges = []
             }
+            
+            self?.exchanges = exchanges
+            completion?(exchanges)
         }
     }
     
