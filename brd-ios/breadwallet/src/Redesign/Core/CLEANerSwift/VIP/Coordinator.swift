@@ -15,6 +15,8 @@ protocol BaseControllable: UIViewController {
 
 protocol Coordinatable: CoordinatableRoutes {
 
+    // TODO: should eventually die
+    var modalPresenter: ModalPresenter? { get set }
     var childCoordinators: [Coordinatable] { get set }
     var navigationController: UINavigationController { get set }
     var parentCoordinator: Coordinatable? { get set }
@@ -26,11 +28,27 @@ protocol Coordinatable: CoordinatableRoutes {
 }
 
 class BaseCoordinator: NSObject,
-                              Coordinatable {
+                       Coordinatable {
 
+    // TODO: should eventually die
+    weak var modalPresenter: ModalPresenter? {
+        get {
+            guard let modalPresenter = presenter else {
+                return parentCoordinator?.modalPresenter
+            }
+
+            return modalPresenter
+        }
+        set {
+            presenter = newValue
+        }
+    }
+    
+    private weak var presenter: ModalPresenter?
     var parentCoordinator: Coordinatable?
     var childCoordinators: [Coordinatable] = []
     var navigationController: UINavigationController
+    var isKYCLevelTwo: Bool?
 
     required init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -38,12 +56,109 @@ class BaseCoordinator: NSObject,
 
     init(viewController: UIViewController) {
         viewController.hidesBottomBarWhenPushed = true
-        let navigationController = UINavigationController(rootViewController: viewController)
+        let navigationController = RootNavigationController(rootViewController: viewController)
         self.navigationController = navigationController
     }
 
-    func start() {}
-
+    func start() {
+        let nvc = RootNavigationController()
+        let coordinator: Coordinatable
+        
+        if let profile = UserManager.shared.profile,
+           profile.email?.isEmpty == false,
+           profile.status == .emailPending {
+            coordinator = RegistrationCoordinator(navigationController: nvc)
+        } else {
+            coordinator = ProfileCoordinator(navigationController: nvc)
+        }
+        
+        coordinator.start()
+        coordinator.parentCoordinator = self
+        childCoordinators.append(coordinator)
+        navigationController.show(nvc, sender: nil)
+    }
+    
+    func showRegistration(shouldShowProfile: Bool = false) {
+        let nvc = RootNavigationController()
+        let coordinator = RegistrationCoordinator(navigationController: nvc)
+        coordinator.start()
+        coordinator.parentCoordinator = self
+        
+        if let vc = coordinator.navigationController.children.first(where: { $0 is RegistrationViewController }) as? RegistrationViewController {
+            vc.dataStore?.shouldShowProfile = shouldShowProfile
+        }
+        
+        if let vc = coordinator.navigationController.children.first(where: { $0 is RegistrationConfirmationViewController }) as? RegistrationConfirmationViewController {
+            vc.dataStore?.shouldShowProfile = shouldShowProfile
+        }
+        
+        childCoordinators.append(coordinator)
+        navigationController.show(coordinator.navigationController, sender: nil)
+    }
+    
+    func showSwap(currencies: [Currency], coreSystem: CoreSystem, keyStore: KeyStore) {
+        upgradeAccountOrShowPopup(checkForCustomerRole: .kyc1) { [weak self] showPopup in
+            guard showPopup else { return }
+            
+            self?.openModally(coordinator: SwapCoordinator.self, scene: Scenes.Swap) { vc in
+                vc?.dataStore?.currencies = currencies
+                vc?.dataStore?.coreSystem = coreSystem
+                vc?.dataStore?.keyStore = keyStore
+                vc?.dataStore?.defaultCurrencyCode = Store.state.defaultCurrencyCode.lowercased()
+                vc?.dataStore?.isKYCLevelTwo = self?.isKYCLevelTwo
+                vc?.prepareData()
+            }
+        }
+    }
+    
+    func showBuy(coreSystem: CoreSystem?, keyStore: KeyStore?) {
+        upgradeAccountOrShowPopup(checkForCustomerRole: .kyc2) { [weak self] showPopup in
+            guard showPopup else { return }
+            
+            self?.openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy) { vc in
+                vc?.dataStore?.coreSystem = coreSystem
+                vc?.dataStore?.keyStore = keyStore
+                vc?.dataStore?.fromCurrency = Store.state.defaultCurrencyCode.lowercased()
+                vc?.prepareData()
+            }
+        }
+    }
+    
+    func showProfile() {
+        upgradeAccountOrShowPopup { [weak self] _ in
+            self?.openModally(coordinator: ProfileCoordinator.self, scene: Scenes.Profile)
+        }
+    }
+    
+    func showVerifications() {
+        open(scene: Scenes.AccountVerification) { vc in
+            vc.dataStore?.profile = UserManager.shared.profile
+            vc.prepareData()
+        }
+    }
+    
+    func showVerificationsModally() {
+        openModally(coordinator: KYCCoordinator.self, scene: Scenes.AccountVerification) { vc in
+            vc?.dataStore?.profile = UserManager.shared.profile
+            vc?.prepareData()
+        }
+    }
+    
+    func showDeleteProfileInfo(keyMaster: KeyStore) {
+        let nvc = RootNavigationController()
+        let coordinator = DeleteProfileInfoCoordinator(navigationController: nvc)
+        coordinator.start(with: keyMaster)
+        coordinator.parentCoordinator = self
+        
+        childCoordinators.append(coordinator)
+        UIApplication.shared.activeWindow?.rootViewController?.presentedViewController?.present(coordinator.navigationController, animated: true)
+        
+        // TODO: Cleanup when everything is moved to Coordinators.
+        // There are problems with showing this vc from both menu and profile menu.
+        // Cannot get it work reliably. Navigation Controllers are messed up.
+        // More hint: deleteAccountCallback inside ModalPresenter.
+    }
+    
     /// Determines whether the viewcontroller or navigation stack are being dismissed
     func goBack() {
         // if the same coordinator is used in a flow, we dont want to remove it from the parent
@@ -61,11 +176,11 @@ class BaseCoordinator: NSObject,
     func childDidFinish(child: Coordinatable) {
         childCoordinators.removeAll(where: { $0 === child })
     }
-
+    
     // only call from coordinator subclasses
     func open<T: BaseControllable>(scene: T.Type,
-                                        presentationStyle: UIModalPresentationStyle = .fullScreen,
-                                        configure: ((T) -> Void)? = nil) {
+                                   presentationStyle: UIModalPresentationStyle = .fullScreen,
+                                   configure: ((T) -> Void)? = nil) {
         let controller = T()
         controller.coordinator = (self as? T.CoordinatorType)
         configure?(controller)
@@ -74,17 +189,34 @@ class BaseCoordinator: NSObject,
     }
 
     // only call from coordinator subclasses
-    func openModally<C: BaseCoordinator,
-                            VC: BaseControllable>(coordinator: C.Type,
-                                                  scene: VC.Type,
-                                                  presentationStyle: UIModalPresentationStyle = .fullScreen,
-                                                  configure: ((VC?) -> Void)? = nil) {
+    func set<C: BaseCoordinator,
+             VC: BaseControllable>(coordinator: C.Type,
+                                   scene: VC.Type,
+                                   presentationStyle: UIModalPresentationStyle = .fullScreen,
+                                   configure: ((VC?) -> Void)? = nil) {
         let controller = VC()
-        let nvc = UINavigationController(rootViewController: controller)
+        let coordinator = C(navigationController: navigationController)
+        controller.coordinator = coordinator as? VC.CoordinatorType
+        configure?(controller)
+        
+        coordinator.parentCoordinator = self
+        childCoordinators.append(coordinator)
+        
+        navigationController.setViewControllers([controller], animated: true)
+    }
+    
+    // only call from coordinator subclasses
+    func openModally<C: BaseCoordinator,
+                     VC: BaseControllable>(coordinator: C.Type,
+                                           scene: VC.Type,
+                                           presentationStyle: UIModalPresentationStyle = .fullScreen,
+                                           configure: ((VC?) -> Void)? = nil) {
+        let controller = VC()
+        let nvc = RootNavigationController(rootViewController: controller)
         nvc.modalPresentationStyle = presentationStyle
-
+        nvc.modalPresentationCapturesStatusBarAppearance = true
+        
         let coordinator = C(navigationController: nvc)
-//        coordinator.start()
         controller.coordinator = coordinator as? VC.CoordinatorType
         configure?(controller)
 
@@ -93,10 +225,115 @@ class BaseCoordinator: NSObject,
         
         navigationController.show(nvc, sender: nil)
     }
+    
+    // It prepares the next KYC coordinator OR returns true.
+    // In which case we show 3rd party popup or continue to Buy/Swap.
+    func upgradeAccountOrShowPopup(checkForCustomerRole: CustomerRole? = nil, completion: ((Bool) -> Void)?) {
+        let nvc = RootNavigationController()
+        var coordinator: Coordinatable?
+        
+        // TODO: If this logic passes QA, then unify the code in other places like "ApplicationController, HomeScreenViewController" and etc.
+        UserManager.shared.refresh { [unowned self] result in
+            switch result {
+            case .success(let profile):
+                guard let profile = profile else { return }
+                
+                let roles = profile.roles
+                let status = profile.status
+                
+                isKYCLevelTwo = status == .levelTwo(.levelTwo)
+                
+                if roles.contains(.unverified)
+                    || roles.isEmpty == true
+                    || status == .emailPending
+                    || status == .none {
+                    coordinator = RegistrationCoordinator(navigationController: nvc)
+                    
+                } else if let kycLevel = checkForCustomerRole,
+                          roles.contains(kycLevel) {
+                    completion?(true)
+                } else if checkForCustomerRole == nil {
+                    completion?(true)
+                } else {
+                    coordinator = KYCCoordinator(navigationController: nvc)
+                }
+                
+            case .failure(let error):
+                guard error as? NetworkingError == .sessionExpired
+                        || error as? NetworkingError == .parameterMissing else {
+                    completion?(false)
+                    return
+                }
+                
+                coordinator = RegistrationCoordinator(navigationController: RootNavigationController())
+                
+            default:
+                completion?(true)
+                
+                return
+            }
+            
+            guard let coordinator = coordinator else {
+                completion?(false)
+                
+                return
+            }
+            
+            coordinator.start()
+            coordinator.parentCoordinator = self
+            childCoordinators.append(coordinator)
+            navigationController.show(coordinator.navigationController, sender: nil)
+            
+            completion?(false)
+        }
+    }
 
-    func showAlertView(with model: AlertViewModel?, config: AlertConfiguration?) {}
-    func showNotification(with configuration: NotificationConfiguration) {}
-    func hideNotification(_ view: UIView) {}
+    func showMessage(with error: Error? = nil, model: InfoViewModel? = nil, configuration: InfoViewConfiguration? = nil) {
+        hideOverlay()
+        LoadingView.hide()
+        
+        guard (error as? NetworkingError) != .sessionExpired else {
+            UserDefaults.emailConfirmed = false
+            openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.RegistrationConfirmation)
+            return
+        }
+        
+        guard let model = model, let configuration = configuration else { return }
+        
+        let notification = FEInfoView()
+        notification.setupCustomMargins(all: .large)
+        notification.configure(with: configuration)
+        notification.setup(with: model)
+        guard let superview = navigationController.topViewController?.view else {
+            return
+        }
+        superview.addSubview(notification)
+        notification.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(100)
+            make.leading.equalToSuperview().offset(Margins.medium.rawValue)
+            make.trailing.equalToSuperview().offset(-Margins.medium.rawValue)
+        }
+        notification.layoutIfNeeded()
+        notification.alpha = 0
+            
+        UIView.animate(withDuration: Presets.Animation.duration) {
+            notification.alpha = 1
+        }
+    }
+    
+    func hideMessage() {
+        guard let superview = navigationController.topViewController?.view,
+              let view = superview.subviews.first(where: { $0 is FEInfoView })
+        else { return }
+            
+        UIView.animate(withDuration: Presets.Animation.duration) {
+            view.alpha = 0
+        } completion: { _ in
+            view.removeFromSuperview()
+        }
+    }
+    
+    func hideMessage(_ view: UIView) {}
 
     func goBack(completion: (() -> Void)? = nil) {
         guard parentCoordinator != nil,
@@ -108,5 +345,63 @@ class BaseCoordinator: NSObject,
             completion?()
         }
         parentCoordinator?.childDidFinish(child: self)
+    }
+    
+    func showUnderConstruction(_ feat: String) {
+        // TODO: navigate on
+        showPopup(on: navigationController.topViewController,
+                  with: .init(title: .text("Under construction"),
+                              body: "The \(feat.uppercased()) functionality is being developed for You by the awesome Fabriik team. Stay tuned!"))
+    }
+    
+    func showOverlay(with viewModel: TransparentViewModel, completion: (() -> Void)? = nil) {
+        guard let parent = navigationController.view
+        else { return }
+        
+        let view = TransparentView()
+        view.configure(with: .init())
+        view.setup(with: viewModel)
+        view.didHide = completion
+        
+        parent.addSubview(view)
+        view.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        view.layoutIfNeeded()
+        view.show()
+        parent.bringSubviewToFront(view)
+    }
+    
+    func hideOverlay() {
+        guard let view = navigationController.view.subviews.first(where: { $0 is TransparentView }) as? TransparentView else { return }
+        view.hide()
+    }
+    
+    func showPopup<V: ViewProtocol & UIView>(with config: WrapperPopupConfiguration<V.C>?,
+                                             viewModel: WrapperPopupViewModel<V.VM>,
+                                             confirmedCallback: @escaping (() -> Void)) -> WrapperPopupView<V>? {
+        guard let superview = navigationController.view else { return nil }
+        
+        let view = WrapperPopupView<V>()
+        view.configure(with: config)
+        view.setup(with: viewModel)
+        view.confirmCallback = confirmedCallback
+        
+        superview.addSubview(view)
+        superview.bringSubviewToFront(view)
+        
+        view.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        view.layoutIfNeeded()
+        view.alpha = 0
+            
+        UIView.animate(withDuration: Presets.Animation.duration) {
+            view.alpha = 1
+        }
+        
+        return view
     }
 }

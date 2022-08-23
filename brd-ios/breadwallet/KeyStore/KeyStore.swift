@@ -122,10 +122,8 @@ protocol KeyMaster: WalletAuthenticator {
     // MARK: - iCloud Backup
     func doesCloudBackupExist() -> Bool
     
-    @available(iOS 13.6, *)
     func listBackups() -> [CloudBackup]
     
-    @available(iOS 13.6, *)
     func unlockBackup(pin: String, key: String) -> Result<Account, Error>
 }
 
@@ -821,10 +819,9 @@ extension KeyStore: KeyMaster {
                 Store.perform(action: PinLength.Set(newPin.utf8.count))
             }
             try setKeychainItem(key: KeychainKey.pin, item: newPin)
-            if #available(iOS 13.6, *) {
-                if let id = Store.state.walletID {
-                    _ = updateBackupPin(newPin: newPin, currentPin: currentPin, forKey: id)
-                }
+            
+            if let id = Store.state.walletID {
+                _ = updateBackupPin(newPin: newPin, currentPin: currentPin, forKey: id)
             }
             return true
         } catch { return false }

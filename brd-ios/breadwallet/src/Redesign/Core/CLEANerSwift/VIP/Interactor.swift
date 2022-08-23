@@ -9,8 +9,8 @@ import Foundation
 
 protocol Interactor: NSObject, BaseViewActions {
     associatedtype ActionResponses: BaseActionResponses
-    associatedtype Store: BaseDataStore
+    associatedtype DataStore: BaseDataStore
     
     var presenter: ActionResponses? { get set }
-    var dataStore: Store? { get set }
+    var dataStore: DataStore? { get set }
 }

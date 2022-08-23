@@ -44,8 +44,8 @@ class UpdatePinViewController: UIViewController, Subscriber {
     }
 
     // MARK: - Private
-    private let header = UILabel.wrapping(font: Theme.h2Title, color: Theme.primaryText)
-    private let instruction = UILabel.wrapping(font: Theme.body1, color: Theme.secondaryText)
+    private let header = UILabel.wrapping(font: Fonts.Title.four, color: Theme.primaryText)
+    private let instruction = UILabel.wrapping(font: Fonts.Body.two, color: Theme.secondaryText)
     private let caption = UILabel.wrapping(font: .customBody(size: 13.0), color: .almostBlack)
     private let warning = UILabel.wrapping(font: Theme.body1, color: Theme.blueBackground)
     private var pinView: PinView
@@ -55,9 +55,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
     private let keyMaster: KeyMaster
     private let backupKey: String?
     
-    private lazy var faq = UIButton.buildFaqButton(articleId: ArticleIds.setPin, currency: nil, tapped: { [unowned self] in
-        self.trackEvent(event: .helpButton)
-    })
+    private lazy var faq = UIButton.buildFaqButton(articleId: ArticleIds.setPin, currency: nil, position: .right)
     
     private var shouldShowFAQButton: Bool {
         if type == .recoverBackup {
@@ -72,21 +70,21 @@ class UpdatePinViewController: UIViewController, Subscriber {
         didSet {
             switch step {
             case .verify:
-                instruction.text = isCreatingPin ? S.UpdatePin.createInstruction : S.UpdatePin.enterCurrent
+                instruction.text = isCreatingPin ? L10n.UpdatePin.createInstruction : L10n.UpdatePin.enterCurrent
                 caption.isHidden = true
             case .new:
-                let instructionText = isCreatingPin ? S.UpdatePin.createInstruction : S.UpdatePin.enterNew
+                let instructionText = isCreatingPin ? L10n.UpdatePin.createInstruction : L10n.UpdatePin.enterNew
+                header.text = isCreatingPin ? L10n.UpdatePin.setNewPinTitle : L10n.UpdatePin.createTitle
                 if instruction.text != instructionText {
                     instruction.pushNewText(instructionText)
                 }
-                header.text = S.UpdatePin.createTitle
                 caption.isHidden = false
             case .confirmNew:
                 caption.isHidden = true
                 if isCreatingPin {
-                    header.text = S.UpdatePin.createTitleConfirm
+                    header.text = L10n.UpdatePin.createTitleConfirm
                 } else {
-                    instruction.pushNewText(S.UpdatePin.reEnterNew)
+                    instruction.pushNewText(L10n.UpdatePin.reEnterNew)
                 }
             }
         }
@@ -120,6 +118,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
         addSubviews()
         addConstraints()
         setData()
+        setupBackButton()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -140,7 +139,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
     private func addConstraints() {
         let leftRightMargin: CGFloat = E.isSmallScreen ? 40 : 60
         header.constrain([
-            header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: C.padding[2]),
+            header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.extraHuge.rawValue),
             header.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leftRightMargin),
             header.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -leftRightMargin) ])
         instruction.constrain([
@@ -203,16 +202,19 @@ class UpdatePinViewController: UIViewController, Subscriber {
         }
 
         if type == .recoverBackup {
-            header.text = S.CloudBackup.recoverHeader
+            header.text = L10n.CloudBackup.recoverHeader
             instruction.text = ""
             caption.text = ""
         } else {
-            caption.text = S.UpdatePin.caption
-            header.text = isCreatingPin ? S.UpdatePin.createTitle : S.UpdatePin.updateTitle
-            instruction.text = isCreatingPin ? S.UpdatePin.createInstruction : S.UpdatePin.enterCurrent
+            caption.text = L10n.UpdatePin.caption
+            header.text = isCreatingPin ? L10n.UpdatePin.setNewPinTitle : L10n.UpdatePin.updateTitle
+            instruction.text = isCreatingPin ? L10n.UpdatePin.createInstruction : L10n.UpdatePin.enterCurrent
             if isCreatingPin {
                 step = .new
                 caption.isHidden = false
+                faq.tap = {
+                    self.faqButtonPressed()
+                }
             } else {
                 caption.isHidden = true
             }
@@ -223,6 +225,41 @@ class UpdatePinViewController: UIViewController, Subscriber {
             navigationItem.hidesBackButton = true
         }
         addCloudView()
+    }
+    
+    func setupBackButton() {
+        let back = UIBarButtonItem(image: UIImage(named: "BackArrowWhite"),
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(backButtonPressed))
+        back.tintColor = Theme.blueBackground
+        navigationItem.leftBarButtonItem = back
+    }
+    
+    @objc func backButtonPressed() {
+        guard navigationController?.viewControllers.first == self else {
+            navigationController?.popViewController(animated: true)
+            return
+        }
+        
+        navigationController?.dismiss(animated: true)
+    }
+    
+    func faqButtonPressed() {
+        // TODO: localize
+        let text = """
+            The Fabriik Wallet app requires you to set a PIN to secure your wallet, separate from your device passcode.
+            
+            You will be required to enter the PIN to view your balance or send money,
+            which keeps your wallet private even if you let someone use your phone or if your phone is stolen by someone who knows your device passcode.
+            
+            Do not forget your wallet PIN! It can only be reset by using your Recovery Phrase. If you forget your PIN and lose your Recovery Phrase, your wallet will be lost.
+            """
+        
+        let model = PopupViewModel(title: .text("Why do I need a PIN?"),
+                                   body: text)
+        
+        showInfoPopup(with: model)
     }
 
     private func didUpdateForCurrent(pin: String) {
@@ -260,13 +297,13 @@ class UpdatePinViewController: UIViewController, Subscriber {
             switch error {
             case UnlockBackupError.wrongPin(let retries):
                 if retries < 5 {
-                    warning.pushNewText(String(format: S.CloudBackup.pinAttempts, "\(retries)"))
+                    warning.pushNewText(L10n.CloudBackup.pinAttempts("\(retries)"))
                     let retryCount = 3
                     if retries == retryCount {
-                        let alert = UIAlertController(title: S.Alert.warning,
-                                                      message: String(format: S.CloudBackup.warningBody, "\(retryCount)"),
+                        let alert = UIAlertController(title: L10n.Alert.warning,
+                                                      message: L10n.CloudBackup.warningBody("\(retryCount)"),
                                                       preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: S.Button.ok, style: .default, handler: nil))
+                        alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: nil))
                         present(alert, animated: true, completion: nil)
                     }
                 } else {
@@ -274,12 +311,12 @@ class UpdatePinViewController: UIViewController, Subscriber {
                 }
                 clearAfterFailure()
             case UnlockBackupError.backupDeleted:
-                caption.pushNewText(S.CloudBackup.backupDeleted)
+                caption.pushNewText(L10n.CloudBackup.backupDeleted)
                 clearAfterFailure()
-                let alert = UIAlertController(title: S.CloudBackup.backupDeleted,
-                                              message: S.CloudBackup.backupDeletedMessage,
+                let alert = UIAlertController(title: L10n.CloudBackup.backupDeleted,
+                                              message: L10n.CloudBackup.backupDeletedMessage,
                                               preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: S.Button.ok, style: .default, handler: { _ in
+                alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: { _ in
                     exit(0)
                 }))
                 present(alert, animated: true, completion: nil)
@@ -358,13 +395,11 @@ class UpdatePinViewController: UIViewController, Subscriber {
                 if self.resetFromDisabledSuccess != nil {
                     self.resetFromDisabledWillSucceed?()
                     Store.perform(action: Alert.Show(.pinSet(callback: { [weak self] in
-                        self?.dismiss(animated: true, completion: {
-                            self?.resetFromDisabledSuccess?(newPin)
-                        })
+                        self?.presentResetPinSuccess(newPin: newPin)
                     })))
                 } else {
                     Store.perform(action: Alert.Show(.pinSet(callback: { [weak self] in
-                        guard let `self` = self else { return }
+                        guard let self = self else { return }
                         self.setPinSuccess?(newPin)
                         if self.type != .creationNoPhrase {
                             self.parent?.dismiss(animated: true, completion: nil)
@@ -373,14 +408,27 @@ class UpdatePinViewController: UIViewController, Subscriber {
                 }
 
             } else {
-                let alert = UIAlertController(title: S.UpdatePin.updateTitle, message: S.UpdatePin.setPinError, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: S.Button.ok, style: .default, handler: { [weak self] _ in
+                let alert = UIAlertController(title: L10n.UpdatePin.updateTitle, message: L10n.UpdatePin.setPinError, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: { [weak self] _ in
                     self?.clearAfterFailure()
                     self?.pushNewStep(.new)
                 }))
                 self.present(alert, animated: true, completion: nil)
             }
         }
+    }
+    
+    func presentResetPinSuccess(newPin: String) {
+        let resetPinSuccess = ResetPinViewController()
+        resetPinSuccess.resetFromDisabledSuccess = { [weak self] in
+            self?.dismiss(animated: true, completion: {
+                self?.resetFromDisabledSuccess?(newPin)
+            })
+        }
+        let nc = RootNavigationController(rootViewController: resetPinSuccess)
+        nc.modalPresentationStyle = .overFullScreen
+        nc.isNavigationBarHidden = true
+        present(nc, animated: true)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

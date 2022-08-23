@@ -21,7 +21,6 @@ class GiftSharingCoordinator {
         self.gift = gift
     }
     
-    @available(iOS 13.0, *)
     func showShare() {
         let alert = UIAlertController(title: "Share", message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Share link", style: .default, handler: { [weak self] _ in
@@ -30,23 +29,21 @@ class GiftSharingCoordinator {
         alert.addAction(UIAlertAction(title: "Share QR Code", style: .default, handler: { [weak self] _ in
             self?.shareImage()
         }))
-        alert.addAction(UIAlertAction(title: S.Button.cancel, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: L10n.Button.cancel, style: .cancel, handler: nil))
         UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
     }
     
     func closeAction() {
         DispatchQueue.main.async {
-            UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
+            UIApplication.shared.activeWindow?.rootViewController?.dismiss(animated: true, completion: nil)
         }
     }
     
-    @available(iOS 13.0, *)
     private func shareUrl() {
         let ac = UIActivityViewController(activityItems: [URL(string: gift.url!)!], applicationActivities: [])
         self.present(ac)
     }
     
-    @available(iOS 13.0, *)
     private func shareImage() {
         let frame = CGRect(x: 0, y: 0, width: 375, height: 650)
         let temp = ShareGiftView(gift: gift, showButton: false)
@@ -99,7 +96,6 @@ class GiftSharingCoordinator {
     
 }
 
-@available(iOS 13.0, *)
 class ShareActivityItemSource: NSObject, UIActivityItemSource {
     
     var shareText: String
@@ -144,7 +140,7 @@ class ShareActivityItemSource: NSObject, UIActivityItemSource {
 
 extension UIApplication {
 
-    class func topViewController(_ base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+    class func topViewController(_ base: UIViewController? = UIApplication.shared.activeWindow?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {
             let top = topViewController(nav.visibleViewController)
             return top

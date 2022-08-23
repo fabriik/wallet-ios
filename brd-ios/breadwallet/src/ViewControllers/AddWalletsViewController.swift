@@ -86,7 +86,7 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
     private func reconcileChanges() {
         // add eth when adding tokens
         let currenciesToAdd = addedCurrencyIndices.map { allAssets[$0] }
-        if let eth = allAssets.first(where: { $0.uid == Currencies.eth.uid }),
+        if let eth = allAssets.first(where: { $0.uid == Currencies.shared.eth?.uid }),
             !currenciesToAdd.filter({ $0.tokenAddress != nil && ($0.tokenAddress?.isEmpty == false) }).isEmpty, // tokens are being added
             !assetCollection.enabledAssets.contains(eth), // eth not already added
             !currenciesToAdd.contains(eth) { // eth not being explicitly added
@@ -99,7 +99,7 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     override func viewDidLoad() {
-        title = S.TokenList.addTitle
+        title = L10n.TokenList.addTitle
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -141,7 +141,7 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
         searchBar.barStyle = .black
         searchBar.isTranslucent = false
         searchBar.barTintColor = .darkBackground
-        searchBar.placeholder = S.Search.search
+        searchBar.placeholder = L10n.Search.search
     }
     
     private func setupInfoView() {
@@ -176,7 +176,7 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
         let alert = UIAlertController(title: "Limited assets",
                                       message: message,
                                       preferredStyle: .alert)
-        let okAction = UIAlertAction(title: S.Button.ok, style: .default)
+        let okAction = UIAlertAction(title: L10n.Button.ok, style: .default)
         alert.addAction(okAction)
         
         present(alert, animated: true, completion: nil)

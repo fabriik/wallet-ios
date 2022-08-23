@@ -8,9 +8,6 @@
 
 import UIKit
 
-private let currencyHeight: CGFloat = 80.0
-private let feeHeight: CGFloat = 130.0
-
 class AmountViewController: UIViewController, Trackable {
     
     private let currency: Currency
@@ -214,7 +211,7 @@ class AmountViewController: UIViewController, Trackable {
         cursor.isHidden = true
         cursor.startBlinking()
         amountLabel.text = ""
-        placeholder.text = S.Send.amountLabel
+        placeholder.text = L10n.Send.amountLabel
         bottomBorder.isHidden = true
         if Store.state.showFiatAmounts {
             if let rate = currency.state?.currentRate {
@@ -253,7 +250,7 @@ class AmountViewController: UIViewController, Trackable {
         let alert = UIAlertController(title: "XRP Balance",
                                       message: message,
                                       preferredStyle: .alert)
-        let okAction = UIAlertAction(title: S.Button.ok, style: .default)
+        let okAction = UIAlertAction(title: L10n.Button.ok, style: .default)
         alert.addAction(okAction)
         
         present(alert, animated: true, completion: nil)
@@ -322,14 +319,26 @@ class AmountViewController: UIViewController, Trackable {
                                    rate: selectedRate,
                                    minimumFractionDigits: minimumFractionDigits)
         var output = (selectedRate == nil) ? displayAmount.tokenFormattedString : displayAmount.fiatDescription
+
         if hasTrailingDecimal {
             output = output.appending(NumberFormatter().currencyDecimalSeparator)
         }
+        
+        let sendingAmount: (Double)
+        let currencyDecimalSeparator = NumberFormatter().currencyDecimalSeparator ?? ""
+        
+        if output.contains(currencyDecimalSeparator) {
+            sendingAmount = (NumberFormatter().number(from: output)?.doubleValue ?? 0)
+        } else {
+            let sendingAmountString = output.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+            sendingAmount = (NumberFormatter().number(from: sendingAmountString)?.doubleValue ?? 0)
+        }
+        
         amountLabel.text = output
         placeholder.isHidden = output.utf8.isEmpty ? false : true
         
         if currency.isXRP && isRequesting {
-            errorLabel.isHidden = output.count > 1
+            errorLabel.isHidden = sendingAmount >= 10
         }
         
         if let max = maximum {

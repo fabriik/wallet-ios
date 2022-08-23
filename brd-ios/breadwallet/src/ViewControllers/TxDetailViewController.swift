@@ -83,7 +83,7 @@ class TxDetailViewController: UIViewController, Subscriber {
         // refresh if rate changes
         Store.lazySubscribe(self,
                             selector: { [weak self] oldState, newState in
-                                guard let `self` = self else { return false }
+                                guard let self = self else { return false }
                                 return oldState[self.viewModel.currency]?.currentRate != newState[self.viewModel.currency]?.currentRate },
                             callback: { [weak self] _ in
                                 self?.reload()
@@ -174,8 +174,8 @@ class TxDetailViewController: UIViewController, Subscriber {
         tableView.dataSource = dataSource
         tableView.reloadData()
         
-        detailsButton.setTitle(S.TransactionDetails.showDetails, for: .normal)
-        detailsButton.setTitle(S.TransactionDetails.hideDetails, for: .selected)
+        detailsButton.setTitle(L10n.TransactionDetails.showDetails, for: .normal)
+        detailsButton.setTitle(L10n.TransactionDetails.hideDetails, for: .selected)
         detailsButton.addTarget(self, action: #selector(onToggleDetails), for: .touchUpInside)
         
         header.setTitle(viewModel.title)

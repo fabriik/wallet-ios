@@ -11,12 +11,13 @@
 import UIKit
 
 class BaseTableViewController<C: CoordinatableRoutes,
-                              I: Interactor & FetchViewActions,
-                              P: Presenter & FetchActionResponses,
+                              I: Interactor,
+                              P: Presenter,
                               DS: BaseDataStore & NSObject>: VIPTableViewController<C, I, P, DS>,
-                                                                              FetchResponseDisplays {
+                                                             FetchResponseDisplays {
     override var isModalDismissableEnabled: Bool { return true }
     override var dismissText: String { return "close" }
+    override var closeImage: UIImage? { return .init(named: "close")}
 
     // MARK: - Cleaner Swift Setup
 
@@ -25,17 +26,47 @@ class BaseTableViewController<C: CoordinatableRoutes,
         return view
     }()
 
+    override func setupCloseButton(closeAction: Selector) {
+        guard navigationItem.leftBarButtonItem?.image != closeImage,
+              navigationItem.rightBarButtonItem?.image != closeImage
+        else { return }
+        
+        let closeButton = UIBarButtonItem(image: .init(named: "close"),
+                                          style: .plain,
+                                          target: self,
+                                          action: closeAction)
+
+        guard navigationItem.rightBarButtonItem == nil else {
+            navigationItem.setLeftBarButton(closeButton, animated: false)
+            return
+        }
+        navigationItem.setRightBarButton(closeButton, animated: false)
+    }
+    
     override func setupSubviews() {
         super.setupSubviews()
+        view.backgroundColor = LightColors.Background.one
+        tableView.backgroundColor = .clear
         
         // TODO: register proper accessoryViews
         tableView.registerAccessoryView(WrapperAccessoryView<FELabel>.self)
         tableView.registerAccessoryView(WrapperAccessoryView<FEButton>.self)
+        tableView.registerAccessoryView(WrapperAccessoryView<AssetView>.self)
         // TODO: register base cells
         tableView.register(WrapperTableViewCell<FELabel>.self)
         tableView.register(WrapperTableViewCell<FEButton>.self)
         tableView.register(WrapperTableViewCell<FETextField>.self)
         tableView.register(WrapperTableViewCell<WrapperView<FEInfoView>>.self)
+        tableView.register(WrapperTableViewCell<NavigationItemView>.self)
+        tableView.register(WrapperTableViewCell<ProfileView>.self)
+        tableView.register(WrapperTableViewCell<DoubleHorizontalTextboxView>.self)
+        tableView.register(WrapperTableViewCell<FEImageView>.self)
+        tableView.register(WrapperTableViewCell<ScrollableButtonsView>.self)
+        tableView.register(WrapperTableViewCell<ChecklistItemView>.self)
+        tableView.register(WrapperTableViewCell<TickboxItemView>.self)
+        tableView.register(WrapperTableViewCell<FESegmentControl>.self)
+        tableView.register(WrapperTableViewCell<ExchangeRateView>.self)
+        tableView.register(WrapperTableViewCell<DateView>.self)
         
         // eg.
 //        tableView.register(WrapperCell<WrapperView<AnimationImageView>>.self)
@@ -43,15 +74,19 @@ class BaseTableViewController<C: CoordinatableRoutes,
 
     override func prepareData() {
         super.prepareData()
-        interactor?.getData(viewAction: .init())
+        (interactor as? FetchViewActions)?.getData(viewAction: .init())
     }
 
     // MARK: ResponseDisplay
     func displayData(responseDisplay: FetchModels.Get.ResponseDisplay) {
         sections = responseDisplay.sections
         sectionRows = responseDisplay.sectionRows
+        
+        // TODO: DiffableDataSource
         tableView.reloadData()
+        
         tableView.backgroundView?.isHidden = !sections.isEmpty
+        LoadingView.hide()
     }
 
     // MARK: UITableViewDataSource
@@ -75,17 +110,22 @@ class BaseTableViewController<C: CoordinatableRoutes,
         switch type {
         case .plain(let string):
             view = self.tableView(tableView, supplementaryViewWith: string)
+            view?.setupCustomMargins(vertical: .small, horizontal: .small)
 
         case .attributed(let attributedString):
             view = self.tableView(tableView, supplementaryViewWith: attributedString)
+            view?.setupCustomMargins(vertical: .small, horizontal: .small)
 
         case .action(let title):
             view = self.tableView(tableView, supplementaryViewWith: title, for: section, callback: callback)
+            view?.setupCustomMargins(vertical: .small, horizontal: .small)
+            
+        case .advanced(let icon, let title, let description):
+            view = self.tableView(tableView, advancedSupplementaryViewWith: icon, title: title, description: description, for: section)
 
         default:
             view = UIView(frame: .zero)
         }
-        view?.setupCustomMargins(vertical: .small, horizontal: .small)
 
         return view
     }
@@ -132,27 +172,85 @@ class BaseTableViewController<C: CoordinatableRoutes,
         return view
     }
     
+    private func tableView(_ tableView: UITableView,
+                           advancedSupplementaryViewWith icon: UIImage? = nil,
+                           title: String? = nil,
+                           description: String? = nil,
+                           for section: Int) -> UIView? {
+        guard let view: WrapperAccessoryView<AssetView> = tableView.dequeueAccessoryView()
+        else { return UIView(frame: .zero) }
+        
+        view.setup { view in
+            view.configure(with: Presets.Asset.Header)
+        }
+        view.setupCustomMargins(vertical: .small, horizontal: .large)
+
+        return view
+    }
+    
     func tableView(_ tableView: UITableView, supplementaryViewTapped section: Int) {
         // TODO: override in class to handle suplementary button events
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return super.tableView(tableView, cellForRowAt: indexPath)
+    // MARK: Custom cells
+    func tableView(_ tableView: UITableView, coverCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<FEImageView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? ImageViewModel
+        else { return UITableViewCell() }
+        
+        cell.setup { view in
+            view.configure(with: Presets.Background.transparent)
+            view.setup(with: model)
+        }
+        
+        return cell
     }
     
-    // MARK: Custom cells
     // TODO: add dequeue methos for other standard cells
     func tableView(_ tableView: UITableView, labelCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
-        guard let text = sectionRows[section]?[indexPath.row] as? String,
+        guard let model = sectionRows[section]?[indexPath.row] as? LabelViewModel,
               let cell: WrapperTableViewCell<FELabel> = tableView.dequeueReusableCell(for: indexPath)
         else {
             return super.tableView(tableView, cellForRowAt: indexPath)
         }
         
         cell.setup { view in
-            view.setup(with: .text(text))
             view.configure(with: .init(font: Fonts.caption, textColor: LightColors.Text.one))
+            view.setup(with: model)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleLabelCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let model = sectionRows[section]?[indexPath.row] as? LabelViewModel,
+              let cell: WrapperTableViewCell<FELabel> = tableView.dequeueReusableCell(for: indexPath)
+        else {
+            return super.tableView(tableView, cellForRowAt: indexPath)
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init(font: Fonts.Title.four, textColor: LightColors.Text.one))
+            view.setup(with: model)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, descriptionLabelCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let model = sectionRows[section]?[indexPath.row] as? LabelViewModel,
+              let cell: WrapperTableViewCell<FELabel> = tableView.dequeueReusableCell(for: indexPath)
+        else {
+            return super.tableView(tableView, cellForRowAt: indexPath)
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init(font: Fonts.Body.one, textColor: LightColors.Text.two))
+            view.setup(with: model)
         }
         
         return cell
@@ -160,16 +258,37 @@ class BaseTableViewController<C: CoordinatableRoutes,
     
     func tableView(_ tableView: UITableView, buttonCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
-        guard let text = sectionRows[section]?[indexPath.row] as? String,
+        guard let model = sectionRows[section]?[indexPath.row] as? ButtonViewModel,
               let cell: WrapperTableViewCell<FEButton> = tableView.dequeueReusableCell(for: indexPath)
         else {
             return super.tableView(tableView, cellForRowAt: indexPath)
         }
         
         cell.setup { view in
-            view.setup(with: .init(title: text))
-            view.configure(with: indexPath.row % 2 == 0 ? Presets.Button.primary : Presets.Button.secondary)
-            view.setupCustomMargins(all: .zero)
+            view.configure(with: Presets.Button.primary)
+            view.setup(with: model)
+            view.setupCustomMargins(vertical: .large, horizontal: .large)
+            view.snp.makeConstraints { make in
+                make.height.equalTo(ButtonHeights.common.rawValue)
+            }
+            view.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, buttonsCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let model = sectionRows[section]?[indexPath.row] as? ScrollableButtonsViewModel,
+              let cell: WrapperTableViewCell<ScrollableButtonsView> = tableView.dequeueReusableCell(for: indexPath)
+        else {
+            return super.tableView(tableView, cellForRowAt: indexPath)
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init(background: Presets.Background.transparent,
+                                       buttons: [Presets.Button.link]))
+            view.setup(with: model)
         }
         
         return cell
@@ -184,14 +303,14 @@ class BaseTableViewController<C: CoordinatableRoutes,
         }
         
         cell.setup { view in
+            view.configure(with: Presets.TextField.primary)
             view.setup(with: model)
-            view.configure(with: Presets.TexxtField.primary)
-            view.valueChanged = {
-                // weirdly animates if not disabled
-//                UIView.setAnimationsEnabled(false)
+            view.valueChanged = { [weak self] text in
+                self?.textFieldDidUpdate(for: indexPath, with: text, on: section)
+            }
+            view.contentSizeChanged = {
                 tableView.beginUpdates()
                 tableView.endUpdates()
-//                UIView.setAnimationsEnabled(true)
             }
         }
         
@@ -209,12 +328,105 @@ class BaseTableViewController<C: CoordinatableRoutes,
         cell.setup { view in
             view.setup { view in
                 view.setup(with: model)
-                view.configure(with: Presets.InfoView.primary)
-                view.setupCustomMargins(all: .extraHuge)
+                view.configure(with: Presets.InfoView.verification)
+                view.setupCustomMargins(all: .large)
             }
-            view.setupCustomMargins(all: .medium)
+            view.setupCustomMargins(all: .large)
         }
-        cell.setupCustomMargins(all: .extraSmall)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, navigationCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<NavigationItemView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? NavigationViewModel
+        else { return UITableViewCell() }
+        
+        cell.setup { view in
+            view.configure(with: .init(image: Presets.Image.primary,
+                                       label: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.one),
+                                       button: Presets.Button.blackIcon))
+            view.setup(with: model)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, profileViewCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<ProfileView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? ProfileViewModel
+        else { return UITableViewCell() }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, checkmarkCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<ChecklistItemView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? ChecklistItemViewModel else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+            view.setupCustomMargins(horizontal: .large)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, tickboxCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<TickboxItemView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? TickboxItemViewModel else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+            view.setupCustomMargins(horizontal: .large)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, segmentControlCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<FESegmentControl> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? SegmentControlViewModel
+        else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, timerCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<ExchangeRateView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? ExchangeRateViewModel
+        else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+        }
         
         return cell
     }
@@ -227,16 +439,19 @@ class BaseTableViewController<C: CoordinatableRoutes,
         }
     }
     
+    // MARK: UserInteractions
     func textFieldDidFinish(for indexPath: IndexPath, with text: String?) {
         // override in subclass
     }
 
-    func textFieldDidUpdate(for indexPath: IndexPath, with text: String?) {
-        tableView.beginUpdates()
-        tableView.endUpdates()
+    func textFieldDidUpdate(for indexPath: IndexPath, with text: String?, on section: AnyHashable) {
+    }
+    
+    @objc func buttonTapped() {
+        // override in subclass
+        view.endEditing(true)
     }
 
-    // MARK: UserInteractions
     func didSelectItem(in section: Int, row: Int) {
     }
 

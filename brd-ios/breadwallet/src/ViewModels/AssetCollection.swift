@@ -104,7 +104,7 @@ class AssetCollection: Subscriber {
         }
         
         Store.subscribe(self, name: .didSyncKVStore) { [weak self] _ in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             if let newAssetIndex = AssetIndex(kvStore: self.kvStore), newAssetIndex.version > self.assetIndex.version {
                 assert(self.hasUnsavedChanges == false)
                 print("[KV] asset index reloaded")
@@ -205,12 +205,12 @@ class AssetCollection: Subscriber {
             } else {
                 var newKey: CurrencyId?
                 switch oldKey.lowercased() {
-                case Currencies.btc.code.lowercased():
-                    newKey = Currencies.btc.uid
-                case Currencies.bch.code.lowercased():
-                    newKey = Currencies.bch.uid
-                case Currencies.eth.code.lowercased():
-                    newKey = Currencies.eth.uid
+                case Currencies.shared.btc?.code.lowercased():
+                    newKey = Currencies.shared.btc?.uid
+                case Currencies.shared.bch?.code.lowercased():
+                    newKey = Currencies.shared.bch?.uid
+                case Currencies.shared.eth?.code.lowercased():
+                    newKey = Currencies.shared.eth?.uid
                 default:
                     break
                 }

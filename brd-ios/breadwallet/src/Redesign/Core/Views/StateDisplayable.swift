@@ -9,6 +9,7 @@ import UIKit
 
 enum DisplayState {
     case normal
+    case filled
     case selected
     case highlighted
     case disabled
@@ -17,5 +18,6 @@ enum DisplayState {
 
 protocol StateDisplayable {
     var displayState: DisplayState { get set }
+    
     func animateTo(state: DisplayState, withAnimation: Bool)
 }

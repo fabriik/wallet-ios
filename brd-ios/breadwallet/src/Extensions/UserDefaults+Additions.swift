@@ -16,8 +16,6 @@ private let hasAquiredShareDataPermissionKey = "has_acquired_permission"
 private let legacyWalletNeedsBackupKey = "WALLET_NEEDS_BACKUP"
 private let writePaperPhraseDateKey = "writepaperphrasedatekey"
 private let hasPromptedBiometricsKey = "haspromptedtouched"
-private let hasPromptedForEmailKey = "hasPromptedForEmail"
-private let hasSubscribedToEmailUpdatesKey = "hasSubscribedToEmailUpdates"
 private let showFiatAmountsKey = "isBtcSwappedKey" // legacy key name
 private let pushTokenKey = "pushTokenKey"
 private let currentRateKey = "currentRateKey"
@@ -39,20 +37,22 @@ private let debugShouldShowPaperKeyPreviewKey = "debugShouldShowPaperKeyPreviewK
 private let debugShowAppRatingPromptOnEnterWalletKey = "debugShowAppRatingPromptOnEnterWalletKey"
 private let debugSuppressAppRatingPromptKey = "debugSuppressAppRatingPromptKey"
 private let debugConnectionModeOverrideKey = "debugConnectionModeOverrideKey"
-private let shouldHideBRDRewardsAnimationKey = "shouldHideBRDRewardsAnimationKey"
-private let shouldHideBRDCellHighlightKey = "shouldHideBRDCellHighlightKey"
 private let debugBackendHostKey = "debugBackendHostKey"
 private let debugWebBundleNameKey = "debugWebBundleNameKey"
 private let platformDebugURLKey = "platformDebugURLKey"
 private let appLaunchCountKey = "appLaunchCountKey"
+private let shouldWipeWalletNoPromptKey = "shouldWipeWalletNoPromptKey"
 private let appLaunchCountAtLastRatingPromptKey = "appLaunchCountAtLastRatingPromptKey"
 private let notificationOptInDeferralCountKey = "notificationOptInDeferCountKey"
 private let appLaunchesAtLastNotificationDeferralKey = "appLaunchesAtLastNotificationDeferralKey"
 private let deviceIdKey = "BR_DEVICE_ID"
 private let savedChartHistoryPeriodKey = "savedHistoryPeriodKey"
 private let balanceKey = "balanceKey"
+private let walletToken = "sessionKey"
 private let kycSessionKey = "kycSessionKey"
 private let cachedErrors = "cachedErrors"
+private let userEmail = "registrationEmail"
+private let isEmailConfirmed = "isEmailConfirmed"
 
 typealias ResettableBooleanSetting = [String: Bool]
 typealias ResettableObjectSetting = String
@@ -62,8 +62,6 @@ extension UserDefaults {
     // Add any keys here that you want to be able to reset without having
     // to reset the simulator settings.
     static let resettableBooleans: [ResettableBooleanSetting] = [
-        [hasPromptedForEmailKey: false],
-        [hasSubscribedToEmailUpdatesKey: false],
         [hasPromptedBiometricsKey: false],
         [isBiometricsEnabledKey: false],
         [isBiometricsEnabledForTransactionsKey: false],
@@ -73,9 +71,7 @@ extension UserDefaults {
         [debugShouldSuppressPaperKeyPromptKey: false],
         [debugShouldShowPaperKeyPreviewKey: false],
         [debugSuppressAppRatingPromptKey: false],
-        [debugShowAppRatingPromptOnEnterWalletKey: false],
-        [shouldHideBRDCellHighlightKey: false],
-        [shouldHideBRDRewardsAnimationKey: false]
+        [debugShowAppRatingPromptOnEnterWalletKey: false]
     ]
     
     static let resettableObjects: [ResettableObjectSetting] = [
@@ -113,7 +109,7 @@ extension UserDefaults {
 }
 
 extension UserDefaults {
-
+    
     /// A UUID unique to the installation, generated on first use
     /// Used for BlockchainDB subscription, tx metadata, backend auth
     static var deviceID: String {
@@ -123,6 +119,34 @@ extension UserDefaults {
         let s = UUID().uuidString
         defaults.set(s, forKey: deviceIdKey)
         return s
+    }
+    
+    /// After the user goes through the registration flow, we
+    /// save his email in local storage
+    static var email: String? {
+        get {
+            return defaults.string(forKey: userEmail)
+        }
+        
+        set { defaults.set(newValue, forKey: userEmail) }
+    }
+    
+    /// Has the user confirmed his email?
+    static var emailConfirmed: Bool {
+        get {
+            return defaults.bool(forKey: isEmailConfirmed)
+        }
+        
+        set { defaults.set(newValue, forKey: isEmailConfirmed) }
+    }
+    
+    /// Wipe the wallet with no prompts in case user did not press Finish or X button in the popup. Popup indicates wallet is wiped, but to keep the popup on screen, we wipe the wallet after the popup is dismissed.
+    static var shouldWipeWalletNoPrompt: Bool {
+        get {
+            return defaults.bool(forKey: shouldWipeWalletNoPromptKey)
+        }
+        
+        set { defaults.set(newValue, forKey: shouldWipeWalletNoPromptKey) }
     }
     
     // Legacy setting for biometrics allowing unlocking the app. This is checked when migrating from
@@ -139,13 +163,17 @@ extension UserDefaults {
         defaults.set(nil, forKey: isBiometricsEnabledKey)
     }
 
+    // TODO: change the setter back to newValue when currency changing is reenabled (also dont forget to reenable currency selection in ModelPresenter)
     static var defaultCurrencyCode: String {
         get {
-            let code = defaults.string(forKey: defaultCurrencyCodeKey) ?? "USD"
-            guard FiatCurrency.isCodeAvailable(code) else { return "USD" }
+            let code = /*defaults.string(forKey: defaultCurrencyCodeKey) ?? */ C.usdCurrencyCode
+            guard FiatCurrency.isCodeAvailable(code) else { return C.usdCurrencyCode }
             return code
         }
-        set { defaults.set(newValue, forKey: defaultCurrencyCodeKey) }
+        set {
+            var newValue = newValue
+            newValue = C.usdCurrencyCode
+            defaults.set(newValue, forKey: defaultCurrencyCodeKey) }
     }
 
     static var hasAquiredShareDataPermission: Bool {
@@ -308,7 +336,7 @@ extension UserDefaults {
         guard let date = writePaperPhraseDate else { return "" }
         let df = DateFormatter()
         df.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
-        return String(format: S.StartPaperPhrase.date, df.string(from: date))
+        return L10n.StartPaperPhrase.date(df.string(from: date))
     }
     
     static var walletRequiresBackup: Bool {
@@ -330,29 +358,6 @@ extension UserDefaults {
     static var hasPromptedBiometrics: Bool {
         get { return defaults.bool(forKey: hasPromptedBiometricsKey) }
         set { defaults.set(newValue, forKey: hasPromptedBiometricsKey) }
-    }
-    
-    static var hasPromptedForEmail: Bool {
-        get { return defaults.bool(forKey: hasPromptedForEmailKey ) }
-        set { defaults.set(newValue, forKey: hasPromptedForEmailKey ) }
-    }
-    
-    static var hasSubscribedToEmailUpdates: Bool {
-        get { return defaults.bool(forKey: hasSubscribedToEmailUpdatesKey ) }
-        set { defaults.set(newValue, forKey: hasSubscribedToEmailUpdatesKey ) }
-    }
-
-    static var shouldShowBRDRewardsAnimation: Bool {
-        // boolean logic is flipped so that 'hide == false' is the default state,
-        // whereas the calling code can check whether to show, which has clearer semantics
-        // (same logic is employed for 'shouldShowBRDCellHighlight')
-        get { return !defaults.bool(forKey: shouldHideBRDRewardsAnimationKey)   }
-        set { defaults.set(!newValue, forKey: shouldHideBRDRewardsAnimationKey) }
-    }
-
-    static var shouldShowBRDCellHighlight: Bool {
-        get { return !defaults.bool(forKey: shouldHideBRDCellHighlightKey)   }
-        set { defaults.set(!newValue, forKey: shouldHideBRDCellHighlightKey) }
     }
     
     // Returns the number of times the user has deferred the notifications opt-in decision.
@@ -389,7 +394,7 @@ extension UserDefaults {
             if UserDefaults.hasSetSelectedCurrency {
                 return defaults.string(forKey: selectedCurrencyCodeKey)
             } else {
-                return Currencies.btc.code
+                return Currencies.shared.btc?.code.lowercased()
             }
         }
         set {
@@ -405,7 +410,7 @@ extension UserDefaults {
 
     static var mostRecentSelectedCurrencyCode: String {
         get {
-            return defaults.string(forKey: mostRecentSelectedCurrencyCodeKey) ?? Currencies.btc.code
+            return defaults.string(forKey: mostRecentSelectedCurrencyCodeKey) ?? (Currencies.shared.btc?.code.lowercased() ?? "")
         }
         set {
             defaults.setValue(newValue, forKey: mostRecentSelectedCurrencyCodeKey)
@@ -417,9 +422,14 @@ extension UserDefaults {
         set { defaults.set(newValue, forKey: hasBchConnectedKey) }
     }
     
-    static var kycSessionKeyValue: String {
-        get { return defaults.string(forKey: kycSessionKey) ?? "" }
+    static var kycSessionKeyValue: String? {
+        get { return defaults.string(forKey: kycSessionKey) }
         set { defaults.set(newValue, forKey: kycSessionKey) }
+    }
+    
+    static var walletTokenValue: String? {
+        get { return defaults.string(forKey: walletToken) }
+        set { defaults.set(newValue, forKey: walletToken) }
     }
 }
 

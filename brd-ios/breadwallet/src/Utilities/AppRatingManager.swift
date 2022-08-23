@@ -60,7 +60,8 @@ class AppRatingManager: NSObject, Subscriber, Trackable {
     }
     
     private func triggerRatingsPrompt(reason: String) {
-        SKStoreReviewController.requestReview()
+        guard let currentScene = UIApplication.shared.currentScene else { return }
+        SKStoreReviewController.requestReview(in: currentScene)
         saveEvent(ratingPromptAnalyticsEvent, attributes: [ "reason": reason])
         
         // Store the current app launch count so we can make sure we don't prompt again until

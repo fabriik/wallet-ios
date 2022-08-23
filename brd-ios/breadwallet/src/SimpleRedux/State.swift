@@ -34,7 +34,7 @@ struct State {
     }
     
     var currencies: [Currency] {
-        return orderedWallets.map { $0.currency }.sorted(by: { $0.name < $1.name })
+        return orderedWallets.map { $0.currency }
     }
     
     var shouldShowBuyNotificationForDefaultCurrency: Bool {
@@ -124,9 +124,6 @@ enum RootModal {
     case receive(currency: Currency)
     case loginScan
     case requestAmount(currency: Currency, address: String)
-    case buy(url: String, reservationCode: String, currency: Currency?)
-    // TODO: add wallet address as well?
-    case trade(availibleCurrencies: [String], amount: Double)
     case receiveLegacy
     case stake(currency: Currency)
     case gift
@@ -169,17 +166,17 @@ struct WalletState {
                            fiatPriceInfo: nil)
     }
 
-    func mutate(    wallet: Wallet? = nil,
-                    displayOrder: Int? = nil,
-                    syncProgress: Float? = nil,
-                    syncState: SyncState? = nil,
-                    balance: Amount? = nil,
-                    lastBlockTimestamp: UInt32? = nil,
-                    isRescanning: Bool? = nil,
-                    receiveAddress: String? = nil,
-                    legacyReceiveAddress: String? = nil,
-                    currentRate: Rate? = nil,
-                    fiatPriceInfo: FiatPriceInfo? = nil) -> WalletState {
+    func mutate(wallet: Wallet? = nil,
+                displayOrder: Int? = nil,
+                syncProgress: Float? = nil,
+                syncState: SyncState? = nil,
+                balance: Amount? = nil,
+                lastBlockTimestamp: UInt32? = nil,
+                isRescanning: Bool? = nil,
+                receiveAddress: String? = nil,
+                legacyReceiveAddress: String? = nil,
+                currentRate: Rate? = nil,
+                fiatPriceInfo: FiatPriceInfo? = nil) -> WalletState {
 
         return WalletState(currency: self.currency,
                            wallet: wallet ?? self.wallet,
@@ -221,23 +218,6 @@ func == (lhs: RootModal, rhs: RootModal) -> Bool {
         return true
     case (.requestAmount(let lhsCurrency, let lhsAddress), .requestAmount(let rhsCurrency, let rhsAddress)):
         return lhsCurrency == rhsCurrency && lhsAddress == rhsAddress
-    case (.buy(let lhsUrl, let lhsCode, let lhsCurrency?), .buy(let rhsUrl, let rhsCode, let rhsCurrency?)):
-        guard lhsUrl == rhsUrl,
-              lhsCode == rhsCode,
-              lhsCurrency == rhsCurrency else {
-            return false
-        }
-        return true
-    case (.buy(nil, nil, nil), .buy(nil, nil, nil)):
-        return true
-    case (.trade(let lhsCurrencies, let lhsAmount), .trade(let rhsCurrencies, let rhsAmount)):
-        guard lhsAmount == rhsAmount,
-              lhsCurrencies == rhsCurrencies else {
-            return false
-        }
-        return true
-    case (.trade(nil, nil), .trade(nil, nil)):
-        return true
     case (.receiveLegacy, .receiveLegacy):
         return true
     case (.stake(let lhsCurrency), .stake(let rhsCurrency)):

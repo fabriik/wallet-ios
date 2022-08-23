@@ -35,7 +35,6 @@ struct MarketDataViewModel {
     
 }
 
-@available(iOS 13.0, *)
 class MarketDataPublisher: ObservableObject {
     
     @Published var viewModel = MarketDataViewModel(data: nil)

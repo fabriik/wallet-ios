@@ -11,6 +11,8 @@ import UIKit
 enum Margins: CGFloat {
     /// 0
     case zero = 0
+    /// 2
+    case minimum = 2
     /// 4
     case extraSmall = 4
     /// 8
@@ -38,7 +40,7 @@ enum Opacity: Float {
     /// 0
     case zero = 0
     /// 0.08
-    case lowest = 0.08
+    case lowest = 0.12
     /// 0.15
     case low = 0.15
     /// 0.30
@@ -47,13 +49,38 @@ enum Opacity: Float {
     case highest = 0.8
 }
 
+// TODO: consolidate the bottom enums!
 enum ViewSizes: CGFloat {
+    /// 1
+    case minimum = 1.0
+    /// 20
+    case extraSmall = 20.0
+    /// 24
+    case small = 24.0
     /// 32
-    case small = 32.0
+    case medium = 32.0
     /// 80
-    case medium = 80.0
+    case large = 80.0
     /// 100
-    case large = 100.0
-    /// 335
-    case huge = 335.0
+    case extraLarge = 100.0
+    /// 130
+    case huge = 130.0
+    /// 150
+    case extraHuge = 150.0
+}
+
+enum FieldHeights: CGFloat {
+    /// 20
+    case small = 20.0
+    /// 28
+    case medium = 28.0
+    /// 48
+    case common = 48.0
+    /// 65
+    case large = 65.0   
+}
+
+enum ButtonHeights: CGFloat {
+    /// 48
+    case common = 48.0
 }

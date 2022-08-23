@@ -75,11 +75,10 @@ class BalanceCell: UIView, Subscriber {
         })
         Store.lazySubscribe(self,
                             selector: { [weak self] oldState, newState in
-                                guard let `self` = self else { return false }
+                                guard let self = self else { return false }
                                 return oldState[self.currency]?.currentRate != newState[self.currency]?.currentRate },
-                            callback: {
-                                [weak self] in
-                                guard let `self` = self else { return }
+                            callback: { [weak self] in
+                                guard let self = self else { return }
                                 if let rate = $0[self.currency]?.currentRate {
                                     let placeholderAmount = Amount.zero(self.currency, rate: rate)
                                     self.secondaryBalance.formatter = placeholderAmount.localFormat
@@ -90,10 +89,10 @@ class BalanceCell: UIView, Subscriber {
         
         Store.subscribe(self,
                         selector: { [weak self] oldState, newState in
-                            guard let `self` = self else { return false }
+                            guard let self = self else { return false }
                             return oldState[self.currency]?.balance != newState[self.currency]?.balance },
                         callback: { [weak self] state in
-                            guard let `self` = self else { return }
+                            guard let self = self else { return }
                             if let balance = state[self.currency]?.balance {
                                 self.balance = balance
                             } })
@@ -139,7 +138,7 @@ class BalanceCell: UIView, Subscriber {
     
     private func setInitialData() {
         balanceLabel.textColor = .transparentWhiteText
-        balanceLabel.text = S.Account.balance
+        balanceLabel.text = L10n.Account.balance
         
         primaryBalance.textAlignment = .right
         secondaryBalance.textAlignment = .right

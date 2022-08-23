@@ -16,8 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     let applicationController = ApplicationController()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {        
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         redirectStdOut()
+        TransferManager.shared.reload()
+        
         UIView.swizzleSetFrame()
         applicationController.launch(application: application, options: launchOptions)
         return true

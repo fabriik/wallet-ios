@@ -10,7 +10,6 @@
 
 import SwiftUI
 
-@available(iOS 13.6, *)
 struct EnableKeychainView: View {
     
     @SwiftUI.State private var isKeychainToggleOn: Bool = false
@@ -19,14 +18,14 @@ struct EnableKeychainView: View {
     
     var body: some View {
         VStack {
-            TitleText(S.CloudBackup.enableTitle)
+            TitleText(L10n.CloudBackup.enableTitle)
                 .padding(.bottom)
             VStack(alignment: .leading) {
-                BodyText(S.CloudBackup.enableBody1, style: .primary)
+                BodyText(L10n.CloudBackup.enableBody1, style: .primary)
                     .padding(.bottom, 8.0)
                     .fixedSize(horizontal: false, vertical: true)
                     .lineLimit(nil)
-                ForEach(0..<steps.count) { i in
+                ForEach(0..<steps.count, id: \.self) { i in
                     HStack(alignment: .top) {
                         BodyText("\(i + 1).", style: .primary)
                             .frame(width: 14.0)
@@ -35,7 +34,7 @@ struct EnableKeychainView: View {
                             .lineLimit(nil)
                     }
                 }
-                BodyText(S.CloudBackup.enableBody2, style: .primary)
+                BodyText(L10n.CloudBackup.enableBody2, style: .primary)
                     .padding(.top, 8.0)
                     .fixedSize(horizontal: false, vertical: true)
                     .lineLimit(nil)
@@ -47,13 +46,13 @@ struct EnableKeychainView: View {
             HStack {
                 RadioButton(isOn: self.$isKeychainToggleOn)
                     .frame(width: 44.0, height: 44.0)
-                BodyText(S.CloudBackup.understandText, style: .primary)
+                BodyText(L10n.CloudBackup.understandText, style: .primary)
             }.padding()
             Button(action: self.completion, label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 4.0)
                         .fill(Color(self.isKeychainToggleOn ? Theme.accent : UIColor.secondaryButton))
-                    Text(S.CloudBackup.enableButton)
+                    Text(L10n.CloudBackup.enableButton)
                         .font(Font(Theme.body1))
                         .foregroundColor(Color(Theme.primaryText))
                 }
@@ -65,7 +64,6 @@ struct EnableKeychainView: View {
     }
 }
 
-@available(iOS 13.6, *)
 struct EnableKeychainView_Previews: PreviewProvider {
     static var previews: some View {
         EnableKeychainView(completion: {})
@@ -73,8 +71,8 @@ struct EnableKeychainView_Previews: PreviewProvider {
 }
 
 private let steps = [
-    S.CloudBackup.step1,
-    S.CloudBackup.step2,
-    S.CloudBackup.step3,
-    S.CloudBackup.step4
+    L10n.CloudBackup.step1,
+    L10n.CloudBackup.step2,
+    L10n.CloudBackup.step3,
+    L10n.CloudBackup.step4
 ]

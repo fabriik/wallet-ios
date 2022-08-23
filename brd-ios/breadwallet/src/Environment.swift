@@ -60,20 +60,12 @@ struct E {
             return false
         #endif
     }()
-        
-    static var isIPhone4: Bool {
-        #if IS_EXTENSION_ENVIRONMENT
-        return false
-        #else
-        return UIApplication.shared.keyWindow?.bounds.height == 480.0
-        #endif
-    }
     
     static var isIPhone5: Bool {
         #if IS_EXTENSION_ENVIRONMENT
         return false
         #else
-        let bounds = UIApplication.shared.keyWindow?.bounds
+        let bounds = UIApplication.shared.activeWindow?.bounds
         return bounds?.width == 320 && bounds?.height == 568
         #endif
     }
@@ -82,7 +74,7 @@ struct E {
         #if IS_EXTENSION_ENVIRONMENT
         return false
         #else
-        let bounds = UIApplication.shared.keyWindow?.bounds
+        let bounds = UIApplication.shared.activeWindow?.bounds
         return bounds?.width == 375 && bounds?.height == 667
         #endif
     }
@@ -99,7 +91,7 @@ struct E {
         #if IS_EXTENSION_ENVIRONMENT
         return false
         #else
-        return isIPhone6 || isIPhone5 || isIPhone4
+        return isIPhone6 || isIPhone5
         #endif
     }
     
@@ -107,7 +99,7 @@ struct E {
         #if IS_EXTENSION_ENVIRONMENT
         return false
         #else
-        let bounds = UIApplication.shared.keyWindow?.bounds
+        let bounds = UIApplication.shared.activeWindow?.bounds
         return bounds?.width == 320
         #endif
     }
@@ -118,16 +110,22 @@ struct E {
     }()
     
     static var apiUrl: String {
-        guard let url = Bundle.main.object(forInfoDictionaryKey: "API_URL") as? String else {
+        guard let url = Bundle.main.object(forInfoDictionaryKey: "API_URL") as? String,
+              !url.isEmpty else {
             fatalError("Env not configured properly")
         }
         return url
     }
     
     static var apiToken: String {
-        guard let token = Bundle.main.object(forInfoDictionaryKey: "API_TOKEN") as? String else {
+        guard let token = Bundle.main.object(forInfoDictionaryKey: "API_TOKEN") as? String,
+              !token.isEmpty else {
             fatalError("Env not configured properly")
         }
         return token
+    }
+    
+    static var isTest: Bool {
+        return Bundle.main.object(forInfoDictionaryKey: "IS_TEST") as? String == "true"
     }
 }

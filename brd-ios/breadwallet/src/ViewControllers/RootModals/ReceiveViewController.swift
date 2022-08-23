@@ -38,10 +38,10 @@ class ReceiveViewController: UIViewController, Subscriber, Trackable {
     private let qrCode = UIImageView()
     private let address = UILabel(font: .customBody(size: 14.0))
     private let addressPopout = InViewAlert(type: .primary)
-    private let share = BRDButton(title: S.Receive.share, type: .tertiary, image: #imageLiteral(resourceName: "Share"))
+    private let share = BRDButton(title: L10n.Receive.share, type: .tertiary, image: #imageLiteral(resourceName: "Share"))
     private let sharePopout = InViewAlert(type: .secondary)
     private let border = UIView()
-    private let request = BRDButton(title: S.Receive.request, type: .secondary)
+    private let request = BRDButton(title: L10n.Receive.request, type: .secondary)
     private let addressButton = UIButton(type: .system)
     private var topSharePopoutConstraint: NSLayoutConstraint?
     fileprivate let isRequestAmountVisible: Bool
@@ -113,7 +113,7 @@ class ReceiveViewController: UIViewController, Subscriber, Trackable {
             border.constraint(.centerX, toView: view),
             border.constraint(.height, constant: 1.0) ])
         requestTop = request.constraint(toBottom: border, constant: C.padding[3])
-        requestBottom = request.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: E.isIPhoneX ? -C.padding[5] : -C.padding[2])
+        requestBottom = request.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: E.isIPhoneX ? -C.padding[5] : -C.padding[2])
         request.constrain([
             requestTop,
             request.constraint(.leading, toView: view, constant: C.padding[2]),
@@ -166,7 +166,7 @@ class ReceiveViewController: UIViewController, Subscriber, Trackable {
             self?.addressTapped()
         }
         request.tap = { [weak self] in
-            guard let `self` = self,
+            guard let self = self,
                 let modalTransitionDelegate = self.parent?.transitioningDelegate as? ModalTransitionDelegate,
                 let address = self.address.text else { return }
             modalTransitionDelegate.reset()
@@ -180,7 +180,7 @@ class ReceiveViewController: UIViewController, Subscriber, Trackable {
     private func setupCopiedMessage() {
         let copiedMessage = UILabel(font: .customMedium(size: 14.0))
         copiedMessage.textColor = .black
-        copiedMessage.text = S.Receive.copied
+        copiedMessage.text = L10n.Receive.copied
         copiedMessage.textAlignment = .center
         addressPopout.contentView = copiedMessage
     }
@@ -254,6 +254,6 @@ extension ReceiveViewController: ModalDisplayable {
     }
 
     var modalTitle: String {
-        return "\(S.Receive.title) \(currency.code)"
+        return "\(L10n.Receive.title) \(currency.code)"
     }
 }

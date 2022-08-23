@@ -13,7 +13,7 @@ import UIKit
 class SelectBakerViewController: UIViewController, Subscriber, Trackable, ModalPresentable, UITableViewDataSource, UITableViewDelegate {
     
     private let currency: Currency
-    private let loadingSpinner = UIActivityIndicatorView(style: .whiteLarge)
+    private let loadingSpinner = UIActivityIndicatorView(style: .large)
     private var bakers: [Baker]?
     private let tableView = UITableView()
     var parentView: UIView? //ModalPresentable
@@ -121,6 +121,6 @@ extension SelectBakerViewController: ModalDisplayable {
     }
 
     var modalTitle: String {
-        return S.Staking.selectBakerTitle
+        return L10n.Staking.selectBakerTitle
     }
 }

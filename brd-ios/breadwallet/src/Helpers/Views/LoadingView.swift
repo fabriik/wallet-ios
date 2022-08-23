@@ -7,7 +7,7 @@ import UIKit
 class LoadingView: UIView {
     private static var isShowing = false
     private static var topView: UIView? {
-        return UIApplication.shared.windows.first(where: { $0.isKeyWindow })
+        return UIApplication.shared.activeWindow
     }
     
     // MARK: UI elements
@@ -19,7 +19,7 @@ class LoadingView: UIView {
     }()
     
     private lazy var blurView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .dark)
+        let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
         let view = UIVisualEffectView(effect: blurEffect)
         backgroundColor = UIColor.black.withAlphaComponent(0.2)
         

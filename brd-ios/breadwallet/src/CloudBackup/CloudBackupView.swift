@@ -11,7 +11,6 @@
 import SwiftUI
 import Combine
 
-@available(iOS 13.6, *)
 struct CloudBackupView: View {
     
     @SwiftUI.State private var isBackupOnAtLoad: Bool
@@ -51,26 +50,15 @@ struct CloudBackupView: View {
                 .fill(Color(Theme.primaryBackground))
             VStack {
                 CloudBackupViewBody()
-                if #available(iOS 14, *) {
-                    Toggle(isOn: $isBackupOn) {
-                        Text(S.CloudBackup.mainToggleTitle)
-                            .font(Font(Theme.body1))
-                            .foregroundColor(Color(Theme.secondaryText))
-                    }
-                    .toggleStyle(SwitchToggleStyle(tint: Color(Theme.blueBackground)))
-                    .onReceive(Just(isBackupOn), perform: self.onToggleChange)
-                    .if(!E.isIPhone5, content: { $0.padding() })
-                    .if(E.isIPhone5, content: { $0.padding([.leading, .trailing]) })
-                } else {
-                    Toggle(isOn: $isBackupOn) {
-                        Text(S.CloudBackup.mainToggleTitle)
-                            .font(Font(Theme.body1))
-                            .foregroundColor(Color(Theme.secondaryText))
-                    }
-                    .onReceive(Just(isBackupOn), perform: self.onToggleChange)
-                    .if(!E.isIPhone5, content: { $0.padding() })
-                    .if(E.isIPhone5, content: { $0.padding([.leading, .trailing]) })
+                Toggle(isOn: $isBackupOn) {
+                    Text(L10n.CloudBackup.mainTitle)
+                        .font(Font(Theme.body1))
+                        .foregroundColor(Color(Theme.secondaryText))
                 }
+                .toggleStyle(SwitchToggleStyle(tint: Color(Theme.blueBackground)))
+                .onReceive(Just(isBackupOn), perform: self.onToggleChange)
+                .if(!E.isIPhone5, content: { $0.padding() })
+                .if(E.isIPhone5, content: { $0.padding([.leading, .trailing]) })
                 
                 HStack {
                     Image(systemName: "exclamationmark.circle")
@@ -78,7 +66,7 @@ struct CloudBackupView: View {
                         .frame(width: 36.0, height: 36.0)
                         .foregroundColor(Color(Theme.error))
                         .padding(.leading)
-                    BodyText(S.CloudBackup.mainWarning, style: .seconday)
+                    BodyText(L10n.CloudBackup.mainWarning, style: .seconday)
                         .foregroundColor(Color(Theme.secondaryText))
                     .fixedSize(horizontal: false, vertical: true)
                     .lineLimit(nil)
@@ -98,7 +86,7 @@ struct CloudBackupView: View {
                         ZStack {
                             RoundedRectangle(cornerRadius: 4.0)
                                 .fill(Color(Theme.blueBackground))
-                            Text(S.Button.continueAction)
+                            Text(L10n.Button.continueAction)
                                 .font(Font(Theme.body1))
                                 .foregroundColor(Color(Theme.primaryBackground))
                         }
@@ -114,12 +102,12 @@ struct CloudBackupView: View {
     
     private func addAlert<Content: View>(content: Content) -> some View {
         return content.alert(isPresented: $showingDisableAlert) {
-            SwiftUI.Alert(title: Text(S.WalletConnectionSettings.turnOff),
-                          message: Text(S.CloudBackup.mainWarningConfirmation),
-                          primaryButton: .default(Text(S.Button.cancel), action: {
+            SwiftUI.Alert(title: Text(L10n.WalletConnectionSettings.turnOff),
+                          message: Text(L10n.CloudBackup.mainWarningConfirmation),
+                          primaryButton: .default(Text(L10n.Button.cancel), action: {
                             self.isBackupOn = true
                             self.didToggle = false
-                          }), secondaryButton: .destructive(Text(S.WalletConnectionSettings.turnOff), action: {
+                          }), secondaryButton: .destructive(Text(L10n.WalletConnectionSettings.turnOff), action: {
                             self.didToggle = false
                             self.isBackupOnAtLoad = false
                             self.synchronizer.deleteBackup()
@@ -137,7 +125,7 @@ struct CloudBackupView: View {
         return content.navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing:
                 Button(action: { self.synchronizer.skipBackup() },
-                       label: { BodyText(S.Button.skip, style: .primary)
+                       label: { BodyText(L10n.Button.skip, style: .primary)
                             .foregroundColor(Color(Theme.primaryText))
                         }))
     }
@@ -188,15 +176,14 @@ struct CloudBackupView: View {
     }
 }
 
-@available(iOS 13.6, *)
 struct CloudBackupViewBody: View {
     var body: some View {
         Group {
             CloudBackupIcon(style: .up)
-            Text(S.CloudBackup.mainTitle)
+            Text(L10n.CloudBackup.mainTitle)
                 .font(Font(Theme.h1Title))
                 .foregroundColor(.black)
-            Text(S.CloudBackup.mainBody)
+            Text(L10n.CloudBackup.mainBody)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
                 .font(Font(Theme.body1))
@@ -211,7 +198,6 @@ enum CloudBackupIconStyle: String {
     case down = "icloud.and.arrow.down"
 }
 
-@available(iOS 13.6, *)
 struct CloudBackupIcon: View {
     
     let style: CloudBackupIconStyle
@@ -236,7 +222,6 @@ struct CloudBackupIcon: View {
     }
 }
 
-@available(iOS 13.6, *)
 struct CloudBackupView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -251,5 +236,5 @@ struct CloudBackupView_Previews: PreviewProvider {
     private static let keyStore = try! KeyStore.create()
     private static let synchronizer = BackupSynchronizer(context: .onboarding,
                                                          keyStore: CloudBackupView_Previews.keyStore,
-                                                         navController: UINavigationController())
+                                                         navController: RootNavigationController())
 }

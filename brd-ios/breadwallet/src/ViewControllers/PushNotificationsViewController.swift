@@ -15,7 +15,7 @@ class PushNotificationsViewController: UIViewController, Trackable {
     private let body = UILabel.wrapping(font: Theme.body2, color: Theme.secondaryText)
     private let toggle = UISwitch()
     private let separator = UIView()
-    private let openSettingsButton = BRDButton(title: S.Button.openSettings, type: .primary)
+    private let openSettingsButton = BRDButton(title: L10n.Button.openSettings, type: .primary)
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -44,7 +44,7 @@ class PushNotificationsViewController: UIViewController, Trackable {
     
     private func checkNotificationsSettings() {
         UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 self.updateForNotificationStatus(status: settings.authorizationStatus)
             }
@@ -114,26 +114,26 @@ class PushNotificationsViewController: UIViewController, Trackable {
     
     private func bodyText(notificationsStatus: UNAuthorizationStatus) -> String {
         if notificationsStatus == .authorized {
-            return areNotificationsEnabled ? S.PushNotifications.enabledBody : S.PushNotifications.disabledBody
+            return areNotificationsEnabled ? L10n.PushNotifications.enabledBody : L10n.PushNotifications.disabledBody
         } else {
-            return S.PushNotifications.enableInstructions
+            return L10n.PushNotifications.enableInstructions
         }
     }
     
     private func setData() {
-        title = S.Settings.notifications
+        title = L10n.Settings.notifications
         
         view.backgroundColor = Theme.primaryBackground
         separator.backgroundColor = Theme.tertiaryText
         
-        toggleLabel.text = S.PushNotifications.label
+        toggleLabel.text = L10n.PushNotifications.label
         toggleLabel.textColor = Theme.primaryText
         
         toggle.isOn = areNotificationsEnabled
         toggle.sendActions(for: .valueChanged)
         
         toggle.valueChanged = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             if self.toggle.isOn {
                 UNUserNotificationCenter.current().getNotificationSettings { settings in
                     DispatchQueue.main.async {
@@ -161,7 +161,7 @@ class PushNotificationsViewController: UIViewController, Trackable {
         
         openSettingsButton.tap = { [weak self] in
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             
             self.saveEvent(context: .pushNotifications, screen: .pushNotificationSettings, event: .openNotificationSystemSettings)
             UIApplication.shared.open(url)

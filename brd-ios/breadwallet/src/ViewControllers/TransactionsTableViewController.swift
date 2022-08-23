@@ -76,7 +76,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         tableView.tableHeaderView = header
 
         emptyMessage.textAlignment = .center
-        emptyMessage.text = S.TransactionDetails.emptyMessage
+        emptyMessage.text = L10n.TransactionDetails.emptyMessage
         
         setupSubscriptions()
         updateTransactions()
@@ -95,10 +95,10 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         })
         Store.subscribe(self,
                         selector: { [weak self] oldState, newState in
-                            guard let `self` = self else { return false }
+                            guard let self = self else { return false }
                             return oldState[self.currency]?.currentRate != newState[self.currency]?.currentRate},
                         callback: { [weak self] state in
-                            guard let `self` = self else { return }
+                            guard let self = self else { return }
                             self.rate = state[self.currency]?.currentRate
         })
         
@@ -113,7 +113,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
     
     private func subscribeToTransactionUpdates() {
         wallet?.subscribe(self) { [weak self] event in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch event {
                 case .balanceUpdated, .transferAdded, .transferDeleted:
@@ -132,7 +132,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         }
         
         wallet?.subscribeManager(self) { [weak self] event in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 if case .blockUpdated = event {
                     self.updateTransactions()
@@ -161,16 +161,39 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
 
     private func reload(txHash: String) -> Bool {
         assert(Thread.isMainThread)
+        
         guard let index = transactions.firstIndex(where: { txHash == $0.hash }) else { return false }
-        tableView.reload(row: index, section: 0)
+        
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        tableView.endUpdates()
+        
         return true
     }
-
+    
     private func updateTransactions() {
         assert(Thread.isMainThread)
-        if let transfers = wallet?.transfers {
-           allTransactions = transfers
-           reload()
+        
+        guard let transfers = wallet?.transfers else { return }
+        allTransactions = transfers.sorted(by: { $0.timestamp > $1.timestamp })
+        
+        TransferManager.shared.reload { [weak self] exchanges in
+            exchanges?.forEach { exchange in
+                let source = exchange.source
+                let destination = exchange.destination
+                let sourceId = source.transactionId
+                let destinationId = destination.transactionId
+                
+                if let element = self?.allTransactions.first(where: { $0.transfer.hash?.description == sourceId || $0.transfer.hash?.description == destinationId }) {
+                    // TODO: check if source currency is USD -> buy else swap
+                    element.transactionType = exchange.source.isFiat ? .buyTransaction : .swapTransaction
+                    element.swapOrderId = exchange.orderId
+                    element.swapTransationStatus = exchange.status
+                    element.swapSource = exchange.source
+                    element.swapDestination = exchange.destination
+                }
+                self?.reload()
+            }
         }
     }
 
@@ -203,14 +226,13 @@ extension TransactionsTableViewController {
 
     private func transactionCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: transactionCellIdentifier,
-                                                       for: indexPath) as? TxListCell
-            else { assertionFailure(); return UITableViewCell() }
-        let rate = self.rate ?? Rate.empty
-        let viewModel = TxListViewModel(tx: transactions[indexPath.row])
-        cell.setTransaction(viewModel,
+                                                       for: indexPath) as? TxListCell else { assertionFailure(); return UITableViewCell() }
+        
+        cell.setTransaction(TxListViewModel(tx: transactions[indexPath.row]),
                             showFiatAmounts: showFiatAmounts,
-                            rate: rate,
+                            rate: rate ?? Rate.empty,
                             isSyncing: currency.state?.syncState != .success)
+        
         return cell
     }
 }

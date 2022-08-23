@@ -24,22 +24,28 @@ class ApplicationController: Subscriber, Trackable {
     static let initialLaunchCount = 0
     
     let window = UIWindow()
-    private var startFlowController: StartFlowPresenter?
-    private var modalPresenter: ModalPresenter?
-    private var alertPresenter: AlertPresenter?
+    var coordinator: BaseCoordinator?
+    
     private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-
+    private var startFlowController: StartFlowPresenter?
+    private var alertPresenter: AlertPresenter?
+    private var modalPresenter: ModalPresenter? {
+        didSet {
+            if let nvc = self.rootNavigationController {
+                self.coordinator = BaseCoordinator(navigationController: nvc)
+                self.coordinator?.modalPresenter = self.modalPresenter
+            }
+        }
+    }
+    
     var rootNavigationController: RootNavigationController? {
         guard let root = window.rootViewController as? RootNavigationController else { return nil }
         return root
     }
     
     var homeScreenViewController: HomeScreenViewController? {
-        guard   let rootNavController = rootNavigationController,
-                let homeScreen = rootNavController.viewControllers.first as? HomeScreenViewController
-        else {
-                return nil
-        }
+        guard let rootNavController = rootNavigationController,
+              let homeScreen = rootNavController.viewControllers.first as? HomeScreenViewController else { return nil }
         return homeScreen
     }
         
@@ -61,6 +67,8 @@ class ApplicationController: Subscriber, Trackable {
         }
     }
 
+    var didTapDeleteAccount: (() -> Void)?
+    
     // MARK: - Init/Launch
 
     init() {
@@ -77,22 +85,19 @@ class ApplicationController: Subscriber, Trackable {
 
     /// didFinishLaunchingWithOptions
     func launch(application: UIApplication, options: [UIApplication.LaunchOptionsKey: Any]?) {
-        self.application = application
         handleLaunchOptions(options)
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalNever)
-        
+
         UNUserNotificationCenter.current().delegate = notificationHandler
         EventMonitor.shared.register(.pushNotifications)
-        
+
         mainSetup()
         setupKeyboard()
         Reachability.addDidChangeCallback({ isReachable in
             self.isReachable = isReachable
         })
 
-        if #available(iOS 14.0, *) {
-            WidgetCenter.shared.reloadAllTimelines()
-        }
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     private func bumpLaunchCount() {
@@ -102,22 +107,38 @@ class ApplicationController: Subscriber, Trackable {
     
     private func mainSetup() {
         setupDefaults()
-        setupAppearance()
         setupRootViewController()
         window.makeKeyAndVisible()
         
-        alertPresenter = AlertPresenter(window: self.window)
+        alertPresenter = AlertPresenter(window: window)
         modalPresenter = ModalPresenter(keyStore: keyStore,
                                         system: coreSystem,
                                         window: window,
-                                        alertPresenter: alertPresenter)
-
+                                        alertPresenter: alertPresenter,
+                                        deleteAccountCallback: didTapDeleteAccount)
+        
         // Start collecting analytics events. Once we have a wallet, startBackendServices() will
         // notify `Backend.apiClient.analytics` so that it can upload events to the server.
         Backend.apiClient.analytics?.startCollectingEvents()
 
         appRatingManager.start()
-
+        
+        setupSubscribers()
+        
+        initializeAssets(completionHandler: { [weak self] in
+            self?.decideFlow()
+        })
+    }
+    
+    func decideFlow() {
+        if keyStore.noWallet {
+            enterOnboarding()
+        } else {
+            unlockExistingAccount()
+        }
+    }
+    
+    private func setupSubscribers() {
         Store.subscribe(self, name: .wipeWalletNoPrompt, callback: { [weak self] _ in
             self?.wipeWalletNoPrompt()
         })
@@ -130,19 +151,7 @@ class ApplicationController: Subscriber, Trackable {
             self.rootNavigationController?.viewControllers = []
             
             self.setupRootViewController()
-            self.enterOnboarding()
-        }
-        
-        initializeAssets(completionHandler: { [weak self] in
-            self?.decideFlow()
-        })
-    }
-    
-    func decideFlow() {
-        if keyStore.noWallet {
-            enterOnboarding()
-        } else {
-            unlockExistingAccount()
+            self.decideFlow()
         }
     }
     
@@ -190,22 +199,28 @@ class ApplicationController: Subscriber, Trackable {
             Backend.kvStore?.syncAllKeys { [weak self] error in
                 print("[KV] finished syncing. result: \(error == nil ? "ok" : error!.localizedDescription)")
                 Store.trigger(name: .didSyncKVStore)
-                guard let weakSelf = self else { return }
-                weakSelf.setWalletInfo(account: account)
-                weakSelf.coreSystem.create(account: account,
-                                           authToken: E.apiToken,
-                                           btcWalletCreationCallback: weakSelf.handleDeferedLaunchURL) {
-                    weakSelf.modalPresenter = ModalPresenter(keyStore: weakSelf.keyStore,
-                                                             system: weakSelf.coreSystem,
-                                                             window: weakSelf.window,
-                                                             alertPresenter: weakSelf.alertPresenter)
-                    weakSelf.coreSystem.connect()
+                guard let self = self else { return }
+                self.setWalletInfo(account: account)
+                self.coreSystem.create(account: account,
+                                       authToken: E.apiToken,
+                                       btcWalletCreationCallback: self.handleDeferedLaunchURL) {
+                    self.modalPresenter = ModalPresenter(keyStore: self.keyStore,
+                                                         system: self.coreSystem,
+                                                         window: self.window,
+                                                         alertPresenter: self.alertPresenter,
+                                                         deleteAccountCallback: self.didTapDeleteAccount)
+                    self.coreSystem.connect()
+                    
+                    self.wipeWalletIfNeeded()
                 }
             }
         }
-        Backend.apiClient.updateExperiments()
-        Backend.updateExchangeRates()
-        Backend.apiClient.fetchAnnouncements()
+    }
+    
+    private func wipeWalletIfNeeded() {
+        guard UserDefaults.shouldWipeWalletNoPrompt == true else { return }
+        UserDefaults.shouldWipeWalletNoPrompt = false
+        Store.trigger(name: .wipeWalletNoPrompt)
     }
     
     private func handleDeferedLaunchURL() {
@@ -221,17 +236,9 @@ class ApplicationController: Subscriber, Trackable {
     private func initializeAssets(completionHandler: @escaping () -> Void) {
         _ = Rate.symbolMap //Initialize currency symbol map
         
-        Backend.apiClient.updateBundles { errors in
-            for (n, e) in errors {
-                print("Bundle \(n) ran update. err: \(String(describing: e))")
-            }
-            
+        Backend.apiClient.updateBundles { _ in
             completionHandler()
         }
-        
-        // Set up the animation frames early during the startup process so that they're
-        // ready to roll by the time the home screen is displayed.
-        RewardsIconView.prepareAnimationFrames()
     }
     
     private func handleLaunchOptions(_ options: [UIApplication.LaunchOptionsKey: Any]?) {
@@ -275,9 +282,7 @@ class ApplicationController: Subscriber, Trackable {
             Store.trigger(name: .didSyncKVStore)
         }
 
-        if #available(iOS 14.0, *) {
-            WidgetCenter.shared.reloadAllTimelines()
-        }
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     private func resume() {
@@ -330,7 +335,7 @@ class ApplicationController: Subscriber, Trackable {
     private func setWalletInfo(account: Account) {
         guard let kvStore = Backend.kvStore, WalletInfo(kvStore: kvStore) == nil else { return }
         print("[KV] created new WalletInfo")
-        let walletInfo = WalletInfo(name: S.AccountHeader.defaultWalletName)
+        let walletInfo = WalletInfo(name: L10n.AccountHeader.defaultWalletName)
         walletInfo.creationDate = account.timestamp
         _ = try? kvStore.set(walletInfo)
     }
@@ -350,7 +355,6 @@ class ApplicationController: Subscriber, Trackable {
     }
     
     // MARK: - UI
-    
     private func setupRootViewController() {
         let navigationController = RootNavigationController()
         window.rootViewController = navigationController
@@ -359,74 +363,103 @@ class ApplicationController: Subscriber, Trackable {
                                                  rootViewController: navigationController,
                                                  shouldDisableBiometrics: shouldDisableBiometrics,
                                                  createHomeScreen: createHomeScreen)
+        startFlowController?.didFinish = { [weak self] in
+            self?.afterLoginFlow()
+        }
     }
     
-    private func setupAppearance() {
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont.header]
-        let backImage = #imageLiteral(resourceName: "BackArrowWhite").image(withInsets: UIEdgeInsets(top: 0.0, left: 8.0, bottom: 2.0, right: 0.0))
-        UINavigationBar.appearance().backIndicatorImage = backImage
-        UINavigationBar.appearance().backIndicatorTransitionMaskImage = backImage
-        // hide back button text
-        UIBarButtonItem.appearance().setBackButtonBackgroundImage(#imageLiteral(resourceName: "TransparentPixel"), for: .normal, barMetrics: .default)
-        UISwitch.appearance().onTintColor = Theme.accent
+    private func afterLoginFlow() {
+        UserManager.shared.refresh { [weak self] result in
+            switch result {
+            case .success(let profile):
+                guard !UserDefaults.emailConfirmed,
+                      profile?.email != nil else {
+                    return
+                }
+                
+                self?.coordinator?.showRegistration()
+                
+                self?.homeScreenViewController?.canShowPrompts = true
+                
+            case .failure(let error):
+                if let error = error as? NetworkingError, error == .sessionExpired {
+                    self?.coordinator?.showMessage(with: error)
+                }
+                
+                if let token = UserDefaults.walletTokenValue {
+                    let newDeviceRequestData = NewDeviceRequestData(token: token)
+                    NewDeviceWorker().execute(requestData: newDeviceRequestData) { [weak self] result in
+                        switch result {
+                        case .success(let data):
+                            UserDefaults.email = data?.email
+                            UserDefaults.kycSessionKeyValue = data?.sessionKey
+                            
+                            self?.coordinator?.showRegistration()
+                            
+                        case .failure(let error):
+                            self?.coordinator?.showMessage(with: error)
+                        }
+                        
+                        self?.homeScreenViewController?.canShowPrompts = true
+                    }
+                }
+                
+            default:
+                return
+            }
+        }
     }
     
     private func addHomeScreenHandlers(homeScreen: HomeScreenViewController,
                                        navigationController: UINavigationController) {
         
+        homeScreen.showPrompts = { [weak self] in
+            // TODO: Should be refactored with Coordinators.
+            self?.homeScreenViewController?.attemptShowKYCPrompt()
+        }
+        
         homeScreen.didSelectCurrency = { [unowned self] currency in
-            if currency.isBRDToken, UserDefaults.shouldShowBRDRewardsAnimation {
-                let name = self.makeEventName([EventContext.rewards.name, Event.openWallet.name])
-                self.saveEvent(name, attributes: ["currency": currency.code])
-            }
-            
             let wallet = self.coreSystem.wallet(for: currency)
             let accountViewController = AccountViewController(currency: currency, wallet: wallet)
             navigationController.pushViewController(accountViewController, animated: true)
         }
         
-        homeScreen.didTapBuy = { url, reservationCode in
-            let partnershipAlertShown = UserDefaults.standard.bool(forKey: "ShownBuyAlert")
-            
-            guard !partnershipAlertShown else {
-                Store.perform(action: RootModalActions.Present(modal: .buy(url: url, reservationCode: reservationCode, currency: nil)))
-                return
-            }
-            
-            UserDefaults.standard.set(true, forKey: "ShownBuyAlert")
-            let message = "Fabriik is providing Buy functionality through Wyre, a third-party API provider."
-            
-            let alert = UIAlertController(title: "Partnership note",
-                                          message: message,
-                                          preferredStyle: .alert)
-            let continueAction = UIAlertAction(title: S.Button.continueAction, style: .default) { _ in
-                Store.perform(action: RootModalActions.Present(modal: .buy(url: url, reservationCode: reservationCode, currency: nil)))
-            }
-            
-            alert.addAction(continueAction)
-            navigationController.present(alert, animated: true, completion: nil)
+        homeScreen.didTapBuy = { [unowned self] in
+            coordinator?.showBuy(coreSystem: coreSystem, keyStore: keyStore)
         }
         
-        homeScreen.didTapTrade = { [weak self] in
-            let partnershipAlertShown = UserDefaults.standard.bool(forKey: "ShownSwapAlert")
-            
-            guard !partnershipAlertShown else {
-                self?.openSwapScreen()
-                return
+        homeScreen.didTapTrade = { [unowned self] in
+            coordinator?.showSwap(currencies: Store.state.currencies,
+                                  coreSystem: coreSystem,
+                                  keyStore: keyStore)
+        }
+        
+        homeScreen.didTapProfile = { [unowned self] in
+            coordinator?.showProfile()
+        }
+        
+        didTapDeleteAccount = { [unowned self] in
+            coordinator?.showDeleteProfileInfo(keyMaster: keyStore)
+        }
+        
+        homeScreen.didTapProfileFromPrompt = { [unowned self] profile in
+            switch profile {
+            case .success(let profile):
+                if profile?.email == nil
+                    || !UserDefaults.emailConfirmed {
+                    coordinator?.showRegistration(shouldShowProfile: true)
+                } else if UserManager.shared.profile?.status.canBuyTrade == false {
+                    coordinator?.showVerificationsModally()
+                }
+
+            case .failure(let error):
+                guard (error as? NetworkingError) == .sessionExpired else { return }
+                
+                coordinator?.showRegistration(shouldShowProfile: true)
+                
+            default:
+                break
             }
-            
-            UserDefaults.standard.set(true, forKey: "ShownSwapAlert")
-            let message = "Fabriik is providing Swap functionality through Changelly, a third-party API provider."
-            
-            let alert = UIAlertController(title: "Partnership note",
-                                          message: message,
-                                          preferredStyle: .alert)
-            let continueAction = UIAlertAction(title: S.Button.continueAction, style: .default) { _ in
-                self?.openSwapScreen()
-            }
-            
-            alert.addAction(continueAction)
-            navigationController.present(alert, animated: true, completion: nil)
         }
         
         homeScreen.didTapMenu = { [unowned self] in
@@ -436,21 +469,15 @@ class ApplicationController: Subscriber, Trackable {
         homeScreen.didTapManageWallets = { [unowned self] in
             guard let assetCollection = self.coreSystem.assetCollection else { return }
             let vc = ManageWalletsViewController(assetCollection: assetCollection, coreSystem: self.coreSystem)
-            let nc = UINavigationController(rootViewController: vc)
-            nc.setDarkStyle()
+            let nc = RootNavigationController(rootViewController: vc)
             navigationController.present(nc, animated: true, completion: nil)
         }
-    }
-    
-    func openSwapScreen() {
-        let currencies = coreSystem.assetCollection?.allAssets.compactMap { $0.value.code } ?? []
-        Store.perform(action: RootModalActions.Present(modal: .trade(availibleCurrencies: currencies, amount: 1)))
     }
     
     /// Creates an instance of the home screen. This may be invoked from StartFlowPresenter.presentOnboardingFlow().
     private func createHomeScreen(navigationController: UINavigationController) -> HomeScreenViewController {
         let homeScreen = HomeScreenViewController(walletAuthenticator: keyStore as WalletAuthenticator,
-                                                  widgetDataShareService: self.coreSystem.widgetDataShareService)
+                                                  coreSystem: coreSystem)
         
         addHomeScreenHandlers(homeScreen: homeScreen, navigationController: navigationController)
         
@@ -482,7 +509,7 @@ class ApplicationController: Subscriber, Trackable {
     
     // do not call directly, instead use wipeWalletNoPrompt trigger so other subscribers are notified
     private func wipeWalletNoPrompt() {
-        let activity = BRActivityViewController(message: S.WipeWallet.wiping)
+        let activity = BRActivityViewController(message: L10n.WipeWallet.wiping)
         var topViewController = rootNavigationController as UIViewController?
         while let newTopViewController = topViewController?.presentedViewController {
             topViewController = newTopViewController
@@ -492,7 +519,7 @@ class ApplicationController: Subscriber, Trackable {
         let success = keyStore.wipeWallet()
         guard success else { // unexpected error writing to keychain
             activity.dismiss(animated: true)
-            topViewController?.showAlert(title: S.WipeWallet.failedTitle, message: S.WipeWallet.failedMessage)
+            topViewController?.showAlert(title: L10n.WipeWallet.failedTitle, message: L10n.WipeWallet.failedMessage)
             return
         }
         

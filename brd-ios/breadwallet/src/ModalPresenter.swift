@@ -19,13 +19,13 @@ class ModalPresenter: Subscriber, Trackable {
 
     // MARK: - Public
     
-    init(keyStore: KeyStore, system: CoreSystem, window: UIWindow, alertPresenter: AlertPresenter?) {
+    init(keyStore: KeyStore, system: CoreSystem, window: UIWindow, alertPresenter: AlertPresenter?, deleteAccountCallback: (() -> Void)?) {
         self.system = system
         self.window = window
         self.alertPresenter = alertPresenter
+        self.deleteAccountCallback = deleteAccountCallback
         self.keyStore = keyStore
         self.modalTransitionDelegate = ModalTransitionDelegate(type: .regular)
-        self.wipeNavigationDelegate = StartNavigationDelegate()
         addSubscriptions()
     }
     
@@ -37,13 +37,13 @@ class ModalPresenter: Subscriber, Trackable {
     private let window: UIWindow
     private let keyStore: KeyStore
     private var alertPresenter: AlertPresenter?
+    private var deleteAccountCallback: (() -> Void)?
     private let modalTransitionDelegate: ModalTransitionDelegate
     private let messagePresenter = MessageUIPresenter()
     private let securityCenterNavigationDelegate = SecurityCenterNavigationDelegate()
     private let verifyPinTransitionDelegate = PinTransitioningDelegate()
     private var currentRequest: PaymentRequest?
-    private let wipeNavigationDelegate: StartNavigationDelegate
-    private var menuNavController: UINavigationController?
+    private var menuNavController: RootNavigationController?
     private var feedbackManager: EmailFeedbackManager?
     private let system: CoreSystem
     
@@ -81,9 +81,9 @@ class ModalPresenter: Subscriber, Trackable {
         })
 
         //URLs
-        Store.subscribe(self, name: .receivedPaymentRequest(nil), callback: { [weak self] in
+        Store.subscribe(self, name: .paymentRequest(nil), callback: { [weak self] in
             guard let trigger = $0 else { return }
-            if case let .receivedPaymentRequest(request) = trigger {
+            if case let .paymentRequest(request) = trigger {
                 if let request = request {
                     self?.handlePaymentRequest(request: request)
                 }
@@ -134,16 +134,13 @@ class ModalPresenter: Subscriber, Trackable {
         
         // in-app notifications
         Store.subscribe(self, name: .showInAppNotification(nil)) { [weak self] (trigger) in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             guard let topVC = self.topViewController else { return }
             
             if case let .showInAppNotification(notification?)? = trigger {
                 let display: (UIImage?) -> Void = { (image) in
                     let notificationVC = InAppNotificationViewController(notification, image: image)
-                    
-                    let navigationController = ModalNavigationController(rootViewController: notificationVC)
-                    navigationController.setClearNavbar()
-                    
+                    let navigationController = RootNavigationController(rootViewController: notificationVC)
                     topVC.present(navigationController, animated: true, completion: nil)
                 }
                 
@@ -176,7 +173,7 @@ class ModalPresenter: Subscriber, Trackable {
             if case let .reImportGift(viewModel) = trigger {
                 guard let gift = viewModel?.gift else { return assertionFailure() }
                 let code = QRCode(url: URL(string: gift.url!)!, viewModel: viewModel)
-                guard let wallet = Currencies.btc.instance?.wallet else { return assertionFailure() }
+                guard let wallet = Currencies.shared.btc?.wallet else { return assertionFailure() }
                 let eventName = self.makeEventName([EventContext.gift.name, Event.redeem.name])
                 self.saveEvent(eventName, attributes: ["\(eventName).method": "reclaim"])
                 self.presentKeyImport(wallet: wallet, scanResult: code)
@@ -185,7 +182,7 @@ class ModalPresenter: Subscriber, Trackable {
     }
     
     private func handleGift(qrCode: QRCode) {
-        guard let wallet = Currencies.btc.instance?.wallet else { return }
+        guard let wallet = Currencies.shared.btc?.wallet else { return }
         guard case .gift(let key, _) = qrCode else { return }
         guard let privKey = Key.createFromString(asPrivate: key) else { return }
         wallet.createSweeper(forKey: privKey) { result in
@@ -214,7 +211,7 @@ class ModalPresenter: Subscriber, Trackable {
         guard let url = URL(string: C.supportLink) else { return }
         let webViewController = SimpleWebViewController(url: url)
         webViewController.setup(with: .init(title: "Support"))
-        let navController = UINavigationController(rootViewController: webViewController)
+        let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         
         topViewController?.present(navController, animated: true)
@@ -240,50 +237,18 @@ class ModalPresenter: Subscriber, Trackable {
             }
                         
             return ModalViewController(childViewController: requestVc)
-        case .buy(let url, _, _):
-            guard let url = URL(string: url) else { return nil }
-            
-            let webViewController = SimpleWebViewController(url: url)
-            webViewController.setAsNonDismissableModal()
-            // TODO: localize
-            webViewController.setup(with: .init(title: "Buy"))
-            
-            let navController = UINavigationController(rootViewController: webViewController)
-            topViewController?.show(navController, sender: nil)
-            return nil
-            
-        case .trade(let currencies, let amount):
-            let request = ChangellyApi.swap(currencies: currencies, amount: amount)
-            
-            var components = URLComponents(string: request.url)
-            components?.queryItems = request
-                .requestData?
-                .getParameters()
-                .compactMap { URLQueryItem(name: $0.key, value: "\($0.value)") }
-            
-            guard let url = components?.url else { return nil }
-            
-            let webViewController = SimpleWebViewController(url: url)
-            webViewController.setAsNonDismissableModal()
-            // TODO: localize
-            webViewController.setup(with: .init(title: "Swap"))
-            
-            let navController = UINavigationController(rootViewController: webViewController)
-            topViewController?.show(navController, sender: nil)
-            return nil
-            
         case .receiveLegacy:
-            guard let btc = Currencies.btc.instance else { return nil }
+            guard let btc = Currencies.shared.btc else { return nil }
             return makeReceiveView(currency: btc, isRequestAmountVisible: false, isBTCLegacy: true)
         case .gift :
-            guard let currency = Currencies.btc.instance else { return nil }
+            guard let currency = Currencies.shared.btc else { return nil }
             guard let wallet = system.wallet(for: currency),
                 let kvStore = Backend.kvStore else { assertionFailure(); return nil }
             let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
             let giftView = GiftViewController(sender: sender, wallet: wallet, currency: currency)
             
             giftView.presentVerifyPin = { [weak self, weak giftView] bodyText, success in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 let vc = VerifyPinViewController(bodyText: bodyText,
                                                  pinLength: Store.state.pinLength,
                                                  walletAuthenticator: self.keyStore,
@@ -315,7 +280,7 @@ class ModalPresenter: Subscriber, Trackable {
         let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
         let stakeView = StakeViewController(currency: currency, sender: sender)
         stakeView.presentVerifyPin = { [weak self, weak stakeView] bodyText, success in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             let vc = VerifyPinViewController(bodyText: bodyText,
                                              pinLength: Store.state.pinLength,
                                              walletAuthenticator: self.keyStore,
@@ -337,8 +302,8 @@ class ModalPresenter: Subscriber, Trackable {
         guard let wallet = system.wallet(for: currency),
             let kvStore = Backend.kvStore else { assertionFailure(); return nil }
         guard !(currency.state?.isRescanning ?? false) else {
-            let alert = UIAlertController(title: S.Alert.error, message: S.Send.isRescanning, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: S.Button.ok, style: .cancel, handler: nil))
+            let alert = UIAlertController(title: L10n.Alert.error, message: L10n.Send.isRescanning, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .cancel, handler: nil))
             topViewController?.present(alert, animated: true, completion: nil)
             return nil
         }
@@ -351,7 +316,7 @@ class ModalPresenter: Subscriber, Trackable {
         let root = ModalViewController(childViewController: sendVC)
         sendVC.presentScan = presentScan(parent: root, currency: currency)
         sendVC.presentVerifyPin = { [weak self, weak root] bodyText, success in
-            guard let `self` = self, let root = root else { return }
+            guard let self = self, let root = root else { return }
             let vc = VerifyPinViewController(bodyText: bodyText,
                                              pinLength: Store.state.pinLength,
                                              walletAuthenticator: self.keyStore,
@@ -374,7 +339,7 @@ class ModalPresenter: Subscriber, Trackable {
         let root = ModalViewController(childViewController: receiveVC)
         
         receiveVC.shareAddress = { [weak self, weak root] address, qrCode in
-            guard let `self` = self, let root = root else { return }
+            guard let self = self, let root = root else { return }
             self.messagePresenter.presenter = root
             self.messagePresenter.presentShareSheet(text: address, image: qrCode)
         }
@@ -389,26 +354,28 @@ class ModalPresenter: Subscriber, Trackable {
             guard let scanResult = scanResult else { return }
             switch scanResult {
             case .paymentRequest(let request):
-                let message = String(format: S.Scanner.paymentPromptMessage, request.currency.name)
-                let alert = UIAlertController.confirmationAlert(title: S.Scanner.paymentPrompTitle, message: message) {
+                guard let request = request else { return }
+                
+                let message = L10n.Scanner.paymentPromptMessage(request.currency.name)
+                let alert = UIAlertController.confirmationAlert(title: L10n.Scanner.paymentPromptTitle, message: message) {
                     self.currentRequest = request
                     self.presentModal(.send(currency: request.currency))
                 }
                 top.present(alert, animated: true, completion: nil)
                 
             case .privateKey:
-                let alert = UIAlertController(title: S.Settings.importTile, message: nil, preferredStyle: .actionSheet)
+                let alert = UIAlertController(title: L10n.Settings.importTitle, message: nil, preferredStyle: .actionSheet)
                 alert.addAction(UIAlertAction(title: "BTC", style: .default, handler: { _ in
-                    if let wallet = Currencies.btc.instance?.wallet {
+                    if let wallet = Currencies.shared.btc?.wallet {
                         self.presentKeyImport(wallet: wallet, scanResult: scanResult)
                     }
                 }))
                 alert.addAction(UIAlertAction(title: "BCH", style: .default, handler: { _ in
-                    if let wallet = Currencies.bch.instance?.wallet {
+                    if let wallet = Currencies.shared.bch?.wallet {
                         self.presentKeyImport(wallet: wallet, scanResult: scanResult)
                     }
                 }))
-                alert.addAction(UIAlertAction(title: S.Button.cancel, style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: L10n.Button.cancel, style: .cancel, handler: nil))
                 top.present(alert, animated: true, completion: nil)
             case .deepLink(let url):
                 UIApplication.shared.open(url)
@@ -422,25 +389,30 @@ class ModalPresenter: Subscriber, Trackable {
         }
     }
     
-    public func presentRegistrationAndKYC() {
-        let vc = KYCSignInViewController()
-        let navController = KYCNavigationController(rootViewController: vc)
-        vc.setAsNonDismissableModal()
-        
-        topViewController?.present(navController, animated: true, completion: nil)
+    // MARK: Settings
+    func presentPreferences() {
+        guard let menuNav = topViewController as? RootNavigationController else { return }
+        let items = preparePreferencesMenuItems(menuNav: menuNav)
+        let rootMenu = MenuViewController(items: items, title: L10n.Settings.preferences)
+        self.topViewController?.show(rootMenu, sender: nil)
     }
     
-    // MARK: Settings
-    func presentMenu() {
-        let menuNav = UINavigationController()
-        menuNav.setDarkStyle()
+    func presentSecuritySettings() {
+        guard let menuNav = topViewController as? RootNavigationController else { return }
+        let items = prepareSecuritySettingsMenuItems(menuNav: menuNav)
+        let rootMenu = MenuViewController(items: items,
+                                          title: L10n.MenuButton.security,
+                                          faqButton: UIButton.buildFaqButton(articleId: ArticleIds.securityCenter, position: .right))
         
+        self.topViewController?.show(rootMenu, sender: nil)
+    }
+    
+    private func preparePreferencesMenuItems(menuNav: RootNavigationController) -> [MenuItem] {
         // MARK: Bitcoin Menu
         var btcItems: [MenuItem] = []
-        if let btc = Currencies.btc.instance, let btcWallet = btc.wallet {
-            
+        if let btc = Currencies.shared.btc, let btcWallet = btc.wallet {
             // Rescan
-            var rescan = MenuItem(title: S.Settings.sync, callback: { [unowned self] in
+            var rescan = MenuItem(title: L10n.Settings.sync, callback: { [unowned self] in
                 menuNav.pushViewController(ReScanViewController(system: self.system, wallet: btcWallet), animated: true)
             })
             rescan.shouldShow = { [unowned self] in
@@ -449,7 +421,7 @@ class ModalPresenter: Subscriber, Trackable {
             btcItems.append(rescan)
             
             // Nodes
-            var nodeSelection = MenuItem(title: S.NodeSelector.title, callback: {
+            var nodeSelection = MenuItem(title: L10n.NodeSelector.title, callback: {
                 let nodeSelector = NodeSelectorViewController(wallet: btcWallet)
                 menuNav.pushViewController(nodeSelector, animated: true)
             })
@@ -458,19 +430,19 @@ class ModalPresenter: Subscriber, Trackable {
             }
             btcItems.append(nodeSelection)
             
-            btcItems.append(MenuItem(title: S.Settings.importTile, callback: {
+            btcItems.append(MenuItem(title: L10n.Settings.importTitle, callback: {
                 menuNav.dismiss(animated: true, completion: { [weak self] in
-                    guard let `self` = self else { return }
+                    guard let self = self else { return }
                     self.presentKeyImport(wallet: btcWallet)
                 })
             }))
             
-            var enableSegwit = MenuItem(title: S.Settings.enableSegwit, callback: {
+            var enableSegwit = MenuItem(title: L10n.Settings.enableSegwit, callback: {
                 let segwitView = SegwitViewController()
                 menuNav.pushViewController(segwitView, animated: true)
             })
             enableSegwit.shouldShow = { return !UserDefaults.hasOptedInSegwit }
-            var viewLegacyAddress = MenuItem(title: S.Settings.viewLegacyAddress, callback: {
+            var viewLegacyAddress = MenuItem(title: L10n.Settings.viewLegacyAddress, callback: {
                 Backend.apiClient.sendViewLegacyAddress()
                 Store.perform(action: RootModalActions.Present(modal: .receiveLegacy))
             })
@@ -479,147 +451,99 @@ class ModalPresenter: Subscriber, Trackable {
             btcItems.append(enableSegwit)
             btcItems.append(viewLegacyAddress)
         }
-        var btcMenu = MenuItem(title: String(format: S.Settings.currencyPageTitle, Currencies.btc.instance?.name ?? "Bitcoin"), subMenu: btcItems, rootNav: menuNav)
+        var btcMenu = MenuItem(title: L10n.Settings.currencyPageTitle(Currencies.shared.btc?.name ?? ""), subMenu: btcItems, rootNav: menuNav)
         btcMenu.shouldShow = { return !btcItems.isEmpty }
         
         // MARK: Bitcoin Cash Menu
         var bchItems: [MenuItem] = []
-        if let bch = Currencies.bch.instance, let bchWallet = bch.wallet {
+        if let bch = Currencies.shared.bch, let bchWallet = bch.wallet {
             if system.connectionMode(for: bch) == .p2p_only {
                 // Rescan
-                bchItems.append(MenuItem(title: S.Settings.sync, callback: { [weak self] in
-                    guard let `self` = self else { return }
+                bchItems.append(MenuItem(title: L10n.Settings.sync, callback: { [weak self] in
+                    guard let self = self else { return }
                     menuNav.pushViewController(ReScanViewController(system: self.system, wallet: bchWallet), animated: true)
                 }))
             }
-            bchItems.append(MenuItem(title: S.Settings.importTile, callback: {
+            bchItems.append(MenuItem(title: L10n.Settings.importTitle, callback: {
                 menuNav.dismiss(animated: true, completion: { [unowned self] in
                     self.presentKeyImport(wallet: bchWallet)
                 })
             }))
             
         }
-        var bchMenu = MenuItem(title: String(format: S.Settings.currencyPageTitle, Currencies.bch.instance?.name ?? "Bitcoin Cash"), subMenu: bchItems, rootNav: menuNav)
+        var bchMenu = MenuItem(title: L10n.Settings.currencyPageTitle(Currencies.shared.bch?.name ?? ""), subMenu: bchItems, rootNav: menuNav)
         bchMenu.shouldShow = { return !bchItems.isEmpty }
         
         // MARK: Ethereum Menu
         var ethItems: [MenuItem] = []
-        if let eth = Currencies.eth.instance, let ethWallet = eth.wallet {
+        if let eth = Currencies.shared.eth, let ethWallet = eth.wallet {
             if system.connectionMode(for: eth) == .p2p_only {
                 // Rescan
-                ethItems.append(MenuItem(title: S.Settings.sync, callback: { [weak self] in
-                    guard let `self` = self else { return }
+                ethItems.append(MenuItem(title: L10n.Settings.sync, callback: { [weak self] in
+                    guard let self = self else { return }
                     menuNav.pushViewController(ReScanViewController(system: self.system, wallet: ethWallet), animated: true)
                 }))
             }
         }
-        var ethMenu = MenuItem(title: String(format: S.Settings.currencyPageTitle, Currencies.eth.instance?.name ?? "Ethereum"), subMenu: ethItems, rootNav: menuNav)
+        var ethMenu = MenuItem(title: L10n.Settings.currencyPageTitle(Currencies.shared.eth?.name ?? ""), subMenu: ethItems, rootNav: menuNav)
         ethMenu.shouldShow = { return !ethItems.isEmpty }
 
         // MARK: Preferences
         let preferencesItems: [MenuItem] = [
             // Display Currency
-            MenuItem(title: S.Settings.currency, accessoryText: {
-                let code = Store.state.defaultCurrencyCode
-                let components: [String: String] = [NSLocale.Key.currencyCode.rawValue: code]
-                let identifier = Locale.identifier(fromComponents: components)
-                return Locale(identifier: identifier).currencyCode ?? ""
-            }, callback: {
-                menuNav.pushViewController(DefaultCurrencyViewController(), animated: true)
-            }),
+            // TODO: uncomment to restore currency selection (also update UserDefaults+Additions-defaultCurrencyCode)
+//            MenuItem(title: L10n.Settings.currency, accessoryText: {
+//                let code = Store.state.defaultCurrencyCode
+//                let components: [String: String] = [NSLocale.Key.currencyCode.rawValue: code]
+//                let identifier = Locale.identifier(fromComponents: components)
+//                return Locale(identifier: identifier).currencyCode ?? ""
+//            }, callback: {
+//                menuNav.pushViewController(DefaultCurrencyViewController(), animated: true)
+//            }),
             
             btcMenu,
             bchMenu,
             ethMenu,
 
             // Share Anonymous Data
-            MenuItem(title: S.Settings.shareData, callback: {
+            MenuItem(title: L10n.Settings.shareData, callback: {
                 menuNav.pushViewController(ShareDataViewController(), animated: true)
             }),
             
             // Reset Wallets
-            MenuItem(title: S.Settings.resetCurrencies, callback: { [weak self] in
-                guard let `self` = self else { return }
+            MenuItem(title: L10n.Settings.resetCurrencies, callback: { [weak self] in
+                guard let self = self else { return }
                 menuNav.dismiss(animated: true, completion: {
                     self.system.resetToDefaultCurrencies()
                 })
             }),
             
             // Notifications
-            MenuItem(title: S.Settings.notifications, callback: {
+            MenuItem(title: L10n.Settings.notifications, callback: {
                 menuNav.pushViewController(PushNotificationsViewController(), animated: true)
             })
         ]
         
-        // MARK: Security Settings
-        var securityItems: [MenuItem] = [
-            // Unlink
-            MenuItem(title: S.Settings.wipe) { [weak self] in
-                guard let `self` = self, let vc = self.topViewController else { return }
-                RecoveryKeyFlowController.enterUnlinkWalletFlow(from: vc,
-                                                                keyMaster: self.keyStore,
-                                                                phraseEntryReason: .validateForWipingWallet({ [weak self] in
-                                                                    self?.wipeWallet()
-                                                                }))
-            },
-            
-            // Update PIN
-            MenuItem(title: S.UpdatePin.updateTitle) { [weak self] in
-                guard let `self` = self else { return }
-                let updatePin = UpdatePinViewController(keyMaster: self.keyStore, type: .update)
-                menuNav.pushViewController(updatePin, animated: true)
-            },
-            
-            // Biometrics
-            MenuItem(title: LAContext.biometricType() == .face ? S.SecurityCenter.Cells.faceIdTitle : S.SecurityCenter.Cells.touchIdTitle) { [weak self] in
-                guard let `self` = self else { return }
-                self.presentBiometricsMenuItem()
-            },
-            
-            // Paper key
-            MenuItem(title: S.SecurityCenter.Cells.paperKeyTitle) { [weak self] in
-                guard let `self` = self else { return }
-                self.presentWritePaperKey(fromViewController: menuNav)
-            },
-
-            // Portfolio data for widget
-            MenuItem(title: S.Settings.shareWithWidget,
-                     accessoryText: { [weak self] in
-                         self?.system.widgetDataShareService.sharingEnabled ?? false ? "ON" : "OFF"
-                     },
-                     callback: { [weak self] in
-                         self?.system.widgetDataShareService.sharingEnabled.toggle()
-                         (menuNav.topViewController as? MenuViewController)?.reloadMenu()
-                     })
-        ]
+        return preferencesItems
+    }
+    
+    func presentMenu() {
+        let menuNav = RootNavigationController()
+        // MARK: Preferences
+        let preferencesItems = preparePreferencesMenuItems(menuNav: menuNav)
         
-        // Add iCloud backup
-        if #available(iOS 13.6, *) {
-            securityItems.append(
-                MenuItem(title: S.CloudBackup.backupMenuTitle) {
-                    let synchronizer = BackupSynchronizer(context: .existingWallet, keyStore: self.keyStore, navController: menuNav)
-                    let cloudView = CloudBackupView(synchronizer: synchronizer)
-                    let hosting = UIHostingController(rootView: cloudView)
-                    menuNav.pushViewController(hosting, animated: true)
-                }
-            )
-        }
+        // MARK: Security Settings
+        let securityItems = prepareSecuritySettingsMenuItems(menuNav: menuNav)
         
         // MARK: Root Menu
         var rootItems: [MenuItem] = [
             // Scan QR Code
-            MenuItem(title: S.MenuButton.scan, icon: MenuItem.Icon.scan) { [weak self] in
+            MenuItem(title: L10n.MenuButton.scan, icon: MenuItem.Icon.scan) { [weak self] in
                 self?.presentLoginScan()
             },
             
-            // Registration and KYC
-            // TODO: Add back when ready.
-//            MenuItem(title: S.MenuButton.registrationAndKyc, icon: MenuItem.Icon.registrationAndKyc) { [weak self] in
-//                self?.presentRegistrationAndKYC()
-//            },
-            
             // Feedback
-            MenuItem(title: S.MenuButton.feedback, icon: MenuItem.Icon.feedback) { [weak self] in
+            MenuItem(title: "Feedback", icon: MenuItem.Icon.feedback) { [weak self] in
                 guard let topVc = self?.topViewController else { return }
                 
                 let feedback = EmailFeedbackManager.Feedback(recipients: "feedback@fabriik.com", subject: "Fabriik - Feedback", body: "")
@@ -633,34 +557,34 @@ class ModalPresenter: Subscriber, Trackable {
             },
             
             // Manage Assets
-            MenuItem(title: S.MenuButton.manageAssets, icon: MenuItem.Icon.wallet) { [weak self] in
-                guard let `self` = self, let assetCollection = self.system.assetCollection else { return }
+            MenuItem(title: L10n.MenuButton.manageAssets, icon: MenuItem.Icon.wallet) { [weak self] in
+                guard let self = self, let assetCollection = self.system.assetCollection else { return }
                 let vc = ManageWalletsViewController(assetCollection: assetCollection, coreSystem: self.system)
                 menuNav.pushViewController(vc, animated: true)
             },
             
             // Preferences
-            MenuItem(title: S.Settings.preferences, icon: MenuItem.Icon.preferences, subMenu: preferencesItems, rootNav: menuNav),
+            MenuItem(title: L10n.Settings.preferences, icon: MenuItem.Icon.preferences, subMenu: preferencesItems, rootNav: menuNav),
             
             // Security
-            MenuItem(title: S.MenuButton.security,
+            MenuItem(title: L10n.MenuButton.security,
                      icon: #imageLiteral(resourceName: "security"),
                      subMenu: securityItems,
                      rootNav: menuNav,
-                     faqButton: UIButton.buildFaqButton(articleId: ArticleIds.securityCenter)),
+                     faqButton: UIButton.buildFaqButton(articleId: ArticleIds.securityCenter, position: .right)),
             
             // Support
-            MenuItem(title: S.MenuButton.support, icon: MenuItem.Icon.support) { [weak self] in
+            MenuItem(title: L10n.MenuButton.support, icon: MenuItem.Icon.support) { [weak self] in
                 self?.presentFaq()
             },
             
             // About
-            MenuItem(title: S.Settings.about, icon: MenuItem.Icon.about) {
+            MenuItem(title: L10n.Settings.about, icon: MenuItem.Icon.about) {
                 menuNav.pushViewController(AboutViewController(), animated: true)
             },
             
             // Export Transfer History
-            MenuItem(title: S.Settings.exportTransfers, icon: MenuItem.Icon.export) { [weak self] in
+            MenuItem(title: L10n.Settings.exportTransfers, icon: MenuItem.Icon.export) { [weak self] in
                 self?.presentExportTransfers()
             }
         ]
@@ -671,10 +595,10 @@ class ModalPresenter: Subscriber, Trackable {
             let url = meta.url, !url.isEmpty,
             let URL = URL(string: url) {
             
-            rootItems.append(MenuItem(title: S.Settings.atmMapMenuItemTitle,
-                                      subTitle: S.Settings.atmMapMenuItemSubtitle,
+            rootItems.append(MenuItem(title: L10n.Settings.atmMapMenuItemTitle,
+                                      subTitle: L10n.Settings.atmMapMenuItemSubtitle,
                                       icon: MenuItem.Icon.atmMap) { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 
                 let browser = BRBrowserViewController()
                 
@@ -703,7 +627,7 @@ class ModalPresenter: Subscriber, Trackable {
                 self?.presentConnectionModeScreen(menuNav: menuNav)
             }))
             
-            developerItems.append(MenuItem(title: S.Settings.sendLogs) { [weak self] in
+            developerItems.append(MenuItem(title: "Send Logs") { [weak self] in
                 self?.showEmailLogsModal()
             })
 
@@ -777,7 +701,7 @@ class ModalPresenter: Subscriber, Trackable {
 
             developerItems.append(MenuItem(title: "Clear Core persistent storage and exit",
                                            callback: { [weak self] in
-                                            guard let `self` = self else { return }
+                                            guard let self = self else { return }
                                             self.system.shutdown {
                                                 fatalError("forced exit")
                                             }
@@ -812,7 +736,7 @@ class ModalPresenter: Subscriber, Trackable {
                                 }
                             })
 
-                            alert.addAction(UIAlertAction(title: S.Button.cancel, style: .cancel, handler: nil))
+                            alert.addAction(UIAlertAction(title: L10n.Button.cancel, style: .cancel, handler: nil))
 
                             menuNav.present(alert, animated: true, completion: nil)
                 }))
@@ -839,7 +763,7 @@ class ModalPresenter: Subscriber, Trackable {
                                 (menuNav.topViewController as? MenuViewController)?.reloadMenu()
                             })
 
-                            alert.addAction(UIAlertAction(title: S.Button.cancel, style: .cancel, handler: nil))
+                            alert.addAction(UIAlertAction(title: L10n.Button.cancel, style: .cancel, handler: nil))
 
                             menuNav.present(alert, animated: true, completion: nil)
                 }))
@@ -852,7 +776,7 @@ class ModalPresenter: Subscriber, Trackable {
         }
                 
         let rootMenu = MenuViewController(items: rootItems,
-                                          title: S.Settings.title)
+                                          title: L10n.Settings.title)
         rootMenu.addCloseNavigationItem(side: .right)
         menuNav.viewControllers = [rootMenu]
         
@@ -902,10 +826,10 @@ class ModalPresenter: Subscriber, Trackable {
     }
     
     private func wipeWallet() {
-        let alert = UIAlertController.confirmationAlert(title: S.WipeWallet.alertTitle,
-                                                        message: S.WipeWallet.alertMessage,
-                                                        okButtonTitle: S.WipeWallet.wipe,
-                                                        cancelButtonTitle: S.Button.cancel,
+        let alert = UIAlertController.confirmationAlert(title: L10n.WipeWallet.alertTitle,
+                                                        message: L10n.WipeWallet.alertMessage,
+                                                        okButtonTitle: L10n.WipeWallet.wipe,
+                                                        cancelButtonTitle: L10n.Button.cancel,
                                                         isDestructiveAction: true) {
                                                             self.topViewController?.dismiss(animated: true, completion: {
                                                                 Store.trigger(name: .wipeWalletNoPrompt)
@@ -915,14 +839,12 @@ class ModalPresenter: Subscriber, Trackable {
     }
     
     private func presentKeyImport(wallet: Wallet, scanResult: QRCode? = nil) {
-        let nc = ModalNavigationController()
-        nc.setDarkStyle()
+        let nc = RootNavigationController()
         let start = ImportKeyViewController(wallet: wallet, initialQRCode: scanResult)
-        start.addCloseNavigationItem(tintColor: Theme.blueBackground)
-        start.navigationItem.title = S.Import.title
-        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.importWallet, currency: wallet.currency)
-        faqButton.tintColor = .white
-        start.navigationItem.rightBarButtonItems = [UIBarButtonItem.negativePadding, UIBarButtonItem(customView: faqButton)]
+        start.addCloseNavigationItem()
+        start.navigationItem.title = L10n.Import.title
+        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.importWallet, currency: wallet.currency, position: .right)
+        start.navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: faqButton)]
         nc.viewControllers = [start]
         topViewController?.present(nc, animated: true, completion: nil)
     }
@@ -930,16 +852,16 @@ class ModalPresenter: Subscriber, Trackable {
     // MARK: - Prompts
 
     func presentExportTransfers() {
-        let alert = UIAlertController(title: S.ExportTransfers.header, message: S.ExportTransfers.body, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: S.ExportTransfers.confirmExport, style: .default, handler: { (_) in
+        let alert = UIAlertController(title: L10n.ExportTransfers.header, message: L10n.ExportTransfers.body, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.ExportTransfers.confirmExport, style: .default, handler: { (_) in
             self.topViewController?.present(BRActivityViewController(message: ""), animated: true, completion: nil)
             DispatchQueue.global(qos: .background).async {
                 guard let csvFile = CsvExporter.instance.exportTransfers(wallets: self.system.wallets) else {
                     DispatchQueue.main.async {
                         self.topViewController?.dismiss(animated: true) {
                             self.topViewController?.showAlert(
-                                title: S.ExportTransfers.exportFailedTitle,
-                                message: S.ExportTransfers.exportFailedBody)
+                                title: L10n.ExportTransfers.exportFailedTitle,
+                                message: L10n.ExportTransfers.exportFailedBody)
                         }
                     }
                     return
@@ -952,14 +874,14 @@ class ModalPresenter: Subscriber, Trackable {
                 }
             }
         }))
-        alert.addAction(UIAlertAction(title: S.Button.cancel, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: L10n.Button.cancel, style: .cancel, handler: nil))
         topViewController?.present(alert, animated: true, completion: nil)
     }
     
     func presentBiometricsMenuItem() {
         let biometricsSettings = BiometricsSettingsViewController(self.keyStore)
-        biometricsSettings.addCloseNavigationItem(tintColor: Theme.blueBackground)
-        let nc = ModalNavigationController(rootViewController: biometricsSettings)
+        biometricsSettings.addCloseNavigationItem()
+        let nc = RootNavigationController(rootViewController: biometricsSettings)
         nc.isNavigationBarHidden = true
         nc.delegate = securityCenterNavigationDelegate
         topViewController?.present(nc, animated: true, completion: nil)
@@ -967,8 +889,7 @@ class ModalPresenter: Subscriber, Trackable {
 
     private func promptShareData() {
         let shareData = ShareDataViewController()
-        let nc = ModalNavigationController(rootViewController: shareData)
-        nc.setDefaultStyle()
+        let nc = RootNavigationController(rootViewController: shareData)
         nc.isNavigationBarHidden = true
         nc.delegate = securityCenterNavigationDelegate
         shareData.addCloseNavigationItem()
@@ -982,8 +903,7 @@ class ModalPresenter: Subscriber, Trackable {
 
     func presentUpgradePin() {
         let updatePin = UpdatePinViewController(keyMaster: keyStore, type: .update)
-        let nc = ModalNavigationController(rootViewController: updatePin)
-        nc.setDefaultStyle()
+        let nc = RootNavigationController(rootViewController: updatePin)
         nc.isNavigationBarHidden = true
         nc.delegate = securityCenterNavigationDelegate
         updatePin.addCloseNavigationItem()
@@ -1016,13 +936,13 @@ class ModalPresenter: Subscriber, Trackable {
         } else if let ack = PaymentProtocolACK(data: file) {
             if let memo = ack.memo {
                 let alert = UIAlertController(title: "", message: memo, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: S.Button.ok, style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .cancel, handler: nil))
                 topViewController?.present(alert, animated: true, completion: nil)
             }
         //TODO - handle payment type
         } else {
-            let alert = UIAlertController(title: S.Alert.error, message: S.PaymentProtocol.Errors.corruptedDocument, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: S.Button.ok, style: .cancel, handler: nil))
+            let alert = UIAlertController(title: L10n.Alert.error, message: L10n.PaymentProtocol.Errors.corruptedDocument, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .cancel, handler: nil))
             topViewController?.present(alert, animated: true, completion: nil)
         }
  */
@@ -1030,7 +950,12 @@ class ModalPresenter: Subscriber, Trackable {
 
     private func handlePaymentRequest(request: PaymentRequest) {
         self.currentRequest = request
-        guard !Store.state.isLoginRequired else { presentModal(.send(currency: request.currency)); return }
+        
+        guard !Store.state.isLoginRequired else {
+            presentModal(.send(currency: request.currency))
+            
+            return
+        }
 
         showAccountView(currency: request.currency, animated: false) {
             self.presentModal(.send(currency: request.currency))
@@ -1055,7 +980,7 @@ class ModalPresenter: Subscriber, Trackable {
             }
         } else if topViewController is HomeScreenViewController {
             pushAccountView()
-        } else if let presented = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController {
+        } else if let presented = UIApplication.shared.activeWindow?.rootViewController?.presentedViewController {
             if let nc = presented.presentingViewController as? RootNavigationController, nc.viewControllers.count > 1 {
                 // modal on top of another account screen
                 presented.dismiss(animated: false) {
@@ -1074,7 +999,7 @@ class ModalPresenter: Subscriber, Trackable {
         if topViewController is AccountViewController || topViewController is LoginViewController {
             presentLoginScan()
         } else {
-            if let presented = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController {
+            if let presented = UIApplication.shared.activeWindow?.rootViewController?.presentedViewController {
                 presented.dismiss(animated: true, completion: {
                     self.presentLoginScan()
                 })
@@ -1146,7 +1071,7 @@ class ModalPresenter: Subscriber, Trackable {
 
     private func showLightWeightAlert(message: String) {
         let alert = LightWeightAlert(message: message)
-        let view = UIApplication.shared.keyWindow!
+        guard let view = UIApplication.shared.activeWindow else { return }
         view.addSubview(alert)
         alert.constrain([
             alert.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -1167,16 +1092,80 @@ class ModalPresenter: Subscriber, Trackable {
         self.messagePresenter.presenter = self.topViewController
         self.messagePresenter.presentEmailLogs()
     }
+    
+    private func prepareSecuritySettingsMenuItems(menuNav: RootNavigationController) -> [MenuItem] {
+        // MARK: Security Settings
+        var securityItems: [MenuItem] = [
+            // Unlink
+            MenuItem(title: L10n.Settings.wipe) { [weak self] in
+                guard let self = self, let vc = self.topViewController else { return }
+                RecoveryKeyFlowController.presentUnlinkWalletFlow(from: vc,
+                                                                  keyMaster: self.keyStore,
+                                                                  phraseEntryReason: .validateForWipingWallet({ [weak self] in
+                    self?.wipeWallet()
+                }))
+            },
+            
+            // Update PIN
+            MenuItem(title: L10n.UpdatePin.updateTitle) { [weak self] in
+                guard let self = self else { return }
+                let updatePin = UpdatePinViewController(keyMaster: self.keyStore, type: .update)
+                menuNav.pushViewController(updatePin, animated: true)
+            },
+            
+            // Biometrics
+            MenuItem(title: LAContext.biometricType() == .face ? L10n.SecurityCenter.faceIdTitle : L10n.SecurityCenter.touchIdTitle) { [weak self] in
+                guard let self = self else { return }
+                self.presentBiometricsMenuItem()
+            },
+            
+            // Paper key
+            MenuItem(title: L10n.SecurityCenter.paperKeyTitle) { [weak self] in
+                guard let self = self else { return }
+                self.presentWritePaperKey(fromViewController: menuNav)
+            },
+
+            // Portfolio data for widget
+            MenuItem(title: L10n.Settings.shareWithWidget,
+                     accessoryText: { [weak self] in
+                         self?.system.widgetDataShareService.sharingEnabled ?? false ? "ON" : "OFF"
+                     },
+                     callback: { [weak self] in
+                         self?.system.widgetDataShareService.sharingEnabled.toggle()
+                         (menuNav.topViewController as? MenuViewController)?.reloadMenu()
+                     }),
+            
+            // Add iCloud backup
+            MenuItem(title: L10n.CloudBackup.backupMenuTitle) {
+                let synchronizer = BackupSynchronizer(context: .existingWallet, keyStore: self.keyStore, navController: menuNav)
+                let cloudView = CloudBackupView(synchronizer: synchronizer)
+                let hosting = UIHostingController(rootView: cloudView)
+                menuNav.pushViewController(hosting, animated: true)
+            }
+        ]
+        
+        // Add Delete account
+        let deleteAccount = MenuItem(title: "Delete account", color: LightColors.error) { [weak self] in
+            self?.deleteAccountCallback?()
+        }
+        
+        if UserManager.shared.profile?.roles.contains(.customer) == true,
+           UserDefaults.email != nil {
+            securityItems.append(deleteAccount)
+        }
+        
+        return securityItems
+    }
 }
 
 class SecurityCenterNavigationDelegate: NSObject, UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
 
-        guard let coordinator = navigationController.topViewController?.transitionCoordinator else { return }
-
-        if coordinator.isInteractive {
-            coordinator.notifyWhenInteractionChanges { context in
+        guard let transitionCoordinator = navigationController.topViewController?.transitionCoordinator else { return }
+        
+        if transitionCoordinator.isInteractive {
+            transitionCoordinator.notifyWhenInteractionChanges { context in
                 //We only want to style the view controller if the
                 //pop animation wasn't cancelled
                 if !context.isCancelled {
@@ -1190,6 +1179,5 @@ class SecurityCenterNavigationDelegate: NSObject, UINavigationControllerDelegate
 
     func setStyle(navigationController: UINavigationController) {
         navigationController.isNavigationBarHidden = false
-        navigationController.setDefaultStyle()
     }
 }

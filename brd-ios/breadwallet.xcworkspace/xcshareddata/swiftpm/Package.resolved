@@ -2,12 +2,21 @@
   "object": {
     "pins": [
       {
-        "package": "AnyCodable",
-        "repositoryURL": "https://github.com/Flight-School/AnyCodable.git",
+        "package": "CheckoutEventLoggerKit",
+        "repositoryURL": "https://github.com/checkout/checkout-event-logger-ios-framework.git",
         "state": {
           "branch": null,
-          "revision": "22f302d4c048aafcda09a4ab5b8c0b03855316fb",
-          "version": "0.6.3"
+          "revision": "2ef34662f1525526aeb5681c6af5f69572ab36c9",
+          "version": "1.2.0"
+        }
+      },
+      {
+        "package": "Frames",
+        "repositoryURL": "https://github.com/checkout/frames-ios.git",
+        "state": {
+          "branch": null,
+          "revision": "659b4c58b0987fc68d197e21dcb0ec90e55a4fc0",
+          "version": "3.5.3"
         }
       },
       {
@@ -17,6 +26,15 @@
           "branch": null,
           "revision": "474f849accae40fe61b5302d9b057dd48ee073ba",
           "version": "6.5.9"
+        }
+      },
+      {
+        "package": "PhoneNumberKit",
+        "repositoryURL": "https://github.com/marmelroy/PhoneNumberKit.git",
+        "state": {
+          "branch": null,
+          "revision": "104a53d62c55aa5794faf30b29ccad319653b552",
+          "version": "3.4.5"
         }
       },
       {

@@ -56,9 +56,7 @@ class TxGiftCell: TxDetailRowCell {
     }
     
     private func showShare() {
-        if #available(iOS 13.0, *) {
-            self.coordinator?.showShare()
-        }
+        coordinator?.showShare()
     }
     
     private func showReclaim() {

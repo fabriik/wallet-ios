@@ -1,0 +1,116 @@
+// 
+//  TitleValueView.swift
+//  breadwallet
+//
+//  Created by Rok on 20/07/2022.
+//  Copyright © 2022 Fabriik Exchange, LLC. All rights reserved.
+//
+//  See the LICENSE file at the project root for license information.
+//
+
+import UIKit
+
+extension Presets {
+    struct TitleValue {
+        static var horizontal = TitleValueConfiguration(title: .init(font: Fonts.Body.one, textColor: LightColors.Text.two),
+                                                      value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
+        
+        static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                                      value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
+        
+        static var subtitle = TitleValueConfiguration(title: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one),
+                                                      value: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, textAlignment: .right))
+    }
+}
+
+struct TitleValueConfiguration: Configurable {
+    var title: LabelConfiguration
+    var value: LabelConfiguration
+    var infoButtonConfiguration: BackgroundConfiguration?
+}
+
+struct TitleValueViewModel: ViewModel {
+    var title: LabelViewModel
+    var value: LabelViewModel
+    var infoImage: ImageViewModel?
+}
+
+class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
+    
+    var didTapInfoButton: (() -> Void)?
+    
+    var axis: NSLayoutConstraint.Axis = .horizontal {
+        didSet {
+            mainStack.axis = axis
+            layoutIfNeeded()
+        }
+    }
+    
+    private lazy var mainStack: UIStackView = {
+        let view = UIStackView()
+        view.spacing = Margins.small.rawValue
+        view.distribution = .fill
+        return view
+    }()
+    
+    private lazy var titleLabel: FELabel = {
+        let view = FELabel()
+        return view
+    }()
+    
+    private lazy var infoButton: FEImageView = {
+        let view = FEImageView()
+        return view
+    }()
+    
+    private lazy var valueLabel: FELabel = {
+        let view = FELabel()
+        return view
+    }()
+    
+    override func setupSubviews() {
+        super.setupSubviews()
+        
+        content.addSubview(mainStack)
+        mainStack.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        mainStack.addArrangedSubview(titleLabel)
+        mainStack.addArrangedSubview(infoButton)
+        infoButton.snp.makeConstraints { make in
+            make.width.equalTo(ViewSizes.extraSmall.rawValue)
+        }
+        mainStack.addArrangedSubview(valueLabel)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoButtonTapped))
+        infoButton.isUserInteractionEnabled = true
+        infoButton.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    override func configure(with config: TitleValueConfiguration?) {
+        guard let config = config else { return }
+
+        super.configure(with: config)
+        titleLabel.configure(with: config.title)
+        infoButton.configure(with: config.infoButtonConfiguration)
+        valueLabel.configure(with: config.value)
+    }
+    
+    override func setup(with viewModel: TitleValueViewModel?) {
+        super.setup(with: viewModel)
+        titleLabel.setup(with: viewModel?.title)
+        infoButton.setup(with: viewModel?.infoImage)
+        infoButton.isHidden = viewModel?.infoImage == nil
+        valueLabel.setup(with: viewModel?.value)
+        
+        titleLabel.snp.makeConstraints { make in
+            make.width.equalTo(titleLabel.frame.width)
+        }
+        needsUpdateConstraints()
+    }
+    
+    @objc func infoButtonTapped() {
+        didTapInfoButton?()
+    }
+}

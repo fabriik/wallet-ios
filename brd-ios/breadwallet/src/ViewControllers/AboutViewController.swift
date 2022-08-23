@@ -8,7 +8,7 @@ class AboutViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel(font: .customBold(size: 26.0), color: .almostBlack)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.text = S.About.title
+        titleLabel.text = L10n.About.title
         
         return titleLabel
     }()
@@ -27,7 +27,7 @@ class AboutViewController: UIViewController {
         
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
             let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
-            aboutFooterView.text = String(format: S.About.footer, version, build)
+            aboutFooterView.text = L10n.About.footer(version, build)
         }
         
         return aboutFooterView
@@ -36,7 +36,7 @@ class AboutViewController: UIViewController {
     private lazy var privacy: UIButton = {
         let privacy = UIButton(type: .system)
         privacy.translatesAutoresizingMaskIntoConstraints = false
-        privacy.setTitle(S.About.privacy, for: .normal)
+        privacy.setTitle(L10n.About.privacy, for: .normal)
         privacy.titleLabel?.font = UIFont.customBody(size: 13.0)
         privacy.tintColor = .primaryButton
         
@@ -46,7 +46,7 @@ class AboutViewController: UIViewController {
     private lazy var terms: UIButton = {
         let terms = UIButton(type: .system)
         terms.translatesAutoresizingMaskIntoConstraints = false
-        terms.setTitle(S.About.terms, for: .normal)
+        terms.setTitle(L10n.About.terms, for: .normal)
         terms.titleLabel?.font = UIFont.customBody(size: 13.0)
         terms.tintColor = .primaryButton
         
@@ -55,6 +55,8 @@ class AboutViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = L10n.About.title
         
         addSubviews()
         addConstraints()
@@ -108,7 +110,9 @@ class AboutViewController: UIViewController {
         guard let url = URL(string: string) else { return }
         let webViewController = SimpleWebViewController(url: url)
         webViewController.setup(with: .init(title: title))
+        let navController = RootNavigationController(rootViewController: webViewController)
+        webViewController.setAsNonDismissableModal()
         
-        navigationController?.pushViewController(webViewController, animated: true)
+        navigationController?.present(navController, animated: true)
     }
 }

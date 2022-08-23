@@ -69,7 +69,7 @@ class AlertPresenter: Subscriber {
 
     func presentAlert(_ type: AlertType, completion: @escaping () -> Void) {
         let alertView = AlertView(type: type)
-        let window = UIApplication.shared.keyWindow!
+        guard let window = UIApplication.shared.activeWindow else { return }
         let size = window.bounds.size
         window.addSubview(alertView)
         
@@ -112,9 +112,11 @@ class AlertPresenter: Subscriber {
 
     private func showNotReachable() {
         guard notReachableAlert == nil else { return }
-        let alert = InAppAlert(message: S.Alert.noInternet, image: #imageLiteral(resourceName: "BrokenCloud"))
+        let alert = InAppAlert(message: L10n.Alert.noInternet, image: #imageLiteral(resourceName: "BrokenCloud"))
         notReachableAlert = alert
-        let window = UIApplication.shared.keyWindow!
+        
+        guard let window = UIApplication.shared.activeWindow else { return }
+        
         let size = window.bounds.size
         window.addSubview(alert)
         let bottomConstraint = alert.bottomAnchor.constraint(equalTo: window.topAnchor, constant: 0.0)

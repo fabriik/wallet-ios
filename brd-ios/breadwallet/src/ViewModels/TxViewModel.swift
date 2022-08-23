@@ -17,6 +17,7 @@ protocol TxViewModel {
     var blockHeight: String { get }
     var longTimestamp: String { get }
     var status: TransactionStatus { get }
+    var transactionType: Transaction.TransactionType { get }
     var direction: TransferDirection { get }
     var displayAddress: String { get }
     var comment: String? { get }
@@ -29,6 +30,7 @@ extension TxViewModel {
 
     var currency: Currency { return tx.currency }
     var status: TransactionStatus { return tx.status }
+    var transactionType: Transaction.TransactionType { return tx.transactionType }
     var direction: TransferDirection { return tx.direction }
     var comment: String? { return tx.comment }
     
@@ -46,7 +48,7 @@ extension TxViewModel {
     }
     
     var blockHeight: String {
-        return tx.blockNumber?.description ?? S.TransactionDetails.notConfirmedBlockHeightLabel
+        return tx.blockNumber?.description ?? L10n.TransactionDetails.notConfirmedBlockHeightLabel
     }
     
     var confirmations: String {
@@ -54,19 +56,17 @@ extension TxViewModel {
     }
     
     var longTimestamp: String {
-        guard tx.timestamp > 0 else { return tx.isValid ? S.Transaction.justNow : "" }
+        guard tx.timestamp > 0 else { return tx.isValid ? L10n.Transaction.justNow : "" }
         let date = Date(timeIntervalSince1970: tx.timestamp)
         return DateFormatter.longDateFormatter.string(from: date)
     }
     
     var shortTimestamp: String {
-        guard tx.timestamp > 0 else { return tx.isValid ? S.Transaction.justNow : "" }
+        guard tx.timestamp > 0 else { return tx.isValid ? L10n.Transaction.justNow : "" }
         let date = Date(timeIntervalSince1970: tx.timestamp)
         
         if date.hasEqualDay(Date()) {
             return DateFormatter.justTime.string(from: date)
-        } else if date.hasEqualYear(Date()) {
-            return DateFormatter.shortDateFormatter.string(from: date)
         } else {
             return DateFormatter.mediumDateFormatter.string(from: date)
         }
@@ -91,16 +91,34 @@ extension TxViewModel {
             }
         }
         
-        if tx.confirmations < currency.confirmationsUntilFinal {
-            return .pending(CGFloat(tx.confirmations)/CGFloat(currency.confirmationsUntilFinal))
-        }
-        
-        if tx.status == .invalid {
-            return .failed
-        }
-        
-        if tx.direction == .received || tx.direction == .recovered {
-            return .received
+        switch tx.transactionType {
+        case .defaultTransaction,
+                .buyTransaction:
+            if tx.confirmations < currency.confirmationsUntilFinal {
+                return .pending(CGFloat(tx.confirmations)/CGFloat(currency.confirmationsUntilFinal))
+            }
+            
+            if tx.status == .invalid {
+                return .failed
+            }
+            
+            if tx.direction == .received || tx.direction == .recovered {
+                return .received
+            }
+            
+        case .swapTransaction:
+            if tx.status == .complete {
+                return .swapComplete
+            }
+            
+            if tx.status == .pending {
+                return .swapPending
+            }
+            
+            if tx.status == .failed {
+                return .failed
+            }
+            
         }
         
         return .sent

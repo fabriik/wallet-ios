@@ -185,7 +185,7 @@ enum DefaultCurrency {
         let reduce: Reducer
         init(_ defaultCurrencyCode: String) {
             let isCodeAvailable = FiatCurrency.isCodeAvailable(defaultCurrencyCode)
-            let newCode = isCodeAvailable ? defaultCurrencyCode : "USD"
+            let newCode = isCodeAvailable ? defaultCurrencyCode : C.usdCurrencyCode
             UserDefaults.defaultCurrencyCode = newCode
             reduce = { $0.mutate(defaultCurrencyCode: newCode) }
             saveEvent("event.setDefaultCurrency", attributes: ["code": newCode])

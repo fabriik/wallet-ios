@@ -14,10 +14,8 @@ enum SelectBackupError: Error {
     case didCancel
 }
 
-@available(iOS 13.6, *)
 typealias SelectBackupResult = Result<CloudBackup, Error>
 
-@available(iOS 13.6, *)
 struct SelectBackupView: View {
     
     let backups: [CloudBackup]
@@ -29,11 +27,11 @@ struct SelectBackupView: View {
             Rectangle()
                 .fill(Color(Theme.primaryBackground))
             VStack {
-                Text(S.CloudBackup.selectTitle)
+                Text(L10n.CloudBackup.selectTitle)
                     .foregroundColor(Color(Theme.primaryText))
                     .lineLimit(nil)
                     .font(Font(Theme.h2Title))
-                ForEach(0..<backups.count) { i in
+                ForEach(0..<backups.count, id: \.self) { i in
                     BackupCell(backup: self.backups[i],
                                isOn: self.binding(for: i))
                     .padding(4.0)
@@ -52,7 +50,7 @@ struct SelectBackupView: View {
                 RoundedRectangle(cornerRadius: 4.0)
                     .fill(Color(UIColor.primaryButton))
                     .opacity(self.selectedBackup == nil ? 0.3 : 1.0)
-                Text(S.Button.continueAction)
+                Text(L10n.Button.continueAction)
                     .foregroundColor(Color(Theme.primaryText))
                     .font(Font(Theme.h3Title))
             }
@@ -73,7 +71,6 @@ struct SelectBackupView: View {
     }
 }
 
-@available(iOS 13.6, *)
 struct BackupCell: View {
     
     let backup: CloudBackup
@@ -105,7 +102,6 @@ struct BackupCell: View {
     }
 }
 
-@available(iOS 13.6, *)
 struct RestoreCloudBackupView_Previews: PreviewProvider {
     static var previews: some View {
         SelectBackupView(backups: [

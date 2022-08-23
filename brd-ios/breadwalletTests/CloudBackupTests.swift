@@ -17,7 +17,6 @@ private let pin = "123456"
 private let phrase = "this is a test phrase"
 private let phrase2 = "this is a second test phrase"
 
-@available(iOS 13.6, *)
 class CloudBackupTests: XCTestCase {
     
     override func setUp() {

@@ -11,7 +11,6 @@
 import Foundation
 import WalletKit
 
-@available(iOS 13.6, *)
 extension KeyStore: Trackable {
     
     func doesCurrentWalletHaveBackup() -> Bool {

@@ -12,7 +12,7 @@ class SegwitViewController: UIViewController {
     
     let logo = UIImageView(image: UIImage(named: "SegWitLogo"))
     let label = UILabel.wrapping(font: .customBody(size: 14.0), color: .almostBlack)
-    let button = BRDButton(title: S.Segwit.enable, type: .primary)
+    let button = BRDButton(title: L10n.Segwit.enable, type: .primary)
     let confirmView = EnableSegwitView()
     let enabled = SegwitEnabledView()
     
@@ -44,7 +44,7 @@ class SegwitViewController: UIViewController {
             logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logo.widthAnchor.constraint(equalToConstant: 160.0),
             logo.heightAnchor.constraint(equalToConstant: 40.0),
-            logo.topAnchor.constraint(equalTo: safeTopAnchor, constant: C.padding[2])])
+            logo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: C.padding[2])])
         label.constrain([
             label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[3]),
             label.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: C.padding[3]),
@@ -55,19 +55,19 @@ class SegwitViewController: UIViewController {
         button.constrain([
             buttonXConstraintStart,
             button.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -C.padding[6]),
-            button.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -C.padding[3]),
+            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[3]),
             button.heightAnchor.constraint(equalToConstant: 48.0)])
         
         confirmXConstraintStart = confirmView.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: C.padding[2])
         confirmXConstraintEnd = confirmView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         confirmXConstraintFinal = confirmView.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -C.padding[2])
         confirmView.constrain([
-            confirmView.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -C.padding[3]),
+            confirmView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[3]),
             confirmXConstraintStart,
             confirmView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -C.padding[6])])
         
-        enabledYConstraintStart = enabled.topAnchor.constraint(equalTo: safeBottomAnchor, constant: 50.0)
-        enabledYConstraintEnd = enabled.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -C.padding[2])
+        enabledYConstraintStart = enabled.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 50.0)
+        enabledYConstraintEnd = enabled.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[2])
         enabled.constrain([
             enabledYConstraintStart,
             enabled.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -77,7 +77,7 @@ class SegwitViewController: UIViewController {
     private func setInitialData() {
         view.backgroundColor = Theme.primaryBackground
         view.clipsToBounds = true //Some subviews are placed just offscreen so they can be animated into view
-        label.text = S.Segwit.confirmationInstructionsInstructions
+        label.text = L10n.Segwit.confirmationInstructionsInstructions
         logo.tintColor = Theme.blueBackground
         
         button.tap = { [weak self] in

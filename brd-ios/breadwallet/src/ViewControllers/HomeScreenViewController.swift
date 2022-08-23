@@ -10,20 +10,26 @@ import UIKit
 
 class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     private let walletAuthenticator: WalletAuthenticator
-    private let widgetDataShareService: WidgetDataShareService
-    private let assetList = AssetListTableView()
-    private let subHeaderView = UIView()
+    private let assetListTableView = AssetListTableView()
     private let debugLabel = UILabel(font: .customBody(size: 12.0), color: .transparentWhiteText) // debug info
-    private let prompt = UIView()
-    private var promptHiddenConstraint: NSLayoutConstraint!
     private let toolbar = UIToolbar()
     private var toolbarButtons = [UIButton]()
     private let notificationHandler = NotificationHandler()
+    private let coreSystem: CoreSystem
+    
+    private lazy var subHeaderView: UIView = {
+        let subHeaderView = UIView()
+        subHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        subHeaderView.backgroundColor = .homeBackground
+        subHeaderView.clipsToBounds = false
+        
+        return subHeaderView
+    }()
     
     private lazy var totalAssetsTitleLabel: UILabel = {
         let totalAssetsTitleLabel = UILabel(font: Theme.caption, color: Theme.tertiaryText)
         totalAssetsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        totalAssetsTitleLabel.text = S.HomeScreen.totalAssets
+        totalAssetsTitleLabel.text = L10n.HomeScreen.totalAssets
         
         return totalAssetsTitleLabel
     }()
@@ -53,7 +59,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     private var buyButtonTitle: String {
-        return shouldShowBuyAndSell ? S.HomeScreen.buyAndSell : S.HomeScreen.buy
+        return shouldShowBuyAndSell ? L10n.HomeScreen.buyAndSell : L10n.HomeScreen.buy
     }
     
     private let buyButtonIndex = 0
@@ -61,29 +67,23 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     private let menuButtonIndex = 2
     
     private var buyButton: UIButton? {
-        guard toolbarButtons.count == 3 else { return nil }
+        guard toolbarButtons.count == 4 else { return nil }
         return toolbarButtons[buyButtonIndex]
     }
     
     private var tradeButton: UIButton? {
-        guard toolbarButtons.count == 3 else { return nil }
+        guard toolbarButtons.count == 4 else { return nil }
         return toolbarButtons[tradeButtonIndex]
     }
     
     var didSelectCurrency: ((Currency) -> Void)?
     var didTapManageWallets: (() -> Void)?
-    var didTapBuy: ((String, String) -> Void)?
+    var didTapBuy: (() -> Void)?
     var didTapTrade: (() -> Void)?
+    var didTapProfile: (() -> Void)?
+    var didTapProfileFromPrompt: ((Result<Profile?, Error>?) -> Void)?
+    var showPrompts: (() -> Void)?
     var didTapMenu: (() -> Void)?
-    
-    var okToShowPrompts: Bool {
-        //Don't show any prompts on the first couple launches
-        guard UserDefaults.appLaunchCount > 2 else { return false }
-        
-        // On the initial display we need to load the wallets in the asset list table view first.
-        // There's already a lot going on, so don't show the home-screen prompts right away.
-        return !Store.state.wallets.isEmpty
-    }
     
     private lazy var totalAssetsNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -92,12 +92,19 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         formatter.generatesDecimalNumbers = true
         return formatter
     }()
-
+    
+    private lazy var pullToRefreshControl: UIRefreshControl = {
+        let pullToRefreshControl = UIRefreshControl()
+        pullToRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        pullToRefreshControl.addTarget(self, action: #selector(reload), for: .valueChanged)
+        return pullToRefreshControl
+    }()
+    
     // MARK: -
     
-    init(walletAuthenticator: WalletAuthenticator, widgetDataShareService: WidgetDataShareService) {
+    init(walletAuthenticator: WalletAuthenticator, coreSystem: CoreSystem) {
         self.walletAuthenticator = walletAuthenticator
-        self.widgetDataShareService = widgetDataShareService
+        self.coreSystem = coreSystem
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -105,39 +112,46 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         Store.unsubscribe(self)
     }
     
-    func reload() {
-        setInitialData()
-        setupSubscriptions()
-        assetList.reload()
-        attemptShowPrompt()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    @objc func reload() {
+        initialLoad()
         
-        assetList.didSelectCurrency = didSelectCurrency
-        assetList.didTapAddWallet = didTapManageWallets
-        addSubviews()
-        addConstraints()
+        coreSystem.refreshWallet { [weak self] in
+            self?.assetListTableView.reload()
+        }
+    }
+    
+    private func initialLoad() {
         setInitialData()
         setupSubscriptions()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + promptDelay) { [unowned self] in
-            self.attemptShowPrompt()
-            
-            if !Store.state.isLoginRequired {
-                NotificationAuthorizer().showNotificationsOptInAlert(from: self, callback: { _ in
-                    self.notificationHandler.checkForInAppNotifications()
-                })
-            }
+        
+        guard canShowPrompts else { return }
+        showPrompts?()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        assetListTableView.didSelectCurrency = didSelectCurrency
+        assetListTableView.didTapAddWallet = didTapManageWallets
+        assetListTableView.didReload = { [weak self] in
+            self?.pullToRefreshControl.endRefreshing()
         }
-
+        
+        addSubviews()
+        addConstraints()
+        initialLoad()
         updateTotalAssets()
         sendErrorsToBackend()
+        
+        if !Store.state.isLoginRequired {
+            NotificationAuthorizer().showNotificationsOptInAlert(from: self, callback: { _ in
+                self.notificationHandler.checkForInAppNotifications()
+            })
+        }
     }
     
     // MARK: Setup
@@ -148,8 +162,11 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         subHeaderView.addSubview(totalAssetsTitleLabel)
         subHeaderView.addSubview(totalAssetsAmountLabel)
         subHeaderView.addSubview(debugLabel)
-        view.addSubview(prompt)
+        view.addSubview(promptContainerStack)
         view.addSubview(toolbar)
+        
+        assetListTableView.refreshControl = pullToRefreshControl
+        pullToRefreshControl.layer.zPosition = assetListTableView.view.layer.zPosition - 1
     }
 
     private func addConstraints() {
@@ -181,19 +198,18 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
             debugLabel.leadingAnchor.constraint(equalTo: logoImageView.leadingAnchor),
             debugLabel.bottomAnchor.constraint(equalTo: logoImageView.topAnchor, constant: -4.0)])
         
-        promptHiddenConstraint = prompt.heightAnchor.constraint(equalToConstant: 0.0)
-        prompt.constrain([
-            prompt.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            prompt.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            prompt.topAnchor.constraint(equalTo: subHeaderView.bottomAnchor),
-            promptHiddenConstraint])
+        promptContainerStack.constrain([
+            promptContainerStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[1]),
+            promptContainerStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[1]),
+            promptContainerStack.topAnchor.constraint(equalTo: subHeaderView.bottomAnchor),
+                promptContainerStack.heightAnchor.constraint(equalToConstant: 0).priority(.defaultLow)])
         
-        addChildViewController(assetList, layout: {
-            assetList.view.constrain([
-                assetList.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                assetList.view.topAnchor.constraint(equalTo: prompt.bottomAnchor),
-                assetList.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                assetList.view.bottomAnchor.constraint(equalTo: toolbar.topAnchor)])
+        addChildViewController(assetListTableView, layout: {
+            assetListTableView.view.constrain([
+                assetListTableView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                assetListTableView.view.topAnchor.constraint(equalTo: promptContainerStack.bottomAnchor),
+                assetListTableView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                assetListTableView.view.bottomAnchor.constraint(equalTo: toolbar.topAnchor)])
         })
         
         toolbar.constrain([
@@ -204,16 +220,9 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
 
     private func setInitialData() {
-        view.backgroundColor = .homeBackground
-        subHeaderView.backgroundColor = .homeBackground
-        subHeaderView.clipsToBounds = false
-        
-        navigationItem.titleView = UIView()
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.shadowImage = #imageLiteral(resourceName: "TransparentPixel")
-        navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "TransparentPixel"), for: .default)
-        
         title = ""
+        view.backgroundColor = .homeBackground
+        navigationItem.titleView = UIView()
         
         if E.isTestnet && !E.isScreenshots {
             debugLabel.text = "(Testnet)"
@@ -230,41 +239,40 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func setupToolbar() {
-        let buttons = [(buyButtonTitle, #imageLiteral(resourceName: "buy"), #selector(buy)),
-                       (S.HomeScreen.trade, #imageLiteral(resourceName: "trade"), #selector(trade)),
-                       (S.HomeScreen.menu, #imageLiteral(resourceName: "menu"), #selector(menu))].map { (title, image, selector) -> UIBarButtonItem in
-                        let button = UIButton.vertical(title: title, image: image)
-                        button.tintColor = .gray1
-                        button.addTarget(self, action: selector, for: .touchUpInside)
-                        return UIBarButtonItem(customView: button)
-        }
-                
+        let buttons = [
+            ("Home", #imageLiteral(resourceName: "home"), #selector(showHome)),
+            (L10n.HomeScreen.trade, #imageLiteral(resourceName: "trade"), #selector(trade)),
+            (L10n.HomeScreen.buy, #imageLiteral(resourceName: "buy"), #selector(buy)),
+            ("Profile", #imageLiteral(resourceName: "user"), #selector(profile)),
+            (L10n.HomeScreen.menu, #imageLiteral(resourceName: "more"), #selector(menu))].map { (title, image, selector) -> UIBarButtonItem in
+                let button = UIButton.vertical(title: title, image: image)
+                button.tintColor = .gray1
+                button.addTarget(self, action: selector, for: .touchUpInside)
+                return UIBarButtonItem(customView: button)
+            }
+        
         let paddingWidth = C.padding[2]
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolbarButtons = []
-        toolbar.items = [
-            flexibleSpace,
-            buttons[0],
-            flexibleSpace,
-            buttons[1],
-            flexibleSpace,
-            buttons[2],
-            flexibleSpace
-        ]
+        toolbar.items = [flexibleSpace, buttons[0],
+                         flexibleSpace, buttons[1],
+                         flexibleSpace, buttons[2],
+                         flexibleSpace, buttons[3],
+                         flexibleSpace, buttons[4],
+                         flexibleSpace]
         
-        let buttonWidth = (view.bounds.width - (paddingWidth * CGFloat(buttons.count+1))) / CGFloat(buttons.count)
+        let buttonWidth = (view.bounds.width - (paddingWidth * CGFloat(buttons.count + 1))) / CGFloat(buttons.count)
         let buttonHeight = CGFloat(44.0)
         buttons.forEach {
             $0.customView?.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
-        }
-        
-        // Stash the UIButton's wrapped by the toolbar items in case we need add a badge later.
-        buttons.forEach { (toolbarButtonItem) in
-            if let button = toolbarButtonItem.customView as? UIButton {
+            
+            // Stash the UIButton's wrapped by the toolbar items in case we need add a badge later.
+            if let button = $0.customView as? UIButton {
                 self.toolbarButtons.append(button)
             }
         }
-
+        buttons.first?.customView?.tintColor = LightColors.primary
+        
         toolbar.isTranslucent = false
         toolbar.layer.borderWidth = 1
         toolbar.layer.borderColor = UIColor.gray1.cgColor
@@ -291,13 +299,14 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         
         // prompts
         Store.subscribe(self, name: .didUpgradePin, callback: { _ in
-            if self.currentPromptView?.type == .upgradePin {
-                self.currentPromptView = nil
+            if self.generalPromptView.type == .upgradePin {
+                self.hidePrompt(self.generalPromptView)
+
             }
         })
         Store.subscribe(self, name: .didWritePaperKey, callback: { _ in
-            if self.currentPromptView?.type == .paperKey {
-                self.currentPromptView = nil
+            if self.generalPromptView.type == .paperKey {
+                self.hidePrompt(self.generalPromptView)
             }
         })
         
@@ -344,32 +353,17 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
                 }
             }
 
-        widgetDataShareService.updatePortfolio(info: info)
-        widgetDataShareService.quoteCurrencyCode = Store.state.defaultCurrencyCode
+        coreSystem.widgetDataShareService.updatePortfolio(info: info)
+        coreSystem.widgetDataShareService.quoteCurrencyCode = Store.state.defaultCurrencyCode
     }
     
     // MARK: Actions
     
+    @objc private func showHome() {}
+    
     @objc private func buy() {
-        // TODO: move worker out of VC
-        buyButton?.isEnabled = false
         saveEvent("currency.didTapBuyBitcoin", attributes: [ "buyAndSell": shouldShowBuyAndSell ? "true" : "false" ])
-        
-        ExternalAPIClient.shared.send(WyreReservationRequest()) { [weak self] response in
-            switch response {
-            case .success(let reservation):
-                guard let url = reservation.url,
-                      let code = reservation.reservation else {
-                    return
-                }
-                self?.didTapBuy?(url, code)
-                
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-            self?.buyButton?.isEnabled = true
-        }
-        
+        didTapBuy?()
     }
     
     @objc private func trade() {
@@ -377,80 +371,140 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         didTapTrade?()
     }
     
+    @objc private func profile() {
+        didTapProfile?()
+    }
+    
     @objc private func menu() { didTapMenu?() }
     
     // MARK: - Prompt
     
-    private let promptDelay: TimeInterval = 0.6
+    private lazy var promptContainerStack: UIStackView = {
+        let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .vertical
+        view.distribution = .fill
+        return view
+    }()
     
-    private var currentPromptView: PromptView? {
+    private var kycStatusPromptView = FEInfoView()
+    private var generalPromptView = PromptView()
+    private var profileResult: Result<Profile?, Error>?
+    var canShowPrompts = false {
         didSet {
-            if currentPromptView != oldValue {
-                var afterFadeOut: TimeInterval = 0.0
-                if let oldPrompt = oldValue {
-                    afterFadeOut = 0.15
-                    UIView.animate(withDuration: 0.2, animations: {
-                        oldValue?.alpha = 0.0
-                    }, completion: { _ in
-                        oldPrompt.removeFromSuperview()
-                    })
+            guard canShowPrompts else { return }
+            showPrompts?()
+        }
+    }
+    
+    private func attemptShowGeneralPrompt() {
+        guard promptContainerStack.arrangedSubviews.isEmpty == true,
+              let nextPrompt = PromptFactory.nextPrompt(walletAuthenticator: walletAuthenticator) else { return }
+        
+        generalPromptView = PromptFactory.createPromptView(prompt: nextPrompt, presenter: self)
+        
+        saveEvent("prompt.\(nextPrompt.name).displayed")
+        nextPrompt.didPrompt()
+        
+        generalPromptView.dismissButton.tap = { [unowned self] in
+            self.saveEvent("prompt.\(nextPrompt.name).dismissed")
+            
+            self.hidePrompt(self.generalPromptView)
+        }
+        
+        if !generalPromptView.shouldHandleTap {
+            generalPromptView.continueButton.tap = { [unowned self] in
+                if let trigger = nextPrompt.trigger {
+                    Store.trigger(name: trigger)
                 }
+                self.saveEvent("prompt.\(nextPrompt.name).trigger")
                 
-                if let newPrompt = currentPromptView {
-                    newPrompt.alpha = 0.0
-                    prompt.addSubview(newPrompt)
-                    newPrompt.constrain(toSuperviewEdges: .zero)
-                    prompt.layoutIfNeeded()
-                    promptHiddenConstraint.isActive = false
-
-                    // fade-in after fade-out and layout
-                    UIView.animate(withDuration: 0.2, delay: afterFadeOut + 0.15, options: .curveEaseInOut, animations: {
-                        newPrompt.alpha = 1.0
-                    })
-                    
+                self.hidePrompt(self.generalPromptView)
+            }
+        }
+        
+        layoutPrompts(generalPromptView)
+    }
+    
+    func attemptShowKYCPrompt() {
+        UserManager.shared.refresh { [weak self] profileResult in
+            self?.profileResult = profileResult
+            
+            switch profileResult {
+            case .success(let profile):
+                if profile?.email == nil || !UserDefaults.emailConfirmed || UserManager.shared.profile?.status.canBuyTrade == false {
+                    self?.hidePrompt(self?.generalPromptView)
+                    self?.setupKYCPrompt(result: self?.profileResult)
                 } else {
-                    promptHiddenConstraint.isActive = true
+                    self?.hidePrompt(self?.kycStatusPromptView)
+                    self?.attemptShowGeneralPrompt()
                 }
                 
-                // layout after fade-out
-                UIView.animate(withDuration: 0.2, delay: afterFadeOut, options: .curveEaseInOut, animations: {
-                    self.view.layoutIfNeeded()
-                })
+            case .failure(let error):
+                guard error as? NetworkingError == .sessionExpired else {
+                    self?.hidePrompt(self?.kycStatusPromptView)
+                    self?.attemptShowGeneralPrompt()
+                    
+                    return
+                }
+                
+                self?.hidePrompt(self?.generalPromptView)
+                self?.setupKYCPrompt(result: self?.profileResult)
+            default:
+                self?.hidePrompt(self?.kycStatusPromptView)
+                self?.attemptShowGeneralPrompt()
             }
         }
     }
     
-    private func attemptShowPrompt() {
-        guard okToShowPrompts else { return }
-        guard currentPromptView == nil else { return }
+    private func setupKYCPrompt(result: Result<Profile?, Error>?) {
+        guard promptContainerStack.arrangedSubviews.isEmpty == true else { return }
         
-        if let nextPrompt = PromptFactory.nextPrompt(walletAuthenticator: walletAuthenticator) {
-            self.saveEvent("prompt.\(nextPrompt.name).displayed")
-            
-            // didSet {} for 'currentPromptView' will display the prompt view
-            currentPromptView = PromptFactory.createPromptView(prompt: nextPrompt, presenter: self)
-            
-            nextPrompt.didPrompt()
-            
-            guard let prompt = currentPromptView else { return }
-            
-            prompt.dismissButton.tap = { [unowned self] in
-                self.saveEvent("prompt.\(nextPrompt.name).dismissed")
-                self.currentPromptView = nil
-            }
-            
-            if !prompt.shouldHandleTap {
-                prompt.continueButton.tap = { [unowned self] in
-                    if let trigger = nextPrompt.trigger {
-                        Store.trigger(name: trigger)
-                    }
-                    self.saveEvent("prompt.\(nextPrompt.name).trigger")
-                    self.currentPromptView = nil
-                }                
-            }
-            
-        } else {
-            currentPromptView = nil
+        let infoView: InfoViewModel = Presets.VerificationInfoView.nonePrompt
+        let infoConfig: InfoViewConfiguration = Presets.InfoView.verification
+        
+        kycStatusPromptView.configure(with: infoConfig)
+        kycStatusPromptView.setup(with: infoView)
+        
+        kycStatusPromptView.setupCustomMargins(all: .large)
+        
+        kycStatusPromptView.headerButtonCallback = { [weak self] in
+            self?.hidePrompt(self?.kycStatusPromptView)
+        }
+        
+        kycStatusPromptView.trailingButtonCallback = { [weak self] in
+            self?.didTapProfileFromPrompt?(self?.profileResult)
+        }
+        
+        layoutPrompts(kycStatusPromptView)
+    }
+    
+    private func hidePrompt(_ prompt: UIView?) {
+        guard let prompt = prompt else { return }
+        
+        UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .curveLinear) {
+            prompt.transform = .init(translationX: UIScreen.main.bounds.width, y: 0)
+            prompt.alpha = 0.0
+            prompt.isHidden = true
+        } completion: { [weak self] _ in
+            self?.promptContainerStack.layoutIfNeeded()
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
+    private func layoutPrompts(_ prompt: UIView?) {
+        guard let prompt = prompt else { return }
+        
+        prompt.alpha = 0.0
+        
+        promptContainerStack.addArrangedSubview(prompt)
+        
+        UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .curveLinear) {
+            prompt.alpha = 1.0
+            prompt.isHidden = false
+        } completion: { [weak self] _ in
+            self?.promptContainerStack.layoutIfNeeded()
+            self?.view.layoutIfNeeded()
         }
     }
     
@@ -461,10 +515,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func sendErrorsToBackend() {
-        // Only syncs errors on TF buidls
-        guard let errors = UserDefaults.errors,
-              !errors.isEmpty
-        else { return }
+        // Only syncs errors on TF builds
+        guard let errors = UserDefaults.errors, !errors.isEmpty else { return }
         
         Backend.apiClient.sendErrors(messages: errors) { success in
             guard success else { return }

@@ -93,7 +93,11 @@ class Sender: Subscriber {
     // MARK: Create
 
     func estimateFee(address: String, amount: Amount, tier: FeeLevel, isStake: Bool, completion: @escaping (Result<TransferFeeBasis, Error>) -> Void) {
-        wallet.estimateFee(address: address, amount: amount, fee: tier, isStake: isStake, completion: completion)
+        wallet.estimateFee(address: address, amount: amount, fee: tier, isStake: isStake) { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
     }
     
     public func estimateLimitMaximum (address: String,
@@ -137,20 +141,25 @@ class Sender: Subscriber {
                            feeBasis: TransferFeeBasis,
                            comment: String?,
                            attribute: String? = nil,
-                           gift: Gift? = nil) -> SenderValidationResult {
+                           gift: Gift? = nil,
+                           exchangeId: String? = nil) -> SenderValidationResult {
         assert(transfer == nil)
         let result = validate(address: address, amount: amount, feeBasis: feeBasis)
         guard case .ok = result else { return result }
-        switch wallet.createTransfer(to: address, amount: amount, feeBasis: feeBasis, attribute: attribute) {
+        switch wallet.createTransfer(to: address, amount: amount, feeBasis: feeBasis, attribute: attribute, exchangeId: exchangeId) {
         case .success(let transfer):
             self.comment = comment
             self.gift = gift
+            transfer.exchangeId = exchangeId
             self.transfer = transfer
             return .ok
+            
         case .failure(let error) where error == .invalidAddress:
             return .invalidAddress
-        default:
-            return .failed
+            
+        case .failure(let error):
+            print(error.localizedDescription)
+            return .insufficientGas
         }
     }
 
@@ -191,8 +200,9 @@ class Sender: Subscriber {
 
     // MARK: Submit
 
-    func sendTransaction(allowBiometrics: Bool, pinVerifier: @escaping PinVerifier, completion: @escaping SendCompletion) {
+    func sendTransaction(allowBiometrics: Bool, exchangeId: String? = nil, pinVerifier: @escaping PinVerifier, completion: @escaping SendCompletion) {
         guard let transfer = transfer else { return completion(.creationError(message: "no tx")) }
+        transfer.exchangeId = exchangeId
         if allowBiometrics && canUseBiometrics {
             sendWithBiometricVerification(transfer: transfer, completion: completion)
         } else {
@@ -213,7 +223,7 @@ class Sender: Subscriber {
                     return completion(.creationError(message: "no tx")) }
                 pinVerifier { pin in
                     guard self.authenticator.signAndSubmit(transfer: transfer, wallet: self.wallet, withPin: pin) else {
-                        return completion(.creationError(message: S.Send.Error.authenticationError))
+                        return completion(.creationError(message: L10n.Send.Error.authenticationError))
                     }
                     self.waitForSubmission(of: transfer, completion: completion)
                 }
@@ -229,14 +239,14 @@ class Sender: Subscriber {
         // this block requires a strong reference to self to ensure the Sender is not deallocated before completion
         pinVerifier { pin in
             guard self.authenticator.signAndSubmit(transfer: transfer, wallet: self.wallet, withPin: pin) else {
-                return completion(.creationError(message: S.Send.Error.authenticationError))
+                return completion(.creationError(message: L10n.Send.Error.authenticationError))
             }
             self.waitForSubmission(of: transfer, completion: completion)
         }
     }
     
     private func sendWithBiometricVerification(transfer: Transfer, completion: @escaping SendCompletion) {
-        let biometricsPrompt = S.VerifyPin.touchIdMessage
+        let biometricsPrompt = L10n.VerifyPin.touchIdMessage
         self.authenticator.signAndSubmit(transfer: transfer,
                                          wallet: self.wallet,
                                          withBiometricsPrompt: biometricsPrompt) { result in
@@ -244,9 +254,9 @@ class Sender: Subscriber {
             case .success:
                 self.waitForSubmission(of: transfer, completion: completion)
             case .failure, .fallback:
-                completion(.creationError(message: S.Send.Error.authenticationError))
+                completion(.creationError(message: L10n.Send.Error.authenticationError))
             default:
-                break
+                completion(.creationError(message: "Something went wrong"))
             }
         }
     }
@@ -277,7 +287,7 @@ class Sender: Subscriber {
         let handleTimeout = {
             DispatchQueue.main.async {
                 self.stopWaitingForSubmission()
-                completion(.publishFailure(code: 0, message: S.Send.timeOutBody))
+                completion(.publishFailure(code: 0, message: L10n.Send.timeOutBody))
             }
         }
 

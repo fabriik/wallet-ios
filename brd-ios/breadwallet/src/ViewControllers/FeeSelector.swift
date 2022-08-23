@@ -17,7 +17,7 @@ enum FeeLevel: Int {
     //Time in millis
     func preferredTime(forCurrency currency: Currency) -> Int {
         
-        if currency.uid == Currencies.btc.uid {
+        if currency.uid == Currencies.shared.btc?.uid {
             switch self {
             case .economy:
                 return Int(C.secondsInMinute) * 60 * 7 * 1000 //7 hrs
@@ -62,7 +62,7 @@ class FeeSelector: UIView {
     private let header = UILabel(font: .customMedium(size: 16.0), color: .darkText)
     private let subheader = UILabel(font: .customBody(size: 14.0), color: .grayTextTint)
     private let warning = UILabel.wrapping(font: .customBody(size: 14.0), color: .red)
-    private let control = UISegmentedControl(items: [S.FeeSelector.economy, S.FeeSelector.regular, S.FeeSelector.priority])
+    private let control = UISegmentedControl(items: [L10n.FeeSelector.economy, L10n.FeeSelector.regular, L10n.FeeSelector.priority])
 
     private func setupViews() {
         addSubview(topBorder)
@@ -84,29 +84,34 @@ class FeeSelector: UIView {
             warning.topAnchor.constraint(equalTo: control.bottomAnchor, constant: 4.0),
             warning.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
             warning.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[1])])
-        header.text = S.FeeSelector.title
+        header.text = L10n.FeeSelector.title
         subheader.text = currency.feeText(forIndex: 1)
         control.constrain([
             control.leadingAnchor.constraint(equalTo: warning.leadingAnchor),
             control.topAnchor.constraint(equalTo: subheader.bottomAnchor, constant: 4.0),
             control.widthAnchor.constraint(equalTo: widthAnchor, constant: -C.padding[4]) ])
         control.valueChanged = strongify(self) { myself in
+            let fee: FeeLevel
+            let subheader: String
+            let warning: String
             switch myself.control.selectedSegmentIndex {
-            case 0:
-                myself.didUpdateFee?(.economy)
-                myself.subheader.text = self.currency.feeText(forIndex: 0)
-                myself.warning.text = S.FeeSelector.economyWarning
             case 1:
-                myself.didUpdateFee?(.regular)
-                myself.subheader.text = self.currency.feeText(forIndex: 1)
-                myself.warning.text = ""
+                fee = .regular
+                subheader = self.currency.feeText(forIndex: 1)
+                warning = ""
             case 2:
-                myself.didUpdateFee?(.priority)
-                myself.subheader.text = self.currency.feeText(forIndex: 2)
-                myself.warning.text = ""
+                fee = .priority
+                subheader = self.currency.feeText(forIndex: 2)
+                warning = ""
             default:
-                assertionFailure("Undefined fee selection index")
+                fee = .economy
+                subheader = self.currency.feeText(forIndex: 0)
+                warning = L10n.FeeSelector.economyWarning
+                
             }
+            myself.didUpdateFee?(fee)
+            myself.subheader.text = subheader
+            myself.warning.text = warning
         }
 
         control.selectedSegmentIndex = 1

@@ -44,7 +44,7 @@ class RedeemGiftViewController: UIViewController, Subscriber, Trackable {
     
     let container = RedeemContainer()
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-    private let close = UIButton.close
+    private let close = UIButton.buildModernCloseButton(position: .middle)
     private let titleLabel = UILabel(font: Theme.h3Accent, color: .white)
     private let separator = UIView(color: .white)
     private let icon = UIImageView()
@@ -152,9 +152,7 @@ class RedeemGiftViewController: UIViewController, Subscriber, Trackable {
         
         redeem.tap = didTapRedeem
         
-        if #available(iOS 13.0, *) {
-            icon.image = UIImage(systemName: "gift")
-        }
+        icon.image = UIImage(systemName: "gift")
     }
     
     private func handleSweeperResult(result: Result<WalletSweeper, WalletSweeperError>) {
@@ -169,8 +167,8 @@ class RedeemGiftViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func handleGetBalance(amount: WalletKit.Amount?) {
-        guard let amount = amount else { return }
-        let fiatAmount = Amount(cryptoAmount: amount, currency: Currencies.btc.instance!)
+        guard let amount = amount, let btc = Currencies.shared.btc else { return }
+        let fiatAmount = Amount(cryptoAmount: amount, currency: btc)
         UIView.animate(withDuration: 0.2, animations: {
             self.body.text = "You have been gifted \(fiatAmount.fiatDescription) worth of Bitcoin. Tap below to redeem it."
             self.icon.isHidden = false

@@ -14,9 +14,9 @@ typealias ScanCompletion = (QRCode?) -> Void
 class ScanViewController: UIViewController, Trackable {
 
     static func presentCameraUnavailableAlert(fromRoot: UIViewController) {
-        let alertController = UIAlertController(title: S.Send.cameraUnavailableTitle, message: S.Send.cameraUnavailableMessage, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: S.Button.cancel, style: .cancel, handler: nil))
-        alertController.addAction(UIAlertAction(title: S.Button.settings, style: .`default`, handler: { _ in
+        let alertController = UIAlertController(title: L10n.Send.cameraUnavailableTitle, message: L10n.Send.cameraunavailableMessage, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: L10n.Button.cancel, style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: L10n.Button.settings, style: .`default`, handler: { _ in
             if let appSettings = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(appSettings) {
                 UIApplication.shared.open(appSettings)
             }
@@ -35,16 +35,11 @@ class ScanViewController: UIViewController, Trackable {
     fileprivate let guide = CameraGuideView()
     fileprivate let session = AVCaptureSession()
     private let toolbar = UIStackView()
-    private let close = UIButton.close
-    private let flash = UIButton.icon(image: #imageLiteral(resourceName: "Flash"), accessibilityLabel: S.Scanner.flashButtonLabel)
+    private let close = UIButton.buildModernCloseButton(position: .middle)
+    private let flash = UIButton.icon(image: #imageLiteral(resourceName: "Flash"), accessibilityLabel: L10n.Scanner.flashButtonLabel, position: .middle)
     private let cameraRoll: UIButton = {
         let button: UIButton
-        if #available(iOS 13.0, *) {
-            button = UIButton.icon(image: UIImage(systemName: "photo.on.rectangle") ?? UIImage(), accessibilityLabel: "import")
-        } else {
-            button = UIButton(type: .system)
-            button.setTitle("import", for: .normal)
-        }
+        button = UIButton.icon(image: UIImage(systemName: "photo.on.rectangle") ?? UIImage(), accessibilityLabel: "import", position: .middle)
         return button
     }()
     
@@ -207,7 +202,9 @@ extension ScanViewController: AVCaptureMetadataOutputObjectsDelegate {
         }
         
         if let currencyRestriction = paymentRequestCurrencyRestriction {
-            guard case .paymentRequest(let request) = result, request.currency.shouldAcceptQRCodeFrom(currencyRestriction, request: request) else {
+            guard case .paymentRequest(let request) = result,
+                    let request = request,
+                    request.currency.shouldAcceptQRCodeFrom(currencyRestriction, request: request) else {
                 guide.state = .negative
                 return
             }
@@ -231,12 +228,12 @@ extension ScanViewController: AVCaptureMetadataOutputObjectsDelegate {
     private func saveScanEvent(_ result: QRCode) {
         switch result {
         case .paymentRequest(let request):
-            switch request.currency.code {
-            case Currencies.bch.code:
+            switch request?.currency.code {
+            case Currencies.shared.bch?.code:
                 saveEvent("scan.bCashAddr")
-            case Currencies.btc.code:
+            case Currencies.shared.btc?.code:
                 saveEvent("scan.bitcoinUri")
-            case Currencies.eth.code:
+            case Currencies.shared.eth?.code:
                 saveEvent("scan.ethAddress")
             default:
                 saveEvent("scan.otherCurrency")

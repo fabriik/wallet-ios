@@ -36,12 +36,12 @@ extension UIAlertController {
 
 final public class PickerViewViewController: UIViewController {
     public class PickerIndex: Codable {
-        let column: Int
-        let row: Int
+        var primaryRow: Int
+        var secondaryRow: Int
         
-        init(column: Int, row: Int) {
-            self.column = column
-            self.row = row
+        init(primaryRow: Int, secondaryRow: Int) {
+            self.primaryRow = primaryRow
+            self.secondaryRow = secondaryRow
         }
     }
     
@@ -50,7 +50,7 @@ final public class PickerViewViewController: UIViewController {
     public typealias Action = (_ vc: UIViewController, _ pickerView: UIPickerView, _ index: Index?, _ values: Values) -> Void
     
     fileprivate var values: Values = [[]]
-    fileprivate var selection = Index(column: 0, row: 0)
+    fileprivate var selection = Index(primaryRow: 0, secondaryRow: 0)
     fileprivate lazy var pickerView: UIPickerView = {
         return UIPickerView()
     }()
@@ -59,7 +59,7 @@ final public class PickerViewViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.values = values
-        self.selection = selection ?? Index(column: 0, row: 0)
+        self.selection = selection ?? Index(primaryRow: 0, secondaryRow: 0)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -126,8 +126,8 @@ final public class PickerViewViewController: UIViewController {
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        if values.count > selection.column, values[selection.column].count > selection.row {
-            pickerView.selectRow(selection.row, inComponent: selection.column, animated: true)
+        if values.count > selection.primaryRow, values[selection.primaryRow].count > selection.secondaryRow {
+            pickerView.selectRow(selection.secondaryRow, inComponent: selection.primaryRow, animated: true)
         }
     }
 }
@@ -146,7 +146,14 @@ extension PickerViewViewController: UIPickerViewDataSource, UIPickerViewDelegate
     }
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selection = Index(column: component, row: row)
+        guard pickerView.numberOfComponents == values.count else { return }
+        let components = 0..<pickerView.numberOfComponents
+        
+        if component == components.first {
+            selection.primaryRow = row
+        } else if component == components.last {
+            selection.secondaryRow = row
+        }
     }
     
     public func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {

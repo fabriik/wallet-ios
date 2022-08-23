@@ -15,8 +15,8 @@ import SafariServices
 class WalletConnectionSettingsViewController: UIViewController, Trackable {
 
     private let walletConnectionSettings: WalletConnectionSettings
-    private var currency: Currency {
-        return Currencies.btc.instance!
+    private var currency: Currency? {
+        return Currencies.shared.btc
     }
     private let modeChangeCallback: (WalletConnectionMode) -> Void
 
@@ -45,11 +45,6 @@ class WalletConnectionSettingsViewController: UIViewController, Trackable {
         setUpAppearance()
         addConstraints()
         bindData()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setDarkStyle()
     }
 
     private func setUpAppearance() {
@@ -122,9 +117,11 @@ class WalletConnectionSettingsViewController: UIViewController, Trackable {
     }
 
     private func bindData() {
-        title = S.WalletConnectionSettings.viewTitle
-        header.text = S.WalletConnectionSettings.header
-        footerLabel.text = S.WalletConnectionSettings.footerTitle
+        guard let currency = currency else { return }
+        
+        title = L10n.WalletConnectionSettings.viewTitle
+        header.text = L10n.WalletConnectionSettings.header
+        footerLabel.text = L10n.WalletConnectionSettings.footerTitle
         footerLogo.tintColor = Theme.blueBackground
         
         let selectedMode = walletConnectionSettings.mode(for: currency)
@@ -133,12 +130,12 @@ class WalletConnectionSettingsViewController: UIViewController, Trackable {
         //This needs to be done in the next run loop or else the animations don't
         //start in the right spot
         DispatchQueue.main.async { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.animatedBlockSetLogo.isOn = self.toggleSwitch.isOn
         }
         
         toggleSwitch.valueChanged = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             
             // Fast sync can only be turned on via the toggle.
             // It needs to be turned off by the confirmation alert.
@@ -153,6 +150,8 @@ class WalletConnectionSettingsViewController: UIViewController, Trackable {
     }
     
     private func setMode() {
+        guard let currency = currency else { return }
+        
         let newMode = toggleSwitch.isOn
             ? WalletConnectionMode.api_only
             : WalletConnectionMode.p2p_only
@@ -164,19 +163,19 @@ class WalletConnectionSettingsViewController: UIViewController, Trackable {
     }
     
     private func confirmToggle() {
-        let alert = UIAlertController(title: "", message: S.WalletConnectionSettings.confirmation, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: S.Button.cancel, style: .cancel, handler: { _ in
+        let alert = UIAlertController(title: "", message: L10n.WalletConnectionSettings.confirmation, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.Button.cancel, style: .cancel, handler: { _ in
             self.toggleSwitch.setOn(true, animated: true)
         }))
-        alert.addAction(UIAlertAction(title: S.WalletConnectionSettings.turnOff, style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: L10n.WalletConnectionSettings.turnOff, style: .default, handler: { _ in
             self.setMode()
         }))
         present(alert, animated: true)
     }
     
     private func setupLink() {
-        let string = NSMutableAttributedString(string: S.WalletConnectionSettings.explanatoryText)
-        let linkRange = string.mutableString.range(of: S.WalletConnectionSettings.link)
+        let string = NSMutableAttributedString(string: L10n.WalletConnectionSettings.explanatoryText)
+        let linkRange = string.mutableString.range(of: L10n.WalletConnectionSettings.link)
         if linkRange.location != NSNotFound {
             string.addAttribute(.link, value: NSURL(string: "https://www.brd.com/blog/fastsync-explained")!, range: linkRange)
         }
@@ -196,6 +195,8 @@ class WalletConnectionSettingsViewController: UIViewController, Trackable {
     }
     
     private func makeToggleEvent() -> String {
+        guard let currency = currency else { return "" }
+        
         let event = toggleSwitch.isOn ? Event.enable.name : Event.disable.name
         return makeEventName([EventContext.fastSync.name, currency.code.uppercased(), event])
     }

@@ -65,7 +65,7 @@ class GiftViewController: UIViewController, Trackable {
     }()
     
     private var selectedIndex: Int = -1
-    private let sendingActivity = BRActivityViewController(message: S.TransactionDetails.titleSending)
+    private let sendingActivity = BRActivityViewController(message: L10n.TransactionDetails.titleSending)
     private let extraSwitch = UISwitch()
     private let extraLabel = UILabel.wrapping(font: Theme.caption, color: .white)
     
@@ -234,7 +234,7 @@ class GiftViewController: UIViewController, Trackable {
         group.enter()
         wallet.estimateLimitMaximum(address: address.description, fee: feeLevel, completion: { [weak self] result in
             group.leave()
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             switch result {
             case .success(let maximumAmount):
                 DispatchQueue.main.async {
@@ -248,7 +248,7 @@ class GiftViewController: UIViewController, Trackable {
         group.enter()
         wallet.estimateLimitMinimum(address: address.description, fee: feeLevel) { [weak self] result in
             group.leave()
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             switch result {
             case .success(let minimumAmount):
                 DispatchQueue.main.async {
@@ -308,7 +308,7 @@ class GiftViewController: UIViewController, Trackable {
         sender.estimateFee(address: address.description, amount: amount, tier: .regular, isStake: false) { [weak self] result in
             switch result {
             case .success(let feeBasis):
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 let feeCurrency = self.sender.wallet.feeCurrency
                 let fee = Amount(cryptoAmount: feeBasis.fee, currency: feeCurrency)
                 let rate = Rate(code: "USD", name: "USD", rate: rate.price, reciprocalCode: "BTC")
@@ -353,9 +353,9 @@ class GiftViewController: UIViewController, Trackable {
     
     private func send() {
         let pinVerifier: PinVerifier = { [weak self] pinValidationCallback in
-            guard let `self` = self else { return assertionFailure() }
+            guard let self = self else { return assertionFailure() }
             self.sendingActivity.dismiss(animated: false) {
-                self.presentVerifyPin?(S.VerifyPin.authorize) { pin in
+                self.presentVerifyPin?(L10n.VerifyPin.authorize) { pin in
                     self.parent?.view.isFrameChangeBlocked = false
                     pinValidationCallback(pin)
                     self.present(self.sendingActivity, animated: false)
@@ -365,7 +365,7 @@ class GiftViewController: UIViewController, Trackable {
         
         present(sendingActivity, animated: true)
         sender.sendTransaction(allowBiometrics: true, pinVerifier: pinVerifier) { [weak self] result in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.sendingActivity.dismiss(animated: true) {
                 defer { self.sender.reset() }
                 switch result {
@@ -378,9 +378,9 @@ class GiftViewController: UIViewController, Trackable {
                         self.present(share, animated: true, completion: nil)
                     }
                 case .creationError(let message):
-                    self.showAlert(title: S.Alerts.sendFailure, message: message, buttonLabel: S.Button.ok)
+                    self.showAlert(title: L10n.Alerts.sendFailure, message: message, buttonLabel: L10n.Button.ok)
                 case .publishFailure(let code, let message):
-                    self.showAlert(title: S.Alerts.sendFailure, message: "\(message) (\(code))", buttonLabel: S.Button.ok)
+                    self.showAlert(title: L10n.Alerts.sendFailure, message: "\(message) (\(code))", buttonLabel: L10n.Button.ok)
                 case .insufficientGas(let rpcErrorMessage):
                     print("blah: \(rpcErrorMessage)")
                     //self.showInsufficientGasError()

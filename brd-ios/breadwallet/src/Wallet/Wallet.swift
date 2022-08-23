@@ -91,10 +91,10 @@ class Wallet {
         
         //Find nearest NetworkFee for FeeLevel
         let target = level.preferredTime(forCurrency: currency)
-        guard let result = fees.enumerated().min(by: { abs($0.1.time - target) < abs($1.1.time - target) }) else {
+        guard let result = fees.sorted(by: { $0.time < $1.time }).first(where: { $0.time >= target }) else {
             return fees.first!
         }
-        return result.element
+        return result
     }
     
     public func estimateFee (address: String,
@@ -212,14 +212,15 @@ class Wallet {
     func createTransfer(to address: String,
                         amount: Amount,
                         feeBasis: TransferFeeBasis,
-                        attribute: String? = nil) -> CreateTransferResult {
+                        attribute: String? = nil,
+                        exchangeId: String?) -> CreateTransferResult {
         guard let target = Address.create(string: address, network: core.manager.network) else {
             return .failure(.invalidAddress)
         }
         guard let transfer = core.createTransfer(target: target,
                                                  amount: amount.cryptoAmount,
                                                  estimatedFeeBasis: feeBasis,
-                                                 attributes: attributes(forAttribute: attribute)) else {
+                                                 attributes: attributes(forAttribute: attribute), exchangeId: exchangeId) else {
             return .failure(.invalidAmountOrFee)
         }
         return .success(transfer)

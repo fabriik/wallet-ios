@@ -17,7 +17,7 @@ class StartFlowPresenter: Subscriber, Trackable {
     // MARK: - Properties
     
     private let rootViewController: RootNavigationController
-    private var navigationController: ModalNavigationController?
+    private var navigationController: RootNavigationController?
     private let navigationControllerDelegate: StartNavigationDelegate
     private let keyMaster: KeyStore
     private var loginViewController: UIViewController?
@@ -26,6 +26,7 @@ class StartFlowPresenter: Subscriber, Trackable {
     private var onboardingCompletionHandler: LoginCompletionHandler?
     private let shouldDisableBiometrics: Bool
     private var startupScreen: StartupScreen? = StartupScreen()
+    var didFinish: (() -> Void)?
     
     // MARK: - Public
 
@@ -80,7 +81,7 @@ class StartFlowPresenter: Subscriber, Trackable {
         
         let onboardingScreen = OnboardingViewController(doesCloudBackupExist: keyMaster.doesCloudBackupExist(),
                                                         didExitOnboarding: { [weak self] (action) in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             
             switch action {
             case .restoreWallet:
@@ -92,7 +93,7 @@ class StartFlowPresenter: Subscriber, Trackable {
             }
         })
         
-        navigationController = ModalNavigationController(rootViewController: onboardingScreen)
+        navigationController = RootNavigationController(rootViewController: onboardingScreen)
         navigationController?.delegate = navigationControllerDelegate
         
         if let onboardingFlow = navigationController {
@@ -155,8 +156,6 @@ class StartFlowPresenter: Subscriber, Trackable {
     // MARK: Recover Wallet
     
     private func enterRecoverWalletFlow() {
-        
-        navigationController?.setClearNavbar()
         navigationController?.setNavigationBarHidden(false, animated: false)
         
         let recoverWalletViewController =
@@ -177,7 +176,6 @@ class StartFlowPresenter: Subscriber, Trackable {
                 }
                 self.recoverBackup(backup)
             }
-            navigationController?.setClearNavbar()
             navigationController?.setNavigationBarHidden(false, animated: false)
             let vc = LightStatusBarHost(rootView: selectView)
             navigationController?.pushViewController(vc, animated: true)
@@ -186,7 +184,6 @@ class StartFlowPresenter: Subscriber, Trackable {
         }
     }
     
-    @available(iOS 13.6, *)
     private func recoverBackup(_ backup: CloudBackup) {
         let update = UpdatePinViewController(keyMaster: self.keyMaster,
                                              type: .recoverBackup,
@@ -197,7 +194,6 @@ class StartFlowPresenter: Subscriber, Trackable {
         update.didRecoverAccount = { [weak self] account in
             self?.handleRecoveredAccount(account)
         }
-        navigationController?.setClearNavbar()
         navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.pushViewController(update, animated: true)
     }
@@ -270,7 +266,6 @@ class StartFlowPresenter: Subscriber, Trackable {
             }
         }
 
-        navigationController?.setClearNavbar()
         navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.pushViewController(pinCreationViewController, animated: true)
     }
@@ -290,8 +285,8 @@ class StartFlowPresenter: Subscriber, Trackable {
     }
 
     private func handleWalletCreationError() {
-        let alert = UIAlertController(title: S.Alert.error, message: "Could not create wallet", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: S.Button.ok, style: .default, handler: nil))
+        let alert = UIAlertController(title: L10n.Alert.error, message: "Could not create wallet", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: nil))
         navigationController?.present(alert, animated: true, completion: nil)
     }
     
@@ -319,6 +314,7 @@ class StartFlowPresenter: Subscriber, Trackable {
         EventMonitor.shared.deregister(.onboarding)
         navigationController.dismiss(animated: true) { [unowned self] in
             self.navigationController = nil
+            didFinish?()
         }
     }
     
@@ -343,14 +339,14 @@ class StartFlowPresenter: Subscriber, Trackable {
         
         if let modal = rootViewController.presentedViewController {
             modal.dismiss(animated: false, completion: { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 self.rootViewController.present(loginView, animated: false, completion: {
                     self.popStartupScreen()
                 })
             })
         } else {
             rootViewController.present(loginView, animated: false, completion: { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 self.popStartupScreen()
             })
         }
@@ -359,10 +355,12 @@ class StartFlowPresenter: Subscriber, Trackable {
     private func dismissLoginFlow() {
         guard let loginViewController = loginViewController, loginViewController.isBeingPresented else {
             self.loginViewController = nil
+            didFinish?()
             return
         }
         loginViewController.dismiss(animated: true, completion: { [weak self] in
             self?.loginViewController = nil
+            self?.didFinish?()
         })
     }
 }

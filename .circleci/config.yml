@@ -92,15 +92,15 @@ jobs:
             export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
             ls -la /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
 
-            brew install ghostscript SwiftLint
+            brew install SwiftLint
             brew install --cask android-commandlinetools
 
       - run:
           name: Copy SDK License
           command: |
-            mkdir /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses
-            touch /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses/android-sdk-license
-            printf "8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee\n" > /usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin/licenses/android-sdk-license
+            mkdir /usr/local/share/android-commandlinetools/cmdline-tools/latest/bin/licenses
+            touch /usr/local/share/android-commandlinetools/cmdline-tools/latest/bin/licenses/android-sdk-license
+            printf "8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee\n" > /usr/local/share/android-commandlinetools/cmdline-tools/latest/bin/licenses/android-sdk-license
 
       - run:
           name: Check Key
@@ -113,15 +113,6 @@ jobs:
             cd brd-ios
             sed "s/PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one;/PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one;\                PROVISIONING_PROFILE_SPECIFIER = wallet-CNI-distribution2;\                CODE_SIGN_IDENTITY = \"iPhone Distribution\";\                CODE_SIGN_STYLE = Manual;/g"  breadwallet.xcodeproj/project.pbxproj  > breadwallet.xcodeproj/project.pbxproj.rnm
             cp breadwallet.xcodeproj/project.pbxproj.rnm breadwallet.xcodeproj/project.pbxproj
-            mkdir test_output
-            cp breadwallet.xcodeproj/project.pbxproj.rnm test_output
-            cd ..
-            uuid=`grep UUID -A1 -a .circleci/mobileprovision/wallet-CNI-distribution2.mobileprovision | grep -io "[-A-F0-9]\{36\}"`
-            mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-            cp .circleci/mobileprovision/wallet-CNI-distribution2.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
-            ls -la ~/Library/MobileDevice/Provisioning\ Profiles
-
-            git status
 
       - run:
           name: Help and Project List
@@ -134,7 +125,7 @@ jobs:
           name: Build Clean
           command: |
             cd brd-ios
-            xcodebuild clean -workspace breadwallet.xcworkspace -scheme breadwallet | xcpretty
+            xcodebuild clean -workspace breadwallet.xcworkspace -scheme wallet | xcpretty
 
 
       - run:
@@ -143,12 +134,25 @@ jobs:
             cd brd-ios
             BRD_ENV=.env
             touch $BRD_ENV
-            echo "API_TOKEN = $API_TOKEN" >> $BRD_ENV
-            echo "API_URL = $API_URL" >> $BRD_ENV
-            echo "DEBUG_TOKEN = $DEBUG_TOKEN" >> $BRD_ENV
-            echo "DEBUG_URL = $DEBUG_URL" >> $BRD_ENV
+
+            echo "// PRODUCTION" >> $BRD_ENV
+            echo "API_URL=$PROD_URL" >> $BRD_ENV
+            echo "API_TOKEN=$PROD_TOKEN" >> $BRD_ENV
+            echo "" >> $BRD_ENV
+
+            echo "// DEVELOPMENT" >> $BRD_ENV
+            echo "DEBUG_URL=$DEV_URL" >> $BRD_ENV
+            echo "DEBUG_TOKEN=$DEV_TOKEN" >> $BRD_ENV
+            echo "IS_TEST=true" >> $BRD_ENV
+            echo "" >> $BRD_ENV
+
+            echo "// STAGING" >> $BRD_ENV
+            echo "STAGING_URL=$STAGING_URL" >> $BRD_ENV
+            echo "STAGING_TOKEN=$STAGING_TOKEN" >> $BRD_ENV
+            echo "" >> $BRD_ENV
+
             cd ..
-            echo "sdk.dir=/usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin" > ./local.properties
+            echo "sdk.dir=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin" > ./local.properties
 
       - run:
           name: Create exportOptions.plist
@@ -160,9 +164,9 @@ jobs:
             fi
 
       - run:
-          name: Build Walletkit Subproject
+          name: Build Cosmos Project
           command: |
-            export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/homebrew/bin
+            export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
             cp ./local.properties external/walletKit/walletKitJava/local.properties
             ./gradlew cosmos-bundled:createXCFramework
             sed -i '' '18i\'$'\n        ndkVersion \'21.1.6352462\'\n\n' external/walletkit/WalletKitJava/corenative-android/build.gradle
@@ -195,39 +199,4 @@ jobs:
 
             echo "Build breadwallet version ${mainBundleShortVersionString} build number ${mainBundleVersion}"
             set -o pipefail
-            xcodebuild -workspace breadwallet.xcworkspace -scheme "breadwallet" archive -archivePath build/breadwallet.xcarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-
-      - run:
-          name: Export Build
-          command: |
-            security default-keychain
-            security set-keychain-settings -lut 9999
-            security unlock-keychain -p test ~/Library/Keychains/default.keychain
-
-            cd brd-ios
-
-            # xcodebuild -exportArchive -archivePath build/breadwallet.xcarchive -exportOptionsPlist build/exportOptions.plist -exportPath build
-
-      - run:
-          name: Upload Build To Testflight
-          command: |
-            security default-keychain
-            security set-keychain-settings -lut 9999
-            security unlock-keychain -p test ~/Library/Keychains/default.keychain
-
-            cd brd-ios
-
-            # Upload if on a release branch
-            if [[ ${CIRCLE_BRANCH} == releases* ]]; then
-                echo "Release build detected. Would have uploaded to TestFlight.  Branch is " ${CIRCLE_BRANCH}
-                # xcrun altool --upload-app --type ios --file "build/breadwallet.ipa" --username "$APPLE_BUILD_USER" --password "$APPLE_BUILD_PASSWORD"
-            else
-                echo "Not a releases build.  Will NOT upload. Branch is " ${CIRCLE_BRANCH}
-            fi
-
-      - store_test_results:
-          path: brd-ios/test_output
-
-      - store_artifacts:
-          path: brd-ios/build
-          destination: artifacts/
+            xcodebuild -workspace breadwallet.xcworkspace -scheme "wallet" archive -archivePath build/breadwallet.xcarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO

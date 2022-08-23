@@ -14,10 +14,21 @@ import UIKit
 struct Presets {
     struct Background {
         struct Primary {
-            static var normal = BackgroundConfiguration(backgroundColor: LightColors.primary, tintColor: LightColors.Contrast.two)
-            static var selected = BackgroundConfiguration(backgroundColor: LightColors.InteractionPrimary.pressed, tintColor: LightColors.Contrast.two)
-            static var disabled = BackgroundConfiguration(backgroundColor: LightColors.InteractionPrimary.disabled, tintColor: LightColors.Contrast.two)
-            static var error = BackgroundConfiguration(backgroundColor: LightColors.primary, tintColor: .red)
+            static var normal = BackgroundConfiguration(backgroundColor: LightColors.primary,
+                                                        tintColor: LightColors.Contrast.two,
+                                                        border: Presets.Border.normal)
+            
+            static var selected = BackgroundConfiguration(backgroundColor: LightColors.InteractionPrimary.pressed,
+                                                          tintColor: LightColors.Contrast.two,
+                                                          border: Presets.Border.selected)
+            
+            static var disabled = BackgroundConfiguration(backgroundColor: LightColors.InteractionPrimary.disabled,
+                                                          tintColor: LightColors.Contrast.two,
+                                                          border: Presets.Border.disabled)
+            
+            static var error = BackgroundConfiguration(backgroundColor: LightColors.primary,
+                                                       tintColor: .red,
+                                                       border: Presets.Border.error)
         }
         
         struct Secondary {
@@ -26,24 +37,38 @@ struct Presets {
             static var disabled = BackgroundConfiguration(tintColor: LightColors.InteractionPrimary.disabled)
             static var error = BackgroundConfiguration(tintColor: .red)
         }
+        
+        static var transparent = BackgroundConfiguration(backgroundColor: .clear,
+                                                         tintColor: LightColors.primary)
     }
     
     struct Border {
-        static var zero = BorderConfiguration(borderWidth: 0, cornerRadius: .small)
-        static var normal = BorderConfiguration(tintColor: LightColors.Outline.one, borderWidth: 1, cornerRadius: .small)
-        static var selected = BorderConfiguration(tintColor: LightColors.primary, borderWidth: 1, cornerRadius: .small)
-        static var disabled = BorderConfiguration(tintColor: LightColors.InteractionPrimary.disabled, borderWidth: 1, cornerRadius: .small)
-        static var error = BorderConfiguration(tintColor: LightColors.error, borderWidth: 1, cornerRadius: .small)
+        static var zero = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
+        static var normal = BorderConfiguration(tintColor: LightColors.Outline.one, borderWidth: 1, cornerRadius: .medium)
+        static var selected = BorderConfiguration(tintColor: LightColors.primary, borderWidth: 1, cornerRadius: .medium)
+        static var disabled = BorderConfiguration(tintColor: .lightGray, borderWidth: 1, cornerRadius: .medium)
+        static var cardDetails = BorderConfiguration(borderWidth: 0, cornerRadius: .extraSmall)
+        static var error = BorderConfiguration(tintColor: LightColors.error, borderWidth: 1, cornerRadius: .medium)
     }
     
     // TODO: add as needed
     struct Shadow {
         // TODO: the shadow color is not part of our Color config?
+        
+        static var zero = ShadowConfiguration(color: .clear,
+                                              opacity: .zero,
+                                              offset: .zero,
+                                              shadowRadius: .small)
+        
         static var normal = ShadowConfiguration(color: LightColors.Contrast.one,
                                                 opacity: .low,
                                                 offset: .init(width: 4, height: 10),
-                                                cornerRadius: .small)
-        static var zero = ShadowConfiguration(color: .clear, opacity: .zero, offset: .zero, cornerRadius: .small)
+                                                shadowRadius: .small)
+        
+        static var light = ShadowConfiguration(color: LightColors.Contrast.one,
+                                               opacity: .lowest,
+                                               offset: .init(width: 0, height: 8),
+                                               shadowRadius: .small)
     }
     
     struct Image {
@@ -59,14 +84,29 @@ extension Presets {
                                                  selectedConfiguration: Presets.Background.Primary.selected,
                                                  disabledConfiguration: Presets.Background.Primary.disabled)
         
-        static var secondary = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.normal),
+        static var secondary = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
                                                    selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
                                                    disabledConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled))
+        
+        static var icon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.two),
+                                              selectedConfiguration: .init(tintColor: LightColors.Icons.one),
+                                              disabledConfiguration: .init(tintColor: LightColors.InteractionPrimary.disabled))
+        
+        static var link = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Link.one),
+                                              selectedConfiguration: .init(tintColor: LightColors.Link.two),
+                                              disabledConfiguration: .init(tintColor: LightColors.InteractionPrimary.disabled))
+        
+        static var blackIcon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.one),
+                                                   selectedConfiguration: .init(tintColor: LightColors.Icons.one),
+                                                   disabledConfiguration: .init(tintColor: LightColors.InteractionPrimary.disabled))
     }
-    
-    struct TexxtField {
+}
+
+extension Presets {
+    struct TextField {
         static var primary = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Icons.two),
-                                                    titleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                    titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                                    selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
                                                     textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                     placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                     hintConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
@@ -74,20 +114,149 @@ extension Presets {
                                                     selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
                                                     disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
                                                     errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error))
+        
+        static var two = TextFieldConfiguration(titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                                selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                                placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                                hintConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                trailingImageConfiguration: .init(tintColor: LightColors.Text.two),
+                                                backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
+                                                selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
+                                                disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
+                                                errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error))
+        
+        static var email = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Icons.two),
+                                                  titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                                  selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                  textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                                  placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                                  hintConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                  backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
+                                                  selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
+                                                  disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
+                                                  errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error),
+                                                  autocapitalizationType: UITextAutocapitalizationType.none,
+                                                  autocorrectionType: .no,
+                                                  keyboardType: .emailAddress)
+        
+        static var number = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Icons.two),
+                                                   titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                                   selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                   textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                                   placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                                   hintConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                   backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
+                                                   selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
+                                                   disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
+                                                   errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error),
+                                                   keyboardType: .numberPad)
     }
-    
+}
+
+extension Presets {
     struct InfoView {
+        static var verification = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
+                                                        headerTitle: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                        headerTrailing: Presets.Button.icon,
+                                                        status: VerificationView.resubmit.status,
+                                                        title: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                        description: .init(font: Fonts.Subtitle.two, textColor: LightColors.Contrast.two),
+                                                        button: Presets.Button.primary.withBorder(normal: Presets.Border.zero,
+                                                                                                  selected: Presets.Border.selected,
+                                                                                                  disabled: Presets.Border.disabled),
+                                                        background: .init(backgroundColor: LightColors.secondary,
+                                                                          tintColor: LightColors.Contrast.two,
+                                                                          border: Presets.Border.zero),
+                                                        shadow: Presets.Shadow.normal)
+        
+        static var verificationPrompt = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
+                                                              headerTitle: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                              headerTrailing: Presets.Button.icon,
+                                                              status: VerificationView.resubmit.status,
+                                                              title: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                              description: .init(font: Fonts.Subtitle.two, textColor: LightColors.Contrast.two),
+                                                              button: Presets.Button.primary.withBorder(normal: Presets.Border.zero,
+                                                                                                        selected: Presets.Border.selected,
+                                                                                                        disabled: Presets.Border.disabled),
+                                                              background: .init(backgroundColor: LightColors.secondary,
+                                                                                tintColor: LightColors.Contrast.two,
+                                                                                border: Presets.Border.zero),
+                                                              shadow: Presets.Shadow.normal)
+        
+        static var pending = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
+                                                   headerTitle: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                   headerTrailing: Presets.Button.icon,
+                                                   status: VerificationView.pending.status,
+                                                   title: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                   description: .init(font: Fonts.Subtitle.two, textColor: LightColors.Contrast.two),
+                                                   button: Presets.Button.primary.withBorder(normal: Presets.Border.zero,
+                                                                                             selected: Presets.Border.selected,
+                                                                                             disabled: Presets.Border.disabled),
+                                                   background: .init(backgroundColor: LightColors.secondary,
+                                                                     tintColor: LightColors.Contrast.two,
+                                                                     border: Presets.Border.zero),
+                                                   shadow: Presets.Shadow.normal)
+        
+        static var verified = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
+                                                    headerTitle: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                    headerTrailing: Presets.Button.icon,
+                                                    status: VerificationView.verified.status,
+                                                    title: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                    description: .init(font: Fonts.Subtitle.two, textColor: LightColors.Contrast.two),
+                                                    button: Presets.Button.primary.withBorder(normal: Presets.Border.zero,
+                                                                                              selected: Presets.Border.selected,
+                                                                                              disabled: Presets.Border.disabled),
+                                                    background: .init(backgroundColor: LightColors.secondary,
+                                                                      tintColor: LightColors.Contrast.two,
+                                                                      border: Presets.Border.zero),
+                                                    shadow: Presets.Shadow.normal)
+        
+        static var declined = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
+                                                    headerTitle: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                    headerTrailing: Presets.Button.icon,
+                                                    status: VerificationView.resubmit.status,
+                                                    title: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                    description: .init(font: Fonts.Subtitle.two, textColor: LightColors.Contrast.two),
+                                                    button: Presets.Button.primary.withBorder(normal: Presets.Border.zero,
+                                                                                              selected: Presets.Border.selected,
+                                                                                              disabled: Presets.Border.disabled),
+                                                    background: .init(backgroundColor: LightColors.secondary,
+                                                                      tintColor: LightColors.Contrast.two,
+                                                                      border: Presets.Border.zero),
+                                                    shadow: Presets.Shadow.normal)
+        
         static var primary = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
                                                    headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
-                                                   headerTrailingImage: Presets.Image.tertiary,
+                                                   headerTrailing: Presets.Button.icon,
                                                    title: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
                                                    description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
                                                    button: Presets.Button.primary,
                                                    background: .init(backgroundColor: LightColors.secondary,
-                                                                     tintColor: LightColors.Contrast.two),
+                                                                     tintColor: LightColors.Contrast.two,
+                                                                     border: Presets.Border.zero),
                                                    shadow: Presets.Shadow.normal)
+        
+        static var error = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
+                                                 headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
+                                                 headerTrailing: Presets.Button.icon,
+                                                 title: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
+                                                 description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
+                                                 button: Presets.Button.primary,
+                                                 background: .init(backgroundColor: LightColors.secondary,
+                                                                   tintColor: LightColors.Contrast.two,
+                                                                   border: Presets.Border.zero),
+                                                 shadow: Presets.Shadow.normal)
+        
+        static var swapError = InfoViewConfiguration(description: .init(font: Fonts.Body.two, textColor: LightColors.error),
+                                                     background: .init(backgroundColor: LightColors.tertiary,
+                                                                       tintColor: LightColors.Contrast.two,
+                                                                       border: Presets.Border.zero),
+                                                     shadow: Presets.Shadow.zero)
     }
-    
+}
+
+extension Presets {
     struct Alert {
         // TODO: not styled yet
         static var one = AlertConfiguration(titleConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one),
@@ -97,5 +266,177 @@ extension Presets {
                                                 Presets.Button.primary,
                                                 Presets.Button.secondary
                                             ])
+    }
+}
+
+extension Presets {
+    struct Popup {
+        static var normal = PopupConfiguration(background: .init(backgroundColor: LightColors.secondary,
+                                                                 tintColor: LightColors.Contrast.two,
+                                                                 border: Presets.Border.zero),
+                                               title: .init(font: Fonts.Title.seven, textColor: LightColors.Contrast.two),
+                                               body: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
+                                               buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
+                                                                                            selected: Presets.Border.selected,
+                                                                                            disabled: Presets.Border.disabled),
+                                                          Presets.Button.secondary ],
+                                               closeButton: Presets.Button.icon)
+        
+        static var white = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
+                                                                tintColor: LightColors.Contrast.two,
+                                                                border: Presets.Border.zero),
+                                              title: .init(font: Fonts.Title.five, textColor: LightColors.Icons.one),
+                                              body: .init(font: Fonts.Body.one, textColor: LightColors.Icons.one, textAlignment: .left),
+                                              buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
+                                                                                           selected: Presets.Border.selected,
+                                                                                           disabled: Presets.Border.disabled),
+                                                         Presets.Button.secondary ],
+                                              closeButton: Presets.Button.blackIcon)
+        
+        static var whiteDimmed = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
+                                                                      tintColor: LightColors.Contrast.two,
+                                                                      border: Presets.Border.zero),
+                                                    title: .init(font: Fonts.Title.five, textColor: LightColors.Icons.one),
+                                                    body: .init(font: Fonts.Title.five, textColor: LightColors.Text.one, textAlignment: .center),
+                                                    
+                                                    buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
+                                                                                                 selected: Presets.Border.selected,
+                                                                                                 disabled: Presets.Border.disabled),
+                                                               Presets.Button.secondary ],
+                                                    closeButton: Presets.Button.blackIcon)
+    }
+}
+
+extension Presets {
+    
+    struct Animation {
+        static var duration = 0.25
+    }
+}
+
+extension Presets {
+    struct VerificationView {
+        static var none = VerificationConfiguration(shadow: Presets.Shadow.light,
+                                                    background: .init(backgroundColor: LightColors.secondary,
+                                                                      tintColor: LightColors.Contrast.two,
+                                                                      border: Presets.Border.zero),
+                                                    title: .init(font: Fonts.Title.five, textColor: LightColors.Contrast.two),
+                                                    infoButton: .init(backgroundConfiguration: .init(tintColor: LightColors.Contrast.two),
+                                                                      selectedConfiguration: Presets.Background.Secondary.normal,
+                                                                      disabledConfiguration: Presets.Background.Secondary.disabled),
+                                                    description: .init(font: Fonts.Body.two, textColor: LightColors.Text.two),
+                                                    benefits: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two, textAlignment: .center))
+        
+        static var resubmit = VerificationConfiguration(shadow: Presets.Shadow.light,
+                                                        background: .init(backgroundColor: LightColors.Background.one,
+                                                                          tintColor: LightColors.Outline.two,
+                                                                          border: Presets.Border.zero),
+                                                        title: .init(font: Fonts.Title.five, textColor: LightColors.Text.one),
+                                                        status: .init(title: .init(font: Fonts.Body.two,
+                                                                                   textColor: LightColors.Contrast.two,
+                                                                                   textAlignment: .center),
+                                                                      background: .init(backgroundColor: LightColors.error,
+                                                                                        tintColor: LightColors.Contrast.two,
+                                                                                        border: Presets.Border.zero)),
+                                                        infoButton: .init(backgroundConfiguration: Presets.Background.Secondary.normal,
+                                                                          selectedConfiguration: Presets.Background.Secondary.selected,
+                                                                          disabledConfiguration: Presets.Background.Secondary.disabled),
+                                                        description: .init(font: Fonts.Body.two, textColor: LightColors.Text.two),
+                                                        benefits: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two, textAlignment: .center))
+        
+        static var pending = VerificationConfiguration(shadow: Presets.Shadow.light,
+                                                       background: .init(backgroundColor: LightColors.Background.one,
+                                                                         tintColor: LightColors.Outline.two,
+                                                                         border: Presets.Border.zero),
+                                                       title: .init(font: Fonts.Title.five, textColor: LightColors.Text.one),
+                                                       status: .init(title: .init(font: Fonts.Body.two,
+                                                                                  textColor: LightColors.Contrast.one,
+                                                                                  textAlignment: .center),
+                                                                     background: .init(backgroundColor: LightColors.pending,
+                                                                                       tintColor: LightColors.Contrast.one,
+                                                                                       border: Presets.Border.zero)),
+                                                       infoButton: .init(backgroundConfiguration: Presets.Background.Secondary.normal,
+                                                                         selectedConfiguration: Presets.Background.Secondary.selected,
+                                                                         disabledConfiguration: Presets.Background.Secondary.disabled),
+                                                       description: .init(font: Fonts.Body.two, textColor: LightColors.Text.two),
+                                                       benefits: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two, textAlignment: .center))
+        
+        static var verified = VerificationConfiguration(shadow: Presets.Shadow.light,
+                                                        background: .init(backgroundColor: LightColors.Background.one,
+                                                                          tintColor: LightColors.Outline.two,
+                                                                          border: Presets.Border.zero),
+                                                        title: .init(font: Fonts.Title.five, textColor: LightColors.Text.one),
+                                                        status: .init(title: .init(font: Fonts.Body.two,
+                                                                                   textColor: LightColors.Contrast.two,
+                                                                                   textAlignment: .center),
+                                                                      background: .init(backgroundColor: LightColors.success,
+                                                                                        tintColor: LightColors.Contrast.two,
+                                                                                        border: Presets.Border.zero)),
+                                                        infoButton: .init(backgroundConfiguration: Presets.Background.Secondary.normal,
+                                                                          selectedConfiguration: Presets.Background.Secondary.selected,
+                                                                          disabledConfiguration: Presets.Background.Secondary.disabled),
+                                                        description: .init(font: Fonts.Body.two, textColor: LightColors.Text.two),
+                                                        benefits: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two, textAlignment: .center))
+    }
+}
+
+extension Presets {
+    struct VerificationInfoView {
+        // TODO: localize
+        static var none = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
+                                        headerTrailing: .init(image: "help"),
+                                        status: VerificationStatus.none,
+                                        description: .text("Get full access to your Fabriik wallet"),
+                                        button: .init(title: "Verify your account"),
+                                        dismissType: .persistent)
+        
+        static var nonePrompt = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
+                                              headerTrailing: .init(image: "CloseModern"),
+                                              status: VerificationStatus.none,
+                                              description: .text("Get full access to your Fabriik wallet"),
+                                              button: .init(title: "Verify your account"),
+                                              dismissType: .persistent)
+        
+        static var verified = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
+                                            headerTrailing: .init(image: "help"),
+                                            status: VerificationStatus.levelOne,
+                                            description: .text("Current limit: $1,000/day"),
+                                            button: .init(title: "Upgrade your limits"),
+                                            dismissType: .persistent)
+        
+        static var pending = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
+                                           headerTrailing: .init(image: "help"),
+                                           status: VerificationStatus.emailPending,
+                                           description: .text("We’ll let you know when your account is verified."),
+                                           dismissType: .persistent)
+        
+        static var verifiedLevelTwo = InfoViewModel(kyc: .levelTwo, headerTitle: .text("ACCOUNT LIMITS"),
+                                                    headerTrailing: .init(image: "help"),
+                                                    status: VerificationStatus.levelTwo(.levelTwo),
+                                                    description: .text("Swap limit: $10,000 USD/day\nBuy limit: $500 USD/day"),
+                                                    dismissType: .persistent)
+        
+        static var resubmit = InfoViewModel(kyc: .levelTwo, headerTitle: .text("ACCOUNT LIMITS"),
+                                            headerTrailing: .init(image: "help"),
+                                            status: VerificationStatus.levelTwo(.resubmit),
+                                            description: .text("Oops! We had some issues processing your data"),
+                                            button: .init(title: "Why is my verification declined?"),
+                                            dismissType: .persistent)
+        
+        static var declined = InfoViewModel(kyc: .levelTwo, headerTitle: .text("ACCOUNT LIMITS"),
+                                            headerTrailing: .init(image: "help"),
+                                            status: VerificationStatus.levelTwo(.declined),
+                                            description: .text("Oops! We had some issues processing your data"),
+                                            button: .init(title: "Why is my verification declined?"),
+                                            dismissType: .persistent)
+    }
+}
+
+// TODO: presets were ment for designing views.. if u want reuse VMs we need some other struct for that :o
+extension Presets {
+    struct BuyPopupView {
+        static var cardSecurityCode = PopupViewModel(title: .text("Security code (CVV)"),
+                                                     imageName: "creditCard",
+                                                     body: "Please enter the 3 digit CVV number as it appears on the back of your card")
     }
 }

@@ -7,34 +7,25 @@
 
 import UIKit
 
-protocol BaseViewActions: AlertViewActions,
-                          ErrorViewActions,
-                          NotificationViewActions {
-}
+protocol BaseViewActions {}
 
-protocol BaseActionResponses: AlertActionResponses,
-                              ErrorActionResponses,
-                              NotificationActionResponses {
-}
+protocol BaseActionResponses: MessageActionResponses {}
 
-protocol BaseResponseDisplays: AlertResponseDisplays,
-                               ErrorResponseDisplays,
-                               NotificationResponseDisplays {
-}
+protocol BaseResponseDisplays: MessageResponseDisplays {}
 
 protocol BaseDataStore {}
 
 protocol BaseDataPassing {
-    associatedtype Store: BaseDataStore
-    var dataStore: Store? { get }
+    associatedtype DataStore: BaseDataStore
+    var dataStore: DataStore? { get }
 }
 
 protocol CoordinatableRoutes: NSObject,
-                              AlertDisplayable,
-                              NotificationDisplayable {
+                              MessageDisplayable {
     func goBack()
 }
 
-protocol AlertDisplayable {
-    func showAlertView(with model: AlertViewModel?, config: AlertConfiguration?)
+protocol MessageDisplayable {
+    func showMessage(with error: Error?, model: InfoViewModel?, configuration: InfoViewConfiguration?)
+    func hideMessage(_ view: UIView)
 }

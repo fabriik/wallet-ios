@@ -7,10 +7,7 @@ import Foundation
 enum KYCEndpoints: String, URLType {
     static var baseURL: String = "https://" + E.apiUrl + "blocksatoshi/one/kyc/%@"
     
-    case personalInformation = "pi?%@"
-    case uploadSelfieImage = "upload?type=SELFIE&%@"
-    case uploadFrontBackImage = "upload?type=ID&%@"
-    case login = "auth/login%@"
+    case countriesList = "countries"
     
     var url: String {
         return String(format: Self.baseURL, rawValue)
@@ -18,20 +15,20 @@ enum KYCEndpoints: String, URLType {
 }
 
 enum KYCAuthEndpoints: String, URLType {
-    static var baseURL: String = "https://"  + E.apiUrl + "blocksatoshi/one/auth/%@"
+    static var baseURL: String = "https://"  + E.apiUrl + "blocksatoshi/one/%@"
     
-    case register
-    case login
-    case confirm = "register/confirm?%@&confirmation_code=%@"
-    case resend = "register/confirm/resend?%@"
-    case startResetPassword = "password/start"
-    case acceptResetPassword = "password/accept"
-
+    case newDevice = "auth/new-device"
+    case profile = "auth/profile"
+    case register = "auth/associate"
+    case confirm = "auth/associate/confirm"
+    case resend = "auth/associate/resend"
+    
+    case basic = "kyc/basic"
+    case documents = "kyc/documents"
+    case upload = "kyc/upload"
+    case submit = "kyc/session/submit"
+    
     var url: String {
         return String(format: Self.baseURL, rawValue)
     }
 }
-
-class KYCBaseResponseWorker<T: ModelResponse, U: Model, V: ModelMapper<T, U>>: BaseResponseWorker<T, U, V> {}
-
-class KYCBasePlainResponseWorker: BasePlainResponseWorker {}

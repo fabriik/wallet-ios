@@ -22,7 +22,7 @@ class ShareGiftView: UIView {
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    private let closeButton = UIButton.close
+    private let closeButton = UIButton.buildModernCloseButton(position: .middle)
     private let qr = UIImageView()
     private let name = UILabel(font: Theme.h0Title, color: UIColor.white)
     private let subHeader = UILabel(font: Theme.h2Title, color: UIColor.white)
@@ -171,7 +171,7 @@ class ShareGiftView: UIView {
         name.textAlignment = .center
         subHeader.text = "Someone gifted you Bitcoin"
         
-        if let btc = Currencies.btc.instance {
+        if let btc = Currencies.shared.btc {
             let displayAmount = Amount(tokenString: "\(gift.amount ?? 0)", currency: btc)
             total.text = displayAmount.tokenDescription
         }
@@ -223,10 +223,8 @@ class ShareGiftViewController: UIViewController {
     
     override func loadView() {
         view = shareView
-        if #available(iOS 13.0, *) {
-            shareView.didTapShare = coordinator.showShare
-            self.coordinator.parent = self
-        }
+        shareView.didTapShare = coordinator.showShare
+        coordinator.parent = self
         shareView.didTapClose = coordinator.closeAction
     }
     

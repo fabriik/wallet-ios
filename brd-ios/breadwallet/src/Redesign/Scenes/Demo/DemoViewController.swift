@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WalletKit
 
 class DemoViewController: BaseTableViewController<DemoCoordinator,
                           DemoInteractor,
@@ -14,57 +15,24 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
                           DemoStore>,
                           DemoResponseDisplays {
     typealias Models = DemoModels
-
+    
     // MARK: - Overrides
+    override func setupSubviews() {
+        super.setupSubviews()
+        
+        tableView.register(WrapperTableViewCell<AssetView>.self)
+        tableView.register(WrapperTableViewCell<OrderView>.self)
+    }
     
     override func prepareData() {
         sections = [
-            Models.Section.textField,
-            Models.Section.infoView,
-            Models.Section.label,
-            Models.Section.button
+            Models.Section.asset,
+            Models.Section.order
         ]
         
         sectionRows = [
-            Models.Section.button: [
-                "Click me!!",
-                "Dont Click me please!!"
-            ],
-            
-            Models.Section.textField: [
-                TextFieldModel(title: "First name", hint: "Your mama gave it to you", validator: { string in
-                    return (string ?? "").count > 3
-                }),
-                TextFieldModel(title: "Last name"),
-                TextFieldModel(title: "Email", placeholder: "smth@smth_else.com", error: "cant be empty"),
-                TextFieldModel(title: "Address", validator: { _ in return true })
-            ],
-            
-            Models.Section.infoView: [
-                InfoViewModel(headerLeadingImage: .image("ig"),
-                              headerTitle: .text("This is a header title"),
-                              headerTrailingImage: .image("user"),
-                              title: .text("This is a title"),
-                              description: .text("This is a description. It can be long and should break up in multiple lines by word wrapping."),
-                              button: .init(title: "Close")),
-                
-                InfoViewModel(headerTitle: .text("This is a header title"),
-                              headerTrailingImage: .image("user"),
-                              title: .text("This is a title"),
-                              description: .text("This is a description. It can be long and should break up in multiple lines by word wrapping."),
-                              button: .init(title: "Close")),
-                
-                InfoViewModel(headerLeadingImage: .image("ig"),
-                              headerTrailingImage: .image("user"),
-                              title: .text("This is a title"),
-                              description: .text("This is a description. It can be long and should break up in multiple lines by word wrapping."),
-                              button: .init(title: "Close")),
-                
-                InfoViewModel(headerLeadingImage: .image("ig"),
-                              headerTitle: .text("This is a header title"),
-                              headerTrailingImage: .image("user"),
-                              description: .text("This is a description. It can be long and should break up in multiple lines by word wrapping."),
-                              button: .init(title: "Close"))
+            Models.Section.order: [
+                OrderViewModel(title: "Fabriik Order ID", value: "13rXEZoh5NFj4q9aasdfkLp2...", imageName: "copy")
             ]
         ]
         
@@ -79,24 +47,153 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
         
         let cell: UITableViewCell
         switch section {
-        case .label:
-            cell = self.tableView(tableView, labelCellForRowAt: indexPath)
-            
         case .button:
             cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
             
-        case .textField:
-            cell = self.tableView(tableView, textFieldCellForRowAt: indexPath)
+        case .timer:
+            cell = self.tableView(tableView, timerCellForRowAt: indexPath)
             
-        case .infoView:
-            cell = self.tableView(tableView, infoViewCellForRowAt: indexPath)
+        case .asset:
+            cell = self.tableView(tableView, assetCellForRowAt: indexPath)
+            
+        case .order:
+            cell = self.tableView(tableView, orderCellForRowAt: indexPath)
             
         default:
             cell = super.tableView(tableView, cellForRowAt: indexPath)
+        }
+        
+        cell.setupCustomMargins(vertical: .small, horizontal: .large)
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, buttonCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<ScrollableButtonsView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? ScrollableButtonsViewModel
+        else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init(background: Presets.Background.Primary.normal,
+                                       buttons: [
+                                        Presets.Button.icon
+                                       ]
+                                      ))
+            view.setup(with: model)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, assetCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<AssetView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? AssetViewModel
+        else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, orderCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<OrderView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? OrderViewModel
+        else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+            view.copyCallback = { [weak self] code in
+                self?.coordinator?.showMessage(model: InfoViewModel(description: .text(code), dismissType: .auto),
+                                               configuration: Presets.InfoView.error)
+            }
         }
         
         return cell
     }
     
     // MARK: - Additional Helpers
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard sections[indexPath.section].hashValue == Models.Section.label.hashValue else { return }
+        
+        toggleInfo()
+    }
+    
+    func toggleInfo() {
+        guard blurView?.superview == nil else {
+            hideInfo()
+            return
+        }
+        
+        showInfo()
+    }
+    
+    func showInfo() {
+        // TODO: this is demo code.. no review required XD
+        toggleBlur(animated: true)
+        guard let blur = blurView else { return }
+        let popup = FEPopupView()
+        view.insertSubview(popup, aboveSubview: blur)
+        popup.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.top.greaterThanOrEqualTo(view.snp.topMargin)
+            make.leading.greaterThanOrEqualTo(view.snp.leadingMargin)
+            make.trailing.greaterThanOrEqualTo(view.snp.trailingMargin)
+        }
+        popup.layoutIfNeeded()
+        popup.alpha = 0
+        
+        var text = "almost done... "
+        text += text
+        text += text
+        text += text
+        text += text
+        text += text
+        text += text
+        text += text
+        text += text
+        
+        popup.configure(with: Presets.Popup.normal)
+        popup.setup(with: .init(title: .text("This is a title"),
+                                body: text,
+                                buttons: [
+                                    .init(title: "Donate"),
+                                    .init(title: "Donate", image: "close"),
+                                    .init(image: "close")
+                                ]))
+        popup.closeCallback = { [weak self] in
+            self?.hideInfo()
+        }
+        
+        popup.buttonCallbacks = [ { print("Donated 10$! Thanks!") } ]
+        
+        UIView.animate(withDuration: Presets.Animation.duration) {
+            popup.alpha = 1
+        }
+    }
+    
+    @objc func hideInfo() {
+        guard let popup = view.subviews.first(where: { $0 is FEPopupView }) else { return }
+        
+        toggleBlur(animated: true)
+        
+        UIView.animate(withDuration: Presets.Animation.duration) {
+            popup.alpha = 0
+        } completion: { _ in
+            popup.removeFromSuperview()
+        }
+    }
 }

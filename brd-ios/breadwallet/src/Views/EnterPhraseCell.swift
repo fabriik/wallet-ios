@@ -35,6 +35,7 @@ class EnterPhraseCell: UICollectionViewCell {
     }
     
     private(set) var text: String?
+    var didEndEditing: (() -> Void)?
     
     var didTapPrevious: (() -> Void)? {
         didSet {
@@ -73,8 +74,8 @@ class EnterPhraseCell: UICollectionViewCell {
 
     // MARK: - Private
     let textField = UITextField()
-    private let nextField = UIButton.icon(image: #imageLiteral(resourceName: "RightArrow"), accessibilityLabel: S.RecoverWallet.rightArrow)
-    private let previousField = UIButton.icon(image: #imageLiteral(resourceName: "LeftArrow"), accessibilityLabel: S.RecoverWallet.leftArrow)
+    private let nextField = UIButton.icon(image: #imageLiteral(resourceName: "RightArrow"), accessibilityLabel: L10n.RecoverWallet.rightArrow, position: .middle)
+    private let previousField = UIButton.icon(image: #imageLiteral(resourceName: "LeftArrow"), accessibilityLabel: L10n.RecoverWallet.leftArrow, position: .middle)
     private let done = UIButton(type: .system)
     fileprivate let focusBar = UIView(color: Theme.accent)
     fileprivate var hasDisplayedInvalidState = false
@@ -130,7 +131,7 @@ class EnterPhraseCell: UICollectionViewCell {
 
         previousField.tintColor = .secondaryGrayText
         nextField.tintColor = .secondaryGrayText
-        done.setTitle(S.RecoverWallet.done, for: .normal)
+        done.setTitle(L10n.RecoverWallet.done, for: .normal)
     }
 
     private var accessoryView: UIView {
@@ -173,6 +174,8 @@ extension EnterPhraseCell: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         setColors(textField: textField)
+        didEndEditing?()
+        
         if let text = textField.text, let isValid = isWordValid, (isValid(text) || text.isEmpty) {
             hideFocusBar()
         }
@@ -215,9 +218,9 @@ extension EnterPhraseCell: UITextFieldDelegate {
         if isWordValid(word) || word.isEmpty {
             textField.textColor = Theme.primaryText
             focusBar.backgroundColor = Theme.accent
+            contentView.layer.borderColor = UIColor.almostBlack.cgColor
         } else {
-            textField.textColor = Theme.error
-            focusBar.backgroundColor = Theme.error
+            contentView.layer.borderColor = Theme.error.cgColor
             hasDisplayedInvalidState = true
         }
     }

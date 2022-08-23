@@ -14,15 +14,15 @@ class BiometricsSettingsViewController: UIViewController, Subscriber, Trackable 
     lazy var biometricType = LAContext.biometricType()
         
     var explanatoryText: String {
-        return biometricType == .touch ? S.TouchIdSettings.explanatoryText : S.FaceIDSettings.explanatoryText
+        return biometricType == .touch ? L10n.TouchIdSettings.explanatoryText : L10n.FaceIDSettings.explanatoryText
     }
     
     var unlockTitleText: String {
-        return biometricType == .touch ? S.TouchIdSettings.unlockTitleText : S.FaceIDSettings.unlockTitleText
+        return biometricType == .touch ? L10n.TouchIdSettings.unlockTitleText : L10n.FaceIDSettings.unlockTitleText
     }
     
     var transactionsTitleText: String {
-        return biometricType == .touch ? S.TouchIdSettings.transactionsTitleText : S.FaceIDSettings.transactionsTitleText
+        return biometricType == .touch ? L10n.TouchIdSettings.transactionsTitleText : L10n.FaceIDSettings.transactionsTitleText
     }
     
     var imageName: String {
@@ -53,11 +53,6 @@ class BiometricsSettingsViewController: UIViewController, Subscriber, Trackable 
     init(_ walletAuthenticator: WalletAuthenticator) {
         self.walletAuthenticator = walletAuthenticator
         super.init(nibName: nil, bundle: nil)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setDarkStyle()
     }
     
     override func viewDidLoad() {
@@ -167,14 +162,14 @@ class BiometricsSettingsViewController: UIViewController, Subscriber, Trackable 
         transactionsToggle.isEnabled = unlockToggle.isOn
         
         unlockToggle.valueChanged = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.toggleChanged(toggle: self.unlockToggle)
             self.saveEvent("event.enableBiometrics",
                            attributes: ["isEnabled": "\(self.unlockToggle.isOn)", "type": "unlock"])
         }
         
         transactionsToggle.valueChanged = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.toggleChanged(toggle: self.transactionsToggle)
             self.saveEvent("event.enableBiometrics",
                            attributes: ["isEnabled": "\(self.transactionsToggle.isOn)", "type": "sending"])
@@ -217,24 +212,21 @@ class BiometricsSettingsViewController: UIViewController, Subscriber, Trackable 
     }
     
     private func addFaqButton() {
-        let negativePadding = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        negativePadding.width = -16.0
-        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.enableTouchId)
-        faqButton.tintColor = Theme.blueBackground
-        navigationItem.rightBarButtonItems = [negativePadding, UIBarButtonItem(customView: faqButton)]
+        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.enableTouchId, position: .right)
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: faqButton)]
     }
 
     fileprivate func presentCantUseBiometricsAlert() {
-        let unavailableAlertTitle = LAContext.biometricType() == .face ? S.FaceIDSettings.unavailableAlertTitle : S.TouchIdSettings.unavailableAlertTitle
-        let unavailableAlertMessage = LAContext.biometricType() == .face ? S.FaceIDSettings.unavailableAlertMessage : S.TouchIdSettings.unavailableAlertMessage
+        let unavailableAlertTitle = LAContext.biometricType() == .face ? L10n.FaceIDSettings.unavailableAlertTitle : L10n.TouchIdSettings.unavailableAlertTitle
+        let unavailableAlertMessage = LAContext.biometricType() == .face ? L10n.FaceIDSettings.unavailableAlertMessage : L10n.TouchIdSettings.unavailableAlertMessage
         
         let alert = UIAlertController(title: unavailableAlertTitle,
                                       message: unavailableAlertMessage,
                                       preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: S.Button.cancel, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: L10n.Button.cancel, style: .cancel, handler: nil))
 
-        alert.addAction(UIAlertAction(title: S.Button.settings, style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: L10n.Button.settings, style: .default, handler: { _ in
             guard let url = URL(string: "App-Prefs:root") else { return }
             UIApplication.shared.open(url)
         }))

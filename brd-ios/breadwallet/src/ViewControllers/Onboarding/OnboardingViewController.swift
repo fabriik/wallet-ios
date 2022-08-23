@@ -120,7 +120,7 @@ class OnboardingViewController: UIViewController {
     // to prevent additional taps on the Next button during the transition.
     var isPaging: Bool = false {
         didSet {
-            [topButton, bottomButton, skipButton, backButton].forEach { (button) in
+            [createWalletButton, restoreButton, skipButton, backButton].forEach { (button) in
                 button.isUserInteractionEnabled = !isPaging
             }
         }
@@ -155,10 +155,9 @@ class OnboardingViewController: UIViewController {
     var lastPageIndex: Int { return pageCount - 1 }
     
     // CTA's that appear at the bottom of the screen
-    private let topButton = BRDButton(title: "", type: .primary)
-    private let middleButton = BRDButton(title: "", type: .darkOpaque)
-    private let bottomButton = BRDButton(title: "", type: .secondary)
-    private let nextButton = BRDButton(title: S.OnboardingScreen.next, type: .primary)
+    private let createWalletButton = BRDButton(title: "", type: .secondary)
+    private let recoverButton = BRDButton(title: "", type: .blackTransparent)
+    private let restoreButton = BRDButton(title: "", type: .blackTransparent)
     
     // Constraints used to show and hide the bottom buttons.
     private var topButtonAnimationConstraint: NSLayoutConstraint?
@@ -257,16 +256,15 @@ class OnboardingViewController: UIViewController {
         
         self.pageIndex = 0
 
-        self.topButton.title = topButtonText(pageIndex: 0)
-        self.bottomButton.title = bottomButtonText(pageIndex: 0)
+        self.createWalletButton.title = createWalletButtonText(pageIndex: 0)
+        self.restoreButton.title = restoreButtonText(pageIndex: 0)
 
         completion()        
     }
     
     private func setUpLogo() {
         logoImageView.alpha = 0
-        
-        self.view.addSubview(logoImageView)
+        view.addSubview(logoImageView)
         
         let screenHeight = UIScreen.main.bounds.height
         let offset = (screenHeight / 4.0) + 20
@@ -275,17 +273,12 @@ class OnboardingViewController: UIViewController {
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
             logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -(offset))
             ])
-        
     }
     
-    private func animateIcons(metaData: [CurrencyId: CurrencyMetaData]?) {
+    private func animateIcons(metaData: [CurrencyMetaData]?) {
         guard pageIndex == 0 else { return }
         guard let metaData = metaData else {
-            Backend.apiClient.getCurrencyMetaData { [weak self] currencyMetaData in
-                DispatchQueue.main.async {
-                    self?.animateIcons(metaData: currencyMetaData)
-                }
-            }
+            animateIcons(metaData: Currencies.shared.currencies)
             return
         }
         
@@ -295,7 +288,7 @@ class OnboardingViewController: UIViewController {
         let duration = 10.0
         let maxDelay = 15.0
         
-        let currencies: [CurrencyMetaData] = Array(Array(metaData.values).sorted { return $0.isPreferred && !$1.isPreferred }[..<iconCount])
+        let currencies: [CurrencyMetaData] = Array(Array(metaData).sorted { return $0.isPreferred && !$1.isPreferred }[..<iconCount])
         for currency in currencies {
             
             //Add icon
@@ -310,7 +303,7 @@ class OnboardingViewController: UIViewController {
             imageView.alpha = 0.0
             imageView.tintColor = .white
             
-            let delay = Double(CGFloat.random(min: 0.0, max: CGFloat(maxDelay)))
+            let delay = Double.random(in: 0.0...maxDelay)
             
             //Fade in Icon
             UIView.animate(withDuration: 1.5, delay: delay, animations: {
@@ -319,7 +312,7 @@ class OnboardingViewController: UIViewController {
             
             //Animate icon on hypotenuse
             UIView.animate(withDuration: duration, delay: delay, animations: {
-                let angle = CGFloat.random(min: 0, max: 360.0) * .pi / 180.0
+                let angle = CGFloat.random(in: 0...360.0) * .pi / 180.0
                 let hypotenuse: CGFloat = 700.0
                 imageView.frame = imageView.frame.offsetBy(dx: cos(angle) * hypotenuse, dy: sin(angle) * hypotenuse)
                 let rotationAngle: CGFloat = Bool.random() ? .pi / -1.1 : .pi
@@ -345,16 +338,16 @@ class OnboardingViewController: UIViewController {
     
     private func setUpPages() {
         
-        pages.append(OnboardingPage(heading: S.OnboardingScreen.pageOneTitle,
+        pages.append(OnboardingPage(heading: L10n.OnboardingPageOne.title,
                                     subheading: "",
                                     videoClip: ""))
         
-        pages.append(OnboardingPage(heading: S.OnboardingScreen.pageTwoTitle,
+        pages.append(OnboardingPage(heading: L10n.OnboardingPageTwo.title,
                                     subheading: "",
                                     videoClip: "onboarding-video-globe"))
         
-        pages.append(OnboardingPage(heading: S.OnboardingScreen.pageThreeTitle,
-                                    subheading: S.OnboardingScreen.pageThreeSubtitle,
+        pages.append(OnboardingPage(heading: L10n.OnboardingPageThree.title,
+                                    subheading: L10n.OnboardingPageThree.subtitle,
                                     videoClip: "onboarding-video-coins-in"))
     }
     
@@ -422,34 +415,24 @@ class OnboardingViewController: UIViewController {
         }
     }
     
-    private func topButtonText(pageIndex: Int) -> String {
-        if pageIndex == 0 {
-            if cloudBackupExists {
-                return S.CloudBackup.restoreButton
-            } else {
-                return S.OnboardingScreen.getStarted
-            }
-        }
-        return ""
+    private func createWalletButtonText(pageIndex: Int) -> String {
+        return L10n.CloudBackup.createButton
     }
 
-    private func middleButtonText(pageIndex: Int) -> String {
+    private func recoverButtonText(pageIndex: Int) -> String {
         //no middle button if no backup detected
         if pageIndex == 0 && cloudBackupExists {
-            return S.CloudBackup.recoverButton
+            return L10n.CloudBackup.recoverButton
         }
         return ""
     }
     
-    private func bottomButtonText(pageIndex: Int) -> String {
-        if pageIndex == 0 {
-            if cloudBackupExists {
-                return S.CloudBackup.createButton
-            } else {
-                return S.OnboardingScreen.restoreWallet
-            }
+    private func restoreButtonText(pageIndex: Int) -> String {
+        if cloudBackupExists {
+            return L10n.CloudBackup.restoreButton
+        } else {
+            return L10n.Onboarding.restoreWallet
         }
-        return ""
     }
     
     let buttonHeight: CGFloat = 48.0
@@ -484,73 +467,60 @@ class OnboardingViewController: UIViewController {
     private func setUpBottomButtons() {
         // Set the buttons up for the first page; the title text will be updated
         // once we reach the last page of the onboarding flow.
-        topButton.title = topButtonText(pageIndex: 0)
-        middleButton.title = middleButtonText(pageIndex: 0)
-        bottomButton.title = bottomButtonText(pageIndex: 0)
+        createWalletButton.title = createWalletButtonText(pageIndex: 0)
+        recoverButton.title = recoverButtonText(pageIndex: 0)
+        restoreButton.title = restoreButtonText(pageIndex: 0)
         
-        view.addSubview(topButton)
-        view.addSubview(middleButton)
-        view.addSubview(bottomButton)
-        view.addSubview(nextButton)
+        view.addSubview(createWalletButton)
+        view.addSubview(recoverButton)
+        view.addSubview(restoreButton)
         
         let buttonLeftRightMargin: CGFloat = 24
         let buttonHeight: CGFloat = 48
         
         // Position the top button just below the bottom of the view (or safe area / notch) to start with
         // so that we can animate it up into view.
-        topButtonAnimationConstraint = topButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        topButtonAnimationConstraint = createWalletButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                                       constant: buttonsHiddenYOffset)
-        nextButtonAnimationConstraint = nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                                                            constant: buttonsHiddenYOffset)
-        middleButtonAnimationConstraint = middleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        
+        middleButtonAnimationConstraint = recoverButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                                       constant: buttonsHiddenYOffset)
-        bottomButtonAnimationConstraint = bottomButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        bottomButtonAnimationConstraint = restoreButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                                             constant: buttonsHiddenYOffset)
-        topButton.constrain([
-            topButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            topButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
-            topButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin),                
-            topButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+        createWalletButton.constrain([
+            createWalletButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            createWalletButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
+            createWalletButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin),                
+            createWalletButton.heightAnchor.constraint(equalToConstant: buttonHeight),
             topButtonAnimationConstraint
             ])
         
-        middleButton.constrain([
-            middleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            middleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
-            middleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin),
-            middleButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+        recoverButton.constrain([
+            recoverButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            recoverButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
+            recoverButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin),
+            recoverButton.heightAnchor.constraint(equalToConstant: buttonHeight),
             middleButtonAnimationConstraint
             ])
         
-        bottomButton.constrain([
-            bottomButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            bottomButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
-            bottomButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin), 
-            bottomButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+        restoreButton.constrain([
+            restoreButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            restoreButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
+            restoreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin), 
+            restoreButton.heightAnchor.constraint(equalToConstant: buttonHeight),
             bottomButtonAnimationConstraint
             ])
         
-        nextButton.constrain([
-            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
-            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin), 
-            nextButton.heightAnchor.constraint(equalToConstant: buttonHeight),
-            nextButtonAnimationConstraint
-            ])        
-        
-        topButton.tap = { [unowned self] in
-            self.topButtonTapped()
+        createWalletButton.tap = { [unowned self] in
+            self.createWalletTapped()
         }
         
-        middleButton.tap = { [unowned self] in
-            self.middleButtonTapped()
+        recoverButton.tap = { [unowned self] in
+            self.recoverButtonTapped()
         }
         
-        bottomButton.tap = { [unowned self] in
-            self.bottomButtonTapped()
-        }
-        
-        nextButton.tap = { [unowned self] in
-            self.animateToNextPage()
+        restoreButton.tap = { [unowned self] in
+            self.restoreButtonTapped()
         }
     }
     
@@ -642,7 +612,7 @@ class OnboardingViewController: UIViewController {
             backButton.widthAnchor.constraint(equalToConstant: 20)
             ])
         
-        skipButton.setTitle(S.OnboardingScreen.skip, for: .normal)
+        skipButton.setTitle(L10n.Onboarding.skip, for: .normal)
         skipButton.titleLabel?.font = UIFont.onboardingSkipButton()
         skipButton.setTitleColor(.onboardingSkipButtonTitle, for: .normal)
         skipButton.addTarget(self, action: #selector(skipTapped(sender:)), for: .touchUpInside)
@@ -676,15 +646,15 @@ class OnboardingViewController: UIViewController {
             label.alpha = 1
         })            
         
-        topButton.alpha = 0
-        middleButton.alpha = 0
-        bottomButton.alpha = 0
+        createWalletButton.alpha = 0
+        recoverButton.alpha = 0
+        restoreButton.alpha = 0
         
         // fade-in animation for the buttons
         UIView.animate(withDuration: (duration * 1.5), delay: (delay * 2.0), options: UIView.AnimationOptions.curveEaseIn, animations: { 
-            self.topButton.alpha = 1
-            self.bottomButton.alpha = 1
-            self.middleButton.alpha = 1
+            self.createWalletButton.alpha = 1
+            self.restoreButton.alpha = 1
+            self.recoverButton.alpha = 1
         })
 
         // slide-up animation for the top button
@@ -720,142 +690,28 @@ class OnboardingViewController: UIViewController {
             self?.animateIcons(metaData: nil)
         })
     }
-        
-    private func animateToNextPage() {
-        guard !isPaging, pageIndex >= 0, pageIndex < pageCount else {
-            return
-        }
-        
-        if pageIndex == lastPageIndex {
-            exitWith(action: .createWallet)
-            return
-        }
-        
-        isPaging = true
-        
-        let nextIndex = pageIndex + 1
-        
-        startVideoClipForPage(pageIndex: nextIndex)
-        
-        let pageAnimationDuration = 0.6//1.0
-        let delay = animationDelays[nextIndex]
-        
-        let currentHeadingLabel = headingLabels[pageIndex]
-        let nextHeadingLabel = headingLabels[nextIndex]
-        
-        let currentSubheadingLabel = subheadingLabels[pageIndex]
-        let nextSubheadingLabel = subheadingLabels[nextIndex]
-        
-        let currentHeadingConstraint = headingConstraints[pageIndex]
-        let nextHeadingConstraint = headingConstraints[nextIndex]
-        
-        let fadeInOffsetFactor = fadeInOffsetFactors[nextIndex]
-        
-        if nextIndex == 1 {
-            hideStarburstIcons()
-        }
-        
-        UIView.animateKeyframes(withDuration: pageAnimationDuration, delay: delay, 
-                                options: .calculationModeCubic, animations: { [weak self] in
-                                    guard let `self` = self else { return }
-                                    
-                                    // Fade out the logo.
-                                    if self.logoImageView.alpha == 1 {
-                                        UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) { 
-                                            self.logoImageView.alpha = 0
-                                        }
-                                    }
-                                    
-                                    UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.4) { 
-                                        currentHeadingLabel.alpha = 0
-                                        currentSubheadingLabel.alpha = 0
-                                        currentHeadingConstraint.constant -= (self.headingLabelAnimationOffset)
-                                        currentHeadingLabel.superview?.layoutIfNeeded()
-                                    }
-                                    
-                                    UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: { 
-                                        nextHeadingLabel.alpha = 1
-                                        nextSubheadingLabel.alpha = 1
-                                        nextHeadingConstraint.constant = -(self.headingLabelAnimationOffset * fadeInOffsetFactor)
-                                        nextHeadingLabel.superview?.layoutIfNeeded()
-                                    })
-                                    
-                                    if self.pageIndex == 0 {
-                                        
-                                        // Animate buttons down
-                                        [self.topButtonAnimationConstraint,
-                                         self.middleButtonAnimationConstraint,
-                                         self.bottomButtonAnimationConstraint].forEach { constraint in
-                                            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {
-                                                constraint?.constant = self.buttonsHiddenYOffset
-                                                self.view.layoutIfNeeded()
-                                            })
-                                        }
-                                    }
-                                    
-            }, completion: { [weak self] _ in
-                guard let `self` = self else { return }
-
-                let nextIndex = min(self.pageIndex + 1, self.pageCount - 1)
-                
-                let finishTransition: () -> Void  = {
-                    self.pageIndex = nextIndex
-                    self.isPaging = false
-                }
-                
-                // Animate the Next button after the other animations are finished to give the video
-                // clip a bit more time to finish. The first clip is a bit longer than the others and
-                // includes a slick bitcoin transfer animation at the end.
-                if nextIndex == 1 {
-                    //0.5
-                    UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
-                        self.nextButtonAnimationConstraint?.constant = self.nextButtonVisibleYOffset
-                        self.view.layoutIfNeeded()                    
-                    }, completion: { _ in
-                        finishTransition()
-                    })
-                } else {
-                    finishTransition()
-                }
-        })
-    }
-        
-    private func topButtonTapped() {
-        if self.pageIndex == 0 {
-            if cloudBackupExists {
-                exitWith(action: .restoreCloudBackup)
-            } else {
-               // 'Create new wallet'
-               self.animateToNextPage()
-               logEvent(.getStartedButton, screen: .landingPage)
-            }
-        }
-    }
     
-    private func middleButtonTapped() {
-        showAlert(message: S.CloudBackup.recoverWarning,
-                  button: S.CloudBackup.recoverButton,
+    private func createWalletTapped() {
+        exitWith(action: .createWallet)
+        logEvent(.browseFirstButton, screen: .finalPage)
+    }
+
+    private func recoverButtonTapped() {
+        showAlert(message: L10n.CloudBackup.recoverWarning,
+                  button: L10n.CloudBackup.recoverButton,
                   completion: { [weak self] in
                     self?.exitWith(action: .restoreWallet)
                     self?.logEvent(.restoreWalletButton, screen: .landingPage)
                 })
     }
-    
-    private func bottomButtonTapped() {
-        if pageIndex == 0 {
-            if cloudBackupExists {
-                showAlert(message: S.CloudBackup.createWarning, button: S.CloudBackup.createButton, completion: { [weak self] in
-                    self?.animateToNextPage()
-                })
-            } else {
-               // 'Restore wallet'
-               exitWith(action: .restoreWallet)
-               logEvent(.restoreWalletButton, screen: .landingPage)
-            }
-        } else if pageIndex == self.lastPageIndex {
-            // 'I'll browse first'
-            exitWith(action: .createWallet)
-            logEvent(.browseFirstButton, screen: .finalPage)
+
+    private func restoreButtonTapped() {
+        if cloudBackupExists {
+            exitWith(action: .restoreCloudBackup)
+        } else {
+            // 'Restore wallet'
+            exitWith(action: .restoreWallet)
+            logEvent(.restoreWalletButton, screen: .landingPage)
         }
     }
                          
@@ -911,10 +767,10 @@ class OnboardingViewController: UIViewController {
     }
     
     private func showAlert(message: String, button: String, completion: @escaping () -> Void) {
-        let alert = UIAlertController(title: S.Alert.warning,
+        let alert = UIAlertController(title: L10n.Alert.warning,
                                       message: message,
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: S.Button.cancel, style: .cancel, handler: {_ in }))
+        alert.addAction(UIAlertAction(title: L10n.Button.cancel, style: .cancel, handler: {_ in }))
         alert.addAction(UIAlertAction(title: button, style: .default, handler: {_ in
             completion()
         }))

@@ -70,7 +70,7 @@ class RecoveryKeyFlowController {
         
         let recoveryKeyNavController = RecoveryKeyFlowController.makeNavigationController()
         
-        var baseNavigationController: UINavigationController?
+        var baseNavigationController: RootNavigationController?
         var modalPresentingViewController: UIViewController?
         
         // Sort out how we should be presenting the recovery key flow. If it's dipslayed from the home
@@ -78,7 +78,7 @@ class RecoveryKeyFlowController {
         // we're already in a modal navigation controller so the recovery key flow is pushed.
         if modalPresentation {
             modalPresentingViewController = viewController
-        } else if let nc = viewController as? UINavigationController {
+        } else if let nc = viewController as? RootNavigationController {
             baseNavigationController = nc
         }
         
@@ -184,12 +184,11 @@ class RecoveryKeyFlowController {
         }
     }
     
-    static func enterUnlinkWalletFlow(from viewController: UIViewController,
-                                      keyMaster: KeyMaster,
-                                      phraseEntryReason: PhraseEntryReason) {
-
+    static func presentUnlinkWalletFlow(from viewController: UIViewController,
+                                        keyMaster: KeyMaster,
+                                        phraseEntryReason: PhraseEntryReason) {
         let navController = RecoveryKeyFlowController.makeNavigationController()
-
+        
         let enterPhrase: (() -> Void) = {
             let enterPhraseVC = EnterPhraseViewController(keyMaster: keyMaster, reason: phraseEntryReason)
             navController.pushViewController(enterPhraseVC, animated: true)
@@ -210,6 +209,22 @@ class RecoveryKeyFlowController {
         viewController.present(navController, animated: true, completion: nil)
     }
     
+    static func pushUnlinkWalletFlowWithoutIntro(from navigationController: UINavigationController,
+                                                 keyMaster: KeyMaster,
+                                                 phraseEntryReason: PhraseEntryReason,
+                                                 completion: @escaping ((FEButton?, UIBarButtonItem?) -> Void)) {
+        let enterPhraseVC = EnterPhraseViewController(keyMaster: keyMaster,
+                                                      reason: phraseEntryReason,
+                                                      showBackButton: false)
+        
+        enterPhraseVC.didToggleNextButton = { nextButton, barButton in
+            completion(nextButton, barButton)
+        }
+        
+        // TODO: Move to Coordinators.
+        navigationController.pushViewController(enterPhraseVC, animated: true)
+    }
+    
     static func enterResetPinFlow(from viewController: UIViewController,
                                   keyMaster: KeyMaster,
                                   callback: @escaping ((String, UINavigationController) -> Void)) {
@@ -226,12 +241,12 @@ class RecoveryKeyFlowController {
     }
     
     static func promptToSetUpRecoveryKeyLater(from viewController: UIViewController, setUpLater: @escaping (Bool) -> Void) {
-        let alert = UIAlertController(title: S.RecoverKeyFlow.exitRecoveryKeyPromptTitle,
-                                      message: S.RecoverKeyFlow.exitRecoveryKeyPromptBody,
+        let alert = UIAlertController(title: L10n.RecoveryKeyFlow.exitRecoveryKeyPromptTitle,
+                                      message: L10n.RecoveryKeyFlow.exitRecoveryKeyPromptBody,
                                       preferredStyle: .alert)
         
-        let no = UIAlertAction(title: S.Button.no, style: .default, handler: nil)
-        let yes = UIAlertAction(title: S.Button.yes, style: .default) { _ in
+        let no = UIAlertAction(title: L10n.Button.no, style: .default, handler: nil)
+        let yes = UIAlertAction(title: L10n.Button.yes, style: .default) { _ in
             setUpLater(true)
         }
         
@@ -241,10 +256,8 @@ class RecoveryKeyFlowController {
         viewController.present(alert, animated: true, completion: nil)
     }
     
-    private static func makeNavigationController() -> UINavigationController {
-        let navController = UINavigationController()
-        navController.setClearNavbar()
-        navController.setDarkStyle()
+    private static func makeNavigationController() -> RootNavigationController {
+        let navController = RootNavigationController()
         navController.modalPresentationStyle = .overFullScreen
         return navController
     }
@@ -260,7 +273,7 @@ class RecoveryKeyFlowController {
             return
         }
         
-        let pinViewController = VerifyPinViewController(bodyText: S.VerifyPin.continueBody,
+        let pinViewController = VerifyPinViewController(bodyText: L10n.VerifyPin.continueBody,
                                                         pinLength: Store.state.pinLength,
                                                         walletAuthenticator: keyMaster,
                                                         pinAuthenticationType: .recoveryKey,

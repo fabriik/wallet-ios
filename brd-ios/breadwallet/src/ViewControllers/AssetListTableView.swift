@@ -12,14 +12,15 @@ class AssetListTableView: UITableViewController, Subscriber {
 
     var didSelectCurrency: ((Currency) -> Void)?
     var didTapAddWallet: (() -> Void)?
+    var didReload: (() -> Void)?
     
-    let loadingSpinner = UIActivityIndicatorView(style: .white)
+    let loadingSpinner = UIActivityIndicatorView(style: .medium)
 
     private let assetHeight: CGFloat = 80.0 // rowHeight of 72 plus 8 padding
     
     private lazy var manageAssetsButton: ManageAssetsButton = {
         let manageAssetsButton = ManageAssetsButton()
-        let manageAssetsButtonTitle = S.MenuButton.manageAssets
+        let manageAssetsButtonTitle = L10n.MenuButton.manageAssets
         manageAssetsButton.set(title: manageAssetsButtonTitle)
         manageAssetsButton.accessibilityLabel = manageAssetsButtonTitle
         
@@ -46,7 +47,9 @@ class AssetListTableView: UITableViewController, Subscriber {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if Store.state.wallets.isEmpty {
-            showLoadingState(true)
+            DispatchQueue.main.async { [weak self] in
+                self?.showLoadingState(true)
+            }
         }
     }
     
@@ -62,7 +65,7 @@ class AssetListTableView: UITableViewController, Subscriber {
         tableView.separatorStyle = .none
         tableView.rowHeight = assetHeight
         tableView.contentInset = UIEdgeInsets(top: C.padding[1], left: 0, bottom: 0, right: 0)
-
+        
         setupSubscriptions()
         reload()
     }
@@ -91,25 +94,35 @@ class AssetListTableView: UITableViewController, Subscriber {
     
     private func setupSubscriptions() {
         Store.lazySubscribe(self, selector: {
-            var result = false
-            let oldState = $0
-            let newState = $1
-            $0.wallets.values.map { $0.currency }.forEach { currency in
-                if oldState[currency]?.balance != newState[currency]?.balance
-                    || oldState[currency]?.currentRate?.rate != newState[currency]?.currentRate?.rate {
-                    result = true
-                }
-            }
-            return result
+            self.mapWallets(state: $0, newState: $1)
         }, callback: { _ in
             self.reload()
         })
         
         Store.lazySubscribe(self, selector: {
-            $0.currencies.map { $0.code } != $1.currencies.map { $0.code }
+            self.mapCurrencies(lhsCurrencies: $0.currencies, rhsCurrencies: $1.currencies)
         }, callback: { _ in
             self.reload()
         })
+    }
+    
+    private func mapWallets(state: State, newState: State) -> Bool {
+        var result = false
+        let oldState = state
+        let newState = newState
+        
+        state.wallets.values.map { $0.currency }.forEach { currency in
+            if oldState[currency]?.balance != newState[currency]?.balance
+                || oldState[currency]?.currentRate?.rate != newState[currency]?.currentRate?.rate {
+                result = true
+            }
+        }
+        
+        return result
+    }
+    
+    private func mapCurrencies(lhsCurrencies: [Currency], rhsCurrencies: [Currency]) -> Bool {
+        return lhsCurrencies.map { $0.code } != rhsCurrencies.map { $0.code }
     }
     
     @objc func addWallet() {
@@ -117,8 +130,12 @@ class AssetListTableView: UITableViewController, Subscriber {
     }
     
     func reload() {
-        tableView.reloadData()
-        showLoadingState(false)
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+            self?.showLoadingState(false)
+            
+            self?.didReload?()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -139,13 +156,7 @@ class AssetListTableView: UITableViewController, Subscriber {
         let currency = Store.state.currencies[indexPath.row]
         let viewModel = HomeScreenAssetViewModel(currency: currency)
         
-        let cellIdentifier = (shouldHighlightCell(for: currency) ? HomeScreenCellIds.highlightableCell : HomeScreenCellIds.regularCell).rawValue
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        
-        if let highlightable: HighlightableCell = cell as? HighlightableCell {
-            handleCellHighlightingOnDisplay(cell: highlightable, currency: currency)
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: HomeScreenCellIds.regularCell.rawValue, for: indexPath)
         
         if let cell = cell as? HomeScreenCell {
             cell.set(viewModel: viewModel)
@@ -164,7 +175,6 @@ class AssetListTableView: UITableViewController, Subscriber {
             (currency.isHBAR && Store.state.requiresCreation(currency)) else { return }
         
         didSelectCurrency?(currency)
-        handleCellHighlightingOnSelect(indexPath: indexPath, currency: currency)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -197,33 +207,5 @@ extension AssetListTableView {
     
     func showAddWalletsButton(_ show: Bool) {
         manageAssetsButton.isHidden = !show
-    }
-}
-
-// cell highlighting
-extension AssetListTableView {
-    
-    func shouldHighlightCell(for currency: Currency) -> Bool {
-        // Currently the only currency/wallet we highlight is BRD.
-        guard currency.isBRDToken else { return false }
-        return UserDefaults.shouldShowBRDCellHighlight
-    }
-    
-    func clearShouldHighlightForCurrency(currency: Currency) {
-        guard currency.isBRDToken else { return }
-        UserDefaults.shouldShowBRDCellHighlight = false
-    }
-    
-    func handleCellHighlightingOnDisplay(cell: HighlightableCell, currency: Currency) {
-        guard shouldHighlightCell(for: currency) else { return }
-        cell.highlight()
-    }
-    
-    func handleCellHighlightingOnSelect(indexPath: IndexPath, currency: Currency) {
-        guard shouldHighlightCell(for: currency) else { return }
-        guard let highlightable: HighlightableCell = tableView.cellForRow(at: indexPath) as? HighlightableCell else { return }
-        
-        highlightable.unhighlight()
-        clearShouldHighlightForCurrency(currency: currency)
     }
 }

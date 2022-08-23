@@ -11,26 +11,21 @@ import UIKit
 enum DemoModels {
     
     enum Section: Sectionable {
+        case date
+        case profile
+        case verification
+        case navigation
         case label
         case button
         case textField
         case infoView
+        case segmentControl
+        case timer
+        case asset
+        case order
         
-        var header: AccessoryType? {
-            switch self {
-            case .label:
-                return .plain("Labels")
-            case .button:
-                return .plain("Buttons")
-            case .textField:
-                return .plain("Text fields")
-            case .infoView:
-                return .plain("Info view")
-            }
-            
-        }
-        
-        var footer: AccessoryType? { return .plain("End of section") }
+        var header: AccessoryType? { return .advanced(.init(named: "swap"), "ROK", "ZELOOOO drago") }
+        var footer: AccessoryType? { return nil }
     }
     
 }

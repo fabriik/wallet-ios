@@ -195,7 +195,7 @@ open class BRAPIClient: NSObject, URLSessionDelegate, URLSessionTaskDelegate, BR
                     handler(data, nil, err as NSError?)
                 }
             }
-        }) 
+        })
     }
     
     // retrieve a token and save it in the keychain data for this account
@@ -207,14 +207,18 @@ open class BRAPIClient: NSObject, URLSessionDelegate, URLSessionTaskDelegate, BR
             }
             return
         }
+        
         guard let authKey = authKey,
             let authPubKey = authKey.encodeAsPublic.hexToData else {
                 return handler(NSError(domain: BRAPIClientErrorDomain, code: 500, userInfo: [
-                    NSLocalizedDescriptionKey: S.ApiClient.notReady]))
+                    NSLocalizedDescriptionKey: L10n.ApiClient.notReady]))
         }
-        isFetchingAuth = true
+        
         log("auth: entering group")
+        
         authFetchGroup.enter()
+        isFetchingAuth = true
+        
         var req = URLRequest(url: url("/token"))
         req.httpMethod = "POST"
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -229,10 +233,12 @@ open class BRAPIClient: NSObject, URLSessionDelegate, URLSessionTaskDelegate, BR
             req.httpBody = dat
         } catch let e {
             log("JSON Serialization error \(e)")
+            
             isFetchingAuth = false
             authFetchGroup.leave()
+            
             return handler(NSError(domain: BRAPIClientErrorDomain, code: 500, userInfo: [
-                NSLocalizedDescriptionKey: S.ApiClient.jsonError]))
+                NSLocalizedDescriptionKey: L10n.ApiClient.jsonError]))
         }
         session.dataTask(with: req, completionHandler: { (data, resp, err) in
             DispatchQueue.main.async {
@@ -242,22 +248,28 @@ open class BRAPIClient: NSObject, URLSessionDelegate, URLSessionTaskDelegate, BR
                         if let data = data, let s = String(data: data, encoding: .utf8) {
                             self.log("Token error: \(s)")
                         }
+                        
                         self.isFetchingAuth = false
                         self.authFetchGroup.leave()
+                        
                         return handler(NSError(domain: BRAPIClientErrorDomain, code: httpResp.statusCode, userInfo: [
-                            NSLocalizedDescriptionKey: S.ApiClient.tokenError]))
+                            NSLocalizedDescriptionKey: L10n.ApiClient.tokenError]))
                     }
                 }
+                
                 if let data = data {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                         self.log("POST /token json response: \(json)")
                         if let topObj = json as? [String: Any],
-                            let tok = topObj["token"] as? String,
+                            let walletTokenValue = topObj["token"] as? String,
                             let uid = topObj["userID"] as? String {
                             // success! store it in the keychain
+                            
+                            UserDefaults.walletTokenValue = walletTokenValue
+                            
                             var kcData = self.authenticator.apiUserAccount ?? [AnyHashable: Any]()
-                            kcData["token"] = tok
+                            kcData["token"] = walletTokenValue
                             kcData["userID"] = uid
                             self.authenticator.apiUserAccount = kcData
                         }
@@ -265,11 +277,15 @@ open class BRAPIClient: NSObject, URLSessionDelegate, URLSessionTaskDelegate, BR
                         self.log("JSON Deserialization error \(e)")
                     }
                 }
-                self.isFetchingAuth = false
-                self.authFetchGroup.leave()
+                self.leaveGroup()
                 handler(err as NSError?)
             }
         }) .resume()
+    }
+    
+    func leaveGroup() {
+        isFetchingAuth = false
+        authFetchGroup.leave()
     }
     
     // MARK: URLSession Delegate

@@ -6,14 +6,14 @@
 import UIKit
 
 class HTTPRequest {
-    var method: EQHTTPMethod = .get
+    var method: HTTPMethod = .get
     var url = ""
     var headers: [String: String] = [:]
     var parameters: [String: Any] = [:]
     var encoding: Encoding = .json
     var media: [MultiPart] = []
     
-    init(method: EQHTTPMethod,
+    init(method: HTTPMethod,
          url: String,
          headers: [String: String] = [:],
          media: [MultiPart] = [],
@@ -45,9 +45,9 @@ class HTTPRequest {
         
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.decorate()
         
-        let dataBody = createMultipartDataBody(media: media, boundary: boundary)
-        request.httpBody = dataBody
+        request.httpBody = createMultipartDataBody(media: media, boundary: boundary)
         
         let backgroundTask: UIBackgroundTaskIdentifier = .init(rawValue: Int.random(in: 0...9999))
         
@@ -68,9 +68,16 @@ class HTTPRequest {
     
     func createMultipartDataBody(media: [MultiPart], boundary: String) -> Data {
         var body = Data()
-        
         let lineBreak = "\r\n"
         
+        // add parameters to body
+        for (key, value) in parameters {
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+            body.append("\(value)\r\n")
+        }
+        
+        // add media to body
         for mediaFile in media {
             body.append("--\(boundary + lineBreak)")
             
@@ -88,7 +95,6 @@ class HTTPRequest {
             body.append(mediaFile.data)
             body.append(lineBreak)
         }
-        
         body.append("--\(boundary)--\(lineBreak)")
         
         return body
@@ -102,6 +108,7 @@ class HTTPRequest {
         
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
+        request.decorate()
         
         let jsonData = try? JSONSerialization.data(withJSONObject: parameters,
                                                    options: .prettyPrinted)
@@ -129,7 +136,11 @@ class HTTPRequest {
     }
     
     private func getHttpResponse(with request: URLRequest, from response: HTTPURLResponse?, data: Data?, error: Error?) -> HTTPResponse {
-        guard let response = response else { return HTTPResponse() }
+        guard let response = response else {
+            var response = HTTPResponse()
+            response.error = NetworkingError.noConnection
+            return response
+        }
         
         var httpResponse = HTTPResponse()
         httpResponse.statusCode = response.statusCode

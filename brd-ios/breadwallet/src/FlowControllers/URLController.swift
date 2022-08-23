@@ -70,8 +70,7 @@ class URLController: Trackable, Subscriber {
 
             if url.host == "scanqr" || url.path == "/scanqr" {
                 Store.trigger(name: .scanQr)
-            } else if let uri = isBitcoinUri(url: url, uri: uri),
-                let btc = Currencies.btc.instance {
+            } else if let uri = isBitcoinUri(url: url, uri: uri), let btc = Currencies.shared.btc {
                 return handlePaymentRequestUri(uri, currency: btc)
             } else if url.host == "debug" {
                 handleDebugLink(url)
@@ -104,16 +103,13 @@ class URLController: Trackable, Subscriber {
             }
             
         default:
-            guard let currency = Store.state.currencies.first(where: {
-                var result = false
-                $0.urlSchemes?.forEach {
-                    if $0 == scheme {
-                        result = true
-                    }
-                }
-                return result
-            }) else { return false }
-            return handlePaymentRequestUri(url, currency: currency)
+            let qrCode = QRCode(content: url.absoluteString)
+            
+            guard case .paymentRequest(let request) = qrCode, let request = request else {
+                return false
+            }
+            
+            return handlePaymentRequestUri(url, currency: request.currency)
         }
         
         return false
@@ -131,7 +127,7 @@ class URLController: Trackable, Subscriber {
 
     private func handlePaymentRequestUri(_ uri: URL, currency: Currency) -> Bool {
         if let request = PaymentRequest(string: uri.absoluteString, currency: currency) {
-            Store.trigger(name: .receivedPaymentRequest(request))
+            Store.trigger(name: .paymentRequest(request))
             return true
         } else {
             return false
@@ -140,18 +136,18 @@ class URLController: Trackable, Subscriber {
 
     private func handleBitId(_ url: URL) -> Bool {
         let bitid = BRBitID(url: url, walletAuthenticator: walletAuthenticator)
-        let message = String(format: S.BitID.authenticationRequest, bitid.siteName)
-        let alert = UIAlertController(title: S.BitID.title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: S.BitID.deny, style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: S.BitID.approve, style: .default, handler: { _ in
+        let message = L10n.BitID.authenticationRequest(bitid.siteName)
+        let alert = UIAlertController(title: L10n.BitID.title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.BitID.deny, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: L10n.BitID.approve, style: .default, handler: { _ in
             bitid.runCallback { _, response, error in
                 if let resp = response as? HTTPURLResponse, error == nil && resp.statusCode >= 200 && resp.statusCode < 300 {
-                    let alert = UIAlertController(title: S.BitID.success, message: nil, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: S.Button.ok, style: .default, handler: nil))
+                    let alert = UIAlertController(title: L10n.BitID.success, message: nil, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: nil))
                     self.present(alert: alert)
                 } else {
-                    let alert = UIAlertController(title: S.BitID.error, message: S.BitID.errorMessage, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: S.Button.ok, style: .default, handler: nil))
+                    let alert = UIAlertController(title: L10n.BitID.error, message: L10n.BitID.errorMessage, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: nil))
                     self.present(alert: alert)
                 }
             }

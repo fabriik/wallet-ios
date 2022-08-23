@@ -44,13 +44,12 @@ enum TriggerName {
     case registerForPushNotificationToken
     case lock
     case promptBiometrics
-    case promptEmail
     case promptPaperKey
     case promptUpgradePin
     case blockModalDismissal
     case unblockModalDismissal
     case openFile(Data)
-    case receivedPaymentRequest(PaymentRequest?)
+    case paymentRequest(PaymentRequest?)
     case scanQr
     case authenticateForPlatform(String, Bool, (PlatformAuthResult) -> Void) // (prompt, allowBiometricAuth, callback)
     case confirmTransaction(Currency?, Amount?, Amount?, FeeLevel, String, (Bool) -> Void) // currency, amount, fee, displayFeeLevel, address, callback
@@ -99,7 +98,7 @@ func == (lhs: TriggerName, rhs: TriggerName) -> Bool {
         return true
     case (.openFile, .openFile):
         return true
-    case (.receivedPaymentRequest, .receivedPaymentRequest):
+    case (.paymentRequest, .paymentRequest):
         return true
     case (.scanQr, .scanQr):
         return true

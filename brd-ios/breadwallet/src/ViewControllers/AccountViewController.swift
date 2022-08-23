@@ -35,8 +35,6 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     }
     
     deinit {
-        rewardsShrinkTimer?.invalidate()
-        rewardsShrinkTimer = nil
         Store.unsubscribe(self)
     }
     
@@ -67,16 +65,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
             }
         }
     }
-    private var tableViewTopConstraint: NSLayoutConstraint?
-    private var rewardsViewHeightConstraint: NSLayoutConstraint?
-    private var rewardsView: RewardsView?
-    private var extraCell: UIView?
-    private let rewardsAnimationDuration: TimeInterval = 0.5
-    private let rewardsShrinkTimerDuration: TimeInterval = 6.0
-    private var rewardsShrinkTimer: Timer?
-    private var rewardsTappedEvent: String {
-        return makeEventName([EventContext.rewards.name, Event.banner.name])
-    }
+    
     private var createTimeoutTimer: Timer? {
         willSet {
             createTimeoutTimer?.invalidate()
@@ -84,19 +73,6 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     }
 
     var isSearching: Bool = false
-    
-    private func tableViewTopConstraintConstant(for rewardsViewState: RewardsView.State) -> CGFloat {
-        return rewardsViewState == .expanded ? RewardsView.expandedSize : (RewardsView.normalSize)
-    }
-    
-    private var shouldShowExtraView: Bool {
-        return currency.isBRDToken || currency.supportsStaking
-    }
-    
-    private var shouldAnimateRewardsView: Bool {
-        //only Rewards view gets animated...not staking view
-        return shouldShowExtraView && UserDefaults.shouldShowBRDRewardsAnimation && currency.isBRDToken
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,9 +83,6 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         addSubscriptions()
         setInitialData()
         
-        if shouldShowExtraView {
-            addAccessoryView()
-        }
         transactionsTableView?.didScrollToYOffset = { [unowned self] offset in
             self.headerView.setOffset(offset)
         }
@@ -120,15 +93,14 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         shouldShowStatusBar = true
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         wallet?.startGiftingMonitor()
-        if shouldAnimateRewardsView {
-            expandRewardsView()
-        }
         
         saveEvent(makeEventName([EventContext.wallet.name, currency.code.uppercased(), Event.appeared.name]))
     }
@@ -215,11 +187,11 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         }
         
         createFooter.didTapCreate = { [weak self] in
-            let alert = UIAlertController(title: S.AccountCreation.title,
-                                          message: S.AccountCreation.body,
+            let alert = UIAlertController(title: L10n.AccountCreation.title,
+                                          message: L10n.AccountCreation.body,
                                           preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: S.AccountCreation.notNow, style: .default, handler: nil))
-            alert.addAction(UIAlertAction(title: S.AccountCreation.create, style: .default, handler: { [weak self] _ in
+            alert.addAction(UIAlertAction(title: L10n.AccountCreation.notNow, style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: L10n.AccountCreation.create, style: .default, handler: { [weak self] _ in
                 self?.createAccount()
             }))
             self?.present(alert, animated: true, completion: nil)
@@ -227,7 +199,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func createAccount() {
-        let activity = BRActivityViewController(message: S.AccountCreation.creating)
+        let activity = BRActivityViewController(message: L10n.AccountCreation.creating)
         present(activity, animated: true, completion: nil)
         
         let completion: (Wallet?) -> Void = { [weak self] wallet in
@@ -236,7 +208,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
                 self?.createTimeoutTimer = nil
                 activity.dismiss(animated: true, completion: {
                     if wallet == nil {
-                        self?.showErrorMessage(S.AccountCreation.error)
+                        self?.showErrorMessage(L10n.AccountCreation.error)
                     } else {
                         UIView.animate(withDuration: 0.5, animations: {
                             self?.createFooter.alpha = 0.0
@@ -250,7 +222,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         
         let handleTimeout: (Timer) -> Void = { [weak self] _ in
             activity.dismiss(animated: true, completion: {
-                self?.showErrorMessage(S.AccountCreation.timeout)
+                self?.showErrorMessage(L10n.AccountCreation.timeout)
             })
         }
         //This could take a while because we're waiting for a transaction to confirm, so we need a decent timeout of 45 seconds.
@@ -260,19 +232,18 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     
     private func addTransactionsView() {
         if let transactionsTableView = transactionsTableView {
-           // Store this constraint so it can be easily updated later when showing/hiding the rewards view.
-           tableViewTopConstraint = transactionsTableView.view.topAnchor.constraint(equalTo: headerView.bottomAnchor)
-           
-           transactionsTableView.view.backgroundColor = .clear
-           view.backgroundColor = .white
-           addChildViewController(transactionsTableView, layout: {
-               transactionsTableView.view.constrain([
-                   tableViewTopConstraint,
-                   transactionsTableView.view.bottomAnchor.constraint(equalTo: footerView.topAnchor),
-                   transactionsTableView.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                   transactionsTableView.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)])
-           })
-           view.sendSubviewToBack(transactionsTableView.view)
+            transactionsTableView.view.backgroundColor = .clear
+            view.backgroundColor = .white
+            
+            addChildViewController(transactionsTableView, layout: {
+                transactionsTableView.view.constrain([
+                    transactionsTableView.view.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+                    transactionsTableView.view.bottomAnchor.constraint(equalTo: footerView.topAnchor),
+                    transactionsTableView.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                    transactionsTableView.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)])
+            })
+            
+            view.sendSubviewToBack(transactionsTableView.view)
             headerView.setExtendedTouchDelegate(transactionsTableView.tableView)
         }
     }
@@ -293,15 +264,29 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     // MARK: show transaction details
     
     private func didSelectTransaction(transactions: [Transaction], selectedIndex: Int) {
-        let transactionDetails = TxDetailViewController(transaction: transactions[selectedIndex], delegate: self)
-        
-        transactionDetails.modalPresentationStyle = .overCurrentContext
-        transactionDetails.transitioningDelegate = transitionDelegate
-        transactionDetails.modalPresentationCapturesStatusBarAppearance = true
-        
         hideSearchKeyboard()
         
-        present(transactionDetails, animated: true, completion: nil)
+        let transaction = transactions[selectedIndex]
+        
+        switch transaction.transactionType {
+        case .defaultTransaction:
+            let transactionDetails = TxDetailViewController(transaction: transactions[selectedIndex], delegate: self)
+            
+            transactionDetails.modalPresentationStyle = .overCurrentContext
+            transactionDetails.transitioningDelegate = transitionDelegate
+            transactionDetails.modalPresentationCapturesStatusBarAppearance = true
+            
+            present(transactionDetails, animated: true)
+            
+        case .swapTransaction,
+                .buyTransaction:
+            let vc = SwapDetailsViewController()
+            vc.isModalDismissable = false
+            vc.dataStore?.itemId = String(transaction.swapOrderId ?? -1)
+            vc.prepareData()
+            
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     private func showSearchHeaderView() {
@@ -337,108 +322,6 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         })
     }
     
-    // The accoessry view is a separate UIView that is displayed in the BRD wallet or staking compatible currencies,
-    // under the table view header, above the transaction cells.
-    private func addAccessoryView() {
-        if currency.supportsStaking {
-            addStakingView()
-        } else if currency.isBRDToken {
-            addRewardsView()
-        }
-    }
-    
-    private func addStakingView() {
-        let staking = StakingCell(currency: currency, wallet: wallet)
-        view.addSubview(staking)
-        extraCell = staking
-
-        //Rewards view has an intrinsic grey padding view, so it doesn't need top padding.
-        let rewardsViewTopConstraint = staking.topAnchor.constraint(equalTo: headerView.bottomAnchor)
-        // Start the rewards view at a height of zero if animating, otherwise at the normal height.
-        let initialHeight = shouldAnimateRewardsView ? 0 : RewardsView.normalSize
-        rewardsViewHeightConstraint = staking.heightAnchor.constraint(equalToConstant: initialHeight)
-        
-        staking.constrain([
-            rewardsViewTopConstraint,
-            rewardsViewHeightConstraint,
-                            staking.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                            staking.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
-        
-        tableViewTopConstraint?.constant = shouldAnimateRewardsView ? 0 : tableViewTopConstraintConstant(for: .normal)
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                          action: #selector(rewardsViewTapped))
-        extraCell?.addGestureRecognizer(tapGestureRecognizer)
-    }
-    
-    private func addRewardsView() {
-        let rewards = RewardsView()
-        view.addSubview(rewards)
-        rewardsView = rewards
-
-        //Rewards view has an intrinsic grey padding view, so it doesn't need top padding.
-        let rewardsViewTopConstraint = rewards.topAnchor.constraint(equalTo: headerView.bottomAnchor)
-        // Start the rewards view at a height of zero if animating, otherwise at the normal height.
-        let initialHeight = shouldAnimateRewardsView ? 0 : RewardsView.normalSize
-        rewardsViewHeightConstraint = rewards.heightAnchor.constraint(equalToConstant: initialHeight)
-        
-        rewards.constrain([
-            rewardsViewTopConstraint,
-            rewardsViewHeightConstraint,
-                            rewards.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                            rewards.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
-        
-        tableViewTopConstraint?.constant = shouldAnimateRewardsView ? 0 : tableViewTopConstraintConstant(for: .normal)
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                          action: #selector(rewardsViewTapped))
-        rewardsView?.addGestureRecognizer(tapGestureRecognizer)
-    }
-
-    private func expandRewardsView() {
-        
-        if E.isIPhone5 {
-            headerView.collapseHeader()
-        }
-        
-        let constants = (tableViewTopConstraintConstant(for: .expanded), RewardsView.expandedSize)
-        
-        UIView.animate(withDuration: rewardsAnimationDuration, animations: { [unowned self] in
-            self.tableViewTopConstraint?.constant = constants.0
-            self.rewardsViewHeightConstraint?.constant = constants.1
-            self.view.layoutIfNeeded()
-        }, completion: { [weak self] _ in
-            guard let `self` = self else { return }
-            
-            self.rewardsView?.animateIcon()
-
-            UserDefaults.shouldShowBRDRewardsAnimation = false
-            
-            self.rewardsShrinkTimer = Timer.scheduledTimer(withTimeInterval: self.rewardsShrinkTimerDuration, repeats: false) { _ in
-                self.shrinkRewardsView()
-            }
-        })
-    }
-    
-    private func shrinkRewardsView() {
-        let constants = (tableViewTopConstraintConstant(for: .normal), RewardsView.normalSize)
-
-        UIView.animate(withDuration: rewardsAnimationDuration, animations: {
-            self.rewardsView?.shrinkView()
-            self.tableViewTopConstraint?.constant = constants.0
-            self.rewardsViewHeightConstraint?.constant = constants.1
-            self.view.layoutIfNeeded()
-        })
-    }
-    
-    @objc private func rewardsViewTapped() {
-        if currency.isBRDToken {
-            saveEvent(rewardsTappedEvent)
-        } else if currency.isTezos {
-            Store.perform(action: RootModalActions.Present(modal: .stake(currency: self.currency)))
-        }
-    }
-
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return searchHeaderview.isHidden ? .lightContent : .default
     }
