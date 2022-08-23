@@ -57,14 +57,14 @@ class FELabel: UILabel, ViewProtocol {
         case .attributedLink(let value, let url):
             attributedText = value
             
-            guard let url = url else {
+            if let url = url {
+                self.url = url
+                isUserInteractionEnabled = true
+                addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(urlTapped(_:))))
+            } else {
+                isUserInteractionEnabled = false
                 gestureRecognizers?.forEach { removeGestureRecognizer($0) }
-                return
             }
-            
-            self.url = url
-            isUserInteractionEnabled = true
-            addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(urlTapped(_:))))
         }
         
         sizeToFit()
