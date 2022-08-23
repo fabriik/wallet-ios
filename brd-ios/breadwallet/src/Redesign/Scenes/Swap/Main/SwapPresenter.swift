@@ -32,8 +32,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let sections: [Models.Sections] = [
             .rateAndTimer,
             .accountLimits,
-            .swapCard,
-            .errors
+            .swapCard
         ]
         
         exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(till: item.quote?.timestamp ?? 0,
@@ -50,9 +49,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             .swapCard: [
                 MainSwapViewModel(from: .init(amount: .zero(from), fee: .zero(from), title: "I have 0 \(from.code)", feeDescription: "Sending network fee\n(included)"),
                                   to: .init(amount: .zero(to), fee: .zero(to), title: "I want", feeDescription: "Sending network fee\n(included)"))
-            ],
-            .errors: [
-                InfoViewModel()
             ]
         ]
         
@@ -109,9 +105,11 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             let second = actionResponse.to?.currency.code ?? "<term missing>"
             presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: "\(first)-\(second)")))
             hasError = true
+        } else if TransferManager.shared.canSwap(actionResponse.from?.currency) == false {
+            presentError(actionResponse: .init(error: SwapErrors.pendingSwap))
+            hasError = true
         } else {
             let value = actionResponse.from?.fiatValue ?? 0
-            let fromCrypto = actionResponse.from?.tokenValue ?? 0.0
             let profile = UserManager.shared.profile
             let dailyLimit = profile?.swapDailyRemainingLimit ?? 0
             let lifetimeLimit = profile?.swapLifetimeRemainingLimit ?? 0

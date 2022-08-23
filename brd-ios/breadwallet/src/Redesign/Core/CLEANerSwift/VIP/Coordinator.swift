@@ -321,6 +321,18 @@ class BaseCoordinator: NSObject,
         }
     }
     
+    func hideMessage() {
+        guard let superview = navigationController.topViewController?.view,
+              let view = superview.subviews.first(where: { $0 is FEInfoView })
+        else { return }
+            
+        UIView.animate(withDuration: Presets.Animation.duration) {
+            view.alpha = 0
+        } completion: { _ in
+            view.removeFromSuperview()
+        }
+    }
+    
     func hideMessage(_ view: UIView) {}
 
     func goBack(completion: (() -> Void)? = nil) {

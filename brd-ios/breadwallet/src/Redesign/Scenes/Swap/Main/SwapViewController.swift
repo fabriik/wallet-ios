@@ -29,6 +29,15 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }()
     
     // MARK: - Overrides
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        guard let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView>
+        else { return confirmButton.wrappedView.isEnabled = false }
+        
+        cell.wrappedView.invalidate()
+    }
     
     override func setupSubviews() {
         super.setupSubviews()
@@ -79,9 +88,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             
         case .swapCard:
             cell = self.tableView(tableView, swapMainCellForRowAt: indexPath)
-            
-        case .errors:
-            cell = self.tableView(tableView, infoViewCellForRowAt: indexPath)
             
         default:
             cell = UITableViewCell()
@@ -145,21 +151,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, infoViewCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: WrapperTableViewCell<WrapperView<FEInfoView>> = tableView.dequeueReusableCell(for: indexPath)
-        else {
-            return super.tableView(tableView, cellForRowAt: indexPath)
-        }
-        
-        cell.setup { view in
-            view.setup { view in
-                view.setupCustomMargins(all: .large)
-            }
-        }
-        
-        return cell
-    }
-    
     // MARK: - User Interaction
 
     @objc override func buttonTapped() {
@@ -175,27 +166,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             LoadingView.hide()
         }
         
-        guard let section = sections.firstIndex(of: Models.Sections.errors),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<WrapperView<FEInfoView>>
-        else {
-            // TODO: this shows the info popup even on other errors
-//            interactor?.showInfoPopup(viewAction: .init())
+        guard let error = responseDisplay.error as? SwapErrors else {
+            coordinator?.hideMessage()
             return
         }
-        
-        cell.setup { view in
-            view.setup { [weak self] view in
-                let model = responseDisplay.model
-                view.setup(with: model)
-                
-                let config = responseDisplay.config
-                view.configure(with: config)
-                self?.tableView.beginUpdates()
-                self?.tableView.endUpdates()
-            }
-        }
-        
-        guard let error = responseDisplay.error as? SwapErrors else { return }
         
         switch error {
         case .noQuote:
@@ -205,7 +179,9 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             coordinator?.showFailure()
             
         default:
-            return
+            coordinator?.showMessage(with: responseDisplay.error,
+                                     model: responseDisplay.model,
+                                     configuration: responseDisplay.config)
         }
     }
     

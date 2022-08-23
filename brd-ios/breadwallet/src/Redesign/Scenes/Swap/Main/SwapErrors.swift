@@ -28,6 +28,7 @@ enum SwapErrors: FEError {
     case overExchangeLimit
     case pinConfirmation
     case failed(error: Error?)
+    case pendingSwap
     
     var errorMessage: String {
         switch self {
@@ -76,6 +77,9 @@ enum SwapErrors: FEError {
             
         case .failed(let error):
             return "Swap failed. Reason: \(error?.localizedDescription ?? "unknown")"
+            
+        case .pendingSwap:
+            return "A maximum of one swap can be active for a currency at a time."
         }
     }
 }

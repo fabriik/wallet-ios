@@ -18,7 +18,6 @@ enum SwapModels {
         case rateAndTimer
         case accountLimits
         case swapCard
-        case errors
         
         var header: AccessoryType? { return nil }
         var footer: AccessoryType? { return nil }

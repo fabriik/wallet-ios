@@ -32,8 +32,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 let second = currencies[1]
                 
                 self?.dataStore?.supportedCurrencies = currencies
-                self?.dataStore?.fromCurrency = self?.dataStore?.currencies.first(where: { $0.code == first.name })
-                self?.dataStore?.toCurrency = self?.dataStore?.currencies.first(where: { $0.code == second.name })
+                self?.dataStore?.fromCurrency = self?.dataStore?.currencies.first(where: { $0.code == "BTC" })
+                self?.dataStore?.toCurrency = self?.dataStore?.currencies.first(where: { $0.code == "USDT" })
                 
                 let item = Models.Item(from: self?.dataStore?.fromCurrency,
                                        to: self?.dataStore?.toCurrency,
@@ -199,9 +199,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let group = DispatchGroup()
         group.enter()
         
-
         guard let wallet = dataStore?.coreSystem?.wallet(for: from.currency),
-              let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore,
+              let kvStore = Backend.kvStore,
+              let keyStore = dataStore?.keyStore,
               let address = dataStore?.address(for: from.currency)
         else {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
@@ -405,7 +405,11 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 var error: FEError?
                 switch result {
                 case .success:
-                    self?.checkIfSuccess(exchangeId: exchangeId)
+                    TransferManager.shared.reload()
+                    let from = self?.dataStore?.fromCurrency?.code
+                    let to = self?.dataStore?.toCurrency?.code
+                    
+                    self?.presenter?.presentConfirm(actionResponse: .init(from: from, to: to, exchangeId: exchangeId))
                     
                 case .creationError(let message):
                     error = GeneralError(errorMessage: message)
@@ -418,7 +422,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 }
                 
                 guard let error = error else { return }
-                self?.presenter?.presentError(actionResponse: .init(error: error))
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.failed(error: error)))
             }
             
         case .failed:
@@ -460,26 +464,5 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         guard let error = error else { return }
         presenter?.presentError(actionResponse: .init(error: error))
-    }
-    
-    private func checkIfSuccess(exchangeId: String) {
-        let data = SwapDetailsRequestData(exchangeId: exchangeId)
-        SwapDetailsWorker().execute(requestData: data) { [weak self] result in
-            switch result {
-            case .success(let exchange):
-                guard exchange?.statusDetails != "created" else {
-                    self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.failed(error: GeneralError(errorMessage: "WK error."))))
-                    return
-                }
-                
-                let from = self?.dataStore?.fromCurrency?.code
-                let to = self?.dataStore?.toCurrency?.code
-                
-                self?.presenter?.presentConfirm(actionResponse: .init(from: from, to: to, exchangeId: exchangeId))
-                
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.failed(error: error)))
-            }
-        }
     }
 }
