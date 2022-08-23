@@ -27,15 +27,23 @@ class TransferManager {
         })
     }
     
-    func reload() {
+    func reload(filter: Currency? = nil, completion: (([SwapDetail]?) -> Void)? = nil) {
         worker.execute { [weak self] result in
+            let exchanges: [SwapDetail]
             switch result {
             case .success(let data):
-                self?.exchanges = data ?? []
+                exchanges = data ?? []
                 
             case .failure:
-                self?.exchanges = []
+                exchanges = []
             }
+            
+            self?.exchanges = exchanges
+            guard let filter = filter else {
+                completion?(exchanges)
+                return
+            }
+            completion?(self?.transactions(for: filter))
         }
     }
     
@@ -44,5 +52,9 @@ class TransferManager {
             return false
         }
         return true
+    }
+    
+    func transactions(for currency: Currency) -> [SwapDetail]? {
+        return exchanges.filter { $0.destination.currency == currency.code }
     }
 }

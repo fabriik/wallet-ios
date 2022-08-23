@@ -175,32 +175,25 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         assert(Thread.isMainThread)
         
         guard let transfers = wallet?.transfers else { return }
+        allTransactions = transfers.sorted(by: { $0.timestamp > $1.timestamp })
         
-        SwapHistoryWorker().execute { [weak self] result in
-            self?.allTransactions = transfers
-            
-            switch result {
-            case .success(let exchanges):
-                exchanges?.forEach { exchange in
-                    let source = exchange.source
-                    let destination = exchange.destination
-                    let sourceId = source.transactionId
-                    let destinationId = destination.transactionId
-                    
-                    if let element = self?.allTransactions.first(where: { $0.transfer.hash?.description == sourceId || $0.transfer.hash?.description == destinationId }) {
-                        element.transactionType = .swapTransaction
-                        element.swapOrderId = exchange.orderId
-                        element.swapTransationStatus = exchange.status
-                        element.swapSource = exchange.source
-                        element.swapDestination = exchange.destination
-                    }
-                }
+        TransferManager.shared.reload { [weak self] exchanges in
+            exchanges?.forEach { exchange in
+                let source = exchange.source
+                let destination = exchange.destination
+                let sourceId = source.transactionId
+                let destinationId = destination.transactionId
                 
-            case .failure(let error):
-                print(error)
+                if let element = self?.allTransactions.first(where: { $0.transfer.hash?.description == sourceId || $0.transfer.hash?.description == destinationId }) {
+                    // TODO: check if source currency is USD -> buy else swap
+                    element.transactionType = exchange.source.isFiat ? .buyTransaction : .swapTransaction
+                    element.swapOrderId = exchange.orderId
+                    element.swapTransationStatus = exchange.status
+                    element.swapSource = exchange.source
+                    element.swapDestination = exchange.destination
+                }
+                self?.reload()
             }
-            
-            self?.reload()
         }
     }
 

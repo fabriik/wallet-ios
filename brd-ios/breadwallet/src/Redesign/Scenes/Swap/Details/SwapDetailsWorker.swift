@@ -32,6 +32,13 @@ struct SwapDetail: Model {
         var currencyAmount: Double
         var usdAmount: Double
         var transactionId: String
+        
+        var isFiat: Bool {
+            guard currency.lowercased() == "usd" else {
+                return false
+            }
+            return true
+        }
     }
     
     var orderId: Int
