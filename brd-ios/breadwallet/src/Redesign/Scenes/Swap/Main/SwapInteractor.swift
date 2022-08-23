@@ -32,8 +32,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 let second = currencies[1]
                 
                 self?.dataStore?.supportedCurrencies = currencies
-                self?.dataStore?.fromCurrency = self?.dataStore?.currencies.first(where: { $0.code == "BTC" })
-                self?.dataStore?.toCurrency = self?.dataStore?.currencies.first(where: { $0.code == "USDT" })
+                self?.dataStore?.fromCurrency = self?.dataStore?.currencies.first(where: { $0.code == first.name })
+                self?.dataStore?.toCurrency = self?.dataStore?.currencies.first(where: { $0.code == second.name })
                 
                 let item = Models.Item(from: self?.dataStore?.fromCurrency,
                                        to: self?.dataStore?.toCurrency,
