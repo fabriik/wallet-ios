@@ -24,6 +24,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
               let quote = item.quote,
               let card = item.card else { return }
         
+        let to = toAmount.fiatValue
         let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal)
         let toFiatValue = toAmount.fiatValue
         let toCryptoValue = toAmount.tokenFormattedString
@@ -35,7 +36,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let fiatCurrency = (quote.fromFeeCurrency?.feeCurrency ?? C.usdCurrencyCode).uppercased()
         
         let currencyFormatter = "%@ %@"
-        let fromText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: from) ?? "", fiatCurrency)
+        let amountText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: to) ?? "", fiatCurrency)
         let cardFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: cardFee) ?? "", fiatCurrency)
         let networkFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: networkFee) ?? "", fiatCurrency)
         
@@ -44,7 +45,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let wrappedViewModel: BuyOrderViewModel = .init(currencyIcon: .image(toCryptoDisplayImage),
                                                         currencyAmountName: .text(toCryptoValue + " " + toCryptoDisplayName),
                                                         rate: .init(exchangeRate: rate, timer: nil),
-                                                        amount: .init(title: .text("Amount purchased"), value: .text(fromText), infoImage: nil),
+                                                        amount: .init(title: .text("Amount purchased"), value: .text(amountText), infoImage: nil),
                                                         cardFee: .init(title: .text("Card fee (\(quote.buyFee ?? 0)%)"),
                                                                        value: .text(cardFeeText),
                                                                        infoImage: .image(infoImage)),
