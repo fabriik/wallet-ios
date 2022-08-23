@@ -34,6 +34,7 @@ struct SwapDetail: Model {
         var transactionId: String
         
         var isFiat: Bool {
+            // TODO: temp solution (could get messy if we introduce more fiat currencies)
             guard currency.lowercased() == "usd" else {
                 return false
             }
