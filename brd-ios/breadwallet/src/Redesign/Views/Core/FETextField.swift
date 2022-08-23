@@ -11,13 +11,6 @@
 import UIKit
 import SnapKit
 
-extension TextFieldConfiguration {
-    mutating func setSecure(_ isSecure: Bool) -> TextFieldConfiguration {
-        isSecureTextEntry = isSecure
-        return self
-    }
-}
-
 struct TextFieldConfiguration: Configurable {
     var leadingImageConfiguration: BackgroundConfiguration?
     var titleConfiguration: LabelConfiguration?
@@ -38,6 +31,13 @@ struct TextFieldConfiguration: Configurable {
     var autocorrectionType: UITextAutocorrectionType = .default
     var keyboardType: UIKeyboardType = .default
     var isSecureTextEntry: Bool = false
+}
+
+extension TextFieldConfiguration {
+    mutating func setSecure(_ isSecure: Bool) -> TextFieldConfiguration {
+        isSecureTextEntry = isSecure
+        return self
+    }
 }
 
 struct TextFieldModel: ViewModel {
