@@ -18,7 +18,7 @@ enum SwapErrors: FEError {
     /// Param 1: amount, param 2 currency symbol
     case tooHigh(amount: Decimal, currency: String)
     /// Param 1&2 -> currency, param 3 balance
-    case balanceTooLow(amount: Decimal, balance: Decimal, currency: String)
+    case balanceTooLow(balance: Decimal, currency: String)
     case overDailyLimit
     case overLifetimeLimit
     // TODO: Unoficial errors
@@ -31,11 +31,11 @@ enum SwapErrors: FEError {
     
     var errorMessage: String {
         switch self {
-        case .balanceTooLow(let amount, let balance, let currency):
-            return String(format: "You don't have enough %@ to complete this swap. You need %.5f, but your balance is %.5f.",
+        case .balanceTooLow(let balance, let currency):
+            return String(format: "You don't have enough %@ to complete this swap. Your current %@ balance is %@",
                           currency,
-                          amount.doubleValue,
-                          balance.doubleValue)
+                          currency,
+                          ExchangeFormatter.crypto.string(for: balance) ?? "0.00")
             
         case .general:
             return "BSV network is experiencing network issues. Swapping assets is temporarily unavailable."
@@ -60,7 +60,7 @@ enum SwapErrors: FEError {
             return "No network fees."
             
         case .networkFee:
-            return "This swap doesn't cover the included network fee. Please add more funds to your ETH wallet or change the amount you're swapping."
+            return "This swap doesn't cover the included network fee. Please add more funds to your wallet or change the amount you're swapping."
             
         case .noQuote(let pair):
             return "No quote for currency pair \(pair ?? "<missing>")."
@@ -72,7 +72,7 @@ enum SwapErrors: FEError {
             return "PIN Authentication failed"
             
         case .notEnouthEthForFee(let fee):
-            return "Not enouth ETH to pay for the network fee. Please deposit at least \(fee.description) ETH."
+            return "ERC-20 tokens require ETH network fees. Please make sure you have at least \(fee.description) ETH in your wallet."
             
         case .failed(let error):
             return "Swap failed. Reason: \(error?.localizedDescription ?? "unknown")"

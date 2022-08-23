@@ -405,10 +405,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 var error: FEError?
                 switch result {
                 case .success:
-                    let from = self?.dataStore?.fromCurrency?.code
-                    let to = self?.dataStore?.toCurrency?.code
-                    
-                    self?.presenter?.presentConfirm(actionResponse: .init(from: from, to: to, exchangeId: exchangeId))
+                    self?.checkIfSuccess(exchangeId: exchangeId)
                     
                 case .creationError(let message):
                     error = GeneralError(errorMessage: message)
@@ -434,7 +431,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             error = GeneralError(errorMessage: "Own address")
             
         case .insufficientFunds:
-            error = SwapErrors.balanceTooLow(amount: amount.tokenValue, balance: currency.state?.balance?.tokenValue ?? 0, currency: currency.code)
+            error = SwapErrors.balanceTooLow(balance: currency.state?.balance?.tokenValue ?? 0, currency: currency.code)
             
         case .noExchangeRate:
             error = SwapErrors.noQuote(pair: dataStore?.swapPair)
@@ -463,5 +460,26 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         guard let error = error else { return }
         presenter?.presentError(actionResponse: .init(error: error))
+    }
+    
+    private func checkIfSuccess(exchangeId: String) {
+        let data = SwapDetailsRequestData(exchangeId: exchangeId)
+        SwapDetailsWorker().execute(requestData: data) { [weak self] result in
+            switch result {
+            case .success(let exchange):
+                guard exchange?.statusDetails != "created" else {
+                    self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.failed(error: GeneralError(errorMessage: "WK error."))))
+                    return
+                }
+                
+                let from = self?.dataStore?.fromCurrency?.code
+                let to = self?.dataStore?.toCurrency?.code
+                
+                self?.presenter?.presentConfirm(actionResponse: .init(from: from, to: to, exchangeId: exchangeId))
+                
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.failed(error: error)))
+            }
+        }
     }
 }
