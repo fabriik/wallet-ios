@@ -21,16 +21,19 @@ struct LabelConfiguration: TextConfigurable {
 enum LabelViewModel: ViewModel {
     case text(String?)
     case attributedText(NSAttributedString?)
+    case attributedLink(NSAttributedString?, URL?)
 }
 
 class FELabel: UILabel, ViewProtocol {
-    
     var viewModel: LabelViewModel?
     var config: LabelConfiguration?
     
+    var didTapUrl: ((URL) -> Void)?
+    private var url: URL?
+    
     func configure(with config: LabelConfiguration?) {
         guard let config = config else { return }
-
+        
         self.config = config
         textAlignment = config.textAlignment
         textColor = config.textColor
@@ -50,9 +53,26 @@ class FELabel: UILabel, ViewProtocol {
             
         case .attributedText(let value):
             attributedText = value
+            
+        case .attributedLink(let value, let url):
+            attributedText = value
+            
+            guard let url = url else {
+                gestureRecognizers?.forEach { removeGestureRecognizer($0) }
+                return
+            }
+            
+            self.url = url
+            isUserInteractionEnabled = true
+            addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(urlTapped(_:))))
         }
         
         sizeToFit()
         needsUpdateConstraints()
+    }
+    
+    @objc private func urlTapped(_ sender: Any) {
+        guard let url = url else { return }
+        didTapUrl?(url)
     }
 }

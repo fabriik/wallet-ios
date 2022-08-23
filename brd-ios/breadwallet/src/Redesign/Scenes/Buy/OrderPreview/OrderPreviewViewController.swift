@@ -55,6 +55,26 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, labelCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let model = sectionRows[section]?[indexPath.row] as? LabelViewModel,
+              let cell: WrapperTableViewCell<FELabel> = tableView.dequeueReusableCell(for: indexPath)
+        else {
+            return super.tableView(tableView, cellForRowAt: indexPath)
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init(font: Fonts.caption, textColor: LightColors.Text.one))
+            view.setup(with: model)
+            
+            view.didTapUrl = { [weak self] url in
+                self?.coordinator?.showTermsAndConditions(url: url)
+            }
+        }
+        
+        return cell
+    }
+    
     func tableView(_ tableView: UITableView, paymentMethodCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         guard let cell: WrapperTableViewCell<PaymentMethodView> = tableView.dequeueReusableCell(for: indexPath),

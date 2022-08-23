@@ -91,6 +91,15 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         }
     }
     
+    func showTermsAndConditions(url: URL) {
+        let webViewController = SimpleWebViewController(url: url)
+        webViewController.setup(with: .init(title: "Terms and Conditions"))
+        let navController = RootNavigationController(rootViewController: webViewController)
+        webViewController.setAsNonDismissableModal()
+        
+        navigationController.present(navController, animated: true)
+    }
+    
     func showSupport() {
         guard let url = URL(string: C.supportLink) else { return }
         let webViewController = SimpleWebViewController(url: url)

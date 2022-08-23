@@ -79,6 +79,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             dataStore?.from = ExchangeFormatter.fiat.number(from: value)?.decimalValue
             dataStore?.to = (dataStore?.from ?? 0) * rate
         }
+        
         getFees()
         
         presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount, card: dataStore?.paymentCard))

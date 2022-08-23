@@ -47,8 +47,14 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             .accountLimits: [ LabelViewModel.text("Currently, minimum limit for swap is $50.00 USD and maximum limit is \(limitValue) USD/day.")
             ],
             .swapCard: [
-                MainSwapViewModel(from: .init(amount: .zero(from), fee: .zero(from), title: "I have 0 \(from.code)", feeDescription: "Sending network fee\n(included)"),
-                                  to: .init(amount: .zero(to), fee: .zero(to), title: "I want", feeDescription: "Sending network fee\n(included)"))
+                MainSwapViewModel(from: .init(amount: .zero(from),
+                                              fee: .zero(from),
+                                              title: .text("I have 0 \(from.code)"),
+                                              feeDescription: .text("Sending network fee\n(included)")),
+                                  to: .init(amount: .zero(to),
+                                            fee: .zero(to),
+                                            title: .text("I want"),
+                                            feeDescription: .text("Sending network fee\n(included)")))
             ]
         ]
         
@@ -87,14 +93,14 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                       formattedFiatString: fromFiatValue,
                                                       formattedTokenString: fromTokenValue,
                                                       fee: actionResponse.fromFee,
-                                                      title: balanceText,
-                                                      feeDescription: sendingFee),
+                                                      title: .text(balanceText),
+                                                      feeDescription: .text(sendingFee)),
                                           to: .init(amount: actionResponse.to,
                                                     formattedFiatString: toFiatValue,
                                                     formattedTokenString: toTokenValue,
                                                     fee: actionResponse.toFee,
-                                                    title: "I want",
-                                                    feeDescription: receivingFee))
+                                                    title: .text("I want"),
+                                                    feeDescription: .text(receivingFee)))
         
         let minimumAmount: Decimal = actionResponse.minimumAmount ?? 5
         

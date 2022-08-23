@@ -30,7 +30,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             .accountLimits: [
                 LabelViewModel.text("Currently, minimum limit for buy is $30.00 USD and maximum limit is $500.00 USD per day.")
             ],
-            .from: [SwapCurrencyViewModel(title: "I want")],
+            .from: [SwapCurrencyViewModel(title: .text("I want"))],
             .to: [CardSelectionViewModel(userInteractionEnabled: true)]
         ]
         
@@ -65,7 +65,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         cryptoModel = .init(amount: actionResponse.amount,
                             formattedFiatString: fromFiatValue,
                             formattedTokenString: fromTokenValue,
-                            title: "I want")
+                            title: .text("I want"))
         
         if let paymentCard = actionResponse.card {
             cardModel = .init(logo: paymentCard.displayImage,

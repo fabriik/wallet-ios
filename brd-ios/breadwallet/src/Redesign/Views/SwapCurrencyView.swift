@@ -20,8 +20,8 @@ struct SwapCurrencyViewModel: ViewModel {
     var formattedFiatString: String?
     var formattedTokenString: String?
     var fee: Amount?
-    var title: String?
-    var feeDescription: String?
+    var title: LabelViewModel?
+    var feeDescription: LabelViewModel?
 }
 
 class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel> {
@@ -111,16 +111,14 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         view.spacing = Margins.small.rawValue
         view.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                          action: #selector(selectorTapped(_:))))
-        
         return view
     }()
     
     private lazy var iconImageView: FEImageView = {
         let view = FEImageView()
-        // TODO: we got configs 4 that
-        view.layer.cornerRadius = 10
+        // TODO: Configs for corner radius on FEImageViews are not working because radius is being set to "content" view instead of image.
+        view.layer.cornerRadius = CornerRadius.small.rawValue
         view.layer.masksToBounds = true
-        view.setup(with: .imageName("next"))
         return view
     }()
     
@@ -227,6 +225,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         selectorStackView.snp.makeConstraints { make in
             make.width.equalTo(ViewSizes.extraHuge.rawValue)
         }
+        
         selectorStackView.addArrangedSubview(iconImageView)
         iconImageView.snp.makeConstraints { make in
             make.width.equalTo(ViewSizes.medium.rawValue)
@@ -288,17 +287,17 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     }
     
     override func configure(with config: SwapCurrencyConfiguration?) {
-        guard let config = config else { return }
         super.configure(with: config)
         
-        configure(shadow: config.shadow)
+        configure(background: config?.background)
+        configure(shadow: config?.shadow)
     }
     
     override func setup(with viewModel: SwapCurrencyViewModel?) {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
-        titleLabel.text = viewModel.title
+        titleLabel.setup(with: viewModel.title)
         
         if !fiatAmountField.isFirstResponder {
             fiatAmountField.text = viewModel.formattedFiatString
@@ -311,15 +310,13 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         codeLabel.text = viewModel.amount?.currency.code
         codeLabel.sizeToFit()
         
-        if let selectedCurrencyIcon = viewModel.amount?.currency.imageSquareBackground {
-            iconImageView.setup(with: .image(selectedCurrencyIcon))
-        }
+        iconImageView.setup(with: .image(viewModel.amount?.currency.imageSquareBackground))
         
         if let fee = viewModel.fee {
             feeAmountLabel.text = "\(fee.tokenDescription) \n\(fee.fiatDescription)"
         }
         
-        feeLabel.text = viewModel.feeDescription
+        feeLabel.setup(with: viewModel.feeDescription)
         
         let isHidden = feeAndAmountsStackView.alpha == 0
         let noFee = viewModel.fee == nil || viewModel.fee?.tokenValue == 0 || viewModel.amount?.tokenValue == 0

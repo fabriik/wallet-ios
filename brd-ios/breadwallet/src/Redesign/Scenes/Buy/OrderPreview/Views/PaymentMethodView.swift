@@ -15,6 +15,7 @@ struct PaymentMethodConfiguration: Configurable {
     var logo: BackgroundConfiguration? = .init(tintColor: LightColors.Icons.two)
     var cardNumber: LabelConfiguration? = .init(font: Fonts.Subtitle.two, textColor: LightColors.Icons.one)
     var expiration: LabelConfiguration?
+    var cvvTitle: TitleValueConfiguration? = Presets.TitleValue.verticalSmall
     var shadow: ShadowConfiguration? = Presets.Shadow.light
     var background: BackgroundConfiguration? = .init(backgroundColor: LightColors.Background.one,
                                                      tintColor: LightColors.Text.one,
@@ -26,7 +27,7 @@ struct PaymentMethodViewModel: ViewModel {
     var logo: ImageViewModel?
     var cardNumber: LabelViewModel?
     var expiration: LabelViewModel?
-    var cvvTitle: LabelViewModel? = .text("Please confirm your CVV")
+    var cvvTitle: TitleValueViewModel? = .init(title: .text("Please confirm your CVV"), value: .text(""))
     var cvv: TextFieldModel? = .init(placeholder: "CVV")
 }
 
@@ -53,8 +54,8 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
         return view
     }()
     
-    private lazy var cvvTitleLabel: FELabel = {
-        let view = FELabel()
+    private lazy var cvvTitleLabel: TitleValueView = {
+        let view = TitleValueView()
         return view
     }()
     
@@ -114,9 +115,10 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
     override func configure(with config: PaymentMethodConfiguration?) {
         super.configure(with: config)
         methodTitleLabel.configure(with: config?.title)
-        cvvTitleLabel.configure(with: config?.title)
+        cvvTitleLabel.configure(with: config?.cvvTitle)
         cardDetailsView.configure(with: .init())
-        cvvTextField.configure(with: Presets.TextField.number)
+        cvvTitleLabel.configure(with: config?.cvvTitle)
+        cvvTextField.configure(with: Presets.TextField.number.setSecure(true))
         
         configure(background: config?.background)
         configure(shadow: config?.shadow)
