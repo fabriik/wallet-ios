@@ -87,14 +87,14 @@ enum SwapModels {
         struct ViewAction {}
         
         struct ActionResponse {
-            var rate: Decimal?
+            var quote: Quote?
             var from: Currency?
             var to: Currency?
-            var expires: Double?
         }
         
         struct ResponseDisplay {
             var rate: ExchangeRateViewModel
+            var limits: LabelViewModel?
         }
     }
     
