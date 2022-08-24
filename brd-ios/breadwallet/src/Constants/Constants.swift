@@ -80,6 +80,8 @@ struct C {
         return cachesURL.appendingPathComponent(previousConsoleLogFileName)
     }
     
+    static let usLocaleCode = "en_US"
+    
     static let usdCurrencyCode = "USD"
     static let euroCurrencyCode = "EUR"
     static let britishPoundCurrencyCode = "GBP"

@@ -288,20 +288,14 @@ extension String {
     func usDecimalString(fromLocale inputLocale: Locale) -> String {
         let expectedFormat = NumberFormatter()
         expectedFormat.numberStyle = .decimal
-        expectedFormat.locale = Locale(identifier: "en_US")
-
+        expectedFormat.locale = Locale(identifier: C.usLocaleCode)
+        
         // createUInt256ParseDecimal expects en_us formatted string
         let inputFormat = NumberFormatter()
         inputFormat.locale = inputLocale
 
-        // remove grouping separators
-        var sanitized = self.replacingOccurrences(of: inputFormat.currencyGroupingSeparator, with: "")
-        sanitized = sanitized.replacingOccurrences(of: inputFormat.groupingSeparator, with: "")
-
-        // replace decimal separators
-        sanitized = sanitized.replacingOccurrences(of: inputFormat.currencyDecimalSeparator, with: expectedFormat.decimalSeparator)
-        sanitized = sanitized.replacingOccurrences(of: inputFormat.decimalSeparator, with: expectedFormat.decimalSeparator)
-
+        let sanitized = sanitize(inputFormat: inputFormat, expectedFormat: expectedFormat)
+        
         return sanitized
     }
 }
