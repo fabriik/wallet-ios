@@ -52,12 +52,12 @@ echo
 echo "Download currencies and bundles"
 echo
 
-if [ ! -f ~/.env ]; then
+if [ ! -f .env ]; then
 	echo ".env file not found or configured properly."
 	exit 1
 fi
 
-source ~/.env
+source .env
 json=$(curl -k -v -X POST -H 'Content-type: application/json' -d '{"deviceID": "b21f2253-51e1-4346-92b0-e32323733067", "pubKey": "rCxDp6qD8uGqK2Z3UgeQ5bvTCZegqGfVexyz5XkbvwfW"}'  https://$API_URL/blocksatoshi/wallet/token)
 
 token="$(echo $json | sed "s/{.*\"token\":\"\([^\"]*\).*}/\1/g"):sig"
