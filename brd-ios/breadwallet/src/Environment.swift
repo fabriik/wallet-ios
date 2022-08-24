@@ -138,7 +138,7 @@ struct E {
     }
     
     static var isSandbox: Bool {
-        return Bundle.main.object(forInfoDictionaryKey: "IS_SANDBOX") as? Bool ?? false
+        return Bundle.main.object(forInfoDictionaryKey: "IS_SANDBOX") as? String == "true"
     }
     
     static func fail() -> String {
