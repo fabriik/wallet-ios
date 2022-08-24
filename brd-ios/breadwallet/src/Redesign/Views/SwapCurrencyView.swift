@@ -24,7 +24,7 @@ struct SwapCurrencyViewModel: ViewModel {
     var feeDescription: LabelViewModel?
 }
 
-class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel> {
+class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>, UITextFieldDelegate {
     enum FeeAndAmountsStackViewState {
         case shown, hidden
     }
@@ -71,6 +71,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         view.tintColor = view.textColor
         view.textAlignment = .right
         view.keyboardType = .decimalPad
+        view.delegate = self
         view.addTarget(self, action: #selector(fiatAmountDidChange(_:)), for: .editingChanged)
         
         if let textColor = view.textColor, let font = view.font {
@@ -145,6 +146,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         view.tintColor = view.textColor
         view.textAlignment = .right
         view.keyboardType = .decimalPad
+        view.delegate = self
         view.addTarget(self, action: #selector(cryptoAmountDidChange(_:)), for: .editingChanged)
         
         if let textColor = view.textColor, let font = view.font {
@@ -270,13 +272,23 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     }
     
     @objc func fiatAmountDidChange(_ textField: UITextField) {
-        let text = textField.text?.isEmpty != false ? "0" : textField.text
-        didChangeFiatAmount?(text)
+        let cleanedText = textField.text?.cleanupFormatting()
+        didChangeFiatAmount?(cleanedText)
     }
     
     @objc func cryptoAmountDidChange(_ textField: UITextField) {
-        let text = textField.text?.isEmpty != false ? "0" : textField.text
-        didChangeCryptoAmount?(text)
+        let cleanedText = textField.text?.cleanupFormatting()
+        didChangeCryptoAmount?(cleanedText)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let cleanedText = textField.text?.cleanupFormatting()
+        
+        if textField == fiatAmountField {
+            didChangeFiatAmount?(cleanedText)
+        } else if textField == cryptoAmountField {
+            didChangeCryptoAmount?(cleanedText)
+        }
     }
     
     override func layoutSubviews() {

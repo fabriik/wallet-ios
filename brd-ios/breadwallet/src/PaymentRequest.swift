@@ -102,7 +102,7 @@ struct PaymentRequest {
                 guard let value = param.value else { break }
                 switch param.name {
                 case "amount":
-                    amount = Amount(tokenString: value, currency: currency, locale: Locale(identifier: "en_US"))
+                    amount = Amount(tokenString: value, currency: currency, locale: Locale(identifier: C.usLocaleCode))
                 case "label", "memo":
                     label = value
                 case "message":

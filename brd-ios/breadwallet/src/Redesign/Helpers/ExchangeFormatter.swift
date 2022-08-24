@@ -28,4 +28,30 @@ struct ExchangeFormatter {
         formatter.maximumFractionDigits = 2
         return formatter
     }
+    
+    static var current: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.locale = .current
+        return formatter
+    }
+}
+
+extension String {
+    func sanitize(inputFormat: NumberFormatter, expectedFormat: NumberFormatter) -> String {
+        // remove grouping separators
+        var sanitized = replacingOccurrences(of: inputFormat.currencyGroupingSeparator, with: "")
+        sanitized = sanitized.replacingOccurrences(of: inputFormat.groupingSeparator, with: "")
+
+        // replace decimal separators
+        sanitized = sanitized.replacingOccurrences(of: inputFormat.currencyDecimalSeparator, with: expectedFormat.decimalSeparator)
+        sanitized = sanitized.replacingOccurrences(of: inputFormat.decimalSeparator, with: expectedFormat.decimalSeparator)
+        
+        return sanitized
+    }
+    
+    func cleanupFormatting() -> String {
+        let sanitized = sanitize(inputFormat: ExchangeFormatter.crypto, expectedFormat: ExchangeFormatter.crypto)
+        
+        return sanitized
+    }
 }
