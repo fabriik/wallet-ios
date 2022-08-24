@@ -26,9 +26,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
               let to = item.to
         else { return }
         
-        guard let isKYCLevelTwo = item.isKYCLevelTwo else { return }
-        let limitValue = isKYCLevelTwo ? "$10,000.00" : "$1,000.00"
-        
         let sections: [Models.Sections] = [
             .rateAndTimer,
             .accountLimits,
@@ -39,12 +36,12 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                                             repeats: false))
         
         // TODO: Localize
-        
         let sectionRows: [Models.Sections: [Any]] = [
             .rateAndTimer: [
                 exchangeRateViewModel
             ],
-            .accountLimits: [ LabelViewModel.text("Currently, minimum limit for swap is $50.00 USD and maximum limit is \(limitValue) USD/day.")
+            .accountLimits: [
+                LabelViewModel.text("")
             ],
             .swapCard: [
                 MainSwapViewModel(from: .init(amount: .zero(from), fee: .zero(from), title: "I have 0 \(from.code)", feeDescription: "Sending network fee\n(included)"),
@@ -58,18 +55,23 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     func presentRate(actionResponse: SwapModels.Rate.ActionResponse) {
         guard let from = actionResponse.from,
               let to = actionResponse.to,
-              let rate = actionResponse.rate else {
+              let quote = actionResponse.quote else {
             return
         }
         
-        let text = String(format: "1 %@ = %.5f %@", from.code, rate.doubleValue, to.code)
+        let text = String(format: "1 %@ = %.5f %@", from.code, quote.exchangeRate.doubleValue, to.code)
+        
+        let min = ExchangeFormatter.fiat.string(for: quote.minimumValue) ?? ""
+        let max = ExchangeFormatter.fiat.string(for: quote.maximumValue) ?? ""
+        let limitText = String(format: "Currently, minimum limit for swap is $%@ USD and maximum limit is %@ USD/day.", min, max)
         
         exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
-                                                      timer: TimerViewModel(till: actionResponse.expires ?? 0,
+                                                      timer: TimerViewModel(till: quote.timestamp,
                                                                             repeats: false,
                                                                             isVisible: true))
         
-        viewController?.displayRate(responseDisplay: .init(rate: exchangeRateViewModel))
+        viewController?.displayRate(responseDisplay: .init(rate: exchangeRateViewModel,
+                                                           limits: .text(limitText)))
     }
     
     func presentAmount(actionResponse: SwapModels.Amounts.ActionResponse) {

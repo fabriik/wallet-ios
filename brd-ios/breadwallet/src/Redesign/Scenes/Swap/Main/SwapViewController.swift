@@ -204,16 +204,27 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
-        guard let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> else { return }
-        
-        cell.setup { view in
-            let model = responseDisplay.rate
-            view.setup(with: model)
-            view.completion = { [weak self] in
-                self?.interactor?.getRate(viewAction: .init())
+        if let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
+           let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
+            
+            cell.setup { view in
+                let model = responseDisplay.rate
+                view.setup(with: model)
+                view.completion = { [weak self] in
+                    self?.interactor?.getRate(viewAction: .init())
+                }
             }
         }
+        
+        if let section = sections.firstIndex(of: Models.Sections.accountLimits),
+           let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FELabel> {
+            
+            cell.setup { view in
+                let model = responseDisplay.limits
+                view.setup(with: model)
+            }
+        }
+        
         tableView.beginUpdates()
         tableView.endUpdates()
     }

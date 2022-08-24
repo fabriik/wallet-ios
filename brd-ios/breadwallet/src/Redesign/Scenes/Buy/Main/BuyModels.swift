@@ -62,6 +62,15 @@ enum BuyModels {
         }
     }
     
+    struct Limits {
+        struct ActionResponse {
+            var min: Decimal?
+            var max: Decimal?
+        }
+        
+        typealias ResponseDisplay = LabelViewModel
+    }
+    
     struct Rate {
         struct ViewAction {
             var from: String?
@@ -69,13 +78,15 @@ enum BuyModels {
         }
         
         struct ActionResponse {
+            var quote: Quote?
             var from: String?
             var to: String?
-            var rate: Decimal?
-            var expires: Double?
         }
         
-        typealias ResponseDisplay = ExchangeRateViewModel
+        struct ResponseDisplay {
+            var rate: ExchangeRateViewModel
+            var limits: LabelViewModel?
+        }
     }
     
     struct OrderPreview {
