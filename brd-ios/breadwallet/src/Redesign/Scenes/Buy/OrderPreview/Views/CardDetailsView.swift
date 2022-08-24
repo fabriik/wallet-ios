@@ -99,6 +99,12 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         }
         
         selectorStack.addArrangedSubview(expirationLabel)
+        
+        let spacer2 = UIView()
+        selectorStack.addArrangedSubview(spacer2)
+        spacer2.snp.makeConstraints { make in
+            make.width.equalTo(Margins.extraSmall.rawValue).priority(.low)
+        }
     }
     
     override func configure(with config: CardDetailsConfiguration?) {

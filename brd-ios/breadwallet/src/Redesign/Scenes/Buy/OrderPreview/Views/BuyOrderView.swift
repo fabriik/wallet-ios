@@ -11,7 +11,9 @@
 import UIKit
 
 struct BuyOrderConfiguration: Configurable {
-    var price: TitleValueConfiguration = Presets.TitleValue.vertical
+    var title: LabelConfiguration = .init(font: Fonts.Body.two, textColor: LightColors.Icons.one)
+    var currencyAmountName: LabelConfiguration = .init(font: Fonts.Title.five, textColor: LightColors.Text.one)
+    var rate: LabelConfiguration = .init(font: Fonts.Title.five, textColor: LightColors.Text.one)
     var amount: TitleValueConfiguration = Presets.TitleValue.vertical
     var cardFee: TitleValueConfiguration = Presets.TitleValue.vertical
     var networkFee: TitleValueConfiguration = Presets.TitleValue.vertical
@@ -23,8 +25,10 @@ struct BuyOrderConfiguration: Configurable {
 }
 
 struct BuyOrderViewModel: ViewModel {
+    var title: LabelViewModel = .text("Your order:")
+    var currencyIcon: ImageViewModel?
+    var currencyAmountName: LabelViewModel?
     var rate: ExchangeRateViewModel
-    var price: TitleValueViewModel
     var amount: TitleValueViewModel
     var cardFee: TitleValueViewModel
     var networkFee: TitleValueViewModel
@@ -32,14 +36,35 @@ struct BuyOrderViewModel: ViewModel {
 }
 
 class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
-    
-    var cardFeeInfoTapped: (() -> Void)?
-    var networkFeeInfoTapped: (() -> Void)?
-    
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = Margins.medium.rawValue
+        return view
+    }()
+    
+    private lazy var titleLabel: FELabel = {
+        let view = FELabel()
+        return view
+    }()
+    
+    lazy var currencyStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.spacing = Margins.small.rawValue
+        return view
+    }()
+    
+    private lazy var currencyIconImageView: FEImageView = {
+        let view = FEImageView()
+        // TODO: Configs for corner radius on FEImageViews are not working because radius is being set to "content" view instead of image.
+        view.layer.cornerRadius = CornerRadius.small.rawValue
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    private lazy var currencyNameLabel: FELabel = {
+        let view = FELabel()
         return view
     }()
     
@@ -48,13 +73,10 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         return view
     }()
     
-    private lazy var lineView: UIView = {
+    private lazy var topLineView: UIView = {
         let view = UIView()
-        return view
-    }()
-    
-    private lazy var priceView: TitleValueView = {
-        let view = TitleValueView()
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = LightColors.Outline.three.cgColor
         return view
     }()
     
@@ -73,8 +95,10 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         return view
     }()
     
-    private lazy var secondLineView: UIView = {
+    private lazy var bottomLineView: UIView = {
         let view = UIView()
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = LightColors.Outline.three.cgColor
         return view
     }()
     
@@ -83,28 +107,43 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         return view
     }()
     
+    var cardFeeInfoTapped: (() -> Void)?
+    var networkFeeInfoTapped: (() -> Void)?
+    
     override func setupSubviews() {
         super.setupSubviews()
         
         content.addSubview(mainStack)
-        content.setupCustomMargins(all: .large)
         mainStack.snp.makeConstraints { make in
             make.edges.equalTo(content.snp.margins)
         }
+        content.setupCustomMargins(all: .huge)
+        
+        mainStack.addArrangedSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.height.equalTo(FieldHeights.small.rawValue)
+        }
+        
+        mainStack.addArrangedSubview(currencyStackView)
+        currencyStackView.snp.makeConstraints { make in
+            make.height.equalTo(ViewSizes.small.rawValue)
+        }
+        
+        currencyStackView.addArrangedSubview(currencyIconImageView)
+        currencyIconImageView.snp.makeConstraints { make in
+            make.width.equalTo(ViewSizes.small.rawValue)
+        }
+        
+        currencyStackView.addArrangedSubview(currencyNameLabel)
         
         mainStack.addArrangedSubview(rateView)
         rateView.snp.makeConstraints { make in
             make.height.equalTo(FieldHeights.small.rawValue)
         }
         
-        mainStack.addArrangedSubview(lineView)
-        lineView.snp.makeConstraints { make in
+        mainStack.addArrangedSubview(topLineView)
+        topLineView.snp.makeConstraints { make in
             make.height.equalTo(ViewSizes.minimum.rawValue)
-        }
-        
-        mainStack.addArrangedSubview(priceView)
-        priceView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.common.rawValue)
         }
         
         mainStack.addArrangedSubview(amountView)
@@ -122,8 +161,8 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
             make.height.equalTo(FieldHeights.common.rawValue)
         }
         
-        mainStack.addArrangedSubview(secondLineView)
-        secondLineView.snp.makeConstraints { make in
+        mainStack.addArrangedSubview(bottomLineView)
+        bottomLineView.snp.makeConstraints { make in
             make.height.equalTo(ViewSizes.minimum.rawValue)
         }
         
@@ -131,11 +170,6 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         totalCostView.snp.makeConstraints { make in
             make.height.equalTo(FieldHeights.small.rawValue)
         }
-        
-        lineView.layer.borderWidth = 1.0
-        lineView.layer.borderColor = LightColors.Outline.three.cgColor
-        secondLineView.layer.borderWidth = 1.0
-        secondLineView.layer.borderColor = LightColors.Outline.three.cgColor
         
         cardFeeView.didTapInfoButton = { [weak self] in
             self?.cardFeeInfoButtonTapped()
@@ -146,10 +180,19 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        configure(background: config?.background)
+        configure(shadow: config?.shadow)
+    }
+    
     override func configure(with config: BuyOrderConfiguration?) {
         super.configure(with: config)
         
-        priceView.configure(with: config?.price)
+        titleLabel.configure(with: config?.title)
+        currencyNameLabel.configure(with: config?.currencyAmountName)
+        rateView.configure(with: .init())
         amountView.configure(with: config?.amount)
         cardFeeView.configure(with: config?.cardFee)
         networkFeeView.configure(with: config?.networkFee)
@@ -162,8 +205,10 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
     override func setup(with viewModel: BuyOrderViewModel?) {
         super.setup(with: viewModel)
         
+        titleLabel.setup(with: viewModel?.title)
+        currencyIconImageView.setup(with: viewModel?.currencyIcon)
+        currencyNameLabel.setup(with: viewModel?.currencyAmountName)
         rateView.setup(with: viewModel?.rate)
-        priceView.setup(with: viewModel?.price)
         amountView.setup(with: viewModel?.amount)
         cardFeeView.setup(with: viewModel?.cardFee)
         networkFeeView.setup(with: viewModel?.networkFee)

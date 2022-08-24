@@ -78,8 +78,7 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         bottomStack.wrappedView.addArrangedSubview(valueLabel)
         bottomStack.wrappedView.addArrangedSubview(imageView)
         imageView.wrappedView.snp.makeConstraints { make in
-            make.height.equalTo(14)
-            make.width.equalTo(14)
+            make.height.width.equalTo(14)
         }
         imageView.content.setupCustomMargins(all: .small)
         bottomStack.content.setupCustomMargins(horizontal: .small)

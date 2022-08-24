@@ -24,13 +24,12 @@ enum LabelViewModel: ViewModel {
 }
 
 class FELabel: UILabel, ViewProtocol {
-    
     var viewModel: LabelViewModel?
     var config: LabelConfiguration?
     
     func configure(with config: LabelConfiguration?) {
         guard let config = config else { return }
-
+        
         self.config = config
         textAlignment = config.textAlignment
         textColor = config.textColor
@@ -50,6 +49,7 @@ class FELabel: UILabel, ViewProtocol {
             
         case .attributedText(let value):
             attributedText = value
+            
         }
         
         sizeToFit()

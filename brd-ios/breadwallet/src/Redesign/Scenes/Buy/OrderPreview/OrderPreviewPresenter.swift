@@ -22,29 +22,60 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         guard let item = actionResponse.item as? Models.Item,
               let toAmount = item.to,
               let quote = item.quote,
-              let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal),
               let card = item.card else { return }
         
         let to = toAmount.fiatValue
+        let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal)
+        let toFiatValue = toAmount.fiatValue
+        let toCryptoValue = toAmount.tokenFormattedString
+        let toCryptoDisplayImage = item.to?.currency.imageSquareBackground
+        let toCryptoDisplayName = item.to?.currency.displayName ?? ""
         let from = item.from ?? 0
         let cardFee = from * (quote.buyFee ?? 0) / 100
         let networkFee = item.networkFee?.fiatValue ?? 0
         let fiatCurrency = (quote.fromFeeCurrency?.feeCurrency ?? C.usdCurrencyCode).uppercased()
         
         let currencyFormatter = "%@ %@"
-        let fromText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: from) ?? "", fiatCurrency)
         let amountText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: to) ?? "", fiatCurrency)
         let cardFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: cardFee) ?? "", fiatCurrency)
         let networkFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: networkFee) ?? "", fiatCurrency)
         
         let rate = String(format: "1 %@ = %@ %@", toAmount.currency.code, ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "", fiatCurrency)
-        let totalText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: to + networkFee + cardFee) ?? "", fiatCurrency)
-        let wrappedViewModel: BuyOrderViewModel = .init(rate: .init(exchangeRate: rate, timer: nil),
-                                                        price: .init(title: .text("Price"), value: .text(fromText)),
-                                                        amount: .init(title: .text("Amount"), value: .text(amountText)),
-                                                        cardFee: .init(title: .text("Card fee (\(quote.buyFee ?? 0)%)"), value: .text(cardFeeText), infoImage: .image(infoImage)),
+        let totalText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: toFiatValue + networkFee + cardFee) ?? "", fiatCurrency)
+        let wrappedViewModel: BuyOrderViewModel = .init(currencyIcon: .image(toCryptoDisplayImage),
+                                                        currencyAmountName: .text(toCryptoValue + " " + toCryptoDisplayName),
+                                                        rate: .init(exchangeRate: rate, timer: nil),
+                                                        amount: .init(title: .text("Amount purchased"), value: .text(amountText), infoImage: nil),
+                                                        cardFee: .init(title: .text("Card fee (\(quote.buyFee ?? 0)%)"),
+                                                                       value: .text(cardFeeText),
+                                                                       infoImage: .image(infoImage)),
                                                         networkFee: .init(title: .text("Mining network fee"), value: .text(networkFeeText), infoImage: .image(infoImage)),
                                                         totalCost: .init(title: .text("Total:"), value: .text(totalText)))
+        
+        let termsText = NSMutableAttributedString(string: "By placing this order you agree to our" + " ")
+        termsText.addAttribute(NSAttributedString.Key.font,
+                               value: Fonts.caption,
+                               range: NSRange(location: 0, length: termsText.length))
+        termsText.addAttribute(NSAttributedString.Key.foregroundColor,
+                               value: LightColors.Text.two,
+                               range: NSRange(location: 0, length: termsText.length))
+        
+        let interactableText = NSMutableAttributedString(string: "Terms and Conditions")
+        interactableText.addAttribute(NSAttributedString.Key.font,
+                                      value: Fonts.caption,
+                                      range: NSRange(location: 0, length: interactableText.length))
+        let linkAttributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.foregroundColor: LightColors.primary,
+            NSAttributedString.Key.underlineColor: LightColors.primary,
+            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        interactableText.addAttributes(linkAttributes, range: NSRange(location: 0, length: interactableText.length))
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = NSTextAlignment.center
+        termsText.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: termsText.length))
+        
+        termsText.append(interactableText)
         
         let sections: [Models.Sections] = [
             .orderInfoCard,
@@ -63,7 +94,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
                                        expiration: .text(CardDetailsFormatter.formatExpirationDate(month: card.expiryMonth, year: card.expiryYear)))
             ],
             .termsAndConditions: [
-                LabelViewModel.text("By placing this order you agree to our Terms and Conditions")
+                LabelViewModel.attributedText(termsText)
             ],
             .submit: [
                 ButtonViewModel(title: "Confirm", enabled: false)
@@ -101,6 +132,10 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
     
     func presentTimeOut(actionResponse: OrderPreviewModels.ExpirationValidations.ActionResponse) {
         viewController?.displayTimeOut(responseDisplay: .init(isTimedOut: actionResponse.isTimedOut))
+    }
+    
+    func presentTermsAndConditions(actionResponse: OrderPreviewModels.TermsAndConditions.ActionResponse) {
+        viewController?.displayTermsAndConditions(responseDisplay: .init(url: actionResponse.url))
     }
     
     func presentSubmit(actionResponse: OrderPreviewModels.Submit.ActionResponse) {

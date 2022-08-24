@@ -70,7 +70,7 @@ struct AssetViewModel: ViewModel, ItemSelectable {
     }
     
     var displayImage: ImageViewModel? {
-        return .image(icon ?? UIImage())
+        return .image(icon)
     }
 }
 
@@ -171,7 +171,7 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         guard let viewModel = viewModel else { return }
         super.setup(with: viewModel)
         
-        iconView.wrappedView.setup(with: .image(viewModel.icon ?? UIImage()))
+        iconView.wrappedView.setup(with: .image(viewModel.icon))
         
         titleLabel.setup(with: .text(viewModel.title))
         titleLabel.isHidden = viewModel.title == nil

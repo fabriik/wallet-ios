@@ -43,6 +43,10 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         case .termsAndConditions:
             cell = self.tableView(tableView, labelCellForRowAt: indexPath)
             
+            let wrappedCell = cell as? WrapperTableViewCell<FELabel>
+            wrappedCell?.isUserInteractionEnabled = true
+            wrappedCell?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(termsAndConditionsTapped(_:))))
+            
         case .submit:
             cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
             
@@ -51,6 +55,22 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         }
         
         cell.setupCustomMargins(all: .large)
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, labelCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let model = sectionRows[section]?[indexPath.row] as? LabelViewModel,
+              let cell: WrapperTableViewCell<FELabel> = tableView.dequeueReusableCell(for: indexPath)
+        else {
+            return super.tableView(tableView, cellForRowAt: indexPath)
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init(font: Fonts.caption, textColor: LightColors.Text.one))
+            view.setup(with: model)
+        }
         
         return cell
     }
@@ -107,8 +127,16 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
             self?.interactor?.checkTimeOut(viewAction: .init())
         }
     }
-
+    
+    @objc private func termsAndConditionsTapped(_ sender: Any) {
+        interactor?.showTermsAndConditions(viewAction: .init())
+    }
+    
     // MARK: - OrderPreviewResponseDisplay
+    
+    func displayTermsAndConditions(responseDisplay: OrderPreviewModels.TermsAndConditions.ResponseDisplay) {
+        coordinator?.showTermsAndConditions(url: responseDisplay.url)
+    }
     
     func displayTimeOut(responseDisplay: OrderPreviewModels.ExpirationValidations.ResponseDisplay) {
         if responseDisplay.isTimedOut {
