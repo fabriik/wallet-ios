@@ -32,6 +32,8 @@ struct QuoteModelResponse: ModelResponse {
     var markup: Decimal
     var minimumValue: Decimal
     var maximumValue: Decimal
+    var minimumValueUsd: Decimal
+    var maximumValueUsd: Decimal
     
     struct Fee: Codable {
         var feeCurrency: String?
@@ -50,6 +52,8 @@ struct Quote {
     var markup: Decimal
     var minimumValue: Decimal
     var maximumValue: Decimal
+    var minimumUsd: Decimal
+    var maximumUsd: Decimal
     
     struct Fee {
         var feeCurrency: String
@@ -82,6 +86,8 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
                      markup: response.markup,
                      minimumValue: response.minimumValue,
                      maximumValue: response.maximumValue,
+                     minimumUsd: response.minimumValueUsd,
+                     maximumUsd: response.maximumValueUsd,
                      fromFeeCurrency: fromFee,
                      toFeeCurrency: toFee,
                      buyFee: response.buyFees)
