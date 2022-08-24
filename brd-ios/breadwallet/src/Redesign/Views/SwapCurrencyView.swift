@@ -278,7 +278,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let cleanedText = textField.text
+        let cleanedText = textField.text?.cleanupFormatting()
         
         if textField == fiatAmountField {
             didChangeFiatAmount?(cleanedText)
