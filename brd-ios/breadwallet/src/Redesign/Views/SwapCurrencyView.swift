@@ -114,7 +114,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         return view
     }()
     
-    private lazy var iconImageView: FEImageView = {
+    private lazy var currencyIconImageView: FEImageView = {
         let view = FEImageView()
         // TODO: Configs for corner radius on FEImageViews are not working because radius is being set to "content" view instead of image.
         view.layer.cornerRadius = CornerRadius.small.rawValue
@@ -226,8 +226,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
             make.width.equalTo(ViewSizes.extraHuge.rawValue)
         }
         
-        selectorStackView.addArrangedSubview(iconImageView)
-        iconImageView.snp.makeConstraints { make in
+        selectorStackView.addArrangedSubview(currencyIconImageView)
+        currencyIconImageView.snp.makeConstraints { make in
             make.width.equalTo(ViewSizes.medium.rawValue)
         }
         
@@ -310,7 +310,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         codeLabel.text = viewModel.amount?.currency.code
         codeLabel.sizeToFit()
         
-        iconImageView.setup(with: .image(viewModel.amount?.currency.imageSquareBackground))
+        currencyIconImageView.setup(with: .image(viewModel.amount?.currency.imageSquareBackground))
         
         if let fee = viewModel.fee {
             feeAmountLabel.text = "\(fee.tokenDescription) \n\(fee.fiatDescription)"

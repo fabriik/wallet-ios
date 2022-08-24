@@ -94,7 +94,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
                                        expiration: .text(CardDetailsFormatter.formatExpirationDate(month: card.expiryMonth, year: card.expiryYear)))
             ],
             .termsAndConditions: [
-                LabelViewModel.attributedLink(termsText, URL(string: C.termsAndConditions))
+                LabelViewModel.attributedText(termsText)
             ],
             .submit: [
                 ButtonViewModel(title: "Confirm", enabled: false)
@@ -132,6 +132,10 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
     
     func presentTimeOut(actionResponse: OrderPreviewModels.ExpirationValidations.ActionResponse) {
         viewController?.displayTimeOut(responseDisplay: .init(isTimedOut: actionResponse.isTimedOut))
+    }
+    
+    func presentTermsAndConditions(actionResponse: OrderPreviewModels.TermsAndConditions.ActionResponse) {
+        viewController?.displayTermsAndConditions(responseDisplay: .init(url: actionResponse.url))
     }
     
     func presentSubmit(actionResponse: OrderPreviewModels.Submit.ActionResponse) {

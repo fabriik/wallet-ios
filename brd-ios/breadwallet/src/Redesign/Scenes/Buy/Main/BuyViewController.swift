@@ -228,8 +228,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                       from: dataStore?.from,
                                       card: dataStore?.paymentCard,
                                       quote: dataStore?.quote,
-                                      networkFee: dataStore?.networkFee,
-                                      expirationTimestamp: dataStore?.expirationTimestamp ?? 0)
+                                      networkFee: dataStore?.networkFee)
     }
     
     // MARK: - Additional Helpers

@@ -181,8 +181,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
                           from: Decimal?,
                           card: PaymentCard?,
                           quote: Quote?,
-                          networkFee: Amount?,
-                          expirationTimestamp: Double) {
+                          networkFee: Amount?) {
         open(scene: Scenes.OrderPreview) { vc in
             vc.dataStore?.coreSystem = coreSystem
             vc.dataStore?.keyStore = keyStore
@@ -191,7 +190,6 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.dataStore?.card = card
             vc.dataStore?.quote = quote
             vc.dataStore?.networkFee = networkFee
-            vc.dataStore?.expirationTimestamp = expirationTimestamp
             vc.prepareData()
         }
     }

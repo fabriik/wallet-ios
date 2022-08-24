@@ -43,6 +43,10 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         case .termsAndConditions:
             cell = self.tableView(tableView, labelCellForRowAt: indexPath)
             
+            let wrappedCell = cell as? WrapperTableViewCell<FELabel>
+            wrappedCell?.isUserInteractionEnabled = true
+            wrappedCell?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(termsAndConditionsTapped(_:))))
+            
         case .submit:
             cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
             
@@ -66,10 +70,6 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         cell.setup { view in
             view.configure(with: .init(font: Fonts.caption, textColor: LightColors.Text.one))
             view.setup(with: model)
-            
-            view.didTapUrl = { [weak self] url in
-                self?.coordinator?.showTermsAndConditions(url: url)
-            }
         }
         
         return cell
@@ -127,8 +127,16 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
             self?.interactor?.checkTimeOut(viewAction: .init())
         }
     }
-
+    
+    @objc private func termsAndConditionsTapped(_ sender: Any) {
+        interactor?.showTermsAndConditions(viewAction: .init())
+    }
+    
     // MARK: - OrderPreviewResponseDisplay
+    
+    func displayTermsAndConditions(responseDisplay: OrderPreviewModels.TermsAndConditions.ResponseDisplay) {
+        coordinator?.showTermsAndConditions(url: responseDisplay.url)
+    }
     
     func displayTimeOut(responseDisplay: OrderPreviewModels.ExpirationValidations.ResponseDisplay) {
         if responseDisplay.isTimedOut {

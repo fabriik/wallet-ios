@@ -192,7 +192,6 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         
         titleLabel.configure(with: config?.title)
         currencyNameLabel.configure(with: config?.currencyAmountName)
-        
         rateView.configure(with: .init())
         amountView.configure(with: config?.amount)
         cardFeeView.configure(with: config?.cardFee)
@@ -209,7 +208,6 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         titleLabel.setup(with: viewModel?.title)
         currencyIconImageView.setup(with: viewModel?.currencyIcon)
         currencyNameLabel.setup(with: viewModel?.currencyAmountName)
-        
         rateView.setup(with: viewModel?.rate)
         amountView.setup(with: viewModel?.amount)
         cardFeeView.setup(with: viewModel?.cardFee)
