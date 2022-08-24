@@ -24,6 +24,14 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
     var isModalDismissable = true
     
     // MARK: - Overrides
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard coordinator != nil else { return }
+        navigationItem.leftBarButtonItems = []
+        navigationItem.hidesBackButton = true
+    }
+    
     override func setupSubviews() {
         super.setupSubviews()
         
