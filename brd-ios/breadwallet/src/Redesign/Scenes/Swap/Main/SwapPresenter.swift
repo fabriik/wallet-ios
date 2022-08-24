@@ -61,9 +61,11 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         let text = String(format: "1 %@ = %.5f %@", from.code, quote.exchangeRate.doubleValue, to.code)
         
-        let min = ExchangeFormatter.fiat.string(for: quote.minimumValue) ?? ""
-        let max = ExchangeFormatter.fiat.string(for: quote.maximumValue) ?? ""
-        let limitText = String(format: "Currently, minimum limit for swap is $%@ USD and maximum limit is %@ USD/day.", min, max)
+        let min = Amount(tokenString: quote.minimumValue.description, currency: from)
+        let max = Amount(tokenString: quote.maximumValue.description, currency: from)
+        let minText = ExchangeFormatter.fiat.string(for: min.fiatValue) ?? ""
+        let maxText = ExchangeFormatter.fiat.string(for: max.fiatValue) ?? ""
+        let limitText = String(format: "Currently, minimum limit for swap is $%@ USD and maximum limit is %@ USD/day.", minText, maxText)
         
         exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
                                                       timer: TimerViewModel(till: quote.timestamp,
