@@ -23,16 +23,7 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
     override var isModalDismissableEnabled: Bool { return isModalDismissable }
     var isModalDismissable = true
     
-    // MARK: - Overrides
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // this VC is shown also from wallets, where it does not have a coordinator (and we want to show back there)
-        guard coordinator != nil else { return }
-        navigationItem.leftBarButtonItems = []
-        navigationItem.hidesBackButton = true
-    }
-    
+    // MARK: - Overrides    
     override func setupSubviews() {
         super.setupSubviews()
         

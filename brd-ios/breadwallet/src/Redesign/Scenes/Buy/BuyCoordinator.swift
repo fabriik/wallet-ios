@@ -112,6 +112,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showSwapDetails(exchangeId: String) {
         open(scene: SwapDetailsViewController.self) { vc in
+            vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId
             vc.dataStore?.sceneTitle = "Buy details" // TODO: Localize
             vc.prepareData()
