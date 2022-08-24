@@ -28,7 +28,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let sectionRows: [Models.Sections: [ViewModel]] =  [
             .rate: [ExchangeRateViewModel()],
             .accountLimits: [
-                LabelViewModel.text("Currently, minimum limit for buy is $30.00 USD and maximum limit is $500.00 USD per day.")
+                LabelViewModel.text("")
             ],
             .from: [SwapCurrencyViewModel(title: .text("I want"))],
             .to: [CardSelectionViewModel(userInteractionEnabled: true)]
@@ -40,18 +40,22 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
     func presentExchangeRate(actionResponse: BuyModels.Rate.ActionResponse) {
         guard let from = actionResponse.from,
               let to = actionResponse.to,
-              let rate = actionResponse.rate else {
+              let quote = actionResponse.quote else {
             return
         }
         
-        let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1 / rate) ?? "/", from.uppercased())
+        let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "/", from.uppercased())
+        let min = ExchangeFormatter.fiat.string(for: quote.minimumValue) ?? ""
+        let max = ExchangeFormatter.fiat.string(for: quote.maximumValue) ?? ""
+        let limitText = String(format: "Currently, minimum limit for swap is $%@ USD and maximum limit is %@ USD/day.", min, max)
         
         let model = ExchangeRateViewModel(exchangeRate: text,
-                                          timer: TimerViewModel(till: actionResponse.expires ?? 0,
+                                          timer: TimerViewModel(till: quote.timestamp,
                                                                 repeats: false,
                                                                 isVisible: false))
         
-        viewController?.displayExchangeRate(responseDisplay: model)
+        viewController?.displayExchangeRate(responseDisplay: .init(rate: model,
+                                                                   limits: .text(limitText)))
     }
     
     func presentAssets(actionResponse: BuyModels.Assets.ActionResponse) {

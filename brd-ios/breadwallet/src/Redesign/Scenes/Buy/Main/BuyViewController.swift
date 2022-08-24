@@ -206,16 +206,29 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     func displayExchangeRate(responseDisplay: BuyModels.Rate.ResponseDisplay) {
         LoadingView.hide()
         
-        guard let section = sections.firstIndex(of: Models.Sections.rate),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView>
-        else { return continueButton.wrappedView.isEnabled = false }
+        if let section = sections.firstIndex(of: Models.Sections.rate),
+           let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
+            cell.setup { view in
+                view.setup(with: responseDisplay.rate)
+                view.completion = { [weak self] in
+                    self?.interactor?.getExchangeRate(viewAction: .init())
+                }
+            }
+            
+        } else {
+            continueButton.wrappedView.isEnabled = false
+        }
         
-        cell.setup { view in
-            view.setup(with: responseDisplay)
-            view.completion = { [weak self] in
-                self?.interactor?.getExchangeRate(viewAction: .init())
+        
+        if let section = sections.firstIndex(of: Models.Sections.accountLimits),
+           let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FELabel> {
+            
+            cell.setup { view in
+                let model = responseDisplay.limits
+                view.setup(with: model)
             }
         }
+        
         
         tableView.beginUpdates()
         tableView.endUpdates()

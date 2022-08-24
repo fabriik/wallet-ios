@@ -61,8 +61,12 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
         formatter.maximumFractionDigits = spaces
         
         let amountString = formatter.string(for: amount) ?? ""
-        let value = Amount(tokenString: amountString, currency: currency)
+        let rate = Rate(code: currency.code,
+                        name: currency.code,
+                        rate: 1 / (quote?.exchangeRate.doubleValue ?? 1),
+                        reciprocalCode: "")
         
+        let value = Amount(tokenString: amountString, currency: currency, rate: rate)
         guard value.tokenValue != 0 else {
             return amountFrom(decimal: decimal, currency: currency, spaces: spaces - 1)
         }

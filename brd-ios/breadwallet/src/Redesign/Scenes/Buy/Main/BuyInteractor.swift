@@ -96,14 +96,15 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             case .success(let quote):
                 self?.dataStore?.quote = quote
                 
-                self?.presenter?.presentExchangeRate(actionResponse: .init(from: from,
-                                                                           to: toCurrency,
-                                                                           rate: quote?.exchangeRate,
-                                                                           expires: quote?.timestamp))
+                self?.presenter?.presentExchangeRate(actionResponse: .init(quote: quote,
+                                                                           from: from,
+                                                                           to: toCurrency))
+                
                 guard self?.dataStore?.isInputFiat == true else {
                     self?.setAmount(viewAction: .init(tokenValue: (self?.dataStore?.to ?? 0).description))
                     return
                 }
+                
                 self?.setAmount(viewAction: .init(fiatValue: (self?.dataStore?.from ?? 0).description))
                 
             case .failure(let error):
