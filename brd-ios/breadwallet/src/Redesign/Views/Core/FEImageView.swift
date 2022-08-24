@@ -11,11 +11,11 @@
 import UIKit
 
 enum ImageViewModel: ViewModel {
-    case animation(String)
-    case imageName(String)
-    case image(UIImage)
-    case photo(UIImage)
-    case url(String)
+    case animation(String?)
+    case imageName(String?)
+    case image(UIImage?)
+    case photo(UIImage?)
+    case url(String?)
 }
 
 class FEImageView: FEView<BackgroundConfiguration, ImageViewModel> {
@@ -79,11 +79,12 @@ class FEImageView: FEView<BackgroundConfiguration, ImageViewModel> {
             imageView.image = image
             
         case .imageName(let name):
-            imageView.image = .init(named: name)
+            imageView.image = .init(named: name ?? "")
             
         default:
             return
         }
+        
         imageView.tintColor = config?.tintColor
         
         layoutIfNeeded()

@@ -87,13 +87,6 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         }
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        configure(background: config?.background)
-        configure(shadow: config?.shadow)
-    }
-    
     override func setupSubviews() {
         super.setupSubviews()
         
@@ -148,11 +141,21 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        configure(background: config?.background)
+        configure(shadow: config?.shadow)
+    }
+    
     override func configure(with config: MainSwapConfiguration?) {
-        guard let config = config else { return }
         super.configure(with: config)
         
-        configure(shadow: config.shadow)
+        baseSwapCurrencyView.configure(with: .init())
+        termSwapCurrencyView.configure(with: .init())
+        
+        configure(background: config?.background)
+        configure(shadow: config?.shadow)
     }
     
     override func setup(with viewModel: MainSwapViewModel?) {

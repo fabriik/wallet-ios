@@ -24,7 +24,6 @@ class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
     var cvv: String?
     var paymentReference: String?
     var paymentstatus: AddCard.Status?
-    var expirationTimestamp: Double = 0.0
     
     // MARK: - Aditional helpers
     var coreSystem: CoreSystem?

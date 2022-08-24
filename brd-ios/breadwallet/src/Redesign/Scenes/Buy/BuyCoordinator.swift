@@ -91,6 +91,15 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         }
     }
     
+    func showTermsAndConditions(url: URL) {
+        let webViewController = SimpleWebViewController(url: url)
+        webViewController.setup(with: .init(title: "Terms and Conditions"))
+        let navController = RootNavigationController(rootViewController: webViewController)
+        webViewController.setAsNonDismissableModal()
+        
+        navigationController.present(navController, animated: true)
+    }
+    
     func showSupport() {
         guard let url = URL(string: C.supportLink) else { return }
         let webViewController = SimpleWebViewController(url: url)
@@ -172,8 +181,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
                           from: Decimal?,
                           card: PaymentCard?,
                           quote: Quote?,
-                          networkFee: Amount?,
-                          expirationTimestamp: Double) {
+                          networkFee: Amount?) {
         open(scene: Scenes.OrderPreview) { vc in
             vc.dataStore?.coreSystem = coreSystem
             vc.dataStore?.keyStore = keyStore
@@ -182,7 +190,6 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.dataStore?.card = card
             vc.dataStore?.quote = quote
             vc.dataStore?.networkFee = networkFee
-            vc.dataStore?.expirationTimestamp = expirationTimestamp
             vc.prepareData()
         }
     }

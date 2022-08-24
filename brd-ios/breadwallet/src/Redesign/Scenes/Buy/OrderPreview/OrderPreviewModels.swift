@@ -66,6 +66,18 @@ enum OrderPreviewModels {
         }
     }
     
+    struct TermsAndConditions {
+        struct ViewAction {}
+        
+        struct ActionResponse {
+            var url: URL
+        }
+        
+        struct ResponseDisplay {
+            var url: URL
+        }
+    }
+    
     struct ExpirationValidations {
         struct ViewAction {}
         

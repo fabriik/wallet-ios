@@ -118,8 +118,8 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
               let month = dataStore?.addCardDataStore?.cardExpDateMonth,
               let year = dataStore?.addCardDataStore?.cardExpDateYear else { return }
         
-        let checkoutAPIClient = CheckoutAPIClient(publicKey: "pk_sbox_ees63clhrko6kta6j3cwloebg4#",
-                                                  environment: .sandbox) // TODO: Should be updated when we get the prod key.
+        let checkoutAPIClient = CheckoutAPIClient(publicKey: E.checkoutApiToken,
+                                                  environment: E.isSandbox ? .sandbox : .live)
         
         let cardTokenRequest = CkoCardTokenRequest(number: number,
                                                    expiryMonth: month,

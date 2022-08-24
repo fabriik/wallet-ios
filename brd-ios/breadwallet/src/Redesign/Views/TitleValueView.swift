@@ -18,6 +18,9 @@ extension Presets {
         static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                       value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
         
+        static var verticalSmall = TitleValueConfiguration(title: .init(font: Fonts.caption, textColor: LightColors.Text.one),
+                                                           value: .init(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .right))
+        
         static var subtitle = TitleValueConfiguration(title: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one),
                                                       value: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, textAlignment: .right))
     }
@@ -32,7 +35,7 @@ struct TitleValueConfiguration: Configurable {
 struct TitleValueViewModel: ViewModel {
     var title: LabelViewModel
     var value: LabelViewModel
-    var infoImage: ImageViewModel?
+    var infoImage: ImageViewModel? = .image(UIImage(named: "help")?.withRenderingMode(.alwaysOriginal))
 }
 
 class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
@@ -49,7 +52,7 @@ class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.spacing = Margins.small.rawValue
-        view.distribution = .fill
+        view.distribution = .fillProportionally
         return view
     }()
     

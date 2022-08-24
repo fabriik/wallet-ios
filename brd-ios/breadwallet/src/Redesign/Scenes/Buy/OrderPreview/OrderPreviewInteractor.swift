@@ -84,7 +84,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     }
     
     func checkTimeOut(viewAction: OrderPreviewModels.ExpirationValidations.ViewAction) {
-        let isTimedOut = Date().timeIntervalSince1970 > (dataStore?.expirationTimestamp ?? 0) / 1000
+        let isTimedOut = Date().timeIntervalSince1970 > (dataStore?.quote?.timestamp ?? 0) / 1000
         
         presenter?.presentTimeOut(actionResponse: .init(isTimedOut: isTimedOut))
     }
@@ -107,7 +107,12 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
             presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "Payment failed")))
         }
     }
-
+    
+    func showTermsAndConditions(viewAction: OrderPreviewModels.TermsAndConditions.ViewAction) {
+        guard let url = URL(string: C.termsAndConditions) else { return }
+        presenter?.presentTermsAndConditions(actionResponse: .init(url: url))
+    }
+    
     // TODO: add rate refreshing logic!
     // MARK: - Aditional helpers
 }

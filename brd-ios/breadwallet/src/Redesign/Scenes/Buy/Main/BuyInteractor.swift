@@ -79,6 +79,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             dataStore?.from = ExchangeFormatter.fiat.number(from: value)?.decimalValue
             dataStore?.to = (dataStore?.from ?? 0) * rate
         }
+        
         getFees()
         
         presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount, card: dataStore?.paymentCard))
@@ -95,18 +96,15 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             case .success(let quote):
                 self?.dataStore?.quote = quote
                 
-                // TODO: Should be updated when BE returns the right value.
-                // (quote?.timestamp ?? 0) + (9 * 60 * 1000) = 1 Min + 540.000 Seconds = 10 Mins.
-                self?.dataStore?.expirationTimestamp = (quote?.timestamp ?? 0) + (9 * 60 * 1000)
+                self?.presenter?.presentExchangeRate(actionResponse: .init(quote: quote,
+                                                                           from: from,
+                                                                           to: toCurrency))
                 
-                self?.presenter?.presentExchangeRate(actionResponse: .init(from: from,
-                                                                           to: toCurrency,
-                                                                           rate: quote?.exchangeRate,
-                                                                           expires: self?.dataStore?.expirationTimestamp))
                 guard self?.dataStore?.isInputFiat == true else {
                     self?.setAmount(viewAction: .init(tokenValue: (self?.dataStore?.to ?? 0).description))
                     return
                 }
+                
                 self?.setAmount(viewAction: .init(fiatValue: (self?.dataStore?.from ?? 0).description))
                 
             case .failure(let error):
