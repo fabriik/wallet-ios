@@ -13,7 +13,6 @@ import Foundation
 struct ExchangeFormatter {
     static var crypto: NumberFormatter {
         let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: C.usLocaleCode)
         formatter.numberStyle = .decimal
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 8
@@ -22,7 +21,6 @@ struct ExchangeFormatter {
     
     static var fiat: NumberFormatter {
         let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: C.usLocaleCode)
         formatter.numberStyle = .decimal
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2
@@ -31,6 +29,7 @@ struct ExchangeFormatter {
     
     static var current: NumberFormatter {
         let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
         formatter.locale = .current
         return formatter
     }
@@ -49,8 +48,13 @@ extension String {
         return sanitized
     }
     
-    func cleanupFormatting() -> String {
-        let sanitized = sanitize(inputFormat: ExchangeFormatter.current, expectedFormat: ExchangeFormatter.crypto)
+    func cleanupFormatting(forFiat: Bool) -> String {
+        let text = isEmpty != false ? "0" : self
+        
+        let expectedFormat = forFiat ? ExchangeFormatter.fiat : ExchangeFormatter.crypto
+        let inputFormat = ExchangeFormatter.current
+        
+        let sanitized = text.sanitize(inputFormat: inputFormat, expectedFormat: expectedFormat)
         
         return sanitized
     }
