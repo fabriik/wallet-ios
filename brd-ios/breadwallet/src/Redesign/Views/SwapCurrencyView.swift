@@ -24,7 +24,7 @@ struct SwapCurrencyViewModel: ViewModel {
     var feeDescription: LabelViewModel?
 }
 
-class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel> {
+class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>, UITextFieldDelegate {
     enum FeeAndAmountsStackViewState {
         case shown, hidden
     }
@@ -71,15 +71,21 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         view.tintColor = view.textColor
         view.textAlignment = .right
         view.keyboardType = .decimalPad
+        view.delegate = self
         view.addTarget(self, action: #selector(fiatAmountDidChange(_:)), for: .editingChanged)
         
-        if let textColor = view.textColor, let font = view.font {
-            view.attributedPlaceholder = NSAttributedString(
-                string: "0.00",
-                attributes: [NSAttributedString.Key.foregroundColor: textColor,
-                             NSAttributedString.Key.font: font]
-            )
-        }
+        return view
+    }()
+    
+    private lazy var cryptoAmountField: UITextField = {
+        let view = UITextField()
+        view.textColor = LightColors.Icons.one
+        view.font = Fonts.Title.four
+        view.tintColor = view.textColor
+        view.textAlignment = .right
+        view.keyboardType = .decimalPad
+        view.delegate = self
+        view.addTarget(self, action: #selector(cryptoAmountDidChange(_:)), for: .editingChanged)
         
         return view
     }()
@@ -135,26 +141,6 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         view.setup(with: .imageName("chevrondown"))
         view.setupCustomMargins(all: .extraSmall)
         view.tintColor = LightColors.primary
-        return view
-    }()
-    
-    private lazy var cryptoAmountField: UITextField = {
-        let view = UITextField()
-        view.textColor = LightColors.Icons.one
-        view.font = Fonts.Title.four
-        view.tintColor = view.textColor
-        view.textAlignment = .right
-        view.keyboardType = .decimalPad
-        view.addTarget(self, action: #selector(cryptoAmountDidChange(_:)), for: .editingChanged)
-        
-        if let textColor = view.textColor, let font = view.font {
-            view.attributedPlaceholder = NSAttributedString(
-                string: "0.00",
-                attributes: [NSAttributedString.Key.foregroundColor: textColor,
-                             NSAttributedString.Key.font: font]
-            )
-        }
-        
         return view
     }()
     
@@ -257,6 +243,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
         feeAndAmountsStackView.addArrangedSubview(feeAmountLabel)
+        
+        decidePlaceholder()
     }
     
     func toggleFeeAndAmountsStackView(state: FeeAndAmountsStackViewState, animated: Bool = true) {
@@ -270,13 +258,35 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     }
     
     @objc func fiatAmountDidChange(_ textField: UITextField) {
-        let text = textField.text?.isEmpty != false ? "0" : textField.text
-        didChangeFiatAmount?(text)
+        decidePlaceholder()
+        
+        let cleanedText = textField.text?.cleanupFormatting(forFiat: true)
+        didChangeFiatAmount?(cleanedText)
     }
     
     @objc func cryptoAmountDidChange(_ textField: UITextField) {
-        let text = textField.text?.isEmpty != false ? "0" : textField.text
-        didChangeCryptoAmount?(text)
+        decidePlaceholder()
+        
+        let cleanedText = textField.text?.cleanupFormatting(forFiat: false)
+        didChangeCryptoAmount?(cleanedText)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        decidePlaceholder()
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == fiatAmountField {
+            let cleanedText = textField.text?.cleanupFormatting(forFiat: true)
+            
+            didChangeFiatAmount?(cleanedText)
+        } else if textField == cryptoAmountField {
+            let cleanedText = textField.text?.cleanupFormatting(forFiat: false)
+            
+            didChangeCryptoAmount?(cleanedText)
+        }
+        
+        decidePlaceholder()
     }
     
     override func layoutSubviews() {
@@ -336,6 +346,23 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     @objc private func selectorTapped(_ sender: Any) {
         didTapSelectAsset?()
+    }
+    
+    private func setPlaceholder(for field: UITextField, isActive: Bool) {
+        if let textColor = field.textColor,
+           let lineViewColor = fiatLineView.backgroundColor,
+           let font = field.font {
+            field.attributedPlaceholder = NSAttributedString(string: "0.00",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: isActive ? lineViewColor : textColor,
+                                                                          NSAttributedString.Key.font: font]
+            )
+        }
+    }
+    
+    private func decidePlaceholder() {
+        [fiatAmountField, cryptoAmountField].forEach { field in
+            setPlaceholder(for: field, isActive: field.text?.isEmpty == true && field.isFirstResponder)
+        }
     }
 }
 
