@@ -12,96 +12,96 @@ import UIKit
 
 /// Environment Flags
 struct E {
-    
+
     static let isTestnet: Bool = {
-#if TESTNET
-        return true
-#else
-        return false
-#endif
+        #if TESTNET
+            return true
+        #else
+            return false
+        #endif
     }()
     
     static let isTestFlight: Bool = {
-#if TESTFLIGHT
-        return true
-#else
-        return false
-#endif
+        #if TESTFLIGHT
+            return true
+        #else
+            return false
+        #endif
     }()
     
     static let isSimulator: Bool = {
-#if targetEnvironment(simulator)
-        return true
-#else
-        return false
-#endif
+        #if targetEnvironment(simulator)
+            return true
+        #else
+            return false
+        #endif
     }()
     
     static let isDebug: Bool = {
-#if DEBUG
-        return true
-#else
-        return false
-#endif
+        #if DEBUG
+            return true
+        #else
+            return false
+        #endif
     }()
     
     static let isScreenshots: Bool = {
-#if SCREENSHOTS
-        return true
-#else
-        return false
-#endif
+        #if SCREENSHOTS
+            return true
+        #else
+            return false
+        #endif
     }()
     
     static let isRunningTests: Bool = {
-#if DEBUG
-        return ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
-#else
-        return false
-#endif
+        #if DEBUG
+            return ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+        #else
+            return false
+        #endif
     }()
     
     static var isIPhone5: Bool {
-#if IS_EXTENSION_ENVIRONMENT
+        #if IS_EXTENSION_ENVIRONMENT
         return false
-#else
+        #else
         let bounds = UIApplication.shared.activeWindow?.bounds
         return bounds?.width == 320 && bounds?.height == 568
-#endif
+        #endif
     }
     
     static var isIPhone6: Bool {
-#if IS_EXTENSION_ENVIRONMENT
+        #if IS_EXTENSION_ENVIRONMENT
         return false
-#else
+        #else
         let bounds = UIApplication.shared.activeWindow?.bounds
         return bounds?.width == 375 && bounds?.height == 667
-#endif
+        #endif
     }
     
     static let isIPhoneX: Bool = {
-#if IS_EXTENSION_ENVIRONMENT
+        #if IS_EXTENSION_ENVIRONMENT
         return false
-#else
+        #else
         return (UIScreen.main.bounds.size.height == 812.0) || (UIScreen.main.bounds.size.height == 896.0)
-#endif
+        #endif
     }()
     
     static var isIPhone6OrSmaller: Bool {
-#if IS_EXTENSION_ENVIRONMENT
+        #if IS_EXTENSION_ENVIRONMENT
         return false
-#else
+        #else
         return isIPhone6 || isIPhone5
-#endif
+        #endif
     }
     
     static var isSmallScreen: Bool {
-#if IS_EXTENSION_ENVIRONMENT
+        #if IS_EXTENSION_ENVIRONMENT
         return false
-#else
+        #else
         let bounds = UIApplication.shared.activeWindow?.bounds
         return bounds?.width == 320
-#endif
+        #endif
     }
     
     static let osVersion: String = {
