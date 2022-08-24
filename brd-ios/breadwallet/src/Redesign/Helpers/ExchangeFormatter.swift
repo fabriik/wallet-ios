@@ -50,7 +50,7 @@ extension String {
     }
     
     func cleanupFormatting() -> String {
-        let sanitized = sanitize(inputFormat: ExchangeFormatter.crypto, expectedFormat: ExchangeFormatter.crypto)
+        let sanitized = sanitize(inputFormat: ExchangeFormatter.current, expectedFormat: ExchangeFormatter.crypto)
         
         return sanitized
     }
