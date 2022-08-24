@@ -49,10 +49,12 @@ extension String {
     }
     
     func cleanupFormatting(forFiat: Bool) -> String {
+        let text = isEmpty != false ? "0" : self
+        
         let expectedFormat = forFiat ? ExchangeFormatter.fiat : ExchangeFormatter.crypto
         let inputFormat = ExchangeFormatter.current
         
-        let sanitized = sanitize(inputFormat: inputFormat, expectedFormat: expectedFormat)
+        let sanitized = text.sanitize(inputFormat: inputFormat, expectedFormat: expectedFormat)
         
         return sanitized
     }
