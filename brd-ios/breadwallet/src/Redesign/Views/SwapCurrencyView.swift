@@ -348,11 +348,12 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         didTapSelectAsset?()
     }
     
-    private func setPlaceholder(for field: UITextField, with string: String = "0.00") {
+    private func setPlaceholder(for field: UITextField, isActive: Bool) {
         if let textColor = field.textColor,
+           let lineViewColor = fiatLineView.backgroundColor,
            let font = field.font {
-            field.attributedPlaceholder = NSAttributedString(string: string,
-                                                             attributes: [NSAttributedString.Key.foregroundColor: textColor,
+            field.attributedPlaceholder = NSAttributedString(string: "0.00",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: isActive ? lineViewColor : textColor,
                                                                           NSAttributedString.Key.font: font]
             )
         }
@@ -360,11 +361,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private func decidePlaceholder() {
         [fiatAmountField, cryptoAmountField].forEach { field in
-            if field.text?.isEmpty == true && field.isFirstResponder {
-                setPlaceholder(for: field, with: "")
-            } else {
-                setPlaceholder(for: field)
-            }
+            setPlaceholder(for: field, isActive: field.text?.isEmpty == true && field.isFirstResponder)
         }
     }
 }
