@@ -125,7 +125,19 @@ struct E {
         return token
     }
     
+    static var checkoutApiToken: String {
+        guard let token = Bundle.main.object(forInfoDictionaryKey: "CHECKOUT_API_TOKEN") as? String,
+              !token.isEmpty else {
+            fatalError("Env not configured properly")
+        }
+        return token
+    }
+    
     static var isTest: Bool {
         return Bundle.main.object(forInfoDictionaryKey: "IS_TEST") as? String == "true"
+    }
+    
+    static var isSandbox: Bool {
+        return Bundle.main.object(forInfoDictionaryKey: "IS_SANDBOX") as? Bool == true
     }
 }
