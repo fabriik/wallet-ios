@@ -23,7 +23,7 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
     override var isModalDismissableEnabled: Bool { return isModalDismissable }
     var isModalDismissable = true
     
-    // MARK: - Overrides
+    // MARK: - Overrides    
     override func setupSubviews() {
         super.setupSubviews()
         
