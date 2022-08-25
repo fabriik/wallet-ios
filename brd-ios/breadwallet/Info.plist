@@ -9,7 +9,7 @@
 	<key>CHECKOUT_API_TOKEN</key>
 	<string>$(CHECKOUT_API_TOKEN)</string>
 	<key>IS_SANDBOX</key>
-	<false/>
+	<string>$(IS_SANDBOX)</string>
 	<key>APP_GROUPS_ID</key>
 	<string>group.${APP_GROUPS_ID}</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -142,7 +142,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>534</string>
+	<string>561</string>
 	<key>IS_TEST</key>
 	<string>$(IS_TEST)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
