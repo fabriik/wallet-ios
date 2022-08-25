@@ -35,6 +35,7 @@ enum BuyModels {
         struct ActionResponse {
             var amount: Amount?
             var card: PaymentCard?
+            var quote: Quote?
         }
         
         struct ResponseDisplay {

@@ -219,7 +219,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             continueButton.wrappedView.isEnabled = false
         }
         
-        
         if let section = sections.firstIndex(of: Models.Sections.accountLimits),
            let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FELabel> {
             
@@ -228,7 +227,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                 view.setup(with: model)
             }
         }
-        
         
         tableView.beginUpdates()
         tableView.endUpdates()
@@ -242,6 +240,21 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                       card: dataStore?.paymentCard,
                                       quote: dataStore?.quote,
                                       networkFee: dataStore?.networkFee)
+    }
+    
+    override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
+        if responseDisplay.error != nil {
+            LoadingView.hide()
+        }
+        
+        guard responseDisplay.error != nil else {
+            coordinator?.hideMessage()
+            return
+        }
+        
+        coordinator?.showMessage(with: responseDisplay.error,
+                                 model: responseDisplay.model,
+                                 configuration: responseDisplay.config)
     }
     
     // MARK: - Additional Helpers
