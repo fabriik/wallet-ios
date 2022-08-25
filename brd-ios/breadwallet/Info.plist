@@ -142,7 +142,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>534</string>
+	<string>535</string>
 	<key>IS_TEST</key>
 	<string>$(IS_TEST)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
