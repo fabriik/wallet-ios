@@ -300,23 +300,27 @@ class BaseCoordinator: NSObject,
             return
         }
         
-        guard let model = model, let configuration = configuration else { return }
+        guard let superview = navigationController.topViewController?.view,
+              let model = model, let configuration = configuration
+        else { return }
         
-        let notification = FEInfoView()
-        notification.setupCustomMargins(all: .large)
-        notification.configure(with: configuration)
+        let notification: FEInfoView = (superview.subviews.first(where: { $0 is FEInfoView }) as? FEInfoView) ?? FEInfoView()
+        
+        if notification.superview == nil {
+            notification.setupCustomMargins(all: .large)
+            notification.configure(with: configuration)
+            superview.addSubview(notification)
+            notification.alpha = 0
+            
+            notification.snp.makeConstraints { make in
+                make.top.equalToSuperview().offset(100)
+                make.leading.equalToSuperview().offset(Margins.medium.rawValue)
+                make.centerX.equalToSuperview()
+            }
+        }
+        superview.bringSubviewToFront(notification)
         notification.setup(with: model)
-        guard let superview = navigationController.topViewController?.view else {
-            return
-        }
-        superview.addSubview(notification)
-        notification.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(100)
-            make.leading.equalToSuperview().offset(Margins.medium.rawValue)
-            make.trailing.equalToSuperview().offset(-Margins.medium.rawValue)
-        }
         notification.layoutIfNeeded()
-        notification.alpha = 0
             
         UIView.animate(withDuration: Presets.Animation.duration) {
             notification.alpha = 1
