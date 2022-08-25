@@ -8,7 +8,7 @@
 //  See the LICENSE file at the project root for license information.
 //
 
-import Foundation
+import UIKit
 
 struct ExchangeFormatter {
     static var crypto: NumberFormatter {
@@ -32,6 +32,17 @@ struct ExchangeFormatter {
         formatter.numberStyle = .decimal
         formatter.locale = .current
         return formatter
+    }
+    
+    static func createAmountString(string: String) -> NSMutableAttributedString? {
+        let attributedString = NSMutableAttributedString(string: string)
+        let style: NSMutableParagraphStyle = NSMutableParagraphStyle()
+        style.lineBreakMode = .byTruncatingMiddle
+        style.alignment = .right
+        attributedString.addAttribute(.paragraphStyle, value: style,
+                                      range: NSRange(location: 0, length: attributedString.length))
+        
+        return attributedString
     }
 }
 
