@@ -158,8 +158,8 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
                     }
                 }
                 
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
+            case .failure:
+                self?.presenter?.presentError(actionResponse: .init(error: BuyErrors.authorizationFailed))
             }
         }
     }

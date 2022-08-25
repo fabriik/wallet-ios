@@ -28,10 +28,9 @@ extension Presenter {
         } else if let error = error as? FEError {
             // TODO: Investigate localized errors
             let message = error.errorMessage
-            let model = InfoViewModel(headerTitle: .text("Error"), description: .text(message))
+            let model = InfoViewModel(description: .text(message))
             
-            // TODO: create Error preset
-            let config = Presets.InfoView.primary
+            let config = Presets.InfoView.swapError
             responseDisplay = .init(model: model, config: config)
         } else {
             // TODO: Investigate localized errors
