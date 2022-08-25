@@ -382,9 +382,7 @@ class ApplicationController: Subscriber, Trackable {
                 self?.homeScreenViewController?.canShowPrompts = true
                 
             case .failure(let error):
-                if let error = error as? NetworkingError, error == .sessionExpired {
-                    self?.coordinator?.showMessage(with: error)
-                }
+                guard let error = error as? NetworkingError, error == .sessionExpired else { return }
                 
                 if let token = UserDefaults.walletTokenValue {
                     let newDeviceRequestData = NewDeviceRequestData(token: token)

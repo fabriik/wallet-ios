@@ -79,6 +79,8 @@ class BaseCoordinator: NSObject,
     }
     
     func showRegistration(shouldShowProfile: Bool = false) {
+        guard navigationController.presentedViewController?.children.contains(where: { $0 is RegistrationConfirmationViewController }) == nil else { return }
+        
         let nvc = RootNavigationController()
         let coordinator = RegistrationCoordinator(navigationController: nvc)
         coordinator.start()
@@ -294,7 +296,7 @@ class BaseCoordinator: NSObject,
         
         guard (error as? NetworkingError) != .sessionExpired else {
             UserDefaults.emailConfirmed = false
-            openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.RegistrationConfirmation)
+            openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.Registration)
             return
         }
         
