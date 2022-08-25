@@ -313,7 +313,7 @@ class BaseCoordinator: NSObject,
             notification.alpha = 0
             
             notification.snp.makeConstraints { make in
-                make.top.equalToSuperview().offset(100)
+                make.top.equalToSuperview().offset(ViewSizes.extraLarge.rawValue)
                 make.leading.equalToSuperview().offset(Margins.medium.rawValue)
                 make.centerX.equalToSuperview()
             }
