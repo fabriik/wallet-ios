@@ -22,6 +22,7 @@ enum BuyErrors: FEError {
     case overExchangeLimit
     case pinConfirmation
     case notPermitted
+    case authorizationFailed
     
     var errorMessage: String {
         switch self {
@@ -52,6 +53,9 @@ enum BuyErrors: FEError {
             
         case .notPermitted:
             return "KYC 2 is needed before buys are enabled."
+            
+        case .authorizationFailed:
+            return "Card authorization failed. Please contact your credit card issuer/bank or try another card."
         }
     }
 }
