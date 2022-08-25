@@ -12,16 +12,16 @@ import UIKit
 
 extension Presets {
     struct TitleValue {
-        static var horizontal = TitleValueConfiguration(title: .init(font: Fonts.Body.one, textColor: LightColors.Text.two),
+        static var horizontal = TitleValueConfiguration(title: .init(font: Fonts.Body.one, textColor: LightColors.Text.two, numberOfLines: 1),
                                                       value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
         
-        static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+        static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1),
                                                       value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
         
-        static var verticalSmall = TitleValueConfiguration(title: .init(font: Fonts.caption, textColor: LightColors.Text.one),
+        static var verticalSmall = TitleValueConfiguration(title: .init(font: Fonts.caption, textColor: LightColors.Text.one, numberOfLines: 1),
                                                            value: .init(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .right))
         
-        static var subtitle = TitleValueConfiguration(title: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one),
+        static var subtitle = TitleValueConfiguration(title: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, numberOfLines: 1),
                                                       value: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, textAlignment: .right))
     }
 }
@@ -30,12 +30,17 @@ struct TitleValueConfiguration: Configurable {
     var title: LabelConfiguration
     var value: LabelConfiguration
     var infoButtonConfiguration: BackgroundConfiguration?
+    
+    mutating func withTextAlign(textAlign: NSTextAlignment) -> TitleValueConfiguration {
+        value.textAlignment = textAlign
+        return self
+    }
 }
 
 struct TitleValueViewModel: ViewModel {
     var title: LabelViewModel
     var value: LabelViewModel
-    var infoImage: ImageViewModel? = .image(UIImage(named: "help")?.withRenderingMode(.alwaysOriginal))
+    var infoImage: ImageViewModel?
 }
 
 class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
@@ -52,7 +57,7 @@ class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.spacing = Margins.small.rawValue
-        view.distribution = .fillProportionally
+        view.distribution = .fill
         return view
     }()
     
@@ -107,7 +112,7 @@ class TitleValueView: FEView<TitleValueConfiguration, TitleValueViewModel> {
         infoButton.isHidden = viewModel?.infoImage == nil
         valueLabel.setup(with: viewModel?.value)
         
-        titleLabel.snp.makeConstraints { make in
+        titleLabel.snp.remakeConstraints { make in
             make.width.equalTo(titleLabel.frame.width)
         }
         needsUpdateConstraints()

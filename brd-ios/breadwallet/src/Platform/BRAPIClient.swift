@@ -280,7 +280,7 @@ open class BRAPIClient: NSObject, URLSessionDelegate, URLSessionTaskDelegate, BR
                 self.leaveGroup()
                 handler(err as NSError?)
             }
-        }) .resume()
+        }).resume()
     }
     
     func leaveGroup() {
