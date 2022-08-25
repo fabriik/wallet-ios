@@ -30,7 +30,6 @@ struct ExchangeFormatter {
     static var current: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.locale = .current
         return formatter
     }
     
