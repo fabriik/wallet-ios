@@ -35,7 +35,7 @@ struct ExchangeFormatter {
     
     static func createAmountString(string: String) -> NSMutableAttributedString? {
         let attributedString = NSMutableAttributedString(string: string)
-        let style: NSMutableParagraphStyle = NSMutableParagraphStyle()
+        let style = NSMutableParagraphStyle()
         style.lineBreakMode = .byTruncatingMiddle
         style.alignment = .right
         attributedString.addAttribute(.paragraphStyle, value: style,
