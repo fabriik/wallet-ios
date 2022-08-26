@@ -14,27 +14,11 @@ class EmailFeedbackManager: NSObject, MFMailComposeViewControllerDelegate {
     
     enum EmailClients: CaseIterable {
         case defaultClient
-        case gmail
-        case outlook
-        case spark
-        case yahoo
         
         var name: String {
             switch self {
             case .defaultClient:
                 return "Mail"
-                
-            case .gmail:
-                return "Gmail"
-                
-            case .outlook:
-                return "Outlook"
-                
-            case .spark:
-                return "Spark"
-                
-            case .yahoo:
-                return "Yahoo Mail"
                 
             }
         }
@@ -44,18 +28,6 @@ class EmailFeedbackManager: NSObject, MFMailComposeViewControllerDelegate {
             case .defaultClient:
                 return "mailto:"
                 
-            case .gmail:
-                return "googlegmail://"
-                
-            case .outlook:
-                return "ms-outlook://"
-                
-            case .spark:
-                return "readdle-spark://"
-                
-            case .yahoo:
-                return "ymail://"
-                
             }
         }
         
@@ -64,23 +36,11 @@ class EmailFeedbackManager: NSObject, MFMailComposeViewControllerDelegate {
             case .defaultClient:
                 return "%@?subject=%@&body=%@"
                 
-            case .gmail:
-                return "co?to=%@&subject=%@&body=%@"
-                
-            case .outlook:
-                return "compose?to=%@&subject=%@&body=%@"
-                
-            case .spark:
-                return "compose?recipient=%@&subject=%@&body=%@"
-                
-            case .yahoo:
-                return "mail/compose?to=%@&subject=%@&body=%@"
-                
             }
         }
     }
     
-    private var superVC = UIViewController()
+    private var presentingViewController = UIViewController()
     private let mailVC = MFMailComposeViewController()
     private var feedback: Feedback
     private var completion: ((Result<MFMailComposeResult, Error>) -> Void)?
@@ -104,7 +64,7 @@ class EmailFeedbackManager: NSObject, MFMailComposeViewControllerDelegate {
         }
         
         self.feedback = feedback
-        self.superVC = viewController
+        self.presentingViewController = viewController
     }
     
     func send(completion:(@escaping(Result<MFMailComposeResult, Error>) -> Void)) {
@@ -115,7 +75,7 @@ class EmailFeedbackManager: NSObject, MFMailComposeViewControllerDelegate {
         mailVC.setSubject(feedback.subject)
         mailVC.setMessageBody(feedback.body, isHTML: false)
         
-        superVC.present(mailVC, animated: true)
+        presentingViewController.present(mailVC, animated: true)
     }
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
