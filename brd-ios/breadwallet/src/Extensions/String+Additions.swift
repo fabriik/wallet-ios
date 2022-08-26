@@ -166,6 +166,6 @@ extension String {
 
 extension Optional where Wrapped == String {
     var isNilOrEmpty: Bool {
-        return isEmpty ?? true
+        return self?.isEmpty ?? true
     }
 }
