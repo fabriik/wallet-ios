@@ -22,7 +22,7 @@ enum NetworkingError: FEError {
     
     case sessionNotVerified
     
-    case dataUnavailible
+    case dataUnavailable
     
     case unprocessableEntity
     
@@ -61,7 +61,7 @@ enum NetworkingError: FEError {
             self = .sessionNotVerified
             
         case 404:
-            self = .dataUnavailible
+            self = .dataUnavailable
             
         case 422:
             self = .unprocessableEntity

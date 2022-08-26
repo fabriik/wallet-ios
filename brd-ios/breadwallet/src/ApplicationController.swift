@@ -381,9 +381,7 @@ class ApplicationController: Subscriber, Trackable {
                 
                 self?.homeScreenViewController?.canShowPrompts = true
                 
-            case .failure(let error):
-                guard let error = error as? NetworkingError, error == .sessionExpired else { return }
-                
+            case .failure:
                 if let token = UserDefaults.walletTokenValue {
                     let newDeviceRequestData = NewDeviceRequestData(token: token)
                     NewDeviceWorker().execute(requestData: newDeviceRequestData) { [weak self] result in
@@ -395,6 +393,8 @@ class ApplicationController: Subscriber, Trackable {
                             self?.coordinator?.showRegistration()
                             
                         case .failure(let error):
+                            guard let error = error as? NetworkingError, error != .dataUnavailable else { return }
+                            
                             self?.coordinator?.showMessage(with: error)
                         }
                         
