@@ -86,20 +86,25 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let sendingFee = "Sending network fee\n(not included)"
         let receivingFee = "Receiving network fee\n(included)"
         
-        let fromFiatValue = actionResponse.from?.fiatValue == 0 ? nil : ExchangeFormatter.crypto.string(from: (actionResponse.from?.fiatValue ?? 0) as NSNumber)
+        let fromFiatValue = actionResponse.from?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(from: (actionResponse.from?.fiatValue ?? 0) as NSNumber)
         let fromTokenValue = actionResponse.from?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(from: (actionResponse.from?.tokenValue ?? 0) as NSNumber)
-        let toFiatValue = actionResponse.to?.fiatValue == 0 ? nil : ExchangeFormatter.crypto.string(from: (actionResponse.to?.fiatValue ?? 0) as NSNumber)
+        let toFiatValue = actionResponse.to?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(from: (actionResponse.to?.fiatValue ?? 0) as NSNumber)
         let toTokenValue = actionResponse.to?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(from: (actionResponse.to?.tokenValue ?? 0) as NSNumber)
         
+        let fromFormattedFiatString = ExchangeFormatter.createAmountString(string: fromFiatValue ?? "")
+        let fromFormattedTokenString = ExchangeFormatter.createAmountString(string: fromTokenValue ?? "")
+        let toFormattedFiatString = ExchangeFormatter.createAmountString(string: toFiatValue ?? "")
+        let toFormattedTokenString = ExchangeFormatter.createAmountString(string: toTokenValue ?? "")
+        
         let swapModel = MainSwapViewModel(from: .init(amount: actionResponse.from,
-                                                      formattedFiatString: fromFiatValue,
-                                                      formattedTokenString: fromTokenValue,
+                                                      formattedFiatString: fromFormattedFiatString,
+                                                      formattedTokenString: fromFormattedTokenString,
                                                       fee: actionResponse.fromFee,
                                                       title: .text(balanceText),
                                                       feeDescription: .text(sendingFee)),
                                           to: .init(amount: actionResponse.to,
-                                                    formattedFiatString: toFiatValue,
-                                                    formattedTokenString: toTokenValue,
+                                                    formattedFiatString: toFormattedFiatString,
+                                                    formattedTokenString: toFormattedTokenString,
                                                     fee: actionResponse.toFee,
                                                     title: .text("I want"),
                                                     feeDescription: .text(receivingFee)))

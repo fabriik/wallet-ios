@@ -169,8 +169,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             
         }
         
-        dataStore.from = amountFrom(decimal: from, currency: fromCurrency)
-        dataStore.to = amountFrom(decimal: to, currency: toCurrency)
+        dataStore.from = dataStore.amountFrom(decimal: from, currency: fromCurrency)
+        dataStore.to = dataStore.amountFrom(decimal: to, currency: toCurrency)
         
         let minimum = Amount(tokenString: dataStore.quote?.minimumValue.description ?? "", currency: fromCurrency)
         
@@ -199,16 +199,17 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let group = DispatchGroup()
         group.enter()
         
-        guard let wallet = dataStore?.coreSystem?.wallet(for: from.currency),
+        guard let dataStore = dataStore,
+              let wallet = dataStore.coreSystem?.wallet(for: from.currency),
               let kvStore = Backend.kvStore,
-              let keyStore = dataStore?.keyStore,
-              let address = dataStore?.address(for: from.currency)
+              let keyStore = dataStore.keyStore,
+              let address = dataStore.address(for: from.currency)
         else {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
             return
         }
         
-        var value = amountFrom(decimal: from.tokenValue, currency: from.currency)
+        var value = dataStore.amountFrom(decimal: from.tokenValue, currency: from.currency)
         var sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
         sender.estimateFee(address: address,
                            amount: value,
@@ -244,16 +245,16 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             }
         }
         
-        guard let wallet = dataStore?.coreSystem?.wallet(for: to.currency),
-              let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore,
-              let address = dataStore?.address(for: to.currency)
+        guard let wallet = dataStore.coreSystem?.wallet(for: to.currency),
+              let kvStore = Backend.kvStore, let keyStore = dataStore.keyStore,
+              let address = dataStore.address(for: to.currency)
         else {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
             return
         }
         
         group.enter()
-        value = amountFrom(decimal: to.tokenValue, currency: to.currency)
+        value = dataStore.amountFrom(decimal: to.tokenValue, currency: to.currency)
         sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
         sender.estimateFee(address: address,
                            amount: value,
@@ -351,41 +352,26 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     // MARK: - Aditional helpers
     
-    private func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
-        guard let amount = decimal, spaces > 0 else { return .zero(currency) }
-        
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = spaces
-        
-        let amountString = formatter.string(for: amount) ?? ""
-        let value = Amount(tokenString: amountString, currency: currency)
-        
-        guard value.tokenValue != 0 else {
-            return amountFrom(decimal: decimal, currency: currency, spaces: spaces - 1)
-        }
-        return value
-        
-    }
-    
     private func createTransaction(from swap: Swap?) {
-        guard let currency = dataStore?.currencies.first(where: { $0.code == swap?.currency }),
-              let wallet = dataStore?.coreSystem?.wallet(for: currency),
-              let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore else {
+        guard let dataStore = dataStore,
+              let currency = dataStore.currencies.first(where: { $0.code == swap?.currency }),
+              let wallet = dataStore.coreSystem?.wallet(for: currency),
+              let kvStore = Backend.kvStore, let keyStore = dataStore.keyStore else {
             // TODO: handle error
             return
         }
         
         guard let destination = swap?.address,
               let amountValue = swap?.amount,
-              let fee = dataStore?.fromFee,
-              let exchangeId = dataStore?.swap?.exchangeId
+              let fee = dataStore.fromFee,
+              let exchangeId = dataStore.swap?.exchangeId
         else {
-            presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee(fee: dataStore?.fromFeeEth ?? 0)))
+            presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee(fee: dataStore.fromFeeEth ?? 0)))
             return
         }
         
         let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-        let amount = amountFrom(decimal: amountValue, currency: currency)
+        let amount = dataStore.amountFrom(decimal: amountValue, currency: currency)
         let result = sender.createTransaction(address: destination,
                                               amount: amount,
                                               feeBasis: fee,
@@ -438,7 +424,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             error = SwapErrors.balanceTooLow(balance: currency.state?.balance?.tokenValue ?? 0, currency: currency.code)
             
         case .noExchangeRate:
-            error = SwapErrors.noQuote(pair: dataStore?.swapPair)
+            error = SwapErrors.noQuote(pair: dataStore.swapPair)
             
         case .noFees:
             error = SwapErrors.noFees

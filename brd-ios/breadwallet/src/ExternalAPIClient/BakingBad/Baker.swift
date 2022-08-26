@@ -43,22 +43,19 @@ public struct Baker: Codable {
     }
     
     var roiString: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
+        let formatter = ExchangeFormatter.current
         formatter.maximumFractionDigits = 3
         return "\(formatter.string(from: NSNumber(value: estimatedRoi * 100.0)) ?? "") %"
     }
     
     var feeString: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
+        let formatter = ExchangeFormatter.current
         formatter.maximumFractionDigits = 3
         return "\(formatter.string(from: NSNumber(value: fee * 100.0)) ?? "") %"
     }
     
     var freeSpaceString: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
+        let formatter = ExchangeFormatter.current
         formatter.maximumFractionDigits = 0
         return "\(formatter.string(from: NSNumber(value: freeSpace / 1000)) ?? "0") K"
     }

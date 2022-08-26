@@ -286,8 +286,7 @@ extension Decimal {
 
 extension String {
     func usDecimalString(fromLocale inputLocale: Locale) -> String {
-        let expectedFormat = NumberFormatter()
-        expectedFormat.numberStyle = .decimal
+        let expectedFormat = ExchangeFormatter.current
         expectedFormat.locale = Locale(identifier: C.usLocaleCode)
         
         // createUInt256ParseDecimal expects en_us formatted string

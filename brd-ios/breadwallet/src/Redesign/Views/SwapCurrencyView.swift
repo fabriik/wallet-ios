@@ -8,6 +8,8 @@
 //  See the LICENSE file at the project root for license information.
 //
 
+// TODO: Refactor configs and models.
+
 import UIKit
 
 struct SwapCurrencyConfiguration: Configurable {
@@ -17,8 +19,8 @@ struct SwapCurrencyConfiguration: Configurable {
 
 struct SwapCurrencyViewModel: ViewModel {
     var amount: Amount?
-    var formattedFiatString: String?
-    var formattedTokenString: String?
+    var formattedFiatString: NSMutableAttributedString?
+    var formattedTokenString: NSMutableAttributedString?
     var fee: Amount?
     var title: LabelViewModel?
     var feeDescription: LabelViewModel?
@@ -45,6 +47,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         let view = UIStackView()
         view.axis = .horizontal
         view.distribution = .equalSpacing
+        view.spacing = Margins.small.rawValue
         return view
     }()
     
@@ -107,7 +110,6 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private lazy var cryptoStack: UIStackView = {
         let view = UIStackView()
-        view.spacing = Margins.extraSmall.rawValue
         return view
     }()
     
@@ -225,15 +227,25 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         let spacer = UIView()
         cryptoStack.addArrangedSubview(spacer)
+        spacer.snp.makeConstraints { make in
+            make.width.lessThanOrEqualToSuperview().priority(.required)
+        }
+        
         cryptoStack.addArrangedSubview(cryptoAmountField)
         cryptoAmountField.snp.makeConstraints { make in
-            make.width.lessThanOrEqualToSuperview().priority(.low)
+            make.width.lessThanOrEqualToSuperview()
         }
+        
+        cryptoAmountField.setContentHuggingPriority(.required, for: .horizontal)
         
         cryptoAmountField.addSubview(cryptoLineView)
         cryptoLineView.snp.makeConstraints { make in
             make.height.equalTo(ViewSizes.minimum.rawValue)
             make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        fiatAmountField.snp.makeConstraints { make in
+            make.width.lessThanOrEqualTo(selectorStackView.snp.width)
         }
         
         mainStack.addArrangedSubview(feeAndAmountsStackView)
@@ -310,11 +322,11 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         titleLabel.setup(with: viewModel.title)
         
         if !fiatAmountField.isFirstResponder {
-            fiatAmountField.text = viewModel.formattedFiatString
+            fiatAmountField.attributedText = viewModel.formattedFiatString
         }
         
         if !cryptoAmountField.isFirstResponder {
-            cryptoAmountField.text = viewModel.formattedTokenString
+            cryptoAmountField.attributedText = viewModel.formattedTokenString
         }
         
         codeLabel.text = viewModel.amount?.currency.code

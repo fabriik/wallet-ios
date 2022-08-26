@@ -65,10 +65,13 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let fromFiatValue = actionResponse.amount?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(for: actionResponse.amount?.fiatValue ?? 0)
         let fromTokenValue = actionResponse.amount?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(from: (actionResponse.amount?.tokenValue ?? 0) as NSNumber)
         
+        let formattedFiatString = ExchangeFormatter.createAmountString(string: fromFiatValue ?? "")
+        let formattedTokenString = ExchangeFormatter.createAmountString(string: fromTokenValue ?? "")
+        
         // TODO: Localize
         cryptoModel = .init(amount: actionResponse.amount,
-                            formattedFiatString: fromFiatValue,
-                            formattedTokenString: fromTokenValue,
+                            formattedFiatString: formattedFiatString,
+                            formattedTokenString: formattedTokenString,
                             title: .text("I want"))
         
         if let paymentCard = actionResponse.card {

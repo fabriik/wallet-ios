@@ -42,7 +42,7 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
         }
         
         if let number = viewAction.number {
-            dataStore?.cardNumber = number.trimmingCharacters(in: .whitespacesAndNewlines)
+            dataStore?.cardNumber = number.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         }
         
         if let cvv = viewAction.cvv {

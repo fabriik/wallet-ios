@@ -54,22 +54,24 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     var keyStore: KeyStore?
     
     // MARK: - Aditional helpers
+    
     func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
         guard let amount = decimal, spaces > 0 else { return .zero(currency) }
         
-        let formatter = NumberFormatter()
+        let formatter = ExchangeFormatter.current
         formatter.maximumFractionDigits = spaces
         
         let amountString = formatter.string(for: amount) ?? ""
         let rate = Rate(code: currency.code,
-                        name: currency.code,
+                        name: currency.name,
                         rate: 1 / (quote?.exchangeRate.doubleValue ?? 1),
                         reciprocalCode: "")
-        
         let value = Amount(tokenString: amountString, currency: currency, rate: rate)
+        
         guard value.tokenValue != 0 else {
             return amountFrom(decimal: decimal, currency: currency, spaces: spaces - 1)
         }
+        
         return value
     }
     
