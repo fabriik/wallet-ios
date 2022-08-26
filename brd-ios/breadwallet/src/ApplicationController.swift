@@ -393,6 +393,8 @@ class ApplicationController: Subscriber, Trackable {
                             self?.coordinator?.showRegistration()
                             
                         case .failure(let error):
+                            guard let error = error as? NetworkingError, error != .dataUnavailable else { return }
+                            
                             self?.coordinator?.showMessage(with: error)
                         }
                         
