@@ -30,6 +30,7 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         tableView.register(WrapperTableViewCell<AssetView>.self)
         tableView.register(WrapperTableViewCell<OrderView>.self)
         tableView.register(WrapperTableViewCell<TransactionView>.self)
+        tableView.register(WrapperTableViewCell<BuyOrderView>.self)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -48,6 +49,10 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
             
         case .timestamp, .transactionTo:
             cell = self.tableView(tableView, transactionCellForRowAt: indexPath)
+            
+            // TODO: WIP
+//        case .order:
+//            cell = self.tableView(tableView, orderCellForRowAt: indexPath)
             
         case .none:
             cell = UITableViewCell()
@@ -109,6 +114,28 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         
         return cell
     }
+    
+//    func tableView(_ tableView: UITableView, orderCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let section = sections[indexPath.section]
+//        guard let cell: WrapperTableViewCell<BuyOrderView> = tableView.dequeueReusableCell(for: indexPath),
+//              let model = sectionRows[section]?[indexPath.row] as? BuyOrderViewModel
+//        else {
+//            return UITableViewCell()
+//        }
+//        
+//        cell.setup { view in
+//            view.configure(with: .init())
+//            view.setup(with: model)
+//            view.cardFeeInfoTapped = { [weak self] in
+//                self?.interactor?.showInfoPopup(viewAction: .init(isCardFee: true))
+//            }
+//            view.networkFeeInfoTapped = { [weak self] in
+//                self?.interactor?.showInfoPopup(viewAction: .init(isCardFee: false))
+//            }
+//        }
+//        
+//        return cell
+//    }
 
     // MARK: - User Interaction
 

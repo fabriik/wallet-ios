@@ -107,8 +107,7 @@ extension TxDetailViewModel {
         //TODO:CRYPTO incoming token transfers have a feeBasis with 0 values
         if let feeBasis = tx.feeBasis,
             (currency.isEthereum || (currency.isEthereumCompatible && tx.direction == .sent)) {
-            let gasFormatter = NumberFormatter()
-            gasFormatter.numberStyle = .decimal
+            let gasFormatter = ExchangeFormatter.current
             gasFormatter.maximumFractionDigits = 0
             self.gasLimit = gasFormatter.string(from: feeBasis.costFactor as NSNumber)
 

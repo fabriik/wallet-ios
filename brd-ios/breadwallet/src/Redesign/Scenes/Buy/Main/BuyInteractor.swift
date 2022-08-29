@@ -28,7 +28,9 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             case .success:
                 self.getExchangeRate(viewAction: .init())
                 self.presenter?.presentData(actionResponse: .init(item: Models.Item(amount: .zero(currency), paymentCard: self.dataStore?.paymentCard)))
-                self.presenter?.presentAssets(actionResponse: .init(amount: self.dataStore?.toAmount, card: self.dataStore?.paymentCard))
+                self.presenter?.presentAssets(actionResponse: .init(amount: self.dataStore?.toAmount,
+                                                                    card: self.dataStore?.paymentCard,
+                                                                    quote: self.dataStore?.quote))
                 
             case .failure(let error):
                 self.presenter?.presentError(actionResponse: .init(error: error))
@@ -82,7 +84,9 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         
         getFees()
         
-        presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount, card: dataStore?.paymentCard))
+        presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
+                                                       card: dataStore?.paymentCard,
+                                                       quote: dataStore?.quote))
     }
     
     func getExchangeRate(viewAction: Models.Rate.ViewAction) {
@@ -132,7 +136,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                 self?.dataStore?.toFee = fee
                 
                 self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
-                                                                     card: self?.dataStore?.paymentCard))
+                                                                     card: self?.dataStore?.paymentCard,
+                                                                     quote: self?.dataStore?.quote))
                 
             case .failure(let error):
                 guard to.currency.isEthereumCompatible == true else {
@@ -149,7 +154,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                         self?.dataStore?.toFee = nil
                         self?.dataStore?.ethFee = fee?.fee
                         self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
-                                                                             card: self?.dataStore?.paymentCard))
+                                                                             card: self?.dataStore?.paymentCard,
+                                                                             quote: self?.dataStore?.quote))
                         
                     case .failure(let error):
                         self?.dataStore?.ethFee = nil
@@ -175,57 +181,6 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     }
     
     func showOrderPreview(viewAction: BuyModels.OrderPreview.ViewAction) {
-        let fiat = dataStore?.from ?? 0
-        let profile = UserManager.shared.profile
-        let dailyLimit = profile?.buyDailyRemainingLimit ?? 0
-        let lifetimeLimit = profile?.buyLifetimeRemainingLimit ?? 0
-        let exchangeLimit = profile?.buyAllowancePerPurchase    ?? 0
-        let minimumAmount = dataStore?.quote?.minimumValue ?? 0
-        let maximumAmount = dataStore?.quote?.maximumValue ?? 0
-        
-        var hasError = false
-        switch fiat {
-        case _ where fiat <= 0:
-            // fiat value is bellow 0
-            presenter?.presentError(actionResponse: .init(error: nil))
-            hasError = true
-            
-        case _ where minimumAmount > maximumAmount:
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.notPermitted))
-            hasError = true
-            
-        case _ where fiat < minimumAmount:
-            // value bellow minimum fiat
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
-            hasError = true
-            
-        case _ where fiat > maximumAmount:
-            // over exchange limit ???
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.tooHigh(amount: maximumAmount, currency: C.usdCurrencyCode)))
-            hasError = true
-            
-        case _ where fiat > dailyLimit:
-            // over daily limit
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.overDailyLimit))
-            hasError = true
-            
-        case _ where fiat > lifetimeLimit:
-            // over lifetime limit
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.overLifetimeLimit))
-            hasError = true
-            
-        case _ where fiat > exchangeLimit:
-            // over exchange limit ???
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.overExchangeLimit))
-            hasError = true
-            
-        default:
-            // remove error
-            presenter?.presentError(actionResponse: .init(error: nil))
-        }
-        
-        guard hasError == false else { return }
-        
         presenter?.presentOrderPreview(actionResponse: .init())
     }
     

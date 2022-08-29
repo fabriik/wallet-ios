@@ -50,6 +50,22 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     
     // MARK: - Aditional helpers
     
+    func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
+        guard let amount = decimal, spaces > 0 else { return .zero(currency) }
+        
+        let formatter = ExchangeFormatter.current
+        formatter.maximumFractionDigits = spaces
+        
+        let amountString = formatter.string(for: amount) ?? ""
+        let value = Amount(tokenString: amountString, currency: currency)
+        
+        guard value.tokenValue != 0 else {
+            return amountFrom(decimal: decimal, currency: currency, spaces: spaces - 1)
+        }
+        
+        return value
+    }
+    
     var fromFeeAmount: Amount? {
         if let value = fromFeeEth,
            let currency = currencies.first(where: { $0.code == "ETH" }) {

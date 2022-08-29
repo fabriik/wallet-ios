@@ -65,10 +65,13 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let fromFiatValue = actionResponse.amount?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(for: actionResponse.amount?.fiatValue ?? 0)
         let fromTokenValue = actionResponse.amount?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(from: (actionResponse.amount?.tokenValue ?? 0) as NSNumber)
         
+        let formattedFiatString = ExchangeFormatter.createAmountString(string: fromFiatValue ?? "")
+        let formattedTokenString = ExchangeFormatter.createAmountString(string: fromTokenValue ?? "")
+        
         // TODO: Localize
         cryptoModel = .init(amount: actionResponse.amount,
-                            formattedFiatString: fromFiatValue,
-                            formattedTokenString: fromTokenValue,
+                            formattedFiatString: formattedFiatString,
+                            formattedTokenString: formattedTokenString,
                             title: .text("I want"))
         
         if let paymentCard = actionResponse.card {
@@ -78,6 +81,29 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
                               userInteractionEnabled: true)
         } else {
             cardModel = .init(userInteractionEnabled: true)
+        }
+        
+        let fiat = actionResponse.amount?.fiatValue ?? 0
+        let minimumAmount = actionResponse.quote?.minimumUsd ?? 0
+        let maximumAmount = actionResponse.quote?.maximumUsd ?? 0
+        
+        switch fiat {
+        case _ where fiat <= 0:
+            // fiat value is bellow 0
+            presentError(actionResponse: .init(error: nil))
+            
+        case _ where fiat < minimumAmount,
+                            _ where minimumAmount > maximumAmount:
+            // value bellow minimum fiat
+            presentError(actionResponse: .init(error: BuyErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
+            
+        case _ where fiat > maximumAmount:
+            // over exchange limit ???
+            presentError(actionResponse: .init(error: BuyErrors.tooHigh(amount: maximumAmount, currency: C.usdCurrencyCode)))
+            
+        default:
+            // remove error
+            presentError(actionResponse: .init(error: nil))
         }
         
         viewController?.displayAssets(responseDisplay: .init(cryptoModel: cryptoModel, cardModel: cardModel))

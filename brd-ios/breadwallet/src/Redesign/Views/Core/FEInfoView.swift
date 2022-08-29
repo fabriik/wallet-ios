@@ -245,12 +245,14 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
             break
         }
         
+        layoutIfNeeded()
         guard headerLeadingView.isHidden,
               headerTitleLabel.isHidden,
               headerTrailingView.isHidden else {
             return
         }
         headerStackView.isHidden = true
+        layoutIfNeeded()
     }
     
     @objc private func headerButtonTapped(_ sender: UIButton?) {
