@@ -60,12 +60,9 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         open(scene: Scenes.Failure) { vc in
             vc.failure = FailureReason.buy
             vc.firstCallback = { [weak self] in
-                CATransaction.begin()
-                CATransaction.setCompletionBlock {
+                self?.navigationController.popToRootViewController(animated: true) { [weak self] in
                     (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getPaymentCards(viewAction: .init())
                 }
-                self?.navigationController.popToRootViewController(animated: true)
-                CATransaction.commit()
             }
             
             vc.secondCallback = { [weak self] in
@@ -79,14 +76,9 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.navigationItem.setHidesBackButton(true, animated: false)
             
             vc.firstCallback = { [weak self] in
-                self?.navigationController.popToRootViewController(animated: true)
-                
-                CATransaction.begin()
-                CATransaction.setCompletionBlock {
+                self?.navigationController.popToRootViewController(animated: true) { [weak self] in
                     (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getData(viewAction: .init())
                 }
-                self?.navigationController.popToRootViewController(animated: true)
-                CATransaction.commit()
             }
         }
     }

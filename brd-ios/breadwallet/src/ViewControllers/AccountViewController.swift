@@ -283,9 +283,11 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
             vc.dataStore?.itemId = String(transaction.swapOrderId ?? -1)
             vc.dataStore?.sceneTitle = transaction.transactionType == .swapTransaction ? "Swap details" : "Purchase details"
             vc.dataStore?.transactionType = transaction.transactionType
-            vc.prepareData()
             
-            navigationController?.pushViewController(vc, animated: true)
+            LoadingView.show()
+            navigationController?.pushViewController(viewController: vc, animated: true) {
+                LoadingView.hide()
+            }
         }
     }
     
