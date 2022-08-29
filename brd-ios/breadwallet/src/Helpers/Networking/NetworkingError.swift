@@ -14,6 +14,7 @@ struct GeneralError: FEError {
 }
 
 enum NetworkingError: FEError {
+    case general
     case noConnection
     /// Status code 103
     case parameterMissing
@@ -30,6 +31,9 @@ enum NetworkingError: FEError {
     
     var errorMessage: String {
         switch self {
+        case .general:
+            return "We are having temporary network issues. Please try again later."
+
         case .noConnection:
             return "Please, check your internet connection and try again later."
 //        case .parameterMissing:
