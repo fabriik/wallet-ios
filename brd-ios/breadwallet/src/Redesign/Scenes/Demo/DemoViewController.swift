@@ -33,7 +33,7 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
         sectionRows = [
             Models.Section.order: [
                 OrderViewModel(title: "Fabriik Order ID",
-                               presentedValue: NSAttributedString(string: "13rXEZoh5NFj4q9aasdfkLp2..."),
+                               value: NSAttributedString(string: "13rXEZoh5NFj4q9aasdfkLp2..."),
                                isFullValue: false)
             ]
         ]

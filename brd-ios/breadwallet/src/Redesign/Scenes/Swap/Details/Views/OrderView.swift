@@ -28,7 +28,7 @@ struct OrderConfiguration: Configurable {
 
 struct OrderViewModel: ViewModel {
     var title: String
-    var presentedValue: NSAttributedString
+    var value: NSAttributedString
     var isFullValue: Bool
 }
 
@@ -106,13 +106,13 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         super.setup(with: viewModel)
         
         titleLabel.setup(with: .text(viewModel.title))
-        valueLabel.setup(with: .attributedText(viewModel.presentedValue))
+        valueLabel.setup(with: .attributedText(viewModel.value))
     }
     
     // MARK: - User interaction
     
     @objc private func viewTapped() {
         // TODO: Localize
-        didCopyValue?("Copied: \(String(describing: viewModel?.presentedValue.string))")
+        didCopyValue?(viewModel?.value.string)
     }
 }

@@ -114,7 +114,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             Models.Section.header: [header],
             Models.Section.order: [
                 OrderViewModel(title: "Fabriik Transaction ID",
-                               presentedValue: SwapDetailsPresenter.generateAttributedOrderValue(with: orderValue),
+                               value: SwapDetailsPresenter.generateAttributedOrderValue(with: orderValue),
                                isFullValue: false)
             ],
             Models.Section.buyOrder: [
@@ -149,7 +149,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             ],
             Models.Section.transactionFrom: [
                 OrderViewModel(title: "\(detail.source.currency) Transaction ID",
-                               presentedValue: SwapDetailsPresenter.generateAttributedOrderValue(with: transactionFromValue),
+                               value: SwapDetailsPresenter.generateAttributedOrderValue(with: transactionFromValue),
                                isFullValue: true)
             ],
             Models.Section.transactionTo: [
