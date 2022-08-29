@@ -16,43 +16,26 @@ enum BuyErrors: FEError {
     case tooLow(amount: Decimal, currency: String)
     /// Param 1: amount, param 2 currency symbol
     case tooHigh(amount: Decimal, currency: String)
-    /// Param 1&2 -> currency, param 3 balance
-    case overDailyLimit
-    case overLifetimeLimit
-    case overExchangeLimit
     case pinConfirmation
-    case notPermitted
     case authorizationFailed
     
     var errorMessage: String {
         switch self {
         case .tooLow(let amount, let currency):
-            return String(format: "The amount is lower than the buy minimum of %.1f %@.",
+            return String(format: "The amount is lower than the minimum of $%.0f %@. Please enter a higher amount.",
                           amount.doubleValue,
                           currency)
             
         case .tooHigh(let amount, let currency):
-            return String(format: "The amount is higher than your daily limit of %.0f %@.",
+            return String(format: "The amount is higher than your daily limit of $%.0f %@. Please enter a lower amount.",
                           amount.doubleValue,
                           currency)
-            
-        case .overDailyLimit:
-            return "You have reached your swap limit of 1,000 USD a day. Please upgrade your limits or change the amount for this swap."
-            
-        case .overLifetimeLimit:
-            return "You have reached your lifetime swap limit of 10,000 USD. Please upgrade your limits or change the amount for this swap."
             
         case .noQuote(let pair):
             return "No quote for currency pair \(pair ?? "<missing>")."
             
-        case .overExchangeLimit:
-            return "Over exchange limit."
-            
         case  .pinConfirmation:
             return "PIN Authentication failed"
-            
-        case .notPermitted:
-            return "KYC 2 is needed before buys are enabled."
             
         case .authorizationFailed:
             return "Card authorization failed. Please contact your credit card issuer/bank or try another card."

@@ -84,10 +84,6 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         }
         
         let fiat = actionResponse.amount?.fiatValue ?? 0
-        let profile = UserManager.shared.profile
-        let dailyLimit = profile?.buyDailyRemainingLimit ?? 0
-        let lifetimeLimit = profile?.buyLifetimeRemainingLimit ?? 0
-        let exchangeLimit = profile?.buyAllowancePerPurchase    ?? 0
         let minimumAmount = actionResponse.quote?.minimumUsd ?? 0
         let maximumAmount = actionResponse.quote?.maximumUsd ?? 0
         
@@ -96,28 +92,14 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             // fiat value is bellow 0
             presentError(actionResponse: .init(error: nil))
             
-        case _ where minimumAmount > maximumAmount:
-            presentError(actionResponse: .init(error: BuyErrors.notPermitted))
-            
-        case _ where fiat < minimumAmount:
+        case _ where fiat < minimumAmount,
+                            _ where minimumAmount > maximumAmount:
             // value bellow minimum fiat
             presentError(actionResponse: .init(error: BuyErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
             
         case _ where fiat > maximumAmount:
             // over exchange limit ???
             presentError(actionResponse: .init(error: BuyErrors.tooHigh(amount: maximumAmount, currency: C.usdCurrencyCode)))
-            
-        case _ where fiat > dailyLimit:
-            // over daily limit
-            presentError(actionResponse: .init(error: BuyErrors.overDailyLimit))
-            
-        case _ where fiat > lifetimeLimit:
-            // over lifetime limit
-            presentError(actionResponse: .init(error: BuyErrors.overLifetimeLimit))
-            
-        case _ where fiat > exchangeLimit:
-            // over exchange limit ???
-            presentError(actionResponse: .init(error: BuyErrors.overExchangeLimit))
             
         default:
             // remove error
