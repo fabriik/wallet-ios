@@ -28,8 +28,8 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         super.setupSubviews()
         
         tableView.register(WrapperTableViewCell<AssetView>.self)
-        tableView.register(WrapperTableViewCell<OrderView>.self)
         tableView.register(WrapperTableViewCell<TransactionView>.self)
+        tableView.register(WrapperTableViewCell<OrderView>.self)
         tableView.register(WrapperTableViewCell<BuyOrderView>.self)
     }
     
@@ -50,9 +50,8 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         case .timestamp, .transactionTo:
             cell = self.tableView(tableView, transactionCellForRowAt: indexPath)
             
-            // TODO: WIP
-//        case .order:
-//            cell = self.tableView(tableView, orderCellForRowAt: indexPath)
+        case .buyOrder:
+            cell = self.tableView(tableView, buyOrderCellForRowAt: indexPath)
             
         case .none:
             cell = UITableViewCell()
@@ -88,14 +87,31 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         }
         
         cell.setup { view in
-            view.configure(with: .init())
             view.setup(with: model)
-            view.copyCallback = { [weak self] code in
-                self?.coordinator?.showMessage(model: InfoViewModel(description: .text(code), dismissType: .auto),
-                                               configuration: Presets.InfoView.error)
+            view.configure(with: .init())
+            view.didCopyValue = { [weak self] value in
+                // Not good to use Coordinators here as this screen is not always being initialized through Coordinators.
+                // With this way we also get iOS's stock string copy warning notification.
+                self?.interactor?.copyValue(viewAction: .init(value: value))
             }
         }
         
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, buyOrderCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        guard let cell: WrapperTableViewCell<BuyOrderView> = tableView.dequeueReusableCell(for: indexPath),
+              let model = sectionRows[section]?[indexPath.row] as? BuyOrderViewModel
+        else {
+            return UITableViewCell()
+        }
+        
+        cell.setup { view in
+            view.configure(with: .init())
+            view.setup(with: model)
+        }
+
         return cell
     }
     
@@ -115,28 +131,6 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, orderCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let section = sections[indexPath.section]
-//        guard let cell: WrapperTableViewCell<BuyOrderView> = tableView.dequeueReusableCell(for: indexPath),
-//              let model = sectionRows[section]?[indexPath.row] as? BuyOrderViewModel
-//        else {
-//            return UITableViewCell()
-//        }
-//        
-//        cell.setup { view in
-//            view.configure(with: .init())
-//            view.setup(with: model)
-//            view.cardFeeInfoTapped = { [weak self] in
-//                self?.interactor?.showInfoPopup(viewAction: .init(isCardFee: true))
-//            }
-//            view.networkFeeInfoTapped = { [weak self] in
-//                self?.interactor?.showInfoPopup(viewAction: .init(isCardFee: false))
-//            }
-//        }
-//        
-//        return cell
-//    }
-
     // MARK: - User Interaction
 
     // MARK: - SwapDetailsResponseDisplay

@@ -30,10 +30,7 @@ class AssetSelectionViewController: ItemSelectionViewController {
         }
         
         cell.setup { view in
-            let enabledConfig = Presets.Asset.Enabled
-            let disabledConfig = Presets.Asset.Disabled
-            
-            view.configure(with: model.isDisabled ? disabledConfig : enabledConfig)
+            view.configure(with: model.isDisabled ? Presets.Asset.Disabled : Presets.Asset.Enabled)
             view.setup(with: model)
         }
         

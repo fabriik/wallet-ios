@@ -118,10 +118,10 @@ class Transaction {
     
     var hash: String { return transfer.hash?.description ?? "" }
     
-    enum TransactionType {
+    enum TransactionType: String {
+        case swapTransaction = "SWAP"
+        case buyTransaction = "BUY"
         case defaultTransaction
-        case swapTransaction
-        case buyTransaction
     }
     
     var transactionType: TransactionType = .defaultTransaction
@@ -132,8 +132,7 @@ class Transaction {
     
     var status: TransactionStatus {
         switch transactionType {
-        case .defaultTransaction,
-                .buyTransaction:
+        case .defaultTransaction, .buyTransaction:
             switch transfer.state {
             case .created, .signed, .submitted, .pending:
                 return .pending
