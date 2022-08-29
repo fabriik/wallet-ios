@@ -12,7 +12,6 @@ import Foundation
 
 enum SwapErrors: FEError {
     case noQuote(pair: String?)
-    case general
     /// Param 1: amount, param 2 currency symbol
     case tooLow(amount: Decimal, currency: String)
     /// Param 1: amount, param 2 currency symbol
@@ -37,9 +36,6 @@ enum SwapErrors: FEError {
                           currency,
                           currency,
                           ExchangeFormatter.crypto.string(for: balance) ?? "0.00")
-            
-        case .general:
-            return "BSV network is experiencing network issues. Swapping assets is temporarily unavailable."
             
         case .tooLow(let amount, let currency):
             return String(format: "The amount is lower than the swap minimum of %.1f %@.",
