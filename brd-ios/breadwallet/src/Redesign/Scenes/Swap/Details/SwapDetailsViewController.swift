@@ -91,7 +91,6 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
             view.configure(with: .init())
             view.didCopyValue = { [weak self] value in
                 // Not good to use Coordinators here as this screen is not always being initialized through Coordinators.
-                // With this way we also get iOS's stock string copy warning notification.
                 self?.interactor?.copyValue(viewAction: .init(value: value))
             }
         }

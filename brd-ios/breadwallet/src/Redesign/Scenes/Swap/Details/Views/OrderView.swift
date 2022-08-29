@@ -29,7 +29,7 @@ struct OrderConfiguration: Configurable {
 struct OrderViewModel: ViewModel {
     var title: String
     var value: NSAttributedString
-    var isFullValue: Bool
+    var showsFullValue: Bool
 }
 
 class OrderView: FEView<OrderConfiguration, OrderViewModel> {
@@ -86,7 +86,7 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        bottomStack.configure(background: viewModel?.isFullValue == true ? config?.valueContentFull : config?.valueContentSmall)
+        bottomStack.configure(background: viewModel?.showsFullValue == true ? config?.valueContentFull : config?.valueContentSmall)
         configure(background: config?.background)
         configure(shadow: config?.shadow)
     }
@@ -95,8 +95,8 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         super.configure(with: config)
         
         titleLabel.configure(with: config?.title)
-        valueLabel.configure(with: viewModel?.isFullValue == true ? config?.valueFull : config?.valueSmall)
-        bottomStack.configure(background: viewModel?.isFullValue == true ? config?.valueContentFull : config?.valueContentSmall)
+        valueLabel.configure(with: viewModel?.showsFullValue == true ? config?.valueFull : config?.valueSmall)
+        bottomStack.configure(background: viewModel?.showsFullValue == true ? config?.valueContentFull : config?.valueContentSmall)
         configure(background: config?.background)
         configure(shadow: config?.shadow)
     }
@@ -112,7 +112,6 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
     // MARK: - User interaction
     
     @objc private func viewTapped() {
-        // TODO: Localize
         didCopyValue?(viewModel?.value.string)
     }
 }
