@@ -20,6 +20,7 @@ enum SwapErrors: FEError {
     case balanceTooLow(balance: Decimal, currency: String)
     case overDailyLimit
     case overLifetimeLimit
+    case overDailyLimitLevel2
     // TODO: Unoficial errors
     case notEnouthEthForFee(fee: Decimal)
     case noFees
@@ -38,7 +39,7 @@ enum SwapErrors: FEError {
                           ExchangeFormatter.crypto.string(for: balance) ?? "0.00")
             
         case .tooLow(let amount, let currency):
-            return String(format: "The amount is lower than the swap minimum of %.1f %@.",
+            return String(format: "The amount is lower than the minimum of %.1f %@. Please enter a higher amount.",
                           amount.doubleValue,
                           currency)
             
@@ -48,10 +49,13 @@ enum SwapErrors: FEError {
                           currency)
             
         case .overDailyLimit:
-            return "You have reached your swap limit of 1,000 USD a day. Please upgrade your limits or change the amount for this swap."
+            return "The amount is higher than your daily limit of $1,000 USD. Please upgrade your account or enter a lower amount."
             
         case .overLifetimeLimit:
-            return "You have reached your lifetime swap limit of 10,000 USD. Please upgrade your limits or change the amount for this swap."
+            return "The amount is higher than your lifetime limit of $10,000 USD. Please upgrade your account or enter a lower amount."
+            
+        case .overDailyLimitLevel2:
+            return "The amount is higher than your daily limit of $10,000 USD. Please enter a lower amount."
             
         case .noFees:
             return "No network fees."

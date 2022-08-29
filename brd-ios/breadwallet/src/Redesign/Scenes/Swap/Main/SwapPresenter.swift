@@ -148,7 +148,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 
             case _ where value > dailyLimit:
                 // over daily limit
-                presentError(actionResponse: .init(error: SwapErrors.overDailyLimit))
+                let error = profile?.status == .levelTwo(.levelTwo) ? SwapErrors.overDailyLimitLevel2 : SwapErrors.overDailyLimit
+                presentError(actionResponse: .init(error: error))
                 hasError = true
                 
             case _ where value > lifetimeLimit:
