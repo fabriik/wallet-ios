@@ -34,9 +34,10 @@ struct TextFieldConfiguration: Configurable {
 }
 
 extension TextFieldConfiguration {
-    mutating func setSecure(_ isSecure: Bool) -> TextFieldConfiguration {
-        isSecureTextEntry = isSecure
-        return self
+    func setSecure(_ isSecure: Bool) -> TextFieldConfiguration {
+        var copy = self
+        copy.isSecureTextEntry = isSecure
+        return copy
     }
 }
 
