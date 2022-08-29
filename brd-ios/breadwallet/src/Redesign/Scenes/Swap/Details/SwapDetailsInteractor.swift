@@ -33,7 +33,8 @@ class SwapDetailsInteractor: NSObject, Interactor, SwapDetailsViewActions {
     }
     
     func copyValue(viewAction: SwapDetailsModels.CopyValue.ViewAction) {
-        UIPasteboard.general.string = viewAction.value
+        let value = (viewAction.value ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        UIPasteboard.general.string = value
     }
     
     // MARK: - Aditional helpers

@@ -113,6 +113,6 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
     
     @objc private func viewTapped() {
         // TODO: Localize
-        didCopyValue?("Copied: \(String(describing: viewModel?.presentedValue.string.trimmingCharacters(in: .whitespacesAndNewlines)))")
+        didCopyValue?("Copied: \(String(describing: viewModel?.presentedValue.string))")
     }
 }
