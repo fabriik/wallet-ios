@@ -155,6 +155,6 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         bottomRightLabel.setup(with: .text(viewModel.bottomRightText))
         bottomRightLabel.isHidden = viewModel.bottomRightText == nil || viewModel.isDisabled
         
-        valueStack.isHidden = viewModel.topRightText == nil && viewModel.bottomRightText == nil
+        valueStack.isHidden = topRightLabel.isHidden && bottomRightLabel.isHidden
     }
 }
