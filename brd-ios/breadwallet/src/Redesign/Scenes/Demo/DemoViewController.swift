@@ -31,10 +31,8 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
         ]
         
         sectionRows = [
-            Models.Section.order: [
-                OrderViewModel(title: "Fabriik Order ID",
-                               value: NSAttributedString(string: "13rXEZoh5NFj4q9aasdfkLp2..."),
-                               showsFullValue: false)
+            Models.Section.asset: [
+                AssetViewModel(icon: .init(named: "close"), title: "Porkamoasdfoaksdfoaskdfoasdkf", topRightText: "asdofkadsofkasopdf jkaspdofk jaspdofk aspofk apsodfk apsodfk pasdfk psoafk psad")
             ]
         ]
         
