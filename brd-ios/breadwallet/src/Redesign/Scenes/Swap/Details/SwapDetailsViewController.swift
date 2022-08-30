@@ -17,7 +17,17 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
     typealias Models = SwapDetailsModels
     
     override var sceneLeftAlignedTitle: String? {
-        return dataStore?.sceneTitle
+        // TODO: Localize
+        switch dataStore?.transactionType {
+        case .buyTransaction:
+            return "Purchase details"
+            
+        case .swapTransaction:
+            return "Swap details"
+            
+        default:
+            return ""
+        }
     }
     
     override var isModalDismissableEnabled: Bool { return isModalDismissable }
