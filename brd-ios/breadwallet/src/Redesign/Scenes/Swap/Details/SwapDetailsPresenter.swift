@@ -85,7 +85,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
         let rate = String(format: "1 %@ = %@ %@", detail.destination.currency, ExchangeFormatter.fiat.string(for: 1 / (detail.rate)) ?? "", currencyCode)
         
         let totalText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.currencyAmount) ?? "", currencyCode)
-        let amountText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.usdAmount) ?? "", currencyCode)
+        let amountText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.currencyAmount - detail.source.usdFee - detail.destination.usdFee) ?? "", currencyCode)
         let cardFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.usdFee) ?? "", currencyCode)
         let networkFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.destination.usdFee) ?? "", currencyCode)
         
