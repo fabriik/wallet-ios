@@ -1318,11 +1318,8 @@
 /* Segwit enabled confirmation title */
 "Segwit.ConfirmationConfirmationTitle" = "Ativou o SegWit!";
 
-/* Segwit enabled confirmation description */
-"Segwit.ConfirmationInstructionsDescription" = "Obrigado por ajudar a fazer a bitcoin avançar.";
-
 /* Segwit instructions */
-"Segwit.ConfirmationInstructionsInstructions" = "O suporte do SegWit ainda é um recurso beta.\nQuando o SegWit estiver ativado, não será possível desativá-lo. Poderá encontrar o endereço legado nas Configurações.\nAlguns serviços de terceiros, incluindo a criptografia, podem estar indisponíveis para utilizadores que ativaram o SegWit. Em caso de emergência, poderá gerar um endereço legado em Preferências> Configurações de Bitcoin.\nO SegWit será automaticamente ativado para todos os utilizadores numa futura atualização.";
+"Segwit.ConfirmationInstructionsInstructions" = "O suporte do SegWit ainda é um recurso beta.\nQuando o SegWit estiver ativado, não será possível desativá-lo. Poderá encontrar o endereço legado nas Configurações.\nAlguns serviços de terceiros, incluindo a criptografia, podem estar indisponíveis para utilizadores que ativaram o SegWit. Em caso de emergência, poderá gerar um endereço legado em Preferências> Configurações de BTC.\nO SegWit será automaticamente ativado para todos os utilizadores numa futura atualização.";
 
 /* Segwit extra confirmation title. */
 "Segwit.ConfirmChoiceLayout" = "A ativação do SegWit é uma opção irreversível. Tem a certeza de que pretende continuar?";
