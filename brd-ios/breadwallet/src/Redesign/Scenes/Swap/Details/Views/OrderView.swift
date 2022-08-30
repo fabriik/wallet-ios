@@ -11,19 +11,11 @@
 import UIKit
 
 struct OrderConfiguration: Configurable {
-    var title = LabelConfiguration(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1)
-    var valueSmall = LabelConfiguration(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1, lineBreakMode: .byTruncatingTail)
-    var valueFull = LabelConfiguration(font: Fonts.Body.two, textColor: LightColors.Link.two, textAlignment: .center, numberOfLines: 0)
-    var shadow: ShadowConfiguration? = Presets.Shadow.light
-    var background: BackgroundConfiguration? = .init(backgroundColor: LightColors.Background.one,
-                                                     tintColor: LightColors.Text.one,
-                                                     border: Presets.Border.zero)
-    var valueContentSmall = BackgroundConfiguration(tintColor: LightColors.Text.one,
-                                                    border: .init(tintColor: LightColors.Text.one,
-                                                                  borderWidth: BorderWidth.minimum.rawValue,
-                                                                  cornerRadius: .medium))
-    var valueContentFull = BackgroundConfiguration(tintColor: LightColors.Text.one,
-                                                   border: .init(borderWidth: 0, cornerRadius: .zero))
+    var title: LabelConfiguration?
+    var value: LabelConfiguration?
+    var shadow: ShadowConfiguration?
+    var background: BackgroundConfiguration?
+    var contentBackground: BackgroundConfiguration?
 }
 
 struct OrderViewModel: ViewModel {
@@ -86,7 +78,7 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        bottomStack.configure(background: viewModel?.showsFullValue == true ? config?.valueContentFull : config?.valueContentSmall)
+        bottomStack.configure(background: config?.contentBackground)
         configure(background: config?.background)
         configure(shadow: config?.shadow)
     }
@@ -95,8 +87,8 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         super.configure(with: config)
         
         titleLabel.configure(with: config?.title)
-        valueLabel.configure(with: viewModel?.showsFullValue == true ? config?.valueFull : config?.valueSmall)
-        bottomStack.configure(background: viewModel?.showsFullValue == true ? config?.valueContentFull : config?.valueContentSmall)
+        valueLabel.configure(with: config?.value)
+        bottomStack.configure(background: config?.contentBackground)
         configure(background: config?.background)
         configure(shadow: config?.shadow)
     }

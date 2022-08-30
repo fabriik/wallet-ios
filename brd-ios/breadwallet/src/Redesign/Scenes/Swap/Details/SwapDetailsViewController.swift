@@ -88,7 +88,7 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         
         cell.setup { view in
             view.setup(with: model)
-            view.configure(with: .init())
+            view.configure(with: model.showsFullValue ? Presets.Order.full : Presets.Order.small)
             view.didCopyValue = { [weak self] value in
                 // Not good to use Coordinators here as this screen is not always being initialized through Coordinators.
                 self?.interactor?.copyValue(viewAction: .init(value: value))
