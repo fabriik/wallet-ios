@@ -67,7 +67,7 @@ class EmailFeedbackManager: NSObject, MFMailComposeViewControllerDelegate {
         self.presentingViewController = viewController
     }
     
-    func send(completion:(@escaping(Result<MFMailComposeResult, Error>) -> Void)) {
+    func send(completion: (@escaping(Result<MFMailComposeResult, Error>) -> Void)) {
         self.completion = completion
         
         mailVC.mailComposeDelegate = self
