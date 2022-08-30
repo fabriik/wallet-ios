@@ -130,6 +130,13 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         return cell
     }
     
+    override func dismissModal() {
+        guard coordinator == nil else {
+            super.dismissModal()
+            return
+        }
+        navigationController?.popViewController(animated: true)
+    }
     // MARK: - User Interaction
 
     // MARK: - SwapDetailsResponseDisplay
