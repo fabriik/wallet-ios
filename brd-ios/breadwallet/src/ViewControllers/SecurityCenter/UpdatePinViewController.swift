@@ -194,7 +194,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
             switch step {
             case .verify:
                 self?.didUpdateForCurrent(pin: text)
-            case .new :
+            case .new:
                 self?.didUpdateForNew(pin: text)
             case .confirmNew:
                 self?.didUpdateForConfirmNew(pin: text)

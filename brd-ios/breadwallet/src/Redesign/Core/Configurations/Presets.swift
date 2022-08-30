@@ -445,7 +445,8 @@ extension Presets {
 extension Presets {
     struct Order {
         static var small = OrderConfiguration(title: .init(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1),
-                                              value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1, lineBreakMode: .byTruncatingTail),
+                                              value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1,
+                                                           lineBreakMode: .byTruncatingTail),
                                               shadow: Presets.Shadow.light,
                                               background: .init(backgroundColor: LightColors.Background.one,
                                                                 tintColor: LightColors.Text.one,
@@ -463,5 +464,65 @@ extension Presets {
                                                                border: Presets.Border.zero),
                                              contentBackground: .init(tintColor: LightColors.Text.one,
                                                                       border: .init(borderWidth: 0, cornerRadius: .zero)))
+    }
+}
+
+extension Presets {
+    struct Asset {
+        static var Header = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
+                                               bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two),
+                                               topRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .right),
+                                               bottomRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right),
+                                               backgroundConfiguration: .init(backgroundColor: LightColors.tertiary,
+                                                                              tintColor: LightColors.Text.one,
+                                                                              border: Presets.Border.zero),
+                                               imageConfig: .init(backgroundColor: LightColors.pending,
+                                                                  tintColor: .white,
+                                                                  border: .init(borderWidth: 0,
+                                                                                cornerRadius: .medium)),
+                                               imageSize: .small)
+        
+        static var Enabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
+                                                bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two),
+                                                topRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .right),
+                                                bottomRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right))
+        
+        static var Disabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one.withAlphaComponent(0.5)),
+                                                 bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two.withAlphaComponent(0.5)),
+                                                 topRightConfiguration: .init(font: Fonts.Subtitle.two,
+                                                                              textColor: LightColors.Text.one.withAlphaComponent(0.5),
+                                                                              textAlignment: .right),
+                                                 bottomRightConfiguration: .init(font: Fonts.Subtitle.two,
+                                                                                 textColor: LightColors.Text.two.withAlphaComponent(0.5),
+                                                                                 textAlignment: .right),
+                                                 imageAlpha: 0.5)
+    }
+    
+    struct StatusView {
+        static var pending = AssetViewModel(icon: UIImage(named: "pendingIcon"), title: "Pending")
+        static var complete = AssetViewModel(icon: UIImage(named: "completeIcon"), title: "Complete")
+        static var failed = AssetViewModel(icon: UIImage(named: "errorIcon")?.withRenderingMode(.alwaysOriginal), title: "Failed")
+    }
+}
+
+extension Presets {
+    struct TitleValue {
+        static var horizontal = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1),
+                                                        value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
+        
+        static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1),
+                                                      value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
+        
+        static var verticalSmall = TitleValueConfiguration(title: .init(font: Fonts.caption, textColor: LightColors.Text.one, numberOfLines: 1),
+                                                           value: .init(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .right))
+        
+        static var subtitle = TitleValueConfiguration(title: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, numberOfLines: 1),
+                                                      value: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, textAlignment: .right))
+    }
+}
+
+extension Presets {
+    struct Timer {
+        static var one = TimerConfiguration(background: .init(tintColor: LightColors.primary), font: Fonts.Body.two)
     }
 }

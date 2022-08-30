@@ -10,12 +10,6 @@
 
 import UIKit
 
-extension Presets {
-    struct Timer {
-        static var one = TimerConfiguration(background: .init(tintColor: LightColors.primary), font: Fonts.Body.two)
-    }
-}
-
 struct TimerConfiguration: Configurable {
     var background: BackgroundConfiguration = .init(backgroundColor: .clear, tintColor: LightColors.primary)
     var font = Fonts.Body.two

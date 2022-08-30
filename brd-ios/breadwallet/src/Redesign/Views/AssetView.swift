@@ -10,44 +10,6 @@
 
 import UIKit
 
-extension Presets {
-    struct Asset {
-        static var Header = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
-                                               bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two),
-                                               topRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .right),
-                                               bottomRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right),
-                                               backgroundConfiguration: .init(backgroundColor: LightColors.tertiary,
-                                                                              tintColor: LightColors.Text.one,
-                                                                              border: Presets.Border.zero),
-                                               imageConfig: .init(backgroundColor: LightColors.pending,
-                                                                  tintColor: .white,
-                                                                  border: .init(borderWidth: 0,
-                                                                                cornerRadius: .medium)),
-                                               imageSize: .small)
-        
-        static var Enabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
-                                                bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two),
-                                                topRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .right),
-                                                bottomRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right))
-        
-        static var Disabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one.withAlphaComponent(0.5)),
-                                                 bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two.withAlphaComponent(0.5)),
-                                                 topRightConfiguration: .init(font: Fonts.Subtitle.two,
-                                                                              textColor: LightColors.Text.one.withAlphaComponent(0.5),
-                                                                              textAlignment: .right),
-                                                 bottomRightConfiguration: .init(font: Fonts.Subtitle.two,
-                                                                                 textColor: LightColors.Text.two.withAlphaComponent(0.5),
-                                                                                 textAlignment: .right),
-                                                 imageAlpha: 0.5)
-    }
-    
-    struct StatusView {
-        static var pending = AssetViewModel(icon: UIImage(named: "pendingIcon"), title: "Pending")
-        static var complete = AssetViewModel(icon: UIImage(named: "completeIcon"), title: "Complete")
-        static var failed = AssetViewModel(icon: UIImage(named: "errorIcon")?.withRenderingMode(.alwaysOriginal), title: "Failed")
-    }
-}
-
 struct AssetConfiguration: Configurable {
     var topConfiguration: LabelConfiguration?
     var bottomConfiguration: LabelConfiguration?

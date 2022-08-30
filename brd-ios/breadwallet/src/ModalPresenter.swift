@@ -240,7 +240,7 @@ class ModalPresenter: Subscriber, Trackable {
         case .receiveLegacy:
             guard let btc = Currencies.shared.btc else { return nil }
             return makeReceiveView(currency: btc, isRequestAmountVisible: false, isBTCLegacy: true)
-        case .gift :
+        case .gift:
             guard let currency = Currencies.shared.btc else { return nil }
             guard let wallet = system.wallet(for: currency),
                 let kvStore = Backend.kvStore else { assertionFailure(); return nil }

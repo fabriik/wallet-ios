@@ -10,22 +10,6 @@
 
 import UIKit
 
-extension Presets {
-    struct TitleValue {
-        static var horizontal = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1),
-                                                        value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
-        
-        static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1),
-                                                      value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
-        
-        static var verticalSmall = TitleValueConfiguration(title: .init(font: Fonts.caption, textColor: LightColors.Text.one, numberOfLines: 1),
-                                                           value: .init(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .right))
-        
-        static var subtitle = TitleValueConfiguration(title: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, numberOfLines: 1),
-                                                      value: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, textAlignment: .right))
-    }
-}
-
 struct TitleValueConfiguration: Configurable {
     var title: LabelConfiguration
     var value: LabelConfiguration

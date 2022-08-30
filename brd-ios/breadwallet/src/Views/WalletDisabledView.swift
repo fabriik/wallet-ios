@@ -75,7 +75,7 @@ class WalletDisabledView: UIView {
     }()
     
     private lazy var unlockWalletImage: UIImageView = {
-        let unlockWalletImage = UIImageView(image: UIImage(named: "unlock-wallet"))
+        let unlockWalletImage = UIImageView(image: UIImage(named: "unlock-wallet-disabled"))
         unlockWalletImage.contentMode = .scaleAspectFit
         
         return unlockWalletImage
