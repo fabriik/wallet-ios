@@ -13,7 +13,6 @@ import UIKit
 struct BackgroundConfiguration: BackgorundConfigurable {
     var backgroundColor: UIColor = .clear
     var tintColor: UIColor = .clear
-    
     var border: BorderConfiguration?
 }
 
