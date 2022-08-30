@@ -13,10 +13,10 @@ import UIKit
 struct TransactionConfiguration: Configurable {
     var title = LabelConfiguration(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 1)
     var description = LabelConfiguration(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1)
-    var shadow = Presets.Shadow.normal
-    var background = BackgroundConfiguration(backgroundColor: LightColors.Background.one,
-                                             tintColor: LightColors.Outline.two,
-                                             border: Presets.Border.zero)
+    var shadow: ShadowConfiguration? = Presets.Shadow.light
+    var background: BackgroundConfiguration? = .init(backgroundColor: LightColors.Background.one,
+                                                     tintColor: LightColors.Text.one,
+                                                     border: Presets.Border.zero)
 }
 
 struct TransactionViewModel: ViewModel {
@@ -51,33 +51,35 @@ class TransactionView: FEView<TransactionConfiguration, TransactionViewModel> {
         content.addSubview(stack)
         stack.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.top.greaterThanOrEqualTo(content.snp.topMargin)
+            make.top.greaterThanOrEqualTo(content.snp.topMargin).inset(Margins.medium.rawValue)
+            make.bottom.greaterThanOrEqualTo(content.snp.bottomMargin).inset(Margins.medium.rawValue)
             make.leading.greaterThanOrEqualTo(content.snp.leadingMargin)
         }
         
         stack.addArrangedSubview(titleLabel)
         stack.addArrangedSubview(descriptionLabel)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.15
-        layer.shadowRadius = 4.0
-        layer.shadowOffset = .zero
-        layoutIfNeeded()
+        configure(background: config?.background)
+        configure(shadow: config?.shadow)
     }
     
     override func configure(with config: TransactionConfiguration?) {
         super.configure(with: config)
         
-        configure(shadow: config?.shadow)
-        configure(background: config?.background)
         titleLabel.configure(with: config?.title)
         descriptionLabel.configure(with: config?.description)
+        configure(shadow: config?.shadow)
+        configure(background: config?.background)
     }
     
     override func setup(with viewModel: TransactionViewModel?) {
         guard let viewModel = viewModel else { return }
-
         super.setup(with: viewModel)
+        
         titleLabel.setup(with: .text(viewModel.title))
         descriptionLabel.setup(with: .text(viewModel.description))
     }

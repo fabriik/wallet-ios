@@ -9,12 +9,12 @@
 import UIKit
 
 enum SwapDetailsModels {
-   // SwapDetails
-    typealias Item = SwapDetail
+    typealias Item = (detail: SwapDetail, type: Transaction.TransactionType)
     
     enum Section: Sectionable {
         case header
         case order
+        case buyOrder
         case fromCurrency
         case image
         case toCurrency
@@ -24,5 +24,11 @@ enum SwapDetailsModels {
         
         var header: AccessoryType? { return nil }
         var footer: AccessoryType? { return nil }
+    }
+    
+    struct CopyValue {
+        struct ViewAction {
+            var value: String?
+        }
     }
 }
