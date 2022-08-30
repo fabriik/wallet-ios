@@ -73,13 +73,13 @@ enum SwapModels {
         }
         
         struct ActionResponse {
-            var from: [String]?
-            var to: [String]?
+            var from: [Currency]?
+            var to: [Currency]?
         }
         
         struct ResponseDisplay {
-            var from: [String]?
-            var to: [String]?
+            var from: [Currency]?
+            var to: [Currency]?
         }
     }
     
