@@ -13,6 +13,7 @@ extension Scenes {
 }
 
 protocol SwapDetailsViewActions: BaseViewActions, FetchViewActions {
+    func copyValue(viewAction: SwapDetailsModels.CopyValue.ViewAction)
 }
 
 protocol SwapDetailsActionResponses: BaseActionResponses, FetchActionResponses {
@@ -23,6 +24,7 @@ protocol SwapDetailsResponseDisplays: AnyObject, BaseResponseDisplays, FetchResp
 
 protocol SwapDetailsDataStore: BaseDataStore, FetchDataStore {
     var sceneTitle: String? { get set }
+    var transactionType: Transaction.TransactionType { get set }
 }
 
 protocol SwapDetailsDataPassing {

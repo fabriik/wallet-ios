@@ -1281,14 +1281,12 @@ internal enum L10n {
   internal enum Segwit {
     /// You have enabled SegWit!
     internal static let confirmationConfirmationTitle = L10n.tr("Localizable", "Segwit.ConfirmationConfirmationTitle")
-    /// Thank you for helping move bitcoin forward.
-    internal static let confirmationInstructionsDescription = L10n.tr("Localizable", "Segwit.ConfirmationInstructionsDescription")
     /// SegWit support is still a beta feature.
     /// 
     /// Once SegWit is enabled, it will not be possible
     /// to disable it. You will be able to find the legacy address under Settings. 
     /// 
-    /// Some third-party services, including crypto trading, may be unavailable to users who have enabled SegWit. In case of emergency, you will be able to generate a legacy address from Preferences > Bitcoin Settings. 
+    /// Some third-party services, including crypto trading, may be unavailable to users who have enabled SegWit. In case of emergency, you will be able to generate a legacy address from Preferences > BTC Settings. 
     /// 
     /// SegWit will automatically be enabled for all
     /// users in a future update.
@@ -1297,7 +1295,7 @@ internal enum L10n {
     internal static let confirmChoiceLayout = L10n.tr("Localizable", "Segwit.ConfirmChoiceLayout")
     /// Enable
     internal static let enable = L10n.tr("Localizable", "Segwit.Enable")
-    /// To the Moon
+    /// Proceed
     internal static let homeButton = L10n.tr("Localizable", "Segwit.HomeButton")
   }
 

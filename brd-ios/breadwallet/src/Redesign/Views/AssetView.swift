@@ -12,8 +12,10 @@ import UIKit
 
 extension Presets {
     struct Asset {
-        static var Header = AssetConfiguration(topConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one),
+        static var Header = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
                                                bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two),
+                                               topRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .right),
+                                               bottomRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right),
                                                backgroundConfiguration: .init(backgroundColor: LightColors.tertiary,
                                                                               tintColor: LightColors.Text.one,
                                                                               border: Presets.Border.zero),
@@ -23,14 +25,14 @@ extension Presets {
                                                                                 cornerRadius: .medium)),
                                                imageSize: .small)
         
-        static var Enabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one),
+        static var Enabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
                                                 bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two),
-                                                topRightConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one, textAlignment: .right),
+                                                topRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .right),
                                                 bottomRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right))
         
-        static var Disabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one.withAlphaComponent(0.5)),
+        static var Disabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one.withAlphaComponent(0.5)),
                                                  bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two.withAlphaComponent(0.5)),
-                                                 topRightConfiguration: .init(font: Fonts.Title.six,
+                                                 topRightConfiguration: .init(font: Fonts.Subtitle.two,
                                                                               textColor: LightColors.Text.one.withAlphaComponent(0.5),
                                                                               textAlignment: .right),
                                                  bottomRightConfiguration: .init(font: Fonts.Subtitle.two,
@@ -78,6 +80,9 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
     
     private lazy var iconView: WrapperView<FEImageView> = {
         let view = WrapperView<FEImageView>()
+        // TODO: Configs for corner radius on FEImageViews are not working because radius is being set to "content" view instead of image.
+        view.layer.cornerRadius = CornerRadius.extraSmall.rawValue
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -154,7 +159,7 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         
         titleLabel.configure(with: config.topConfiguration)
         topRightLabel.configure(with: config.topRightConfiguration)
-        
+
         subtitleLabel.configure(with: config.bottomConfiguration)
         bottomRightLabel.configure(with: config.bottomRightConfiguration)
         

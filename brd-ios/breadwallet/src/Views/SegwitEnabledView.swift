@@ -61,9 +61,5 @@ class SegwitEnabledView: UIView {
         
         primaryLabel.text = L10n.Segwit.confirmationConfirmationTitle
         primaryLabel.textAlignment = .center
-        
-        secondaryLabel.text = L10n.Segwit.confirmationInstructionsDescription
-        secondaryLabel.textAlignment = .center
-
     }
 }

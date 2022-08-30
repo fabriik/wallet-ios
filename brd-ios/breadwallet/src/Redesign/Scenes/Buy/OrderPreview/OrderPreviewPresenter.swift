@@ -35,13 +35,13 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let networkFee = item.networkFee?.fiatValue ?? 0
         let fiatCurrency = (quote.fromFeeCurrency?.feeCurrency ?? C.usdCurrencyCode).uppercased()
         
-        let currencyFormatter = "%@ %@"
-        let amountText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: to) ?? "", fiatCurrency)
-        let cardFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: cardFee) ?? "", fiatCurrency)
-        let networkFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: networkFee) ?? "", fiatCurrency)
+        let currencyFormat = "%@ %@"
+        let amountText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: to) ?? "", fiatCurrency)
+        let cardFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: cardFee) ?? "", fiatCurrency)
+        let networkFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: networkFee) ?? "", fiatCurrency)
         
         let rate = String(format: "1 %@ = %@ %@", toAmount.currency.code, ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "", fiatCurrency)
-        let totalText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: toFiatValue + networkFee + cardFee) ?? "", fiatCurrency)
+        let totalText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: toFiatValue + networkFee + cardFee) ?? "", fiatCurrency)
         let wrappedViewModel: BuyOrderViewModel = .init(currencyIcon: .image(toCryptoDisplayImage),
                                                         currencyAmountName: .text(toCryptoValue + " " + toCryptoDisplayName),
                                                         rate: .init(exchangeRate: rate, timer: nil),
@@ -107,12 +107,10 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
     func presentInfoPopup(actionResponse: OrderPreviewModels.InfoPopup.ActionResponse) {
         let model: PopupViewModel
         
-        if  actionResponse.isCardFee,
-            let fee = actionResponse.fee {
-            let feeText = String(format: "An extra fee of %.0f%% is required to cover processing of credit card purchases.", fee.doubleValue)
+        if actionResponse.isCardFee {
+            let feeText = "This fee is charged to cover costs associated with payment processing."
             model = .init(title: .text("Card fee"), body: feeText)
         } else {
-            
             model = .init(title: .text("Network fees"),
                           body: """
     Network fee prices vary depending on the blockchain in which you are receiving your assets. This is an external fee to cover mining and transaction costs.

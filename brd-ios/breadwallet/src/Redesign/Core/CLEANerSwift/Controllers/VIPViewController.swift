@@ -85,14 +85,14 @@ class VIPViewController<C: CoordinatableRoutes,
         presenter.viewController = self as? P.ResponseDisplays
         interactor?.presenter = presenter as? I.ActionResponses
         interactor?.dataStore = dataStore as? I.DataStore
-
-        setupSubviews()
-        localize()
     }
 
     // MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupSubviews()
+        localize()
         prepareData()
     }
     

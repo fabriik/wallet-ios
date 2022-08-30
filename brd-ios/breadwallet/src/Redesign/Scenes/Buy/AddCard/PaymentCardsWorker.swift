@@ -11,7 +11,7 @@
 import UIKit
 
 struct PaymentCardsResponseData: ModelResponse {
-    struct PaymentInstruments: ModelResponse {
+    struct PaymentInstrument: ModelResponse {
         var id: String?
         var fingerprint: String?
         var expiryMonth: Int?
@@ -20,7 +20,7 @@ struct PaymentCardsResponseData: ModelResponse {
         var last4: String?
     }
     
-    var paymentInstruments: [PaymentInstruments]
+    var paymentInstruments: [PaymentInstrument]
 }
 
 struct PaymentCard: ItemSelectable {

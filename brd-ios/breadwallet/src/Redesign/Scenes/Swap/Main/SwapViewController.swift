@@ -230,7 +230,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay) {
-        coordinator?.showAssetSelector(currencies: dataStore?.currencies,
+        coordinator?.showAssetSelector(currencies: responseDisplay.to ?? responseDisplay.from,
                                        supportedCurrencies: dataStore?.supportedCurrencies,
                                        selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }

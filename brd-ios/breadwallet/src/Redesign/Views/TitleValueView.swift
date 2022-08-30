@@ -12,8 +12,8 @@ import UIKit
 
 extension Presets {
     struct TitleValue {
-        static var horizontal = TitleValueConfiguration(title: .init(font: Fonts.Body.one, textColor: LightColors.Text.two, numberOfLines: 1),
-                                                      value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
+        static var horizontal = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1),
+                                                        value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
         
         static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1),
                                                       value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))

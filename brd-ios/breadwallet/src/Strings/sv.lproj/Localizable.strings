@@ -1318,11 +1318,8 @@
 /* Segwit enabled confirmation title */
 "Segwit.ConfirmationConfirmationTitle" = "Du aktiverade Segwit!";
 
-/* Segwit enabled confirmation description */
-"Segwit.ConfirmationInstructionsDescription" = "Tack för att du hjälper bitcoin framåt.";
-
 /* Segwit instructions */
-"Segwit.ConfirmationInstructionsInstructions" = "Segwit-support är fortfarande på betastadiet. \nNär Segwit väl har aktiverats är det inte möjligt att avaktivera det. Du kan hitta den gamla adressen under Inställningar. \nVissa tredjepartstjänster, inklusive kryptohandel, kanske inte är tillgängliga för användare som har aktiverat Segwit. I nödfall har du möjlighet att skapa en gammal adress i Preferenser > Bitcoininställningar. \nSegwit kommer automatiskt att vara aktiverat för alla användare i en framtida uppdatering.";
+"Segwit.ConfirmationInstructionsInstructions" = "Segwit-support är fortfarande på betastadiet. \nNär Segwit väl har aktiverats är det inte möjligt att avaktivera det. Du kan hitta den gamla adressen under Inställningar. \nVissa tredjepartstjänster, inklusive kryptohandel, kanske inte är tillgängliga för användare som har aktiverat Segwit. I nödfall har du möjlighet att skapa en gammal adress i Preferenser > BTC-inställningar. \nSegwit kommer automatiskt att vara aktiverat för alla användare i en framtida uppdatering.";
 
 /* Segwit extra confirmation title. */
 "Segwit.ConfirmChoiceLayout" = "En aktivering av Segwit är oåterkallelig. Är du säker på att du vill fortsätta?";

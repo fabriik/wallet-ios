@@ -11,29 +11,26 @@
 import UIKit
 
 struct OrderConfiguration: Configurable {
-    var title = LabelConfiguration(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1)
-    var value = LabelConfiguration(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1, lineBreakMode: .byClipping)
-    var icon = BackgroundConfiguration(tintColor: LightColors.Text.one)
-    var valueContent = BackgroundConfiguration(tintColor: LightColors.Text.one,
-                                               border: .init(tintColor: LightColors.Text.one,
-                                                             borderWidth: BorderWidth.minimum.rawValue,
-                                                             cornerRadius: .fullRadius))
+    var title: LabelConfiguration?
+    var value: LabelConfiguration?
+    var shadow: ShadowConfiguration?
+    var background: BackgroundConfiguration?
+    var contentBackground: BackgroundConfiguration?
 }
 
 struct OrderViewModel: ViewModel {
     var title: String
-    var value: String
-    var imageName = "copy"
+    var value: NSAttributedString
+    var showsFullValue: Bool
 }
 
 class OrderView: FEView<OrderConfiguration, OrderViewModel> {
-    
-    var copyCallback: ((String?) -> Void)?
-    
     private lazy var stack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = Margins.extraSmall.rawValue
+        view.alignment = .center
+        view.distribution = .fill
         return view
     }()
     
@@ -44,6 +41,8 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
     
     private lazy var bottomStack: WrapperView<UIStackView> = {
         let view = WrapperView<UIStackView>()
+        view.wrappedView.alignment = .center
+        view.wrappedView.distribution = .fill
         return view
     }()
     
@@ -52,79 +51,59 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         return view
     }()
     
-    private lazy var imageView: WrapperView<FEImageView> = {
-        let view = WrapperView<FEImageView>()
-        return view
-    }()
-        
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        configure(background: config?.valueContent)
-    }
-
+    var didCopyValue: ((String?) -> Void)?
+    
     override func setupSubviews() {
         super.setupSubviews()
         
         content.addSubview(stack)
         stack.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.top.greaterThanOrEqualTo(content.snp.topMargin)
-            make.leading.greaterThanOrEqualTo(content.snp.leadingMargin)
+            make.top.greaterThanOrEqualTo(content.snp.topMargin).inset(Margins.medium.rawValue)
+            make.bottom.greaterThanOrEqualTo(content.snp.bottom).inset(Margins.medium.rawValue)
+            make.leading.greaterThanOrEqualTo(content.snp.leadingMargin).inset(Margins.huge.rawValue)
         }
         
         stack.addArrangedSubview(titleLabel)
         stack.addArrangedSubview(bottomStack)
+        
         bottomStack.wrappedView.addArrangedSubview(valueLabel)
-        bottomStack.wrappedView.addArrangedSubview(imageView)
-        imageView.wrappedView.snp.makeConstraints { make in
-            make.height.width.equalTo(14)
-        }
-        imageView.content.setupCustomMargins(all: .small)
-        bottomStack.content.setupCustomMargins(horizontal: .small)
+        bottomStack.content.setupCustomMargins(vertical: .extraSmall, horizontal: .medium)
+        bottomStack.setContentHuggingPriority(.required, for: .horizontal)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         content.addGestureRecognizer(tapGesture)
     }
     
-    override func configure(with config: OrderConfiguration?) {
-        super.configure(with: config)
-        titleLabel.configure(with: config?.title)
-        valueLabel.configure(with: config?.value)
-        imageView.tintColor = config?.valueContent.tintColor
-        configure(background: config?.valueContent)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        bottomStack.configure(background: config?.contentBackground)
+        configure(background: config?.background)
+        configure(shadow: config?.shadow)
     }
     
-    override func configure(background: BackgroundConfiguration?) {
-        guard let border = config?.valueContent.border else { return }
-        let content = bottomStack
+    override func configure(with config: OrderConfiguration?) {
+        super.configure(with: config)
         
-        let radius = border.cornerRadius == .fullRadius ? content.bounds.height / 2 : border.cornerRadius.rawValue
-        content.layer.cornerRadius = radius
-        content.layer.borderWidth = border.borderWidth
-        content.layer.borderColor = border.tintColor.cgColor
-        
-        content.layer.masksToBounds = false
-        content.layer.shadowColor = UIColor.clear.cgColor
-        content.layer.shadowOpacity = 0
-        content.layer.shadowOffset = .zero
-        content.layer.shadowRadius = 0
-        content.layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: radius).cgPath
-        content.layer.shouldRasterize = true
-        content.layer.rasterizationScale = UIScreen.main.scale
+        titleLabel.configure(with: config?.title)
+        valueLabel.configure(with: config?.value)
+        bottomStack.configure(background: config?.contentBackground)
+        configure(background: config?.background)
+        configure(shadow: config?.shadow)
     }
     
     override func setup(with viewModel: OrderViewModel?) {
         guard let viewModel = viewModel else { return }
-
         super.setup(with: viewModel)
+        
         titleLabel.setup(with: .text(viewModel.title))
-        valueLabel.setup(with: .text(viewModel.value))
-        imageView.wrappedView.setup(with: .imageName(viewModel.imageName))
+        valueLabel.setup(with: .attributedText(viewModel.value))
     }
     
     // MARK: - User interaction
+    
     @objc private func viewTapped() {
-        copyCallback?("Coppied \(viewModel?.value ?? "no_tx")!")
+        didCopyValue?(viewModel?.value.string)
     }
 }
