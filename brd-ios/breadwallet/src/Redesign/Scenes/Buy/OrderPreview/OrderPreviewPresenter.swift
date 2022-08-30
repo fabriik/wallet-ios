@@ -107,12 +107,10 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
     func presentInfoPopup(actionResponse: OrderPreviewModels.InfoPopup.ActionResponse) {
         let model: PopupViewModel
         
-        if  actionResponse.isCardFee,
-            let fee = actionResponse.fee {
-            let feeText = String(format: "An extra fee of %.0f%% is required to cover processing of credit card purchases.", fee.doubleValue)
+        if actionResponse.isCardFee {
+            let feeText = "This fee is charged to cover costs associated with payment processing."
             model = .init(title: .text("Card fee"), body: feeText)
         } else {
-            
             model = .init(title: .text("Network fees"),
                           body: """
     Network fee prices vary depending on the blockchain in which you are receiving your assets. This is an external fee to cover mining and transaction costs.
