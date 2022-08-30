@@ -293,9 +293,9 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
         let backgroundConfiguration: BackgroundConfiguration?
         
         if viewModel.isActive ?? true {
-            backgroundConfiguration = Presets.Background.Primary.normal.withBorder(border: Presets.Border.normal)
+            backgroundConfiguration = Presets.Background.Primary.normal.withBorder(border: Presets.Border.accountVerification)
         } else {
-            backgroundConfiguration = Presets.Background.Primary.disabled.withBorder(border: Presets.Border.normal)
+            backgroundConfiguration = Presets.Background.Primary.disabled.withBorder(border: Presets.Border.accountVerification)
             statusImageView.tintColor = LightColors.InteractionPrimary.disabled
         }
         benefitsLabel.configure(background: backgroundConfiguration)

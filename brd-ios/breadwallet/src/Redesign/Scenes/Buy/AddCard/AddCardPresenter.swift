@@ -68,7 +68,9 @@ final class AddCardPresenter: NSObject, Presenter, AddCardActionResponses {
     }
     
     func presentInfoPopup(actionResponse: AddCardModels.InfoPopup.ActionResponse) {
-        let model = Presets.BuyPopupView.cardSecurityCode
+        let model = PopupViewModel(title: .text("Security code (CVV)"),
+                                   imageName: "creditCard",
+                                   body: "Please enter the 3 digit CVV number as it appears on the back of your card")
         
         viewController?.displayInfoPopup(responseDisplay: .init(model: model))
     }

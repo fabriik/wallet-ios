@@ -50,6 +50,7 @@ struct Presets {
         static var disabled = BorderConfiguration(tintColor: .lightGray, borderWidth: 1, cornerRadius: .medium)
         static var cardDetails = BorderConfiguration(borderWidth: 0, cornerRadius: .extraSmall)
         static var error = BorderConfiguration(tintColor: LightColors.error, borderWidth: 1, cornerRadius: .medium)
+        static var accountVerification = BorderConfiguration(tintColor: LightColors.Outline.one, borderWidth: 1, cornerRadius: .small)
     }
     
     // TODO: add as needed
@@ -430,15 +431,6 @@ extension Presets {
                                             description: .text("Oops! We had some issues processing your data"),
                                             button: .init(title: "Why is my verification declined?"),
                                             dismissType: .persistent)
-    }
-}
-
-// TODO: presets were ment for designing views.. if u want reuse VMs we need some other struct for that :o
-extension Presets {
-    struct BuyPopupView {
-        static var cardSecurityCode = PopupViewModel(title: .text("Security code (CVV)"),
-                                                     imageName: "creditCard",
-                                                     body: "Please enter the 3 digit CVV number as it appears on the back of your card")
     }
 }
 
