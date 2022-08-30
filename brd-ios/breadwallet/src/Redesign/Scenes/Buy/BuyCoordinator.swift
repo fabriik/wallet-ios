@@ -107,7 +107,6 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId
             vc.dataStore?.transactionType = .buyTransaction
-            vc.dataStore?.sceneTitle = "Purchase details" // TODO: Localize.
             vc.prepareData()
         }
     }

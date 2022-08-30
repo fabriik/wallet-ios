@@ -12,8 +12,7 @@ class SwapDetailsStore: NSObject, BaseDataStore, SwapDetailsDataStore {
     var itemId: String?
     
     // MARK: - SwapDetailsDataStore
-
-    var sceneTitle: String?
+    
     var transactionType: Transaction.TransactionType = .defaultTransaction
     
     // MARK: - Aditional helpers
