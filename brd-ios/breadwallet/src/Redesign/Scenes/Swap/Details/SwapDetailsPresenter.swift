@@ -82,12 +82,17 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
         let dateString = formatter.string(from: date)
         
         let currencyFormat = "%@ %@"
-        let rate = String(format: "1 %@ = %@ %@", detail.destination.currency, ExchangeFormatter.fiat.string(for: 1 / (detail.rate)) ?? "", currencyCode)
-        
-        let totalText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.currencyAmount) ?? "", currencyCode)
-        let amountText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.usdAmount) ?? "", currencyCode)
-        let cardFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.usdFee) ?? "", currencyCode)
-        let networkFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.destination.usdFee) ?? "", currencyCode)
+        let rate = String(format: "1 %@ = %@ %@", detail.destination.currency, ExchangeFormatter.fiat.string(for: 1 / (detail.rate)) ?? "",
+                          currencyCode)
+        let totalText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.currencyAmount) ?? "",
+                               currencyCode)
+        let amountValue = detail.source.currencyAmount - detail.source.usdFee - detail.destination.usdFee
+        let amountText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: amountValue) ?? "",
+                                currencyCode)
+        let cardFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.usdFee) ?? "",
+                                 currencyCode)
+        let networkFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.destination.usdFee) ?? "",
+                                    currencyCode)
         
         let orderValue = "\(detail.orderId)"
         let transactionFromValue = "\(String(describing: detail.source.transactionId))"
@@ -102,7 +107,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             
         case .buyTransaction:
             toCurrencyAssetViewModel = AssetViewModel(icon: toImage,
-                                                      title: "\(detail.destination.currencyAmount) \(detail.destination.currency)",
+                                                      title: "\(formattedCurrencyAmountDestination) \(detail.destination.currency)",
                                                       topRightText: nil)
             
         default:
