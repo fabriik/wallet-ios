@@ -164,6 +164,12 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         
         guard let index = transactions.firstIndex(where: { txHash == $0.hash }) else { return false }
         
+        // if transaction count stayed the same perform tableView updates block, else reloadData.
+        guard transactions.count == tableView.numberOfRows(inSection: 0) else {
+            tableView.reloadData()
+            return true
+        }
+        
         tableView.beginUpdates()
         tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
         tableView.endUpdates()

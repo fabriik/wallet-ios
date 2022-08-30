@@ -23,7 +23,6 @@ protocol SwapDetailsResponseDisplays: AnyObject, BaseResponseDisplays, FetchResp
 }
 
 protocol SwapDetailsDataStore: BaseDataStore, FetchDataStore {
-    var sceneTitle: String? { get set }
     var transactionType: Transaction.TransactionType { get set }
 }
 
