@@ -107,6 +107,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId
             vc.dataStore?.transactionType = .buyTransaction
+            vc.dataStore?.sceneTitle = "Purchase details" // TODO: Localize.
             vc.prepareData()
         }
     }
@@ -118,11 +119,12 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             open(scene: Scenes.CardSelection) { [weak self] vc in
                 vc.dataStore?.isAddingEnabled = true
                 vc.dataStore?.items = cards
+                vc.prepareData()
+                
                 vc.itemSelected = { item in
                     selected?(item as? PaymentCard)
                     self?.popFlow()
                 }
-                vc.prepareData()
                 
                 vc.addItemTapped = { [weak self] in
                     self?.open(scene: Scenes.AddCard)

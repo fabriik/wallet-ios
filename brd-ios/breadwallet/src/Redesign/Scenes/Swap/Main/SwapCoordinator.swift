@@ -51,6 +51,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
             vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId
             vc.dataStore?.transactionType = .swapTransaction
+            vc.dataStore?.sceneTitle = "Swap details" // TODO: Localize.
             vc.prepareData()
         }
     }
