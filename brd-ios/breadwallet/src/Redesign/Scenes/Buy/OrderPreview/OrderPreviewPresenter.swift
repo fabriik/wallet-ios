@@ -35,13 +35,13 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let networkFee = item.networkFee?.fiatValue ?? 0
         let fiatCurrency = (quote.fromFeeCurrency?.feeCurrency ?? C.usdCurrencyCode).uppercased()
         
-        let currencyFormatter = "%@ %@"
-        let amountText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: to) ?? "", fiatCurrency)
-        let cardFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: cardFee) ?? "", fiatCurrency)
-        let networkFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: networkFee) ?? "", fiatCurrency)
+        let currencyFormat = "%@ %@"
+        let amountText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: to) ?? "", fiatCurrency)
+        let cardFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: cardFee) ?? "", fiatCurrency)
+        let networkFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: networkFee) ?? "", fiatCurrency)
         
         let rate = String(format: "1 %@ = %@ %@", toAmount.currency.code, ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "", fiatCurrency)
-        let totalText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: toFiatValue + networkFee + cardFee) ?? "", fiatCurrency)
+        let totalText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: toFiatValue + networkFee + cardFee) ?? "", fiatCurrency)
         let wrappedViewModel: BuyOrderViewModel = .init(currencyIcon: .image(toCryptoDisplayImage),
                                                         currencyAmountName: .text(toCryptoValue + " " + toCryptoDisplayName),
                                                         rate: .init(exchangeRate: rate, timer: nil),

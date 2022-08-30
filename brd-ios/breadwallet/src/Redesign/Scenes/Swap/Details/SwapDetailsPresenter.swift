@@ -81,13 +81,13 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
         formatter.dateFormat = "dd MMM YYYY, H:mm a"
         let dateString = formatter.string(from: date)
         
-        let currencyFormatter = "%@ %@"
+        let currencyFormat = "%@ %@"
         let rate = String(format: "1 %@ = %@ %@", detail.destination.currency, ExchangeFormatter.fiat.string(for: 1 / (detail.rate)) ?? "", currencyCode)
-        let totalText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: detail.destination.usdAmount + detail.destination.usdFee) ?? "",
-                               currencyCode)
-        let amountText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: detail.destination.usdAmount) ?? "", currencyCode)
-        let cardFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: detail.destination.usdFee) ?? "", currencyCode)
-        let networkFeeText = String(format: currencyFormatter, ExchangeFormatter.fiat.string(for: detail.destination.usdFee) ?? "", currencyCode)
+        
+        let totalText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.currencyAmount) ?? "", currencyCode)
+        let amountText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.usdAmount) ?? "", currencyCode)
+        let cardFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.usdFee) ?? "", currencyCode)
+        let networkFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.destination.usdFee) ?? "", currencyCode)
         
         let orderValue = "\(detail.orderId)"
         let transactionFromValue = "\(String(describing: detail.source.transactionId))"
