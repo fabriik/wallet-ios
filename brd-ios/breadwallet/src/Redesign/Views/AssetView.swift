@@ -138,6 +138,7 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
             make.leading.equalTo(iconView.snp.trailing).offset(Margins.small.rawValue)
             make.centerY.equalToSuperview()
             make.top.equalTo(content.snp.topMargin)
+            make.width.equalTo(ViewSizes.large.rawValue)
         }
         titleStack.addArrangedSubview(titleLabel)
         titleStack.addArrangedSubview(subtitleLabel)
@@ -145,8 +146,10 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         content.addSubview(valueStack)
         valueStack.snp.makeConstraints { make in
             make.trailing.equalTo(content.snp.trailingMargin)
+            make.leading.equalTo(titleStack.snp.trailing).offset(Margins.small.rawValue)
             make.centerY.equalToSuperview()
             make.top.equalTo(content.snp.topMargin)
+            make.width.equalToSuperview().priority(.low)
         }
         
         valueStack.addArrangedSubview(topRightLabel)
