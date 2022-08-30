@@ -100,7 +100,7 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
             make.leading.equalTo(iconView.snp.trailing).offset(Margins.small.rawValue)
             make.centerY.equalToSuperview()
             make.top.equalTo(content.snp.topMargin)
-            make.width.equalTo(ViewSizes.large.rawValue)
+            make.width.greaterThanOrEqualTo(ViewSizes.large.rawValue)
         }
         titleStack.addArrangedSubview(titleLabel)
         titleStack.addArrangedSubview(subtitleLabel)
@@ -111,7 +111,7 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
             make.leading.equalTo(titleStack.snp.trailing).offset(Margins.small.rawValue)
             make.centerY.equalToSuperview()
             make.top.equalTo(content.snp.topMargin)
-            make.width.equalToSuperview().priority(.low)
+            make.width.lessThanOrEqualToSuperview().priority(.low)
         }
         
         valueStack.addArrangedSubview(topRightLabel)
@@ -154,5 +154,8 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         
         bottomRightLabel.setup(with: .text(viewModel.bottomRightText))
         bottomRightLabel.isHidden = viewModel.bottomRightText == nil || viewModel.isDisabled
+        
+        valueStack.isHidden = viewModel.topRightText == nil && viewModel.bottomRightText == nil
+        
     }
 }
