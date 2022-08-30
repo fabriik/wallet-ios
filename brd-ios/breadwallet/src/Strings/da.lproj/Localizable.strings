@@ -1318,11 +1318,8 @@
 /* Segwit enabled confirmation title */
 "Segwit.ConfirmationConfirmationTitle" = "Du har aktiveret SegWit!";
 
-/* Segwit enabled confirmation description */
-"Segwit.ConfirmationInstructionsDescription" = "Tak for at hjælpe med at skubbe bitcoin fremad.";
-
 /* Segwit instructions */
-"Segwit.ConfirmationInstructionsInstructions" = "SegWit-support er stadig en beta funktion.\nNår SegWit er aktiveret, vil det ikke være muligt\nat deaktivere det. Du kan finde legacy-adressen under Indstillinger.\nNogle tredjepartstjenester, herunder kryptohandel, kan være utilgængelige for brugere, der har aktiveret SegWit. I tilfælde af en nødsituation vil du kunne generere en legacy-adresse fra Indstillinger > Bitcoin-Indstillinger.\nSegWit vil automatisk blive aktiveret for alle\nbrugere i en fremtidig opdatering.";
+"Segwit.ConfirmationInstructionsInstructions" = "SegWit-support er stadig en beta funktion.\nNår SegWit er aktiveret, vil det ikke være muligt\nat deaktivere det. Du kan finde legacy-adressen under Indstillinger.\nNogle tredjepartstjenester, herunder kryptohandel, kan være utilgængelige for brugere, der har aktiveret SegWit. I tilfælde af en nødsituation vil du kunne generere en legacy-adresse fra Indstillinger > BTC-Indstillinger.\nSegWit vil automatisk blive aktiveret for alle\nbrugere i en fremtidig opdatering.";
 
 /* Segwit extra confirmation title. */
 "Segwit.ConfirmChoiceLayout" = "Aktivering af SegWit er en irreversibel funktion. Er du sikker på, at du vil fortsætte?";

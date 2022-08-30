@@ -1318,11 +1318,8 @@
 /* Segwit enabled confirmation title */
 "Segwit.ConfirmationConfirmationTitle" = "U hebt SegWit geactiveerd!";
 
-/* Segwit enabled confirmation description */
-"Segwit.ConfirmationInstructionsDescription" = "Bedankt voor het ondersteunen van Bitcoin.";
-
 /* Segwit instructions */
-"Segwit.ConfirmationInstructionsInstructions" = "SegWit-support is nog een bèta-functie.\nZodra SegWit is geactiveerd, zal het niet langer mogelijk zijn om de functie te deactiveren. U kunt de het legacyadres vinden onder Instellingen.\nSommige externe diensten, waaronder de cryptotrade, zijn mogelijk niet beschikbaar voor gebruikers die SegWit hebben geactiveerd. In geval van nood kunt u een legacyadres genereren via Voorkeuren > Bitcoininstellingen.\nSegWit zal automatisch worden geactiveerd voor alle gebruikers in een toekomstige update.";
+"Segwit.ConfirmationInstructionsInstructions" = "SegWit-support is nog een bèta-functie.\nZodra SegWit is geactiveerd, zal het niet langer mogelijk zijn om de functie te deactiveren. U kunt de het legacyadres vinden onder Instellingen.\nSommige externe diensten, waaronder de cryptotrade, zijn mogelijk niet beschikbaar voor gebruikers die SegWit hebben geactiveerd. In geval van nood kunt u een legacyadres genereren via Voorkeuren > BTC-instellingen.\nSegWit zal automatisch worden geactiveerd voor alle gebruikers in een toekomstige update.";
 
 /* Segwit extra confirmation title. */
 "Segwit.ConfirmChoiceLayout" = "Het activeren van SegWit is een onomkeerbaar proces. Weet u zeker dat u verder wilt gaan?";
