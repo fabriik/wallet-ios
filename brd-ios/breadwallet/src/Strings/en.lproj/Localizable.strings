@@ -1318,11 +1318,8 @@
 /* Segwit enabled confirmation title */
 "Segwit.ConfirmationConfirmationTitle" = "You have enabled SegWit!";
 
-/* Segwit enabled confirmation description */
-"Segwit.ConfirmationInstructionsDescription" = "Thank you for helping move bitcoin forward.";
-
 /* Segwit instructions */
-"Segwit.ConfirmationInstructionsInstructions" = "SegWit support is still a beta feature.\n\nOnce SegWit is enabled, it will not be possible\nto disable it. You will be able to find the legacy address under Settings. \n\nSome third-party services, including crypto trading, may be unavailable to users who have enabled SegWit. In case of emergency, you will be able to generate a legacy address from Preferences > Bitcoin Settings. \n\nSegWit will automatically be enabled for all\nusers in a future update.";
+"Segwit.ConfirmationInstructionsInstructions" = "SegWit support is still a beta feature.\n\nOnce SegWit is enabled, it will not be possible\nto disable it. You will be able to find the legacy address under Settings. \n\nSome third-party services, including crypto trading, may be unavailable to users who have enabled SegWit. In case of emergency, you will be able to generate a legacy address from Preferences > BTC Settings. \n\nSegWit will automatically be enabled for all\nusers in a future update.";
 
 /* Segwit extra confirmation title. */
 "Segwit.ConfirmChoiceLayout" = "Enabling SegWit is an irreversible feature. Are you sure you want to continue?";
@@ -1331,7 +1328,7 @@
 "Segwit.Enable" = "Enable";
 
 /* Segwit button label that takes the user back to the home screen once SegWit is enabled. */
-"Segwit.HomeButton" = "To the Moon";
+"Segwit.HomeButton" = "Proceed";
 
 /* Send money amount label */
 "Send.amountLabel" = "Amount";
