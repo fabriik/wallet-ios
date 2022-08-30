@@ -134,6 +134,7 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
         cvvTitleLabel.isHidden = viewModel?.cvvTitle == nil
         
         cvvTextField.setup(with: viewModel?.cvv)
+        cvvTextField.isHidden = viewModel?.cvv == nil
         
         cardDetailsView.setup(with: .init(logo: viewModel?.logo,
                                           cardNumber: viewModel?.cardNumber,

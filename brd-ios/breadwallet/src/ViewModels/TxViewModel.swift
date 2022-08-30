@@ -92,10 +92,9 @@ extension TxViewModel {
         }
         
         switch tx.transactionType {
-        case .defaultTransaction,
-                .buyTransaction:
+        case .defaultTransaction, .buyTransaction:
             if tx.confirmations < currency.confirmationsUntilFinal {
-                return .pending(CGFloat(tx.confirmations)/CGFloat(currency.confirmationsUntilFinal))
+                return .pending(CGFloat(tx.confirmations) / CGFloat(currency.confirmationsUntilFinal))
             }
             
             if tx.status == .invalid {

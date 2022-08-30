@@ -32,7 +32,9 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
         
         sectionRows = [
             Models.Section.order: [
-                OrderViewModel(title: "Fabriik Order ID", value: "13rXEZoh5NFj4q9aasdfkLp2...", imageName: "copy")
+                OrderViewModel(title: "Fabriik Order ID",
+                               value: NSAttributedString(string: "13rXEZoh5NFj4q9aasdfkLp2..."),
+                               showsFullValue: false)
             ]
         ]
         
@@ -113,9 +115,9 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
         }
         
         cell.setup { view in
-            view.configure(with: .init())
+            view.configure(with: Presets.Order.full)
             view.setup(with: model)
-            view.copyCallback = { [weak self] code in
+            view.didCopyValue = { [weak self] code in
                 self?.coordinator?.showMessage(model: InfoViewModel(description: .text(code), dismissType: .auto),
                                                configuration: Presets.InfoView.error)
             }

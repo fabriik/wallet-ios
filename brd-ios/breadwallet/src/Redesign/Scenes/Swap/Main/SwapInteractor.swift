@@ -297,14 +297,13 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func selectAsset(viewAction: SwapModels.Assets.ViewAction) {
-        var from: [String]?
-        var to: [String]?
+        var from: [Currency]?
+        var to: [Currency]?
         
-        let currencies = dataStore?.supportedCurrencies?.compactMap { $0.name }
         if viewAction.to == true {
-            to = currencies
+            to = dataStore?.currencies.filter { $0.code != dataStore?.from?.currency.code }
         } else {
-            from = currencies
+            from = dataStore?.currencies.filter { $0.code != dataStore?.to?.currency.code }
         }
         
         presenter?.presentSelectAsset(actionResponse: .init(from: from, to: to))

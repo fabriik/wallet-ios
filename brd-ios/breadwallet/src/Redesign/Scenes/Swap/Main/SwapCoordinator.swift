@@ -50,7 +50,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
         open(scene: SwapDetailsViewController.self) { vc in
             vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId
-            vc.dataStore?.sceneTitle = "Swap details" // TODO: Localize
+            vc.dataStore?.transactionType = .swapTransaction
             vc.prepareData()
         }
     }

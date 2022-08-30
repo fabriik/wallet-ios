@@ -63,7 +63,6 @@ struct Profile: Model {
     var usedBuyDaily: Decimal
     var roles: [CustomerRole]
     
-    
     var swapDailyRemainingLimit: Decimal {
         return swapAllowanceDaily - usedSwapDaily
     }
@@ -71,7 +70,6 @@ struct Profile: Model {
     var swapLifetimeRemainingLimit: Decimal {
         return swapAllowanceLifetime - usedSwapLifetime
     }
-    
     
     var buyDailyRemainingLimit: Decimal {
         return buyAllowanceDaily - usedBuyDaily

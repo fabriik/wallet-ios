@@ -10,7 +10,8 @@
 
 import UIKit
 
-// TODO: unify with designs and use color / font enums
+// TODO: Localize
+// TODO: Unify with designs and use color / font enums
 struct Presets {
     struct Background {
         struct Primary {
@@ -383,7 +384,6 @@ extension Presets {
 
 extension Presets {
     struct VerificationInfoView {
-        // TODO: localize
         static var none = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
                                         headerTrailing: .init(image: "help"),
                                         status: VerificationStatus.none,
@@ -439,5 +439,29 @@ extension Presets {
         static var cardSecurityCode = PopupViewModel(title: .text("Security code (CVV)"),
                                                      imageName: "creditCard",
                                                      body: "Please enter the 3 digit CVV number as it appears on the back of your card")
+    }
+}
+
+extension Presets {
+    struct Order {
+        static var small = OrderConfiguration(title: .init(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1),
+                                              value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1, lineBreakMode: .byTruncatingTail),
+                                              shadow: Presets.Shadow.light,
+                                              background: .init(backgroundColor: LightColors.Background.one,
+                                                                tintColor: LightColors.Text.one,
+                                                                border: Presets.Border.zero),
+                                              contentBackground: .init(tintColor: LightColors.Text.one,
+                                                                       border: .init(tintColor: LightColors.Text.one,
+                                                                                     borderWidth: BorderWidth.minimum.rawValue,
+                                                                                     cornerRadius: .medium)))
+        
+        static var full = OrderConfiguration(title: .init(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1),
+                                             value: .init(font: Fonts.Body.two, textColor: LightColors.Link.two, textAlignment: .center, numberOfLines: 0),
+                                             shadow: Presets.Shadow.light,
+                                             background: .init(backgroundColor: LightColors.Background.one,
+                                                               tintColor: LightColors.Text.one,
+                                                               border: Presets.Border.zero),
+                                             contentBackground: .init(tintColor: LightColors.Text.one,
+                                                                      border: .init(borderWidth: 0, cornerRadius: .zero)))
     }
 }
