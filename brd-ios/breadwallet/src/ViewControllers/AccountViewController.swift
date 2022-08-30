@@ -280,6 +280,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
             
         case .swapTransaction, .buyTransaction:
             let vc = SwapDetailsViewController()
+            vc.isModalDismissable = false
             vc.dataStore?.itemId = String(transaction.swapOrderId ?? -1)
             vc.dataStore?.sceneTitle = transaction.transactionType == .swapTransaction ? "Swap details" : "Purchase details"
             vc.dataStore?.transactionType = transaction.transactionType
