@@ -23,11 +23,25 @@ set -e
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if [ "$2" == "ci" ]; then
-	scheme="wallet"
+echo 
+echo determine environment
+echo
+if [ "$(git branch --show-current)" == "mit" ]; then
+backendEnvt="dev"
+scheme="wallet-dev"
+elif [ "$(git branch --show-current)" == staging* ]; then
+backendEnvt="stage"
+scheme="wallet-stg"
+elif [ "$(git branch --show-current)" == release* ]; then
+backendEnvt="prod"
+scheme="wallet"
 else
-	scheme="wallet-stg"
+backendEnvt="dev"
+scheme="wallet-dev"
 fi
+
+echo "Environment is " $backendEnvt
+echo "Scheme is " $scheme
 
 echo
 echo "Restore build updated files"
