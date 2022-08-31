@@ -183,7 +183,13 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                       ))
         
         guard dataStore.fromFeeAmount == nil,
-              dataStore.toFeeAmount == nil else { return }
+              dataStore.toFeeAmount == nil else {
+            dataStore.fromFee = nil
+            dataStore.toFee = nil
+            dataStore.fromFeeEth = nil
+            dataStore.toFeeEth = nil
+            return
+        }
         
         getFees(viewAction: .init(from: dataStore.from, to: dataStore.to))
     }
