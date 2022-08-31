@@ -275,9 +275,9 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         
         titleStack.isHidden = leadingView.isHidden && trailingView.isHidden && titleLabel.isHidden
         
-        layoutSubviews()
-        
         animateTo(state: (viewModel.value ?? "").isEmpty ? .normal : .filled, withAnimation: false)
+        
+        layoutSubviews()
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
