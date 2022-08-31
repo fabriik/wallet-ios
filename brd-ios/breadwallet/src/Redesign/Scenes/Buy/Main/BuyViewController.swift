@@ -252,6 +252,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             return
         }
         
+        continueButton.wrappedView.isEnabled = false
         coordinator?.showMessage(with: responseDisplay.error,
                                  model: responseDisplay.model,
                                  configuration: responseDisplay.config)

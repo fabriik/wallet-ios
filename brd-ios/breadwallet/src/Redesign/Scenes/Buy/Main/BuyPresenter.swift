@@ -82,6 +82,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         } else {
             cardModel = .init(userInteractionEnabled: true)
         }
+        viewController?.displayAssets(responseDisplay: .init(cryptoModel: cryptoModel, cardModel: cardModel))
         
         let fiat = actionResponse.amount?.fiatValue ?? 0
         let minimumAmount = actionResponse.quote?.minimumUsd ?? 0
@@ -105,8 +106,6 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             // remove error
             presentError(actionResponse: .init(error: nil))
         }
-        
-        viewController?.displayAssets(responseDisplay: .init(cryptoModel: cryptoModel, cardModel: cardModel))
     }
     
     func presentPaymentCards(actionResponse: BuyModels.PaymentCards.ActionResponse) {
