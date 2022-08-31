@@ -41,6 +41,7 @@ protocol SwapResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDis
     func displayConfirmation(responseDisplay: SwapModels.ShowConfirmDialog.ResponseDisplay)
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay)
     func displayInfoPopup(responseDisplay: SwapModels.InfoPopup.ResponseDisplay)
+    func displayError(responseDisplay: SwapModels.ErrorPopup.ResponseDisplay)
 }
 
 protocol SwapDataStore: BaseDataStore, FetchDataStore {

@@ -262,6 +262,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         coordinator?.showSwapInfo(from: responseDisplay.from, to: responseDisplay.to, exchangeId: responseDisplay.exchangeId)
     }
     
+    func displayError(responseDisplay: SwapModels.ErrorPopup.ResponseDisplay) {
+        interactor?.showInfoPopup(viewAction: .init())
+    }
+    
     func displayInfoPopup(responseDisplay: SwapModels.InfoPopup.ResponseDisplay) {
         coordinator?.showPopup(on: self,
                                blurred: true,

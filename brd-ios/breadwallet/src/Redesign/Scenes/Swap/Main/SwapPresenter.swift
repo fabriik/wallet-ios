@@ -24,7 +24,10 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         guard let item = actionResponse.item as? Models.Item,
               let from = item.from,
               let to = item.to
-        else { return }
+        else {
+            viewController?.displayError(responseDisplay: .init())
+            return
+        }
         
         let sections: [Models.Sections] = [
             .rateAndTimer,
