@@ -119,11 +119,11 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
-        recalculat(viewAction: viewAction)
+        recalculate(viewAction: viewAction)
         getFees(viewAction: .init(from: dataStore?.from, to: dataStore?.to))
     }
     
-    private func recalculat(viewAction: SwapModels.Amounts.ViewAction) {
+    private func recalculate(viewAction: SwapModels.Amounts.ViewAction) {
         guard let dataStore = dataStore,
               let fromCurrency = dataStore.fromCurrency,
               let toCurrency = dataStore.toCurrency
@@ -262,7 +262,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         group.notify(queue: .main) { [weak self] in
-            self?.recalculat(viewAction: .init())
+            self?.recalculate(viewAction: .init())
             
             self?.presenter?.presentAmount(actionResponse: .init(from: dataStore.from,
                                                                  to: dataStore.to,
