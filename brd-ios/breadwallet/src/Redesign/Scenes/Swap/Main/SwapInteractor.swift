@@ -174,16 +174,15 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore.from = dataStore.amountFrom(decimal: from, currency: fromCurrency)
         dataStore.to = dataStore.amountFrom(decimal: to, currency: toCurrency)
         
-        presenter?.presentAmount(actionResponse: .init(from: dataStore.from,
-                                                       to: dataStore.to,
-                                                       fromFee: dataStore.fromFeeAmount,
-                                                       toFee: dataStore.toFeeAmount,
-                                                       baseBalance: fromCurrency.state?.balance,
-                                                       minimumAmount: dataStore.quote?.minimumUsd
-                                                      ))
-        
         guard dataStore.fromFeeAmount == nil,
               dataStore.toFeeAmount == nil else {
+            presenter?.presentAmount(actionResponse: .init(from: dataStore.from,
+                                                           to: dataStore.to,
+                                                           fromFee: dataStore.fromFeeAmount,
+                                                           toFee: dataStore.toFeeAmount,
+                                                           baseBalance: fromCurrency.state?.balance,
+                                                           minimumAmount: dataStore.quote?.minimumUsd
+                                                          ))
             dataStore.fromFee = nil
             dataStore.toFee = nil
             dataStore.fromFeeEth = nil
