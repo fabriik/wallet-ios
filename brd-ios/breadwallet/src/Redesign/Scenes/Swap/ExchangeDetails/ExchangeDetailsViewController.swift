@@ -9,10 +9,10 @@
 import UIKit
 
 class ExchangeDetailsViewController: BaseTableViewController<BaseCoordinator,
-                                 ExchangeDetailsInteractor,
-                                 ExchangeDetailsPresenter,
-                                 ExchangeDetailsStore>,
-                                 ExchangeDetailsResponseDisplays {
+                                     ExchangeDetailsInteractor,
+                                     ExchangeDetailsPresenter,
+                                     ExchangeDetailsStore>,
+                                     ExchangeDetailsResponseDisplays {
     
     typealias Models = ExchangeDetailsModels
     
@@ -81,7 +81,7 @@ class ExchangeDetailsViewController: BaseTableViewController<BaseCoordinator,
         }
         
         cell.setup { view in
-            view.configure(with: Presets.Asset.Header)
+            view.configure(with: Presets.Asset.header)
             view.setup(with: model)
         }
         
