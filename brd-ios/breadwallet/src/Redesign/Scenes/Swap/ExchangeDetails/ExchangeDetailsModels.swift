@@ -1,5 +1,5 @@
 //
-//  SwapDetailsModels.swift
+//  ExchangeDetailsModels.swift
 //  breadwallet
 //
 //  Created by Rok on 06/07/2022.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum SwapDetailsModels {
+enum ExchangeDetailsModels {
     typealias Item = (detail: SwapDetail, type: Transaction.TransactionType)
     
     enum Section: Sectionable {

@@ -75,7 +75,7 @@ struct AddCardRequestData: RequestModelData {
 
 class AddCardWorker: BaseApiWorker<AddCardMapper> {
     override func getUrl() -> String {
-        return SwapEndpoints.paymentInstrument.url
+        return ExchangeEndpoints.paymentInstrument.url
     }
     
     override func getMethod() -> HTTPMethod {

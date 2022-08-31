@@ -10,7 +10,7 @@
 
 import Foundation
 
-enum SwapEndpoints: String, URLType {
+enum ExchangeEndpoints: String, URLType {
     static var baseURL: String = "https://" + E.apiUrl + "blocksatoshi/exchange/%@"
     
     case supportedCurrencies = "supported-currencies"

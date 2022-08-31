@@ -101,6 +101,6 @@ class QuoteWorker: BaseApiWorker<QuoteMapper> {
               let to = urlParams.to
         else { return "" }
         
-        return APIURLHandler.getUrl(SwapEndpoints.quote, parameters: from, to)
+        return APIURLHandler.getUrl(ExchangeEndpoints.quote, parameters: from, to)
     }
 }

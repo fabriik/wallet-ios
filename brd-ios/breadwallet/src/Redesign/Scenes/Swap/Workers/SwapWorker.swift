@@ -77,7 +77,7 @@ class SwapWorker: BaseApiWorker<SwapMapper> {
     }
     
     override func getUrl() -> String {
-        return APIURLHandler.getUrl(SwapEndpoints.exchange)
+        return APIURLHandler.getUrl(ExchangeEndpoints.exchange)
     }
 }
 
@@ -117,6 +117,6 @@ class EstimateFeeWorker: BaseApiWorker<EstimateFeeMapper> {
     }
     
     override func getUrl() -> String {
-        return APIURLHandler.getUrl(SwapEndpoints.estimateFee)
+        return APIURLHandler.getUrl(ExchangeEndpoints.estimateFee)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  SwapDetailsPresenter.swift
+//  ExchangeDetailsPresenter.swift
 //  breadwallet
 //
 //  Created by Rok on 06/07/2022.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponses {
-    typealias Models = SwapDetailsModels
+final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsActionResponses {
+    typealias Models = ExchangeDetailsModels
 
-    weak var viewController: SwapDetailsViewController?
+    weak var viewController: ExchangeDetailsViewController?
 
-    // MARK: - SwapDetailsActionResponses
+    // MARK: - ExchangeDetailsActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let item = actionResponse.item as? Models.Item else { return }
         let detail = item.detail
@@ -119,7 +119,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             Models.Section.header: [header],
             Models.Section.order: [
                 OrderViewModel(title: "Fabriik Transaction ID",
-                               value: SwapDetailsPresenter.generateAttributedOrderValue(with: orderValue),
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: orderValue),
                                showsFullValue: false)
             ],
             Models.Section.buyOrder: [
@@ -154,7 +154,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             ],
             Models.Section.transactionFrom: [
                 OrderViewModel(title: "\(detail.source.currency) Transaction ID",
-                               value: SwapDetailsPresenter.generateAttributedOrderValue(with: transactionFromValue),
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: transactionFromValue),
                                showsFullValue: true)
             ],
             Models.Section.transactionTo: [
