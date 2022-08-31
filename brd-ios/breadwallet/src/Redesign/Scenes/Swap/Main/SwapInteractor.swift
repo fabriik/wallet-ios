@@ -111,6 +111,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.toRate = nil
         dataStore?.fromFee = nil
         dataStore?.toFee = nil
+        dataStore?.fromFeeEth = nil
+        dataStore?.toFeeEth = nil
         
         setAmount(viewAction: .init())
         getRate(viewAction: .init())
@@ -289,6 +291,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.toRate = nil
         dataStore?.fromFee = nil
         dataStore?.toFee = nil
+        dataStore?.fromFeeEth = nil
+        dataStore?.toFeeEth = nil
         
         setAmount(viewAction: .init())
         getRate(viewAction: .init())
