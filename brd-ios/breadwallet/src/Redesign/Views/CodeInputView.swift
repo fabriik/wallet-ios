@@ -78,7 +78,7 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
         
         for _ in (0..<numberOfFields) {
             let view = FETextField()
-            view.hideFilledTitleStack = true
+            view.hideTitle = true
             view.isUserInteractionEnabled = false
             inputStack.addArrangedSubview(view)
         }

@@ -71,7 +71,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         }
     }
     
-    var hideFilledTitleStack = false
+    var hideTitle = false
     
     var value: String? {
         get { return textField.text }
@@ -273,7 +273,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
             make.width.equalTo(viewModel.trailing == nil ? 0 : ViewSizes.extraSmall.rawValue)
         }
         
-        titleStack.isHidden = leadingView.isHidden && trailingView.isHidden && titleLabel.isHidden
+        titleStack.isHidden = leadingView.isHidden && titleLabel.isHidden
         
         layoutSubviews()
         
@@ -302,7 +302,8 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         
         var hint = viewModel?.hint
         var hideTextField = textField.text?.isEmpty == true
-        var hideTitleStack = false
+        var hideTitleStack: Bool?
+        let titleStackCurrentState = titleStack.isHidden
         var titleConfig: LabelConfiguration? = config?.titleConfiguration
         
         switch state {
@@ -320,7 +321,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
             titleConfig = config?.selectedTitleConfiguration
             
             hideTextField = false
-            hideTitleStack = hideFilledTitleStack
+            hideTitleStack = hideTitle
             
         case .highlighted, .selected:
             background = config?.selectedBackgroundConfiguration
@@ -338,7 +339,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
             hint = viewModel?.error
         }
         
-        titleStack.isHidden = hideTitleStack
+        titleStack.isHidden = hideTitleStack ?? titleStackCurrentState
         textField.isHidden = hideTextField
         hintLabel.isHidden = hint == nil
         
