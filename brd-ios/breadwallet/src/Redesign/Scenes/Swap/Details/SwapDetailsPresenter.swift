@@ -82,7 +82,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
         let dateString = formatter.string(from: date)
         
         let currencyFormat = "%@ %@"
-        let rate = String(format: "1 %@ = %@ %@", detail.destination.currency, ExchangeFormatter.fiat.string(for: 1 / (detail.rate)) ?? "",
+        let rate = String(format: "1 %@ = %@ %@", detail.destination.currency, ExchangeFormatter.fiat.string(for: 1 / detail.rate) ?? "",
                           currencyCode)
         let totalText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.currencyAmount) ?? "",
                                currencyCode)
