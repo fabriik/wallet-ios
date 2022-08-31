@@ -172,7 +172,9 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             }
         }
         
-        viewController?.displayAmount(responseDisplay: .init(continueEnabled: !hasError,
+        let continueEnabled = !hasError && actionResponse.toFee != nil && actionResponse.fromFee != nil
+        
+        viewController?.displayAmount(responseDisplay: .init(continueEnabled: continueEnabled,
                                                              amounts: swapModel,
                                                              rate: exchangeRateViewModel))
     }
