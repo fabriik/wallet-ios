@@ -78,8 +78,10 @@ class KYCBasicInteractor: NSObject, Interactor, KYCBasicViewActions {
     }
     
     func birthDateSet(viewAction: KYCBasicModels.BirthDate.ViewAction) {
-        dataStore?.birthdate = viewAction.date
-        dataStore?.birthDateString = getBirthDateFormatter().string(from: dataStore?.birthdate ?? Date())
+        if let date = viewAction.date {
+            dataStore?.birthdate = date
+            dataStore?.birthDateString = getBirthDateFormatter().string(from: dataStore?.birthdate ?? Date())
+        }
         
         presenter?.presentData(actionResponse: .init(item: dataStore))
         validate(viewAction: .init())

@@ -71,7 +71,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         }
     }
     
-    var hideFilledTitleStack = false
+    var hideTitleForState: DisplayState?
     
     var value: String? {
         get { return textField.text }
@@ -275,9 +275,9 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         
         titleStack.isHidden = leadingView.isHidden && trailingView.isHidden && titleLabel.isHidden
         
-        layoutSubviews()
-        
         animateTo(state: (viewModel.value ?? "").isEmpty ? .normal : .filled, withAnimation: false)
+        
+        layoutSubviews()
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -302,7 +302,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         
         var hint = viewModel?.hint
         var hideTextField = textField.text?.isEmpty == true
-        var hideTitleStack = false
+        let titleStackCurrentState = titleStack.isHidden
         var titleConfig: LabelConfiguration? = config?.titleConfiguration
         
         switch state {
@@ -320,7 +320,6 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
             titleConfig = config?.selectedTitleConfiguration
             
             hideTextField = false
-            hideTitleStack = hideFilledTitleStack
             
         case .highlighted, .selected:
             background = config?.selectedBackgroundConfiguration
@@ -338,7 +337,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
             hint = viewModel?.error
         }
         
-        titleStack.isHidden = hideTitleStack
+        titleStack.isHidden = hideTitleForState == state || titleStackCurrentState
         textField.isHidden = hideTextField
         hintLabel.isHidden = hint == nil
         
@@ -372,6 +371,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     
     override func configure(shadow: ShadowConfiguration?) {
         guard let shadow = shadow else { return }
+        
         let content = textFieldContent
         
         content.layer.masksToBounds = false
