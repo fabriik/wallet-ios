@@ -11,8 +11,8 @@
 import UIKit
 
 struct DateConfiguration: Configurable {
-    var normal = Presets.Background.Primary.normal
-    var selected = Presets.Background.Primary.selected
+    var normal: BackgroundConfiguration = Presets.Background.Primary.normal
+    var selected: BackgroundConfiguration = Presets.Background.Primary.selected
 }
 
 struct DateViewModel: ViewModel {
@@ -51,21 +51,21 @@ class DateView: FEView<DateConfiguration, DateViewModel>, StateDisplayable {
     private lazy var monthTextfield: FETextField = {
         let view = FETextField()
         view.isUserInteractionEnabled = false
-        view.hideFilledTitleStack = true
+        view.hideTitleForState = .filled
         return view
     }()
     
     private lazy var dayTextField: FETextField = {
         let view = FETextField()
         view.isUserInteractionEnabled = false
-        view.hideFilledTitleStack = true
+        view.hideTitleForState = .filled
         return view
     }()
     
     private lazy var yearTextField: FETextField = {
         let view = FETextField()
         view.isUserInteractionEnabled = false
-        view.hideFilledTitleStack = true
+        view.hideTitleForState = .filled
         return view
     }()
     
@@ -95,6 +95,7 @@ class DateView: FEView<DateConfiguration, DateViewModel>, StateDisplayable {
         super.configure(with: config)
         
         titleLabel.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two))
+        
         monthTextfield.configure(with: Presets.TextField.primary)
         dayTextField.configure(with: Presets.TextField.primary)
         yearTextField.configure(with: Presets.TextField.primary)
@@ -129,17 +130,8 @@ class DateView: FEView<DateConfiguration, DateViewModel>, StateDisplayable {
         }
         
         displayState = state
-        configure(background: background)
-    }
-    
-    override func configure(background: BackgroundConfiguration? = nil) {
-        guard let border = background?.border else { return }
-        
-        for textField in [monthTextfield, dayTextField, yearTextField] {
-            textField.layer.masksToBounds = true
-            textField.layer.cornerRadius = border.cornerRadius.rawValue
-            textField.layer.borderWidth = border.borderWidth
-            textField.layer.borderColor = border.tintColor.cgColor
-        }
+        monthTextfield.configure(background: background)
+        dayTextField.configure(background: background)
+        yearTextField.configure(background: background)
     }
 }
