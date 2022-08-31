@@ -22,7 +22,7 @@ extension UIAlertController {
 }
 
 final public class DatePickerViewController: UIViewController {
-    public typealias Action = (Date) -> Void
+    public typealias Action = (Date?) -> Void
     
     fileprivate var action: Action?
     
@@ -33,7 +33,7 @@ final public class DatePickerViewController: UIViewController {
     }(UIDatePicker())
     
     fileprivate var selectedDate = Date()
-    
+
     required public init(mode: UIDatePicker.Mode, date: Date? = nil, minimumDate: Date? = nil, maximumDate: Date? = nil) {
         super.init(nibName: nil, bundle: nil)
         datePicker.datePickerMode = mode
@@ -50,16 +50,21 @@ final public class DatePickerViewController: UIViewController {
                      minimumDate: Date? = nil,
                      maximumDate: Date? = nil,
                      action: Action?) {
-        
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
         alert.view.tintColor = .almostBlack
         alert.popoverPresentationController?.sourceView = sourceView
         alert.popoverPresentationController?.sourceRect = sourceView.frame
+        
         let pickerController = alert.addDatePicker(mode: .date, date: date, minimumDate: minimumDate, maximumDate: maximumDate)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            action?(nil)
+        }))
+        
         alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { _ in
             action?(pickerController.selectedDate)
         }))
+        
         viewController.present(alert, animated: true)
     }
     
