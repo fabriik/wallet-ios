@@ -78,7 +78,9 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     var isFormValid: Bool {
         guard let amount = toAmount,
               amount.tokenValue > 0,
-              paymentCard != nil else {
+              paymentCard != nil,
+              networkFee != nil
+        else {
             return false
         }
         return true

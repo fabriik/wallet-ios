@@ -83,10 +83,6 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         }
         
         getFees()
-        
-        presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
-                                                       card: dataStore?.paymentCard,
-                                                       quote: dataStore?.quote))
     }
     
     func getExchangeRate(viewAction: Models.Rate.ViewAction) {
