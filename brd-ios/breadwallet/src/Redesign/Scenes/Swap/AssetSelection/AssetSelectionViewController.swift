@@ -18,6 +18,7 @@ class AssetSelectionViewController: ItemSelectionViewController {
     
     override func setupSubviews() {
         super.setupSubviews()
+        
         tableView.register(WrapperTableViewCell<AssetView>.self)
     }
     

@@ -38,11 +38,6 @@ struct SwapDetail: Model {
         var transactionId: String
         var usdFee: Double
         var paymentInstrument: PaymentCard
-        
-        var isFiat: Bool {
-            // TODO: temp solution (could get messy if we introduce more fiat currencies)
-            return currency.uppercased() == C.usdCurrencyCode.uppercased()
-        }
     }
     
     var orderId: Int
