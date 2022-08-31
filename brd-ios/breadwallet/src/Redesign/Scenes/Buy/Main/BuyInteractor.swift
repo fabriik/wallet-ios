@@ -21,6 +21,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             return
         }
         
+        ExchangeManager.shared.reload()
+        
         fetchCards { [weak self] result in
             guard let self = self else { return }
             

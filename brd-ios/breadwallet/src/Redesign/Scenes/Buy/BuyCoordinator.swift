@@ -51,7 +51,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             }
             
             vc.secondCallback = { [weak self] in
-                self?.showSwapDetails(exchangeId: paymentReference)
+                self?.showBuyDetails(exchangeId: paymentReference)
             }
         }
     }
@@ -102,8 +102,8 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         navigationController.present(navController, animated: true)
     }
     
-    func showSwapDetails(exchangeId: String) {
-        open(scene: SwapDetailsViewController.self) { vc in
+    func showBuyDetails(exchangeId: String) {
+        open(scene: ExchangeDetailsViewController.self) { vc in
             vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId
             vc.dataStore?.transactionType = .buyTransaction

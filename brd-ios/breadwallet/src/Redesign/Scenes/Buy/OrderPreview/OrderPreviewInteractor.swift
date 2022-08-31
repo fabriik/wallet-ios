@@ -70,6 +70,8 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
             case .success(let data):
                 self?.dataStore?.paymentstatus = data?.status
                 if let redirectUrlString = data?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
+                    ExchangeManager.shared.reload()
+                    
                     self?.dataStore?.paymentReference = data?.paymentReference
                     
                     self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))

@@ -10,20 +10,20 @@
 
 import Foundation
 
-struct SwapDetailsExchangesResponseData: ModelResponse {
-    var exchanges: [SwapDetailsResponseData]
+struct ExchangeDetailsExchangesResponseData: ModelResponse {
+    var exchanges: [ExchangeDetailsResponseData]
 }
 
-class SwapHistoryMapper: ModelMapper<SwapDetailsExchangesResponseData, [SwapDetail]> {
-    override func getModel(from response: SwapDetailsExchangesResponseData?) -> [SwapDetail] {
+class SwapHistoryMapper: ModelMapper<ExchangeDetailsExchangesResponseData, [SwapDetail]> {
+    override func getModel(from response: ExchangeDetailsExchangesResponseData?) -> [SwapDetail] {
         return response?
             .exchanges
-            .compactMap { SwapDetailsMapper().getModel(from: $0) } ?? []
+            .compactMap { ExchangeDetailsMapper().getModel(from: $0) } ?? []
     }
 }
 
 class SwapHistoryWorker: BaseApiWorker<SwapHistoryMapper> {
     override func getUrl() -> String {
-        return SwapEndpoints.history.url
+        return ExchangeEndpoints.history.url
     }
 }
