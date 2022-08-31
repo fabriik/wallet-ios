@@ -26,20 +26,24 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 echo 
 echo determine environment
 echo
-if [ "$(git branch --show-current)" == "mit" ]; then
+
+branchname="$(git branch --show-current)"
+
+if [[ branchname == mit* ]]; then
 backendEnvt="dev"
 scheme="wallet-dev"
-elif [ "$(git branch --show-current)" == staging* ]; then
+elif [[ branchname == staging* ]]; then
 backendEnvt="stage"
 scheme="wallet-stg"
-elif [ "$(git branch --show-current)" == release* ]; then
+elif [[ branchname == release* ]]; then
 backendEnvt="prod"
 scheme="wallet"
 else
-backendEnvt="dev"
-scheme="wallet-dev"
+echo "unable to interpret current branch"
+exit 9
 fi
 
+echo "Branch is " $branchname
 echo "Environment is " $backendEnvt
 echo "Scheme is " $scheme
 
