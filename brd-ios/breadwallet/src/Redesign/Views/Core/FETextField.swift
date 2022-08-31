@@ -373,6 +373,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     
     override func configure(shadow: ShadowConfiguration?) {
         guard let shadow = shadow else { return }
+        
         let content = textFieldContent
         
         content.layer.masksToBounds = false
