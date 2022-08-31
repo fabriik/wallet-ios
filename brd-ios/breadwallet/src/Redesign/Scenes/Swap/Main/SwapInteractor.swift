@@ -254,11 +254,31 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             switch result {
             case .success(let fee):
                 self?.dataStore?.toFee = fee
+                group.leave()
                 
             case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
+                guard to.currency.isEthereumCompatible == true else {
+                    self?.presenter?.presentError(actionResponse: .init(error: error))
+                    group.leave()
+                    return
+                }
+                
+                let address = self?.dataStore?.address(for: to.currency)
+                let data = EstimateFeeRequestData(amount: to.tokenValue,
+                                                  currency: to.currency.code,
+                                                  destination: address)
+                
+                EstimateFeeWorker().execute(requestData: data) { [weak self] result in
+                    switch result {
+                    case .success(let fee):
+                        self?.dataStore?.toFeeEth = fee?.fee
+                        
+                    case .failure(let error):
+                        self?.presenter?.presentError(actionResponse: .init(error: error))
+                    }
+                    group.leave()
+                }
             }
-            group.leave()
         }
         
         group.notify(queue: .main) { [weak self] in
