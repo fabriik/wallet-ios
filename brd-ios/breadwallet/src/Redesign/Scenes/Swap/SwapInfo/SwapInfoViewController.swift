@@ -36,7 +36,7 @@ class SwapInfoViewController: BaseInfoViewController {
     override var buttonCallbacks: [(() -> Void)] {
         return [
             homeTapped,
-            ExchangeDetailsTapped
+            exchangeDetailsTapped
         ]
     }
     
@@ -44,7 +44,7 @@ class SwapInfoViewController: BaseInfoViewController {
         coordinator?.goBack()
     }
     
-    func ExchangeDetailsTapped() {
+    func exchangeDetailsTapped() {
         guard let itemId = dataStore?.itemId else { return }
         (coordinator as? SwapCoordinator)?.showExchangeDetails(exchangeId: itemId)
     }
