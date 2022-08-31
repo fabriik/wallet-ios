@@ -108,6 +108,8 @@ class DateView: FEView<DateConfiguration, DateViewModel>, StateDisplayable {
         monthTextfield.setup(with: viewModel?.month)
         dayTextField.setup(with: viewModel?.day)
         yearTextField.setup(with: viewModel?.year)
+        
+        animateTo(state: .normal)
     }
     
     @objc private func triggerPresentPicker() {
