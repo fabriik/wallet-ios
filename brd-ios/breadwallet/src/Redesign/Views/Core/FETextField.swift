@@ -71,7 +71,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         }
     }
     
-    var hideTitle = false
+    var hideTitleForState: DisplayState?
     
     var value: String? {
         get { return textField.text }
@@ -302,7 +302,6 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         
         var hint = viewModel?.hint
         var hideTextField = textField.text?.isEmpty == true
-        var hideTitleStack: Bool?
         let titleStackCurrentState = titleStack.isHidden
         var titleConfig: LabelConfiguration? = config?.titleConfiguration
         
@@ -321,7 +320,6 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
             titleConfig = config?.selectedTitleConfiguration
             
             hideTextField = false
-            hideTitleStack = hideTitle
             
         case .highlighted, .selected:
             background = config?.selectedBackgroundConfiguration
@@ -339,7 +337,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
             hint = viewModel?.error
         }
         
-        titleStack.isHidden = hideTitleStack ?? titleStackCurrentState
+        titleStack.isHidden = hideTitleForState == state || titleStackCurrentState
         textField.isHidden = hideTextField
         hintLabel.isHidden = hint == nil
         

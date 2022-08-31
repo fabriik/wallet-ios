@@ -51,21 +51,21 @@ class DateView: FEView<DateConfiguration, DateViewModel>, StateDisplayable {
     private lazy var monthTextfield: FETextField = {
         let view = FETextField()
         view.isUserInteractionEnabled = false
-        view.hideTitle = true
+        view.hideTitleForState = .filled
         return view
     }()
     
     private lazy var dayTextField: FETextField = {
         let view = FETextField()
         view.isUserInteractionEnabled = false
-        view.hideTitle = true
+        view.hideTitleForState = .filled
         return view
     }()
     
     private lazy var yearTextField: FETextField = {
         let view = FETextField()
         view.isUserInteractionEnabled = false
-        view.hideTitle = true
+        view.hideTitleForState = .filled
         return view
     }()
     
