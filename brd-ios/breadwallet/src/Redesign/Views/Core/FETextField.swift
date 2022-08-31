@@ -273,7 +273,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
             make.width.equalTo(viewModel.trailing == nil ? 0 : ViewSizes.extraSmall.rawValue)
         }
         
-        titleStack.isHidden = leadingView.isHidden && titleLabel.isHidden
+        titleStack.isHidden = leadingView.isHidden && trailingView.isHidden && titleLabel.isHidden
         
         layoutSubviews()
         
