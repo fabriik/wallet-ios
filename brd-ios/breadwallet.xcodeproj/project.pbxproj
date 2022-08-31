@@ -2222,7 +2222,6 @@
 				CEA7E67C1F09A9D2001F8C27 /* Screenshots */,
 				75A2A7F11DA5935F00A983D8 /* Frameworks */,
 				75A2A7911DA5934300A983D8 /* Products */,
-				7E8E97A3283F97DA008606B0 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2929,13 +2928,6 @@
 				7E5CB37B2835090E00EC787E /* FEButton.swift */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		7E8E97A3283F97DA008606B0 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		7E9B13F12857401B00BD9EF5 /* DocumentReview */ = {
