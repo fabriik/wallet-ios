@@ -181,7 +181,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
         else { return UIView(frame: .zero) }
         
         view.setup { view in
-            view.configure(with: Presets.Asset.Header)
+            view.configure(with: Presets.Asset.header)
         }
         view.setupCustomMargins(vertical: .small, horizontal: .large)
 
