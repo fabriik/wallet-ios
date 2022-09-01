@@ -198,19 +198,19 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore.toFeeEth = nil
         
         group.enter()
-        if from.currency.isEthereumCompatible {
-            
-            fetchEthFee(for: from, address: fromAddress) { fee in
-                dataStore.fromFeeEth = fee
-                group.leave()
-            }
-        } else {
-            fetchWkFee(for: from,
-                       address: fromAddress,
-                       wallet: dataStore.coreSystem?.wallet(for: from.currency),
-                       keyStore: dataStore.keyStore,
-                       kvStore: Backend.kvStore) { fee in
+        fetchWkFee(for: from,
+                   address: fromAddress,
+                   wallet: dataStore.coreSystem?.wallet(for: from.currency),
+                   keyStore: dataStore.keyStore,
+                   kvStore: Backend.kvStore) { [weak self] fee in
+            guard fee == nil else {
                 dataStore.fromFee = fee
+                group.leave()
+                return
+            }
+            
+            self?.fetchEthFee(for: from, address: fromAddress) { fee in
+                dataStore.fromFeeEth = fee
                 group.leave()
             }
         }
