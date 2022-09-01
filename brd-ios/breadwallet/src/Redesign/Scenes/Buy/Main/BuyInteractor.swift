@@ -7,6 +7,67 @@
 //
 
 import UIKit
+import WalletKit
+
+protocol FeeFetchable {
+    // Maybe pass sender instead of wallet/keyStore/kvStore ?
+    func fetchWkFee(for amount: Amount,
+                    address: String,
+                    wallet: Wallet?,
+                    keyStore: KeyStore?,
+                    kvStore: BRReplicatedKVStore?,
+                    completion: @escaping ((TransferFeeBasis?) -> Void))
+    
+    func fetchEthFee(for amount: Amount, address: String, completion: @escaping ((Decimal?) -> Void))
+}
+
+extension FeeFetchable {
+    
+    func fetchWkFee(for amount: Amount,
+                    address: String,
+                    wallet: Wallet?,
+                    keyStore: KeyStore?,
+                    kvStore: BRReplicatedKVStore?,
+                    completion: @escaping ((TransferFeeBasis?) -> Void)) {
+        guard let wallet = wallet,
+        let keyStore = keyStore,
+        let kvStore = kvStore
+        else { return
+        }
+
+        let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
+        sender.estimateFee(address: address,
+                           amount: amount,
+                           tier: .regular,
+                           isStake: false) { result in
+            switch result {
+            case .success(let fee):
+                completion(fee)
+                
+            case .failure:
+                completion(nil)
+            }
+        }
+    }
+    
+    func fetchEthFee(for amount: Amount,
+                     address: String,
+                     completion: @escaping ((Decimal?) -> Void)) {
+        let data = EstimateFeeRequestData(amount: amount.tokenValue,
+                                          currency: amount.currency.code,
+                                          destination: address)
+        
+        EstimateFeeWorker().execute(requestData: data) { result in
+            switch result {
+            case .success(let fee):
+                completion(fee?.fee)
+                
+            case .failure:
+                completion(nil)
+            }
+        }
+    }
+}
 
 class BuyInteractor: NSObject, Interactor, BuyViewActions {
     typealias Models = BuyModels
@@ -115,51 +176,32 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     
     private func getFees() {
         guard let to = dataStore?.toAmount,
-              let wallet = dataStore?.coreSystem?.wallet(for: to.currency),
-              let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore,
-              let address = dataStore?.address(for: to.currency),
-              let value = dataStore?.amountFrom(decimal: to.tokenValue, currency: to.currency)
+              let address = dataStore?.address(for: to.currency)
         else { return }
         
-        let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-        sender.estimateFee(address: address,
-                           amount: value,
-                           tier: .regular,
-                           isStake: false) { [weak self] result in
-            switch result {
-            case .success(let fee):
-                self?.dataStore?.ethFee = nil
-                self?.dataStore?.toFee = fee
-                
+        dataStore?.toFee = nil
+        dataStore?.ethFee = nil
+        
+        guard !to.currency.isEthereumCompatible else {
+            fetchEthFee(for: to, address: address) { [weak self] fee in
+                self?.dataStore?.ethFee = fee
                 self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
                                                                      card: self?.dataStore?.paymentCard,
                                                                      quote: self?.dataStore?.quote))
-                
-            case .failure(let error):
-                guard to.currency.isEthereumCompatible == true else {
-                    self?.presenter?.presentError(actionResponse: .init(error: error))
-                    return
-                }
-                let address = self?.dataStore?.address(for: to.currency)
-                let data = EstimateFeeRequestData(amount: to.tokenValue,
-                                                  currency: to.currency.code,
-                                                  destination: address)
-                EstimateFeeWorker().execute(requestData: data) { [weak self] result in
-                    switch result {
-                    case .success(let fee):
-                        self?.dataStore?.toFee = nil
-                        self?.dataStore?.ethFee = fee?.fee
-                        self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
-                                                                             card: self?.dataStore?.paymentCard,
-                                                                             quote: self?.dataStore?.quote))
-                        
-                    case .failure(let error):
-                        self?.dataStore?.ethFee = nil
-                        self?.dataStore?.toFee = nil
-                        self?.presenter?.presentError(actionResponse: .init(error: error))
-                    }
-                }
             }
+            return
+        }
+        
+        fetchWkFee(for: to,
+                   address: address,
+                   wallet: dataStore?.coreSystem?.wallet(for: to.currency),
+                   keyStore: dataStore?.keyStore,
+                   kvStore: Backend.kvStore) { [weak self] fee in
+            self?.dataStore?.toFee = fee
+            
+            self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
+                                                                 card: self?.dataStore?.paymentCard,
+                                                                 quote: self?.dataStore?.quote))
         }
     }
     
