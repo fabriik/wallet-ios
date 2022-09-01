@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WalletKit
 
 class BuyInteractor: NSObject, Interactor, BuyViewActions {
     typealias Models = BuyModels
@@ -115,51 +116,38 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     
     private func getFees() {
         guard let to = dataStore?.toAmount,
-              let wallet = dataStore?.coreSystem?.wallet(for: to.currency),
-              let kvStore = Backend.kvStore, let keyStore = dataStore?.keyStore,
-              let address = dataStore?.address(for: to.currency),
-              let value = dataStore?.amountFrom(decimal: to.tokenValue, currency: to.currency)
+              let address = dataStore?.address(for: to.currency)
         else { return }
         
-        let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-        sender.estimateFee(address: address,
-                           amount: value,
-                           tier: .regular,
-                           isStake: false) { [weak self] result in
-            switch result {
-            case .success(let fee):
-                self?.dataStore?.ethFee = nil
-                self?.dataStore?.toFee = fee
-                
-                self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
-                                                                     card: self?.dataStore?.paymentCard,
-                                                                     quote: self?.dataStore?.quote))
-                
-            case .failure(let error):
-                guard to.currency.isEthereumCompatible == true else {
-                    self?.presenter?.presentError(actionResponse: .init(error: error))
-                    return
-                }
-                let address = self?.dataStore?.address(for: to.currency)
-                let data = EstimateFeeRequestData(amount: to.tokenValue,
-                                                  currency: to.currency.code,
-                                                  destination: address)
-                EstimateFeeWorker().execute(requestData: data) { [weak self] result in
-                    switch result {
-                    case .success(let fee):
-                        self?.dataStore?.toFee = nil
-                        self?.dataStore?.ethFee = fee?.fee
-                        self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
-                                                                             card: self?.dataStore?.paymentCard,
-                                                                             quote: self?.dataStore?.quote))
-                        
-                    case .failure(let error):
-                        self?.dataStore?.ethFee = nil
-                        self?.dataStore?.toFee = nil
-                        self?.presenter?.presentError(actionResponse: .init(error: error))
-                    }
-                }
+        dataStore?.toFee = nil
+        dataStore?.ethFee = nil
+        
+        let completion: (() -> Void) = { [weak self] in
+            guard self?.dataStore?.networkFee != nil else {
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
+                return
             }
+            
+            self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
+                                                                 card: self?.dataStore?.paymentCard,
+                                                                 quote: self?.dataStore?.quote))
+        }
+        
+        guard !to.currency.isEthereumCompatible else {
+            fetchEthFee(for: to, address: address) { [weak self] fee in
+                self?.dataStore?.ethFee = fee
+                completion()
+            }
+            return
+        }
+        
+        fetchWkFee(for: to,
+                   address: address,
+                   wallet: dataStore?.coreSystem?.wallet(for: to.currency),
+                   keyStore: dataStore?.keyStore,
+                   kvStore: Backend.kvStore) { [weak self] fee in
+            self?.dataStore?.toFee = fee
+            completion()
         }
     }
     
