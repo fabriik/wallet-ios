@@ -12,7 +12,7 @@ extension Scenes {
     static let Buy = BuyViewController.self
 }
 
-protocol BuyViewActions: BaseViewActions, FetchViewActions {
+protocol BuyViewActions: BaseViewActions, FetchViewActions, FeeFetchable {
     func setAmount(viewAction: BuyModels.Amounts.ViewAction)
     func getExchangeRate(viewAction: BuyModels.Rate.ViewAction)
     func getPaymentCards(viewAction: BuyModels.PaymentCards.ViewAction)

@@ -15,7 +15,7 @@ extension Scenes {
     static let Swap = SwapViewController.self
 }
 
-protocol SwapViewActions: BaseViewActions, FetchViewActions {
+protocol SwapViewActions: BaseViewActions, FetchViewActions, FeeFetchable {
     func setAmount(viewAction: SwapModels.Amounts.ViewAction)
     func getRate(viewAction: SwapModels.Rate.ViewAction)
     func switchPlaces(viewAction: SwapModels.SwitchPlaces.ViewAction)
