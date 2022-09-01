@@ -234,7 +234,10 @@ class BaseCoordinator: NSObject,
         let nvc = RootNavigationController()
         var coordinator: Coordinatable?
         
-        if let profile = UserManager.shared.profile {
+        switch UserManager.shared.profileResult {
+        case .success(let profile):
+            guard let profile = profile else { return }
+            
             let roles = profile.roles
             let status = profile.status
             isKYCLevelTwo = status == .levelTwo(.levelTwo)
@@ -254,12 +257,18 @@ class BaseCoordinator: NSObject,
                 coordinator = KYCCoordinator(navigationController: nvc)
             }
             
-        } else if let error = UserManager.shared.error,
-                  let error = error as? NetworkingError,
-                  error == .sessionExpired || error == .parameterMissing {
+        case .failure(let error):
+            guard error as? NetworkingError == .sessionExpired
+                    || error as? NetworkingError == .parameterMissing else {
+                completion?(false)
+                return
+            }
+            
             coordinator = RegistrationCoordinator(navigationController: RootNavigationController())
-        } else {
+            
+        default:
             completion?(true)
+            
             return
         }
         
@@ -282,7 +291,6 @@ class BaseCoordinator: NSObject,
         LoadingView.hide()
         
         guard (error as? NetworkingError) != .sessionExpired else {
-            UserDefaults.emailConfirmed = false
             openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.Registration)
             return
         }

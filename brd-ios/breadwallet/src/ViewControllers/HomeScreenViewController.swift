@@ -427,24 +427,21 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     func attemptShowKYCPrompt() {
-        guard let profile = UserManager.shared.profile else {
-            guard (UserManager.shared.error as? NetworkingError) == .sessionExpired else {
-                hidePrompt(kycStatusPromptView)
-                attemptShowGeneralPrompt()
-                
-                return
-            }
-            hidePrompt(generalPromptView)
-            setupKYCPrompt(result: profileResult)
-            return
-        }
+        profileResult = UserManager.shared.profileResult
         
-        if profile.email == nil || !UserDefaults.emailConfirmed || UserManager.shared.profile?.status.canBuyTrade == false {
-            hidePrompt(generalPromptView)
-            setupKYCPrompt(result: profileResult)
-        } else {
-            hidePrompt(kycStatusPromptView)
+        switch profileResult {
+        case .success(let profile):
+            if profile?.status.canBuyTrade == false {
+                setupKYCPrompt(result: profileResult)
+            } else {
+                attemptShowGeneralPrompt()
+            }
+            
+        case .failure:
             attemptShowGeneralPrompt()
+            
+        default:
+            return
         }
     }
     

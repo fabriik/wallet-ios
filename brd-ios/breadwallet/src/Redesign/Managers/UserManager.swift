@@ -13,12 +13,14 @@ import Foundation
 class UserManager: NSObject {
     static var shared = UserManager()
     
-    var dataChanged = [((Profile?, Error?) -> Void)]()
     var profile: Profile?
     var error: Error?
+    var profileResult: Result<Profile?, Error>?
     
     func refresh(completion: ((Result<Profile?, Error>?) -> Void)? = nil) {
         ProfileWorker().execute { [weak self] result in
+            self?.profileResult = result
+            
             switch result {
             case .success(let profile):
                 self?.profile = profile
@@ -31,7 +33,6 @@ class UserManager: NSObject {
                 self?.error = error
             }
             
-            self?.dataChanged.forEach({ $0(self?.profile, self?.error) })
             DispatchQueue.main.async {
                 completion?(result)
             }
