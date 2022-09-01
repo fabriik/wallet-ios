@@ -427,33 +427,24 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     func attemptShowKYCPrompt() {
-        UserManager.shared.refresh { [weak self] profileResult in
-            self?.profileResult = profileResult
-            
-            switch profileResult {
-            case .success(let profile):
-                if profile?.email == nil || !UserDefaults.emailConfirmed || UserManager.shared.profile?.status.canBuyTrade == false {
-                    self?.hidePrompt(self?.generalPromptView)
-                    self?.setupKYCPrompt(result: self?.profileResult)
-                } else {
-                    self?.hidePrompt(self?.kycStatusPromptView)
-                    self?.attemptShowGeneralPrompt()
-                }
+        guard let profile = UserManager.shared.profile else {
+            guard (UserManager.shared.error as? NetworkingError) == .sessionExpired else {
+                hidePrompt(kycStatusPromptView)
+                attemptShowGeneralPrompt()
                 
-            case .failure(let error):
-                guard error as? NetworkingError == .sessionExpired else {
-                    self?.hidePrompt(self?.kycStatusPromptView)
-                    self?.attemptShowGeneralPrompt()
-                    
-                    return
-                }
-                
-                self?.hidePrompt(self?.generalPromptView)
-                self?.setupKYCPrompt(result: self?.profileResult)
-            default:
-                self?.hidePrompt(self?.kycStatusPromptView)
-                self?.attemptShowGeneralPrompt()
+                return
             }
+            hidePrompt(generalPromptView)
+            setupKYCPrompt(result: profileResult)
+            return
+        }
+        
+        if profile.email == nil || !UserDefaults.emailConfirmed || UserManager.shared.profile?.status.canBuyTrade == false {
+            hidePrompt(generalPromptView)
+            setupKYCPrompt(result: profileResult)
+        } else {
+            hidePrompt(kycStatusPromptView)
+            attemptShowGeneralPrompt()
         }
     }
     

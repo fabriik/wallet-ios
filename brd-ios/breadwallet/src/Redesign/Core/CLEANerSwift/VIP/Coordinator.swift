@@ -234,60 +234,47 @@ class BaseCoordinator: NSObject,
         let nvc = RootNavigationController()
         var coordinator: Coordinatable?
         
-        // TODO: If this logic passes QA, then unify the code in other places like "ApplicationController, HomeScreenViewController" and etc.
-        UserManager.shared.refresh { [unowned self] result in
-            switch result {
-            case .success(let profile):
-                guard let profile = profile else { return }
+        if let profile = UserManager.shared.profile {
+            let roles = profile.roles
+            let status = profile.status
+            isKYCLevelTwo = status == .levelTwo(.levelTwo)
+            
+            if roles.contains(.unverified)
+                || roles.isEmpty == true
+                || status == .emailPending
+                || status == .none {
+                coordinator = RegistrationCoordinator(navigationController: nvc)
                 
-                let roles = profile.roles
-                let status = profile.status
-                
-                isKYCLevelTwo = status == .levelTwo(.levelTwo)
-                
-                if roles.contains(.unverified)
-                    || roles.isEmpty == true
-                    || status == .emailPending
-                    || status == .none {
-                    coordinator = RegistrationCoordinator(navigationController: nvc)
-                    
-                } else if let kycLevel = checkForCustomerRole,
-                          roles.contains(kycLevel) {
-                    completion?(true)
-                } else if checkForCustomerRole == nil {
-                    completion?(true)
-                } else {
-                    coordinator = KYCCoordinator(navigationController: nvc)
-                }
-                
-            case .failure(let error):
-                guard error as? NetworkingError == .sessionExpired
-                        || error as? NetworkingError == .parameterMissing else {
-                    completion?(false)
-                    return
-                }
-                
-                coordinator = RegistrationCoordinator(navigationController: RootNavigationController())
-                
-            default:
+            } else if let kycLevel = checkForCustomerRole,
+                      roles.contains(kycLevel) {
                 completion?(true)
-                
-                return
+            } else if checkForCustomerRole == nil {
+                completion?(true)
+            } else {
+                coordinator = KYCCoordinator(navigationController: nvc)
             }
             
-            guard let coordinator = coordinator else {
-                completion?(false)
-                
-                return
-            }
-            
-            coordinator.start()
-            coordinator.parentCoordinator = self
-            childCoordinators.append(coordinator)
-            navigationController.show(coordinator.navigationController, sender: nil)
-            
-            completion?(false)
+        } else if let error = UserManager.shared.error,
+                  let error = error as? NetworkingError,
+                  error == .sessionExpired || error == .parameterMissing {
+            coordinator = RegistrationCoordinator(navigationController: RootNavigationController())
+        } else {
+            completion?(true)
+            return
         }
+        
+        guard let coordinator = coordinator else {
+            completion?(false)
+            
+            return
+        }
+        
+        coordinator.start()
+        coordinator.parentCoordinator = self
+        childCoordinators.append(coordinator)
+        navigationController.show(coordinator.navigationController, sender: nil)
+        
+        completion?(false)
     }
 
     func showMessage(with error: Error? = nil, model: InfoViewModel? = nil, configuration: InfoViewConfiguration? = nil) {
