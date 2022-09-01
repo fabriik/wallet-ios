@@ -9,66 +9,6 @@
 import UIKit
 import WalletKit
 
-protocol FeeFetchable {
-    // Maybe pass sender instead of wallet/keyStore/kvStore ?
-    func fetchWkFee(for amount: Amount,
-                    address: String,
-                    wallet: Wallet?,
-                    keyStore: KeyStore?,
-                    kvStore: BRReplicatedKVStore?,
-                    completion: @escaping ((TransferFeeBasis?) -> Void))
-    
-    func fetchEthFee(for amount: Amount, address: String, completion: @escaping ((Decimal?) -> Void))
-}
-
-extension FeeFetchable {
-    
-    func fetchWkFee(for amount: Amount,
-                    address: String,
-                    wallet: Wallet?,
-                    keyStore: KeyStore?,
-                    kvStore: BRReplicatedKVStore?,
-                    completion: @escaping ((TransferFeeBasis?) -> Void)) {
-        guard let wallet = wallet,
-        let keyStore = keyStore,
-        let kvStore = kvStore
-        else { return
-        }
-
-        let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-        sender.estimateFee(address: address,
-                           amount: amount,
-                           tier: .regular,
-                           isStake: false) { result in
-            switch result {
-            case .success(let fee):
-                completion(fee)
-                
-            case .failure:
-                completion(nil)
-            }
-        }
-    }
-    
-    func fetchEthFee(for amount: Amount,
-                     address: String,
-                     completion: @escaping ((Decimal?) -> Void)) {
-        let data = EstimateFeeRequestData(amount: amount.tokenValue,
-                                          currency: amount.currency.code,
-                                          destination: address)
-        
-        EstimateFeeWorker().execute(requestData: data) { result in
-            switch result {
-            case .success(let fee):
-                completion(fee?.fee)
-                
-            case .failure:
-                completion(nil)
-            }
-        }
-    }
-}
-
 class BuyInteractor: NSObject, Interactor, BuyViewActions {
     typealias Models = BuyModels
     
