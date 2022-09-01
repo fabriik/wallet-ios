@@ -349,6 +349,7 @@
 		7E852748286C551C0058F4C0 /* ServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E852747286C551C0058F4C0 /* ServerResponse.swift */; };
 		7E87B32A2853368E0097671F /* KYCDocumentUploadWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E87B3292853368E0097671F /* KYCDocumentUploadWorker.swift */; };
 		7E87B32D285346E00097671F /* UIImage+Compress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E87B32C285346E00097671F /* UIImage+Compress.swift */; };
+		7E8D288B28C0CDFC00FF0CBC /* FeeFetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8D288A28C0CDFC00FF0CBC /* FeeFetchable.swift */; };
 		7E8E9797283F4830008606B0 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8E9790283F4830008606B0 /* ProfileCoordinator.swift */; };
 		7E8E9798283F4830008606B0 /* ProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8E9791283F4830008606B0 /* ProfileStore.swift */; };
 		7E8E9799283F4830008606B0 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8E9792283F4830008606B0 /* ProfilePresenter.swift */; };
@@ -1343,6 +1344,7 @@
 		7E852747286C551C0058F4C0 /* ServerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerResponse.swift; sourceTree = "<group>"; };
 		7E87B3292853368E0097671F /* KYCDocumentUploadWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCDocumentUploadWorker.swift; sourceTree = "<group>"; };
 		7E87B32C285346E00097671F /* UIImage+Compress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Compress.swift"; sourceTree = "<group>"; };
+		7E8D288A28C0CDFC00FF0CBC /* FeeFetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeFetchable.swift; sourceTree = "<group>"; };
 		7E8E9790283F4830008606B0 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		7E8E9791283F4830008606B0 /* ProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStore.swift; sourceTree = "<group>"; };
 		7E8E9792283F4830008606B0 /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
@@ -2610,6 +2612,7 @@
 		7E5B305C28A67FDC0065D2D8 /* REUSABLE */ = {
 			isa = PBXGroup;
 			children = (
+				7E8D288928C0CDF000FF0CBC /* Protocols */,
 				7EF45F7F284768C100D1F7B0 /* ItemSelection */,
 				7E2E1A2F284E169E00E56E69 /* CheckList */,
 				7E5B305D28A67FE70065D2D8 /* BaseInfo */,
@@ -2897,6 +2900,14 @@
 				7B94EFA928BD501500F63B62 /* UINavigationController+Completion.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		7E8D288928C0CDF000FF0CBC /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7E8D288A28C0CDFC00FF0CBC /* FeeFetchable.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		7E8E978F283F4817008606B0 /* Profile */ = {
@@ -4593,6 +4604,7 @@
 				7E383A9B28AF68160000D2F7 /* BuyErrors.swift in Sources */,
 				CEC6AA3B1DEE4EB000EE5AFD /* CGRect+Additions.swift in Sources */,
 				4F3AB12A25D58AB400B378DC /* SelectBakerViewController.swift in Sources */,
+				7E8D288B28C0CDFC00FF0CBC /* FeeFetchable.swift in Sources */,
 				E843C1172188D19000F46672 /* OnboardingViewController.swift in Sources */,
 				7ECCA98F2873059300F99368 /* ExchangeEndpoints.swift in Sources */,
 				7E5CB38B2835090E00EC787E /* Shadable.swift in Sources */,
