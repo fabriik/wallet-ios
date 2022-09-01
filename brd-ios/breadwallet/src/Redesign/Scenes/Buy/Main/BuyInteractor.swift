@@ -122,12 +122,21 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         dataStore?.toFee = nil
         dataStore?.ethFee = nil
         
+        let completion: (() -> Void) = { [weak self] in
+            guard self?.dataStore?.networkFee != nil else {
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
+                return
+            }
+            
+            self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
+                                                                 card: self?.dataStore?.paymentCard,
+                                                                 quote: self?.dataStore?.quote))
+        }
+        
         guard !to.currency.isEthereumCompatible else {
             fetchEthFee(for: to, address: address) { [weak self] fee in
                 self?.dataStore?.ethFee = fee
-                self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
-                                                                     card: self?.dataStore?.paymentCard,
-                                                                     quote: self?.dataStore?.quote))
+                completion()
             }
             return
         }
@@ -138,10 +147,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                    keyStore: dataStore?.keyStore,
                    kvStore: Backend.kvStore) { [weak self] fee in
             self?.dataStore?.toFee = fee
-            
-            self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
-                                                                 card: self?.dataStore?.paymentCard,
-                                                                 quote: self?.dataStore?.quote))
+            completion()
         }
     }
     

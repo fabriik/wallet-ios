@@ -233,6 +233,12 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         group.notify(queue: .main) { [weak self] in
+            guard self?.dataStore?.fromFeeAmount != nil,
+                  self?.dataStore?.toFeeAmount != nil else {
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
+                return
+            }
+            
             self?.recalculate(viewAction: .init())
             
             self?.presenter?.presentAmount(actionResponse: .init(from: self?.dataStore?.from,
@@ -240,8 +246,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                                  fromFee: self?.dataStore?.fromFeeAmount,
                                                                  toFee: self?.dataStore?.toFeeAmount,
                                                                  baseBalance: self?.dataStore?.from?.currency.state?.balance,
-                                                                 minimumAmount: self?.dataStore?.quote?.minimumUsd
-                                                                ))
+                                                                 minimumAmount: self?.dataStore?.quote?.minimumUsd))
         }
     }
     
