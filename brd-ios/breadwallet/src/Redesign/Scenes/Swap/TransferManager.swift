@@ -1,5 +1,5 @@
 // 
-//  ExchangeManager.swift
+//  TransferManager.swift
 //  breadwallet
 //
 //  Created by Rok on 23/08/2022.
@@ -10,8 +10,8 @@
 
 import Foundation
 
-class ExchangeManager {
-    static let shared = ExchangeManager()
+class TransferManager {
+    static let shared = TransferManager()
     
     private var worker: SwapHistoryWorker
     private var timer: Timer
