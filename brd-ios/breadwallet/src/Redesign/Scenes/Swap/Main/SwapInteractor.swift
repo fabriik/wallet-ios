@@ -30,12 +30,21 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 guard let currencies = currencies,
                       currencies.count >= 2 else { return }
                 
-                let first = currencies[0]
-                let second = currencies[1]
-                
-                self?.dataStore?.supportedCurrencies = currencies
-                self?.dataStore?.fromCurrency = self?.dataStore?.currencies.first(where: { $0.code == first.name })
-                self?.dataStore?.toCurrency = self?.dataStore?.currencies.first(where: { $0.code == second.name })
+                for i in 0..<currencies.count {
+                    self?.dataStore?.supportedCurrencies = currencies
+                    self?.dataStore?.fromCurrency = self?.dataStore?.currencies.first(where: { $0.code == currencies[i].name })
+                    
+                    for i in 0..<currencies.count {
+                        self?.dataStore?.toCurrency = self?.dataStore?.currencies.first(where: { $0.code == currencies[i].name })
+                        if self?.dataStore?.toCurrency != nil && self?.dataStore?.toCurrency != self?.dataStore?.fromCurrency {
+                            break
+                        }
+                    }
+                    
+                    if self?.dataStore?.fromCurrency != nil && self?.dataStore?.toCurrency != nil {
+                        break
+                    }
+                }
                 
                 let item = Models.Item(from: self?.dataStore?.fromCurrency,
                                        to: self?.dataStore?.toCurrency,
