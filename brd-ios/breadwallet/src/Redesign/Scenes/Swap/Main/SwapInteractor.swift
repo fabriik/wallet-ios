@@ -22,29 +22,19 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     func getData(viewAction: FetchModels.Get.ViewAction) {
         guard dataStore?.currencies.isEmpty == false else { return }
         
-        ExchangeManager.shared.reload()
-        
+        TransferManager.shared.reload()
         SupportedCurrenciesWorker().execute { [weak self] result in
             switch result {
             case .success(let currencies):
                 guard let currencies = currencies,
                       currencies.count >= 2 else { return }
                 
-                for i in 0..<currencies.count {
-                    self?.dataStore?.supportedCurrencies = currencies
-                    self?.dataStore?.fromCurrency = self?.dataStore?.currencies.first(where: { $0.code == currencies[i].name })
-                    
-                    for i in 0..<currencies.count {
-                        self?.dataStore?.toCurrency = self?.dataStore?.currencies.first(where: { $0.code == currencies[i].name })
-                        if self?.dataStore?.toCurrency != nil && self?.dataStore?.toCurrency != self?.dataStore?.fromCurrency {
-                            break
-                        }
-                    }
-                    
-                    if self?.dataStore?.fromCurrency != nil && self?.dataStore?.toCurrency != nil {
-                        break
-                    }
-                }
+                let first = currencies[0]
+                let second = currencies[1]
+                
+                self?.dataStore?.supportedCurrencies = currencies
+                self?.dataStore?.fromCurrency = self?.dataStore?.currencies.first(where: { $0.code == first.name })
+                self?.dataStore?.toCurrency = self?.dataStore?.currencies.first(where: { $0.code == second.name })
                 
                 let item = Models.Item(from: self?.dataStore?.fromCurrency,
                                        to: self?.dataStore?.toCurrency,
@@ -134,22 +124,21 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     private func recalculate(viewAction: SwapModels.Amounts.ViewAction) {
-        guard let dataStore = dataStore,
-              let fromCurrency = dataStore.fromCurrency,
-              let toCurrency = dataStore.toCurrency
+        guard let fromCurrency = dataStore?.fromCurrency,
+              let toCurrency = dataStore?.toCurrency
         else {
             presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "No selected currencies.")))
             return
         }
         
-        let exchangeRate = dataStore.quote?.exchangeRate ?? 1
-        let markup = dataStore.quote?.markup ?? 1
+        let exchangeRate = dataStore?.quote?.exchangeRate ?? 1
+        let markup = dataStore?.quote?.markup ?? 1
         
-        let toFeeRate = dataStore.quote?.toFeeCurrency?.rate ?? 1
-        let toFee = (dataStore.toFeeAmount?.tokenValue ?? 0) / toFeeRate
+        let toFeeRate = dataStore?.quote?.toFeeCurrency?.rate ?? 1
+        let toFee = (dataStore?.toFeeAmount?.tokenValue ?? 0) / toFeeRate
         
-        let fromRate = dataStore.fromRate ?? 0
-        let toRate = dataStore.toRate ?? 0
+        let fromRate = dataStore?.fromRate ?? 0
+        let toRate = dataStore?.toRate ?? 0
         
         let from: Decimal
         let to: Decimal
@@ -178,129 +167,86 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             from = (to + toFee) / exchangeRate * markup
             
         } else {
-            guard dataStore.fromCurrency != nil,
-                  dataStore.toCurrency != nil else { return }
+            guard dataStore?.fromCurrency != nil,
+                  dataStore?.toCurrency != nil else { return }
             
-            from = dataStore.from?.tokenValue ?? 0
+            from = dataStore?.from?.tokenValue ?? 0
             to =  from * exchangeRate / markup - toFee   
         }
         
-        dataStore.from = dataStore.amountFrom(decimal: from, currency: fromCurrency)
-        dataStore.to = dataStore.amountFrom(decimal: to, currency: toCurrency)
+        dataStore?.from = dataStore?.amountFrom(decimal: from, currency: fromCurrency)
+        dataStore?.to = dataStore?.amountFrom(decimal: to, currency: toCurrency)
     }
     
     func getFees(viewAction: Models.Fee.ViewAction) {
         guard let from = viewAction.from,
-              let to = viewAction.to
+              let to = viewAction.to,
+              let dataStore = dataStore,
+              let fromAddress = dataStore.address(for: from.currency),
+              let toAddress = dataStore.address(for: to.currency)
         else {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
             return
         }
         
         let group = DispatchGroup()
+    
+        // fetching new fees
+        dataStore.fromFee = nil
+        dataStore.fromFeeEth = nil
+        dataStore.toFee = nil
+        dataStore.toFeeEth = nil
+        
         group.enter()
-        
-        guard let dataStore = dataStore,
-              let wallet = dataStore.coreSystem?.wallet(for: from.currency),
-              let kvStore = Backend.kvStore,
-              let keyStore = dataStore.keyStore,
-              let address = dataStore.address(for: from.currency)
-        else {
-            presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
-            return
-        }
-        
-        var value = dataStore.amountFrom(decimal: from.tokenValue, currency: from.currency)
-        var sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-        sender.estimateFee(address: address,
-                           amount: value,
-                           tier: .regular,
-                           isStake: false) { [weak self] result in
-            switch result {
-            case .success(let fee):
-                self?.dataStore?.fromFee = fee
+        if from.currency.isEthereumCompatible {
+            
+            fetchEthFee(for: from, address: fromAddress) { fee in
+                dataStore.fromFeeEth = fee
                 group.leave()
-                
-            case .failure(let error):
-                guard from.currency.isEthereumCompatible == true else {
-                    self?.presenter?.presentError(actionResponse: .init(error: error))
-                    group.leave()
-                    return
-                }
-                
-                let address = self?.dataStore?.address(for: from.currency)
-                let data = EstimateFeeRequestData(amount: from.tokenValue,
-                                                  currency: from.currency.code,
-                                                  destination: address)
-                
-                EstimateFeeWorker().execute(requestData: data) { [weak self] result in
-                    switch result {
-                    case .success(let fee):
-                        self?.dataStore?.fromFeeEth = fee?.fee
-                        
-                    case .failure(let error):
-                        self?.presenter?.presentError(actionResponse: .init(error: error))
-                    }
-                    group.leave()
-                }
+            }
+        } else {
+            fetchWkFee(for: from,
+                       address: fromAddress,
+                       wallet: dataStore.coreSystem?.wallet(for: from.currency),
+                       keyStore: dataStore.keyStore,
+                       kvStore: Backend.kvStore) { fee in
+                dataStore.fromFee = fee
+                group.leave()
             }
         }
         
-        guard let wallet = dataStore.coreSystem?.wallet(for: to.currency),
-              let kvStore = Backend.kvStore, let keyStore = dataStore.keyStore,
-              let address = dataStore.address(for: to.currency)
-        else {
-            presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
-            return
-        }
-        
         group.enter()
-        value = dataStore.amountFrom(decimal: to.tokenValue, currency: to.currency)
-        sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-        sender.estimateFee(address: address,
-                           amount: value,
-                           tier: .regular,
-                           isStake: false) { [weak self] result in
-            switch result {
-            case .success(let fee):
-                self?.dataStore?.toFee = fee
+        if to.currency.isEthereumCompatible {
+            fetchEthFee(for: to, address: toAddress) { fee in
+                dataStore.toFeeEth = fee
                 group.leave()
-                
-            case .failure(let error):
-                guard to.currency.isEthereumCompatible == true else {
-                    self?.presenter?.presentError(actionResponse: .init(error: error))
-                    group.leave()
-                    return
-                }
-                
-                let address = self?.dataStore?.address(for: to.currency)
-                let data = EstimateFeeRequestData(amount: to.tokenValue,
-                                                  currency: to.currency.code,
-                                                  destination: address)
-                
-                EstimateFeeWorker().execute(requestData: data) { [weak self] result in
-                    switch result {
-                    case .success(let fee):
-                        self?.dataStore?.toFeeEth = fee?.fee
-                        
-                    case .failure(let error):
-                        self?.presenter?.presentError(actionResponse: .init(error: error))
-                    }
-                    group.leave()
-                }
+            }
+        } else {
+            fetchWkFee(for: to,
+                       address: toAddress,
+                       wallet: dataStore.coreSystem?.wallet(for: to.currency),
+                       keyStore: dataStore.keyStore,
+                       kvStore: Backend.kvStore) { fee in
+                dataStore.toFee = fee
+                group.leave()
             }
         }
         
         group.notify(queue: .main) { [weak self] in
+            guard self?.dataStore?.fromFeeAmount != nil,
+                  self?.dataStore?.toFeeAmount != nil else {
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
+                return
+            }
+            
             self?.recalculate(viewAction: .init())
             
-            self?.presenter?.presentAmount(actionResponse: .init(from: dataStore.from,
-                                                                 to: dataStore.to,
-                                                                 fromFee: dataStore.fromFeeAmount,
-                                                                 toFee: dataStore.toFeeAmount,
-                                                                 baseBalance: dataStore.from?.currency.state?.balance,
-                                                                 minimumAmount: dataStore.quote?.minimumUsd
-                                                                ))
+            self?.presenter?.presentAmount(actionResponse: .init(from: self?.dataStore?.from,
+                                                                 to: self?.dataStore?.to,
+                                                                 fromFee: self?.dataStore?.fromFeeAmount,
+                                                                 toFee: self?.dataStore?.toFeeAmount,
+                                                                 baseBalance: self?.dataStore?.from?.currency.state?.balance,
+                                                                 minimumAmount: self?.dataStore?.quote?.minimumUsd))
         }
     }
     
@@ -421,8 +367,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 var error: FEError?
                 switch result {
                 case .success:
-                    ExchangeManager.shared.reload()
-                    
+                    TransferManager.shared.reload()
                     let from = self?.dataStore?.fromCurrency?.code
                     let to = self?.dataStore?.toCurrency?.code
                     
