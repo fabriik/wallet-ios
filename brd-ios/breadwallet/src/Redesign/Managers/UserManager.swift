@@ -17,11 +17,6 @@ class UserManager: NSObject {
     var profile: Profile?
     var error: Error?
     
-    override init() {
-        super.init()
-        refresh()
-    }
-    
     func refresh(completion: ((Result<Profile?, Error>?) -> Void)? = nil) {
         ProfileWorker().execute { [weak self] result in
             switch result {
