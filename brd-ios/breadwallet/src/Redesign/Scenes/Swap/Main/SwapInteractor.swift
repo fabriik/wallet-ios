@@ -178,7 +178,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                        toFee: dataStore?.toFeeAmount,
                                                        baseBalance: dataStore?.from?.currency.state?.balance,
                                                        minimumAmount: dataStore?.quote?.minimumUsd,
-                                                       feesUpdated: viewAction.feesUpdated))
+                                                       handleErrors: viewAction.handleErrors))
     }
     
     func getFees(viewAction: Models.Fee.ViewAction) {
@@ -233,7 +233,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 return
             }
             
-            self?.setAmount(viewAction: .init(feesUpdated: true))
+            self?.setAmount(viewAction: .init(handleErrors: true))
         }
     }
     

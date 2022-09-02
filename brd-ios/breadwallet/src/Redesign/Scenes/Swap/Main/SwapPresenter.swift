@@ -112,7 +112,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                     title: .text("I want"),
                                                     feeDescription: .text(receivingFee)))
         
-        guard actionResponse.feesUpdated else {
+        guard actionResponse.handleErrors else {
             viewController?.displayAmount(responseDisplay: .init(continueEnabled: false,
                                                                  amounts: swapModel,
                                                                  rate: exchangeRateViewModel))

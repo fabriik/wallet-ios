@@ -39,7 +39,7 @@ enum SwapModels {
             var fromCryptoAmount: String?
             var toFiatAmount: String?
             var toCryptoAmount: String?
-            var feesUpdated = false
+            var handleErrors = false
         }
         
         struct ActionResponse {
@@ -51,7 +51,7 @@ enum SwapModels {
             
             var baseBalance: Amount?
             var minimumAmount: Decimal?
-            var feesUpdated = false
+            var handleErrors = false
         }
         
         struct ResponseDisplay {
