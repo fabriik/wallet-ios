@@ -28,18 +28,18 @@ echo determine environment
 echo
 
 branchname="$(git branch --show-current)"
-
-if [[ branchname == mit* ]]; then
+if [[ $branchname == "mit"* ]]; then
 backendEnvt="dev"
 scheme="wallet-dev"
-elif [[ branchname == staging* ]]; then
+elif [[ $branchname == "staging"* ]]; then
 backendEnvt="stage"
 scheme="wallet-stg"
-elif [[ branchname == release* ]]; then
+elif [[ $branchname == "release-"* ]]; then
 backendEnvt="prod"
 scheme="wallet"
 else
-echo "unable to interpret current branch"
+echo "Unable to interpret current branch "
+echo "Branch is " $branchname
 exit 9
 fi
 
@@ -53,9 +53,6 @@ echo
 git restore breadwallet/Resources/currencies.json
 git restore breadwallet/Resources/brd-tokens.tar
 git restore breadwallet/Resources/brd-tokens-staging.tar
-git restore breadwallet/Info.plist
-git restore breadwalletWidget/Info.plist
-git restore breadwalletIntentHandler/Info.plist
 
 echo
 echo "Set versioning"
@@ -94,6 +91,14 @@ echo
 
 source ${script_dir}/archive.sh "${scheme}"
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
+
+echo
+echo "Branch is " $branchname
+echo "Environment is " $backendEnvt
+echo "Scheme is " $scheme
+echo
+echo Build Copmlete
+echo
 
 # source ${script_dir}/export_build.sh "${scheme}"
 # rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi

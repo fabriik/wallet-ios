@@ -85,7 +85,9 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             dataStore?.to = (dataStore?.from ?? 0) * rate
         }
         
-        getFees()
+        presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
+                                                       card: dataStore?.paymentCard,
+                                                       quote: dataStore?.quote))
     }
     
     func getExchangeRate(viewAction: Models.Rate.ViewAction) {
@@ -116,7 +118,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         }
     }
     
-    private func getFees() {
+    func getFees(viewAction: Models.Fee.ViewAction) {
         guard let to = dataStore?.toAmount,
               let address = dataStore?.address(for: to.currency)
         else { return }
@@ -132,7 +134,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             
             self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
                                                                  card: self?.dataStore?.paymentCard,
-                                                                 quote: self?.dataStore?.quote))
+                                                                 quote: self?.dataStore?.quote,
+                                                                 handleErrors: true))
         }
         
         guard !to.currency.isEthereumCompatible else {

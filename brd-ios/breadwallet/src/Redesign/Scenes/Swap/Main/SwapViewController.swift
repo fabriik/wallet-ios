@@ -137,6 +137,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 self?.interactor?.selectAsset(viewAction: .init(to: true))
             }
             
+            view.didFinish = { [weak self] in
+                self?.interactor?.getFees(viewAction: .init())
+            }
+            
             view.didChangePlaces = { [weak self] in
                 self?.view.endEditing(true)
                 self?.interactor?.switchPlaces(viewAction: .init())
