@@ -1985,6 +1985,9 @@
 /* receiving via <address> */
 "TransactionDetails.receivingVia" = "receiving via %1$@";
 
+/* received from <address> */
+"TransactionDetails.tokenId" = "%1$@";
+
 "TransactionDetails.reclaim" = "Reclaim";
 
 "TransactionDetails.resend" = "Resend";
@@ -2033,6 +2036,9 @@
 
 /* Transaction ID header */
 "TransactionDetails.txHashHeader" = "Transaction ID";
+
+/* Transaction URL */
+"TransactionDetails.txUrl" = "URL";
 
 /* (this transaction was) Received at this address: */
 "TransactionDirection.address" = "Received at this Address";

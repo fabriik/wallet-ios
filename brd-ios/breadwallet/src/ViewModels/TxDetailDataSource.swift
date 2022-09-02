@@ -22,6 +22,7 @@ class TxDetailDataSource: NSObject {
         case blockHeight
         case confirmations
         case transactionId
+        case url
         case gasPrice
         case gasLimit
         case fee
@@ -37,7 +38,8 @@ class TxDetailDataSource: NSObject {
                 return TxStatusCell.self
             case .memo:
                 return TxMemoCell.self
-            case .address, .transactionId:
+            //case .address, .transactionId:
+            case .address, .transactionId, .url:
                 return TxAddressCell.self
             case .gift:
                 return TxGiftCell.self
@@ -87,6 +89,7 @@ class TxDetailDataSource: NSObject {
         fields.append(.blockHeight)
         fields.append(.confirmations)
         fields.append(.transactionId)
+        fields.append(.url)
     }
     
     func registerCells(forTableView tableView: UITableView) {
@@ -107,6 +110,8 @@ class TxDetailDataSource: NSObject {
             return L10n.TransactionDetails.blockHeightLabel
         case .transactionId:
             return L10n.TransactionDetails.txHashHeader
+        case .url:
+            return L10n.TransactionDetails.txUrl
         case .gasPrice:
             return L10n.TransactionDetails.gasPriceHeader
         case .gasLimit:
@@ -177,6 +182,10 @@ extension TxDetailDataSource: UITableViewDataSource {
         case .transactionId:
             guard let addressCell = cell as? TxAddressCell else { return cell }
             addressCell.set(address: viewModel.transactionHash)
+            
+        case .url:
+            guard let addressCell = cell as? TxAddressCell else { return cell }
+            addressCell.set(address: viewModel.transactionURL)
             
         case .gasPrice:
             guard let labelCell = cell as? TxLabelCell else { return cell }

@@ -15,6 +15,7 @@ class TxListCell: UITableViewCell {
     
     private let timestamp = UILabel(font: .customBody(size: 16.0), color: .darkGray)
     private let descriptionLabel = UILabel(font: .customBody(size: 14.0), color: .lightGray)
+    private let tokenLabel = UILabel(font: .customBody(size: 14.0), color: .black)
     private let amount = UILabel(font: .customBold(size: 18.0))
     private let separator = UIView(color: .separatorGray)
     private let statusIndicator = TxStatusIndicator(width: 44.0)
@@ -43,6 +44,7 @@ class TxListCell: UITableViewCell {
         }
         
         descriptionLabel.text = viewModel.shortDescription
+        tokenLabel.text = viewModel.tokenDescription
         amount.attributedText = viewModel.amount(showFiatAmounts: showFiatAmounts, rate: rate)
         statusIndicator.status = viewModel.status
         
@@ -140,6 +142,7 @@ class TxListCell: UITableViewCell {
         
         contentView.addSubview(timestamp)
         contentView.addSubview(descriptionLabel)
+        contentView.addSubview(tokenLabel)
         contentView.addSubview(statusIndicator)
         contentView.addSubview(failedIndicator)
         contentView.addSubview(amount)
@@ -157,12 +160,19 @@ class TxListCell: UITableViewCell {
         let leadingXAnchor = statusIconContainer == nil ? contentView.leadingAnchor : statusIconContainer!.trailingAnchor
         
         timestamp.constrain([
-            timestamp.topAnchor.constraint(equalTo: contentView.topAnchor, constant: C.padding[2]),
+            //timestamp.topAnchor.constraint(equalTo: contentView.topAnchor, constant: C.padding[2]),
+            timestamp.topAnchor.constraint(equalTo: contentView.topAnchor, constant: C.padding[3]),
             timestamp.leadingAnchor.constraint(equalTo: leadingXAnchor, constant: C.padding[2])])
         descriptionLabel.constrain([
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -C.padding[2]),
+            //descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -C.padding[2]),
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -C.padding[1]),
             descriptionLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: amount.leadingAnchor, constant: -C.padding[2])
+        ])
+        tokenLabel.constrain([
+            tokenLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -C.padding[6]),
+            tokenLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor),
+            tokenLabel.trailingAnchor.constraint(lessThanOrEqualTo: amount.leadingAnchor, constant: C.padding[10])
         ])
         pendingConstraints = [
             descriptionLabel.centerYAnchor.constraint(equalTo: statusIndicator.centerYAnchor),
@@ -193,6 +203,8 @@ class TxListCell: UITableViewCell {
         amount.textAlignment = .right
         descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         descriptionLabel.lineBreakMode = .byTruncatingTail
+        tokenLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        tokenLabel.lineBreakMode = .byTruncatingTail
         
         failedIndicator.setTitle(L10n.Transaction.failed, for: .normal)
         failedIndicator.titleLabel?.font = .customBold(size: 12.0)

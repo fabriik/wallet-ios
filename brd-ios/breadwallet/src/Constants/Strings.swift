@@ -1952,10 +1952,16 @@ internal enum L10n {
     internal static func to(_ p1: Any) -> String {
       return L10n.tr("Localizable", "TransactionDetails.to", String(describing: p1))
     }
+    /// %1$@
+    internal static func tokenId(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "TransactionDetails.tokenId", String(describing: p1))
+    }
     /// Total
     internal static let totalHeader = L10n.tr("Localizable", "TransactionDetails.totalHeader")
     /// Transaction ID
     internal static let txHashHeader = L10n.tr("Localizable", "TransactionDetails.txHashHeader")
+    /// URL
+    internal static let txUrl = L10n.tr("Localizable", "TransactionDetails.txUrl")
   }
 
   internal enum TransactionDirection {

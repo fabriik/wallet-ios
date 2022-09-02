@@ -297,13 +297,13 @@ struct CurrencyFileManager {
         let color2Sfp: UIColor = UIColor.almostBlack
         let colorsSfp: (UIColor, UIColor) = (color1Sfp, color2Sfp)
         if(E.isTestnet) {
-            let currencySfp:CurrencyId = CurrencyId(rawValue: String("bitcoinrpc-testnet:__native__"))
+            let currencySfp: CurrencyId = CurrencyId(rawValue: String("bitcoinrpc-testnet:__native__"))
             
-            tokenSfp = CurrencyMetaData(uid:currencySfp,code:"sfp",isSupported:true,colors:colorsSfp,name:"SFP",tokenAddress:"__native__",decimals:UInt8(0),type:"native")
+            tokenSfp = CurrencyMetaData(uid: currencySfp,code: "sfp",isSupported: true,colors: colorsSfp,name: "SFP",tokenAddress: "__native__",decimals: UInt8(0),type: "native")
             
             currencyMetaData[currencySfp] = tokenSfp
         } else {
-            let currencySfp:CurrencyId = CurrencyId(rawValue: String("bitcoinrpc-mainnet:__native__"))
+            let currencySfp: CurrencyId = CurrencyId(rawValue: String("bitcoinrpc-mainnet:__native__"))
             
             tokenSfp = CurrencyMetaData(uid:currencySfp,code:"sfp",isSupported:true,colors:colorsSfp,name:"SFP",tokenAddress:"__native__",decimals:UInt8(0),type:"native")
             currencyMetaData[currencySfp] = tokenSfp

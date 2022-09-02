@@ -85,6 +85,10 @@ struct TxDetailViewModel: TxViewModel {
     var transactionHash: String {
         return currency.isEthereumCompatible ? tx.hash : tx.hash.removing(prefix: "0x")
     }
+    
+    var transactionURL: String {
+        return tx.txUrl
+    }
 }
 
 extension TxDetailViewModel {

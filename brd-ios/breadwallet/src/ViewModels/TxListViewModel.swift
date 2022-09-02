@@ -40,6 +40,32 @@ struct TxListViewModel: TxViewModel {
             return format(address)
         }
     }
+    
+    var tokenDescription: String {
+        let isComplete = tx.status == .complete
+        
+        if let comment = comment, !comment.isEmpty {
+            return comment
+        } else if let tokenCode = tokenTransferCode {
+            return L10n.Transaction.tokenTransfer(tokenCode.uppercased())
+        } else {
+            var address = tx.toAddress
+            var format: (Any) -> String
+            
+            switch tx.direction {
+            case .sent, .recovered:
+                format = isComplete ? L10n.Transaction.sentTo : L10n.Transaction.sendingTo
+            case .received:
+                if !tx.currency.isBitcoinCompatible {
+                    format = isComplete ? L10n.TransactionDetails.tokenId : L10n.TransactionDetails.tokenId
+                    address = tx.tokenId
+                } else {
+                    format = isComplete ? L10n.TransactionDetails.receivedVia : L10n.TransactionDetails.receivingVia
+                }
+            }
+            return format(address)
+        }
+    }
 
     func amount(showFiatAmounts: Bool, rate: Rate) -> NSAttributedString {
         var amount = tx.amount

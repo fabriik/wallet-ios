@@ -76,6 +76,8 @@ class Transaction {
 
     var targetAddress: String { return transfer.target?.sanitizedDescription ?? "" }
     var sourceAddress: String { return transfer.source?.sanitizedDescription ?? "" }
+    var tokenId: String { return transfer.tokenId ?? "" }
+    var txUrl: String { return transfer.txUrl ?? "" }
     var toAddress: String { return targetAddress }
     var fromAddress: String { return sourceAddress }
 
