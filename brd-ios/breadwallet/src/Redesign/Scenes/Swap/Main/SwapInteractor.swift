@@ -181,9 +181,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     func getFees(viewAction: Models.Fee.ViewAction) {
         guard let from = viewAction.from,
               let to = viewAction.to,
-              let dataStore = dataStore,
-              let fromAddress = dataStore.address(for: from.currency),
-              let toAddress = dataStore.address(for: to.currency)
+              let fromAddress = dataStore?.address(for: from.currency),
+              let toAddress = dataStore?.address(for: to.currency)
         else {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
             return
@@ -192,48 +191,40 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let group = DispatchGroup()
     
         // fetching new fees
-        dataStore.fromFee = nil
-        dataStore.fromFeeEth = nil
-        dataStore.toFee = nil
-        dataStore.toFeeEth = nil
+        dataStore?.fromFee = nil
+        dataStore?.fromFeeEth = nil
+        dataStore?.toFee = nil
+        dataStore?.toFeeEth = nil
         
         group.enter()
         fetchWkFee(for: from,
                    address: fromAddress,
-                   wallet: dataStore.coreSystem?.wallet(for: from.currency),
-                   keyStore: dataStore.keyStore,
+                   wallet: dataStore?.coreSystem?.wallet(for: from.currency),
+                   keyStore: dataStore?.keyStore,
                    kvStore: Backend.kvStore) { [weak self] fee in
-            guard fee == nil else {
-                dataStore.fromFee = fee
-                group.leave()
-                return
-            }
-            
-            self?.fetchEthFee(for: from, address: fromAddress) { fee in
-                dataStore.fromFeeEth = fee
-                group.leave()
-            }
+            self?.dataStore?.fromFee = fee
+            group.leave()
         }
         
         group.enter()
         if to.currency.isEthereumCompatible {
-            fetchEthFee(for: to, address: toAddress) { fee in
-                dataStore.toFeeEth = fee
+            fetchEthFee(for: to, address: toAddress) { [weak self] fee in
+                self?.dataStore?.toFeeEth = fee
                 group.leave()
             }
         } else {
             fetchWkFee(for: to,
                        address: toAddress,
-                       wallet: dataStore.coreSystem?.wallet(for: to.currency),
-                       keyStore: dataStore.keyStore,
-                       kvStore: Backend.kvStore) { fee in
-                dataStore.toFee = fee
+                       wallet: dataStore?.coreSystem?.wallet(for: to.currency),
+                       keyStore: dataStore?.keyStore,
+                       kvStore: Backend.kvStore) { [weak self] fee in
+                self?.dataStore?.toFee = fee
                 group.leave()
             }
         }
         
         group.notify(queue: .main) { [weak self] in
-            guard self?.dataStore?.fromFeeAmount != nil,
+            guard self?.dataStore?.fromFee != nil,
                   self?.dataStore?.toFeeAmount != nil else {
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
                 return
@@ -333,7 +324,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
               let currency = dataStore.currencies.first(where: { $0.code == swap?.currency }),
               let wallet = dataStore.coreSystem?.wallet(for: currency),
               let kvStore = Backend.kvStore, let keyStore = dataStore.keyStore else {
-            // TODO: handle error
+            presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
             return
         }
         
@@ -342,7 +333,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
               let fee = dataStore.fromFee,
               let exchangeId = dataStore.swap?.exchangeId
         else {
-            presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee(fee: dataStore.fromFeeEth ?? 0)))
+            presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
             return
         }
         
