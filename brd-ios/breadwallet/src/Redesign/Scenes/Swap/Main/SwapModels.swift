@@ -39,6 +39,7 @@ enum SwapModels {
             var fromCryptoAmount: String?
             var toFiatAmount: String?
             var toCryptoAmount: String?
+            var feesUpdated = false
         }
         
         struct ActionResponse {
@@ -50,6 +51,7 @@ enum SwapModels {
             
             var baseBalance: Amount?
             var minimumAmount: Decimal?
+            var feesUpdated = false
         }
         
         struct ResponseDisplay {
@@ -99,10 +101,7 @@ enum SwapModels {
     }
     
     struct Fee {
-        struct ViewAction {
-            var from: Amount?
-            var to: Amount?
-        }
+        struct ViewAction {}
         
         struct ActionResponse {
             var from: Decimal?

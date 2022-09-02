@@ -119,11 +119,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
-        recalculate(viewAction: viewAction)
-        getFees(viewAction: .init(from: dataStore?.from, to: dataStore?.to))
-    }
-    
-    private func recalculate(viewAction: SwapModels.Amounts.ViewAction) {
         guard let fromCurrency = dataStore?.fromCurrency,
               let toCurrency = dataStore?.toCurrency
         else {
@@ -171,16 +166,24 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                   dataStore?.toCurrency != nil else { return }
             
             from = dataStore?.from?.tokenValue ?? 0
-            to =  from * exchangeRate / markup - toFee   
+            to =  from * exchangeRate / markup - toFee
         }
         
         dataStore?.from = dataStore?.amountFrom(decimal: from, currency: fromCurrency)
         dataStore?.to = dataStore?.amountFrom(decimal: to, currency: toCurrency)
+        
+        presenter?.presentAmount(actionResponse: .init(from: dataStore?.from,
+                                                       to: dataStore?.to,
+                                                       fromFee: dataStore?.fromFeeAmount,
+                                                       toFee: dataStore?.toFeeAmount,
+                                                       baseBalance: dataStore?.from?.currency.state?.balance,
+                                                       minimumAmount: dataStore?.quote?.minimumUsd,
+                                                       feesUpdated: viewAction.feesUpdated))
     }
     
     func getFees(viewAction: Models.Fee.ViewAction) {
-        guard let from = viewAction.from,
-              let to = viewAction.to,
+        guard let from = dataStore?.from,
+              let to = dataStore?.to,
               let fromAddress = dataStore?.address(for: from.currency),
               let toAddress = dataStore?.address(for: to.currency)
         else {
@@ -230,14 +233,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 return
             }
             
-            self?.recalculate(viewAction: .init())
-            
-            self?.presenter?.presentAmount(actionResponse: .init(from: self?.dataStore?.from,
-                                                                 to: self?.dataStore?.to,
-                                                                 fromFee: self?.dataStore?.fromFeeAmount,
-                                                                 toFee: self?.dataStore?.toFeeAmount,
-                                                                 baseBalance: self?.dataStore?.from?.currency.state?.balance,
-                                                                 minimumAmount: self?.dataStore?.quote?.minimumUsd))
+            self?.setAmount(viewAction: .init(feesUpdated: true))
         }
     }
     
@@ -262,6 +258,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         setAmount(viewAction: .init())
         getRate(viewAction: .init())
+        // hide error if pressent
+        presenter?.presentError(actionResponse: .init())
     }
     
     func selectAsset(viewAction: SwapModels.Assets.ViewAction) {
