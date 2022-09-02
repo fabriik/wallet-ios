@@ -58,7 +58,7 @@ enum SwapErrors: FEError {
             return "The amount is higher than your daily limit of $10,000 USD. Please enter a lower amount."
             
         case .noFees:
-            return "No network fees."
+            return "Failed to fetch network fees. Please try again later."
             
         case .networkFee:
             return "This swap doesn't cover the included network fee. Please add more funds to your wallet or change the amount you're swapping."
