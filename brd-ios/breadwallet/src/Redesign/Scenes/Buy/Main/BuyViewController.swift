@@ -122,6 +122,10 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                 self?.interactor?.setAmount(viewAction: .init(tokenValue: value))
             }
             
+            view.didFinish = { [weak self] in
+                self?.interactor?.getFees(viewAction: .init())
+            }
+            
             view.didTapSelectAsset = { [weak self] in
                 guard let dataStore = self?.dataStore else { return }
                 

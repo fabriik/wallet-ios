@@ -17,6 +17,7 @@ protocol BuyViewActions: BaseViewActions, FetchViewActions, FeeFetchable {
     func getExchangeRate(viewAction: BuyModels.Rate.ViewAction)
     func getPaymentCards(viewAction: BuyModels.PaymentCards.ViewAction)
     func setAssets(viewAction: BuyModels.Assets.ViewAction)
+    func getFees(viewAction: BuyModels.Fee.ViewAction)
     func showOrderPreview(viewAction: BuyModels.OrderPreview.ViewAction)
 }
 
