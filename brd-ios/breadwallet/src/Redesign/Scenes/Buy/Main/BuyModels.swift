@@ -36,11 +36,24 @@ enum BuyModels {
             var amount: Amount?
             var card: PaymentCard?
             var quote: Quote?
+            var handleErrors = false
         }
         
         struct ResponseDisplay {
             var cryptoModel: SwapCurrencyViewModel?
             var cardModel: CardSelectionViewModel?
+        }
+    }
+    
+    struct Fee {
+        struct ViewAction {}
+        
+        struct ActionResponse {
+            var to: Decimal?
+        }
+        
+        struct ResponseDisplay {
+            var to: String?
         }
     }
     
