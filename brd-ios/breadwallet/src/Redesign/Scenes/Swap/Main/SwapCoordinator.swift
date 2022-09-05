@@ -35,6 +35,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
     
     func showSwapInfo(from: String, to: String, exchangeId: String) {
         open(scene: SwapInfoViewController.self) { vc in
+            vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId
             vc.dataStore?.item = (from: from, to: to)
             vc.prepareData()
@@ -52,6 +53,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
     
     func showFailure() {
         open(scene: Scenes.Failure) { vc in
+            vc.navigationItem.hidesBackButton = true
             vc.failure = FailureReason.swap
             vc.firstCallback = { [weak self] in
                 self?.popToRoot()
