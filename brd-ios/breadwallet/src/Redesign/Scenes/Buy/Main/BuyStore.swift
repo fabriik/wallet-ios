@@ -16,10 +16,9 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     var from: Decimal?
     var to: Decimal?
     var toCurrency: Currency? = Store.state.currencies.first(where: { $0.code.lowercased() == "btc" })
-    var fee: EstimateFee?
     
     var feeAmount: Amount? {
-        guard let value = fee,
+        guard let value = quote?.toFee,
               let currency = currencies.first(where: { $0.code == value.currency.uppercased() }) else {
             return nil
         }

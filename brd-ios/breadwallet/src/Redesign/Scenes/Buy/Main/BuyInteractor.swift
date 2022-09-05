@@ -118,36 +118,10 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         }
     }
     
-    func getFees(viewAction: Models.Fee.ViewAction) {
-        guard let to = dataStore?.toAmount,
-              let address = dataStore?.address(for: to.currency)
-        else { return }
-        
-        dataStore?.fee = nil
-        
-        let completion: (() -> Void) = { [weak self] in
-            guard self?.dataStore?.feeAmount != nil else {
-                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
-                return
-            }
-            
-            self?.presenter?.presentAssets(actionResponse: .init(amount: self?.dataStore?.toAmount,
-                                                                 card: self?.dataStore?.paymentCard,
-                                                                 quote: self?.dataStore?.quote,
-                                                                 handleErrors: true))
-        }
-        
-        fetchFee(for: to, address: address) { [weak self] fee in
-            self?.dataStore?.fee = fee
-            completion()
-        }
-    }
-    
     func setAssets(viewAction: BuyModels.Assets.ViewAction) {
         if let value = viewAction.currency?.lowercased(),
            let currency = Store.state.currencies.first(where: { $0.code.lowercased() == value }) {
             dataStore?.toCurrency = currency
-            dataStore?.fee = nil
         } else if let value = viewAction.card {
             dataStore?.paymentCard = value
         }
