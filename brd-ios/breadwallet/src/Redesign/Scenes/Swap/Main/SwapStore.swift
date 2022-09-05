@@ -13,21 +13,16 @@ import WalletKit
 
 class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     // MARK: - SwapDataStore
-    
     var itemId: String?
     
     var from: Amount?
     var to: Amount?
     
     var fromFee: TransferFeeBasis?
-    var toFee: EstimateFee?
     
     var quote: Quote?
     var fromRate: Decimal?
     var toRate: Decimal?
-    
-    var fromCurrency: Currency?
-    var toCurrency: Currency?
     
     var supportedCurrencies: [SupportedCurrency]?
     
@@ -73,7 +68,7 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     }
     
     var toFeeAmount: Amount? {
-        guard let value = toFee,
+        guard let value = quote?.toFee,
               let currency = currencies.first(where: { $0.code == value.currency.uppercased() }) else {
             return nil
         }
@@ -81,8 +76,8 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     }
     
     var swapPair: String {
-        let from = fromCurrency?.code ?? "</>"
-        let to = toCurrency?.code ?? "</>"
+        let from = from?.currency.code ?? "</>"
+        let to = to?.currency.code ?? "</>"
         return "\(from)-\(to)"
     }
 

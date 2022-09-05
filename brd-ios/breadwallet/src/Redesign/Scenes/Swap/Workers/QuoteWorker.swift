@@ -40,6 +40,8 @@ struct QuoteModelResponse: ModelResponse {
     }
     var fromFeeCurrency: Fee?
     var toFeeCurrency: Fee?
+    var fromFee: Decimal
+    var toFee: Decimal
     var buyFees: Decimal?
 }
 
@@ -52,30 +54,30 @@ struct Quote {
     var maximumValue: Decimal
     var minimumUsd: Decimal
     var maximumUsd: Decimal
-    
-    struct Fee {
-        var feeCurrency: String
-        var rate: Decimal
-    }
-    var fromFeeCurrency: Fee?
-    var toFeeCurrency: Fee?
+    var fromFeeRate: Decimal?
+    var toFeeRate: Decimal?
+    var fromFee: EstimateFee?
+    var toFee: EstimateFee?
     var buyFee: Decimal?
+}
+
+struct EstimateFee: Model {
+    var fee: Decimal
+    var currency: String
 }
 
 class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
     override func getModel(from response: QuoteModelResponse?) -> Quote? {
         guard let response = response else { return nil }
 
-        var fromFee: Quote.Fee?
-        if let currency = response.fromFeeCurrency?.feeCurrency,
-           let rate = response.fromFeeCurrency?.rate {
-            fromFee = .init(feeCurrency: currency, rate: rate)
+        var fromFee: EstimateFee?
+        if let currency = response.fromFeeCurrency?.feeCurrency {
+            fromFee = .init(fee: response.fromFee, currency: currency)
         }
         
-        var toFee: Quote.Fee?
-        if let currency = response.toFeeCurrency?.feeCurrency,
-           let rate = response.toFeeCurrency?.rate {
-            toFee = .init(feeCurrency: currency, rate: rate)
+        var toFee: EstimateFee?
+        if let currency = response.toFeeCurrency?.feeCurrency {
+            toFee = .init(fee: response.toFee, currency: currency)
         }
         
         return .init(quoteId: response.quoteId,
@@ -85,8 +87,10 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
                      maximumValue: response.maximumValue,
                      minimumUsd: response.minimumValueUsd,
                      maximumUsd: response.maximumValueUsd,
-                     fromFeeCurrency: fromFee,
-                     toFeeCurrency: toFee,
+                     fromFeeRate: response.fromFeeCurrency?.rate,
+                     toFeeRate: response.toFeeCurrency?.rate,
+                     fromFee: fromFee,
+                     toFee: toFee,
                      buyFee: response.buyFees)
     }
 }

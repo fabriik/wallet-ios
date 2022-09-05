@@ -49,7 +49,6 @@ protocol SwapDataStore: BaseDataStore, FetchDataStore {
     var to: Amount? { get set }
     
     var fromFee: TransferFeeBasis? { get set }
-    var toFee: EstimateFee? { get set }
     
     var defaultCurrencyCode: String? { get set }
     
@@ -61,9 +60,6 @@ protocol SwapDataStore: BaseDataStore, FetchDataStore {
     var baseCurrencies: [String] { get set }
     var termCurrencies: [String] { get set }
     var baseAndTermCurrencies: [[String]] { get set }
-    
-    var fromCurrency: Currency? { get set }
-    var toCurrency: Currency? { get set }
     
     var currencies: [Currency] { get set }
     var coreSystem: CoreSystem? { get set }

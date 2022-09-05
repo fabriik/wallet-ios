@@ -22,7 +22,6 @@ enum ExchangeEndpoints: String, URLType {
     case paymentInstrument = "payment-instrument"
     case paymentInstrumentId = "payment-instrument?instrument_id=%@"
     case paymentStatus = "payment-status?reference=%@"
-    case estimateFee = "estimate-fee"
     
     var url: String {
         return String(format: Self.baseURL, rawValue)
