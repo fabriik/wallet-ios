@@ -170,8 +170,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             
         } else {
             guard dataStore?.fromCurrency != nil,
-                  dataStore?.toCurrency != nil else { return }
-            let fiat = dataStore?.from?.fiatValue ?? dataStore?.quote?.minimumUsd ?? 50
+                  dataStore?.toCurrency != nil,
+                  let fiat = dataStore?.from?.fiatValue ?? dataStore?.quote?.minimumUsd
+            else { return }
+            
             from = fiat / fromRate
             to =  from * exchangeRate - toFee
         }
