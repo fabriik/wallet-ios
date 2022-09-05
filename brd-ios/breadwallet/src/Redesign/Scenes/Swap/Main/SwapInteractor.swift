@@ -135,7 +135,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         let exchangeRate = dataStore?.quote?.exchangeRate ?? 1
-        let markup = dataStore?.quote?.markup ?? 1
         
         let toFeeRate = dataStore?.quote?.toFeeCurrency?.rate ?? 1
         let toFee = (dataStore?.toFeeAmount?.tokenValue ?? 0) / toFeeRate
@@ -149,32 +148,32 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
            let fromCrypto = ExchangeFormatter.crypto.number(from: fromCryptoAmount)?.decimalValue {
             
             from = fromCrypto
-            to = fromCrypto * exchangeRate / markup - toFee
+            to = fromCrypto * exchangeRate - toFee
             
         } else if let fromFiatAmount = viewAction.fromFiatAmount,
                   let fromFiat = ExchangeFormatter.fiat.number(from: fromFiatAmount)?.decimalValue {
             
             from = fromFiat / fromRate
-            to = from * exchangeRate / markup - toFee
+            to = from * exchangeRate - toFee
             
         } else if let toCryptoAmount = viewAction.toCryptoAmount,
                   let toCrypto = ExchangeFormatter.crypto.number(from: toCryptoAmount)?.decimalValue {
             
-            from = (toCrypto + toFee * toFeeRate) / exchangeRate * markup
+            from = (toCrypto + toFee * toFeeRate) / exchangeRate
             to = toCrypto
             
         } else if let toFiatAmount = viewAction.toFiatAmount,
                   let toFiat = ExchangeFormatter.fiat.number(from: toFiatAmount)?.decimalValue {
             
             to = toFiat / toRate
-            from = (to + toFee) / exchangeRate * markup
+            from = (to + toFee) / exchangeRate
             
         } else {
             guard dataStore?.fromCurrency != nil,
                   dataStore?.toCurrency != nil else { return }
             let fiat = dataStore?.from?.fiatValue ?? dataStore?.quote?.minimumUsd ?? 50
             from = fiat / fromRate
-            to =  from * exchangeRate / markup - toFee
+            to =  from * exchangeRate - toFee
         }
         
         dataStore?.from = dataStore?.amountFrom(decimal: from, currency: fromCurrency)
