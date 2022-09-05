@@ -181,9 +181,12 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             case .success(let data):
                 self?.dataStore?.allPaymentCards = data?.reversed()
                 
-                if self?.dataStore?.autoSelectDefaultPaymentMethod == true {
-                    self?.dataStore?.paymentCard = self?.dataStore?.allPaymentCards?.first
+                guard self?.dataStore?.autoSelectDefaultPaymentMethod == true else {
+                    self?.dataStore?.autoSelectDefaultPaymentMethod.toggle()
+                    return
                 }
+                
+                self?.dataStore?.paymentCard = self?.dataStore?.allPaymentCards?.first
                 
             default:
                 break
