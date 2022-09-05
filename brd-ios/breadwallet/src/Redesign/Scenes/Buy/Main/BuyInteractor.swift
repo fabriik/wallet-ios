@@ -58,8 +58,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             guard let self = self else { return }
             
             switch result {
-            case .success(let data):
-                self.presenter?.presentPaymentCards(actionResponse: .init(allPaymentCards: data ?? []))
+            case .success:
+                self.presenter?.presentPaymentCards(actionResponse: .init(allPaymentCards: self.dataStore?.allPaymentCards ?? []))
                 
             case .failure(let error):
                 self.presenter?.presentError(actionResponse: .init(error: error))
@@ -179,7 +179,11 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.dataStore?.allPaymentCards = data
+                self?.dataStore?.allPaymentCards = data?.reversed()
+                
+                if self?.dataStore?.autoSelectDefaultPaymentMethod == true {
+                    self?.dataStore?.paymentCard = self?.dataStore?.allPaymentCards?.first
+                }
                 
             default:
                 break

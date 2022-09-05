@@ -17,11 +17,6 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
         open(scene: Scenes.Swap)
     }
     
-    override func goBack() {
-        parentCoordinator?.childDidFinish(child: self)
-        navigationController.dismiss(animated: true)
-    }
-    
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?) {
         guard let keyStore = keyStore else { fatalError("No key store") }
         
@@ -59,11 +54,11 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
         open(scene: Scenes.Failure) { vc in
             vc.failure = FailureReason.swap
             vc.firstCallback = { [weak self] in
-                self?.navigationController.popToRootViewController(animated: true)
+                self?.popToRoot()
             }
             
             vc.secondCallback = { [weak self] in
-                self?.navigationController.dismiss(animated: true)
+                self?.goBack(completion: {})
             }
         }
     }
