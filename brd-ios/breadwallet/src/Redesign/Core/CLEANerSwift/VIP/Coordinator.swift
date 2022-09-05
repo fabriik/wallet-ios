@@ -161,6 +161,7 @@ class BaseCoordinator: NSObject,
         // More hint: deleteAccountCallback inside ModalPresenter.
     }
     
+    // TODO: There are 2 goBack functions. Unify them. 
     /// Determines whether the viewcontroller or navigation stack are being dismissed
     func goBack() {
         // if the same coordinator is used in a flow, we dont want to remove it from the parent
@@ -172,6 +173,24 @@ class BaseCoordinator: NSObject,
                 || parentCoordinator?.navigationController == navigationController
         else { return }
         parentCoordinator?.childDidFinish(child: self)
+    }
+    
+    func goBack(completion: (() -> Void)? = nil) {
+        guard parentCoordinator != nil,
+              parentCoordinator?.navigationController != navigationController else {
+            navigationController.popViewController(animated: true)
+            return
+        }
+        navigationController.dismiss(animated: true) {
+            completion?()
+        }
+        parentCoordinator?.childDidFinish(child: self)
+    }
+    
+    func popToRoot(completion: (() -> Void)? = nil) {
+        navigationController.popToRootViewController(animated: true) {
+            completion?()
+        }
     }
 
     /// Remove the child coordinator from the stack after iit finnished its flow
@@ -335,18 +354,6 @@ class BaseCoordinator: NSObject,
     }
     
     func hideMessage(_ view: UIView) {}
-
-    func goBack(completion: (() -> Void)? = nil) {
-        guard parentCoordinator != nil,
-              parentCoordinator?.navigationController != navigationController else {
-            navigationController.popViewController(animated: true)
-            return
-        }
-        navigationController.dismiss(animated: true) {
-            completion?()
-        }
-        parentCoordinator?.childDidFinish(child: self)
-    }
     
     func showUnderConstruction(_ feat: String) {
         // TODO: navigate on
