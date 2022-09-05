@@ -16,20 +16,14 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     var from: Decimal?
     var to: Decimal?
     var toCurrency: Currency? = Store.state.currencies.first(where: { $0.code.lowercased() == "btc" })
-    var toFee: TransferFeeBasis?
+    var fee: EstimateFee?
     
-    var ethFee: Decimal?
-    var transferFee: TransferFeeBasis?
-    
-    var networkFee: Amount? {
-        if let value = ethFee,
-           let currency = currencies.first(where: { $0.code == "ETH" }) {
-            return .init(tokenString: value.description, currency: currency)
-        } else if let value = toFee,
-                  let currency = currencies.first(where: { $0.code == value.currency.code.uppercased() }) {
-            return .init(cryptoAmount: value.fee, currency: currency)
+    var feeAmount: Amount? {
+        guard let value = fee,
+              let currency = currencies.first(where: { $0.code == value.currency.uppercased() }) else {
+            return nil
         }
-        return nil
+        return .init(tokenString: value.fee.description, currency: currency)
     }
     
     var fromCurrency: String? = Store.state.defaultCurrencyCode.lowercased()
@@ -79,7 +73,7 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
         guard let amount = toAmount,
               amount.tokenValue > 0,
               paymentCard != nil,
-              networkFee != nil
+              feeAmount != nil
         else {
             return false
         }

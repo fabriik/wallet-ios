@@ -99,15 +99,19 @@ struct EstimateFeeRequestData: RequestModelData {
 
 struct EstimateFeeResponse: ModelResponse {
     var estimatedFeeEth: Decimal
+    var nativeFee: Decimal
+    var currency: String
 }
 
 struct EstimateFee: Model {
     var fee: Decimal
+    var currency: String
 }
 
 class EstimateFeeMapper: ModelMapper<EstimateFeeResponse, EstimateFee> {
     override func getModel(from response: EstimateFeeResponse?) -> EstimateFee? {
-        return .init(fee: response?.estimatedFeeEth ?? 0)
+        return .init(fee: response?.nativeFee ?? response?.estimatedFeeEth ?? 0,
+                     currency: response?.currency ?? "ETH")
     }
 }
 
