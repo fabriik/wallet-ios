@@ -77,6 +77,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
             termSwapCurrencyView.didTapSelectAsset = newValue
         }
     }
+    var didFinish: (() -> Void)?
     
     var didChangePlaces: (() -> Void)?
     
@@ -173,7 +174,9 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         termSwapCurrencyView.setup(with: viewModel.to)
         
         baseSwapCurrencyView.didChangeContent = contentSizeChanged
+        baseSwapCurrencyView.didFinish = didFinish
         termSwapCurrencyView.didChangeContent = contentSizeChanged
+        termSwapCurrencyView.didFinish = didFinish
         
         contentSizeChanged?()
     }

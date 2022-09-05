@@ -113,6 +113,13 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                     title: .text("I want"),
                                                     feeDescription: .text(receivingFee)))
         
+        guard actionResponse.handleErrors else {
+            viewController?.displayAmount(responseDisplay: .init(continueEnabled: false,
+                                                                 amounts: swapModel,
+                                                                 rate: exchangeRateViewModel))
+            return
+        }
+        
         let minimumAmount: Decimal = actionResponse.minimumAmount ?? 5
         
         var hasError: Bool = actionResponse.from?.fiatValue == 0
@@ -172,7 +179,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             }
         }
         
-        let continueEnabled = !hasError && actionResponse.toFee != nil && actionResponse.fromFee != nil
+        let continueEnabled = (!hasError && actionResponse.fromFee != nil)
         
         viewController?.displayAmount(responseDisplay: .init(continueEnabled: continueEnabled,
                                                              amounts: swapModel,
