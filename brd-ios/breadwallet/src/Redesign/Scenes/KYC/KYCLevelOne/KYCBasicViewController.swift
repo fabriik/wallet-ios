@@ -97,9 +97,7 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
             view.setup(with: model)
             
             view.didPresentPicker = { [weak self] in
-                self?.coordinator?.showDatePicker(model: model, completion: {
-                    view.animateTo(state: .filled)
-                })
+                self?.coordinator?.showDatePicker(model: model)
             }
         }
         

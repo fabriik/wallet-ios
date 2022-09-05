@@ -138,7 +138,7 @@ extension KYCCoordinator: ImagePickable {
 }
 
 extension KYCCoordinator {
-    func showDatePicker(model: DateViewModel, completion: (() -> Void)?) {
+    func showDatePicker(model: DateViewModel) {
         guard let viewController = navigationController.children.last(where: { $0 is KYCBasicViewController }) as? KYCBasicViewController else { return }
         DatePickerViewController.show(on: viewController,
                                       sourceView: viewController.view,
@@ -147,7 +147,6 @@ extension KYCCoordinator {
                                       minimumDate: Calendar.current.date(byAdding: .year, value: -120, to: Date()),
                                       maximumDate: Date()) { date in
             viewController.interactor?.birthDateSet(viewAction: .init(date: date))
-            completion?()
         }
     }
 }

@@ -49,6 +49,6 @@ class EstimateFeeWorker: BaseApiWorker<EstimateFeeMapper> {
     }
     
     override func getUrl() -> String {
-        return APIURLHandler.getUrl(SwapEndpoints.estimateFee)
+        return APIURLHandler.getUrl(ExchangeEndpoints.estimateFee)
     }
 }

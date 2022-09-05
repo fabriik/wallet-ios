@@ -26,6 +26,6 @@ class SupportedCurrenciesWorkerMapper: ModelMapper<SupportedCurrenciesResponseDa
 
 class SupportedCurrenciesWorker: BaseApiWorker<SupportedCurrenciesWorkerMapper> {
     override func getUrl() -> String {
-        return SwapEndpoints.supportedCurrencies.url
+        return ExchangeEndpoints.supportedCurrencies.url
     }
 }

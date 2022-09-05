@@ -408,7 +408,8 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
         }
         
         // TODO: localize
-        let message = "Incorrect PIN. The wallet will get disabled for 6 minutes after \(keyMaster.pinAttemptsRemaining) more failed attempts."
+        let attempts = keyMaster.pinAttemptsRemaining == 7 ? "2 more failed attempts." : "1 more failed attempt."
+        let message = "Incorrect PIN. The wallet will get disabled for 6 minutes after \(attempts)"
         showToastMessage(message: message)
         
         updateDebugLabel()

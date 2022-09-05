@@ -16,8 +16,7 @@ class RegistrationConfirmationInteractor: NSObject, Interactor, RegistrationConf
 
     // MARK: - RegistrationConfirmationViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        guard !UserDefaults.emailConfirmed,
-              UserManager.shared.profile?.status != .emailPending else {
+        guard UserManager.shared.profile?.status != .emailPending else {
             presenter?.presentData(actionResponse: .init(item: UserDefaults.email))
             return
         }
@@ -38,8 +37,6 @@ class RegistrationConfirmationInteractor: NSObject, Interactor, RegistrationConf
         RegistrationConfirmationWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success:
-                // TODO: confirmed
-                UserDefaults.emailConfirmed = true
                 UserManager.shared.refresh()
                 
                 self?.presenter?.presentConfirm(actionResponse: .init(shouldShowProfile: self?.dataStore?.shouldShowProfile ?? false))

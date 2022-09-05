@@ -25,6 +25,6 @@ class DeleteCardWorker: BaseApiWorker<PlainMapper> {
     override func getUrl() -> String {
         guard let urlParams = (requestData as? DeleteCardRequestData)?.instrumentId else { return "" }
         
-        return APIURLHandler.getUrl(SwapEndpoints.paymentInstrumentId, parameters: urlParams)
+        return APIURLHandler.getUrl(ExchangeEndpoints.paymentInstrumentId, parameters: urlParams)
     }
 }

@@ -46,8 +46,8 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
         }
     }
     
-    func showSwapDetails(exchangeId: String) {
-        open(scene: SwapDetailsViewController.self) { vc in
+    func showExchangeDetails(exchangeId: String) {
+        open(scene: ExchangeDetailsViewController.self) { vc in
             vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId
             vc.dataStore?.transactionType = .swapTransaction

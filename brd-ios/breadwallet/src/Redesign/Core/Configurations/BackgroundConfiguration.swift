@@ -17,13 +17,15 @@ struct BackgroundConfiguration: BackgorundConfigurable {
 }
 
 extension BackgroundConfiguration {
-    mutating func withBorder(border: BorderConfiguration?) -> BackgroundConfiguration {
-        self.border = border
-        return self
+    func withBorder(border: BorderConfiguration?) -> BackgroundConfiguration {
+        var copy = self
+        copy.border = border
+        return copy
     }
     
-    mutating func withCornerRadius(radius: CornerRadius) -> BackgroundConfiguration {
-        self.border?.cornerRadius = radius
-        return self
+    func withCornerRadius(radius: CornerRadius) -> BackgroundConfiguration {
+        var copy = self
+        copy.border?.cornerRadius = radius
+        return copy
     }
 }

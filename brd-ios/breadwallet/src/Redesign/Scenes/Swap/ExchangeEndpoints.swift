@@ -1,5 +1,5 @@
 // 
-//  SwapEndpoints.swift
+//  ExchangeEndpoints.swift
 //  breadwallet
 //
 //  Created by Rok on 04/07/2022.
@@ -10,7 +10,7 @@
 
 import Foundation
 
-enum SwapEndpoints: String, URLType {
+enum ExchangeEndpoints: String, URLType {
     static var baseURL: String = "https://" + E.apiUrl + "blocksatoshi/exchange/%@"
     
     case supportedCurrencies = "supported-currencies"
