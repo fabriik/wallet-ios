@@ -123,11 +123,10 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
               let address = dataStore?.address(for: to.currency)
         else { return }
         
-        dataStore?.toFee = nil
-        dataStore?.ethFee = nil
+        dataStore?.fee = nil
         
         let completion: (() -> Void) = { [weak self] in
-            guard self?.dataStore?.networkFee != nil else {
+            guard self?.dataStore?.feeAmount != nil else {
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
                 return
             }
@@ -138,20 +137,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                                                                  handleErrors: true))
         }
         
-        guard !to.currency.isEthereumCompatible else {
-            fetchEthFee(for: to, address: address) { [weak self] fee in
-                self?.dataStore?.ethFee = fee
-                completion()
-            }
-            return
-        }
-        
-        fetchWkFee(for: to,
-                   address: address,
-                   wallet: dataStore?.coreSystem?.wallet(for: to.currency),
-                   keyStore: dataStore?.keyStore,
-                   kvStore: Backend.kvStore) { [weak self] fee in
-            self?.dataStore?.toFee = fee
+        fetchFee(for: to, address: address) { [weak self] fee in
+            self?.dataStore?.fee = fee
             completion()
         }
     }
@@ -160,8 +147,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         if let value = viewAction.currency?.lowercased(),
            let currency = Store.state.currencies.first(where: { $0.code.lowercased() == value }) {
             dataStore?.toCurrency = currency
-            dataStore?.ethFee = nil
-            dataStore?.toFee = nil
+            dataStore?.fee = nil
         } else if let value = viewAction.card {
             dataStore?.paymentCard = value
         }

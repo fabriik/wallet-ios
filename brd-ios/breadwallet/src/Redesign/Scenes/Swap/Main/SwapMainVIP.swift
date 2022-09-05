@@ -49,7 +49,7 @@ protocol SwapDataStore: BaseDataStore, FetchDataStore {
     var to: Amount? { get set }
     
     var fromFee: TransferFeeBasis? { get set }
-    var toFee: TransferFeeBasis? { get set }
+    var toFee: EstimateFee? { get set }
     
     var defaultCurrencyCode: String? { get set }
     

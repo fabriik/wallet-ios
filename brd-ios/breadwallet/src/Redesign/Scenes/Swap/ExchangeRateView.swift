@@ -95,15 +95,11 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
     }
     
     override func setup(with viewModel: ExchangeRateViewModel?) {
-        guard let text = viewModel?.exchangeRate else {
-            valueLabel.text = "No quote for pair."
-            return
-        }
-
         super.setup(with: viewModel)
-        valueLabel.text = text
+        valueLabel.text = viewModel?.exchangeRate
+        timerView.isHidden = viewModel?.exchangeRate == nil
         timerView.setup(with: viewModel?.timer)
-        timerView.isHidden = viewModel?.timer == nil
+        timerView.isHidden = viewModel?.exchangeRate == nil
         rotate()
     }
     

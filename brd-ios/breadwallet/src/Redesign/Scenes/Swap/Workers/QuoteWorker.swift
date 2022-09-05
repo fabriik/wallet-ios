@@ -29,7 +29,6 @@ struct QuoteModelResponse: ModelResponse {
     var barTime: Double
     var timestamp: Double
     
-    var markup: Decimal
     var minimumValue: Decimal
     var maximumValue: Decimal
     var minimumValueUsd: Decimal
@@ -49,7 +48,6 @@ struct Quote {
     var exchangeRate: Decimal
     var timestamp: Double
     
-    var markup: Decimal
     var minimumValue: Decimal
     var maximumValue: Decimal
     var minimumUsd: Decimal
@@ -83,7 +81,6 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
         return .init(quoteId: response.quoteId,
                      exchangeRate: response.exchangeRate,
                      timestamp: response.timestamp,
-                     markup: response.markup,
                      minimumValue: response.minimumValue,
                      maximumValue: response.maximumValue,
                      minimumUsd: response.minimumValueUsd,

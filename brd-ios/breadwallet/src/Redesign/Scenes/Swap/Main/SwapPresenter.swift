@@ -35,8 +35,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             .swapCard
         ]
         
-        exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(till: item.quote?.timestamp ?? 0,
-                                                                            repeats: false))
+        exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel())
         
         // TODO: Localize
         let sectionRows: [Models.Sections: [Any]] = [

@@ -1,5 +1,5 @@
 // 
-//  SwapEndpoints.swift
+//  ExchangeEndpoints.swift
 //  breadwallet
 //
 //  Created by Rok on 04/07/2022.
