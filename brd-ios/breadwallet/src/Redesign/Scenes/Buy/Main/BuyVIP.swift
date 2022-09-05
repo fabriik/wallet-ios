@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WalletKit
 
 extension Scenes {
     static let Buy = BuyViewController.self
@@ -38,14 +39,27 @@ protocol BuyResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisp
 protocol BuyDataStore: BaseDataStore, FetchDataStore {
     var from: Decimal? { get set }
     var to: Decimal? { get set }
-    var fromCurrency: String? { get set }
     var toCurrency: Currency? { get set }
+    var toFee: TransferFeeBasis? { get set }
+    
+    var ethFee: Decimal? { get set }
+    var transferFee: TransferFeeBasis? { get set }
+    
+    var fromCurrency: String? { get set }
+    
+    var isInputFiat: Bool { get set }
+    var paymentCard: PaymentCard? { get set }
+    var allPaymentCards: [PaymentCard]? { get set }
+    
+    var quote: Quote? { get set }
     
     var currencies: [Currency] { get set }
     var supportedCurrencies: [SupportedCurrency]? { get set }
-    var paymentCard: PaymentCard? { get set }
-    var allPaymentCards: [PaymentCard]? { get set }
-    var quote: Quote? { get set }
+    
+    var coreSystem: CoreSystem? { get set }
+    var keyStore: KeyStore? { get set }
+    
+    var autoSelectDefaultPaymentMethod: Bool { get set }
 }
 
 protocol BuyDataPassing {

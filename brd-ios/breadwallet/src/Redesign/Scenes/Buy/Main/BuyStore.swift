@@ -53,6 +53,8 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     var coreSystem: CoreSystem?
     var keyStore: KeyStore?
     
+    var autoSelectDefaultPaymentMethod = true
+    
     // MARK: - Aditional helpers
     
     func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
