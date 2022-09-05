@@ -61,6 +61,11 @@ struct Quote {
     var buyFee: Decimal?
 }
 
+struct EstimateFee: Model {
+    var fee: Decimal
+    var currency: String
+}
+
 class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
     override func getModel(from response: QuoteModelResponse?) -> Quote? {
         guard let response = response else { return nil }
