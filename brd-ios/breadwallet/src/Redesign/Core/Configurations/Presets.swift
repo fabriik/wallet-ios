@@ -35,6 +35,7 @@ struct Presets {
         struct Secondary {
             static var normal = BackgroundConfiguration(tintColor: LightColors.Link.one)
             static var selected = BackgroundConfiguration(tintColor: LightColors.Link.one)
+            static var blue = BackgroundConfiguration(tintColor: LightColors.Link.two)
             static var disabled = BackgroundConfiguration(tintColor: LightColors.InteractionPrimary.disabled)
             static var error = BackgroundConfiguration(tintColor: .red)
         }
@@ -90,6 +91,9 @@ extension Presets {
         static var secondary = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
                                                    selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
                                                    disabledConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled))
+        
+        static var blue = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.blue.withBorder(border: Presets.Border.selected),
+                                                   selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal))
         
         static var icon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.two),
                                               selectedConfiguration: .init(tintColor: LightColors.Icons.one),

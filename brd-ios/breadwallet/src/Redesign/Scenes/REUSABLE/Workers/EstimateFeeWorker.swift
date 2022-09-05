@@ -38,8 +38,12 @@ struct EstimateFee: Model {
 
 class EstimateFeeMapper: ModelMapper<EstimateFeeResponse, EstimateFee> {
     override func getModel(from response: EstimateFeeResponse?) -> EstimateFee? {
-        return .init(fee: response?.nativeFee ?? 0,
-                     currency: response?.currency ?? "ETH")
+        guard let fee = response?.nativeFee,
+              let currency = response?.currency else {
+            return nil
+        }
+        
+        return .init(fee: fee, currency: currency)
     }
 }
 
