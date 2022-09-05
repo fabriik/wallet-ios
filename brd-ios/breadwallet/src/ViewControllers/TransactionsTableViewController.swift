@@ -191,16 +191,15 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
                 let destinationId = destination.transactionId
                 
                 if let element = self?.allTransactions.first(where: { $0.transfer.hash?.description == sourceId || $0.transfer.hash?.description == destinationId }) {
-                    // TODO: check if source currency is USD -> buy else swap
-                    element.transactionType = exchange.source.isFiat ? .buyTransaction : .swapTransaction
-//                    element.transactionType = exchange.type // TODO: Use this logic after backend supports it.
+                    element.transactionType = exchange.type
                     element.swapOrderId = exchange.orderId
                     element.swapTransationStatus = exchange.status
                     element.swapSource = exchange.source
                     element.swapDestination = exchange.destination
                 }
-                self?.reload()
             }
+            
+            self?.reload()
         }
     }
 

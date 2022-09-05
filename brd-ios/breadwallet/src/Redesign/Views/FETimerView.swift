@@ -23,7 +23,8 @@ struct TimerViewModel: ViewModel {
 }
 
 class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
-    var completion:(() -> Void)?
+    var completion: (() -> Void)?
+    
     private lazy var stack: UIStackView = {
         let view = UIStackView()
         view.spacing = Margins.extraSmall.rawValue

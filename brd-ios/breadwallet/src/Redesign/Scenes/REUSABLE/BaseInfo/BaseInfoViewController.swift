@@ -23,7 +23,7 @@ class BaseInfoViewController: BaseTableViewController<BaseCoordinator,
     var buttonConfigs: [ButtonConfiguration] {
         return [
             Presets.Button.primary,
-            Presets.Button.secondary.with(border: Presets.Border.zero)
+            Presets.Button.blue.with(border: Presets.Border.zero)
         ]
     }
     var buttonCallbacks: [(() -> Void)] { return [] }

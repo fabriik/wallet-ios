@@ -11,6 +11,7 @@ import UIKit
 class AccountViewController: UIViewController, Subscriber, Trackable {
     
     // MARK: - Public
+    
     var currency: Currency
     
     init(currency: Currency, wallet: Wallet?) {
@@ -19,15 +20,16 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         self.headerView = AccountHeaderView(currency: currency)
         self.footerView = AccountFooterView(currency: currency)
         self.createFooter = CreateAccountFooterView(currency: currency)
-        
         self.searchHeaderview = SearchHeaderView()
+        
         super.init(nibName: nil, bundle: nil)
-        self.transactionsTableView = TransactionsTableViewController(currency: currency,
-                                                                     wallet: wallet,
-                                                                     didSelectTransaction: { [unowned self] (transactions, index) in
-               self.didSelectTransaction(transactions: transactions, selectedIndex: index)
+        
+        transactionsTableView = TransactionsTableViewController(currency: currency,
+                                                                wallet: wallet,
+                                                                didSelectTransaction: { [unowned self] (transactions, index) in
+            self.didSelectTransaction(transactions: transactions, selectedIndex: index)
         })
-
+        
         footerView.sendCallback = { [unowned self] in
             Store.perform(action: RootModalActions.Present(modal: .send(currency: self.currency))) }
         footerView.receiveCallback = { [unowned self] in
@@ -39,13 +41,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     }
     
     // MARK: - Private
-    private var wallet: Wallet? {
-        didSet {
-            if wallet != nil {
-                transactionsTableView?.wallet = wallet
-            }
-        }
-    }
+    
     private let headerView: AccountHeaderView
     private let footerView: AccountFooterView
     private let createFooter: CreateAccountFooterView
@@ -56,7 +52,8 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     private let searchHeaderview: SearchHeaderView
     private let headerContainer = UIView()
     private var loadingTimer: Timer?
-    private var shouldShowStatusBar: Bool = true {
+    private var isSearching = false
+    private var shouldShowStatusBar = true {
         didSet {
             if oldValue != shouldShowStatusBar {
                 UIView.animate(withDuration: C.animationDuration) {
@@ -66,16 +63,23 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         }
     }
     
+    private var wallet: Wallet? {
+        didSet {
+            if wallet != nil {
+                transactionsTableView?.wallet = wallet
+            }
+        }
+    }
+    
     private var createTimeoutTimer: Timer? {
         willSet {
             createTimeoutTimer?.invalidate()
         }
     }
-
-    var isSearching: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupNavigationBar()
         addSubviews()
         addConstraints()
@@ -90,13 +94,13 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
             self.headerView.didStopScrolling()
         }
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         shouldShowStatusBar = true
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -123,7 +127,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchButton)
     }
-
+    
     private func addSubviews() {
         view.addSubview(headerContainer)
         headerContainer.addSubview(headerView)
@@ -131,7 +135,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         view.addSubview(footerView)
         view.addSubview(createFooter)
     }
-
+    
     private func addConstraints() {
         let topConstraint = headerContainer.topAnchor.constraint(equalTo: view.topAnchor)
         topConstraint.priority = .required
@@ -156,7 +160,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
             createFooter.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: C.padding[1]),
             createFooterHeightConstraint ])
     }
-
+    
     private func addSubscriptions() {
         Store.subscribe(self, name: .showStatusBar, callback: { [weak self] _ in
             self?.shouldShowStatusBar = true
@@ -165,7 +169,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
             self?.shouldShowStatusBar = false
         })
     }
-
+    
     private func setInitialData() {
         view.clipsToBounds = true
         searchHeaderview.isHidden = true
@@ -247,7 +251,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
             headerView.setExtendedTouchDelegate(transactionsTableView.tableView)
         }
     }
-        
+    
     // MARK: keyboard management
     
     private func hideSearchKeyboard() {
@@ -271,7 +275,6 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         switch transaction.transactionType {
         case .defaultTransaction:
             let transactionDetails = TxDetailViewController(transaction: transactions[selectedIndex], delegate: self)
-            
             transactionDetails.modalPresentationStyle = .overCurrentContext
             transactionDetails.transitioningDelegate = transitionDelegate
             transactionDetails.modalPresentationCapturesStatusBarAppearance = true
@@ -279,7 +282,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
             present(transactionDetails, animated: true)
             
         case .swapTransaction, .buyTransaction:
-            let vc = SwapDetailsViewController()
+            let vc = ExchangeDetailsViewController()
             vc.isModalDismissable = false
             vc.dataStore?.itemId = String(transaction.swapOrderId ?? -1)
             vc.dataStore?.transactionType = transaction.transactionType
@@ -288,23 +291,24 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
             navigationController?.pushViewController(viewController: vc, animated: true) {
                 LoadingView.hide()
             }
+            
         }
     }
     
     private func showSearchHeaderView() {
         navigationController?.setNavigationBarHidden(true, animated: false)
         headerView.stopHeightConstraint()
-        UIView.animate(withDuration: C.animationDuration, animations: {
-            self.view.layoutIfNeeded()
+        UIView.animate(withDuration: C.animationDuration, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
         })
         
         UIView.transition(from: headerView,
                           to: searchHeaderview,
                           duration: C.animationDuration,
                           options: [.transitionFlipFromBottom, .showHideTransitionViews, .curveEaseOut],
-                          completion: { _ in
-                            self.searchHeaderview.triggerUpdate()
-                            self.setNeedsStatusBarAppearanceUpdate()
+                          completion: { [weak self] _ in
+            self?.searchHeaderview.triggerUpdate()
+            self?.setNeedsStatusBarAppearanceUpdate()
         })
     }
     
@@ -319,23 +323,23 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
                           to: headerView,
                           duration: C.animationDuration,
                           options: [.transitionFlipFromTop, .showHideTransitionViews, .curveEaseOut],
-                          completion: { _ in
-                            self.setNeedsStatusBarAppearanceUpdate()
+                          completion: { [weak self] _ in
+            self?.setNeedsStatusBarAppearanceUpdate()
         })
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return searchHeaderview.isHidden ? .lightContent : .default
     }
-
+    
     override var prefersStatusBarHidden: Bool {
         return !shouldShowStatusBar
     }
-
+    
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         return .slide
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -15,9 +15,10 @@ struct TitleValueConfiguration: Configurable {
     var value: LabelConfiguration
     var infoButtonConfiguration: BackgroundConfiguration?
     
-    mutating func withTextAlign(textAlign: NSTextAlignment) -> TitleValueConfiguration {
-        value.textAlignment = textAlign
-        return self
+    func withTextAlign(textAlign: NSTextAlignment) -> TitleValueConfiguration {
+        var copy = self
+        copy.value.textAlignment = textAlign
+        return copy
     }
 }
 

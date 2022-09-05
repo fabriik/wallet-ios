@@ -13,23 +13,16 @@ import WalletKit
 
 class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     // MARK: - SwapDataStore
-    
     var itemId: String?
     
     var from: Amount?
     var to: Amount?
     
     var fromFee: TransferFeeBasis?
-    var toFee: TransferFeeBasis?
-    var fromFeeEth: Decimal?
-    var toFeeEth: Decimal?
     
     var quote: Quote?
     var fromRate: Decimal?
     var toRate: Decimal?
-    
-    var fromCurrency: Currency?
-    var toCurrency: Currency?
     
     var supportedCurrencies: [SupportedCurrency]?
     
@@ -67,30 +60,24 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     }
     
     var fromFeeAmount: Amount? {
-        if let value = fromFeeEth,
-           let currency = currencies.first(where: { $0.code == "ETH" }) {
-            return .init(tokenString: value.description, currency: currency)
-        } else if let value = fromFee?.fee,
-                  let currency = currencies.first(where: { $0.code == value.currency.code.uppercased() }) {
-            return .init(cryptoAmount: value, currency: currency)
+        guard let value = fromFee,
+              let currency = currencies.first(where: { $0.code == value.fee.currency.code.uppercased() }) else {
+            return nil
         }
-        return nil
+        return .init(cryptoAmount: value.fee, currency: currency)
     }
     
     var toFeeAmount: Amount? {
-        if let value = toFeeEth,
-           let currency = currencies.first(where: { $0.code == "ETH" }) {
-            return .init(tokenString: value.description, currency: currency)
-        } else if let value = toFee?.fee,
-                  let currency = currencies.first(where: { $0.code == value.currency.code.uppercased() }) {
-            return .init(cryptoAmount: value, currency: currency)
+        guard let value = quote?.toFee,
+              let currency = currencies.first(where: { $0.code == value.currency.uppercased() }) else {
+            return nil
         }
-        return nil
+        return .init(tokenString: value.fee.description, currency: currency)
     }
     
     var swapPair: String {
-        let from = fromCurrency?.code ?? "</>"
-        let to = toCurrency?.code ?? "</>"
+        let from = from?.currency.code ?? "</>"
+        let to = to?.currency.code ?? "</>"
         return "\(from)-\(to)"
     }
 

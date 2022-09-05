@@ -1,5 +1,5 @@
-// 
-//  SwapDetailsWorker.swift
+//
+//  ExchangeDetailsWorker.swift
 //  breadwallet
 //
 //  Created by Rok on 21/07/2022.
@@ -10,7 +10,7 @@
 
 import Foundation
 
-struct SwapDetailsResponseData: ModelResponse {
+struct ExchangeDetailsResponseData: ModelResponse {
     struct SourceDestination: ModelResponse {
         var currency: String?
         var currencyAmount: Double?
@@ -38,11 +38,6 @@ struct SwapDetail: Model {
         var transactionId: String
         var usdFee: Double
         var paymentInstrument: PaymentCard
-        
-        var isFiat: Bool {
-            // TODO: temp solution (could get messy if we introduce more fiat currencies)
-            return currency.uppercased() == C.usdCurrencyCode.uppercased()
-        }
     }
     
     var orderId: Int
@@ -55,8 +50,8 @@ struct SwapDetail: Model {
     var type: Transaction.TransactionType
 }
 
-class SwapDetailsMapper: ModelMapper<SwapDetailsResponseData, SwapDetail> {
-    override func getModel(from response: SwapDetailsResponseData?) -> SwapDetail {
+class ExchangeDetailsMapper: ModelMapper<ExchangeDetailsResponseData, SwapDetail> {
+    override func getModel(from response: ExchangeDetailsResponseData?) -> SwapDetail {
         let source = response?.source
         let sourceCard = response?.source?.paymentInstrument
         let destination = response?.destination
@@ -95,7 +90,7 @@ class SwapDetailsMapper: ModelMapper<SwapDetailsResponseData, SwapDetail> {
     }
 }
 
-struct SwapDetailsRequestData: RequestModelData {
+struct ExchangeDetailsRequestData: RequestModelData {
     var exchangeId: String?
     
     func getParameters() -> [String: Any] {
@@ -105,10 +100,10 @@ struct SwapDetailsRequestData: RequestModelData {
     }
 }
 
-class SwapDetailsWorker: BaseApiWorker<SwapDetailsMapper> {
+class ExchangeDetailsWorker: BaseApiWorker<ExchangeDetailsMapper> {
     override func getUrl() -> String {
-        guard let urlParams = (requestData as? SwapDetailsRequestData)?.exchangeId else { return "" }
+        guard let urlParams = (requestData as? ExchangeDetailsRequestData)?.exchangeId else { return "" }
         
-        return APIURLHandler.getUrl(SwapEndpoints.details, parameters: urlParams)
+        return APIURLHandler.getUrl(ExchangeEndpoints.details, parameters: urlParams)
     }
 }

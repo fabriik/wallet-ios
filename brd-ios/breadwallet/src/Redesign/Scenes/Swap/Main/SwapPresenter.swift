@@ -35,8 +35,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             .swapCard
         ]
         
-        exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(till: item.quote?.timestamp ?? 0,
-                                                                            repeats: false))
+        exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel())
         
         // TODO: Localize
         let sectionRows: [Models.Sections: [Any]] = [
@@ -85,14 +84,15 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         let balance = actionResponse.baseBalance
-        let balanceText = String(format: "I have %.4f %@", balance?.tokenValue.doubleValue ?? 0, balance?.currency.code ?? "BSV")
+        let balanceText = String(format: "I have %@ %@", ExchangeFormatter.crypto.string(for: balance?.tokenValue.doubleValue) ?? "",
+                                 balance?.currency.code ?? "")
         let sendingFee = "Sending network fee\n(not included)"
         let receivingFee = "Receiving network fee\n(included)"
         
-        let fromFiatValue = actionResponse.from?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(from: (actionResponse.from?.fiatValue ?? 0) as NSNumber)
-        let fromTokenValue = actionResponse.from?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(from: (actionResponse.from?.tokenValue ?? 0) as NSNumber)
-        let toFiatValue = actionResponse.to?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(from: (actionResponse.to?.fiatValue ?? 0) as NSNumber)
-        let toTokenValue = actionResponse.to?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(from: (actionResponse.to?.tokenValue ?? 0) as NSNumber)
+        let fromFiatValue = actionResponse.from?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(for: actionResponse.from?.fiatValue)
+        let fromTokenValue = actionResponse.from?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(for: actionResponse.from?.tokenValue)
+        let toFiatValue = actionResponse.to?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(for: actionResponse.to?.fiatValue)
+        let toTokenValue = actionResponse.to?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(for: actionResponse.to?.tokenValue)
         
         let fromFormattedFiatString = ExchangeFormatter.createAmountString(string: fromFiatValue ?? "")
         let fromFormattedTokenString = ExchangeFormatter.createAmountString(string: fromTokenValue ?? "")
@@ -208,22 +208,31 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             return
         }
         
-        let fromText = String(format: "%.8f %@ (%.2f %@)", from.tokenValue.doubleValue, from.currency.code, from.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
-        let toText = String(format: "%.8f %@ (%.2f %@)", to.tokenValue.doubleValue, to.currency.code, to.fiatValue.doubleValue, Store.state.defaultCurrencyCode)
-        let rateText = String(format: "1 %@ = %.5f %@", from.currency.code, rate, to.currency.code)
+        let rateText = String(format: "1 %@ = %@ %@", from.currency.code, ExchangeFormatter.fiat.string(for: rate) ?? "", to.currency.code)
         
-        let fromFeeText = String(format: "%.8f %@\n(%.8f) %@",
-                                 actionResponse.fromFee?.tokenValue.doubleValue ?? 0,
+        let fromText = String(format: "%@ %@ (%@ %@)", ExchangeFormatter.crypto.string(for: from.tokenValue.doubleValue) ?? "",
+                              from.currency.code,
+                              ExchangeFormatter.fiat.string(for: from.fiatValue.doubleValue) ?? "",
+                              Store.state.defaultCurrencyCode)
+        let toText = String(format: "%@ %@ (%@ %@)",
+                            ExchangeFormatter.crypto.string(for: to.tokenValue.doubleValue) ?? "",
+                            to.currency.code,
+                            ExchangeFormatter.fiat.string(for: to.fiatValue.doubleValue) ?? "",
+                            Store.state.defaultCurrencyCode)
+        
+        let fromFeeText = String(format: "%@ %@\n(%@) %@",
+                                 ExchangeFormatter.crypto.string(for: actionResponse.fromFee?.tokenValue.doubleValue) ?? "",
                                  actionResponse.fromFee?.currency.code ?? from.currency.code,
-                                 actionResponse.fromFee?.fiatValue.doubleValue ?? 0,
+                                 ExchangeFormatter.fiat.string(for: actionResponse.fromFee?.fiatValue.doubleValue) ?? "",
                                  Store.state.defaultCurrencyCode)
-        let toFeeText = String(format: "%.8f %@\n(%.8f) %@",
-                               actionResponse.toFee?.tokenValue.doubleValue ?? 0,
+        
+        let toFeeText = String(format: "%@ %@\n(%@) %@",
+                               ExchangeFormatter.crypto.string(for: actionResponse.toFee?.tokenValue.doubleValue) ?? "",
                                actionResponse.toFee?.currency.code ?? to.currency.code,
-                               actionResponse.toFee?.fiatValue.doubleValue ?? 0,
+                               ExchangeFormatter.fiat.string(for: actionResponse.toFee?.fiatValue.doubleValue) ?? "",
                                Store.state.defaultCurrencyCode)
         
-        let totalCostText = String(format: "%.8f %@", from.tokenValue.doubleValue, from.currency.code)
+        let totalCostText = String(format: "%@ %@", ExchangeFormatter.crypto.string(for: from.tokenValue.doubleValue) ?? "", from.currency.code)
         
         let config: WrapperPopupConfiguration<SwapConfimationConfiguration> = .init(wrappedView: .init())
         

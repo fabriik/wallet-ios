@@ -19,8 +19,6 @@ protocol FeeFetchable {
                     keyStore: KeyStore?,
                     kvStore: BRReplicatedKVStore?,
                     completion: @escaping ((TransferFeeBasis?) -> Void))
-    
-    func fetchEthFee(for amount: Amount, address: String, completion: @escaping ((Decimal?) -> Void))
 }
 
 extension FeeFetchable {
@@ -45,24 +43,6 @@ extension FeeFetchable {
             switch result {
             case .success(let fee):
                 completion(fee)
-                
-            case .failure:
-                completion(nil)
-            }
-        }
-    }
-    
-    func fetchEthFee(for amount: Amount,
-                     address: String,
-                     completion: @escaping ((Decimal?) -> Void)) {
-        let data = EstimateFeeRequestData(amount: amount.tokenValue,
-                                          currency: amount.currency.code,
-                                          destination: address)
-        
-        EstimateFeeWorker().execute(requestData: data) { result in
-            switch result {
-            case .success(let fee):
-                completion(fee?.fee)
                 
             case .failure:
                 completion(nil)

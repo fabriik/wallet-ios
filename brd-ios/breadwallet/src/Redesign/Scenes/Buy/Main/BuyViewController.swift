@@ -123,7 +123,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             }
             
             view.didFinish = { [weak self] in
-                self?.interactor?.getFees(viewAction: .init())
+                self?.interactor?.getExchangeRate(viewAction: .init())
             }
             
             view.didTapSelectAsset = { [weak self] in
@@ -243,7 +243,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                       from: dataStore?.from,
                                       card: dataStore?.paymentCard,
                                       quote: dataStore?.quote,
-                                      networkFee: dataStore?.networkFee)
+                                      networkFee: dataStore?.feeAmount)
     }
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {

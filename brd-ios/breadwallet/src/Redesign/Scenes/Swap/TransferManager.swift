@@ -12,16 +12,17 @@ import Foundation
 
 class TransferManager {
     static let shared = TransferManager()
+    
     private var worker: SwapHistoryWorker
     private var timer: Timer
-    var exchanges: [SwapDetail]
+    private var exchanges: [SwapDetail]
     
     init() {
         worker = SwapHistoryWorker()
         exchanges = []
         
         timer = Timer()
-        timer = Timer.scheduledTimer(withTimeInterval: 60,
+        timer = Timer.scheduledTimer(withTimeInterval: C.secondsInMinute,
                                      repeats: true, block: { [weak self] _ in
             self?.reload()
         })

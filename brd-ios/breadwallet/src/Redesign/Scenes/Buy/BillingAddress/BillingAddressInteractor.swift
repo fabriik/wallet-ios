@@ -44,7 +44,7 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
             
             switch result {
             case .success(let data):
-                self.presenter?.presentPaymentCards(actionResponse: .init(allPaymentCards: data))
+                self.presenter?.presentPaymentCards(actionResponse: .init(allPaymentCards: data?.reversed()))
                 
             case .failure(let error):
                 self.presenter?.presentError(actionResponse: .init(error: error))
