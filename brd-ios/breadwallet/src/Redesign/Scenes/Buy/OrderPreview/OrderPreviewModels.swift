@@ -90,6 +90,14 @@ enum OrderPreviewModels {
         }
     }
     
+    struct CvvInfoPopup {
+        struct ViewAction {}
+        struct ActionResponse {}
+        struct ResponseDisplay {
+            var model: PopupViewModel
+        }
+    }
+    
     struct Submit {
         struct ViewAction {}
         

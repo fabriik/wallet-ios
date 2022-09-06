@@ -65,5 +65,4 @@ protocol BuyRoutes: CoordinatableRoutes {
                           quote: Quote?,
                           networkFee: Amount?)
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?)
-    func showInfo(from: String, to: String, exchangeId: String)
 }

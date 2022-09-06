@@ -19,6 +19,7 @@ protocol OrderPreviewViewActions: BaseViewActions, FetchViewActions {
     func checkTimeOut(viewAction: OrderPreviewModels.ExpirationValidations.ViewAction)
     func showInfoPopup(viewAction: OrderPreviewModels.InfoPopup.ViewAction)
     func updateCvv(viewAction: OrderPreviewModels.CvvValidation.ViewAction)
+    func showCvvInfoPopup(viewAction: OrderPreviewModels.CvvInfoPopup.ViewAction)
     func submit(viewAction: OrderPreviewModels.Submit.ViewAction)
 }
 
@@ -27,6 +28,7 @@ protocol OrderPreviewActionResponses: BaseActionResponses, FetchActionResponses 
     func presentTimeOut(actionResponse: OrderPreviewModels.ExpirationValidations.ActionResponse)
     func presentInfoPopup(actionResponse: OrderPreviewModels.InfoPopup.ActionResponse)
     func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse)
+    func presentCvvInfoPopup(actionResponse: OrderPreviewModels.CvvInfoPopup.ActionResponse)
     func presentSubmit(actionResponse: OrderPreviewModels.Submit.ActionResponse)
 }
 
@@ -35,6 +37,7 @@ protocol OrderPreviewResponseDisplays: AnyObject, BaseResponseDisplays, FetchRes
     func displayTimeOut(responseDisplay: OrderPreviewModels.ExpirationValidations.ResponseDisplay)
     func displayInfoPopup(responseDisplay: OrderPreviewModels.InfoPopup.ResponseDisplay)
     func displayCvv(responseDisplay: OrderPreviewModels.CvvValidation.ResponseDisplay)
+    func displayCvvInfoPopup(responseDisplay: OrderPreviewModels.CvvInfoPopup.ResponseDisplay)
     func displaySubmit(responseDisplay: OrderPreviewModels.Submit.ResponseDisplay)
 }
 
