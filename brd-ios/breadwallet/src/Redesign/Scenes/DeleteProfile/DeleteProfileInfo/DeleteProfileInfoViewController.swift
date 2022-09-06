@@ -47,7 +47,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
         }
         
         confirmButton.configure(with: Presets.Button.primary)
-        confirmButton.setup(with: .init(title: "Confirm", enabled: false))
+        confirmButton.setup(with: .init(title: L10n.Button.confirm, enabled: false))
         
         confirmButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
@@ -149,7 +149,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
     }
     
     func displayToggleTickbox(responseDisplay: DeleteProfileInfoModels.Tickbox.ResponseDisplay) {
-        confirmButton.setup(with: .init(title: "Confirm", enabled: responseDisplay.model.enabled))
+        confirmButton.setup(with: .init(title: L10n.Button.confirm, enabled: responseDisplay.model.enabled))
     }
 
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {

@@ -45,7 +45,7 @@ final class RegistrationConfirmationPresenter: NSObject, Presenter, Registration
                 TextFieldModel(title: "Email", value: email)
             ],
             .confirm: [
-                ButtonViewModel(title: "Confirm", enabled: false)
+                ButtonViewModel(title: L10n.Button.confirm, enabled: false)
             ],
             .help: [
                 ScrollableButtonsViewModel(buttons: help)

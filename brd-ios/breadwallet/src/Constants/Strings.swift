@@ -701,6 +701,11 @@ internal enum L10n {
     }
   }
 
+  internal enum InputView {
+    /// Invalid code
+    internal static let invalidCode = L10n.tr("Localizable", "InputView.InvalidCode")
+  }
+
   internal enum JailbreakWarnings {
     /// Close
     internal static let close = L10n.tr("Localizable", "JailbreakWarnings.close")
@@ -1630,6 +1635,11 @@ internal enum L10n {
     internal static let notNow = L10n.tr("Localizable", "SupportForm.notNow")
     /// Please describe your experience
     internal static let pleaseDescribe = L10n.tr("Localizable", "SupportForm.pleaseDescribe")
+  }
+
+  internal enum Swap {
+    /// Not a valid pair
+    internal static let notValidPair = L10n.tr("Localizable", "Swap.NotValidPair")
   }
 
   internal enum Symbols {

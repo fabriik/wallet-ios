@@ -237,16 +237,16 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let config: WrapperPopupConfiguration<SwapConfimationConfiguration> = .init(wrappedView: .init())
         
         // TODO: localize
-        let wrappedViewModel: SwapConfirmationViewModel = .init(from: .init(title: .text("From"), value: .text(fromText)),
-                                                                to: .init(title: .text("To"), value: .text(toText)),
+        let wrappedViewModel: SwapConfirmationViewModel = .init(from: .init(title: .text(L10n.TransactionDetails.addressFromHeader), value: .text(fromText)),
+                                                                to: .init(title: .text(L10n.TransactionDetails.addressToHeader), value: .text(toText)),
                                                                 rate: .init(title: .text("Rate"), value: .text(rateText)),
                                                                 sendingFee: .init(title: .text("Sending fee\n"), value: .text(fromFeeText)),
                                                                 receivingFee: .init(title: .text("Receiving fee\n"), value: .text(toFeeText)),
-                                                                totalCost: .init(title: .text("Total cost:"), value: .text(totalCostText)))
+                                                                totalCost: .init(title: .text(L10n.Confirmation.totalLabel), value: .text(totalCostText)))
         
-        let viewModel: WrapperPopupViewModel<SwapConfirmationViewModel> = .init(title: .text("Confirmation"),
-                                                                                confirm: .init(title: "Confirm"),
-                                                                                cancel: .init(title: "Cancel"),
+        let viewModel: WrapperPopupViewModel<SwapConfirmationViewModel> = .init(title: .text(L10n.Confirmation.title),
+                                                                                confirm: .init(title: L10n.Button.confirm),
+                                                                                cancel: .init(title: L10n.Button.cancel),
                                                                                 wrappedView: wrappedViewModel)
         
         viewController?.displayConfirmation(responseDisplay: .init(config: config, viewModel: viewModel))
@@ -256,7 +256,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         guard let from = actionResponse.from,
               let to = actionResponse.to,
               let exchangeId = actionResponse.exchangeId else {
-            presentError(actionResponse: .init(error: GeneralError(errorMessage: "Not a valid pair")))
+                  presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Swap.notValidPair)))
             return
         }
         viewController?.displayConfirm(responseDisplay: .init(from: from, to: to, exchangeId: "\(exchangeId)"))
