@@ -12,12 +12,12 @@ import UIKit
 import WalletKit
 
 extension Amount {
-    init(amount: Decimal, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 9) {
-        let formatter = ExchangeFormatter.crypto
+    init(amount: Decimal, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 16) {
+        let formatter = ExchangeFormatter.current
         let amountString = formatter.string(for: amount) ?? ""
         
         guard let exchangeRate = exchangeRate,
-              decimals > 0
+              decimals >= 0
         else {
             self = .init(tokenString: amountString, currency: currency)
             return
@@ -35,12 +35,12 @@ extension Amount {
         self = value
     }
     
-    init(fiat: Decimal, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 9) {
-        let formatter = ExchangeFormatter.fiat
+    init(fiat: Decimal, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 16) {
+        let formatter = ExchangeFormatter.current
         let amountString = formatter.string(for: fiat) ?? ""
         
         guard let exchangeRate = exchangeRate,
-              decimals > 0
+              decimals >= 0
         else {
             self = .zero(currency)
             return
