@@ -193,7 +193,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     func getFees(viewAction: Models.Fee.ViewAction) {
         guard let from = dataStore?.from,
-              let fromAddress = dataStore?.address(for: from.currency)
+              let fromAddress = from.currency.wallet?.defaultReceiveAddress
         else {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
             return

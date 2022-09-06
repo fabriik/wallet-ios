@@ -28,18 +28,4 @@ class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
     // MARK: - Aditional helpers
     var coreSystem: CoreSystem?
     var keyStore: KeyStore?
-    
-    func address(for currency: Currency?) -> String? {
-        guard let currency = currency else {
-            return nil
-        }
-
-        let addressScheme: AddressScheme
-        if currency.isBitcoin {
-            addressScheme = UserDefaults.hasOptedInSegwit ? .btcSegwit : .btcLegacy
-        } else {
-            addressScheme = currency.network.defaultAddressScheme
-        }
-        return currency.wallet?.receiveAddress(for: addressScheme)
-    }
 }

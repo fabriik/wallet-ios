@@ -44,7 +44,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     
     func submit(viewAction: OrderPreviewModels.Submit.ViewAction) {
         guard let currency = dataStore?.to?.currency,
-              let address = dataStore?.address(for: currency)
+              let address = currency.wallet?.defaultReceiveAddress
         else {
             // TODO: handle no wallet error
             return

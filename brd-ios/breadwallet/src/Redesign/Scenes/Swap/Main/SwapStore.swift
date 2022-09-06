@@ -81,19 +81,4 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         let to = to?.currency.code ?? "</>"
         return "\(from)-\(to)"
     }
-
-    // TODO: extract (it being used in swap and buy)
-    func address(for currency: Currency?) -> String? {
-        guard let currency = currency else {
-            return nil
-        }
-
-        let addressScheme: AddressScheme
-        if currency.isBitcoin {
-            addressScheme = UserDefaults.hasOptedInSegwit ? .btcSegwit : .btcLegacy
-        } else {
-            addressScheme = currency.network.defaultAddressScheme
-        }
-        return currency.wallet?.receiveAddress(for: addressScheme)
-    }
 }

@@ -368,6 +368,7 @@
 		7E9B13FD2857404600BD9EF5 /* DocumentReviewVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9B13F62857404600BD9EF5 /* DocumentReviewVIP.swift */; };
 		7E9B13FE2857404600BD9EF5 /* DocumentReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9B13F72857404600BD9EF5 /* DocumentReviewViewController.swift */; };
 		7E9B13FF2857404600BD9EF5 /* DocumentReviewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9B13F82857404600BD9EF5 /* DocumentReviewInteractor.swift */; };
+		7EB6CDB128C73F8500912268 /* Wallet+DefaultReceiveAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB6CDB028C73F8500912268 /* Wallet+DefaultReceiveAddress.swift */; };
 		7EB838462849D49A00C7CC05 /* ScrollableButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB838452849D49A00C7CC05 /* ScrollableButtonsView.swift */; };
 		7EB838482849DD8200C7CC05 /* FELink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB838472849DD8200C7CC05 /* FELink.swift */; };
 		7EB8FD212897D212000FF75C /* BuyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB8FD1A2897D212000FF75C /* BuyCoordinator.swift */; };
@@ -1363,6 +1364,7 @@
 		7E9B13F62857404600BD9EF5 /* DocumentReviewVIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReviewVIP.swift; sourceTree = "<group>"; };
 		7E9B13F72857404600BD9EF5 /* DocumentReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReviewViewController.swift; sourceTree = "<group>"; };
 		7E9B13F82857404600BD9EF5 /* DocumentReviewInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReviewInteractor.swift; sourceTree = "<group>"; };
+		7EB6CDB028C73F8500912268 /* Wallet+DefaultReceiveAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Wallet+DefaultReceiveAddress.swift"; sourceTree = "<group>"; };
 		7EB838452849D49A00C7CC05 /* ScrollableButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableButtonsView.swift; sourceTree = "<group>"; };
 		7EB838472849DD8200C7CC05 /* FELink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FELink.swift; sourceTree = "<group>"; };
 		7EB8FD1A2897D212000FF75C /* BuyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyCoordinator.swift; sourceTree = "<group>"; };
@@ -2885,6 +2887,7 @@
 			isa = PBXGroup;
 			children = (
 				7E852747286C551C0058F4C0 /* ServerResponse.swift */,
+				7EB6CDB028C73F8500912268 /* Wallet+DefaultReceiveAddress.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5056,6 +5059,7 @@
 				7E5B305B28A67FC60065D2D8 /* SwapInfoViewController.swift in Sources */,
 				C47F46FB286A2931002287F1 /* ResetPinStore.swift in Sources */,
 				7C72D134226625130091B185 /* CoreSystem.swift in Sources */,
+				7EB6CDB128C73F8500912268 /* Wallet+DefaultReceiveAddress.swift in Sources */,
 				CE3D4C571EF5D5740016B1C8 /* ReachabilityMonitor.swift in Sources */,
 				7B54E59F27F4A2B0002DD1E4 /* KYCAPI.swift in Sources */,
 				7EB8FD292897F22B000FF75C /* CardSelectionView.swift in Sources */,
