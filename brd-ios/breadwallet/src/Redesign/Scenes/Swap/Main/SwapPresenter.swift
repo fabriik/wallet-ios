@@ -192,16 +192,17 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
         if let error = actionResponse.error as? SwapErrors,
            error.errorMessage == SwapErrors.selectAssets.errorMessage {
-            presentInfoPopup(actionResponse: .init())
+            presentAssetInfoPopup(actionResponse: .init())
             
         } else if let error = actionResponse.error as? FEError {
-            
             let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
             let config = Presets.InfoView.swapError
             
             viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
+            
         } else {
             viewController?.displayMessage(responseDisplay: .init())
+            
         }
     }
     
@@ -266,7 +267,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         viewController?.displayConfirm(responseDisplay: .init(from: from, to: to, exchangeId: "\(exchangeId)"))
     }
     
-    func presentInfoPopup(actionResponse: SwapModels.InfoPopup.ActionResponse) {
+    func presentAssetInfoPopup(actionResponse: SwapModels.AssetInfoPopup.ActionResponse) {
         // TODO: Localize.
         let popupViewModel = PopupViewModel(title: .text("Check your assets!"),
                                             body: """
@@ -274,8 +275,8 @@ In order to succesfully perform a swap, make sure you have two or more of our su
 """,
                                             buttons: [.init(title: "Got it!")])
         
-        viewController?.displayInfoPopup(responseDisplay: .init(popupViewModel: popupViewModel,
-                                                                popupConfig: Presets.Popup.white))
+        viewController?.displayAssetInfoPopup(responseDisplay: .init(popupViewModel: popupViewModel,
+                                                                     popupConfig: Presets.Popup.white))
     }
     
     // MARK: - Additional Helpers

@@ -152,7 +152,7 @@ enum SwapModels {
         struct ResponseDisplay {}
     }
     
-    struct InfoPopup {
+    struct AssetInfoPopup {
         struct ViewAction {}
         struct ActionResponse {}
         struct ResponseDisplay {

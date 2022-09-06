@@ -19,7 +19,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     typealias Models = SwapModels
     
     override var sceneLeftAlignedTitle: String? {
-         // TODO: localize
+         // TODO: Localize.
         return "Swap"
     }
     
@@ -259,19 +259,18 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayError(responseDisplay: SwapModels.ErrorPopup.ResponseDisplay) {
-        interactor?.showInfoPopup(viewAction: .init())
+        interactor?.showAssetInfoPopup(viewAction: .init())
     }
     
-    func displayInfoPopup(responseDisplay: SwapModels.InfoPopup.ResponseDisplay) {
+    func displayAssetInfoPopup(responseDisplay: SwapModels.AssetInfoPopup.ResponseDisplay) {
         coordinator?.showPopup(on: self,
                                blurred: true,
                                with: responseDisplay.popupViewModel,
                                config: responseDisplay.popupConfig,
                                closeButtonCallback: { [weak self] in
-            self?.coordinator?.goBack()
+            self?.coordinator?.goBack(completion: {})
         }, callbacks: [ { [weak self] in
-            self?.coordinator?.hidePopup()
-            self?.coordinator?.goBack()
+            self?.coordinator?.goBack(completion: {})
         }])
     }
     
