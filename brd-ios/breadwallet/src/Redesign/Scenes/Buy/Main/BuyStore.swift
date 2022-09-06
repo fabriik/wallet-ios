@@ -32,7 +32,7 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
         guard let toCurrency = toCurrency else { return nil }
         guard let to = to else { return.zero(toCurrency) }
         
-        return amountFrom(decimal: to, currency: toCurrency)
+        return .init(amount: to, currency: toCurrency, exchangeRate: 1 / (quote?.exchangeRate ?? 1))
     }
     
     var isInputFiat = false
@@ -51,26 +51,6 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     // MARK: - Aditional helpers
     
-    func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
-        guard let amount = decimal, spaces > 0 else { return .zero(currency) }
-        
-        let formatter = ExchangeFormatter.current
-        formatter.maximumFractionDigits = spaces
-        
-        let amountString = formatter.string(for: amount) ?? ""
-        let rate = Rate(code: currency.code,
-                        name: currency.name,
-                        rate: 1 / (quote?.exchangeRate.doubleValue ?? 1),
-                        reciprocalCode: "")
-        let value = Amount(tokenString: amountString, currency: currency, rate: rate)
-        
-        guard value.tokenValue != 0 else {
-            return amountFrom(decimal: decimal, currency: currency, spaces: spaces - 1)
-        }
-        
-        return value
-    }
-    
     var isFormValid: Bool {
         guard let amount = toAmount,
               amount.tokenValue > 0,
@@ -80,5 +60,53 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
             return false
         }
         return true
+    }
+}
+
+extension Amount {
+    init(amount: Decimal, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 9) {
+        let formatter = ExchangeFormatter.crypto
+        let amountString = formatter.string(for: amount) ?? ""
+        
+        guard let exchangeRate = exchangeRate,
+              decimals > 0
+        else {
+            self = .init(tokenString: amountString, currency: currency)
+            return
+        }
+        
+        let rate = Rate(code: currency.code,
+                        name: currency.name,
+                        rate: exchangeRate.doubleValue,
+                        reciprocalCode: "")
+        let value = Amount(tokenString: amountString, currency: currency, rate: rate)
+        guard value.tokenValue > 0 else {
+            self = .init(amount: amount, currency: currency, exchangeRate: exchangeRate, decimals: decimals - 1)
+            return
+        }
+        self = value
+    }
+    
+    init(fiat: Decimal, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 9) {
+        let formatter = ExchangeFormatter.fiat
+        let amountString = formatter.string(for: fiat) ?? ""
+        
+        guard let exchangeRate = exchangeRate,
+              decimals > 0
+        else {
+            self = .zero(currency)
+            return
+        }
+        
+        let rate = Rate(code: currency.code,
+                        name: currency.name,
+                        rate: exchangeRate.doubleValue,
+                        reciprocalCode: "")
+        guard let value = Amount(fiatString: amountString, currency: currency, rate: rate),
+              value.tokenValue > 0 else {
+            self = .init(fiat: fiat, currency: currency, exchangeRate: exchangeRate, decimals: decimals - 1)
+            return
+        }
+        self = value
     }
 }

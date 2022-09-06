@@ -12,6 +12,13 @@ import UIKit
 import WalletKit
 
 class SwapStore: NSObject, BaseDataStore, SwapDataStore {
+    enum CurrentInput {
+        case fromFiat
+        case toFiat
+        case fromCrypto
+        case toCrypto
+    }
+    var currentInput: CurrentInput?
     // MARK: - SwapDataStore
     var itemId: String?
     
@@ -42,23 +49,6 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var isKYCLevelTwo: Bool?
     
     // MARK: - Aditional helpers
-    
-    func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
-        guard let amount = decimal, spaces > 0 else { return .zero(currency) }
-        
-        let formatter = ExchangeFormatter.current
-        formatter.maximumFractionDigits = spaces
-        
-        let amountString = formatter.string(for: amount) ?? ""
-        let value = Amount(tokenString: amountString, currency: currency)
-        
-        guard value.tokenValue != 0 else {
-            return amountFrom(decimal: decimal, currency: currency, spaces: spaces - 1)
-        }
-        
-        return value
-    }
-    
     var fromFeeAmount: Amount? {
         guard let value = fromFee,
               let currency = currencies.first(where: { $0.code == value.fee.currency.code.uppercased() }) else {

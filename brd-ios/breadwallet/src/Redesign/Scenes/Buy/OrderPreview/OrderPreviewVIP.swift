@@ -44,7 +44,7 @@ protocol OrderPreviewDataStore: BaseDataStore, FetchDataStore {
     var toCurrency: String? { get set }
     var card: PaymentCard? { get set }
     var quote: Quote? { get set }
-    var networkFee: Amount? { get set }
+    var networkFee: Amount? { get }
     var cvv: String? { get set }
     var paymentReference: String? { get set }
     var paymentstatus: AddCard.Status? { get set }

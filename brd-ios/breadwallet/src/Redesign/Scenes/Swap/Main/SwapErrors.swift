@@ -21,7 +21,7 @@ enum SwapErrors: FEError {
     case overDailyLimit
     case overLifetimeLimit
     case overDailyLimitLevel2
-    // TODO: Unoficial errors
+    // Unoficial errors
     case notEnouthEthForFee(fee: Decimal)
     case noFees
     case networkFee

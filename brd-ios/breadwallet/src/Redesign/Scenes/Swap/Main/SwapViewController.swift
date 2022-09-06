@@ -190,7 +190,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
-        // TODO: replace with Coordinator call
+        // TODO: Extract to VIPBaseViewController
         LoadingView.hide()
         
         confirmButton.wrappedView.isEnabled = responseDisplay.continueEnabled
@@ -239,7 +239,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                                        selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }
             
-            // TODO: replace with coordinator call
+            // TODO: Extract to VIPBaseViewController
             LoadingView.show()
             guard responseDisplay.from?.isEmpty == false else {
                 self?.interactor?.assetSelected(viewAction: .init(to: model.subtitle))

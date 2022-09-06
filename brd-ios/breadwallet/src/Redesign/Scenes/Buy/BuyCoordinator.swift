@@ -177,8 +177,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
                           to: Amount?,
                           from: Decimal?,
                           card: PaymentCard?,
-                          quote: Quote?,
-                          networkFee: Amount?) {
+                          quote: Quote?) {
         open(scene: Scenes.OrderPreview) { vc in
             vc.dataStore?.coreSystem = coreSystem
             vc.dataStore?.keyStore = keyStore
@@ -186,7 +185,6 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.dataStore?.to = to
             vc.dataStore?.card = card
             vc.dataStore?.quote = quote
-            vc.dataStore?.networkFee = networkFee
             vc.prepareData()
         }
     }
