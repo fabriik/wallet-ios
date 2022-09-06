@@ -12,13 +12,6 @@ import UIKit
 import WalletKit
 
 class SwapStore: NSObject, BaseDataStore, SwapDataStore {
-    enum CurrentInput {
-        case fromFiat
-        case toFiat
-        case fromCrypto
-        case toCrypto
-    }
-    var currentInput: CurrentInput?
     // MARK: - SwapDataStore
     var itemId: String?
     

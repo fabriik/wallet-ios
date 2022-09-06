@@ -146,7 +146,6 @@ class BaseApiWorker<M: Mapper>: APIWorker {
 
     func getHeaders() -> [String: String] {
         return ["Authorization": UserDefaults.kycSessionKeyValue].compactMapValues { $0 }
-        
     }
     
     func getPagination() -> Pagination? { return nil }
