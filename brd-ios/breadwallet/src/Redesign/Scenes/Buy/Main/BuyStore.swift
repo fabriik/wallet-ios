@@ -19,10 +19,11 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     var feeAmount: Amount? {
         guard let value = quote?.toFee,
+              let fee = ExchangeFormatter.crypto.string(for: value.fee),
               let currency = currencies.first(where: { $0.code == value.currency.uppercased() }) else {
             return nil
         }
-        return .init(tokenString: value.fee.description, currency: currency)
+        return .init(tokenString: fee, currency: currency)
     }
     
     var fromCurrency: String? = Store.state.defaultCurrencyCode.lowercased()

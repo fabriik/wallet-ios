@@ -73,7 +73,7 @@ enum SwapErrors: FEError {
             return "PIN Authentication failed"
             
         case .notEnouthEthForFee(let fee):
-            return "ERC-20 tokens require ETH network fees. Please make sure you have at least \(fee.description) ETH in your wallet."
+            return "ERC-20 tokens require ETH network fees. Please make sure you have at least \(ExchangeFormatter.crypto.string(for: fee)) ETH in your wallet."
             
         case .failed(let error):
             return "Swap failed. Reason: \(error?.localizedDescription ?? "unknown")"
