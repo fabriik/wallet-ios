@@ -20,7 +20,14 @@ class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
     var toCurrency: String?
     var card: PaymentCard?
     var quote: Quote?
-    var networkFee: Amount?
+    var networkFee: Amount? {
+        guard let value = quote?.toFee,
+              let fee = ExchangeFormatter.crypto.string(for: value.fee),
+              let currency = Store.state.currencies.first(where: { $0.code == value.currency.uppercased() }) else {
+            return nil
+        }
+        return .init(tokenString: fee, currency: currency)
+    }
     var cvv: String?
     var paymentReference: String?
     var paymentstatus: AddCard.Status?
@@ -28,18 +35,4 @@ class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
     // MARK: - Aditional helpers
     var coreSystem: CoreSystem?
     var keyStore: KeyStore?
-    
-    func address(for currency: Currency?) -> String? {
-        guard let currency = currency else {
-            return nil
-        }
-
-        let addressScheme: AddressScheme
-        if currency.isBitcoin {
-            addressScheme = UserDefaults.hasOptedInSegwit ? .btcSegwit : .btcLegacy
-        } else {
-            addressScheme = currency.network.defaultAddressScheme
-        }
-        return currency.wallet?.receiveAddress(for: addressScheme)
-    }
 }

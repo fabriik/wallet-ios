@@ -42,23 +42,6 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var isKYCLevelTwo: Bool?
     
     // MARK: - Aditional helpers
-    
-    func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
-        guard let amount = decimal, spaces > 0 else { return .zero(currency) }
-        
-        let formatter = ExchangeFormatter.current
-        formatter.maximumFractionDigits = spaces
-        
-        let amountString = formatter.string(for: amount) ?? ""
-        let value = Amount(tokenString: amountString, currency: currency)
-        
-        guard value.tokenValue != 0 else {
-            return amountFrom(decimal: decimal, currency: currency, spaces: spaces - 1)
-        }
-        
-        return value
-    }
-    
     var fromFeeAmount: Amount? {
         guard let value = fromFee,
               let currency = currencies.first(where: { $0.code == value.fee.currency.code.uppercased() }) else {
@@ -80,20 +63,5 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         let from = from?.currency.code ?? "</>"
         let to = to?.currency.code ?? "</>"
         return "\(from)-\(to)"
-    }
-
-    // TODO: extract (it being used in swap and buy)
-    func address(for currency: Currency?) -> String? {
-        guard let currency = currency else {
-            return nil
-        }
-
-        let addressScheme: AddressScheme
-        if currency.isBitcoin {
-            addressScheme = UserDefaults.hasOptedInSegwit ? .btcSegwit : .btcLegacy
-        } else {
-            addressScheme = currency.network.defaultAddressScheme
-        }
-        return currency.wallet?.receiveAddress(for: addressScheme)
     }
 }

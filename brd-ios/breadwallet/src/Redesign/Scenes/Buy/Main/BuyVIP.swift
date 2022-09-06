@@ -56,13 +56,11 @@ protocol BuyDataPassing {
 }
 
 protocol BuyRoutes: CoordinatableRoutes {
-    // TODO: refactor :S
     func showOrderPreview(coreSystem: CoreSystem?,
                           keyStore: KeyStore?,
                           to: Amount?,
                           from: Decimal?,
                           card: PaymentCard?,
-                          quote: Quote?,
-                          networkFee: Amount?)
+                          quote: Quote?)
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?)
 }

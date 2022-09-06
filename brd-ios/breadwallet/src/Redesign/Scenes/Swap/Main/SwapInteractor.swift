@@ -144,43 +144,41 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let fromRate = dataStore?.fromRate ?? 0
         let toRate = dataStore?.toRate ?? 0
         
-        let from: Decimal
-        let to: Decimal
+        let from: Amount
+        let to: Amount
         if let fromCryptoAmount = viewAction.fromCryptoAmount,
            let fromCrypto = ExchangeFormatter.crypto.number(from: fromCryptoAmount)?.decimalValue {
-            
-            from = fromCrypto
-            to = fromCrypto * exchangeRate - toFee
+            from = .init(amount: fromCrypto, currency: fromCurrency, exchangeRate: fromRate)
+            to = .init(amount: fromCrypto * exchangeRate - toFee, currency: toCurrency, exchangeRate: toRate)
             
         } else if let fromFiatAmount = viewAction.fromFiatAmount,
                   let fromFiat = ExchangeFormatter.fiat.number(from: fromFiatAmount)?.decimalValue {
-            
-            from = fromFiat / fromRate
-            to = from * exchangeRate - toFee
+            from = .init(fiat: fromFiat, currency: fromCurrency, exchangeRate: fromRate)
+            to = .init(amount: from.tokenValue * exchangeRate - toFee, currency: toCurrency, exchangeRate: toRate)
             
         } else if let toCryptoAmount = viewAction.toCryptoAmount,
                   let toCrypto = ExchangeFormatter.crypto.number(from: toCryptoAmount)?.decimalValue {
+            from = .init(amount: (toCrypto + toFee * toFeeRate) / exchangeRate, currency: fromCurrency, exchangeRate: fromRate)
+            to = .init(amount: toCrypto, currency: toCurrency, exchangeRate: toRate)
             
-            from = (toCrypto + toFee * toFeeRate) / exchangeRate
-            to = toCrypto
         } else if let toFiatAmount = viewAction.toFiatAmount,
                   let toFiat = ExchangeFormatter.fiat.number(from: toFiatAmount)?.decimalValue {
-            
-            to = toFiat / toRate
-            from = (to + toFee) / exchangeRate
-            
+            to = .init(fiat: toFiat, currency: toCurrency, exchangeRate: toRate)
+            from = .init(amount: (to.tokenValue + toFee) / exchangeRate, currency: fromCurrency, exchangeRate: fromRate)
+        
         } else {
-            guard dataStore?.from != nil,
-                  dataStore?.to != nil,
-                  let fiat = dataStore?.from?.fiatValue ?? dataStore?.quote?.minimumUsd
-            else { return }
-            
-            from = fiat / fromRate
-            to =  from * exchangeRate - toFee
+            presenter?.presentAmount(actionResponse: .init(from: dataStore?.from,
+                                                           to: dataStore?.to,
+                                                           fromFee: dataStore?.fromFeeAmount,
+                                                           toFee: dataStore?.toFeeAmount,
+                                                           baseBalance: dataStore?.from?.currency.state?.balance,
+                                                           minimumAmount: dataStore?.quote?.minimumUsd,
+                                                           handleErrors: viewAction.handleErrors))
+            return
         }
         
-        dataStore?.from = dataStore?.amountFrom(decimal: from, currency: fromCurrency)
-        dataStore?.to = dataStore?.amountFrom(decimal: to, currency: toCurrency)
+        dataStore?.from = from
+        dataStore?.to = to
         
         presenter?.presentAmount(actionResponse: .init(from: dataStore?.from,
                                                        to: dataStore?.to,
@@ -193,7 +191,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     func getFees(viewAction: Models.Fee.ViewAction) {
         guard let from = dataStore?.from,
-              let fromAddress = dataStore?.address(for: from.currency)
+              let fromAddress = from.currency.wallet?.defaultReceiveAddress
         else {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
             return
@@ -313,7 +311,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-        let amount = dataStore.amountFrom(decimal: amountValue, currency: currency)
+        let amount = Amount(amount: amountValue, currency: currency)
         let result = sender.createTransaction(address: destination,
                                               amount: amount,
                                               feeBasis: fee,

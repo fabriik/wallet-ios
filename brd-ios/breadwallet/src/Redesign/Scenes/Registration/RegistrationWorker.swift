@@ -50,7 +50,6 @@ struct RegistrationRequestData: RequestModelData {
 class RegistrationWorker: BaseApiWorker<RegistrationMapper> {
     
     override func getHeaders() -> [String: String] {
-        // TODO: extract?
         let formatter = DateFormatter()
         formatter.locale = .init(identifier: "US")
         formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss Z"

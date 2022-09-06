@@ -172,8 +172,6 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
         LoadingView.hide()
-        
-        // TODO: other payment methods / back home need to be linked
         coordinator?.showFailure()
     }
     
