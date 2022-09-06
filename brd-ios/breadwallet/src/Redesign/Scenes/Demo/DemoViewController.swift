@@ -144,7 +144,6 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
     }
     
     func showInfo() {
-        // TODO: this is demo code.. no review required XD
         toggleBlur(animated: true)
         guard let blur = blurView else { return }
         let popup = FEPopupView()
