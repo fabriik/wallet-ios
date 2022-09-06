@@ -69,14 +69,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
-    override func prepareData() {
-        super.prepareData()
-        
-        DispatchQueue.main.async {
-            LoadingView.show()
-        }
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch sections[indexPath.section] as? Models.Sections {

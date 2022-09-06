@@ -28,37 +28,31 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             switch result {
             case .success(let currencies):
                 guard let currencies = currencies,
-                      currencies.count >= 2 else { return }
-                
-                for i in 0..<currencies.count {
-                    self?.dataStore?.supportedCurrencies = currencies
-                    guard let currency = self?.dataStore?.currencies.first(where: { $0.code == currencies[i].name }) else { return }
-                    self?.dataStore?.from = .zero(currency)
-                    
-                    for i in 0..<currencies.count {
-                        if let currency = self?.dataStore?.currencies.first(where: { $0.code == currencies[i].name }) {
-                            self?.dataStore?.to = .zero(currency)
-                        }
-                        if self?.dataStore?.to?.currency != nil,
-                           self?.dataStore?.to?.currency != self?.dataStore?.from?.currency {
-                            break
-                        }
-                    }
-                    
-                    if self?.dataStore?.from?.currency != nil && self?.dataStore?.to?.currency != nil {
-                        break
-                    }
+                      currencies.count >= 2 else {
+                    self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.selectAssets))
+                    return
                 }
                 
-                let item = Models.Item(from: self?.dataStore?.from?.currency,
-                                       to: self?.dataStore?.to?.currency,
+                let enabled = self?.dataStore?.currencies.filter { cur in currencies.map { $0.name }.contains(cur.code) }
+                
+                guard let from = enabled?.first,
+                      let to = enabled?.first(where: { $0.code != from.code })
+                else {
+                  self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.selectAssets))
+                    return
+                }
+                self?.dataStore?.from = .zero(from)
+                self?.dataStore?.to = .zero(to)
+                
+                let item = Models.Item(from: self?.dataStore?.from,
+                                       to: self?.dataStore?.to,
                                        quote: self?.dataStore?.quote,
                                        isKYCLevelTwo: self?.dataStore?.isKYCLevelTwo)
                 self?.presenter?.presentData(actionResponse: .init(item: item))
                 self?.getRate(viewAction: .init())
                 
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
+            case .failure:
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.selectAssets))
             }
         }
     }
