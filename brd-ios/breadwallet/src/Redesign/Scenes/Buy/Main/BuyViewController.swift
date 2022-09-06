@@ -242,8 +242,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                       to: dataStore?.toAmount,
                                       from: dataStore?.from,
                                       card: dataStore?.paymentCard,
-                                      quote: dataStore?.quote,
-                                      networkFee: dataStore?.feeAmount)
+                                      quote: dataStore?.quote)
     }
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
