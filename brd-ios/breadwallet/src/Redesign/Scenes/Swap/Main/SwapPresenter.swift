@@ -52,7 +52,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                               feeDescription: .text("Sending network fee\n(included)")),
                                   to: .init(amount: .zero(to),
                                             fee: .zero(to),
-                                            title: .text("I want"),
+                                            title: .text(L10n.Swap.iWant),
                                             feeDescription: .text("Sending network fee\n(included)")))
             ]
         ]
@@ -109,7 +109,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                     formattedFiatString: toFormattedFiatString,
                                                     formattedTokenString: toFormattedTokenString,
                                                     fee: actionResponse.toFee,
-                                                    title: .text("I want"),
+                                                    title: .text(L10n.Swap.iWant),
                                                     feeDescription: .text(receivingFee)))
         
         guard actionResponse.handleErrors else {
@@ -263,12 +263,9 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentInfoPopup(actionResponse: SwapModels.InfoPopup.ActionResponse) {
-        // TODO: Localize.
-        let popupViewModel = PopupViewModel(title: .text("Check your assets!"),
-                                            body: """
-In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet.
-""",
-                                            buttons: [.init(title: "Got it!")])
+        let popupViewModel = PopupViewModel(title: .text(L10n.Swap.checkAssets),
+                                            body: L10n.Swap.checkAssetsBody,
+                                            buttons: [.init(title: L10n.Swap.gotItButton)])
         
         viewController?.displayInfoPopup(responseDisplay: .init(popupViewModel: popupViewModel,
                                                                 popupConfig: Presets.Popup.white))

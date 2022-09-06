@@ -54,8 +54,12 @@ internal enum L10n {
   }
 
   internal enum Account {
+    /// Account Verification
+    internal static let accountVerification = L10n.tr("Localizable", "Account.AccountVerification")
     /// Balance
     internal static let balance = L10n.tr("Localizable", "Account.balance")
+    /// Delete account
+    internal static let deleteAccount = L10n.tr("Localizable", "Account.DeleteAccount")
     /// This token has been delisted. 
     /// 
     /// You may still be able to send these tokens to another platform. For more details, visit our support page.
@@ -66,6 +70,10 @@ internal enum L10n {
     }
     /// Loading Wallet
     internal static let loadingMessage = L10n.tr("Localizable", "Account.loadingMessage")
+    /// Personal Information
+    internal static let personalInformation = L10n.tr("Localizable", "Account.PersonalInformation")
+    /// Submit your photo
+    internal static let submitPhoto = L10n.tr("Localizable", "Account.SubmitPhoto")
   }
 
   internal enum AccountCreation {
@@ -295,6 +303,11 @@ internal enum L10n {
       /// Wipe
       internal static let android = L10n.tr("Localizable", "Button.wipe.android")
     }
+  }
+
+  internal enum Buy {
+    /// Purchase details
+    internal static let details = L10n.tr("Localizable", "Buy.Details")
   }
 
   internal enum CameraPlugin {
@@ -1638,8 +1651,20 @@ internal enum L10n {
   }
 
   internal enum Swap {
+    /// Check your assets!
+    internal static let checkAssets = L10n.tr("Localizable", "Swap.CheckAssets")
+    /// In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet.
+    internal static let checkAssetsBody = L10n.tr("Localizable", "Swap.CheckAssetsBody")
+    /// Swap details
+    internal static let details = L10n.tr("Localizable", "Swap.Details")
+    /// Got it!
+    internal static let gotItButton = L10n.tr("Localizable", "Swap.GotItButton")
+    /// I want
+    internal static let iWant = L10n.tr("Localizable", "Swap.iWant")
     /// Not a valid pair
     internal static let notValidPair = L10n.tr("Localizable", "Swap.NotValidPair")
+    /// Rate:
+    internal static let rate = L10n.tr("Localizable", "Swap.Rate")
   }
 
   internal enum Symbols {

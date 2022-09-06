@@ -1144,8 +1144,7 @@ class ModalPresenter: Subscriber, Trackable {
             }
         ]
         
-        // Add Delete account
-        let deleteAccount = MenuItem(title: "Delete account", color: LightColors.error) { [weak self] in
+        let deleteAccount = MenuItem(title: L10n.Account.deleteAccount, color: LightColors.error) { [weak self] in
             self?.deleteAccountCallback?()
         }
         

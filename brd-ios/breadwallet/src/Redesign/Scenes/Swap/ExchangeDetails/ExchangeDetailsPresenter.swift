@@ -123,7 +123,7 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
                                showsFullValue: false)
             ],
             Models.Section.buyOrder: [
-                BuyOrderViewModel(rateValue: .init(title: .text("Rate:"), value: .text(rate), infoImage: nil),
+                BuyOrderViewModel(rateValue: .init(title: .text(L10n.Swap.rate), value: .text(rate), infoImage: nil),
                                   amount: .init(title: .text("Amount purchased:"), value: .text(amountText), infoImage: nil),
                                   cardFee: .init(title: .text("Card fee:"),
                                                  value: .text(cardFeeText),

@@ -34,7 +34,7 @@ final class AccountVerificationPresenter: NSObject, Presenter, AccountVerificati
                 VerificationViewModel(kyc: .levelOne,
                                       title: .text("Level 1"),
                                       status: levelOneStatus,
-                                      description: .text("Personal information"),
+                                      description: .text(L10n.Account.personalInformation),
                                       benefits: .text("Account limit: $1,000/day ($10,000 lifetime)"),
                                       isActive: true),
                 VerificationViewModel(kyc: .levelTwo,

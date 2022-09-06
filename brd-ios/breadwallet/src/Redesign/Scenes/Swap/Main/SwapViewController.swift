@@ -19,8 +19,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     typealias Models = SwapModels
     
     override var sceneLeftAlignedTitle: String? {
-         // TODO: localize
-        return "Swap"
+        return L10n.HomeScreen.trade
     }
     
     lazy var confirmButton: WrapperView<FEButton> = {

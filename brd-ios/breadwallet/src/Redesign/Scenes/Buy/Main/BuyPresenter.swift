@@ -30,7 +30,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             .accountLimits: [
                 LabelViewModel.text("")
             ],
-            .from: [SwapCurrencyViewModel(title: .text("I want"))],
+            .from: [SwapCurrencyViewModel(title: .text(L10n.Swap.iWant))],
             .to: [CardSelectionViewModel(userInteractionEnabled: true)]
         ]
         
@@ -68,11 +68,10 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let formattedFiatString = ExchangeFormatter.createAmountString(string: fromFiatValue ?? "")
         let formattedTokenString = ExchangeFormatter.createAmountString(string: fromTokenValue ?? "")
         
-        // TODO: Localize
         cryptoModel = .init(amount: actionResponse.amount,
                             formattedFiatString: formattedFiatString,
                             formattedTokenString: formattedTokenString,
-                            title: .text("I want"))
+                            title: .text(L10n.Swap.iWant))
         
         if let paymentCard = actionResponse.card {
             cardModel = .init(logo: paymentCard.displayImage,
