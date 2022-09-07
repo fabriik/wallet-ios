@@ -114,7 +114,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             }
             
             view.didFinish = { [weak self] in
-                self?.interactor?.getExchangeRate(viewAction: .init())
+                self?.interactor?.setAmount(viewAction: .init())
             }
             
             view.didTapSelectAsset = { [weak self] in
@@ -205,6 +205,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         if let section = sections.firstIndex(of: Models.Sections.rate),
            let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
             cell.setup { view in
+                view.configure(with: .init())
                 view.setup(with: responseDisplay.rate)
                 view.completion = { [weak self] in
                     self?.interactor?.getExchangeRate(viewAction: .init())

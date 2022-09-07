@@ -203,8 +203,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
            let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
             
             cell.setup { view in
-                let model = responseDisplay.rate
-                view.setup(with: model)
+                view.configure(with: .init())
+                view.setup(with: responseDisplay.rate)
                 view.completion = { [weak self] in
                     self?.interactor?.getRate(viewAction: .init())
                 }

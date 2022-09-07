@@ -48,7 +48,7 @@ extension UIImage {
         guard let cgImage = self.cgImage else { assert(false, "No cgImage property"); return nil }
 
         context.interpolationQuality = .none
-        context.rotate(by: π) // flip
+        context.rotate(by: .pi) // flip
         context.scaleBy(x: -1.0, y: 1.0) // mirror
         context.draw(cgImage, in: context.boundingBoxOfClipPath.insetBy(dx: inset, dy: inset))
         return UIGraphicsGetImageFromCurrentImageContext()

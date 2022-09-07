@@ -9,8 +9,6 @@
 import UIKit
 import WalletKit
 
-let π: CGFloat = .pi
-
 struct Padding {
     var increment: CGFloat
     

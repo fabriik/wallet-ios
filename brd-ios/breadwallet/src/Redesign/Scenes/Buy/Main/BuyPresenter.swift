@@ -14,6 +14,9 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
     weak var viewController: BuyViewController?
 
     // MARK: - BuyActionResponses
+    
+    private var exchangeRateViewModel = ExchangeRateViewModel()
+    
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         let sections: [Models.Sections] = [
             .rate,
@@ -22,9 +25,11 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             .to,
             .error
         ]
+        
+        exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(), showTimer: false)
 
         let sectionRows: [Models.Sections: [ViewModel]] =  [
-            .rate: [ExchangeRateViewModel()],
+            .rate: [exchangeRateViewModel],
             .accountLimits: [
                 LabelViewModel.text("")
             ],
@@ -47,12 +52,12 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let max = ExchangeFormatter.fiat.string(for: quote.maximumValue) ?? ""
         let limitText = String(format: L10n.Buy.buyLimits(min, max))
         
-        let model = ExchangeRateViewModel(exchangeRate: text,
-                                          timer: TimerViewModel(till: quote.timestamp,
-                                                                repeats: false,
-                                                                isVisible: false))
+        exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
+                                                      timer: TimerViewModel(till: quote.timestamp,
+                                                                            repeats: false),
+                                                      showTimer: false)
         
-        viewController?.displayExchangeRate(responseDisplay: .init(rate: model,
+        viewController?.displayExchangeRate(responseDisplay: .init(rate: exchangeRateViewModel,
                                                                    limits: .text(limitText)))
     }
     
