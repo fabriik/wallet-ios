@@ -200,12 +200,17 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                    kvStore: Backend.kvStore) { [weak self] fee in
             self?.dataStore?.fromFee = fee
             
-            guard self?.dataStore?.fromFee != nil else {
+            if self?.dataStore?.fromFee != nil,
+               self?.dataStore?.quote != nil {
+                // all good
+                self?.setAmount(viewAction: .init(handleErrors: true))
+            } else if let fee = self?.dataStore?.quote?.fromFee?.fee {
+                // no wk fee
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee(fee: fee)))
+            } else {
+                // no quote and no WK fee
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
-                return
             }
-            
-            self?.setAmount(viewAction: .init(handleErrors: true))
         }
     }
     
