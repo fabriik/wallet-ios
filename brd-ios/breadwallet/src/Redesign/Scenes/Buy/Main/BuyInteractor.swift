@@ -68,23 +68,35 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     }
     
     func setAmount(viewAction: BuyModels.Amounts.ViewAction) {
-        guard let rate = dataStore?.quote?.exchangeRate else {
-            let toCode = dataStore?.toCurrency?.code ?? "/"
-            let fromCode = dataStore?.fromCurrency ?? "/"
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(pair: "\(fromCode)-\(toCode)")))
+        let fromCode = dataStore?.fromCurrency ?? "/"
+        guard let rate = dataStore?.quote?.exchangeRate,
+              let toCurrency = dataStore?.toCurrency else {
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(pair: "\(fromCode)-\(dataStore?.toCurrency?.code ?? "/")")))
             return
         }
         
-        if let value = viewAction.tokenValue {
-            dataStore?.to = ExchangeFormatter.crypto.number(from: value)?.decimalValue
-            dataStore?.from = (dataStore?.to ?? 0) / rate
+        let to: Amount
+        let from: Decimal
+        if let value = viewAction.tokenValue,
+           let crypto = ExchangeFormatter.crypto.number(from: value)?.decimalValue {
+            
+            to = .init(amount: crypto, currency: toCurrency, exchangeRate: 1 / rate)
+            from = (dataStore?.to ?? 0) / rate
             dataStore?.isInputFiat = false
-        } else if let value = viewAction.fiatValue {
+        } else if let value = viewAction.fiatValue,
+                  let fiat = ExchangeFormatter.fiat.number(from: value)?.decimalValue {
             dataStore?.isInputFiat = true
-            dataStore?.from = ExchangeFormatter.fiat.number(from: value)?.decimalValue
-            dataStore?.to = (dataStore?.from ?? 0) * rate
+            from = fiat
+            to = .init(amount: fiat, isFiat: true, currency: toCurrency, exchangeRate: rate)
+        } else {
+            presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
+                                                           card: dataStore?.paymentCard,
+                                                           quote: dataStore?.quote))
+            return
         }
         
+        dataStore?.toAmount = to
+        dataStore?.from = from
         presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
                                                        card: dataStore?.paymentCard,
                                                        quote: dataStore?.quote))
