@@ -44,6 +44,15 @@
         "revision" : "f222cbdf325885926566172f6f5f06af95473158",
         "version" : "5.6.0"
       }
+    },
+    {
+      "identity" : "walletkitcore",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/fabriik/WalletKitCore",
+      "state" : {
+        "branch" : "rcresnik/chore/initial",
+        "revision" : "59963458c9143b35932f8b4f31a757e76262e907"
+      }
     }
   ],
   "version" : 2
