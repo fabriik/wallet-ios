@@ -115,7 +115,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             }
             
             view.didFinish = { [weak self] in
-                self?.interactor?.getExchangeRate(viewAction: .init())
+                self?.interactor?.setAmount(viewAction: .init())
             }
             
             view.didTapSelectAsset = { [weak self] in

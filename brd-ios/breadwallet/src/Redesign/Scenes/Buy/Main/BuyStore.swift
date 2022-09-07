@@ -28,21 +28,15 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     var feeAmount: Amount? {
         guard let value = quote?.toFee,
-              let fee = ExchangeFormatter.crypto.string(for: value.fee),
               let currency = currencies.first(where: { $0.code == value.currency.uppercased() }) else {
             return nil
         }
-        return .init(tokenString: fee, currency: currency)
+        return .init(amount: value.fee, currency: currency, exchangeRate: quote?.exchangeRate)
     }
     
     var fromCurrency: String? = Store.state.defaultCurrencyCode.lowercased()
     
-    var toAmount: Amount? {
-        guard let toCurrency = toCurrency else { return nil }
-        guard let to = to else { return.zero(toCurrency) }
-        
-        return .init(amount: to, currency: toCurrency, exchangeRate: 1 / (quote?.exchangeRate ?? 1))
-    }
+    var toAmount: Amount?
     
     var isInputFiat = false
     var paymentCard: PaymentCard?
