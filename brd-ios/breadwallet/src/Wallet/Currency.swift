@@ -135,7 +135,7 @@ class Currency: SharedCurrency, CurrencyWithIcon, ItemSelectable {
     
     var payId: String? {
         if isBitcoin { return C.BTC.lowercased() }
-        if isEthereum { return "eth" }
+        if isEthereum { return C.ETH.lowercased() }
         if isXRP { return "xrpl" }
         return nil
     }
