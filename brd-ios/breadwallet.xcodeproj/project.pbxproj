@@ -6709,7 +6709,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/fabriik/WalletKitSwift";
 			requirement = {
-				branch = "support/fabriik-9.0.0.X";
+				branch = mit;
 				kind = branch;
 			};
 		};
