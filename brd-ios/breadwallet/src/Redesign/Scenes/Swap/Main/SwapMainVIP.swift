@@ -22,7 +22,7 @@ protocol SwapViewActions: BaseViewActions, FetchViewActions, FeeFetchable {
     func selectAsset(viewAction: SwapModels.Assets.ViewAction)
     func showConfirmation(viewAction: SwapModels.ShowConfirmDialog.ViewAction)
     func confirm(viewAction: SwapModels.Confirm.ViewAction)
-    func showInfoPopup(viewAction: SwapModels.InfoPopup.ViewAction)
+    func showAssetInfoPopup(viewAction: SwapModels.AssetInfoPopup.ViewAction)
 }
 
 protocol SwapActionResponses: BaseActionResponses, FetchActionResponses {
@@ -31,7 +31,7 @@ protocol SwapActionResponses: BaseActionResponses, FetchActionResponses {
     func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse)
     func presentConfirmation(actionResponse: SwapModels.ShowConfirmDialog.ActionResponse)
     func presentConfirm(actionResponse: SwapModels.Confirm.ActionResponse)
-    func presentInfoPopup(actionResponse: SwapModels.InfoPopup.ActionResponse)
+    func presentAssetInfoPopup(actionResponse: SwapModels.AssetInfoPopup.ActionResponse)
 }
 
 protocol SwapResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
@@ -40,7 +40,7 @@ protocol SwapResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDis
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay)
     func displayConfirmation(responseDisplay: SwapModels.ShowConfirmDialog.ResponseDisplay)
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay)
-    func displayInfoPopup(responseDisplay: SwapModels.InfoPopup.ResponseDisplay)
+    func displayAssetInfoPopup(responseDisplay: SwapModels.AssetInfoPopup.ResponseDisplay)
     func displayError(responseDisplay: SwapModels.ErrorPopup.ResponseDisplay)
 }
 

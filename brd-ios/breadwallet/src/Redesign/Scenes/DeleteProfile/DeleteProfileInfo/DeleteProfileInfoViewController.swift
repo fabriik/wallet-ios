@@ -143,7 +143,6 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
                                closeButtonCallback: { [weak self] in
             self?.interactor?.wipeWallet(viewAction: .init())
         }, callbacks: [ { [weak self] in
-            self?.coordinator?.hidePopup()
             self?.interactor?.wipeWallet(viewAction: .init())
         } ])
     }

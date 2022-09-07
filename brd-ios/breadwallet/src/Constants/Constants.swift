@@ -87,7 +87,11 @@ struct C {
     static let britishPoundCurrencyCode = "GBP"
     static let danishKroneCurrencyCode = "DKK"
     static let erc20Prefix = "erc20:"
-
+    static let BTC = "BTC"
+    static let BCH = "BCH"
+    static let ETH = "ETH"
+    static let BSV = "BSV"
+    
     static var backendHost: String {
         if let debugBackendHost = UserDefaults.debugBackendHost {
             return debugBackendHost

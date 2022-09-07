@@ -171,7 +171,7 @@ extension CurrencyMetaData: Codable {
         if !didFindCoinGeckoID {
             if let id = CoinGeckoCodes.map[code.uppercased()] {
                 coinGeckoId = id
-            } else if code.uppercased() == "BSV" {
+            } else if code.uppercased() == C.BSV {
                 coinGeckoId = "bitcoin-cash-sv"
             }
         }

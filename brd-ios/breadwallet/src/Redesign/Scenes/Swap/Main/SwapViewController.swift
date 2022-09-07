@@ -19,7 +19,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     typealias Models = SwapModels
     
     override var sceneLeftAlignedTitle: String? {
-         // TODO: localize
+         // TODO: Localize.
         return "Swap"
     }
     
@@ -67,14 +67,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         confirmButton.wrappedView.configure(with: Presets.Button.primary)
         confirmButton.wrappedView.setup(with: .init(title: "Confirm", enabled: false))
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-    }
-    
-    override func prepareData() {
-        super.prepareData()
-        
-        DispatchQueue.main.async {
-            LoadingView.show()
-        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -267,19 +259,18 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayError(responseDisplay: SwapModels.ErrorPopup.ResponseDisplay) {
-        interactor?.showInfoPopup(viewAction: .init())
+        interactor?.showAssetInfoPopup(viewAction: .init())
     }
     
-    func displayInfoPopup(responseDisplay: SwapModels.InfoPopup.ResponseDisplay) {
+    func displayAssetInfoPopup(responseDisplay: SwapModels.AssetInfoPopup.ResponseDisplay) {
         coordinator?.showPopup(on: self,
                                blurred: true,
                                with: responseDisplay.popupViewModel,
                                config: responseDisplay.popupConfig,
                                closeButtonCallback: { [weak self] in
-            self?.coordinator?.goBack()
+            self?.coordinator?.goBack(completion: {})
         }, callbacks: [ { [weak self] in
-            self?.coordinator?.hidePopup()
-            self?.coordinator?.goBack()
+            self?.coordinator?.goBack(completion: {})
         }])
     }
     
