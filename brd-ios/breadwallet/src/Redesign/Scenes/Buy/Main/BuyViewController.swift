@@ -176,6 +176,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     
     func displayPaymentCards(responseDisplay: BuyModels.PaymentCards.ResponseDisplay) {
         view.endEditing(true)
+        
         coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards, selected: { [weak self] selectedCard in
             self?.interactor?.setAssets(viewAction: .init(card: selectedCard))
         })

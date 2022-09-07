@@ -167,6 +167,8 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
+        LoadingView.show()
+        
         interactor?.submit(viewAction: .init())
     }
 
@@ -187,6 +189,8 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     }
     
     func displaySubmit(responseDisplay: BillingAddressModels.Submit.ResponseDisplay) {
+        LoadingView.hide()
+        
         coordinator?.showOverlay(with: .success) { [weak self] in
             self?.interactor?.getPaymentCards(viewAction: .init())
         }
@@ -195,7 +199,7 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     func displayPaymentCards(responseDisplay: BillingAddressModels.PaymentCards.ResponseDisplay) {
         coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards, selected: { [weak self] selectedCard in
             guard let selectedCard = selectedCard else { return }
-            self?.coordinator?.reloadBuy(card: selectedCard)
+            self?.coordinator?.reloadBuy(selectedCard: selectedCard)
         })
     }
     
