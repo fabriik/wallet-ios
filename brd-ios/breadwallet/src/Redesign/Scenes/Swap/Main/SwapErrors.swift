@@ -21,8 +21,8 @@ enum SwapErrors: FEError {
     case overDailyLimit
     case overLifetimeLimit
     case overDailyLimitLevel2
+    case notEnouthEthForFee
     // Unoficial errors
-    case notEnouthEthForFee(fee: Decimal)
     case noFees
     case networkFee
     case overExchangeLimit
@@ -73,8 +73,8 @@ enum SwapErrors: FEError {
         case  .pinConfirmation:
             return "PIN Authentication failed"
             
-        case .notEnouthEthForFee(let fee):
-            return "ERC-20 tokens require ETH network fees. Please make sure you have at least \(ExchangeFormatter.crypto.string(for: fee) ?? "/") ETH in your wallet."
+        case .notEnouthEthForFee:
+            return "Please make sure you have enough ETH to cover for the network fees while swapping within Ethereum-based assets."
             
         case .failed(let error):
             return "Swap failed. Reason: \(error?.localizedDescription ?? "unknown")"
