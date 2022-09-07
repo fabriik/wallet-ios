@@ -112,7 +112,7 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         valueLabel.isHidden = viewModel.exchangeRate == nil
         
         timerView.setup(with: viewModel.timer)
-        timerView.alpha = viewModel.showTimer ? 1 : 0
+        timerView.alpha = viewModel.timer == nil || viewModel.showTimer ? 1 : 0
     }
     
     func invalidate() {
