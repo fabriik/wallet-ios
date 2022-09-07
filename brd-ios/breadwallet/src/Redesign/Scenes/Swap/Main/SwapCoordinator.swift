@@ -42,7 +42,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
         }
     }
     
-    func showExchangeDetails(exchangeId: String) {
+    func showSwapDetails(exchangeId: String) {
         open(scene: ExchangeDetailsViewController.self) { vc in
             vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId

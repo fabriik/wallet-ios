@@ -128,6 +128,15 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         viewController?.displayCvv(responseDisplay: .init(continueEnabled: actionResponse.isValid))
     }
     
+    func presentCvvInfoPopup(actionResponse: OrderPreviewModels.CvvInfoPopup.ActionResponse) {
+        // TODO: Localize
+        let model = PopupViewModel(title: .text("Security code (CVV)"),
+                                   imageName: "creditCard",
+                                   body: "Please enter the 3 digit CVV number as it appears on the back of your card")
+        
+        viewController?.displayCvvInfoPopup(responseDisplay: .init(model: model))
+    }
+    
     func presentTimeOut(actionResponse: OrderPreviewModels.ExpirationValidations.ActionResponse) {
         viewController?.displayTimeOut(responseDisplay: .init(isTimedOut: actionResponse.isTimedOut))
     }

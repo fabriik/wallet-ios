@@ -42,6 +42,10 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         presenter?.presentInfoPopup(actionResponse: .init(isCardFee: viewAction.isCardFee, fee: dataStore?.quote?.buyFee))
     }
     
+    func showCvvInfoPopup(viewAction: OrderPreviewModels.CvvInfoPopup.ViewAction) {
+        presenter?.presentCvvInfoPopup(actionResponse: .init())
+    }
+    
     func submit(viewAction: OrderPreviewModels.Submit.ViewAction) {
         guard let currency = dataStore?.to?.currency,
               let address = currency.wallet?.defaultReceiveAddress,

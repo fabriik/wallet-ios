@@ -89,7 +89,7 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
         presenter?.presentSubmit(actionResponse: .init())
     }
     
-    func showInfoPopup(viewAction: AddCardModels.InfoPopup.ViewAction) {
-        presenter?.presentInfoPopup(actionResponse: .init())
+    func showCvvInfoPopup(viewAction: AddCardModels.CvvInfoPopup.ViewAction) {
+        presenter?.presentCvvInfoPopup(actionResponse: .init())
     }
 }

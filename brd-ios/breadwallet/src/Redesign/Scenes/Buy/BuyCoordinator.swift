@@ -16,11 +16,11 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         open(scene: Scenes.Buy)
     }
     
-    func reloadBuy(card: PaymentCard) {
+    func reloadBuy(selectedCard: PaymentCard) {
         let buyVC = navigationController.children.first(where: { $0 is BuyViewController }) as? BuyViewController
-        buyVC?.dataStore?.paymentCard = card
+        buyVC?.dataStore?.paymentCard = selectedCard
         buyVC?.dataStore?.autoSelectDefaultPaymentMethod = false
-        buyVC?.prepareData()
+        buyVC?.interactor?.getData(viewAction: .init())
     }
     
     func showBillingAddress(addCardDataStore: AddCardStore?) {
@@ -62,7 +62,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.failure = FailureReason.buy
             vc.firstCallback = { [weak self] in
                 self?.popToRoot(completion: { [weak self] in
-                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getPaymentCards(viewAction: .init())
+                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getData(viewAction: .init())
                 })
             }
             
@@ -166,10 +166,6 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         }
         nvc.modalPresentationStyle = .fullScreen
         navigationController.show(nvc, sender: nil)
-    }
-    
-    func showInfo(from: String, to: String, exchangeId: String) {
-        
     }
     
     func showOrderPreview(coreSystem: CoreSystem?,

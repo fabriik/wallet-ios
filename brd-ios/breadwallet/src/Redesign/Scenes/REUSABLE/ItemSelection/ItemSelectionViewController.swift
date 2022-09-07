@@ -58,7 +58,6 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     }
     
     @objc override func dismissModal() {
-        itemSelected?(nil)
         super.dismissModal()
     }
     

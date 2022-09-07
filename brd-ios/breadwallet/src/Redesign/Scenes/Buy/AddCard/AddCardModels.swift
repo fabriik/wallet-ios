@@ -57,7 +57,7 @@ enum AddCardModels {
         struct ResponseDisplay {}
     }
     
-    struct InfoPopup {
+    struct CvvInfoPopup {
         struct ViewAction {}
         struct ActionResponse {}
         struct ResponseDisplay {

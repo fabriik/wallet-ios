@@ -46,6 +46,6 @@ class SwapInfoViewController: BaseInfoViewController {
     
     func swapDetailsTapped() {
         guard let itemId = dataStore?.itemId else { return }
-        (coordinator as? SwapCoordinator)?.showExchangeDetails(exchangeId: itemId)
+        (coordinator as? SwapCoordinator)?.showSwapDetails(exchangeId: itemId)
     }
 }
