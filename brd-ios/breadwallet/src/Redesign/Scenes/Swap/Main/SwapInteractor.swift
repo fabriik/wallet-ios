@@ -32,6 +32,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                     self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.selectAssets))
                     return
                 }
+                self?.dataStore?.supportedCurrencies = currencies
                 
                 let enabled = self?.dataStore?.currencies.filter { cur in currencies.map { $0.name }.contains(cur.code) }
                 
