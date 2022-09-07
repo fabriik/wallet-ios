@@ -642,7 +642,6 @@
 		9F0EA16425E2902700D4225E /* WidgetDataShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0EA16325E2902700D4225E /* WidgetDataShareService.swift */; };
 		9F0EA16525E2902700D4225E /* WidgetDataShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0EA16325E2902700D4225E /* WidgetDataShareService.swift */; };
 		9F0EA16C25E2904400D4225E /* WidgetDataShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0EA16325E2902700D4225E /* WidgetDataShareService.swift */; };
-		9F1143AD261B035300848E7B /* WalletKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3A0C6087242A5CC900F0FBC2 /* WalletKit */; };
 		9F1143B7261B048900848E7B /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2439F5D8263945E73EFF4A3 /* CacheService.swift */; };
 		9F1143BE261B04E900848E7B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDDE55025D5B79D00E42BE3 /* Date+Extension.swift */; };
 		9F13F5C925DDD73A0031AEC7 /* fiatcurrencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 71014F7B2327E49400DA1373 /* fiatcurrencies.json */; };
@@ -1894,7 +1893,6 @@
 		CEF3E8331DE57166007C0A9E /* AnimatableIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimatableIcon.swift; path = src/Views/AnimatedIcons/AnimatableIcon.swift; sourceTree = "<group>"; };
 		CEF61B111ECF52C700C7EA6A /* AmountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = AmountViewController.swift; path = src/ViewControllers/AmountViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CEF7D94522CE6AC000939D19 /* HistoryPeriodButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoryPeriodButton.swift; path = src/Views/Charts/HistoryPeriodButton.swift; sourceTree = "<group>"; };
-		D1423EF52602AB9C00709CCA /* WalletKitSwift */ = {isa = PBXFileReference; lastKnownFileType = folder; name = WalletKitSwift; path = ../external/walletkit/WalletKitSwift; sourceTree = "<group>"; };
 		E821D4C921C16A8300B0907B /* AnalyticsEventTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsEventTests.swift; sourceTree = "<group>"; };
 		E821D4CB21C16B2E00B0907B /* BRAnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BRAnalyticsEvent.swift; path = src/Platform/BRAnalyticsEvent.swift; sourceTree = "<group>"; };
 		E843C1152188D19000F46672 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingViewController.swift; path = src/ViewControllers/Onboarding/OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -1921,7 +1919,6 @@
 				7E5CB32D2834E63400EC787E /* SnapKit in Frameworks */,
 				22A9A9641DF61FE7000F0016 /* Security.framework in Frameworks */,
 				22A9A9621DF61FE0000F0016 /* SystemConfiguration.framework in Frameworks */,
-				9F1143AD261B035300848E7B /* WalletKit in Frameworks */,
 				22A9A9601DF61FD8000F0016 /* CoreLocation.framework in Frameworks */,
 				22A9A95E1DF61FD0000F0016 /* PushKit.framework in Frameworks */,
 				7B2C9AFC27D9270B00D5135C /* IQKeyboardManagerSwift in Frameworks */,
@@ -2367,7 +2364,6 @@
 		75B6F52F1DA71DCC0031A93F /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				D1423EF52602AB9C00709CCA /* WalletKitSwift */,
 				22A9A9971DF63426000F0016 /* libbz2 */,
 				75FEFD1F1DAEE7A400203D3A /* sqlite3 */,
 			);
@@ -4009,7 +4005,6 @@
 			);
 			name = breadwallet;
 			packageProductDependencies = (
-				3A0C6087242A5CC900F0FBC2 /* WalletKit */,
 				7B2C9AFB27D9270B00D5135C /* IQKeyboardManagerSwift */,
 				7E5CB32C2834E63400EC787E /* SnapKit */,
 				7B05888028A2431E00D7C971 /* Frames */,
@@ -6717,10 +6712,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3A0C6087242A5CC900F0FBC2 /* WalletKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = WalletKit;
-		};
 		7B05888028A2431E00D7C971 /* Frames */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7B05887F28A2431E00D7C971 /* XCRemoteSwiftPackageReference "frames-ios" */;
