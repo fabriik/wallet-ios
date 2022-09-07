@@ -17,8 +17,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
                                        DeleteProfileInfoResponseDisplays {
     typealias Models = DeleteProfileInfoModels
     
-    // TODO: Localize.
-    override var sceneLeftAlignedTitle: String? { return "You are about to delete your Fabriik account." }
+    override var sceneLeftAlignedTitle: String? { return L10n.AccountDelete.deleteAccountTitle }
     
     private var recoveryKeyFlowNextButton: FEButton?
     private var recoveryKeyFlowBarButton: UIBarButtonItem?

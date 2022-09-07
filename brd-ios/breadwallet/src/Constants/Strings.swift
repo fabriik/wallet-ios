@@ -74,30 +74,104 @@ internal enum L10n {
     internal static let personalInformation = L10n.tr("Localizable", "Account.PersonalInformation")
     /// I'm ok with receiving future promotion, offers and communications
     internal static let promotion = L10n.tr("Localizable", "Account.Promotion")
+    /// Proof of Identity
+    internal static let proofOfIdentity = L10n.tr("Localizable", "Account.ProofOfIdentity")
     /// Submit your photo
     internal static let submitPhoto = L10n.tr("Localizable", "Account.SubmitPhoto")
+    /// If you verify your account, you are given access to:
+    ///   - Unlimited deposits/withdrawals
+    ///   - Enhanced security
+    ///   - Full asset support
+    ///   - Buy assets with credit card
+    ///   - 24/7/365 live customer support
+    internal static let verifyAccountText = L10n.tr("Localizable", "Account.VerifyAccountText")
+    /// Why should I verify my account?
+    internal static let whyVerify = L10n.tr("Localizable", "Account.WhyVerify")
   }
 
   internal enum AccountCreation {
     /// Only create a Hedera account if you intend on storing HBAR in your wallet.
     internal static let body = L10n.tr("Localizable", "AccountCreation.body")
+    /// Change my email
+    internal static let changeEmail = L10n.tr("Localizable", "AccountCreation.ChangeEmail")
+    /// Verification code sent.
+    internal static let codeSent = L10n.tr("Localizable", "AccountCreation.CodeSent")
     /// Create Account
     internal static let create = L10n.tr("Localizable", "AccountCreation.create")
     /// Creating Account
     internal static let creating = L10n.tr("Localizable", "AccountCreation.creating")
+    /// Please enter the code we’ve sent to
+    internal static let enterCode = L10n.tr("Localizable", "AccountCreation.EnterCode")
     /// An error occurred during account creation. Please try again later.
     internal static let error = L10n.tr("Localizable", "AccountCreation.error")
     /// Not Now
     internal static let notNow = L10n.tr("Localizable", "AccountCreation.notNow")
+    /// Re-send my code
+    internal static let resendCode = L10n.tr("Localizable", "AccountCreation.ResendCode")
     /// The Request timed out. Please try again later.
     internal static let timeout = L10n.tr("Localizable", "AccountCreation.timeout")
     /// Confirm Account Creation
     internal static let title = L10n.tr("Localizable", "AccountCreation.title")
+    /// Verify your email
+    internal static let verifyEmail = L10n.tr("Localizable", "AccountCreation.VerifyEmail")
+    /// If you enter an incorrect wallet PIN too many times, your wallet will become disabled for a certain amount of time.
+    /// This is to prevent someone else from trying to guess your PIN by quickly making many guesses.
+    /// If your wallet is disabled, wait until the time shown and you will be able to enter your PIN again.
+    /// 
+    /// If you continue to enter the incorrect PIN, the amount of waiting time in between attempts will increase. Eventually, the app will reset and you can start a new wallet.
+    /// 
+    /// If you have the recovery phrase for your wallet, you can use it to reset your PIN by clicking the “Reset PIN” button.
+    internal static let walletDisabled = L10n.tr("Localizable", "AccountCreation.WalletDisabled")
+    /// Why is my wallet disabled?
+    internal static let walletDisabledTitle = L10n.tr("Localizable", "AccountCreation.WalletDisabledTitle")
+  }
+
+  internal enum AccountDelete {
+    /// Your account has been deleted.
+    /// We are sorry to see you go.
+    internal static let accountDeletedPopup = L10n.tr("Localizable", "AccountDelete.AccountDeletedPopup")
+    /// You are about to delete your Fabriik account.
+    internal static let deleteAccountTitle = L10n.tr("Localizable", "AccountDelete.DeleteAccountTitle")
+    /// What does this mean?
+    internal static let deleteWhatMean = L10n.tr("Localizable", "AccountDelete.DeleteWhatMean")
+    /// -You will no longer be able to use your email to sign in into Fabriik Wallet
+    internal static let explanationOne = L10n.tr("Localizable", "AccountDelete.ExplanationOne")
+    /// -Your private keys are still yours, keep your security phrase in a safe place in case you need to restore your wallet.
+    internal static let explanationThree = L10n.tr("Localizable", "AccountDelete.ExplanationThree")
+    /// -You will no longer be able to user your KYC and registration status
+    internal static let explanationTwo = L10n.tr("Localizable", "AccountDelete.ExplanationTwo")
+    /// I understand that the only way to recover my wallet is by entering my recovery phrase
+    internal static let recoverWallet = L10n.tr("Localizable", "AccountDelete.RecoverWallet")
   }
 
   internal enum AccountHeader {
     /// My Fabriik
     internal static let defaultWalletName = L10n.tr("Localizable", "AccountHeader.defaultWalletName")
+  }
+
+  internal enum AccountKYCLevelTwo {
+    /// Before you start, please:
+    internal static let beforeStart = L10n.tr("Localizable", "AccountKYCLevelTwo.BeforeStart")
+    /// Checking for errors
+    internal static let checkingErrors = L10n.tr("Localizable", "AccountKYCLevelTwo.CheckingErrors")
+    /// We need to confirm your ID
+    internal static let confirmID = L10n.tr("Localizable", "AccountKYCLevelTwo.ConfirmID")
+    /// We are reviewing your documents and will let you know when your account has been verified.
+    internal static let documentsReview = L10n.tr("Localizable", "AccountKYCLevelTwo.DocumentsReview")
+    /// Your ID verification is in progress
+    internal static let inProgress = L10n.tr("Localizable", "AccountKYCLevelTwo.InProgress")
+    /// Make sure you are in a well-lit room
+    internal static let makeSure = L10n.tr("Localizable", "AccountKYCLevelTwo.MakeSure")
+    /// Prepare a valid government-issued identity document (Passport, National ID card or Drivers license)
+    internal static let prepareDocument = L10n.tr("Localizable", "AccountKYCLevelTwo.PrepareDocument")
+    /// Sending your data for verification
+    internal static let sendingData = L10n.tr("Localizable", "AccountKYCLevelTwo.SendingData")
+    /// Be prepared to take a selfie and photos of your ID
+    internal static let takePhotos = L10n.tr("Localizable", "AccountKYCLevelTwo.TakePhotos")
+    /// Uploading your photos
+    internal static let uploadingPhoto = L10n.tr("Localizable", "AccountKYCLevelTwo.UploadingPhoto")
+    /// Verifying you
+    internal static let verifying = L10n.tr("Localizable", "AccountKYCLevelTwo.Verifying")
   }
 
   internal enum Alert {
@@ -253,6 +327,8 @@ internal enum L10n {
     internal static let dismiss = L10n.tr("Localizable", "Button.dismiss")
     /// Done
     internal static let done = L10n.tr("Localizable", "Button.done")
+    /// Finish
+    internal static let finish = L10n.tr("Localizable", "Button.Finish")
     /// Home
     internal static let home = L10n.tr("Localizable", "Button.Home")
     /// Ignore
@@ -314,14 +390,28 @@ internal enum L10n {
     internal static let addCard = L10n.tr("Localizable", "Buy.AddCard")
     /// Add a debit or credit card
     internal static let addDebitCreditCard = L10n.tr("Localizable", "Buy.AddDebitCreditCard")
+    /// Billing address
+    internal static let billingAddress = L10n.tr("Localizable", "Buy.BillingAddress")
     /// Currently, minimum limit for buy is $%@ USD and maximum limit is %@ USD/day.
     internal static func buyLimits(_ p1: Any, _ p2: Any) -> String {
       return L10n.tr("Localizable", "Buy.BuyLimits", String(describing: p1), String(describing: p2))
     }
     /// Card
     internal static let card = L10n.tr("Localizable", "Buy.Card")
+    /// CVV
+    internal static let cardCVV = L10n.tr("Localizable", "Buy.CardCVV")
+    /// Card number
+    internal static let cardNumber = L10n.tr("Localizable", "Buy.CardNumber")
     /// Purchase details
     internal static let details = L10n.tr("Localizable", "Buy.Details")
+    /// MM/YY
+    internal static let monthYear = L10n.tr("Localizable", "Buy.MonthYear")
+    /// Order preview
+    internal static let orderPreview = L10n.tr("Localizable", "Buy.OrderPreview")
+    /// Security code (CVV)
+    internal static let securityCode = L10n.tr("Localizable", "Buy.SecurityCode")
+    /// Please enter the 3 digit CVV number as it appears on the back of your card
+    internal static let securityCodePopup = L10n.tr("Localizable", "Buy.SecurityCodePopup")
     /// Select payment method
     internal static let selectPayment = L10n.tr("Localizable", "Buy.SelectPayment")
   }
@@ -2114,14 +2204,24 @@ internal enum L10n {
     internal static let createTitle = L10n.tr("Localizable", "UpdatePin.createTitle")
     /// Confirm your new PIN
     internal static let createTitleConfirm = L10n.tr("Localizable", "UpdatePin.createTitleConfirm")
+    /// Disabled until:
+    internal static let disabledUntil = L10n.tr("Localizable", "UpdatePin.DisabledUntil")
     /// Enter your current PIN.
     internal static let enterCurrent = L10n.tr("Localizable", "UpdatePin.enterCurrent")
     /// Enter your new PIN.
     internal static let enterNew = L10n.tr("Localizable", "UpdatePin.enterNew")
+    /// Please enter your PIN to confirm the transaction
+    internal static let enterPin = L10n.tr("Localizable", "UpdatePin.EnterPin")
     /// Enter your PIN
     internal static let enterYourPin = L10n.tr("Localizable", "UpdatePin.enterYourPin")
+    /// Incorrect PIN. The wallet will get disabled for 6 minutes after
+    internal static let incorrectPin = L10n.tr("Localizable", "UpdatePin.IncorrectPin")
+    /// 1 more failed attempt.
+    internal static let oneAttempt = L10n.tr("Localizable", "UpdatePin.OneAttempt")
     /// Re-Enter your new PIN.
     internal static let reEnterNew = L10n.tr("Localizable", "UpdatePin.reEnterNew")
+    /// Attempts remaining:
+    internal static let remainingAttempts = L10n.tr("Localizable", "UpdatePin.RemainingAttempts")
     /// Secured wallet
     internal static let securedWallet = L10n.tr("Localizable", "UpdatePin.securedWallet")
     /// Set your new PIN
@@ -2130,8 +2230,18 @@ internal enum L10n {
     internal static let setPinError = L10n.tr("Localizable", "UpdatePin.setPinError")
     /// Update PIN Error
     internal static let setPinErrorTitle = L10n.tr("Localizable", "UpdatePin.setPinErrorTitle")
+    /// 2 more failed attempts.
+    internal static let twoAttempts = L10n.tr("Localizable", "UpdatePin.TwoAttempts")
+    /// The Fabriik Wallet app requires you to set a PIN to secure your wallet, separate from your device passcode.  
+    /// 
+    /// You will be required to enter the PIN to view your balance or send money, which keeps your wallet private even if you let someone use your phone or if your phone is stolen by someone who knows your device passcode.
+    ///             
+    /// Do not forget your wallet PIN! It can only be reset by using your Recovery Phrase. If you forget your PIN and lose your Recovery Phrase, your wallet will be lost.
+    internal static let updatePinPopup = L10n.tr("Localizable", "UpdatePin.UpdatePinPopup")
     /// Update PIN
     internal static let updateTitle = L10n.tr("Localizable", "UpdatePin.updateTitle")
+    /// Why do I need a PIN?
+    internal static let whyPIN = L10n.tr("Localizable", "UpdatePin.WhyPIN")
   }
 
   internal enum VerificationCode {

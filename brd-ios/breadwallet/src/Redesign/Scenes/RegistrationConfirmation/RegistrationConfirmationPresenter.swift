@@ -24,10 +24,10 @@ final class RegistrationConfirmationPresenter: NSObject, Presenter, Registration
             .confirm,
             .help
         ]
-        var help: [ButtonViewModel] = [ButtonViewModel(title: "Re-send my code", isUnderlined: true)]
+        var help: [ButtonViewModel] = [ButtonViewModel(title: L10n.AccountCreation.resendCode, isUnderlined: true)]
         
         if UserManager.shared.profile?.status == .emailPending {
-            help.append(ButtonViewModel(title: "Change my email", isUnderlined: true))
+            help.append(ButtonViewModel(title: L10n.AccountCreation.changeEmail, isUnderlined: true))
         }
         
         let sectionRows: [Models.Section: [Any]] = [
@@ -35,14 +35,14 @@ final class RegistrationConfirmationPresenter: NSObject, Presenter, Registration
                 ImageViewModel.imageName("email")
             ],
             .title: [
-                LabelViewModel.text("Verify your email")
+                LabelViewModel.text(L10n.AccountCreation.verifyEmail)
             ],
             .instructions: [
-                LabelViewModel.text("Please enter the code we’ve sent to: \(email ?? "")")
+                LabelViewModel.text("\(L10n.AccountCreation.enterCode) \(email ?? "")")
             ],
             .input: [
                 // TODO: validator?
-                TextFieldModel(title: "Email", value: email)
+                TextFieldModel(title: L10n.Receive.emailButton, value: email)
             ],
             .confirm: [
                 ButtonViewModel(title: L10n.Button.confirm, enabled: false)
@@ -64,8 +64,7 @@ final class RegistrationConfirmationPresenter: NSObject, Presenter, Registration
     }
     
     func presentResend(actionResponse: RegistrationConfirmationModels.Resend.ActionResponse) {
-        // TODO: localize
-        viewController?.displayMessage(responseDisplay: .init(model: .init(description: .text("Verification code sent.")),
+        viewController?.displayMessage(responseDisplay: .init(model: .init(description: .text(L10n.AccountCreation.codeSent)),
                                                               config: Presets.InfoView.verification))
     }
     

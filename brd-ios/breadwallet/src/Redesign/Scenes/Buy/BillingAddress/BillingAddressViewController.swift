@@ -18,8 +18,7 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     typealias Models = BillingAddressModels
     
     override var sceneTitle: String? {
-        // TODO: Localize
-        return "Billing address"
+        return L10n.Buy.billingAddress
     }
     private var isValid = false
 
