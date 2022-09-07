@@ -22,8 +22,6 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             .to,
             .error
         ]
-        
-        // TODO: Localize
 
         let sectionRows: [Models.Sections: [ViewModel]] =  [
             .rate: [ExchangeRateViewModel()],
@@ -47,7 +45,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "", from.uppercased())
         let min = ExchangeFormatter.fiat.string(for: quote.minimumValue) ?? ""
         let max = ExchangeFormatter.fiat.string(for: quote.maximumValue) ?? ""
-        let limitText = String(format: "Currently, minimum limit for buy is $%@ USD and maximum limit is %@ USD/day.", min, max)
+        let limitText = String(format: L10n.Buy.buyLimits(min, max))
         
         let model = ExchangeRateViewModel(exchangeRate: text,
                                           timer: TimerViewModel(till: quote.timestamp,

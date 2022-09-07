@@ -188,7 +188,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
     private func setInitialData() {
         scrollView.delegate = self
         view.backgroundColor = .darkBackground
-        nextButton.setup(with: .init(title: "Next"))
+        nextButton.setup(with: .init(title: L10n.RecoverWallet.next))
         
         enterPhrase.didFinishPhraseEntry = { [weak self] phrase in
             self?.phrase = phrase

@@ -126,7 +126,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         guard let fromCurrency = dataStore?.from?.currency,
               let toCurrency = dataStore?.to?.currency
         else {
-            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "No selected currencies."))) // TODO: Localize.
+            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.ErrorMessages.noCurrencies)))
             return
         }
         

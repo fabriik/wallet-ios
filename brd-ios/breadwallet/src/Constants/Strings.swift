@@ -72,6 +72,8 @@ internal enum L10n {
     internal static let loadingMessage = L10n.tr("Localizable", "Account.loadingMessage")
     /// Personal Information
     internal static let personalInformation = L10n.tr("Localizable", "Account.PersonalInformation")
+    /// I'm ok with receiving future promotion, offers and communications
+    internal static let promotion = L10n.tr("Localizable", "Account.Promotion")
     /// Submit your photo
     internal static let submitPhoto = L10n.tr("Localizable", "Account.SubmitPhoto")
   }
@@ -310,8 +312,18 @@ internal enum L10n {
     internal static let _3DSecure = L10n.tr("Localizable", "Buy.3DSecure")
     /// Add card
     internal static let addCard = L10n.tr("Localizable", "Buy.AddCard")
+    /// Add a debit or credit card
+    internal static let addDebitCreditCard = L10n.tr("Localizable", "Buy.AddDebitCreditCard")
+    /// Currently, minimum limit for buy is $%@ USD and maximum limit is %@ USD/day.
+    internal static func buyLimits(_ p1: Any, _ p2: Any) -> String {
+      return L10n.tr("Localizable", "Buy.BuyLimits", String(describing: p1), String(describing: p2))
+    }
+    /// Card
+    internal static let card = L10n.tr("Localizable", "Buy.Card")
     /// Purchase details
     internal static let details = L10n.tr("Localizable", "Buy.Details")
+    /// Select payment method
+    internal static let selectPayment = L10n.tr("Localizable", "Buy.SelectPayment")
   }
 
   internal enum CameraPlugin {
@@ -529,6 +541,8 @@ internal enum L10n {
     internal static let messagingUnavailableMessage = L10n.tr("Localizable", "ErrorMessages.messagingUnavailableMessage")
     /// Messaging Unavailable
     internal static let messagingUnavailableTitle = L10n.tr("Localizable", "ErrorMessages.messagingUnavailableTitle")
+    /// No selected currencies.
+    internal static let noCurrencies = L10n.tr("Localizable", "ErrorMessages.NoCurrencies")
     internal enum LoopingLockScreen {
       /// Fabriik can not be authenticated due to a bug in your version of Android. [Please tap here for more information.]
       internal static let android = L10n.tr("Localizable", "ErrorMessages.loopingLockScreen.android")
@@ -1657,6 +1671,10 @@ internal enum L10n {
   internal enum Swap {
     /// Amount purchased:
     internal static let amountPurchased = L10n.tr("Localizable", "Swap.AmountPurchased")
+    /// I have %@ %@
+    internal static func balance(_ p1: Any, _ p2: Any) -> String {
+      return L10n.tr("Localizable", "Swap.Balance", String(describing: p1), String(describing: p2))
+    }
     /// Card fee:
     internal static let cardFee = L10n.tr("Localizable", "Swap.CardFee")
     /// Check your assets!
@@ -1677,6 +1695,24 @@ internal enum L10n {
     internal static let paidWith = L10n.tr("Localizable", "Swap.PaidWith")
     /// Rate:
     internal static let rate = L10n.tr("Localizable", "Swap.Rate")
+    /// Rate
+    internal static let rateValue = L10n.tr("Localizable", "Swap.RateValue")
+    /// Receiving network fee
+    /// (included)
+    internal static let receiveNetworkFee = L10n.tr("Localizable", "Swap.ReceiveNetworkFee")
+    /// Receiving fee
+    /// 
+    internal static let receivingFee = L10n.tr("Localizable", "Swap.ReceivingFee")
+    /// Sending fee
+    /// 
+    internal static let sendingFee = L10n.tr("Localizable", "Swap.SendingFee")
+    /// Sending network fee
+    /// (included)
+    internal static let sendNetworkFee = L10n.tr("Localizable", "Swap.SendNetworkFee")
+    /// Currently, minimum limit for swap is $%@ USD and maximum limit is %@ USD/day.
+    internal static func swapLimits(_ p1: Any, _ p2: Any) -> String {
+      return L10n.tr("Localizable", "Swap.SwapLimits", String(describing: p1), String(describing: p2))
+    }
     /// Timestamp
     internal static let timestamp = L10n.tr("Localizable", "Swap.Timestamp")
     /// Total:
