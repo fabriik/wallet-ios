@@ -15,7 +15,16 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     var from: Decimal?
     var to: Decimal?
-    var toCurrency: Currency? = Store.state.currencies.first(where: { $0.code.lowercased() == "btc" })
+    var toCurrency: Currency?
+    
+    override init() {
+        super.init()
+        if let currency = Store.state.currencies.first(where: { $0.code.lowercased() == C.BTC.lowercased() }) {
+            toCurrency = currency
+        } else {
+            toCurrency = Store.state.currencies.first
+        }
+    }
     
     var feeAmount: Amount? {
         guard let value = quote?.toFee,
@@ -32,7 +41,7 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
         guard let toCurrency = toCurrency else { return nil }
         guard let to = to else { return.zero(toCurrency) }
         
-        return amountFrom(decimal: to, currency: toCurrency)
+        return .init(amount: to, currency: toCurrency, exchangeRate: 1 / (quote?.exchangeRate ?? 1))
     }
     
     var isInputFiat = false
@@ -51,26 +60,6 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     // MARK: - Aditional helpers
     
-    func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
-        guard let amount = decimal, spaces > 0 else { return .zero(currency) }
-        
-        let formatter = ExchangeFormatter.current
-        formatter.maximumFractionDigits = spaces
-        
-        let amountString = formatter.string(for: amount) ?? ""
-        let rate = Rate(code: currency.code,
-                        name: currency.name,
-                        rate: 1 / (quote?.exchangeRate.doubleValue ?? 1),
-                        reciprocalCode: "")
-        let value = Amount(tokenString: amountString, currency: currency, rate: rate)
-        
-        guard value.tokenValue != 0 else {
-            return amountFrom(decimal: decimal, currency: currency, spaces: spaces - 1)
-        }
-        
-        return value
-    }
-    
     var isFormValid: Bool {
         guard let amount = toAmount,
               amount.tokenValue > 0,
@@ -80,20 +69,5 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
             return false
         }
         return true
-    }
-    
-    // TODO: extract (it being used in swap and buy)
-    func address(for currency: Currency?) -> String? {
-        guard let currency = currency else {
-            return nil
-        }
-
-        let addressScheme: AddressScheme
-        if currency.isBitcoin {
-            addressScheme = UserDefaults.hasOptedInSegwit ? .btcSegwit : .btcLegacy
-        } else {
-            addressScheme = currency.network.defaultAddressScheme
-        }
-        return currency.wallet?.receiveAddress(for: addressScheme)
     }
 }

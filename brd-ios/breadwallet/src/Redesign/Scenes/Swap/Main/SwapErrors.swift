@@ -21,7 +21,7 @@ enum SwapErrors: FEError {
     case overDailyLimit
     case overLifetimeLimit
     case overDailyLimitLevel2
-    // TODO: Unoficial errors
+    // Unoficial errors
     case notEnouthEthForFee(fee: Decimal)
     case noFees
     case networkFee
@@ -29,6 +29,7 @@ enum SwapErrors: FEError {
     case pinConfirmation
     case failed(error: Error?)
     case pendingSwap
+    case selectAssets
     
     var errorMessage: String {
         switch self {
@@ -73,13 +74,16 @@ enum SwapErrors: FEError {
             return "PIN Authentication failed"
             
         case .notEnouthEthForFee(let fee):
-            return "ERC-20 tokens require ETH network fees. Please make sure you have at least \(ExchangeFormatter.crypto.string(for: fee)) ETH in your wallet."
+            return "ERC-20 tokens require ETH network fees. Please make sure you have at least \(ExchangeFormatter.crypto.string(for: fee) ?? "/") ETH in your wallet."
             
         case .failed(let error):
             return "Swap failed. Reason: \(error?.localizedDescription ?? "unknown")"
             
         case .pendingSwap:
             return "A maximum of one swap can be active for a currency at a time."
+            
+        case .selectAssets:
+            return "In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet."
         }
     }
 }

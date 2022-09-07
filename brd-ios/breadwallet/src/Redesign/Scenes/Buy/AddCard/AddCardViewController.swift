@@ -70,8 +70,8 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
                 self?.interactor?.cardInfoSet(viewAction: .init(number: number, cvv: cvv))
             }
             
-            view.cvvInfoTapped = { [weak self] in
-                self?.interactor?.showInfoPopup(viewAction: .init())
+            view.didTapCvvInfo = { [weak self] in
+                self?.interactor?.showCvvInfoPopup(viewAction: .init())
             }
             
             view.didTriggerExpirationField = { [weak self] in
@@ -131,7 +131,7 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
         coordinator?.showBillingAddress(addCardDataStore: dataStore)
     }
     
-    func displayInfoPopup(responseDisplay: AddCardModels.InfoPopup.ResponseDisplay) {
+    func displayCvvInfoPopup(responseDisplay: AddCardModels.CvvInfoPopup.ResponseDisplay) {
         coordinator?.showPopup(with: responseDisplay.model)
     }
     

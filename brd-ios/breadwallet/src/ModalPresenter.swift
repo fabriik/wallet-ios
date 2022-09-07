@@ -365,12 +365,12 @@ class ModalPresenter: Subscriber, Trackable {
                 
             case .privateKey:
                 let alert = UIAlertController(title: L10n.Settings.importTitle, message: nil, preferredStyle: .actionSheet)
-                alert.addAction(UIAlertAction(title: "BTC", style: .default, handler: { _ in
+                alert.addAction(UIAlertAction(title: C.BTC, style: .default, handler: { _ in
                     if let wallet = Currencies.shared.btc?.wallet {
                         self.presentKeyImport(wallet: wallet, scanResult: scanResult)
                     }
                 }))
-                alert.addAction(UIAlertAction(title: "BCH", style: .default, handler: { _ in
+                alert.addAction(UIAlertAction(title: C.BCH, style: .default, handler: { _ in
                     if let wallet = Currencies.shared.bch?.wallet {
                         self.presentKeyImport(wallet: wallet, scanResult: scanResult)
                     }

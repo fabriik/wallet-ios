@@ -23,7 +23,6 @@ class ProfileCoordinator: BaseCoordinator, ProfileRoutes {
     }
     
     func showAvatarSelection() {
-        // TODO: navigate on
         showUnderConstruction("avatar selection")
     }
     

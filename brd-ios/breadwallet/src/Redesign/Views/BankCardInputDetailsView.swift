@@ -23,7 +23,7 @@ class BankCardInputDetailsView: FEView<BankCardInputDetailsViewConfiguration, Ba
     var contentSizeChanged: (() -> Void)?
     var valueChanged: ((_ number: String?, _ cvv: String?) -> Void)?
     var didTriggerExpirationField: (() -> Void)?
-    var cvvInfoTapped: (() -> Void)?
+    var didTapCvvInfo: (() -> Void)?
     
     private lazy var stack: UIStackView = {
         let view = UIStackView()
@@ -140,6 +140,6 @@ class BankCardInputDetailsView: FEView<BankCardInputDetailsViewConfiguration, Ba
     }
     
     private func cvvInfoButtonTapped() {
-        cvvInfoTapped?()
+        didTapCvvInfo?()
     }
 }

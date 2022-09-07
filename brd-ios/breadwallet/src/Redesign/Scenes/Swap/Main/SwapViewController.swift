@@ -68,14 +68,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
-    override func prepareData() {
-        super.prepareData()
-        
-        DispatchQueue.main.async {
-            LoadingView.show()
-        }
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch sections[indexPath.section] as? Models.Sections {
@@ -189,7 +181,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
-        // TODO: replace with Coordinator call
+        // TODO: Extract to VIPBaseViewController
         LoadingView.hide()
         
         confirmButton.wrappedView.isEnabled = responseDisplay.continueEnabled
@@ -238,7 +230,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                                        selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }
             
-            // TODO: replace with coordinator call
+            // TODO: Extract to VIPBaseViewController
             LoadingView.show()
             guard responseDisplay.from?.isEmpty == false else {
                 self?.interactor?.assetSelected(viewAction: .init(to: model.subtitle))
@@ -266,19 +258,18 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayError(responseDisplay: SwapModels.ErrorPopup.ResponseDisplay) {
-        interactor?.showInfoPopup(viewAction: .init())
+        interactor?.showAssetInfoPopup(viewAction: .init())
     }
     
-    func displayInfoPopup(responseDisplay: SwapModels.InfoPopup.ResponseDisplay) {
+    func displayAssetInfoPopup(responseDisplay: SwapModels.AssetInfoPopup.ResponseDisplay) {
         coordinator?.showPopup(on: self,
                                blurred: true,
                                with: responseDisplay.popupViewModel,
                                config: responseDisplay.popupConfig,
                                closeButtonCallback: { [weak self] in
-            self?.coordinator?.goBack()
+            self?.coordinator?.goBack(completion: {})
         }, callbacks: [ { [weak self] in
-            self?.coordinator?.hidePopup()
-            self?.coordinator?.goBack()
+            self?.coordinator?.goBack(completion: {})
         }])
     }
     

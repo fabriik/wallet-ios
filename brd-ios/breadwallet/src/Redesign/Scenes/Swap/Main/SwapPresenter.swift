@@ -22,8 +22,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let item = actionResponse.item as? Models.Item,
-              let from = item.from,
-              let to = item.to
+              let from = item.from?.currency,
+              let to = item.to?.currency
         else {
             viewController?.displayError(responseDisplay: .init())
             return
@@ -190,15 +190,20 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
-        guard let error = actionResponse.error as? FEError else {
+        if let error = actionResponse.error as? SwapErrors,
+           error.errorMessage == SwapErrors.selectAssets.errorMessage {
+            presentAssetInfoPopup(actionResponse: .init())
+            
+        } else if let error = actionResponse.error as? FEError {
+            let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
+            let config = Presets.InfoView.swapError
+            
+            viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
+            
+        } else {
             viewController?.displayMessage(responseDisplay: .init())
-            return
+            
         }
-        
-        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
-        let config = Presets.InfoView.swapError
-        
-        viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
     }
     
     func presentConfirmation(actionResponse: SwapModels.ShowConfirmDialog.ActionResponse) {
@@ -262,13 +267,13 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         viewController?.displayConfirm(responseDisplay: .init(from: from, to: to, exchangeId: "\(exchangeId)"))
     }
     
-    func presentInfoPopup(actionResponse: SwapModels.InfoPopup.ActionResponse) {
+    func presentAssetInfoPopup(actionResponse: SwapModels.AssetInfoPopup.ActionResponse) {
         let popupViewModel = PopupViewModel(title: .text(L10n.Swap.checkAssets),
                                             body: L10n.Swap.checkAssetsBody,
                                             buttons: [.init(title: L10n.Swap.gotItButton)])
         
-        viewController?.displayInfoPopup(responseDisplay: .init(popupViewModel: popupViewModel,
-                                                                popupConfig: Presets.Popup.white))
+        viewController?.displayAssetInfoPopup(responseDisplay: .init(popupViewModel: popupViewModel,
+                                                                     popupConfig: Presets.Popup.white))
     }
     
     // MARK: - Additional Helpers

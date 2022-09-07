@@ -67,11 +67,12 @@ final class AddCardPresenter: NSObject, Presenter, AddCardActionResponses {
         viewController?.displaySubmit(responseDisplay: .init())
     }
     
-    func presentInfoPopup(actionResponse: AddCardModels.InfoPopup.ActionResponse) {
+    func presentCvvInfoPopup(actionResponse: AddCardModels.CvvInfoPopup.ActionResponse) {
+        // TODO: Localize
         let model = PopupViewModel(title: .text("Security code (CVV)"),
                                    imageName: "creditCard",
                                    body: "Please enter the 3 digit CVV number as it appears on the back of your card")
         
-        viewController?.displayInfoPopup(responseDisplay: .init(model: model))
+        viewController?.displayCvvInfoPopup(responseDisplay: .init(model: model))
     }
 }

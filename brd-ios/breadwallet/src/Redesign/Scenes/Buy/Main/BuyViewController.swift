@@ -64,14 +64,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         continueButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
-    override func prepareData() {
-        super.prepareData()
-        
-        DispatchQueue.main.async {
-            LoadingView.show()
-        }
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch sections[indexPath.section] as? Models.Sections {
@@ -184,6 +176,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     
     func displayPaymentCards(responseDisplay: BuyModels.PaymentCards.ResponseDisplay) {
         view.endEditing(true)
+        
         coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards, selected: { [weak self] selectedCard in
             self?.interactor?.setAssets(viewAction: .init(card: selectedCard))
         })
@@ -242,8 +235,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                       to: dataStore?.toAmount,
                                       from: dataStore?.from,
                                       card: dataStore?.paymentCard,
-                                      quote: dataStore?.quote,
-                                      networkFee: dataStore?.feeAmount)
+                                      quote: dataStore?.quote)
     }
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
