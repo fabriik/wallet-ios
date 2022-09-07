@@ -1,4 +1,4 @@
-// 
+//
 //  Amount+Inits.swift
 //  breadwallet
 //
