@@ -38,6 +38,7 @@ protocol BuyResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisp
 protocol BuyDataStore: BaseDataStore, FetchDataStore {
     var from: Decimal? { get set }
     var to: Decimal? { get set }
+    var toAmount: Amount? { get set }
     var toCurrency: Currency? { get set }
     var currencies: [Currency] { get set }
     var supportedCurrencies: [SupportedCurrency]? { get set }
@@ -56,14 +57,11 @@ protocol BuyDataPassing {
 }
 
 protocol BuyRoutes: CoordinatableRoutes {
-    // TODO: refactor :S
     func showOrderPreview(coreSystem: CoreSystem?,
                           keyStore: KeyStore?,
                           to: Amount?,
                           from: Decimal?,
                           card: PaymentCard?,
-                          quote: Quote?,
-                          networkFee: Amount?)
+                          quote: Quote?)
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?)
-    func showInfo(from: String, to: String, exchangeId: String)
 }

@@ -51,7 +51,6 @@ class KYCDocumentPickerInteractor: NSObject, Interactor, KYCDocumentPickerViewAc
                 
             }
             
-            // TODO: can this not be done paralel?
             let data = KYCDocumentUploadRequestData(front: dataStore?.front,
                                                     back: dataStore?.back,
                                                     documentyType: document)

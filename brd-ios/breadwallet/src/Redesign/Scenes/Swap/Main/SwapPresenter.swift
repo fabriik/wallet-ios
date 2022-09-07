@@ -22,8 +22,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let item = actionResponse.item as? Models.Item,
-              let from = item.from,
-              let to = item.to
+              let from = item.from?.currency,
+              let to = item.to?.currency
         else {
             viewController?.displayError(responseDisplay: .init())
             return
@@ -75,8 +75,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
                                                       timer: TimerViewModel(till: quote.timestamp,
-                                                                            repeats: false,
-                                                                            isVisible: true))
+                                                                            repeats: false),
+                                                      showTimer: true)
         
         viewController?.displayRate(responseDisplay: .init(rate: exchangeRateViewModel,
                                                            limits: .text(limitText)))
@@ -190,15 +190,20 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
-        guard let error = actionResponse.error as? FEError else {
+        if let error = actionResponse.error as? SwapErrors,
+           error.errorMessage == SwapErrors.selectAssets.errorMessage {
+            presentAssetInfoPopup(actionResponse: .init())
+            
+        } else if let error = actionResponse.error as? FEError {
+            let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
+            let config = Presets.InfoView.swapError
+            
+            viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
+            
+        } else {
             viewController?.displayMessage(responseDisplay: .init())
-            return
+            
         }
-        
-        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
-        let config = Presets.InfoView.swapError
-        
-        viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
     }
     
     func presentConfirmation(actionResponse: SwapModels.ShowConfirmDialog.ActionResponse) {
@@ -262,7 +267,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         viewController?.displayConfirm(responseDisplay: .init(from: from, to: to, exchangeId: "\(exchangeId)"))
     }
     
-    func presentInfoPopup(actionResponse: SwapModels.InfoPopup.ActionResponse) {
+    func presentAssetInfoPopup(actionResponse: SwapModels.AssetInfoPopup.ActionResponse) {
         // TODO: Localize.
         let popupViewModel = PopupViewModel(title: .text("Check your assets!"),
                                             body: """
@@ -270,8 +275,8 @@ In order to succesfully perform a swap, make sure you have two or more of our su
 """,
                                             buttons: [.init(title: "Got it!")])
         
-        viewController?.displayInfoPopup(responseDisplay: .init(popupViewModel: popupViewModel,
-                                                                popupConfig: Presets.Popup.white))
+        viewController?.displayAssetInfoPopup(responseDisplay: .init(popupViewModel: popupViewModel,
+                                                                     popupConfig: Presets.Popup.white))
     }
     
     // MARK: - Additional Helpers

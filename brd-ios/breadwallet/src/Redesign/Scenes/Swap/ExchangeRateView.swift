@@ -19,7 +19,8 @@ struct ExchangeRateConfiguration: Configurable {
 
 struct ExchangeRateViewModel: ViewModel {
     var exchangeRate: String?
-    var timer: TimerViewModel? = TimerViewModel(till: 0, image: .imageName("timelapse"), repeats: true, isVisible: true)
+    var timer: TimerViewModel? = TimerViewModel(till: 0, image: .imageName("timelapse"), repeats: true)
+    var showTimer = true
 }
 
 class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel> {
@@ -47,9 +48,11 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
     
     private lazy var timerView: FETimerView = {
         let view = FETimerView()
+        view.alpha = 0
         return view
     }()
     
+    // TODO: Unused till we implement animations.
     private lazy var refreshImageView: FEImageView = {
         let view = FEImageView()
         view.setup(with: .imageName("rotate_left"))
@@ -84,6 +87,12 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        configure(background: config?.background)
+    }
+    
     override func configure(with config: ExchangeRateConfiguration?) {
         guard let config = config else { return }
         super.configure(with: config)
@@ -95,27 +104,15 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
     }
     
     override func setup(with viewModel: ExchangeRateViewModel?) {
+        guard let viewModel = viewModel else { return }
+
         super.setup(with: viewModel)
-        valueLabel.text = viewModel?.exchangeRate
-        timerView.isHidden = viewModel?.exchangeRate == nil
-        timerView.setup(with: viewModel?.timer)
-        timerView.isHidden = viewModel?.exchangeRate == nil
-        rotate()
-    }
-    
-    private func rotate() {
-        toggleValueVisibility(true)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + Presets.Animation.duration) { [weak self] in
-            self?.toggleValueVisibility(false)
-        }
-    }
-    
-    private func toggleValueVisibility(_ isHidden: Bool) {
-        UIView.animate(withDuration: Presets.Animation.duration) { [weak self] in
-            self?.valueLabel.alpha = isHidden ? 0 : 1
-            self?.refreshImageView.alpha = isHidden ? 1 : 0
-        }
+        valueLabel.text = viewModel.exchangeRate
+        valueLabel.isHidden = viewModel.exchangeRate == nil
+        
+        timerView.setup(with: viewModel.timer)
+        timerView.alpha = viewModel.timer == nil || viewModel.showTimer ? 1 : 0
     }
     
     func invalidate() {
