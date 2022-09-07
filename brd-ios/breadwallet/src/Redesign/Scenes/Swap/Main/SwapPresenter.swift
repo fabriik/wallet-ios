@@ -75,8 +75,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
                                                       timer: TimerViewModel(till: quote.timestamp,
-                                                                            repeats: false,
-                                                                            isVisible: true))
+                                                                            repeats: false),
+                                                      showTimer: true)
         
         viewController?.displayRate(responseDisplay: .init(rate: exchangeRateViewModel,
                                                            limits: .text(limitText)))
