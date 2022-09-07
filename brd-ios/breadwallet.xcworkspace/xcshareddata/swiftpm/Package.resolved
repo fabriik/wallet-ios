@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/marmelroy/PhoneNumberKit.git",
       "state" : {
-        "revision" : "104a53d62c55aa5794faf30b29ccad319653b552",
-        "version" : "3.4.5"
+        "revision" : "8b65e21af5834d12cdf7db8d7a8684ece67fda25",
+        "version" : "3.4.8"
       }
     },
     {
@@ -50,7 +50,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/fabriik/WalletKitCore",
       "state" : {
-        "branch" : "support/fabriik-9.0.0.X",
+        "branch" : "mit",
         "revision" : "b88d39575cef3f3fa2388b0d5bc9b784ab27271f"
       }
     },
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/fabriik/WalletKitSwift",
       "state" : {
-        "branch" : "support/fabriik-9.0.0.X",
-        "revision" : "41506da431a6e697b1c8e98a4062df42cfa7a49c"
+        "branch" : "mit",
+        "revision" : "2cade629257fe70bc968a741abda73e451af2055"
       }
     }
   ],
