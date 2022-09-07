@@ -83,7 +83,7 @@ enum SwapErrors: FEError {
             return "A maximum of one swap can be active for a currency at a time."
             
         case .selectAssets:
-            return "KAJ SI NOR??"
+            return "In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet."
         }
     }
 }
