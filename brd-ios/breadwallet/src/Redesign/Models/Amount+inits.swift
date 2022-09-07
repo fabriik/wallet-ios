@@ -12,7 +12,7 @@ import UIKit
 import WalletKit
 
 extension Amount {
-    init(amount: Decimal, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 16) {
+    init(amount: Decimal, isFiat: Bool = false, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 16) {
         let formatter = ExchangeFormatter.current
         let amountString = formatter.string(for: amount) ?? ""
         
@@ -27,32 +27,17 @@ extension Amount {
                         name: currency.name,
                         rate: exchangeRate.doubleValue,
                         reciprocalCode: "")
-        let value = Amount(tokenString: amountString, currency: currency, rate: rate)
-        guard value.tokenValue > 0 else {
+        let value: Amount?
+        
+        if isFiat {
+            value = Amount(fiatString: amountString, currency: currency, rate: rate)
+        } else {
+            value = Amount(tokenString: amountString, currency: currency, rate: rate)
+        }
+        
+        guard let value = value,
+                  value.tokenValue > 0 else {
             self = .init(amount: amount, currency: currency, exchangeRate: exchangeRate, decimals: decimals - 1)
-            return
-        }
-        self = value
-    }
-    
-    init(fiat: Decimal, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 16) {
-        let formatter = ExchangeFormatter.current
-        let amountString = formatter.string(for: fiat) ?? ""
-        
-        guard let exchangeRate = exchangeRate,
-              decimals >= 0
-        else {
-            self = .zero(currency)
-            return
-        }
-        
-        let rate = Rate(code: currency.code,
-                        name: currency.name,
-                        rate: exchangeRate.doubleValue,
-                        reciprocalCode: "")
-        guard let value = Amount(fiatString: amountString, currency: currency, rate: rate),
-              value.tokenValue > 0 else {
-            self = .init(fiat: fiat, currency: currency, exchangeRate: exchangeRate, decimals: decimals - 1)
             return
         }
         self = value
