@@ -370,7 +370,7 @@ class ModalPresenter: Subscriber, Trackable {
                         self.presentKeyImport(wallet: wallet, scanResult: scanResult)
                     }
                 }))
-                alert.addAction(UIAlertAction(title: "BCH", style: .default, handler: { _ in
+                alert.addAction(UIAlertAction(title: C.BCH, style: .default, handler: { _ in
                     if let wallet = Currencies.shared.bch?.wallet {
                         self.presentKeyImport(wallet: wallet, scanResult: scanResult)
                     }
