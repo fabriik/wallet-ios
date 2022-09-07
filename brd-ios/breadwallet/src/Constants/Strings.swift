@@ -54,20 +54,34 @@ internal enum L10n {
   }
 
   internal enum Account {
+    /// ACCOUNT LIMITS
+    internal static let accountLimits = L10n.tr("Localizable", "Account.AccountLimits")
     /// Account Verification
     internal static let accountVerification = L10n.tr("Localizable", "Account.AccountVerification")
+    /// Verify your account
+    internal static let accountVerify = L10n.tr("Localizable", "Account.AccountVerify")
     /// Balance
     internal static let balance = L10n.tr("Localizable", "Account.balance")
+    /// Current limit: $1,000/day
+    internal static let currentLimit = L10n.tr("Localizable", "Account.CurrentLimit")
+    /// Oops! We had some issues processing your data
+    internal static let dataIssues = L10n.tr("Localizable", "Account.DataIssues")
     /// Delete account
     internal static let deleteAccount = L10n.tr("Localizable", "Account.DeleteAccount")
     /// This token has been delisted. 
     /// 
     /// You may still be able to send these tokens to another platform. For more details, visit our support page.
     internal static let delistedToken = L10n.tr("Localizable", "Account.delistedToken")
+    /// Make sure document details are clearly visible and within the frame
+    internal static let documentConfirmation = L10n.tr("Localizable", "Account.DocumentConfirmation")
     /// %1$@ per %2$@
     internal static func exchangeRate(_ p1: Any, _ p2: Any) -> String {
       return L10n.tr("Localizable", "Account.exchangeRate", String(describing: p1), String(describing: p2))
     }
+    /// Get full access to your Fabriik wallet
+    internal static let fullAccess = L10n.tr("Localizable", "Account.FullAccess")
+    /// ID Verification
+    internal static let idVerification = L10n.tr("Localizable", "Account.IDVerification")
     /// Loading Wallet
     internal static let loadingMessage = L10n.tr("Localizable", "Account.loadingMessage")
     /// Personal Information
@@ -78,6 +92,15 @@ internal enum L10n {
     internal static let proofOfIdentity = L10n.tr("Localizable", "Account.ProofOfIdentity")
     /// Submit your photo
     internal static let submitPhoto = L10n.tr("Localizable", "Account.SubmitPhoto")
+    /// Swap limit: $10,000 USD/day
+    /// Buy limit: $500 USD/day
+    internal static let swapAndBuyLimit = L10n.tr("Localizable", "Account.SwapAndBuyLimit")
+    /// Upgrade your limits
+    internal static let upgradeLimits = L10n.tr("Localizable", "Account.UpgradeLimits")
+    /// Why is my verification declined?
+    internal static let verificationDeclined = L10n.tr("Localizable", "Account.VerificationDeclined")
+    /// We’ll let you know when your account is verified.
+    internal static let verifiedAccountMessage = L10n.tr("Localizable", "Account.VerifiedAccountMessage")
     /// If you verify your account, you are given access to:
     ///   - Unlimited deposits/withdrawals
     ///   - Enhanced security
@@ -85,6 +108,8 @@ internal enum L10n {
     ///   - Buy assets with credit card
     ///   - 24/7/365 live customer support
     internal static let verifyAccountText = L10n.tr("Localizable", "Account.VerifyAccountText")
+    /// We need to verify your personal information for compliance purposes. This information won’t be shared with outside sources unless required by law.
+    internal static let verifyPersonalInformation = L10n.tr("Localizable", "Account.VerifyPersonalInformation")
     /// Why should I verify my account?
     internal static let whyVerify = L10n.tr("Localizable", "Account.WhyVerify")
   }
@@ -149,21 +174,54 @@ internal enum L10n {
     internal static let defaultWalletName = L10n.tr("Localizable", "AccountHeader.defaultWalletName")
   }
 
+  internal enum AccountKYCLevelOne {
+    /// Level 1
+    internal static let levelOne = L10n.tr("Localizable", "AccountKYCLevelOne.LevelOne")
+    /// Account limit: $1,000/day ($10,000 lifetime)
+    internal static let limit = L10n.tr("Localizable", "AccountKYCLevelOne.Limit")
+  }
+
   internal enum AccountKYCLevelTwo {
+    /// You have captured the entire back page of the document
+    internal static let backPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.BackPageInstructions")
     /// Before you start, please:
     internal static let beforeStart = L10n.tr("Localizable", "AccountKYCLevelTwo.BeforeStart")
+    /// Buy limits: $500 USD/day, no lifetime limit
+    internal static let buyLimits = L10n.tr("Localizable", "AccountKYCLevelTwo.BuyLimits")
+    /// Make sure to capture the entire back page of the document
+    internal static let captureBackPage = L10n.tr("Localizable", "AccountKYCLevelTwo.CaptureBackPage")
+    /// Make sure to capture the entire front page of the document
+    internal static let captureFrontPage = L10n.tr("Localizable", "AccountKYCLevelTwo.CaptureFrontPage")
     /// Checking for errors
     internal static let checkingErrors = L10n.tr("Localizable", "AccountKYCLevelTwo.CheckingErrors")
     /// We need to confirm your ID
     internal static let confirmID = L10n.tr("Localizable", "AccountKYCLevelTwo.ConfirmID")
+    /// You have captured the entire document
+    internal static let documentConfirmation = L10n.tr("Localizable", "AccountKYCLevelTwo.DocumentConfirmation")
     /// We are reviewing your documents and will let you know when your account has been verified.
     internal static let documentsReview = L10n.tr("Localizable", "AccountKYCLevelTwo.DocumentsReview")
+    /// You have captured your entire face in the frame.
+    internal static let faceCaptureInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceCaptureInstructions")
+    /// Make sure your face is in the frame and clearly visible
+    internal static let faceVisible = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceVisible")
+    /// Your face is clearly visible.
+    internal static let faceVisibleConfirmation = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceVisibleConfirmation")
+    /// You have captured the entire front page of the document
+    internal static let frontPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FrontPageInstructions")
     /// Your ID verification is in progress
     internal static let inProgress = L10n.tr("Localizable", "AccountKYCLevelTwo.InProgress")
+    /// Make sure to capture the entire document
+    internal static let instructions = L10n.tr("Localizable", "AccountKYCLevelTwo.Instructions")
+    /// Level 2
+    internal static let levelTwo = L10n.tr("Localizable", "AccountKYCLevelTwo.LevelTwo")
+    /// Swap limits: $10,000 USD/day, no lifetime limit
+    internal static let limits = L10n.tr("Localizable", "AccountKYCLevelTwo.Limits")
     /// Make sure you are in a well-lit room
     internal static let makeSure = L10n.tr("Localizable", "AccountKYCLevelTwo.MakeSure")
     /// Prepare a valid government-issued identity document (Passport, National ID card or Drivers license)
     internal static let prepareDocument = L10n.tr("Localizable", "AccountKYCLevelTwo.PrepareDocument")
+    /// Select one of the following options:
+    internal static let selectOptions = L10n.tr("Localizable", "AccountKYCLevelTwo.SelectOptions")
     /// Sending your data for verification
     internal static let sendingData = L10n.tr("Localizable", "AccountKYCLevelTwo.SendingData")
     /// Be prepared to take a selfie and photos of your ID
@@ -621,6 +679,8 @@ internal enum L10n {
   }
 
   internal enum ErrorMessages {
+    /// Please, check your internet connection and try again later.
+    internal static let checkInternet = L10n.tr("Localizable", "ErrorMessages.CheckInternet")
     /// This device isn't configured to send email with the iOS mail app.
     internal static let emailUnavailableMessage = L10n.tr("Localizable", "ErrorMessages.emailUnavailableMessage")
     /// Email Unavailable
@@ -631,8 +691,14 @@ internal enum L10n {
     internal static let messagingUnavailableMessage = L10n.tr("Localizable", "ErrorMessages.messagingUnavailableMessage")
     /// Messaging Unavailable
     internal static let messagingUnavailableTitle = L10n.tr("Localizable", "ErrorMessages.messagingUnavailableTitle")
+    /// We are having temporary network issues. Please try again later.
+    internal static let networkIssues = L10n.tr("Localizable", "ErrorMessages.NetworkIssues")
     /// No selected currencies.
     internal static let noCurrencies = L10n.tr("Localizable", "ErrorMessages.NoCurrencies")
+    /// Oops! Something went wrong, please try again later.
+    internal static let somethingWentWrong = L10n.tr("Localizable", "ErrorMessages.SomethingWentWrong")
+    /// Unknown error.
+    internal static let unknownError = L10n.tr("Localizable", "ErrorMessages.UnknownError")
     internal enum LoopingLockScreen {
       /// Fabriik can not be authenticated due to a bug in your version of Android. [Please tap here for more information.]
       internal static let android = L10n.tr("Localizable", "ErrorMessages.loopingLockScreen.android")
@@ -1236,6 +1302,8 @@ internal enum L10n {
   internal enum RecoverWallet {
     /// Done
     internal static let done = L10n.tr("Localizable", "RecoverWallet.done")
+    /// Please enter your recovery phrase to delete this wallet from your device.
+    internal static let enterRecoveryPhrase = L10n.tr("Localizable", "RecoverWallet.EnterRecoveryPhrase")
     /// Recover Wallet
     internal static let header = L10n.tr("Localizable", "RecoverWallet.header")
     /// Reset PIN
@@ -1250,6 +1318,11 @@ internal enum L10n {
     internal static let leftArrow = L10n.tr("Localizable", "RecoverWallet.leftArrow")
     /// Next
     internal static let next = L10n.tr("Localizable", "RecoverWallet.next")
+    /// A Recovery Phrase consists of 12 randomly generated words. The app creates the Recovery Phrase for you automatically when you start a new wallet.
+    ///                         The Recovery Phrase is critically important and should be written down and stored in a safe location.
+    ///                         In the event of phone theft, destruction, or loss, the Recovery Phrase can be used to load your wallet onto a new phone.
+    ///                         The key is also required when upgrading your current phone to a new one.
+    internal static let recoveryPhrasePopup = L10n.tr("Localizable", "RecoverWallet.RecoveryPhrasePopup")
     /// Tap here for more information.
     internal static let resetPinMoreInfo = L10n.tr("Localizable", "RecoverWallet.reset_pin_more_info")
     /// Right Arrow
@@ -1258,6 +1331,8 @@ internal enum L10n {
     internal static let subheader = L10n.tr("Localizable", "RecoverWallet.subheader")
     /// To reset your PIN, enter the words from your recovery phrase into the boxes below.
     internal static let subheaderResetPin = L10n.tr("Localizable", "RecoverWallet.subheader_reset_pin")
+    /// What is “Recovery Phrase”?
+    internal static let whatIsRecoveryPhrase = L10n.tr("Localizable", "RecoverWallet.WhatIsRecoveryPhrase")
   }
 
   internal enum RecoveryKeyFlow {
@@ -2198,6 +2273,8 @@ internal enum L10n {
   internal enum UpdatePin {
     /// Remember this PIN. If you forget it, you won't be able to access your assets.
     internal static let caption = L10n.tr("Localizable", "UpdatePin.caption")
+    /// Contact Support
+    internal static let contactSupport = L10n.tr("Localizable", "UpdatePin.ContactSupport")
     /// Your PIN will be used to unlock your Fabriik Wallet and send money
     internal static let createInstruction = L10n.tr("Localizable", "UpdatePin.createInstruction")
     /// Set PIN

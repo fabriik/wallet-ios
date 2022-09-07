@@ -16,7 +16,7 @@ final class AccountVerificationPresenter: NSObject, Presenter, AccountVerificati
         
         let levelOneStatus: VerificationStatus
         let levelTwoStatus: VerificationStatus
-        let description = item.failureReason ?? "ID Verification"
+        let description = item.failureReason ?? L10n.Account.idVerification
         
         if item.status.value.contains("KYC2") {
             levelOneStatus = .levelOne
@@ -28,21 +28,20 @@ final class AccountVerificationPresenter: NSObject, Presenter, AccountVerificati
         let isActive = levelOneStatus == .levelOne || item.status == .levelOne
         let sections = [ Models.Section.verificationLevel ]
         
-        // TODO: Localize
         let sectionRows: [Models.Section: [Any]] = [
             .verificationLevel: [
                 VerificationViewModel(kyc: .levelOne,
-                                      title: .text("Level 1"),
+                                      title: .text(L10n.AccountKYCLevelOne.levelOne),
                                       status: levelOneStatus,
                                       description: .text(L10n.Account.personalInformation),
-                                      benefits: .text("Account limit: $1,000/day ($10,000 lifetime)"),
+                                      benefits: .text(L10n.AccountKYCLevelOne.limit),
                                       isActive: true),
                 VerificationViewModel(kyc: .levelTwo,
-                                      title: .text("Level 2"),
+                                      title: .text(L10n.AccountKYCLevelTwo.levelTwo),
                                       status: levelTwoStatus,
                                       description: .text(description),
-                                      benefits: .text("Swap limits: $10,000 USD/day, no lifetime limit"),
-                                      buyBenefits: .text("Buy limits: $500 USD/day, no lifetime limit"),
+                                      benefits: .text(L10n.AccountKYCLevelTwo.limits),
+                                      buyBenefits: .text(L10n.AccountKYCLevelTwo.buyLimits),
                                       isActive: isActive)
             ]
         ]
@@ -55,8 +54,7 @@ final class AccountVerificationPresenter: NSObject, Presenter, AccountVerificati
     }
     
     func presentPersonalInfoPopup(actionResponse: AccountVerificationModels.PersonalInfo.ActionResponse) {
-        // TODO: localize
-        let text = "We need to verify your personal information for compliance purposes. This information won’t be shared with outside sources unless required by law."
+        let text = L10n.Account.verifyPersonalInformation
         let model = PopupViewModel(title: .text(L10n.Account.personalInformation),
                                    body: text)
         

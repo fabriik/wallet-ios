@@ -51,7 +51,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
         NSAttributedString.Key.font: Fonts.Body.two,
         NSAttributedString.Key.foregroundColor: LightColors.Link.one]
 
-        let attributedString = NSMutableAttributedString(string: "Contact support", attributes: attributes)
+        let attributedString = NSMutableAttributedString(string: L10n.UpdatePin.contactSupport, attributes: attributes)
         button.setAttributedTitle(attributedString, for: .normal)
         button.addTarget(self, action: #selector(contactSupportTapped), for: .touchUpInside)
         button.isHidden = true
@@ -214,7 +214,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
         case .validateForWipingWalletAndDeletingFromDevice:
             saveEvent("enterPhrase.wipeWallet")
             heading.text = L10n.RecoveryKeyFlow.enterRecoveryKey
-            subheading.text = "Please enter your recovery phrase to delete this wallet from your device." // TODO: Localize
+            subheading.text = L10n.RecoverWallet.enterRecoveryPhrase
         }
     }
     
@@ -235,15 +235,9 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
     }
     
     func faqButtonPressed() {
-        // TODO: localize
-        let text = """
-                        A Recovery Phrase consists of 12 randomly generated words. The app creates the Recovery Phrase for you automatically when you start a new wallet.
-                        The Recovery Phrase is critically important and should be written down and stored in a safe location.
-                        In the event of phone theft, destruction, or loss, the Recovery Phrase can be used to load your wallet onto a new phone.
-                        The key is also required when upgrading your current phone to a new one.
-                        """
+        let text = L10n.RecoverWallet.recoveryPhrasePopup
         
-        let model = PopupViewModel(title: .text("What is “Recovery Phrase”?"),
+        let model = PopupViewModel(title: .text(L10n.RecoverWallet.whatIsRecoveryPhrase),
                                    body: text)
         
         showInfoPopup(with: model)
