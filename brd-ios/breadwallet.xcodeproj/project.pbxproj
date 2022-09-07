@@ -369,7 +369,6 @@
 		7E9B13FE2857404600BD9EF5 /* DocumentReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9B13F72857404600BD9EF5 /* DocumentReviewViewController.swift */; };
 		7E9B13FF2857404600BD9EF5 /* DocumentReviewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9B13F82857404600BD9EF5 /* DocumentReviewInteractor.swift */; };
 		7EB6CDB128C73F8500912268 /* Wallet+DefaultReceiveAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB6CDB028C73F8500912268 /* Wallet+DefaultReceiveAddress.swift */; };
-		7EB6CDB328C7734100912268 /* Amount+Inits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB6CDB228C7734100912268 /* Amount+Inits.swift */; };
 		7EB838462849D49A00C7CC05 /* ScrollableButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB838452849D49A00C7CC05 /* ScrollableButtonsView.swift */; };
 		7EB838482849DD8200C7CC05 /* FELink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB838472849DD8200C7CC05 /* FELink.swift */; };
 		7EB8FD212897D212000FF75C /* BuyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB8FD1A2897D212000FF75C /* BuyCoordinator.swift */; };
@@ -439,6 +438,7 @@
 		7ED83AFA284F40EB00261565 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED83AF3284F40EB00261565 /* CheckListViewController.swift */; };
 		7ED83AFB284F40EB00261565 /* CheckListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED83AF4284F40EB00261565 /* CheckListInteractor.swift */; };
 		7ED83AFD284F418E00261565 /* KYCDocumentWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED83AFC284F418E00261565 /* KYCDocumentWorker.swift */; };
+		7EDDB82628C8684900C287CB /* Amount+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDB82528C8684900C287CB /* Amount+Init.swift */; };
 		7EE76FC22857648F00724548 /* NewDeviceWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE76FC12857648F00724548 /* NewDeviceWorker.swift */; };
 		7EF2188028630E2F006ABCC1 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2187F28630E2F006ABCC1 /* UserManager.swift */; };
 		7EF2998A27E3B8C400A2238A /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2998827E3B8C400A2238A /* ApiClient.swift */; };
@@ -1366,7 +1366,6 @@
 		7E9B13F72857404600BD9EF5 /* DocumentReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReviewViewController.swift; sourceTree = "<group>"; };
 		7E9B13F82857404600BD9EF5 /* DocumentReviewInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReviewInteractor.swift; sourceTree = "<group>"; };
 		7EB6CDB028C73F8500912268 /* Wallet+DefaultReceiveAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Wallet+DefaultReceiveAddress.swift"; sourceTree = "<group>"; };
-		7EB6CDB228C7734100912268 /* Amount+Inits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Amount+Inits.swift"; sourceTree = "<group>"; };
 		7EB838452849D49A00C7CC05 /* ScrollableButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableButtonsView.swift; sourceTree = "<group>"; };
 		7EB838472849DD8200C7CC05 /* FELink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FELink.swift; sourceTree = "<group>"; };
 		7EB8FD1A2897D212000FF75C /* BuyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyCoordinator.swift; sourceTree = "<group>"; };
@@ -1436,6 +1435,7 @@
 		7ED83AF3284F40EB00261565 /* CheckListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
 		7ED83AF4284F40EB00261565 /* CheckListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckListInteractor.swift; sourceTree = "<group>"; };
 		7ED83AFC284F418E00261565 /* KYCDocumentWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCDocumentWorker.swift; sourceTree = "<group>"; };
+		7EDDB82528C8684900C287CB /* Amount+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Amount+Init.swift"; sourceTree = "<group>"; };
 		7EE76FC12857648F00724548 /* NewDeviceWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDeviceWorker.swift; sourceTree = "<group>"; };
 		7EF2187F28630E2F006ABCC1 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		7EF2998827E3B8C400A2238A /* ApiClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ApiClient.swift; path = CoinGecko/ApiClient.swift; sourceTree = "<group>"; };
@@ -2890,7 +2890,7 @@
 			children = (
 				7E852747286C551C0058F4C0 /* ServerResponse.swift */,
 				7EB6CDB028C73F8500912268 /* Wallet+DefaultReceiveAddress.swift */,
-				7EB6CDB228C7734100912268 /* Amount+Inits.swift */,
+				7EDDB82528C8684900C287CB /* Amount+Init.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4882,11 +4882,11 @@
 				7E383B4928AE1AFD00A5339F /* AssetSelectionDisplayable.swift in Sources */,
 				7BBBF4DC287421CF00E4D36B /* SwapModels.swift in Sources */,
 				7ECCA9912873079100F99368 /* QuoteWorker.swift in Sources */,
+				7EDDB82628C8684900C287CB /* Amount+Init.swift in Sources */,
 				7CBABD9C20181D890077CB55 /* NSMutableAttributedString+Additions.swift in Sources */,
 				3A69885E24591F890084953D /* PayId.swift in Sources */,
 				7B08D2262860574F00D65ED9 /* SimpleBackBarButtonItem.swift in Sources */,
 				7EBC6AF728488B10000A301F /* RegistrationPresenter.swift in Sources */,
-				7EB6CDB328C7734100912268 /* Amount+Inits.swift in Sources */,
 				7E9B13FE2857404600BD9EF5 /* DocumentReviewViewController.swift in Sources */,
 				7B9434352886A7FA00638703 /* DeleteProfileInfoStore.swift in Sources */,
 				7B9434362886A7FA00638703 /* DeleteProfileInfoPresenter.swift in Sources */,
