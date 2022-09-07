@@ -34,7 +34,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         let webViewController = SimpleWebViewController(url: url)
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
-        webViewController.setup(with: .init(title: "3D Secure")) // TODO: Localize
+        webViewController.setup(with: .init(title: L10n.Buy._3DSecure))
         webViewController.didDismiss = { [weak self] in
             (self?.navigationController.topViewController as? DataPresentable)?.prepareData()
             navController.dismiss(animated: true)
@@ -86,7 +86,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showTermsAndConditions(url: URL) {
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "Terms and Conditions"))
+        webViewController.setup(with: .init(title: L10n.About.terms))
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         
@@ -96,7 +96,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     func showSupport() {
         guard let url = URL(string: C.supportLink) else { return }
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "Support"))
+        webViewController.setup(with: .init(title: L10n.MenuButton.feedback))
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         

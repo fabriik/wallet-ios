@@ -306,6 +306,10 @@ internal enum L10n {
   }
 
   internal enum Buy {
+    /// 3D Secure
+    internal static let _3DSecure = L10n.tr("Localizable", "Buy.3DSecure")
+    /// Add card
+    internal static let addCard = L10n.tr("Localizable", "Buy.AddCard")
     /// Purchase details
     internal static let details = L10n.tr("Localizable", "Buy.Details")
   }
@@ -1651,6 +1655,10 @@ internal enum L10n {
   }
 
   internal enum Swap {
+    /// Amount purchased:
+    internal static let amountPurchased = L10n.tr("Localizable", "Swap.AmountPurchased")
+    /// Card fee:
+    internal static let cardFee = L10n.tr("Localizable", "Swap.CardFee")
     /// Check your assets!
     internal static let checkAssets = L10n.tr("Localizable", "Swap.CheckAssets")
     /// In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet.
@@ -1661,10 +1669,20 @@ internal enum L10n {
     internal static let gotItButton = L10n.tr("Localizable", "Swap.GotItButton")
     /// I want
     internal static let iWant = L10n.tr("Localizable", "Swap.iWant")
+    /// Mining network fee:
+    internal static let miningNetworkFee = L10n.tr("Localizable", "Swap.MiningNetworkFee")
     /// Not a valid pair
     internal static let notValidPair = L10n.tr("Localizable", "Swap.NotValidPair")
+    /// Paid with
+    internal static let paidWith = L10n.tr("Localizable", "Swap.PaidWith")
     /// Rate:
     internal static let rate = L10n.tr("Localizable", "Swap.Rate")
+    /// Timestamp
+    internal static let timestamp = L10n.tr("Localizable", "Swap.Timestamp")
+    /// Total:
+    internal static let total = L10n.tr("Localizable", "Swap.Total")
+    /// Fabriik Transaction ID
+    internal static let transactionID = L10n.tr("Localizable", "Swap.TransactionID")
   }
 
   internal enum Symbols {

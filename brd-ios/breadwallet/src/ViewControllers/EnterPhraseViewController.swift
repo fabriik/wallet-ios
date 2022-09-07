@@ -227,7 +227,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
     @objc private func contactSupportTapped() {
         guard let url = URL(string: C.supportLink) else { return }
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "Support"))
+        webViewController.setup(with: .init(title: L10n.MenuButton.support))
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         
