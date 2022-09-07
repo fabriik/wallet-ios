@@ -19,7 +19,7 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     override init() {
         super.init()
-        if let currency =  Store.state.currencies.first(where: { $0.code.lowercased() == "btc" }) {
+        if let currency = Store.state.currencies.first(where: { $0.code.lowercased() == C.BTC.lowercased() }) {
             toCurrency = currency
         } else {
             toCurrency = Store.state.currencies.first
