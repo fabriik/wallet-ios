@@ -1,5 +1,5 @@
 // 
-//  Amount+inits.swift
+//  Amount+Inits.swift
 //  breadwallet
 //
 //  Created by Rok on 06/09/2022.
