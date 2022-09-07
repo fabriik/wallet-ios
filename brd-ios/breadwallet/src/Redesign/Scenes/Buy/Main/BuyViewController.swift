@@ -64,14 +64,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         continueButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
-    override func prepareData() {
-        super.prepareData()
-        
-        DispatchQueue.main.async {
-            LoadingView.show()
-        }
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch sections[indexPath.section] as? Models.Sections {
@@ -123,7 +115,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             }
             
             view.didFinish = { [weak self] in
-                self?.interactor?.getExchangeRate(viewAction: .init())
+                self?.interactor?.setAmount(viewAction: .init())
             }
             
             view.didTapSelectAsset = { [weak self] in
@@ -184,6 +176,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     
     func displayPaymentCards(responseDisplay: BuyModels.PaymentCards.ResponseDisplay) {
         view.endEditing(true)
+        
         coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards, selected: { [weak self] selectedCard in
             self?.interactor?.setAssets(viewAction: .init(card: selectedCard))
         })
@@ -213,6 +206,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         if let section = sections.firstIndex(of: Models.Sections.rate),
            let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
             cell.setup { view in
+                view.configure(with: .init())
                 view.setup(with: responseDisplay.rate)
                 view.completion = { [weak self] in
                     self?.interactor?.getExchangeRate(viewAction: .init())
@@ -242,8 +236,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                       to: dataStore?.toAmount,
                                       from: dataStore?.from,
                                       card: dataStore?.paymentCard,
-                                      quote: dataStore?.quote,
-                                      networkFee: dataStore?.feeAmount)
+                                      quote: dataStore?.quote)
     }
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {

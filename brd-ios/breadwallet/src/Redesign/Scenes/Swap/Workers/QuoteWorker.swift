@@ -40,8 +40,8 @@ struct QuoteModelResponse: ModelResponse {
     }
     var fromFeeCurrency: Fee?
     var toFeeCurrency: Fee?
-    var fromFee: Decimal
-    var toFee: Decimal
+    var fromFee: Decimal?
+    var toFee: Decimal?
     var buyFees: Decimal?
 }
 
@@ -71,13 +71,15 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
         guard let response = response else { return nil }
 
         var fromFee: EstimateFee?
-        if let currency = response.fromFeeCurrency?.feeCurrency {
-            fromFee = .init(fee: response.fromFee, currency: currency)
+        if let currency = response.fromFeeCurrency?.feeCurrency,
+           let value = response.fromFee {
+            fromFee = .init(fee: value, currency: currency)
         }
         
         var toFee: EstimateFee?
-        if let currency = response.toFeeCurrency?.feeCurrency {
-            toFee = .init(fee: response.toFee, currency: currency)
+        if let currency = response.toFeeCurrency?.feeCurrency,
+            let value = response.toFee {
+            toFee = .init(fee: value, currency: currency)
         }
         
         return .init(quoteId: response.quoteId,

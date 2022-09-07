@@ -16,11 +16,11 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         open(scene: Scenes.Buy)
     }
     
-    func reloadBuy(card: PaymentCard) {
+    func reloadBuy(selectedCard: PaymentCard) {
         let buyVC = navigationController.children.first(where: { $0 is BuyViewController }) as? BuyViewController
-        buyVC?.dataStore?.paymentCard = card
+        buyVC?.dataStore?.paymentCard = selectedCard
         buyVC?.dataStore?.autoSelectDefaultPaymentMethod = false
-        buyVC?.prepareData()
+        buyVC?.interactor?.getData(viewAction: .init())
     }
     
     func showBillingAddress(addCardDataStore: AddCardStore?) {
@@ -62,7 +62,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.failure = FailureReason.buy
             vc.firstCallback = { [weak self] in
                 self?.popToRoot(completion: { [weak self] in
-                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getPaymentCards(viewAction: .init())
+                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getData(viewAction: .init())
                 })
             }
             
@@ -168,17 +168,12 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         navigationController.show(nvc, sender: nil)
     }
     
-    func showInfo(from: String, to: String, exchangeId: String) {
-        
-    }
-    
     func showOrderPreview(coreSystem: CoreSystem?,
                           keyStore: KeyStore?,
                           to: Amount?,
                           from: Decimal?,
                           card: PaymentCard?,
-                          quote: Quote?,
-                          networkFee: Amount?) {
+                          quote: Quote?) {
         open(scene: Scenes.OrderPreview) { vc in
             vc.dataStore?.coreSystem = coreSystem
             vc.dataStore?.keyStore = keyStore
@@ -186,7 +181,6 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.dataStore?.to = to
             vc.dataStore?.card = card
             vc.dataStore?.quote = quote
-            vc.dataStore?.networkFee = networkFee
             vc.prepareData()
         }
     }

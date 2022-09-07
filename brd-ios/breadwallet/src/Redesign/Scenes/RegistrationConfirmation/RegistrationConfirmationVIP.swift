@@ -28,7 +28,6 @@ protocol RegistrationConfirmationActionResponses: BaseActionResponses, FetchActi
 protocol RegistrationConfirmationResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displayValidate(responseDisplay: RegistrationConfirmationModels.Validate.ResponseDisplay)
     func displayConfirm(responseDisplay: RegistrationConfirmationModels.Confirm.ResponseDisplay)
-    func displayResend(responseDisplay: RegistrationConfirmationModels.Resend.ResponseDisplay)
     func displayError(responseDisplay: RegistrationConfirmationModels.Error.ResponseDisplay)
 }
 

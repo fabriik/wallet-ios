@@ -107,8 +107,8 @@ class BaseCoordinator: NSObject,
                 vc?.dataStore?.coreSystem = coreSystem
                 vc?.dataStore?.keyStore = keyStore
                 vc?.dataStore?.defaultCurrencyCode = Store.state.defaultCurrencyCode.lowercased()
+                // TODO: profile has this as well
                 vc?.dataStore?.isKYCLevelTwo = self?.isKYCLevelTwo
-                vc?.prepareData()
             }
         }
     }
@@ -121,7 +121,6 @@ class BaseCoordinator: NSObject,
                 vc?.dataStore?.coreSystem = coreSystem
                 vc?.dataStore?.keyStore = keyStore
                 vc?.dataStore?.fromCurrency = Store.state.defaultCurrencyCode.lowercased()
-                vc?.prepareData()
             }
         }
     }

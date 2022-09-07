@@ -86,8 +86,13 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         cell.setup { view in
             view.configure(with: .init())
             view.setup(with: model)
+            
             view.didTypeCVV = { [weak self] cvv in
                 self?.interactor?.updateCvv(viewAction: .init(cvv: cvv))
+            }
+            
+            view.didTapCvvInfo = { [weak self] in
+                self?.interactor?.showCvvInfoPopup(viewAction: .init())
             }
         }
         
@@ -151,6 +156,10 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         coordinator?.showPopup(with: responseDisplay.model)
     }
     
+    func displayCvvInfoPopup(responseDisplay: OrderPreviewModels.CvvInfoPopup.ResponseDisplay) {
+        coordinator?.showPopup(with: responseDisplay.model)
+    }
+    
     func displaySubmit(responseDisplay: OrderPreviewModels.Submit.ResponseDisplay) {
         LoadingView.hide()
         
@@ -163,8 +172,6 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
         LoadingView.hide()
-        
-        // TODO: other payment methods / back home need to be linked
         coordinator?.showFailure()
     }
     

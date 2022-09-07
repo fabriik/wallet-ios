@@ -43,7 +43,6 @@ struct NewDeviceRequestData: RequestModelData {
 class NewDeviceWorker: BaseApiWorker<NewDeviceMapper> {
     
     override func getHeaders() -> [String: String] {
-        // TODO: extract?
         let formatter = DateFormatter()
         formatter.locale = .init(identifier: "US")
         formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss Z"

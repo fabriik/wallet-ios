@@ -42,19 +42,16 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         presenter?.presentInfoPopup(actionResponse: .init(isCardFee: viewAction.isCardFee, fee: dataStore?.quote?.buyFee))
     }
     
+    func showCvvInfoPopup(viewAction: OrderPreviewModels.CvvInfoPopup.ViewAction) {
+        presenter?.presentCvvInfoPopup(actionResponse: .init())
+    }
+    
     func submit(viewAction: OrderPreviewModels.Submit.ViewAction) {
         guard let currency = dataStore?.to?.currency,
-              let address = dataStore?.address(for: currency)
-        else {
-            // TODO: handle no wallet error
-            return
-        }
-        
-        guard let to = dataStore?.to?.tokenValue,
-              let from = dataStore?.from else {
-            // TODO: no amounts
-            return
-        }
+              let address = currency.wallet?.defaultReceiveAddress,
+              let to = dataStore?.to?.tokenValue,
+              let from = dataStore?.from
+        else { return }
         
         let total = from + (dataStore?.networkFee?.fiatValue ?? 0) + from * (dataStore?.quote?.buyFee ?? 1) / 100
         let rounded = Double(round(total.doubleValue * 100) / 100)
