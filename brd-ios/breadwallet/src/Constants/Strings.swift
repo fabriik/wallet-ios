@@ -1318,10 +1318,7 @@ internal enum L10n {
     internal static let leftArrow = L10n.tr("Localizable", "RecoverWallet.leftArrow")
     /// Next
     internal static let next = L10n.tr("Localizable", "RecoverWallet.next")
-    /// A Recovery Phrase consists of 12 randomly generated words. The app creates the Recovery Phrase for you automatically when you start a new wallet.
-    ///                         The Recovery Phrase is critically important and should be written down and stored in a safe location.
-    ///                         In the event of phone theft, destruction, or loss, the Recovery Phrase can be used to load your wallet onto a new phone.
-    ///                         The key is also required when upgrading your current phone to a new one.
+    /// A Recovery Phrase consists of 12 randomly generated words. The app creates the Recovery Phrase for you automatically when you start a new wallet. The Recovery Phrase is critically important and should be written down and stored in a safe location. In the event of phone theft, destruction, or loss, the Recovery Phrase can be used to load your wallet onto a new phone. The key is also required when upgrading your current phone to a new one.
     internal static let recoveryPhrasePopup = L10n.tr("Localizable", "RecoverWallet.RecoveryPhrasePopup")
     /// Tap here for more information.
     internal static let resetPinMoreInfo = L10n.tr("Localizable", "RecoverWallet.reset_pin_more_info")
