@@ -61,7 +61,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     func getExchangeRate(viewAction: SwapModels.Rate.ViewAction) {
         guard let from = dataStore?.from?.currency,
               let to = dataStore?.to?.currency else {
-            presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: dataStore?.swapPair ?? "")))
+            presenter?.presentError(actionResponse: .init(error: SwapErrors.selectAssets))
             return
         }
         
@@ -85,7 +85,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         guard let baseCurrency = from.coinGeckoId,
               let termCurrency = to.coinGeckoId else {
-            presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: dataStore?.swapPair)))
+            presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(from: from.code, to: to.code)))
             return
         }
         
@@ -385,7 +385,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             error = SwapErrors.balanceTooLow(balance: currency.state?.balance?.tokenValue ?? 0, currency: currency.code)
             
         case .noExchangeRate:
-            error = SwapErrors.noQuote(pair: dataStore.swapPair)
+            error = SwapErrors.noQuote(from: dataStore.from?.currency.code, to: dataStore.to?.currency.code)
             
         case .noFees:
             error = SwapErrors.noFees

@@ -123,9 +123,9 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         var hasError: Bool = actionResponse.from?.fiatValue == 0
         if actionResponse.baseBalance == nil
             || actionResponse.from?.currency.code == actionResponse.to?.currency.code {
-            let first = actionResponse.from?.currency.code ?? "<base missing>"
-            let second = actionResponse.to?.currency.code ?? "<term missing>"
-            presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: "\(first)-\(second)")))
+            let first = actionResponse.from?.currency.code
+            let second = actionResponse.to?.currency.code
+            presentError(actionResponse: .init(error: SwapErrors.noQuote(from: first, to: second)))
             hasError = true
         } else if TransferManager.shared.canSwap(actionResponse.from?.currency) == false {
             presentError(actionResponse: .init(error: SwapErrors.pendingSwap))
@@ -157,13 +157,15 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 
             case _ where value > dailyLimit:
                 // over daily limit
-                let error = profile?.status == .levelTwo(.levelTwo) ? SwapErrors.overDailyLimitLevel2 : SwapErrors.overDailyLimit
+                let limit = UserManager.shared.profile?.swapAllowanceDaily ?? 0
+                let error = profile?.status == .levelTwo(.levelTwo) ? SwapErrors.overDailyLimitLevel2(limit: limit) : SwapErrors.overDailyLimit(limit: limit)
                 presentError(actionResponse: .init(error: error))
                 hasError = true
                 
             case _ where value > lifetimeLimit:
                 // over lifetime limit
-                presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit))
+                let limit = UserManager.shared.profile?.swapAllowanceLifetime ?? 0
+                presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit(limit: limit)))
                 hasError = true
                 
             case _ where value > exchangeLimit:

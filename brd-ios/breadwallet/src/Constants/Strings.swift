@@ -679,6 +679,20 @@ internal enum L10n {
   }
 
   internal enum ErrorMessages {
+    /// The amount is higher than your daily limit of %i %s. Please enter a lower amount.
+    internal static func amountToHigh(_ p1: Int, _ p2: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.AmountToHigh", p1, p2)
+    }
+    /// The amount is lower than the minimum of %i %s. Please enter a higher amount.
+    internal static func amountToLow(_ p1: Int, _ p2: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.amountToLow", p1, p2)
+    }
+    /// Card authorization failed. Please contact your credit card issuer/bank or try another card.
+    internal static let authorizationFailed = L10n.tr("Localizable", "ErrorMessages.authorizationFailed")
+    /// You don't have enough %s to complete this swap. Your current %s balance is %s.
+    internal static func balanceToLow(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>, _ p3: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.balanceToLow", p1, p2, p3)
+    }
     /// Please, check your internet connection and try again later.
     internal static let checkInternet = L10n.tr("Localizable", "ErrorMessages.CheckInternet")
     /// This device isn't configured to send email with the iOS mail app.
@@ -687,16 +701,54 @@ internal enum L10n {
     internal static let emailUnavailableTitle = L10n.tr("Localizable", "ErrorMessages.emailUnavailableTitle")
     /// Insufficient Ethereum balance in your wallet to transfer this type of token.
     internal static let ethBalanceLow = L10n.tr("Localizable", "ErrorMessages.ethBalanceLow")
+    /// Swap failed. Reason: %s.
+    internal static func exchangeFailed(_ p1: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.exchangeFailed", p1)
+    }
     /// This device isn't configured to send messages.
     internal static let messagingUnavailableMessage = L10n.tr("Localizable", "ErrorMessages.messagingUnavailableMessage")
     /// Messaging Unavailable
     internal static let messagingUnavailableTitle = L10n.tr("Localizable", "ErrorMessages.messagingUnavailableTitle")
+    /// This swap doesn't cover the included network fee. Please add more funds to your wallet or change the amount you're swapping.
+    internal static let networkFee = L10n.tr("Localizable", "ErrorMessages.networkFee")
     /// We are having temporary network issues. Please try again later.
     internal static let networkIssues = L10n.tr("Localizable", "ErrorMessages.NetworkIssues")
     /// No selected currencies.
     internal static let noCurrencies = L10n.tr("Localizable", "ErrorMessages.NoCurrencies")
+    /// Failed to fetch network fees. Please try again later.
+    internal static let noFees = L10n.tr("Localizable", "ErrorMessages.noFees")
+    /// No quote for currency pair %s-%s.
+    internal static func noQuoteForPair(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.noQuoteForPair", p1, p2)
+    }
+    /// Please make sure you have enough ETH to cover for the network fees while swapping within Ethereum-based assets.
+    internal static let notEnoughEthForFee = L10n.tr("Localizable", "ErrorMessages.notEnoughEthForFee")
+    /// The amount is higher than your daily limit of %s USD. Please upgrade your account or enter a lower amount.
+    internal static func overDailyLimit(_ p1: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.overDailyLimit", p1)
+    }
+    /// Over exchange limit.
+    internal static let overExchangeLimit = L10n.tr("Localizable", "ErrorMessages.overExchangeLimit")
+    /// The amount is higher than your lifetime limit of %s USD. Please upgrade your account or enter a lower amount.
+    internal static func overLifetimeLimit(_ p1: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.overLifetimeLimit", p1)
+    }
+    /// The amount is higher than your daily limit of %s USD. Please enter a lower amount.
+    internal static func overLifetimeLimitLevel2(_ p1: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.overLifetimeLimitLevel2", p1)
+    }
+    /// A maximum of one swap can be active for a currency at a time.
+    internal static let pendingExchange = L10n.tr("Localizable", "ErrorMessages.pendingExchange")
+    /// PIN Authentication failed.
+    internal static let pinConfirmationFailed = L10n.tr("Localizable", "ErrorMessages.pinConfirmationFailed")
+    /// In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet.
+    internal static let selectAssets = L10n.tr("Localizable", "ErrorMessages.selectAssets")
     /// Oops! Something went wrong, please try again later.
     internal static let somethingWentWrong = L10n.tr("Localizable", "ErrorMessages.SomethingWentWrong")
+    /// The amount is higher than the swap maximum of %s %s.
+    internal static func swapAmountToHigh(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.swapAmountToHigh", p1, p2)
+    }
     /// Unknown error.
     internal static let unknownError = L10n.tr("Localizable", "ErrorMessages.UnknownError")
     internal enum LoopingLockScreen {

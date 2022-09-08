@@ -60,10 +60,4 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
         }
         return .init(tokenString: fee, currency: currency)
     }
-    
-    var swapPair: String {
-        let from = from?.currency.code ?? "</>"
-        let to = to?.currency.code ?? "</>"
-        return "\(from)-\(to)"
-    }
 }

@@ -11,16 +11,16 @@
 import Foundation
 
 enum SwapErrors: FEError {
-    case noQuote(pair: String?)
+    case noQuote(from: String?, to: String?)
     /// Param 1: amount, param 2 currency symbol
     case tooLow(amount: Decimal, currency: String)
     /// Param 1: amount, param 2 currency symbol
     case tooHigh(amount: Decimal, currency: String)
     /// Param 1&2 -> currency, param 3 balance
     case balanceTooLow(balance: Decimal, currency: String)
-    case overDailyLimit
-    case overLifetimeLimit
-    case overDailyLimitLevel2
+    case overDailyLimit(limit: Decimal)
+    case overLifetimeLimit(limit: Decimal)
+    case overDailyLimitLevel2(limit: Decimal)
     case notEnouthEthForFee
     // Unoficial errors
     case noFees
@@ -31,59 +31,55 @@ enum SwapErrors: FEError {
     case pendingSwap
     case selectAssets
     
+    // TODO: localize
     var errorMessage: String {
         switch self {
         case .balanceTooLow(let balance, let currency):
-            return String(format: "You don't have enough %@ to complete this swap. Your current %@ balance is %@",
-                          currency,
-                          currency,
-                          ExchangeFormatter.crypto.string(for: balance) ?? "0.00")
+            return L10n.ErrorMessages.balanceToLow(currency, currency, ExchangeFormatter.crypto.string(for: balance) ?? "0.00")
             
         case .tooLow(let amount, let currency):
-            return String(format: "The amount is lower than the minimum of %.1f %@. Please enter a higher amount.",
-                          amount.doubleValue,
-                          currency)
+            return L10n.ErrorMessages.amountToLow(Int(amount.doubleValue), currency)
             
         case .tooHigh(let amount, let currency):
-            return String(format: "The amount is higher than the swap maximum of %.2f %@.",
-                          amount.doubleValue,
-                          currency)
+            return L10n.ErrorMessages.swapAmountToHigh(ExchangeFormatter.crypto.string(for: amount) ?? "0", currency)
             
-        case .overDailyLimit:
-            return "The amount is higher than your daily limit of $1,000 USD. Please upgrade your account or enter a lower amount."
+        case .overDailyLimit(let limit):
+            return L10n.ErrorMessages.overDailyLimit(ExchangeFormatter.fiat.string(for: limit) ?? "0")
             
-        case .overLifetimeLimit:
-            return "The amount is higher than your lifetime limit of $10,000 USD. Please upgrade your account or enter a lower amount."
+        case .overLifetimeLimit(let limit):
+            return L10n.ErrorMessages.overLifetimeLimit(ExchangeFormatter.fiat.string(for: limit) ?? "0")
             
-        case .overDailyLimitLevel2:
-            return "The amount is higher than your daily limit of $10,000 USD. Please enter a lower amount."
+        case .overDailyLimitLevel2(let limit):
+            return L10n.ErrorMessages.overLifetimeLimitLevel2(ExchangeFormatter.fiat.string(for: limit) ?? "0")
             
         case .noFees:
-            return "Failed to fetch network fees. Please try again later."
+            return L10n.ErrorMessages.noFees
             
         case .networkFee:
-            return "This swap doesn't cover the included network fee. Please add more funds to your wallet or change the amount you're swapping."
+            return L10n.ErrorMessages.networkFee
             
-        case .noQuote(let pair):
-            return "No quote for currency pair \(pair ?? "<missing>")."
+        case .noQuote(let from, let to):
+            let from = from ?? "/"
+            let to = to ?? "/"
+            return L10n.ErrorMessages.noQuoteForPair(from, to)
             
         case .overExchangeLimit:
-            return "Over exchange limit."
+            return L10n.ErrorMessages.overExchangeLimit
             
         case  .pinConfirmation:
-            return "PIN Authentication failed"
+            return L10n.ErrorMessages.pinConfirmationFailed
             
         case .notEnouthEthForFee:
-            return "Please make sure you have enough ETH to cover for the network fees while swapping within Ethereum-based assets."
+            return L10n.ErrorMessages.notEnoughEthForFee
             
         case .failed(let error):
-            return "Swap failed. Reason: \(error?.localizedDescription ?? "unknown")"
+            return L10n.ErrorMessages.exchangeFailed(error?.localizedDescription ?? "/")
             
         case .pendingSwap:
-            return "A maximum of one swap can be active for a currency at a time."
+            return L10n.ErrorMessages.pendingExchange
             
         case .selectAssets:
-            return "In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet."
+            return L10n.ErrorMessages.selectAssets
         }
     }
 }
