@@ -12,8 +12,10 @@ import UIKit
 import WalletKit
 
 extension Amount {
-    init(amount: Decimal, isFiat: Bool = false, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 16) {
+    init(amount: Decimal, isFiat: Bool = false, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 8) {
         let formatter = ExchangeFormatter.current
+        formatter.maximumFractionDigits = decimals
+        
         let amountString = formatter.string(for: amount) ?? ""
         
         guard let exchangeRate = exchangeRate,
