@@ -107,15 +107,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         CoinGeckoClient().load(resource)
         
         group.notify(queue: .main) { [weak self] in
-            if let fromFiatAmount = self?.dataStore?.values.fromFiatAmount {
-                self?.setAmount(viewAction: .init(fromFiatAmount: fromFiatAmount))
-            } else if let fromCryptoAmount = self?.dataStore?.values.fromCryptoAmount {
-                self?.setAmount(viewAction: .init(fromCryptoAmount: fromCryptoAmount))
-            } else if let toFiatAmount = self?.dataStore?.values.toFiatAmount {
-                self?.setAmount(viewAction: .init(toFiatAmount: toFiatAmount))
-            } else if let toCryptoAmount = self?.dataStore?.values.toCryptoAmount {
-                self?.setAmount(viewAction: .init(toCryptoAmount: toCryptoAmount))
-            }
+            self?.getFees(viewAction: .init())
         }
     }
     
@@ -132,7 +124,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.toRate = nil
         dataStore?.fromFee = nil
         
-        getFees(viewAction: .init())
         getExchangeRate(viewAction: .init())
     }
     
@@ -155,25 +146,23 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let from: Amount
         let to: Amount
         
-        dataStore?.values = viewAction
-        
         if let fromCryptoAmount = viewAction.fromCryptoAmount,
-           let fromCrypto = ExchangeFormatter.crypto.number(from: fromCryptoAmount)?.decimalValue {
+           let fromCrypto = ExchangeFormatter.current.number(from: fromCryptoAmount)?.decimalValue {
             from = .init(amount: fromCrypto, currency: fromCurrency, exchangeRate: fromRate)
             to = .init(amount: fromCrypto * exchangeRate - toFee, currency: toCurrency, exchangeRate: toRate)
             
         } else if let fromFiatAmount = viewAction.fromFiatAmount,
-                  let fromFiat = ExchangeFormatter.fiat.number(from: fromFiatAmount)?.decimalValue {
+                  let fromFiat = ExchangeFormatter.current.number(from: fromFiatAmount)?.decimalValue {
             from = .init(amount: fromFiat, isFiat: true, currency: fromCurrency, exchangeRate: fromRate)
             to = .init(amount: from.tokenValue * exchangeRate - toFee, currency: toCurrency, exchangeRate: toRate)
             
         } else if let toCryptoAmount = viewAction.toCryptoAmount,
-                  let toCrypto = ExchangeFormatter.crypto.number(from: toCryptoAmount)?.decimalValue {
+                  let toCrypto = ExchangeFormatter.current.number(from: toCryptoAmount)?.decimalValue {
             from = .init(amount: (toCrypto + toFee * toFeeRate) / exchangeRate, currency: fromCurrency, exchangeRate: fromRate)
             to = .init(amount: toCrypto, currency: toCurrency, exchangeRate: toRate)
             
         } else if let toFiatAmount = viewAction.toFiatAmount,
-                  let toFiat = ExchangeFormatter.fiat.number(from: toFiatAmount)?.decimalValue {
+                  let toFiat = ExchangeFormatter.current.number(from: toFiatAmount)?.decimalValue {
             to = .init(amount: toFiat, isFiat: true, currency: toCurrency, exchangeRate: toRate)
             from = .init(amount: (to.tokenValue + toFee) / exchangeRate, currency: fromCurrency, exchangeRate: fromRate)
             
@@ -187,7 +176,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                            handleErrors: viewAction.handleErrors))
             return
         }
-        
+        dataStore?.values = viewAction
+        dataStore?.values.handleErrors = false
         dataStore?.from = from
         dataStore?.to = to
         
@@ -219,7 +209,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             if self?.dataStore?.fromFee != nil,
                self?.dataStore?.quote != nil {
                 // All good
-                self?.setAmount(viewAction: .init(handleErrors: true))
+                var model: Models.Amounts.ViewAction = self?.dataStore?.values ?? .init()
+                model.handleErrors = true
+                self?.setAmount(viewAction: model)
+                
             } else if self?.dataStore?.quote?.fromFee?.fee != nil,
                       from.currency.isEthereum {
                 // Not enouth ETH for Swap + Fee
@@ -261,7 +254,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.toRate = nil
         dataStore?.fromFee = nil
         
-        getFees(viewAction: .init())
         getExchangeRate(viewAction: .init())
         
         // TODO: Hide error if pressent

@@ -68,7 +68,6 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     }
     
     func setAmount(viewAction: BuyModels.Amounts.ViewAction) {
-        let fromCode = dataStore?.fromCurrency ?? "/"
         guard let rate = dataStore?.quote?.exchangeRate,
               let toCurrency = dataStore?.toCurrency else {
             presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(from: dataStore?.fromCurrency, to: dataStore?.toCurrency?.code)))
@@ -118,11 +117,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                                                                            from: from,
                                                                            to: toCurrency))
                 
-                if let fiatValue = self?.dataStore?.values.fiatValue {
-                    self?.setAmount(viewAction: .init(fiatValue: fiatValue))
-                } else if let tokenValue = self?.dataStore?.values.tokenValue {
-                    self?.setAmount(viewAction: .init(tokenValue: tokenValue))
-                }
+                let model = self?.dataStore?.values ?? .init()
+                self?.setAmount(viewAction: model)
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
