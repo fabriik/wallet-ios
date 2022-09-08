@@ -41,7 +41,7 @@ class SwapInfoViewController: BaseInfoViewController {
     }
     
     func homeTapped() {
-        coordinator?.goBack()
+        coordinator?.goBack(completion: {})
     }
     
     func swapDetailsTapped() {
