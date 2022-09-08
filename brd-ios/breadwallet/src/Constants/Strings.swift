@@ -723,14 +723,20 @@ internal enum L10n {
     }
     /// Please make sure you have enough ETH to cover for the network fees while swapping within Ethereum-based assets.
     internal static let notEnoughEthForFee = L10n.tr("Localizable", "ErrorMessages.notEnoughEthForFee")
-    /// The amount is higher than your daily limit of $1,000 USD. Please upgrade your account or enter a lower amount.
-    internal static let overDailyLimit = L10n.tr("Localizable", "ErrorMessages.overDailyLimit")
+    /// The amount is higher than your daily limit of %s USD. Please upgrade your account or enter a lower amount.
+    internal static func overDailyLimit(_ p1: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.overDailyLimit", p1)
+    }
     /// Over exchange limit.
     internal static let overExchangeLimit = L10n.tr("Localizable", "ErrorMessages.overExchangeLimit")
-    /// The amount is higher than your lifetime limit of $10,000 USD. Please upgrade your account or enter a lower amount.
-    internal static let overLifetimeLimit = L10n.tr("Localizable", "ErrorMessages.overLifetimeLimit")
-    /// The amount is higher than your daily limit of $10,000 USD. Please enter a lower amount.
-    internal static let overLifetimeLimitLevel2 = L10n.tr("Localizable", "ErrorMessages.overLifetimeLimitLevel2")
+    /// The amount is higher than your lifetime limit of %s USD. Please upgrade your account or enter a lower amount.
+    internal static func overLifetimeLimit(_ p1: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.overLifetimeLimit", p1)
+    }
+    /// The amount is higher than your daily limit of %s USD. Please enter a lower amount.
+    internal static func overLifetimeLimitLevel2(_ p1: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.overLifetimeLimitLevel2", p1)
+    }
     /// A maximum of one swap can be active for a currency at a time.
     internal static let pendingExchange = L10n.tr("Localizable", "ErrorMessages.pendingExchange")
     /// PIN Authentication failed.

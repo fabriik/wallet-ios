@@ -18,9 +18,9 @@ enum SwapErrors: FEError {
     case tooHigh(amount: Decimal, currency: String)
     /// Param 1&2 -> currency, param 3 balance
     case balanceTooLow(balance: Decimal, currency: String)
-    case overDailyLimit
-    case overLifetimeLimit
-    case overDailyLimitLevel2
+    case overDailyLimit(limit: Decimal)
+    case overLifetimeLimit(limit: Decimal)
+    case overDailyLimitLevel2(limit: Decimal)
     case notEnouthEthForFee
     // Unoficial errors
     case noFees
@@ -43,14 +43,14 @@ enum SwapErrors: FEError {
         case .tooHigh(let amount, let currency):
             return L10n.ErrorMessages.swapAmountToHigh(ExchangeFormatter.crypto.string(for: amount) ?? "0", currency)
             
-        case .overDailyLimit:
-            return L10n.ErrorMessages.overDailyLimit
+        case .overDailyLimit(let limit):
+            return L10n.ErrorMessages.overDailyLimit(ExchangeFormatter.fiat.string(for: limit) ?? "0")
             
-        case .overLifetimeLimit:
-            return L10n.ErrorMessages.overLifetimeLimit
+        case .overLifetimeLimit(let limit):
+            return L10n.ErrorMessages.overLifetimeLimit(ExchangeFormatter.fiat.string(for: limit) ?? "0")
             
-        case .overDailyLimitLevel2:
-            return L10n.ErrorMessages.overLifetimeLimitLevel2
+        case .overDailyLimitLevel2(let limit):
+            return L10n.ErrorMessages.overLifetimeLimitLevel2(ExchangeFormatter.fiat.string(for: limit) ?? "0")
             
         case .noFees:
             return L10n.ErrorMessages.noFees
