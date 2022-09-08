@@ -59,7 +59,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
     
-    func presentRate(actionResponse: SwapModels.Rate.ActionResponse) {
+    func presentExchangeRate(actionResponse: SwapModels.Rate.ActionResponse) {
         guard let from = actionResponse.from,
               let to = actionResponse.to,
               let quote = actionResponse.quote else {
@@ -77,8 +77,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                                             repeats: false),
                                                       showTimer: true)
         
-        viewController?.displayRate(responseDisplay: .init(rate: exchangeRateViewModel,
-                                                           limits: .text(limitText)))
+        viewController?.displayExchangeRate(responseDisplay: .init(rate: exchangeRateViewModel,
+                                                                   limits: .text(limitText)))
     }
     
     func presentAmount(actionResponse: SwapModels.Amounts.ActionResponse) {

@@ -38,6 +38,7 @@ protocol BuyResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisp
 protocol BuyDataStore: BaseDataStore, FetchDataStore {
     var from: Decimal? { get set }
     var to: Decimal? { get set }
+    var values: BuyModels.Amounts.ViewAction { get set }
     var toAmount: Amount? { get set }
     var toCurrency: Currency? { get set }
     var currencies: [Currency] { get set }
