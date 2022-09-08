@@ -87,7 +87,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                   let fiat = ExchangeFormatter.fiat.number(from: value)?.decimalValue {
             dataStore?.isInputFiat = true
             from = fiat
-            to = .init(amount: fiat, isFiat: true, currency: toCurrency, exchangeRate: rate)
+            to = .init(amount: fiat, isFiat: true, currency: toCurrency, exchangeRate: 1 / rate)
         } else {
             presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
                                                            card: dataStore?.paymentCard,
