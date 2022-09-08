@@ -48,6 +48,8 @@ protocol SwapDataStore: BaseDataStore, FetchDataStore {
     var from: Amount? { get set }
     var to: Amount? { get set }
     
+    var values: SwapModels.Amounts.ViewAction { get set }
+    
     var fromFee: TransferFeeBasis? { get set }
     
     var defaultCurrencyCode: String? { get set }

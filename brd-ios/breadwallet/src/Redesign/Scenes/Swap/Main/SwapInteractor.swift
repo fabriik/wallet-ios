@@ -105,7 +105,19 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         CoinGeckoClient().load(resource)
         
         group.notify(queue: .main) { [weak self] in
-            self?.setAmount(viewAction: .init())
+            if let fromFiatAmount = self?.dataStore?.values.fromFiatAmount {
+                self?.setAmount(viewAction: .init(fromFiatAmount: fromFiatAmount))
+
+            } else if let fromCryptoAmount = self?.dataStore?.values.fromCryptoAmount {
+                self?.setAmount(viewAction: .init(fromCryptoAmount: fromCryptoAmount))
+
+            } else if let toFiatAmount = self?.dataStore?.values.toFiatAmount {
+                self?.setAmount(viewAction: .init(toFiatAmount: toFiatAmount))
+
+            } else if let toCryptoAmount = self?.dataStore?.values.toCryptoAmount {
+                self?.setAmount(viewAction: .init(toCryptoAmount: toCryptoAmount))
+
+            }
         }
     }
     
@@ -141,23 +153,34 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         let from: Amount
         let to: Amount
+        
+        dataStore?.values = .init()
+        
         if let fromCryptoAmount = viewAction.fromCryptoAmount,
            let fromCrypto = ExchangeFormatter.crypto.number(from: fromCryptoAmount)?.decimalValue {
+            dataStore?.values.fromCryptoAmount = fromCryptoAmount
+            
             from = .init(amount: fromCrypto, currency: fromCurrency, exchangeRate: fromRate)
             to = .init(amount: fromCrypto * exchangeRate - toFee, currency: toCurrency, exchangeRate: toRate)
             
         } else if let fromFiatAmount = viewAction.fromFiatAmount,
                   let fromFiat = ExchangeFormatter.fiat.number(from: fromFiatAmount)?.decimalValue {
+            dataStore?.values.fromFiatAmount = fromFiatAmount
+            
             from = .init(amount: fromFiat, isFiat: true, currency: fromCurrency, exchangeRate: fromRate)
             to = .init(amount: from.tokenValue * exchangeRate - toFee, currency: toCurrency, exchangeRate: toRate)
             
         } else if let toCryptoAmount = viewAction.toCryptoAmount,
                   let toCrypto = ExchangeFormatter.crypto.number(from: toCryptoAmount)?.decimalValue {
+            dataStore?.values.toCryptoAmount = toCryptoAmount
+            
             from = .init(amount: (toCrypto + toFee * toFeeRate) / exchangeRate, currency: fromCurrency, exchangeRate: fromRate)
             to = .init(amount: toCrypto, currency: toCurrency, exchangeRate: toRate)
             
         } else if let toFiatAmount = viewAction.toFiatAmount,
                   let toFiat = ExchangeFormatter.fiat.number(from: toFiatAmount)?.decimalValue {
+            dataStore?.values.toFiatAmount = toFiatAmount
+            
             to = .init(amount: toFiat, isFiat: true, currency: toCurrency, exchangeRate: toRate)
             from = .init(amount: (to.tokenValue + toFee) / exchangeRate, currency: fromCurrency, exchangeRate: fromRate)
             
