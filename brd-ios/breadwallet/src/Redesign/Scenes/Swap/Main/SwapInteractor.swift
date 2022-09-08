@@ -61,7 +61,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     func getRate(viewAction: SwapModels.Rate.ViewAction) {
         guard let from = dataStore?.from?.currency,
               let to = dataStore?.to?.currency else {
-            presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: dataStore?.swapPair ?? "")))
+            presenter?.presentError(actionResponse: .init(error: SwapErrors.selectAssets))
             return
         }
         
@@ -83,7 +83,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         guard let baseCurrency = from.coinGeckoId,
               let termCurrency = to.coinGeckoId else {
-            presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: dataStore?.swapPair)))
+            presenter?.presentError(actionResponse: .init(error: SwapErrors.noQuote(from: from.code, to: to.code)))
             return
         }
         
