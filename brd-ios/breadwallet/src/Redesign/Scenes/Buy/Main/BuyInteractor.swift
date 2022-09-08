@@ -77,21 +77,22 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         
         let to: Amount
         let from: Decimal
+        
+        dataStore?.values = viewAction
+        
         if let value = viewAction.tokenValue,
            let crypto = ExchangeFormatter.crypto.number(from: value)?.decimalValue {
-            
             to = .init(amount: crypto, currency: toCurrency, exchangeRate: 1 / rate)
             from = (dataStore?.to ?? 0) / rate
-            dataStore?.isInputFiat = false
         } else if let value = viewAction.fiatValue,
                   let fiat = ExchangeFormatter.fiat.number(from: value)?.decimalValue {
-            dataStore?.isInputFiat = true
             from = fiat
             to = .init(amount: fiat, isFiat: true, currency: toCurrency, exchangeRate: 1 / rate)
         } else {
             presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
                                                            card: dataStore?.paymentCard,
                                                            quote: dataStore?.quote))
+            
             return
         }
         
@@ -117,12 +118,11 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                                                                            from: from,
                                                                            to: toCurrency))
                 
-                guard self?.dataStore?.isInputFiat == true else {
-                    self?.setAmount(viewAction: .init(tokenValue: (self?.dataStore?.to ?? 0).description))
-                    return
+                if let fiatValue = self?.dataStore?.values.fiatValue {
+                    self?.setAmount(viewAction: .init(fiatValue: fiatValue))
+                } else if let tokenValue = self?.dataStore?.values.tokenValue {
+                    self?.setAmount(viewAction: .init(tokenValue: tokenValue))
                 }
-                
-                self?.setAmount(viewAction: .init(fiatValue: (self?.dataStore?.from ?? 0).description))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
