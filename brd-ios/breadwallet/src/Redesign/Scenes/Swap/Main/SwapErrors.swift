@@ -35,13 +35,13 @@ enum SwapErrors: FEError {
     var errorMessage: String {
         switch self {
         case .balanceTooLow(let balance, let currency):
-            return L10n.ErrorMessages.balanceToLow(currency, currency, ExchangeFormatter.crypto.string(for: balance) ?? "0.00"))
+            return L10n.ErrorMessages.balanceToLow(currency, currency, ExchangeFormatter.crypto.string(for: balance) ?? "0.00")
             
         case .tooLow(let amount, let currency):
             return L10n.ErrorMessages.amountToLow(Int(amount.doubleValue), currency)
             
         case .tooHigh(let amount, let currency):
-            return L10n.ErrorMessages.swapAmountToHigh(amount, currency)
+            return L10n.ErrorMessages.swapAmountToHigh(ExchangeFormatter.crypto.string(for: amount) ?? "0", currency)
             
         case .overDailyLimit:
             return L10n.ErrorMessages.overDailyLimit
@@ -73,7 +73,7 @@ enum SwapErrors: FEError {
             return L10n.ErrorMessages.notEnoughEthForFee
             
         case .failed(let error):
-            return L10n.ErrorMessages.exchangeFailed(error?.localizedDescription)
+            return L10n.ErrorMessages.exchangeFailed(error?.localizedDescription ?? "/")
             
         case .pendingSwap:
             return L10n.ErrorMessages.pendingExchange
