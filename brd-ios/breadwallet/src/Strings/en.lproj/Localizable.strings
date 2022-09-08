@@ -766,7 +766,7 @@
 "ErrorMessages.SomethingWentWrong" = "Oops! Something went wrong, please try again later.";
 
 /* Two parameters:, - maximum amount, - currency code */
-"ErrorMessages.swapAmountToHigh" = "The amount is higher than the swap maximum of %.2f %s.";
+"ErrorMessages.swapAmountToHigh" = "The amount is higher than the swap maximum of %s %s.";
 
 /* Fingerprint was not recognized by the scanner, please try scanning again */
 "ErrorMessages.touchIdFailed.android" = "Fingerprint not recognized. Please try again.";

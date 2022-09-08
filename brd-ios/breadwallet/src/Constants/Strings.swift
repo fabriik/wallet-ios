@@ -739,8 +739,8 @@ internal enum L10n {
     internal static let selectAssets = L10n.tr("Localizable", "ErrorMessages.selectAssets")
     /// Oops! Something went wrong, please try again later.
     internal static let somethingWentWrong = L10n.tr("Localizable", "ErrorMessages.SomethingWentWrong")
-    /// The amount is higher than the swap maximum of %.2f %s.
-    internal static func swapAmountToHigh(_ p1: Float, _ p2: UnsafePointer<CChar>) -> String {
+    /// The amount is higher than the swap maximum of %s %s.
+    internal static func swapAmountToHigh(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>) -> String {
       return L10n.tr("Localizable", "ErrorMessages.swapAmountToHigh", p1, p2)
     }
     /// Unknown error.
