@@ -91,8 +91,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         } else {
             presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
                                                            card: dataStore?.paymentCard,
-                                                           quote: dataStore?.quote))
-            
+                                                           quote: dataStore?.quote,
+                                                           handleErrors: true))
             return
         }
         
