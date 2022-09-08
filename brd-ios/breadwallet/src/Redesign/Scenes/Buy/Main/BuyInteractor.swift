@@ -81,11 +81,11 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         dataStore?.values = viewAction
         
         if let value = viewAction.tokenValue,
-           let crypto = ExchangeFormatter.crypto.number(from: value)?.decimalValue {
+           let crypto = ExchangeFormatter.current.number(from: value)?.decimalValue {
             to = .init(amount: crypto, currency: toCurrency, exchangeRate: 1 / rate)
             from = (dataStore?.to ?? 0) / rate
         } else if let value = viewAction.fiatValue,
-                  let fiat = ExchangeFormatter.fiat.number(from: value)?.decimalValue {
+                  let fiat = ExchangeFormatter.current.number(from: value)?.decimalValue {
             from = fiat
             to = .init(amount: fiat, isFiat: true, currency: toCurrency, exchangeRate: 1 / rate)
         } else {
