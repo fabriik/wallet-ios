@@ -18,8 +18,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     typealias Models = OrderPreviewModels
     
     override var sceneTitle: String? {
-        // TODO: Localize
-        return "Order preview"
+        return L10n.Buy.orderPreview
     }
 
     // MARK: - Overrides

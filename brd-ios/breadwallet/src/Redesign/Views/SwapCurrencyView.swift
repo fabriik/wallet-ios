@@ -163,7 +163,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     lazy var feeLabel: FELabel = {
         let view = FELabel()
-        view.text = "Sending network fee\n(included)"
+        view.text = L10n.Swap.sendNetworkFee
         view.font = Fonts.caption
         view.textColor = LightColors.Text.two
         view.textAlignment = .left

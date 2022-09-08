@@ -17,8 +17,7 @@ class DocumentReviewViewController: BaseTableViewController<KYCCoordinator,
     typealias Models = DocumentReviewModels
 
     override var sceneLeftAlignedTitle: String? {
-         // TODO: localize
-        return "Submit your photo"
+        return L10n.Account.submitPhoto
     }
     
     var retakePhoto: (() -> Void)?
