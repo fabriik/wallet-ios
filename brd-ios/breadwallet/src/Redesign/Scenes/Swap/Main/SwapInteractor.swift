@@ -120,17 +120,20 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func switchPlaces(viewAction: SwapModels.SwitchPlaces.ViewAction) {
-        let from = dataStore?.from
-        dataStore?.from = dataStore?.to
-        dataStore?.to = from
+        guard let from = dataStore?.from?.currency,
+                let to = dataStore?.to?.currency
+        else { return }
         
+        dataStore?.from = .zero(to)
+        dataStore?.to = .zero(from)
+        dataStore?.values = .init()
         dataStore?.quote = nil
         dataStore?.fromRate = nil
         dataStore?.toRate = nil
         dataStore?.fromFee = nil
         
-        getExchangeRate(viewAction: .init())
         getFees(viewAction: .init())
+        getExchangeRate(viewAction: .init())
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
@@ -234,23 +237,31 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func assetSelected(viewAction: SwapModels.SelectedAsset.ViewAction) {
+        guard let from = dataStore?.from?.currency,
+                let to = dataStore?.to?.currency else {
+            // nothing to swap ¯\_(ツ)_/¯
+            return
+        }
+        
         if let asset = viewAction.from,
-           let currency = dataStore?.currencies.first(where: { $0.code == asset }) {
-            dataStore?.from = .zero(currency)
-            getFees(viewAction: .init())
+           let from = dataStore?.currencies.first(where: { $0.code == asset }) {
+            dataStore?.from = .zero(from)
+            dataStore?.to = .zero(to)
         }
         
         if let asset = viewAction.to,
-           let currency = dataStore?.currencies.first(where: { $0.code == asset }) {
-            dataStore?.to = .zero(currency)
+           let to = dataStore?.currencies.first(where: { $0.code == asset }) {
+            dataStore?.to = .zero(to)
+            dataStore?.from = .zero(from)
         }
-        
+
+        dataStore?.values = .init()
         dataStore?.quote = nil
         dataStore?.fromRate = nil
         dataStore?.toRate = nil
         dataStore?.fromFee = nil
         
-        setAmount(viewAction: .init())
+        getFees(viewAction: .init())
         getExchangeRate(viewAction: .init())
         
         // TODO: Hide error if pressent
