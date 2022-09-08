@@ -15,6 +15,7 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     var from: Decimal?
     var to: Decimal?
+    var values: BuyModels.Amounts.ViewAction = .init()
     var toCurrency: Currency?
     
     override init() {
@@ -38,7 +39,6 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     var toAmount: Amount?
     
-    var isInputFiat = false
     var paymentCard: PaymentCard?
     var allPaymentCards: [PaymentCard]?
     

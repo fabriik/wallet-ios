@@ -33,7 +33,7 @@ final class DocumentReviewPresenter: NSObject, Presenter, DocumentReviewActionRe
             .buttons: [
                 ScrollableButtonsViewModel(buttons: [
                     .init(title: "Retake photo"),
-                    .init(title: "Confirm")
+                    .init(title: L10n.Button.confirm)
                 ])
             ]
         ]

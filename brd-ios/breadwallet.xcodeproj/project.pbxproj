@@ -12,6 +12,7 @@
 			buildConfigurationList = 7E390A2927F57D11003C929D /* Build configuration list for PBXAggregateTarget "syncResources" */;
 			buildPhases = (
 				7E390A2A27F57D15003C929D /* Download */,
+				7E67772628C9C4910052927A /* Generate localization */,
 			);
 			dependencies = (
 			);
@@ -4554,6 +4555,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ ! -f .env ]; then\n    echo \".env file not found or configured properlly.\"\n    exit 1\nfi\n\nsource \".env\"\nhost=\"$API_URL/blocksatoshi\"\n\njson=$(curl -k -v -X POST -H 'Content-type: application/json' -d '{\"deviceID\": \"b21f2253-51e1-4346-92b0-e32323733067\", \"pubKey\": \"rCxDp6qD8uGqK2Z3UgeQ5bvTCZegqGfVexyz5XkbvwfW\"}'  https://${host}/wallet/token)\n\ntoken=\"$(echo $json | sed \"s/{.*\\\"token\\\":\\\"\\([^\\\"]*\\).*}/\\1/g\"):sig\"\n\n./scripts/download_bundles.sh $host\n./scripts/download_currencylist.sh $host $token\n";
+		};
+		7E67772628C9C4910052927A /* Generate localization */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate localization";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "phrase pull\n\n\"${PROJECT_DIR}/scripts/swiftgen/bin/swiftgen\"\n\n";
 		};
 		CEE0EF531EBF8C8A0018DB36 /* Icon Versioning */ = {
 			isa = PBXShellScriptBuildPhase;

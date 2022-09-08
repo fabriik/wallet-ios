@@ -13,8 +13,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     typealias Models = BuyModels
     
     override var sceneLeftAlignedTitle: String? {
-         // TODO: localize
-        return "Buy"
+        return L10n.HomeScreen.buy
     }
     
     lazy var continueButton: WrapperView<FEButton> = {
@@ -60,7 +59,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         }
         
         continueButton.wrappedView.configure(with: Presets.Button.primary)
-        continueButton.wrappedView.setup(with: .init(title: "Continue", enabled: false))
+        continueButton.wrappedView.setup(with: .init(title: L10n.Button.continueAction, enabled: false))
         continueButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     

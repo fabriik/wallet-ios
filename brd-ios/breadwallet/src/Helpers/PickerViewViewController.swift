@@ -80,8 +80,8 @@ final public class PickerViewViewController: UIViewController {
                      title: String? = nil,
                      values: PickerViewViewController.Values,
                      selection: PickerViewViewController.Index? = nil,
-                     confirmAlertTitle: String = "Confirm",
-                     cancelAlertTitle: String = "Cancel",
+                     confirmAlertTitle: String = L10n.Button.confirm,
+                     cancelAlertTitle: String = L10n.Button.cancel,
                      action: PickerViewViewController.Action?) {
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
         alert.view.tintColor = .black

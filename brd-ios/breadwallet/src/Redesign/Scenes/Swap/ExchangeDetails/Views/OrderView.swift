@@ -27,6 +27,7 @@ struct OrderViewModel: ViewModel {
 class OrderView: FEView<OrderConfiguration, OrderViewModel> {
     private lazy var stack: UIStackView = {
         let view = UIStackView()
+        view.isUserInteractionEnabled = false
         view.axis = .vertical
         view.spacing = Margins.extraSmall.rawValue
         view.alignment = .center
@@ -36,11 +37,13 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
     
     private lazy var titleLabel: FELabel = {
         let view = FELabel()
+        view.isUserInteractionEnabled = false
         return view
     }()
     
     private lazy var bottomStack: WrapperView<UIStackView> = {
         let view = WrapperView<UIStackView>()
+        view.isUserInteractionEnabled = false
         view.wrappedView.alignment = .center
         view.wrappedView.distribution = .fill
         return view
@@ -48,6 +51,7 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
     
     private lazy var valueLabel: FELabel = {
         let view = FELabel()
+        view.isUserInteractionEnabled = false
         return view
     }()
     

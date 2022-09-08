@@ -210,7 +210,7 @@ class ModalPresenter: Subscriber, Trackable {
     func presentFaq(articleId: String? = nil, currency: Currency? = nil) {
         guard let url = URL(string: C.supportLink) else { return }
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "Support"))
+        webViewController.setup(with: .init(title: L10n.MenuButton.support))
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         
@@ -1144,8 +1144,7 @@ class ModalPresenter: Subscriber, Trackable {
             }
         ]
         
-        // Add Delete account
-        let deleteAccount = MenuItem(title: "Delete account", color: LightColors.error) { [weak self] in
+        let deleteAccount = MenuItem(title: L10n.Account.deleteAccount, color: LightColors.error) { [weak self] in
             self?.deleteAccountCallback?()
         }
         

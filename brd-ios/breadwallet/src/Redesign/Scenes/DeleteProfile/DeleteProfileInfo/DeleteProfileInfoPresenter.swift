@@ -17,11 +17,11 @@ final class DeleteProfileInfoPresenter: NSObject, Presenter, DeleteProfileInfoAc
 
     // MARK: - DeleteProfileInfoActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
-        var checklistTitle: LabelViewModel { return .text("What does this mean?") }
+        var checklistTitle: LabelViewModel { return .text(L10n.AccountDelete.deleteWhatMean) }
         var checkmarks: [ChecklistItemViewModel] { return [
-            .init(title: .text("-You will no longer be able to use your email to sign in into Fabriik Wallet"), image: nil),
-            .init(title: .text("-You will no longer be able to user your KYC and registration status"), image: nil),
-            .init(title: .text("-Your private keys are still yours, keep your security phrase in a safe place in case you need to restore your wallet."), image: nil)
+            .init(title: .text(L10n.AccountDelete.explanationOne), image: nil),
+            .init(title: .text(L10n.AccountDelete.explanationTwo), image: nil),
+            .init(title: .text(L10n.AccountDelete.explanationThree), image: nil)
             ]
         }
         
@@ -37,7 +37,7 @@ final class DeleteProfileInfoPresenter: NSObject, Presenter, DeleteProfileInfoAc
             ],
             .checkmarks: checkmarks,
             .tickbox: [
-                TickboxItemViewModel(title: .text("I understand that the only way to recover my wallet is by entering my recovery phrase")) // TODO: Localize
+                TickboxItemViewModel(title: .text(L10n.AccountDelete.recoverWallet))
             ]
         ]
         
@@ -47,8 +47,8 @@ final class DeleteProfileInfoPresenter: NSObject, Presenter, DeleteProfileInfoAc
     func presentDeleteProfile(actionResponse: DeleteProfileInfoModels.DeleteProfile.ActionResponse) {
         let popupViewModel = PopupViewModel(title: .text(""),
                                             imageName: "statusIcon",
-                                            body: "Your account has been deleted.\nWe are sorry to see you go.", // TODO: Localize.
-                                            buttons: [.init(title: "Finish")],
+                                            body: L10n.AccountDelete.accountDeletedPopup,
+                                            buttons: [.init(title: L10n.Button.finish)],
                                             closeButton: .init(image: "close"))
         
         viewController?.displayDeleteProfile(responseDisplay: .init(popupViewModel: popupViewModel,
@@ -56,7 +56,7 @@ final class DeleteProfileInfoPresenter: NSObject, Presenter, DeleteProfileInfoAc
     }
     
     func presentToggleTickbox(actionResponse: DeleteProfileInfoModels.Tickbox.ActionResponse) {
-        viewController?.displayToggleTickbox(responseDisplay: .init(model: .init(title: "Continue", enabled: actionResponse.value)))
+        viewController?.displayToggleTickbox(responseDisplay: .init(model: .init(title: L10n.Button.continueAction, enabled: actionResponse.value)))
     }
     
     // MARK: - Additional Helpers

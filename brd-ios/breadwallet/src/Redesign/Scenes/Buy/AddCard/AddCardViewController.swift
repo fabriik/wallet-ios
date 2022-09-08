@@ -18,8 +18,7 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
     typealias Models = AddCardModels
     
     override var sceneTitle: String? {
-        // TODO: Localize
-        return "Add card"
+        return L10n.Buy.addCard
     }
     private var isValid = false
 

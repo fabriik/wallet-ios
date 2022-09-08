@@ -10,7 +10,7 @@ protocol FEError: Error {
 }
 
 struct GeneralError: FEError {
-    var errorMessage: String = "Unknown error"
+    var errorMessage: String = L10n.ErrorMessages.unknownError
 }
 
 enum NetworkingError: FEError {
@@ -32,10 +32,10 @@ enum NetworkingError: FEError {
     var errorMessage: String {
         switch self {
         case .general:
-            return "We are having temporary network issues. Please try again later."
+            return L10n.ErrorMessages.networkIssues
 
         case .noConnection:
-            return "Please, check your internet connection and try again later."
+            return L10n.ErrorMessages.checkInternet
 //        case .parameterMissing:
 //            <#code#>
 //        case .sessionExpired:
@@ -45,13 +45,12 @@ enum NetworkingError: FEError {
 //        case .unprocessableEntity:
 //            <#code#>
         case .serverAtCapacity:
-            return "Oops! Something went wrong, please try again later."
+            return L10n.ErrorMessages.somethingWentWrong
             
         default:
-            return "Unknown error."
+            return L10n.ErrorMessages.unknownError
         }
-        
-    } // TODO: Localize
+    }
     
     init?(error: ServerResponse.ServerError?) {
         switch error?.statusCode {

@@ -18,6 +18,8 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var from: Amount?
     var to: Amount?
     
+    var values: SwapModels.Amounts.ViewAction = .init()
+    
     var fromFee: TransferFeeBasis?
     
     var quote: Quote?
@@ -57,11 +59,5 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
             return nil
         }
         return .init(tokenString: fee, currency: currency)
-    }
-    
-    var swapPair: String {
-        let from = from?.currency.code ?? "</>"
-        let to = to?.currency.code ?? "</>"
-        return "\(from)-\(to)"
     }
 }
