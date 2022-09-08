@@ -157,15 +157,15 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 
             case _ where value > dailyLimit:
                 // over daily limit
-                let text = ExchangeFormatter.fiat.string(for: UserManager.shared.profile?.swapAllowanceDaily ?? 0) ?? ""
-                let error = profile?.status == .levelTwo(.levelTwo) ? SwapErrors.overDailyLimitLevel2(limit: text) : SwapErrors.overDailyLimit(limit: text)
+                let limit = UserManager.shared.profile?.swapAllowanceDaily ?? 0
+                let error = profile?.status == .levelTwo(.levelTwo) ? SwapErrors.overDailyLimitLevel2(limit: limit) : SwapErrors.overDailyLimit(limit: limit)
                 presentError(actionResponse: .init(error: error))
                 hasError = true
                 
             case _ where value > lifetimeLimit:
                 // over lifetime limit
-                let text = ExchangeFormatter.fiat.string(for: UserManager.shared.profile?.swapAllowanceLifetime ?? 0) ?? ""
-                presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit(limit: text)))
+                let limit = UserManager.shared.profile?.swapAllowanceLifetime ?? 0
+                presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit(limit: limit)))
                 hasError = true
                 
             case _ where value > exchangeLimit:
