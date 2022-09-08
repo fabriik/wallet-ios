@@ -31,20 +31,86 @@
 /* Support center accessibiliy label */
 "AccessibilityLabels.faq" = "Support Center";
 
+/* Account limits title in profile view */
+"Account.AccountLimits" = "ACCOUNT LIMITS";
+
+/* Account Verification screen title */
+"Account.AccountVerification" = "Account Verification";
+
+/* Verify your account label on profile screen */
+"Account.AccountVerify" = "Verify your account";
+
 /* Account balance */
 "Account.balance" = "Balance";
+
+/* Current limit per day label in profile screen */
+"Account.CurrentLimit" = "Current limit: $1,000/day";
+
+/* Issues for processing your data label on profile screen */
+"Account.DataIssues" = "Oops! We had some issues processing your data";
+
+/* Delete account option in menu */
+"Account.DeleteAccount" = "Delete account";
 
 /* Delisted token alert banner message */
 "Account.delistedToken" = "This token has been delisted. \n\nYou may still be able to send these tokens to another platform. For more details, visit our support page.";
 
+/* Document confirmation label for KYC2 */
+"Account.DocumentConfirmation" = "Make sure document details are clearly visible and within the frame";
+
 /* $10000 per BTC */
 "Account.exchangeRate" = "%1$@ per %2$@";
+
+/* Get full access for the Fabriik wallet label on profile screen */
+"Account.FullAccess" = "Get full access to your Fabriik wallet";
+
+/* ID Verification title on account screen */
+"Account.IDVerification" = "ID Verification";
 
 /* Loading Wallet Message */
 "Account.loadingMessage" = "Loading Wallet";
 
+/* Account Personal Information title */
+"Account.PersonalInformation" = "Personal Information";
+
+/* Promotion and offers label when registering account */
+"Account.Promotion" = "I'm ok with receiving future promotion, offers and communications";
+
+/* Proof of Identity title in add document for kyc2 */
+"Account.ProofOfIdentity" = "Proof of Identity";
+
+/* Submit your photo for document id title */
+"Account.SubmitPhoto" = "Submit your photo";
+
+/* Swap and buy limit per day description label */
+"Account.SwapAndBuyLimit" = "Swap limit: $10,000 USD/day\nBuy limit: $500 USD/day";
+
+/* Upgrade your limits label in profile screen */
+"Account.UpgradeLimits" = "Upgrade your limits";
+
+/* Why is the verification declined label in profile screen */
+"Account.VerificationDeclined" = "Why is my verification declined?";
+
+/* Verified account message on profile screen */
+"Account.VerifiedAccountMessage" = "We’ll let you know when your account is verified.";
+
+/* Verify account text in popup */
+"Account.VerifyAccountText" = "If you verify your account, you are given access to:\n  - Unlimited deposits/withdrawals\n  - Enhanced security\n  - Full asset support\n  - Buy assets with credit card\n  - 24/7/365 live customer support";
+
+/* Verify personal information text explanation */
+"Account.VerifyPersonalInformation" = "We need to verify your personal information for compliance purposes. This information won’t be shared with outside sources unless required by law.";
+
+/* Why verify my account title */
+"Account.WhyVerify" = "Why should I verify my account?";
+
 /* Confirm Account Creation mesage body */
 "AccountCreation.body" = "Only create a Hedera account if you intend on storing HBAR in your wallet.";
+
+/* Change my email label */
+"AccountCreation.ChangeEmail" = "Change my email";
+
+/* Verification code sent message */
+"AccountCreation.CodeSent" = "Verification code sent.";
 
 /* Create Account button label */
 "AccountCreation.create" = "Create Account";
@@ -52,11 +118,17 @@
 /* Creating Account progress Label */
 "AccountCreation.creating" = "Creating Account";
 
+/* Enter the code message in create account flow */
+"AccountCreation.EnterCode" = "Please enter the code we’ve sent to";
+
 /* Creating Account progress Label */
 "AccountCreation.error" = "An error occurred during account creation. Please try again later.";
 
 /* Not Now button label. */
 "AccountCreation.notNow" = "Not Now";
+
+/* Re-send my code label */
+"AccountCreation.ResendCode" = "Re-send my code";
 
 /* Creating Account progress Label */
 "AccountCreation.timeout" = "The Request timed out. Please try again later.";
@@ -64,8 +136,116 @@
 /* Confirm Account Creation Title */
 "AccountCreation.title" = "Confirm Account Creation";
 
+/* Verify your email label */
+"AccountCreation.VerifyEmail" = "Verify your email";
+
+/* Why the wallet is disabled text */
+"AccountCreation.WalletDisabled" = "If you enter an incorrect wallet PIN too many times, your wallet will become disabled for a certain amount of time.\nThis is to prevent someone else from trying to guess your PIN by quickly making many guesses.\nIf your wallet is disabled, wait until the time shown and you will be able to enter your PIN again.\n\nIf you continue to enter the incorrect PIN, the amount of waiting time in between attempts will increase. Eventually, the app will reset and you can start a new wallet.\n\nIf you have the recovery phrase for your wallet, you can use it to reset your PIN by clicking the “Reset PIN” button.";
+
+/* Why is my wallet disabled title on popup */
+"AccountCreation.WalletDisabledTitle" = "Why is my wallet disabled?";
+
+/* Popup text when the account is deleted */
+"AccountDelete.AccountDeletedPopup" = "Your account has been deleted.\nWe are sorry to see you go.";
+
+/* Delete account title  */
+"AccountDelete.DeleteAccountTitle" = "You are about to delete your Fabriik account.";
+
+/* Delete account explanation title */
+"AccountDelete.DeleteWhatMean" = "What does this mean?";
+
+/* Delete account explanation part one */
+"AccountDelete.ExplanationOne" = "-You will no longer be able to use your email to sign in into Fabriik Wallet";
+
+/* Delete account explanation part three */
+"AccountDelete.ExplanationThree" = "-Your private keys are still yours, keep your security phrase in a safe place in case you need to restore your wallet.";
+
+/* Delete account explanation part two */
+"AccountDelete.ExplanationTwo" = "-You will no longer be able to user your KYC and registration status";
+
+/* Recover wallet text after deleting account */
+"AccountDelete.RecoverWallet" = "I understand that the only way to recover my wallet is by entering my recovery phrase";
+
 /* Default wallet name */
 "AccountHeader.defaultWalletName" = "My Fabriik";
+
+/* Level one title on account screen */
+"AccountKYCLevelOne.LevelOne" = "Level 1";
+
+/* Account limi message on KYC1 */
+"AccountKYCLevelOne.Limit" = "Account limit: $1,000/day ($10,000 lifetime)";
+
+/* Back page of the document text instructions for KYC2 */
+"AccountKYCLevelTwo.BackPageInstructions" = "You have captured the entire back page of the document";
+
+/* Before start label  */
+"AccountKYCLevelTwo.BeforeStart" = "Before you start, please:";
+
+/* Buy limits on KYC2 account */
+"AccountKYCLevelTwo.BuyLimits" = "Buy limits: $500 USD/day, no lifetime limit";
+
+/* Capture back page of the document text */
+"AccountKYCLevelTwo.CaptureBackPage" = "Make sure to capture the entire back page of the document";
+
+/* Capture front page text label */
+"AccountKYCLevelTwo.CaptureFrontPage" = "Make sure to capture the entire front page of the document";
+
+/* Checking for errors label on KYC2 */
+"AccountKYCLevelTwo.CheckingErrors" = "Checking for errors";
+
+/* Confirm ID label in KYC2 flow */
+"AccountKYCLevelTwo.ConfirmID" = "We need to confirm your ID";
+
+/* Document confirmation label for KYC2 */
+"AccountKYCLevelTwo.DocumentConfirmation" = "You have captured the entire document";
+
+/* Documents review label in KYC2 */
+"AccountKYCLevelTwo.DocumentsReview" = "We are reviewing your documents and will let you know when your account has been verified.";
+
+/* Face capture instructions text on documents for KYC2 */
+"AccountKYCLevelTwo.FaceCaptureInstructions" = "You have captured your entire face in the frame.";
+
+/* Face is in the frame text for document on KYC2 */
+"AccountKYCLevelTwo.FaceVisible" = "Make sure your face is in the frame and clearly visible";
+
+/* Face is clearly visible confirmation text for documents on KYC2 */
+"AccountKYCLevelTwo.FaceVisibleConfirmation" = "Your face is clearly visible.";
+
+/* Front page of the document instructions text for KYC2 */
+"AccountKYCLevelTwo.FrontPageInstructions" = "You have captured the entire front page of the document";
+
+/* KYC Level Two status */
+"AccountKYCLevelTwo.InProgress" = "Your ID verification is in progress";
+
+/* Document instructions label for KYC2 */
+"AccountKYCLevelTwo.Instructions" = "Make sure to capture the entire document";
+
+/* Level two title in Account screen */
+"AccountKYCLevelTwo.LevelTwo" = "Level 2";
+
+/* Swap limits on KYC2 account */
+"AccountKYCLevelTwo.Limits" = "Swap limits: $10,000 USD/day, no lifetime limit";
+
+/* Make sure before photo label in KYC2 */
+"AccountKYCLevelTwo.MakeSure" = "Make sure you are in a well-lit room";
+
+/* Prepare documents label in KYC2 */
+"AccountKYCLevelTwo.PrepareDocument" = "Prepare a valid government-issued identity document (Passport, National ID card or Drivers license)";
+
+/* Select documents  options text label in KYC2 */
+"AccountKYCLevelTwo.SelectOptions" = "Select one of the following options:";
+
+/* Sending your data label for verification on KYC2 */
+"AccountKYCLevelTwo.SendingData" = "Sending your data for verification";
+
+/* Take photos label in KYC2 */
+"AccountKYCLevelTwo.TakePhotos" = "Be prepared to take a selfie and photos of your ID";
+
+/* Uploading your photos label in KYC2 flow */
+"AccountKYCLevelTwo.UploadingPhoto" = "Uploading your photos";
+
+/* Verifying label on KYC2 */
+"AccountKYCLevelTwo.Verifying" = "Verifying you";
 
 /* Third party keyboard warning */
 "Alert.customKeyboard.android" = "It looks like you are using a third-party keyboard, which can record what you type and steal your Recovery Phrase. Please switch to the default Android keyboard for extra protection.";
@@ -229,6 +409,9 @@
 /* Done button title */
 "Button.done" = "Done";
 
+/* Finish button title */
+"Button.Finish" = "Finish";
+
 /* Button to return to the "home" screen (the home screen is the top menu). */
 "Button.Home" = "Home";
 
@@ -291,6 +474,48 @@
 
 /* Yes button */
 "Button.yes" = "Yes";
+
+/* 3D Secure label on buy flow */
+"Buy.3DSecure" = "3D Secure";
+
+/* Add card title for buy cryptos */
+"Buy.AddCard" = "Add card";
+
+/* Add a debit or credit card label on add card flow */
+"Buy.AddDebitCreditCard" = "Add a debit or credit card";
+
+/* Billing address label on buy flow */
+"Buy.BillingAddress" = "Billing address";
+
+/* Buy min and max limit text */
+"Buy.BuyLimits" = "Currently, minimum limit for buy is $%@ USD and maximum limit is %@ USD/day.";
+
+/* Card label on add card flow */
+"Buy.Card" = "Card";
+
+/* CVV label in add card flow */
+"Buy.CardCVV" = "CVV";
+
+/* Card number label in add card flow */
+"Buy.CardNumber" = "Card number";
+
+/* Buy details title */
+"Buy.Details" = "Purchase details";
+
+/* Month and year label in add card flow */
+"Buy.MonthYear" = "MM/YY";
+
+/* Order preview title */
+"Buy.OrderPreview" = "Order preview";
+
+/* Security code (CVV) label in add card flow */
+"Buy.SecurityCode" = "Security code (CVV)";
+
+/* Explanation of security code in popup */
+"Buy.SecurityCodePopup" = "Please enter the 3 digit CVV number as it appears on the back of your card";
+
+/* Select payment method title in buy flow */
+"Buy.SelectPayment" = "Select payment method";
 
 /* Camera plugin instruction */
 "CameraPlugin.centerInstruction" = "Center your ID in the box";
@@ -474,6 +699,20 @@
 /* Service capabilities description */
 "EME.permissions.paymentRequest" = "Request %1$@ payment";
 
+/* The currency amount is to high for exchange. Accepts 2 parameters:, - maxiumum amount, - currency code */
+"ErrorMessages.AmountToHigh" = "The amount is higher than your daily limit of %i %s. Please enter a lower amount.";
+
+/* The currency amount is to low for exchange. Accepts 2 parameters:, - minimum amount, - currency code */
+"ErrorMessages.amountToLow" = "The amount is lower than the minimum of %i %s. Please enter a higher amount.";
+
+"ErrorMessages.authorizationFailed" = "Card authorization failed. Please contact your credit card issuer/bank or try another card.";
+
+/* Accepts 3 parameters:, - currency code, - current balance, - (same) currency code */
+"ErrorMessages.balanceToLow" = "You don't have enough %s to complete this swap. Your current %s balance is %s.";
+
+/* Check your internet connection message */
+"ErrorMessages.CheckInternet" = "Please, check your internet connection and try again later.";
+
 /* Email unavailable alert title */
 "ErrorMessages.emailUnavailableMessage" = "This device isn't configured to send email with the iOS mail app.";
 
@@ -482,6 +721,8 @@
 
 /* Not enough ETH for transaction fee */
 "ErrorMessages.ethBalanceLow" = "Insufficient Ethereum balance in your wallet to transfer this type of token.";
+
+"ErrorMessages.exchangeFailed" = "Swap failed. Reason: %s.";
 
 /* Message that gets shown when we've detected the user has encountered the looping lock-screen bug. (preserve [ ] characters) */
 "ErrorMessages.loopingLockScreen.android" = "Fabriik can not be authenticated due to a bug in your version of Android. [Please tap here for more information.]";
@@ -492,8 +733,46 @@
 /* Messaging unavailable alert title */
 "ErrorMessages.messagingUnavailableTitle" = "Messaging Unavailable";
 
+"ErrorMessages.networkFee" = "This swap doesn't cover the included network fee. Please add more funds to your wallet or change the amount you're swapping.";
+
+/* Temporary network issues error message */
+"ErrorMessages.NetworkIssues" = "We are having temporary network issues. Please try again later.";
+
+/* No selected currencies error message */
+"ErrorMessages.NoCurrencies" = "No selected currencies.";
+
+"ErrorMessages.noFees" = "Failed to fetch network fees. Please try again later.";
+
+/* Accepts 2 parameters:, - first currency code, - second currency code */
+"ErrorMessages.noQuoteForPair" = "No quote for currency pair %s-%s.";
+
+"ErrorMessages.notEnoughEthForFee" = "Please make sure you have enough ETH to cover for the network fees while swapping within Ethereum-based assets.";
+
+"ErrorMessages.overDailyLimit" = "The amount is higher than your daily limit of %s USD. Please upgrade your account or enter a lower amount.";
+
+"ErrorMessages.overExchangeLimit" = "Over exchange limit.";
+
+"ErrorMessages.overLifetimeLimit" = "The amount is higher than your lifetime limit of %s USD. Please upgrade your account or enter a lower amount.";
+
+"ErrorMessages.overLifetimeLimitLevel2" = "The amount is higher than your daily limit of %s USD. Please enter a lower amount.";
+
+"ErrorMessages.pendingExchange" = "A maximum of one swap can be active for a currency at a time.";
+
+"ErrorMessages.pinConfirmationFailed" = "PIN Authentication failed.";
+
+"ErrorMessages.selectAssets" = "In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet.";
+
+/* Something went wrong message */
+"ErrorMessages.SomethingWentWrong" = "Oops! Something went wrong, please try again later.";
+
+/* Two parameters:, - maximum amount, - currency code */
+"ErrorMessages.swapAmountToHigh" = "The amount is higher than the swap maximum of %s %s.";
+
 /* Fingerprint was not recognized by the scanner, please try scanning again */
 "ErrorMessages.touchIdFailed.android" = "Fingerprint not recognized. Please try again.";
+
+/* Unknown error text message */
+"ErrorMessages.UnknownError" = "Unknown error.";
 
 "ExportConfirmation.cancel" = "Cancel";
 
@@ -699,6 +978,9 @@
 
 /* Wrong password alert message */
 "Import.wrongPassword" = "Wrong password, please try again.";
+
+/* Input view invalid code */
+"InputView.InvalidCode" = "Invalid code";
 
 /* Close app button */
 "JailbreakWarnings.close" = "Close";
@@ -1075,6 +1357,9 @@
 /* Done button text */
 "RecoverWallet.done" = "Done";
 
+/* Enter recovery phrase label to delete the wallet */
+"RecoverWallet.EnterRecoveryPhrase" = "Please enter your recovery phrase to delete this wallet from your device.";
+
 /* Recover wallet header */
 "RecoverWallet.header" = "Recover Wallet";
 
@@ -1096,6 +1381,9 @@
 /* Next button label */
 "RecoverWallet.next" = "Next";
 
+/* What Is recovery phrase text popup */
+"RecoverWallet.RecoveryPhrasePopup" = "A Recovery Phrase consists of 12 randomly generated words. The app creates the Recovery Phrase for you automatically when you start a new wallet. The Recovery Phrase is critically important and should be written down and stored in a safe location. In the event of phone theft, destruction, or loss, the Recovery Phrase can be used to load your wallet onto a new phone. The key is also required when upgrading your current phone to a new one.";
+
 /* Reset PIN with paper key: more information button. */
 "RecoverWallet.reset_pin_more_info" = "Tap here for more information.";
 
@@ -1107,6 +1395,9 @@
 
 /* Reset PIN with paper key: sub-header */
 "RecoverWallet.subheader_reset_pin" = "To reset your PIN, enter the words from your recovery phrase into the boxes below.";
+
+/* What is recovery phrase title on popup */
+"RecoverWallet.WhatIsRecoveryPhrase" = "What is “Recovery Phrase”?";
 
 /* Instructs the user to enter words from the set of recovery key words. */
 "RecoveryKeyFlow.confirmRecoveryInputError" = "The word you entered is incorrect. Please try again.";
@@ -1705,6 +1996,69 @@
 
 "SupportForm.pleaseDescribe" = "Please describe your experience";
 
+/* Amount purchased label in detail swap screen */
+"Swap.AmountPurchased" = "Amount purchased:";
+
+/* Balance text on swap */
+"Swap.Balance" = "I have %@ %@";
+
+/* Card fee label in swap details screen */
+"Swap.CardFee" = "Card fee:";
+
+/* Title on check your assets popup */
+"Swap.CheckAssets" = "Check your assets!";
+
+/* Text body in check your assets popup */
+"Swap.CheckAssetsBody" = "In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet.";
+
+/* Swap details title */
+"Swap.Details" = "Swap details";
+
+/* Popup button got it */
+"Swap.GotItButton" = "Got it!";
+
+/* Swap and Buy I want label from currency */
+"Swap.iWant" = "I want";
+
+/* Mining network fee label in swap details screen */
+"Swap.MiningNetworkFee" = "Mining network fee:";
+
+/* Not a valid pair */
+"Swap.NotValidPair" = "Not a valid pair";
+
+/* Paid with label in swap details screen */
+"Swap.PaidWith" = "Paid with";
+
+/* Exchange label rate */
+"Swap.Rate" = "Rate:";
+
+/* Rate label in swap screen */
+"Swap.RateValue" = "Rate";
+
+/* Receiving network fee text label on Swap screen */
+"Swap.ReceiveNetworkFee" = "Receiving network fee\n(included)";
+
+/* Receiving fee label on Swap screen */
+"Swap.ReceivingFee" = "Receiving fee\n";
+
+/* Sending fee label on swap screen */
+"Swap.SendingFee" = "Sending fee\n";
+
+/* Sending network fee text label on Swap screen */
+"Swap.SendNetworkFee" = "Sending network fee\n(included)";
+
+/* Swap min and max limit text */
+"Swap.SwapLimits" = "Currently, minimum limit for swap is $%@ USD and maximum limit is %@ USD/day.";
+
+/* Timestamp label in swap details screen */
+"Swap.Timestamp" = "Timestamp";
+
+/* Total label in swap details screen */
+"Swap.Total" = "Total:";
+
+/* Transaction ID label in swap details screen */
+"Swap.TransactionID" = "Fabriik Transaction ID";
+
 "Symbols.lock" = "\u{1F512}";
 
 "Symbols.narrowSpace" = "\u{2009}";
@@ -2081,6 +2435,9 @@
 /* Update PIN caption text */
 "UpdatePin.caption" = "Remember this PIN. If you forget it, you won't be able to access your assets.";
 
+/* Contact Support button on update pin view */
+"UpdatePin.ContactSupport" = "Contact Support";
+
 /* PIN creation info. */
 "UpdatePin.createInstruction" = "Your PIN will be used to unlock your Fabriik Wallet and send money";
 
@@ -2090,17 +2447,32 @@
 /* Update PIN title */
 "UpdatePin.createTitleConfirm" = "Confirm your new PIN";
 
+/* Disabled until text on disabled wallet view */
+"UpdatePin.DisabledUntil" = "Disabled until:";
+
 /* Enter current PIN instruction */
 "UpdatePin.enterCurrent" = "Enter your current PIN.";
 
 /* Enter new PIN instruction */
 "UpdatePin.enterNew" = "Enter your new PIN.";
 
+/* Enter your PIN label to finish the transaction */
+"UpdatePin.EnterPin" = "Please enter your PIN to confirm the transaction";
+
 /* Enter PIN instruction */
 "UpdatePin.enterYourPin" = "Enter your PIN";
 
+/* Incorrect PIN popup message */
+"UpdatePin.IncorrectPin" = "Incorrect PIN. The wallet will get disabled for 6 minutes after";
+
+/* Number of attempts left on pin entry screen */
+"UpdatePin.OneAttempt" = "1 more failed attempt.";
+
 /* Re-Enter new PIN instruction */
 "UpdatePin.reEnterNew" = "Re-Enter your new PIN.";
+
+/* Attempts remaining on pin entry screen */
+"UpdatePin.RemainingAttempts" = "Attempts remaining:";
 
 /* Enter PIN header */
 "UpdatePin.securedWallet" = "Secured wallet";
@@ -2114,8 +2486,17 @@
 /* Update PIN failure alert view title */
 "UpdatePin.setPinErrorTitle" = "Update PIN Error";
 
+/* Number of attempts left on pin entry screen */
+"UpdatePin.TwoAttempts" = "2 more failed attempts.";
+
+/* Update pin popup explanation when pressing "?" button */
+"UpdatePin.UpdatePinPopup" = "The Fabriik Wallet app requires you to set a PIN to secure your wallet, separate from your device passcode.  \n\nYou will be required to enter the PIN to view your balance or send money, which keeps your wallet private even if you let someone use your phone or if your phone is stolen by someone who knows your device passcode.\n            \nDo not forget your wallet PIN! It can only be reset by using your Recovery Phrase. If you forget your PIN and lose your Recovery Phrase, your wallet will be lost.";
+
 /* Update PIN title */
 "UpdatePin.updateTitle" = "Update PIN";
+
+/* Why do I need a PIN title explanation popup */
+"UpdatePin.WhyPIN" = "Why do I need a PIN?";
 
 /* Authorize to copy wallet addresses alert message */
 "URLHandling.addressaddressListAlertMessage" = "Copy wallet addresses to clipboard?";

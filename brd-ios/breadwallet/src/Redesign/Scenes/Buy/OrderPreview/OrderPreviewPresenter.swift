@@ -97,7 +97,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
                 LabelViewModel.attributedText(termsText)
             ],
             .submit: [
-                ButtonViewModel(title: "Confirm", enabled: false)
+                ButtonViewModel(title: L10n.Button.confirm, enabled: false)
             ]
         ]
         
@@ -129,10 +129,9 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
     }
     
     func presentCvvInfoPopup(actionResponse: OrderPreviewModels.CvvInfoPopup.ActionResponse) {
-        // TODO: Localize
-        let model = PopupViewModel(title: .text("Security code (CVV)"),
+        let model = PopupViewModel(title: .text(L10n.Buy.securityCode),
                                    imageName: "creditCard",
-                                   body: "Please enter the 3 digit CVV number as it appears on the back of your card")
+                                   body: L10n.Buy.securityCodePopup)
         
         viewController?.displayCvvInfoPopup(responseDisplay: .init(model: model))
     }

@@ -19,8 +19,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     typealias Models = SwapModels
     
     override var sceneLeftAlignedTitle: String? {
-         // TODO: Localize.
-        return "Swap"
+        return L10n.HomeScreen.trade
     }
     
     lazy var confirmButton: WrapperView<FEButton> = {
@@ -65,7 +64,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
         
         confirmButton.wrappedView.configure(with: Presets.Button.primary)
-        confirmButton.wrappedView.setup(with: .init(title: "Confirm", enabled: false))
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm, enabled: false))
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
@@ -169,7 +168,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         
         switch error {
         case .noQuote:
-            displayRate(responseDisplay: .init(rate: .init()))
+            displayExchangeRate(responseDisplay: .init(rate: .init()))
             
         case .failed:
             coordinator?.showFailure()
@@ -199,7 +198,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
     }
     
-    func displayRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
+    func displayExchangeRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
         if let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
            let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
             
@@ -207,7 +206,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 view.configure(with: .init())
                 view.setup(with: responseDisplay.rate)
                 view.completion = { [weak self] in
-                    self?.interactor?.getRate(viewAction: .init())
+                    self?.interactor?.getExchangeRate(viewAction: .init())
                 }
             }
         }

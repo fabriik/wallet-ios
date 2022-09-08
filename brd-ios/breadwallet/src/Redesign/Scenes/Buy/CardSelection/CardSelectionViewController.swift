@@ -16,8 +16,7 @@ extension Scenes {
 
 class CardSelectionViewController: ItemSelectionViewController {
     
-    // TODO: localize
-    override var sceneTitle: String? { return "Select payment method" }
+    override var sceneTitle: String? { return L10n.Buy.selectPayment }
     override var isSearchEnabled: Bool { return false }
     
     override func setupSubviews() {
@@ -56,10 +55,10 @@ class CardSelectionViewController: ItemSelectionViewController {
         
         cell.setup { view in
             view.configure(with: .init())
-            view.setup(with: .init(title: .text("Card"),
+            view.setup(with: .init(title: .text(L10n.Buy.card),
                                    subtitle: nil,
                                    logo: .imageName("credit_card_icon"),
-                                   cardNumber: .text("Add a debit or credit card"),
+                                   cardNumber: .text(L10n.Buy.addDebitCreditCard),
                                    expiration: nil))
             
             view.setupCustomMargins(top: .zero, leading: .large, bottom: .zero, trailing: .large)

@@ -68,30 +68,30 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     }
     
     func setAmount(viewAction: BuyModels.Amounts.ViewAction) {
-        let fromCode = dataStore?.fromCurrency ?? "/"
         guard let rate = dataStore?.quote?.exchangeRate,
               let toCurrency = dataStore?.toCurrency else {
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(pair: "\(fromCode)-\(dataStore?.toCurrency?.code ?? "/")")))
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(from: dataStore?.fromCurrency, to: dataStore?.toCurrency?.code)))
             return
         }
         
         let to: Amount
         let from: Decimal
+        
+        dataStore?.values = viewAction
+        
         if let value = viewAction.tokenValue,
            let crypto = ExchangeFormatter.crypto.number(from: value)?.decimalValue {
-            
             to = .init(amount: crypto, currency: toCurrency, exchangeRate: 1 / rate)
             from = (dataStore?.to ?? 0) / rate
-            dataStore?.isInputFiat = false
         } else if let value = viewAction.fiatValue,
                   let fiat = ExchangeFormatter.fiat.number(from: value)?.decimalValue {
-            dataStore?.isInputFiat = true
             from = fiat
-            to = .init(amount: fiat, isFiat: true, currency: toCurrency, exchangeRate: rate)
+            to = .init(amount: fiat, isFiat: true, currency: toCurrency, exchangeRate: 1 / rate)
         } else {
             presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
                                                            card: dataStore?.paymentCard,
                                                            quote: dataStore?.quote))
+            
             return
         }
         
@@ -117,12 +117,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                                                                            from: from,
                                                                            to: toCurrency))
                 
-                guard self?.dataStore?.isInputFiat == true else {
-                    self?.setAmount(viewAction: .init(tokenValue: (self?.dataStore?.to ?? 0).description))
-                    return
-                }
-                
-                self?.setAmount(viewAction: .init(fiatValue: (self?.dataStore?.from ?? 0).description))
+                let model = self?.dataStore?.values ?? .init()
+                self?.setAmount(viewAction: model)
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
