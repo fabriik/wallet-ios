@@ -146,8 +146,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let from: Amount
         let to: Amount
         
-        dataStore?.values = viewAction
-        
         if let fromCryptoAmount = viewAction.fromCryptoAmount,
            let fromCrypto = ExchangeFormatter.current.number(from: fromCryptoAmount)?.decimalValue {
             from = .init(amount: fromCrypto, currency: fromCurrency, exchangeRate: fromRate)
@@ -178,7 +176,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                            handleErrors: viewAction.handleErrors))
             return
         }
-        
+        dataStore?.values = viewAction
+        dataStore?.values.handleErrors = false
         dataStore?.from = from
         dataStore?.to = to
         
@@ -210,17 +209,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             if self?.dataStore?.fromFee != nil,
                self?.dataStore?.quote != nil {
                 // All good
-                if let fromFiatAmount = self?.dataStore?.values.fromFiatAmount {
-                    self?.setAmount(viewAction: .init(fromFiatAmount: fromFiatAmount, handleErrors: true))
-                } else if let fromCryptoAmount = self?.dataStore?.values.fromCryptoAmount {
-                    self?.setAmount(viewAction: .init(fromCryptoAmount: fromCryptoAmount, handleErrors: true))
-                } else if let toFiatAmount = self?.dataStore?.values.toFiatAmount {
-                    self?.setAmount(viewAction: .init(toFiatAmount: toFiatAmount, handleErrors: true))
-                } else if let toCryptoAmount = self?.dataStore?.values.toCryptoAmount {
-                    self?.setAmount(viewAction: .init(toCryptoAmount: toCryptoAmount, handleErrors: true))
-                } else {
-                    self?.setAmount(viewAction: .init(handleErrors: true))
-                }
+                var model: Models.Amounts.ViewAction = self?.dataStore?.values ?? .init()
+                model.handleErrors = true
+                self?.setAmount(viewAction: model)
                 
             } else if self?.dataStore?.quote?.fromFee?.fee != nil,
                       from.currency.isEthereum {
