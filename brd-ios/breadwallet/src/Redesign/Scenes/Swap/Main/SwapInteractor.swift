@@ -109,16 +109,12 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         group.notify(queue: .main) { [weak self] in
             if let fromFiatAmount = self?.dataStore?.values.fromFiatAmount {
                 self?.setAmount(viewAction: .init(fromFiatAmount: fromFiatAmount))
-
             } else if let fromCryptoAmount = self?.dataStore?.values.fromCryptoAmount {
                 self?.setAmount(viewAction: .init(fromCryptoAmount: fromCryptoAmount))
-
             } else if let toFiatAmount = self?.dataStore?.values.toFiatAmount {
                 self?.setAmount(viewAction: .init(toFiatAmount: toFiatAmount))
-
             } else if let toCryptoAmount = self?.dataStore?.values.toCryptoAmount {
                 self?.setAmount(viewAction: .init(toCryptoAmount: toCryptoAmount))
-
             }
         }
     }
