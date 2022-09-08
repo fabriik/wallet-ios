@@ -17,13 +17,12 @@ class ExchangeDetailsViewController: BaseTableViewController<BaseCoordinator,
     typealias Models = ExchangeDetailsModels
     
     override var sceneLeftAlignedTitle: String? {
-        // TODO: Localize
         switch dataStore?.transactionType {
         case .buyTransaction:
-            return "Purchase details"
+            return L10n.Buy.details
             
         case .swapTransaction:
-            return "Swap details"
+            return L10n.Swap.details
             
         default:
             return ""

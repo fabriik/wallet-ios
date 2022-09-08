@@ -57,11 +57,11 @@ final public class DatePickerViewController: UIViewController {
         
         let pickerController = alert.addDatePicker(mode: .date, date: date, minimumDate: minimumDate, maximumDate: maximumDate)
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+        alert.addAction(UIAlertAction(title: L10n.Button.cancel, style: .cancel, handler: { _ in
             action?(nil)
         }))
         
-        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: L10n.Button.confirm, style: .default, handler: { _ in
             action?(pickerController.selectedDate)
         }))
         

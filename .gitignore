@@ -183,3 +183,15 @@ fastlane/test_output
 
 .idea
 Pods/
+
+brd-ios/breadwallet/src/Strings/zh-Hans.lproj/
+
+brd-ios/breadwallet/src/Strings/zh-Hant.lproj/
+
+brd-ios/breadwallet/src/Strings/ru.lproj/
+
+brd-ios/breadwallet/src/Strings/ko.lproj/
+
+brd-ios/breadwallet/src/Strings/ja.lproj/
+
+brd-ios/breadwallet/src/Strings/.phrase.yml

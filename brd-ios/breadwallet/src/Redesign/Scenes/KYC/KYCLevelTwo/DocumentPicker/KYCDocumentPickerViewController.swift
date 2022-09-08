@@ -18,8 +18,7 @@ class KYCDocumentPickerViewController: BaseTableViewController<KYCCoordinator,
     typealias Models = KYCDocumentPickerModels
     
     override var sceneLeftAlignedTitle: String? {
-         // TODO: localize
-        return "Proof of Identity"
+        return L10n.Account.proofOfIdentity
     }
     
     var confirmPhoto: (() -> Void)?

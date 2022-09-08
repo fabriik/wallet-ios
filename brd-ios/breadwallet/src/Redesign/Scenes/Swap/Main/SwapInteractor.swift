@@ -127,7 +127,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         guard let fromCurrency = dataStore?.from?.currency,
               let toCurrency = dataStore?.to?.currency
         else {
-            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "No selected currencies."))) // TODO: Localize.
+            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.ErrorMessages.noCurrencies)))
             return
         }
         
@@ -210,9 +210,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 let balance = from.currency.state?.balance?.tokenValue ?? 0
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.balanceTooLow(balance: balance,
                                                                                                     currency: from.currency.code)))
-            } else if let fee = self?.dataStore?.quote?.fromFee?.fee {
+            } else if self?.dataStore?.quote?.fromFee?.fee != nil {
                 // not enouth ETH for feee
-                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee(fee: fee)))
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee))
             } else {
                 // no quote and no WK fee
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))

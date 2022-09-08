@@ -43,13 +43,13 @@ final class RegistrationPresenter: NSObject, Presenter, RegistrationActionRespon
             ],
             .email: [
                 // TODO: validator?
-                TextFieldModel(title: "Email", value: item.email)
+                TextFieldModel(title: L10n.Receive.emailButton, value: item.email)
             ],
             .tickbox: [
-                TickboxItemViewModel(title: .text("I'm ok with receiving future promotion, offers and communications")) // TODO: Localize
+                TickboxItemViewModel(title: .text(L10n.Account.promotion))
             ],
             .confirm: [
-                ButtonViewModel(title: "Next", enabled: false)
+                ButtonViewModel(title: L10n.RecoverWallet.next, enabled: false)
             ]
         ]
         

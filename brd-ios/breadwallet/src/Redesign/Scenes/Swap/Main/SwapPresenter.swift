@@ -37,7 +37,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel())
         
-        // TODO: Localize
         let sectionRows: [Models.Sections: [Any]] = [
             .rateAndTimer: [
                 exchangeRateViewModel
@@ -49,11 +48,11 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 MainSwapViewModel(from: .init(amount: .zero(from),
                                               fee: .zero(from),
                                               title: .text("I have 0 \(from.code)"),
-                                              feeDescription: .text("Sending network fee\n(included)")),
+                                              feeDescription: .text(L10n.Swap.sendNetworkFee)),
                                   to: .init(amount: .zero(to),
                                             fee: .zero(to),
-                                            title: .text("I want"),
-                                            feeDescription: .text("Sending network fee\n(included)")))
+                                            title: .text(L10n.Swap.iWant),
+                                            feeDescription: .text(L10n.Swap.sendNetworkFee)))
             ]
         ]
         
@@ -71,7 +70,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
 
         let minText = ExchangeFormatter.fiat.string(for: quote.minimumUsd) ?? ""
         let maxText = ExchangeFormatter.fiat.string(for: quote.maximumUsd) ?? ""
-        let limitText = String(format: "Currently, minimum limit for swap is $%@ USD and maximum limit is %@ USD/day.", minText, maxText)
+        let limitText = String(format: L10n.Swap.swapLimits(minText, maxText))
         
         exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
                                                       timer: TimerViewModel(till: quote.timestamp,
@@ -84,10 +83,10 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         let balance = actionResponse.baseBalance
-        let balanceText = String(format: "I have %@ %@", ExchangeFormatter.crypto.string(for: balance?.tokenValue.doubleValue) ?? "",
-                                 balance?.currency.code ?? "")
-        let sendingFee = "Sending network fee\n(not included)"
-        let receivingFee = "Receiving network fee\n(included)"
+        let balanceText = String(format: L10n.Swap.balance(ExchangeFormatter.crypto.string(for: balance?.tokenValue.doubleValue) ?? "",
+                                 balance?.currency.code ?? ""))
+        let sendingFee = L10n.Swap.sendNetworkFee
+        let receivingFee = L10n.Swap.receiveNetworkFee
         
         let fromFiatValue = actionResponse.from?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(for: actionResponse.from?.fiatValue)
         let fromTokenValue = actionResponse.from?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(for: actionResponse.from?.tokenValue)
@@ -109,7 +108,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                     formattedFiatString: toFormattedFiatString,
                                                     formattedTokenString: toFormattedTokenString,
                                                     fee: actionResponse.toFee,
-                                                    title: .text("I want"),
+                                                    title: .text(L10n.Swap.iWant),
                                                     feeDescription: .text(receivingFee)))
         
         guard actionResponse.handleErrors else {
@@ -241,17 +240,16 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         let config: WrapperPopupConfiguration<SwapConfimationConfiguration> = .init(wrappedView: .init())
         
-        // TODO: localize
-        let wrappedViewModel: SwapConfirmationViewModel = .init(from: .init(title: .text("From"), value: .text(fromText)),
-                                                                to: .init(title: .text("To"), value: .text(toText)),
-                                                                rate: .init(title: .text("Rate"), value: .text(rateText)),
-                                                                sendingFee: .init(title: .text("Sending fee\n"), value: .text(fromFeeText)),
-                                                                receivingFee: .init(title: .text("Receiving fee\n"), value: .text(toFeeText)),
-                                                                totalCost: .init(title: .text("Total cost:"), value: .text(totalCostText)))
+        let wrappedViewModel: SwapConfirmationViewModel = .init(from: .init(title: .text(L10n.TransactionDetails.addressFromHeader), value: .text(fromText)),
+                                                                to: .init(title: .text(L10n.TransactionDetails.addressToHeader), value: .text(toText)),
+                                                                rate: .init(title: .text(L10n.Swap.rateValue), value: .text(rateText)),
+                                                                sendingFee: .init(title: .text(L10n.Swap.sendingFee), value: .text(fromFeeText)),
+                                                                receivingFee: .init(title: .text(L10n.Swap.receivingFee), value: .text(toFeeText)),
+                                                                totalCost: .init(title: .text(L10n.Confirmation.totalLabel), value: .text(totalCostText)))
         
-        let viewModel: WrapperPopupViewModel<SwapConfirmationViewModel> = .init(title: .text("Confirmation"),
-                                                                                confirm: .init(title: "Confirm"),
-                                                                                cancel: .init(title: "Cancel"),
+        let viewModel: WrapperPopupViewModel<SwapConfirmationViewModel> = .init(title: .text(L10n.Confirmation.title),
+                                                                                confirm: .init(title: L10n.Button.confirm),
+                                                                                cancel: .init(title: L10n.Button.cancel),
                                                                                 wrappedView: wrappedViewModel)
         
         viewController?.displayConfirmation(responseDisplay: .init(config: config, viewModel: viewModel))
@@ -261,19 +259,16 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         guard let from = actionResponse.from,
               let to = actionResponse.to,
               let exchangeId = actionResponse.exchangeId else {
-            presentError(actionResponse: .init(error: GeneralError(errorMessage: "Not a valid pair")))
+                  presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Swap.notValidPair)))
             return
         }
         viewController?.displayConfirm(responseDisplay: .init(from: from, to: to, exchangeId: "\(exchangeId)"))
     }
     
     func presentAssetInfoPopup(actionResponse: SwapModels.AssetInfoPopup.ActionResponse) {
-        // TODO: Localize.
-        let popupViewModel = PopupViewModel(title: .text("Check your assets!"),
-                                            body: """
-In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet.
-""",
-                                            buttons: [.init(title: "Got it!")])
+        let popupViewModel = PopupViewModel(title: .text(L10n.Swap.checkAssets),
+                                            body: L10n.Swap.checkAssetsBody,
+                                            buttons: [.init(title: L10n.Swap.gotItButton)])
         
         viewController?.displayAssetInfoPopup(responseDisplay: .init(popupViewModel: popupViewModel,
                                                                      popupConfig: Presets.Popup.white))

@@ -19,8 +19,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     typealias Models = SwapModels
     
     override var sceneLeftAlignedTitle: String? {
-         // TODO: Localize.
-        return "Swap"
+        return L10n.HomeScreen.trade
     }
     
     lazy var confirmButton: WrapperView<FEButton> = {
@@ -65,7 +64,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
         
         confirmButton.wrappedView.configure(with: Presets.Button.primary)
-        confirmButton.wrappedView.setup(with: .init(title: "Confirm", enabled: false))
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm, enabled: false))
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     

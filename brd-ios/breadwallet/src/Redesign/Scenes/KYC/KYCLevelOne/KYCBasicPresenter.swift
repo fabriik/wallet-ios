@@ -63,7 +63,7 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
                 dateViewModel
             ],
             .confirm: [
-                ButtonViewModel(title: "Confirm")
+                ButtonViewModel(title: L10n.Button.confirm)
             ]
         ]
         
