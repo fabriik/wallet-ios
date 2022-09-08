@@ -21,7 +21,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         guard let currency = dataStore?.toCurrency else {
             return
         }
-        
+
+        dataStore?.toAmount = .zero(currency)
         TransferManager.shared.reload()
         
         fetchCards { [weak self] result in
