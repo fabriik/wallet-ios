@@ -38,7 +38,7 @@ enum SwapErrors: FEError {
             return L10n.ErrorMessages.balanceToLow(currency, currency, ExchangeFormatter.crypto.string(for: balance) ?? "0.00"))
             
         case .tooLow(let amount, let currency):
-            return L10n.ErrorMessages.amountToLow(Int(amount), currency)
+            return L10n.ErrorMessages.amountToLow(Int(amount.doubleValue), currency)
             
         case .tooHigh(let amount, let currency):
             return L10n.ErrorMessages.swapAmountToHigh(amount, currency)

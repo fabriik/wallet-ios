@@ -23,10 +23,10 @@ enum BuyErrors: FEError {
     var errorMessage: String {
         switch self {
         case .tooLow(let amount, let currency):
-            return L10n.ErrorMessages.amountToLow(Int(amount), currency)
+            return L10n.ErrorMessages.amountToLow(Int(amount.doubleValue), currency)
             
         case .tooHigh(let amount, let currency):
-            return L10n.ErrorMessages.amountToHigh(Int(amount), currency)
+            return L10n.ErrorMessages.amountToHigh(Int(amount.doubleValue), currency)
             
         case .noQuote(let from, let to):
             let from = from ?? "/"

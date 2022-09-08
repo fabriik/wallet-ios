@@ -71,7 +71,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         let fromCode = dataStore?.fromCurrency ?? "/"
         guard let rate = dataStore?.quote?.exchangeRate,
               let toCurrency = dataStore?.toCurrency else {
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(from: dataStore?.fromCurrency, to: dataStore?.toCurrency?.code))
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(from: dataStore?.fromCurrency, to: dataStore?.toCurrency?.code)))
             return
         }
         
