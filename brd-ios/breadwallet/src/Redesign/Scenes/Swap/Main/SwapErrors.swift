@@ -60,7 +60,7 @@ enum SwapErrors: FEError {
             
         case .noQuote(let from, let to):
             let from = from ?? "/"
-            let to = to ?? "/|"
+            let to = to ?? "/"
             return L10n.ErrorMessages.noQuoteForPair(from, to)
             
         case .overExchangeLimit:
