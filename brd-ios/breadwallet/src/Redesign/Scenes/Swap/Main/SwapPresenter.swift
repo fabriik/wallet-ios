@@ -123,9 +123,9 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         var hasError: Bool = actionResponse.from?.fiatValue == 0
         if actionResponse.baseBalance == nil
             || actionResponse.from?.currency.code == actionResponse.to?.currency.code {
-            let first = actionResponse.from?.currency.code ?? "<base missing>"
-            let second = actionResponse.to?.currency.code ?? "<term missing>"
-            presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: "\(first)-\(second)")))
+            let first = actionResponse.from?.currency.code
+            let second = actionResponse.to?.currency.code
+            presentError(actionResponse: .init(error: SwapErrors.noQuote(from: first, to: second)))
             hasError = true
         } else if TransferManager.shared.canSwap(actionResponse.from?.currency) == false {
             presentError(actionResponse: .init(error: SwapErrors.pendingSwap))
