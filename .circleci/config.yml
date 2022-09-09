@@ -170,7 +170,9 @@ jobs:
             security set-keychain-settings -lut 9999
             security unlock-keychain -p test ~/Library/Keychains/default.keychain
 
-            cd brd-ios
+            cd brd-ios/scripts
+            ./cosmos_apple_silicon.sh
+            cd ..
 
             echo "Build breadwallet version ${mainBundleShortVersionString} build number ${mainBundleVersion}"
             set -o pipefail
