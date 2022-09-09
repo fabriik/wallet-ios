@@ -87,7 +87,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let balance = actionResponse.baseBalance
         let balanceText = String(format: L10n.Swap.balance(ExchangeFormatter.crypto.string(for: balance?.tokenValue.doubleValue) ?? "",
                                  balance?.currency.code ?? ""))
-        let sendingFee = L10n.Swap.sendNetworkFee
+        let sendingFee = L10n.Swap.sendNetworkFeeNotIncluded
         let receivingFee = L10n.Swap.receiveNetworkFee
         
         let fromFiatValue = actionResponse.from?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(for: actionResponse.from?.fiatValue)

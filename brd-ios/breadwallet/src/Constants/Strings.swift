@@ -1923,6 +1923,9 @@ internal enum L10n {
     /// Sending network fee
     /// (included)
     internal static let sendNetworkFee = L10n.tr("Localizable", "Swap.SendNetworkFee")
+    /// Sending network fee
+    /// (not included)
+    internal static let sendNetworkFeeNotIncluded = L10n.tr("Localizable", "Swap.sendNetworkFeeNotIncluded")
     /// Currently, minimum limit for swap is $%@ USD and maximum limit is $%@ USD/day.
     internal static func swapLimits(_ p1: Any, _ p2: Any) -> String {
       return L10n.tr("Localizable", "Swap.SwapLimits", String(describing: p1), String(describing: p2))
