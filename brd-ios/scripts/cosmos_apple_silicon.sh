@@ -5,7 +5,6 @@
 #  exit 0
 # fi
 # echo "running on arm"
-echo $(uname -m)
 
 ARM="ios-arm64"
 COSMOS="Cosmos"
