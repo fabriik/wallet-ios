@@ -22,6 +22,8 @@ struct SwapCurrencyViewModel: ViewModel {
     var formattedFiatString: NSMutableAttributedString?
     var formattedTokenString: NSMutableAttributedString?
     var fee: Amount?
+    var formattedFiatFeeString: String?
+    var formattedTokenFeeString: String?
     var title: LabelViewModel?
     var feeDescription: LabelViewModel?
 }
@@ -336,8 +338,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         currencyIconImageView.setup(with: .image(viewModel.amount?.currency.imageSquareBackground))
         
-        if let fee = viewModel.fee {
-            feeAmountLabel.text = "\(fee.tokenDescription) \n\(fee.fiatDescription)"
+        if let tokenFee = viewModel.formattedTokenFeeString, let fiatFee = viewModel.formattedFiatFeeString {
+            feeAmountLabel.text = "\(tokenFee) \n\(fiatFee)"
         }
         
         feeLabel.setup(with: viewModel.feeDescription)
