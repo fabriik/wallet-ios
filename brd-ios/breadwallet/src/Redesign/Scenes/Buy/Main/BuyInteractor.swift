@@ -18,11 +18,10 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     // MARK: - BuyViewActions
     
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        guard let currency = dataStore?.toCurrency else {
+        guard let currency = dataStore?.toAmount?.currency else {
             return
         }
 
-        dataStore?.toAmount = .zero(currency)
         TransferManager.shared.reload()
         
         fetchCards { [weak self] result in
@@ -70,8 +69,9 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     
     func setAmount(viewAction: BuyModels.Amounts.ViewAction) {
         guard let rate = dataStore?.quote?.exchangeRate,
-              let toCurrency = dataStore?.toCurrency else {
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(from: dataStore?.fromCurrency, to: dataStore?.toCurrency?.code)))
+              let toCurrency = dataStore?.toAmount?.currency else {
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(from: dataStore?.fromCurrency,
+                                                                                   to: dataStore?.toAmount?.currency.code)))
             return
         }
         
@@ -105,7 +105,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     
     func getExchangeRate(viewAction: Models.Rate.ViewAction) {
         guard let from = dataStore?.fromCurrency,
-              let toCurrency = dataStore?.toCurrency?.code
+              let toCurrency = dataStore?.toAmount?.currency.code
         else { return }
         
         let data = QuoteRequestData(from: from, to: toCurrency)
@@ -130,7 +130,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     func setAssets(viewAction: BuyModels.Assets.ViewAction) {
         if let value = viewAction.currency?.lowercased(),
            let currency = Store.state.currencies.first(where: { $0.code.lowercased() == value }) {
-            dataStore?.toCurrency = currency
+            dataStore?.toAmount = .zero(currency)
         } else if let value = viewAction.card {
             dataStore?.paymentCard = value
         }
