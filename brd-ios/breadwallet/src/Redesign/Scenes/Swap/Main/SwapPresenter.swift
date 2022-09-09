@@ -47,10 +47,14 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             .swapCard: [
                 MainSwapViewModel(from: .init(amount: .zero(from),
                                               fee: .zero(from),
+                                              formattedFiatFeeString: nil,
+                                              formattedTokenFeeString: nil,
                                               title: .text("I have 0 \(from.code)"),
                                               feeDescription: .text(L10n.Swap.sendNetworkFee)),
                                   to: .init(amount: .zero(to),
-                                            fee: .zero(to),
+                                            fee: .zero(from),
+                                            formattedFiatFeeString: nil,
+                                            formattedTokenFeeString: nil,
                                             title: .text(L10n.Swap.iWant),
                                             feeDescription: .text(L10n.Swap.sendNetworkFee)))
             ]
@@ -100,16 +104,38 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let toFormattedFiatString = ExchangeFormatter.createAmountString(string: toFiatValue ?? "")
         let toFormattedTokenString = ExchangeFormatter.createAmountString(string: toTokenValue ?? "")
         
+        let fromFee = actionResponse.fromFee
+        
+        let formattedFromFiatFeeString = String(format: "%@ %@",
+                                                ExchangeFormatter.fiat.string(for: fromFee?.fiatValue) ?? "",
+                                                Store.state.defaultCurrencyCode)
+        let formattedFromTokenFeeString = String(format: "%@ %@",
+                                                 ExchangeFormatter.crypto.string(for: fromFee?.tokenValue) ?? "",
+                                                 fromFee?.currency.code.uppercased() ?? "")
+        
+        let toFee = actionResponse.toFee
+        
+        let formattedToFiatFeeString = String(format: "%@ %@",
+                                              ExchangeFormatter.fiat.string(for: toFee?.fiatValue) ?? "",
+                                              Store.state.defaultCurrencyCode)
+        let formattedToTokenFeeString = String(format: "%@ %@",
+                                               ExchangeFormatter.crypto.string(for: toFee?.tokenValue) ?? "",
+                                               toFee?.currency.code.uppercased() ?? "")
+        
         let swapModel = MainSwapViewModel(from: .init(amount: actionResponse.from,
                                                       formattedFiatString: fromFormattedFiatString,
                                                       formattedTokenString: fromFormattedTokenString,
                                                       fee: actionResponse.fromFee,
+                                                      formattedFiatFeeString: formattedFromFiatFeeString,
+                                                      formattedTokenFeeString: formattedFromTokenFeeString,
                                                       title: .text(balanceText),
                                                       feeDescription: .text(sendingFee)),
                                           to: .init(amount: actionResponse.to,
                                                     formattedFiatString: toFormattedFiatString,
                                                     formattedTokenString: toFormattedTokenString,
-                                                    fee: actionResponse.toFee,
+                                                    fee: actionResponse.fromFee,
+                                                    formattedFiatFeeString: formattedToFiatFeeString,
+                                                    formattedTokenFeeString: formattedToTokenFeeString,
                                                     title: .text(L10n.Swap.iWant),
                                                     feeDescription: .text(receivingFee)))
         
