@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-if [[ $(uname -p) != "arm" ]]; then
+if [[ $(uname -m) != 'arm64' ]]; then
  echo "running on intel"
  exit 0
 fi
