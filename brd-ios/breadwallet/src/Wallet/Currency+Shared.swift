@@ -104,9 +104,8 @@ public struct CurrencyMetaData: CurrencyWithIcon {
     var decimals: UInt8
     let type: String
     
-    var isPreferred: Bool {
-        return Currencies.shared.currencies.map { $0.uid }.contains(uid)
-    }
+    var isPreferred: Bool { return Currencies.shared.currencies.map { $0.uid }.contains(uid) }
+    var isERC20Token: Bool { return type == SharedCurrency.TokenType.erc20.rawValue }
     
     var alternateCode: String?
     var coinGeckoId: String?

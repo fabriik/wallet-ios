@@ -84,17 +84,21 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     private func reconcileChanges() {
-        // add eth when adding tokens
         let currenciesToAdd = addedCurrencyIndices.map { allAssets[$0] }
-        if let eth = allAssets.first(where: { $0.uid == Currencies.shared.eth?.uid }),
-            !currenciesToAdd.filter({ $0.tokenAddress != nil && ($0.tokenAddress?.isEmpty == false) }).isEmpty, // tokens are being added
-            !assetCollection.enabledAssets.contains(eth), // eth not already added
-            !currenciesToAdd.contains(eth) { // eth not being explicitly added
+        
+        // Add ETH if needed.
+        if let eth = assetCollection.allAssets.first(where: { $0.value.code == Currencies.AssetCodes.eth.value })?.value,
+           currenciesToAdd.contains(where: { $0.isERC20Token }),
+           !currenciesToAdd.filter({ $0.tokenAddress != nil && ($0.tokenAddress?.isEmpty == false) }).isEmpty, // Tokens are being added
+           !assetCollection.enabledAssets.contains(eth), // ETH not already added
+           !currenciesToAdd.contains(eth) { // ETH not being explicitly added
             self.assetCollection.add(asset: eth)
         }
+        
         addedCurrencyIndices.forEach {
             self.assetCollection.add(asset: allAssets[$0])
         }
+        
         assetCollection.saveChanges()
     }
     
