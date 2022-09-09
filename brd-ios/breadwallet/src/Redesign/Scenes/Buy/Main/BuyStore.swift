@@ -15,15 +15,15 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     var from: Decimal?
     var to: Decimal?
-    var toCurrency: Currency?
+    var values: BuyModels.Amounts.ViewAction = .init()
     
     override init() {
         super.init()
-        if let currency = Store.state.currencies.first(where: { $0.code.lowercased() == C.BTC.lowercased() }) {
-            toCurrency = currency
-        } else {
-            toCurrency = Store.state.currencies.first
+        guard let currency = Store.state.currencies.first(where: { $0.code.lowercased() == C.BTC.lowercased() }) ?? Store.state.currencies.first
+        else {
+            return
         }
+        toAmount = .zero(currency)
     }
     
     var feeAmount: Amount? {
@@ -38,7 +38,6 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     var toAmount: Amount?
     
-    var isInputFiat = false
     var paymentCard: PaymentCard?
     var allPaymentCards: [PaymentCard]?
     

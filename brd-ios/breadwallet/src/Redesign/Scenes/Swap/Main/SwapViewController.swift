@@ -168,7 +168,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         
         switch error {
         case .noQuote:
-            displayRate(responseDisplay: .init(rate: .init()))
+            displayExchangeRate(responseDisplay: .init(rate: .init()))
             
         case .failed:
             coordinator?.showFailure()
@@ -198,7 +198,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
     }
     
-    func displayRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
+    func displayExchangeRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
         if let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
            let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
             
@@ -206,7 +206,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 view.configure(with: .init())
                 view.setup(with: responseDisplay.rate)
                 view.completion = { [weak self] in
-                    self?.interactor?.getRate(viewAction: .init())
+                    self?.interactor?.getExchangeRate(viewAction: .init())
                 }
             }
         }
@@ -225,6 +225,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay) {
+        view.endEditing(true)
         coordinator?.showAssetSelector(currencies: responseDisplay.to ?? responseDisplay.from,
                                        supportedCurrencies: dataStore?.supportedCurrencies,
                                        selected: { [weak self] model in
