@@ -169,7 +169,7 @@ jobs:
             security default-keychain
             security set-keychain-settings -lut 9999
             security unlock-keychain -p test ~/Library/Keychains/default.keychain
-
+            cp cosmos-bundled/Info.plist cosmos-bundled/build-frameworks/Cosmos.xcframework/info.plist
             cd brd-ios/scripts
             ./cosmos_apple_silicon.sh
             cd ..
