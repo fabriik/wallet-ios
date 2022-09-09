@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WalletKit
 
 extension Scenes {
     static let Buy = BuyViewController.self
@@ -17,7 +18,6 @@ protocol BuyViewActions: BaseViewActions, FetchViewActions, FeeFetchable {
     func getExchangeRate(viewAction: BuyModels.Rate.ViewAction)
     func getPaymentCards(viewAction: BuyModels.PaymentCards.ViewAction)
     func setAssets(viewAction: BuyModels.Assets.ViewAction)
-    func getFees(viewAction: BuyModels.Fee.ViewAction)
     func showOrderPreview(viewAction: BuyModels.OrderPreview.ViewAction)
 }
 
@@ -38,14 +38,18 @@ protocol BuyResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisp
 protocol BuyDataStore: BaseDataStore, FetchDataStore {
     var from: Decimal? { get set }
     var to: Decimal? { get set }
-    var fromCurrency: String? { get set }
-    var toCurrency: Currency? { get set }
-    
+    var values: BuyModels.Amounts.ViewAction { get set }
+    var toAmount: Amount? { get set }
     var currencies: [Currency] { get set }
     var supportedCurrencies: [SupportedCurrency]? { get set }
     var paymentCard: PaymentCard? { get set }
     var allPaymentCards: [PaymentCard]? { get set }
     var quote: Quote? { get set }
+    
+    var coreSystem: CoreSystem? { get set }
+    var keyStore: KeyStore? { get set }
+    
+    var autoSelectDefaultPaymentMethod: Bool { get set }
 }
 
 protocol BuyDataPassing {
@@ -53,14 +57,11 @@ protocol BuyDataPassing {
 }
 
 protocol BuyRoutes: CoordinatableRoutes {
-    // TODO: refactor :S
     func showOrderPreview(coreSystem: CoreSystem?,
                           keyStore: KeyStore?,
                           to: Amount?,
                           from: Decimal?,
                           card: PaymentCard?,
-                          quote: Quote?,
-                          networkFee: Amount?)
+                          quote: Quote?)
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?)
-    func showInfo(from: String, to: String, exchangeId: String)
 }

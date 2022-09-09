@@ -77,46 +77,6 @@ class SwapWorker: BaseApiWorker<SwapMapper> {
     }
     
     override func getUrl() -> String {
-        return APIURLHandler.getUrl(SwapEndpoints.exchange)
-    }
-}
-
-struct EstimateFeeRequestData: RequestModelData {
-    var amount: Decimal?
-    var currency: String?
-    var destination: String?
-    
-    func getParameters() -> [String: Any] {
-        let args: [String: Any?] = [
-            "amount": amount,
-            "currency": currency,
-            "destination_address": destination
-        ]
-        
-        return args.compactMapValues { $0 }
-    }
-}
-
-struct EstimateFeeResponse: ModelResponse {
-    var estimatedFeeEth: Decimal
-}
-
-struct EstimateFee: Model {
-    var fee: Decimal
-}
-
-class EstimateFeeMapper: ModelMapper<EstimateFeeResponse, EstimateFee> {
-    override func getModel(from response: EstimateFeeResponse?) -> EstimateFee? {
-        return .init(fee: response?.estimatedFeeEth ?? 0)
-    }
-}
-
-class EstimateFeeWorker: BaseApiWorker<EstimateFeeMapper> {
-    override func getMethod() -> HTTPMethod {
-        return .post
-    }
-    
-    override func getUrl() -> String {
-        return APIURLHandler.getUrl(SwapEndpoints.estimateFee)
+        return APIURLHandler.getUrl(ExchangeEndpoints.exchange)
     }
 }

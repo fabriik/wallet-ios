@@ -10,7 +10,6 @@
 
 import UIKit
 
-// TODO: Localize
 // TODO: Unify with designs and use color / font enums
 struct Presets {
     struct Background {
@@ -35,6 +34,7 @@ struct Presets {
         struct Secondary {
             static var normal = BackgroundConfiguration(tintColor: LightColors.Link.one)
             static var selected = BackgroundConfiguration(tintColor: LightColors.Link.one)
+            static var blue = BackgroundConfiguration(tintColor: LightColors.Link.two)
             static var disabled = BackgroundConfiguration(tintColor: LightColors.InteractionPrimary.disabled)
             static var error = BackgroundConfiguration(tintColor: .red)
         }
@@ -90,6 +90,9 @@ extension Presets {
         static var secondary = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
                                                    selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
                                                    disabledConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled))
+        
+        static var blue = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.blue.withBorder(border: Presets.Border.selected),
+                                                   selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal))
         
         static var icon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.two),
                                               selectedConfiguration: .init(tintColor: LightColors.Icons.one),
@@ -386,51 +389,51 @@ extension Presets {
 
 extension Presets {
     struct VerificationInfoView {
-        static var none = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
+        static var none = InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
                                         headerTrailing: .init(image: "help"),
                                         status: VerificationStatus.none,
-                                        description: .text("Get full access to your Fabriik wallet"),
-                                        button: .init(title: "Verify your account"),
+                                        description: .text(L10n.Account.fullAccess),
+                                        button: .init(title: L10n.Account.accountVerify),
                                         dismissType: .persistent)
         
-        static var nonePrompt = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
+        static var nonePrompt = InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
                                               headerTrailing: .init(image: "CloseModern"),
                                               status: VerificationStatus.none,
-                                              description: .text("Get full access to your Fabriik wallet"),
-                                              button: .init(title: "Verify your account"),
+                                              description: .text(L10n.Account.fullAccess),
+                                              button: .init(title: L10n.Account.accountVerify),
                                               dismissType: .persistent)
         
-        static var verified = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
+        static var verified = InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
                                             headerTrailing: .init(image: "help"),
                                             status: VerificationStatus.levelOne,
-                                            description: .text("Current limit: $1,000/day"),
-                                            button: .init(title: "Upgrade your limits"),
+                                            description: .text(L10n.Account.currentLimit),
+                                            button: .init(title: L10n.Account.upgradeLimits),
                                             dismissType: .persistent)
         
-        static var pending = InfoViewModel(kyc: .levelOne, headerTitle: .text("ACCOUNT LIMITS"),
+        static var pending = InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
                                            headerTrailing: .init(image: "help"),
                                            status: VerificationStatus.emailPending,
-                                           description: .text("We’ll let you know when your account is verified."),
+                                           description: .text(L10n.Account.verifiedAccountMessage),
                                            dismissType: .persistent)
         
-        static var verifiedLevelTwo = InfoViewModel(kyc: .levelTwo, headerTitle: .text("ACCOUNT LIMITS"),
+        static var verifiedLevelTwo = InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
                                                     headerTrailing: .init(image: "help"),
                                                     status: VerificationStatus.levelTwo(.levelTwo),
-                                                    description: .text("Swap limit: $10,000 USD/day\nBuy limit: $500 USD/day"),
+                                                    description: .text(L10n.Account.swapAndBuyLimit),
                                                     dismissType: .persistent)
         
-        static var resubmit = InfoViewModel(kyc: .levelTwo, headerTitle: .text("ACCOUNT LIMITS"),
+        static var resubmit = InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
                                             headerTrailing: .init(image: "help"),
                                             status: VerificationStatus.levelTwo(.resubmit),
-                                            description: .text("Oops! We had some issues processing your data"),
-                                            button: .init(title: "Why is my verification declined?"),
+                                            description: .text(L10n.Account.dataIssues),
+                                            button: .init(title: L10n.Account.verificationDeclined),
                                             dismissType: .persistent)
         
-        static var declined = InfoViewModel(kyc: .levelTwo, headerTitle: .text("ACCOUNT LIMITS"),
+        static var declined = InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
                                             headerTrailing: .init(image: "help"),
                                             status: VerificationStatus.levelTwo(.declined),
-                                            description: .text("Oops! We had some issues processing your data"),
-                                            button: .init(title: "Why is my verification declined?"),
+                                            description: .text(L10n.Account.dataIssues),
+                                            button: .init(title: L10n.Account.verificationDeclined),
                                             dismissType: .persistent)
     }
 }
@@ -462,7 +465,7 @@ extension Presets {
 
 extension Presets {
     struct Asset {
-        static var Header = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
+        static var header = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
                                                bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two),
                                                topRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .right),
                                                bottomRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right),
@@ -475,12 +478,12 @@ extension Presets {
                                                                                 cornerRadius: .medium)),
                                                imageSize: .small)
         
-        static var Enabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
+        static var enabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
                                                 bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two),
                                                 topRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .right),
                                                 bottomRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right))
         
-        static var Disabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one.withAlphaComponent(0.5)),
+        static var disabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one.withAlphaComponent(0.5)),
                                                  bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two.withAlphaComponent(0.5)),
                                                  topRightConfiguration: .init(font: Fonts.Subtitle.two,
                                                                               textColor: LightColors.Text.one.withAlphaComponent(0.5),
@@ -492,9 +495,9 @@ extension Presets {
     }
     
     struct StatusView {
-        static var pending = AssetViewModel(icon: UIImage(named: "pendingIcon"), title: "Pending")
-        static var complete = AssetViewModel(icon: UIImage(named: "completeIcon"), title: "Complete")
-        static var failed = AssetViewModel(icon: UIImage(named: "errorIcon")?.withRenderingMode(.alwaysOriginal), title: "Failed")
+        static var pending = AssetViewModel(icon: UIImage(named: "pendingIcon"), title: L10n.Staking.statusPending)
+        static var complete = AssetViewModel(icon: UIImage(named: "completeIcon"), title: L10n.Transaction.complete)
+        static var failed = AssetViewModel(icon: UIImage(named: "errorIcon")?.withRenderingMode(.alwaysOriginal), title: L10n.Transaction.failed)
     }
 }
 

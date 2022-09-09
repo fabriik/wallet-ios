@@ -13,8 +13,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     typealias Models = BuyModels
     
     override var sceneLeftAlignedTitle: String? {
-         // TODO: localize
-        return "Buy"
+        return L10n.HomeScreen.buy
     }
     
     lazy var continueButton: WrapperView<FEButton> = {
@@ -60,16 +59,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         }
         
         continueButton.wrappedView.configure(with: Presets.Button.primary)
-        continueButton.wrappedView.setup(with: .init(title: "Continue", enabled: false))
+        continueButton.wrappedView.setup(with: .init(title: L10n.Button.continueAction, enabled: false))
         continueButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-    }
-    
-    override func prepareData() {
-        super.prepareData()
-        
-        DispatchQueue.main.async {
-            LoadingView.show()
-        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -123,7 +114,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             }
             
             view.didFinish = { [weak self] in
-                self?.interactor?.getFees(viewAction: .init())
+                self?.interactor?.setAmount(viewAction: .init())
             }
             
             view.didTapSelectAsset = { [weak self] in
@@ -184,6 +175,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     
     func displayPaymentCards(responseDisplay: BuyModels.PaymentCards.ResponseDisplay) {
         view.endEditing(true)
+        
         coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards, selected: { [weak self] selectedCard in
             self?.interactor?.setAssets(viewAction: .init(card: selectedCard))
         })
@@ -213,6 +205,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         if let section = sections.firstIndex(of: Models.Sections.rate),
            let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
             cell.setup { view in
+                view.configure(with: .init())
                 view.setup(with: responseDisplay.rate)
                 view.completion = { [weak self] in
                     self?.interactor?.getExchangeRate(viewAction: .init())
@@ -242,8 +235,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                       to: dataStore?.toAmount,
                                       from: dataStore?.from,
                                       card: dataStore?.paymentCard,
-                                      quote: dataStore?.quote,
-                                      networkFee: dataStore?.networkFee)
+                                      quote: dataStore?.quote)
     }
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {

@@ -15,33 +15,29 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     
     var from: Decimal?
     var to: Decimal?
-    var toCurrency: Currency? = Store.state.currencies.first(where: { $0.code.lowercased() == "btc" })
-    var toFee: TransferFeeBasis?
+    var values: BuyModels.Amounts.ViewAction = .init()
     
-    var ethFee: Decimal?
-    var transferFee: TransferFeeBasis?
-    
-    var networkFee: Amount? {
-        if let value = ethFee,
-           let currency = currencies.first(where: { $0.code == "ETH" }) {
-            return .init(tokenString: value.description, currency: currency)
-        } else if let value = toFee,
-                  let currency = currencies.first(where: { $0.code == value.currency.code.uppercased() }) {
-            return .init(cryptoAmount: value.fee, currency: currency)
+    override init() {
+        super.init()
+        guard let currency = Store.state.currencies.first(where: { $0.code.lowercased() == C.BTC.lowercased() }) ?? Store.state.currencies.first
+        else {
+            return
         }
-        return nil
+        toAmount = .zero(currency)
+    }
+    
+    var feeAmount: Amount? {
+        guard let value = quote?.toFee,
+              let currency = currencies.first(where: { $0.code == value.currency.uppercased() }) else {
+            return nil
+        }
+        return .init(amount: value.fee, currency: currency, exchangeRate: quote?.exchangeRate)
     }
     
     var fromCurrency: String? = Store.state.defaultCurrencyCode.lowercased()
     
-    var toAmount: Amount? {
-        guard let toCurrency = toCurrency else { return nil }
-        guard let to = to else { return.zero(toCurrency) }
-        
-        return amountFrom(decimal: to, currency: toCurrency)
-    }
+    var toAmount: Amount?
     
-    var isInputFiat = false
     var paymentCard: PaymentCard?
     var allPaymentCards: [PaymentCard]?
     
@@ -53,51 +49,18 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
     var coreSystem: CoreSystem?
     var keyStore: KeyStore?
     
-    // MARK: - Aditional helpers
+    var autoSelectDefaultPaymentMethod = true
     
-    func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
-        guard let amount = decimal, spaces > 0 else { return .zero(currency) }
-        
-        let formatter = ExchangeFormatter.current
-        formatter.maximumFractionDigits = spaces
-        
-        let amountString = formatter.string(for: amount) ?? ""
-        let rate = Rate(code: currency.code,
-                        name: currency.name,
-                        rate: 1 / (quote?.exchangeRate.doubleValue ?? 1),
-                        reciprocalCode: "")
-        let value = Amount(tokenString: amountString, currency: currency, rate: rate)
-        
-        guard value.tokenValue != 0 else {
-            return amountFrom(decimal: decimal, currency: currency, spaces: spaces - 1)
-        }
-        
-        return value
-    }
+    // MARK: - Aditional helpers
     
     var isFormValid: Bool {
         guard let amount = toAmount,
               amount.tokenValue > 0,
               paymentCard != nil,
-              networkFee != nil
+              feeAmount != nil
         else {
             return false
         }
         return true
-    }
-    
-    // TODO: extract (it being used in swap and buy)
-    func address(for currency: Currency?) -> String? {
-        guard let currency = currency else {
-            return nil
-        }
-
-        let addressScheme: AddressScheme
-        if currency.isBitcoin {
-            addressScheme = UserDefaults.hasOptedInSegwit ? .btcSegwit : .btcLegacy
-        } else {
-            addressScheme = currency.network.defaultAddressScheme
-        }
-        return currency.wallet?.receiveAddress(for: addressScheme)
     }
 }

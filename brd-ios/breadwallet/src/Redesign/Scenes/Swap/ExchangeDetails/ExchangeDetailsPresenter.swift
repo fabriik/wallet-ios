@@ -1,5 +1,5 @@
 //
-//  SwapDetailsPresenter.swift
+//  ExchangeDetailsPresenter.swift
 //  breadwallet
 //
 //  Created by Rok on 06/07/2022.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponses {
-    typealias Models = SwapDetailsModels
+final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsActionResponses {
+    typealias Models = ExchangeDetailsModels
 
-    weak var viewController: SwapDetailsViewController?
+    weak var viewController: ExchangeDetailsViewController?
 
-    // MARK: - SwapDetailsActionResponses
+    // MARK: - ExchangeDetailsActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let item = actionResponse.item as? Models.Item else { return }
         let detail = item.detail
@@ -82,7 +82,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
         let dateString = formatter.string(from: date)
         
         let currencyFormat = "%@ %@"
-        let rate = String(format: "1 %@ = %@ %@", detail.destination.currency, ExchangeFormatter.fiat.string(for: 1 / (detail.rate)) ?? "",
+        let rate = String(format: "1 %@ = %@ %@", detail.destination.currency, ExchangeFormatter.fiat.string(for: 1 / detail.rate) ?? "",
                           currencyCode)
         let totalText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.source.currencyAmount) ?? "",
                                currencyCode)
@@ -102,7 +102,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
         switch type {
         case .swapTransaction:
             toCurrencyAssetViewModel = AssetViewModel(icon: toImage,
-                                                      title: "To \(detail.destination.currency)",
+                                                      title: "\(L10n.TransactionDetails.addressToHeader) \(detail.destination.currency)",
                                                       topRightText: "\(formattedCurrencyAmountDestination) / $\(formattedUsdAmountDestination) \(currencyCode)")
             
         case .buyTransaction:
@@ -114,23 +114,22 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             break
         }
         
-        // TODO: Localize
         let sectionRows = [
             Models.Section.header: [header],
             Models.Section.order: [
-                OrderViewModel(title: "Fabriik Transaction ID",
-                               value: SwapDetailsPresenter.generateAttributedOrderValue(with: orderValue),
+                OrderViewModel(title: L10n.Swap.transactionID,
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: orderValue),
                                showsFullValue: false)
             ],
             Models.Section.buyOrder: [
-                BuyOrderViewModel(rateValue: .init(title: .text("Rate:"), value: .text(rate), infoImage: nil),
-                                  amount: .init(title: .text("Amount purchased:"), value: .text(amountText), infoImage: nil),
-                                  cardFee: .init(title: .text("Card fee:"),
+                BuyOrderViewModel(rateValue: .init(title: .text(L10n.Swap.rate), value: .text(rate), infoImage: nil),
+                                  amount: .init(title: .text(L10n.Swap.amountPurchased), value: .text(amountText), infoImage: nil),
+                                  cardFee: .init(title: .text(L10n.Swap.cardFee),
                                                  value: .text(cardFeeText),
                                                  infoImage: nil),
-                                  networkFee: .init(title: .text("Mining network fee:"), value: .text(networkFeeText), infoImage: nil),
-                                  totalCost: .init(title: .text("Total:"), value: .text(totalText)),
-                                  paymentMethod: .init(methodTitle: .text("Paid with"),
+                                  networkFee: .init(title: .text(L10n.Swap.miningNetworkFee), value: .text(networkFeeText), infoImage: nil),
+                                  totalCost: .init(title: .text(L10n.Swap.total), value: .text(totalText)),
+                                  paymentMethod: .init(methodTitle: .text(L10n.Swap.paidWith),
                                                        logo: detail.source.paymentInstrument.displayImage,
                                                        cardNumber: .text(detail.source.paymentInstrument.displayName),
                                                        expiration: .text(CardDetailsFormatter.formatExpirationDate(month: detail.source.paymentInstrument.expiryMonth,
@@ -139,7 +138,7 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
             ],
             Models.Section.fromCurrency: [
                 AssetViewModel(icon: fromImage,
-                               title: "From \(detail.source.currency)",
+                               title: "\(L10n.TransactionDetails.addressFromHeader) \(detail.source.currency)",
                                topRightText: "\(formattedCurrencyAmountString) / $\(formattedUsdAmountString) \(currencyCode)")
             ],
             Models.Section.image: [
@@ -149,16 +148,16 @@ final class SwapDetailsPresenter: NSObject, Presenter, SwapDetailsActionResponse
                 toCurrencyAssetViewModel
             ],
             Models.Section.timestamp: [
-                TransactionViewModel(title: "Timestamp",
+                TransactionViewModel(title: L10n.Swap.timestamp,
                                      description: "\(dateString)")
             ],
             Models.Section.transactionFrom: [
-                OrderViewModel(title: "\(detail.source.currency) Transaction ID",
-                               value: SwapDetailsPresenter.generateAttributedOrderValue(with: transactionFromValue),
+                OrderViewModel(title: "\(detail.source.currency) \(L10n.TransactionDetails.txHashHeader)",
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: transactionFromValue),
                                showsFullValue: true)
             ],
             Models.Section.transactionTo: [
-                TransactionViewModel(title: "\(detail.destination.currency) Transaction ID",
+                TransactionViewModel(title: "\(detail.destination.currency) \(L10n.TransactionDetails.txHashHeader)",
                                      description: "\(detail.status.rawValue.localizedCapitalized)")
             ]
         ]

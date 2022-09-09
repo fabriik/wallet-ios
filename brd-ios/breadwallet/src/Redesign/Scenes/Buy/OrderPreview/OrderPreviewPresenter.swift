@@ -33,7 +33,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let from = item.from ?? 0
         let cardFee = from * (quote.buyFee ?? 0) / 100
         let networkFee = item.networkFee?.fiatValue ?? 0
-        let fiatCurrency = (quote.fromFeeCurrency?.feeCurrency ?? C.usdCurrencyCode).uppercased()
+        let fiatCurrency = (quote.fromFee?.currency ?? C.usdCurrencyCode).uppercased()
         
         let currencyFormat = "%@ %@"
         let amountText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: to) ?? "", fiatCurrency)
@@ -97,7 +97,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
                 LabelViewModel.attributedText(termsText)
             ],
             .submit: [
-                ButtonViewModel(title: "Confirm", enabled: false)
+                ButtonViewModel(title: L10n.Button.confirm, enabled: false)
             ]
         ]
         
@@ -126,6 +126,14 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
     
     func presentCvv(actionResponse: OrderPreviewModels.CvvValidation.ActionResponse) {
         viewController?.displayCvv(responseDisplay: .init(continueEnabled: actionResponse.isValid))
+    }
+    
+    func presentCvvInfoPopup(actionResponse: OrderPreviewModels.CvvInfoPopup.ActionResponse) {
+        let model = PopupViewModel(title: .text(L10n.Buy.securityCode),
+                                   imageName: "creditCard",
+                                   body: L10n.Buy.securityCodePopup)
+        
+        viewController?.displayCvvInfoPopup(responseDisplay: .init(model: model))
     }
     
     func presentTimeOut(actionResponse: OrderPreviewModels.ExpirationValidations.ActionResponse) {

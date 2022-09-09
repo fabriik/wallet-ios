@@ -12,7 +12,7 @@ import UIKit
 import WalletKit
 
 enum SwapModels {
-    typealias Item = (from: Currency?, to: Currency?, quote: Quote?, isKYCLevelTwo: Bool?)
+    typealias Item = (from: Amount?, to: Amount?, quote: Quote?, isKYCLevelTwo: Bool?)
     
     enum Sections: Sectionable {
         case rateAndTimer
@@ -152,7 +152,7 @@ enum SwapModels {
         struct ResponseDisplay {}
     }
     
-    struct InfoPopup {
+    struct AssetInfoPopup {
         struct ViewAction {}
         struct ActionResponse {}
         struct ResponseDisplay {

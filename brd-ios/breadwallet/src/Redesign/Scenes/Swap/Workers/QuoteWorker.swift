@@ -29,7 +29,6 @@ struct QuoteModelResponse: ModelResponse {
     var barTime: Double
     var timestamp: Double
     
-    var markup: Decimal
     var minimumValue: Decimal
     var maximumValue: Decimal
     var minimumValueUsd: Decimal
@@ -41,6 +40,8 @@ struct QuoteModelResponse: ModelResponse {
     }
     var fromFeeCurrency: Fee?
     var toFeeCurrency: Fee?
+    var fromFee: Decimal?
+    var toFee: Decimal?
     var buyFees: Decimal?
 }
 
@@ -49,47 +50,49 @@ struct Quote {
     var exchangeRate: Decimal
     var timestamp: Double
     
-    var markup: Decimal
     var minimumValue: Decimal
     var maximumValue: Decimal
     var minimumUsd: Decimal
     var maximumUsd: Decimal
-    
-    struct Fee {
-        var feeCurrency: String
-        var rate: Decimal
-    }
-    var fromFeeCurrency: Fee?
-    var toFeeCurrency: Fee?
+    var fromFeeRate: Decimal?
+    var toFeeRate: Decimal?
+    var fromFee: EstimateFee?
+    var toFee: EstimateFee?
     var buyFee: Decimal?
+}
+
+struct EstimateFee: Model {
+    var fee: Decimal
+    var currency: String
 }
 
 class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
     override func getModel(from response: QuoteModelResponse?) -> Quote? {
         guard let response = response else { return nil }
 
-        var fromFee: Quote.Fee?
+        var fromFee: EstimateFee?
         if let currency = response.fromFeeCurrency?.feeCurrency,
-           let rate = response.fromFeeCurrency?.rate {
-            fromFee = .init(feeCurrency: currency, rate: rate)
+           let value = response.fromFee {
+            fromFee = .init(fee: value, currency: currency)
         }
         
-        var toFee: Quote.Fee?
+        var toFee: EstimateFee?
         if let currency = response.toFeeCurrency?.feeCurrency,
-           let rate = response.toFeeCurrency?.rate {
-            toFee = .init(feeCurrency: currency, rate: rate)
+            let value = response.toFee {
+            toFee = .init(fee: value, currency: currency)
         }
         
         return .init(quoteId: response.quoteId,
                      exchangeRate: response.exchangeRate,
                      timestamp: response.timestamp,
-                     markup: response.markup,
                      minimumValue: response.minimumValue,
                      maximumValue: response.maximumValue,
                      minimumUsd: response.minimumValueUsd,
                      maximumUsd: response.maximumValueUsd,
-                     fromFeeCurrency: fromFee,
-                     toFeeCurrency: toFee,
+                     fromFeeRate: response.fromFeeCurrency?.rate,
+                     toFeeRate: response.toFeeCurrency?.rate,
+                     fromFee: fromFee,
+                     toFee: toFee,
                      buyFee: response.buyFees)
     }
 }
@@ -101,6 +104,6 @@ class QuoteWorker: BaseApiWorker<QuoteMapper> {
               let to = urlParams.to
         else { return "" }
         
-        return APIURLHandler.getUrl(SwapEndpoints.quote, parameters: from, to)
+        return APIURLHandler.getUrl(ExchangeEndpoints.quote, parameters: from, to)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  SwapDetailsViewController.swift
+//  ExchangeDetailsViewController.swift
 //  breadwallet
 //
 //  Created by Rok on 06/07/2022.
@@ -8,22 +8,21 @@
 
 import UIKit
 
-class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
-                                 SwapDetailsInteractor,
-                                 SwapDetailsPresenter,
-                                 SwapDetailsStore>,
-                                 SwapDetailsResponseDisplays {
+class ExchangeDetailsViewController: BaseTableViewController<BaseCoordinator,
+                                     ExchangeDetailsInteractor,
+                                     ExchangeDetailsPresenter,
+                                     ExchangeDetailsStore>,
+                                     ExchangeDetailsResponseDisplays {
     
-    typealias Models = SwapDetailsModels
+    typealias Models = ExchangeDetailsModels
     
     override var sceneLeftAlignedTitle: String? {
-        // TODO: Localize
         switch dataStore?.transactionType {
         case .buyTransaction:
-            return "Purchase details"
+            return L10n.Buy.details
             
         case .swapTransaction:
-            return "Swap details"
+            return L10n.Swap.details
             
         default:
             return ""
@@ -81,7 +80,7 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
         }
         
         cell.setup { view in
-            view.configure(with: Presets.Asset.Header)
+            view.configure(with: Presets.Asset.header)
             view.setup(with: model)
         }
         
@@ -142,7 +141,7 @@ class SwapDetailsViewController: BaseTableViewController<BaseCoordinator,
     
     // MARK: - User Interaction
 
-    // MARK: - SwapDetailsResponseDisplay
+    // MARK: - ExchangeDetailsResponseDisplay
 
     // MARK: - Additional Helpers
 }

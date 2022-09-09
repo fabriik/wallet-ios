@@ -12,8 +12,7 @@ class AccountVerificationViewController: BaseTableViewController<KYCCoordinator,
     typealias Models = AccountVerificationModels
 
     override var sceneLeftAlignedTitle: String? {
-        // TODO: localize
-        return "Account Verification"
+        return L10n.Account.accountVerification
     }
     
     override var infoIcon: UIImage? {

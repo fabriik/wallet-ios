@@ -17,20 +17,22 @@ struct ButtonConfiguration: Configurable {
     var disabledConfiguration: BackgroundConfiguration?
     var shadowConfiguration: ShadowConfiguration?
     
-    mutating func with(border: BorderConfiguration) -> Self {
-        backgroundConfiguration?.border = border
-        selectedConfiguration?.border = border
-        disabledConfiguration?.border = border
-        return self
+    func with(border: BorderConfiguration) -> Self {
+        var copy = self
+        copy.backgroundConfiguration?.border = border
+        copy.selectedConfiguration?.border = border
+        copy.disabledConfiguration?.border = border
+        return copy
     }
     
-    mutating func withBorder(normal: BorderConfiguration? = nil,
-                             selected: BorderConfiguration? = nil,
-                             disabled: BorderConfiguration? = nil) -> ButtonConfiguration {
-        backgroundConfiguration?.border = normal
-        selectedConfiguration?.border = selected
-        disabledConfiguration?.border = disabled
-        return self
+    func withBorder(normal: BorderConfiguration? = nil,
+                    selected: BorderConfiguration? = nil,
+                    disabled: BorderConfiguration? = nil) -> ButtonConfiguration {
+        var copy = self
+        copy.backgroundConfiguration?.border = normal
+        copy.selectedConfiguration?.border = selected
+        copy.disabledConfiguration?.border = disabled
+        return copy
     }
 }
 

@@ -27,7 +27,9 @@ struct PaymentMethodViewModel: ViewModel {
     var logo: ImageViewModel?
     var cardNumber: LabelViewModel?
     var expiration: LabelViewModel?
-    var cvvTitle: TitleValueViewModel? = .init(title: .text("Please confirm your CVV"), value: .text(""))
+    var cvvTitle: TitleValueViewModel? = .init(title: .text("Please confirm your CVV"),
+                                               value: .text(""),
+                                               infoImage: .image(UIImage(named: "help")?.withRenderingMode(.alwaysOriginal)))
     var cvv: TextFieldModel? = .init(placeholder: "CVV")
 }
 
@@ -54,14 +56,14 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
         return view
     }()
     
-    private lazy var cvvTitleLabel: TitleValueView = {
+    private lazy var cvvTitle: TitleValueView = {
         let view = TitleValueView()
         return view
     }()
     
     private lazy var cvvTextField: FETextField = {
         let view = FETextField()
-        view.hideFilledTitleStack = true
+        view.hideTitleForState = .filled
         return view
     }()
     
@@ -74,6 +76,8 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
             cvvTextField.valueChanged = newValue
         }
     }
+    
+    var didTapCvvInfo: (() -> Void)?
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -105,19 +109,23 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
             make.height.equalTo(ViewSizes.medium.rawValue)
         }
         
-        mainStack.addArrangedSubview(cvvTitleLabel)
+        mainStack.addArrangedSubview(cvvTitle)
         mainStack.addArrangedSubview(cvvTextField)
         cvvTextField.snp.makeConstraints { make in
             make.height.equalTo(FieldHeights.common.rawValue)
+        }
+        
+        cvvTitle.didTapInfoButton = { [weak self] in
+            self?.cvvInfoButtonTapped()
         }
     }
     
     override func configure(with config: PaymentMethodConfiguration?) {
         super.configure(with: config)
         methodTitleLabel.configure(with: config?.title)
-        cvvTitleLabel.configure(with: config?.cvvTitle)
+        cvvTitle.configure(with: config?.cvvTitle)
         cardDetailsView.configure(with: .init())
-        cvvTitleLabel.configure(with: config?.cvvTitle)
+        cvvTitle.configure(with: config?.cvvTitle)
         cvvTextField.configure(with: Presets.TextField.number.setSecure(true))
         
         configure(background: config?.background)
@@ -130,8 +138,8 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
         methodTitleLabel.setup(with: viewModel?.methodTitle)
         methodTitleLabel.isHidden = viewModel?.methodTitle == nil
         
-        cvvTitleLabel.setup(with: viewModel?.cvvTitle)
-        cvvTitleLabel.isHidden = viewModel?.cvvTitle == nil
+        cvvTitle.setup(with: viewModel?.cvvTitle)
+        cvvTitle.isHidden = viewModel?.cvvTitle == nil
         
         cvvTextField.setup(with: viewModel?.cvv)
         cvvTextField.isHidden = viewModel?.cvv == nil
@@ -142,4 +150,8 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
     }
     
     // MARK: - User interaction
+    
+    private func cvvInfoButtonTapped() {
+        didTapCvvInfo?()
+    }
 }

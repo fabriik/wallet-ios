@@ -311,7 +311,7 @@ class GiftViewController: UIViewController, Trackable {
                 guard let self = self else { return }
                 let feeCurrency = self.sender.wallet.feeCurrency
                 let fee = Amount(cryptoAmount: feeBasis.fee, currency: feeCurrency)
-                let rate = Rate(code: "USD", name: "USD", rate: rate.price, reciprocalCode: "BTC")
+                let rate = Rate(code: "USD", name: "USD", rate: rate.price, reciprocalCode: C.BTC)
                 let displayAmount = Amount(amount: amount,
                                           rate: rate,
                                           maximumFractionDigits: Amount.highPrecisionDigits)

@@ -18,8 +18,7 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
     override var isModalDismissableEnabled: Bool { return false }
     
     override var sceneLeftAlignedTitle: String? {
-        // TODO: localize
-        return "Personal Information"
+        return L10n.Account.personalInformation
     }
     private var isValid = false
 
@@ -97,9 +96,7 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
             view.setup(with: model)
             
             view.didPresentPicker = { [weak self] in
-                self?.coordinator?.showDatePicker(model: model, completion: {
-                    view.animateTo(state: .filled)
-                })
+                self?.coordinator?.showDatePicker(model: model)
             }
         }
         

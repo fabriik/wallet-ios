@@ -19,8 +19,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     typealias Models = SwapModels
     
     override var sceneLeftAlignedTitle: String? {
-         // TODO: localize
-        return "Swap"
+        return L10n.HomeScreen.trade
     }
     
     lazy var confirmButton: WrapperView<FEButton> = {
@@ -65,16 +64,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
         
         confirmButton.wrappedView.configure(with: Presets.Button.primary)
-        confirmButton.wrappedView.setup(with: .init(title: "Confirm", enabled: false))
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm, enabled: false))
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-    }
-    
-    override func prepareData() {
-        super.prepareData()
-        
-        DispatchQueue.main.async {
-            LoadingView.show()
-        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -177,7 +168,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         
         switch error {
         case .noQuote:
-            displayRate(responseDisplay: .init(rate: .init()))
+            displayExchangeRate(responseDisplay: .init(rate: .init()))
             
         case .failed:
             coordinator?.showFailure()
@@ -190,7 +181,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay) {
-        // TODO: replace with Coordinator call
+        // TODO: Extract to VIPBaseViewController
         LoadingView.hide()
         
         confirmButton.wrappedView.isEnabled = responseDisplay.continueEnabled
@@ -207,15 +198,15 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         }
     }
     
-    func displayRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
+    func displayExchangeRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
         if let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
            let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
             
             cell.setup { view in
-                let model = responseDisplay.rate
-                view.setup(with: model)
+                view.configure(with: .init())
+                view.setup(with: responseDisplay.rate)
                 view.completion = { [weak self] in
-                    self?.interactor?.getRate(viewAction: .init())
+                    self?.interactor?.getExchangeRate(viewAction: .init())
                 }
             }
         }
@@ -234,12 +225,13 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay) {
+        view.endEditing(true)
         coordinator?.showAssetSelector(currencies: responseDisplay.to ?? responseDisplay.from,
                                        supportedCurrencies: dataStore?.supportedCurrencies,
                                        selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }
             
-            // TODO: replace with coordinator call
+            // TODO: Extract to VIPBaseViewController
             LoadingView.show()
             guard responseDisplay.from?.isEmpty == false else {
                 self?.interactor?.assetSelected(viewAction: .init(to: model.subtitle))
@@ -267,19 +259,18 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayError(responseDisplay: SwapModels.ErrorPopup.ResponseDisplay) {
-        interactor?.showInfoPopup(viewAction: .init())
+        interactor?.showAssetInfoPopup(viewAction: .init())
     }
     
-    func displayInfoPopup(responseDisplay: SwapModels.InfoPopup.ResponseDisplay) {
+    func displayAssetInfoPopup(responseDisplay: SwapModels.AssetInfoPopup.ResponseDisplay) {
         coordinator?.showPopup(on: self,
                                blurred: true,
                                with: responseDisplay.popupViewModel,
                                config: responseDisplay.popupConfig,
                                closeButtonCallback: { [weak self] in
-            self?.coordinator?.goBack()
+            self?.coordinator?.goBack(completion: {})
         }, callbacks: [ { [weak self] in
-            self?.coordinator?.hidePopup()
-            self?.coordinator?.goBack()
+            self?.coordinator?.goBack(completion: {})
         }])
     }
     

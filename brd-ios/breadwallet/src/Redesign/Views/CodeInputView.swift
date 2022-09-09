@@ -47,7 +47,7 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
     
     private lazy var errorLabel: FELabel = {
         let view = FELabel()
-        view.text = "Invalid code"
+        view.text = L10n.InputView.invalidCode
         view.isHidden = true
         return view
     }()
@@ -78,7 +78,7 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
         
         for _ in (0..<numberOfFields) {
             let view = FETextField()
-            view.hideFilledTitleStack = true
+            view.hideTitleForState = .filled
             view.isUserInteractionEnabled = false
             inputStack.addArrangedSubview(view)
         }
@@ -188,7 +188,7 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
     }
     
     func showErrorMessage() {
-        errorLabel.text = "Invalid code" // TODO: Localize
+        errorLabel.text = L10n.InputView.invalidCode
         animateTo(state: .error)
     }
 }

@@ -18,6 +18,7 @@ class AssetSelectionViewController: ItemSelectionViewController {
     
     override func setupSubviews() {
         super.setupSubviews()
+        
         tableView.register(WrapperTableViewCell<AssetView>.self)
     }
     
@@ -30,7 +31,7 @@ class AssetSelectionViewController: ItemSelectionViewController {
         }
         
         cell.setup { view in
-            view.configure(with: model.isDisabled ? Presets.Asset.Disabled : Presets.Asset.Enabled)
+            view.configure(with: model.isDisabled ? Presets.Asset.disabled : Presets.Asset.enabled)
             view.setup(with: model)
         }
         

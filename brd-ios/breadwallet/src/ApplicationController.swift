@@ -372,14 +372,11 @@ class ApplicationController: Subscriber, Trackable {
         UserManager.shared.refresh { [weak self] result in
             switch result {
             case .success(let profile):
-                guard !UserDefaults.emailConfirmed,
-                      profile?.email != nil else {
-                    return
-                }
+                self?.homeScreenViewController?.canShowPrompts = profile?.status.canBuyTrade == false
+                
+                guard profile?.status == VerificationStatus.none || profile?.status == .emailPending else { return }
                 
                 self?.coordinator?.showRegistration()
-                
-                self?.homeScreenViewController?.canShowPrompts = true
                 
             case .failure:
                 if let token = UserDefaults.walletTokenValue {
@@ -443,8 +440,7 @@ class ApplicationController: Subscriber, Trackable {
         homeScreen.didTapProfileFromPrompt = { [unowned self] profile in
             switch profile {
             case .success(let profile):
-                if profile?.email == nil
-                    || !UserDefaults.emailConfirmed {
+                if profile?.email == nil {
                     coordinator?.showRegistration(shouldShowProfile: true)
                 } else if UserManager.shared.profile?.status.canBuyTrade == false {
                     coordinator?.showVerificationsModally()

@@ -13,23 +13,18 @@ import WalletKit
 
 class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     // MARK: - SwapDataStore
-    
     var itemId: String?
     
     var from: Amount?
     var to: Amount?
     
+    var values: SwapModels.Amounts.ViewAction = .init()
+    
     var fromFee: TransferFeeBasis?
-    var toFee: TransferFeeBasis?
-    var fromFeeEth: Decimal?
-    var toFeeEth: Decimal?
     
     var quote: Quote?
     var fromRate: Decimal?
     var toRate: Decimal?
-    
-    var fromCurrency: Currency?
-    var toCurrency: Currency?
     
     var supportedCurrencies: [SupportedCurrency]?
     
@@ -49,63 +44,20 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var isKYCLevelTwo: Bool?
     
     // MARK: - Aditional helpers
-    
-    func amountFrom(decimal: Decimal?, currency: Currency, spaces: Int = 9) -> Amount {
-        guard let amount = decimal, spaces > 0 else { return .zero(currency) }
-        
-        let formatter = ExchangeFormatter.current
-        formatter.maximumFractionDigits = spaces
-        
-        let amountString = formatter.string(for: amount) ?? ""
-        let value = Amount(tokenString: amountString, currency: currency)
-        
-        guard value.tokenValue != 0 else {
-            return amountFrom(decimal: decimal, currency: currency, spaces: spaces - 1)
-        }
-        
-        return value
-    }
-    
     var fromFeeAmount: Amount? {
-        if let value = fromFeeEth,
-           let currency = currencies.first(where: { $0.code == "ETH" }) {
-            return .init(tokenString: value.description, currency: currency)
-        } else if let value = fromFee?.fee,
-                  let currency = currencies.first(where: { $0.code == value.currency.code.uppercased() }) {
-            return .init(cryptoAmount: value, currency: currency)
+        guard let value = fromFee,
+              let currency = currencies.first(where: { $0.code == value.fee.currency.code.uppercased() }) else {
+            return nil
         }
-        return nil
+        return .init(cryptoAmount: value.fee, currency: currency)
     }
     
     var toFeeAmount: Amount? {
-        if let value = toFeeEth,
-           let currency = currencies.first(where: { $0.code == "ETH" }) {
-            return .init(tokenString: value.description, currency: currency)
-        } else if let value = toFee?.fee,
-                  let currency = currencies.first(where: { $0.code == value.currency.code.uppercased() }) {
-            return .init(cryptoAmount: value, currency: currency)
-        }
-        return nil
-    }
-    
-    var swapPair: String {
-        let from = fromCurrency?.code ?? "</>"
-        let to = toCurrency?.code ?? "</>"
-        return "\(from)-\(to)"
-    }
-
-    // TODO: extract (it being used in swap and buy)
-    func address(for currency: Currency?) -> String? {
-        guard let currency = currency else {
+        guard let value = quote?.toFee,
+              let fee = ExchangeFormatter.crypto.string(for: value.fee),
+              let currency = currencies.first(where: { $0.code == value.currency.uppercased() }) else {
             return nil
         }
-
-        let addressScheme: AddressScheme
-        if currency.isBitcoin {
-            addressScheme = UserDefaults.hasOptedInSegwit ? .btcSegwit : .btcLegacy
-        } else {
-            addressScheme = currency.network.defaultAddressScheme
-        }
-        return currency.wallet?.receiveAddress(for: addressScheme)
+        return .init(tokenString: fee, currency: currency)
     }
 }

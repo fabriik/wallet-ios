@@ -1,5 +1,5 @@
 //
-//  SwapDetailsInteractor.swift
+//  ExchangeDetailsInteractor.swift
 //  breadwallet
 //
 //  Created by Rok on 06/07/2022.
@@ -8,22 +8,22 @@
 
 import UIKit
 
-class SwapDetailsInteractor: NSObject, Interactor, SwapDetailsViewActions {
-    typealias Models = SwapDetailsModels
+class ExchangeDetailsInteractor: NSObject, Interactor, ExchangeDetailsViewActions {
+    typealias Models = ExchangeDetailsModels
 
-    var presenter: SwapDetailsPresenter?
-    var dataStore: SwapDetailsStore?
+    var presenter: ExchangeDetailsPresenter?
+    var dataStore: ExchangeDetailsStore?
     
-    // MARK: - SwapDetailsViewActions
+    // MARK: - ExchangeDetailsViewActions
     
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        let data = SwapDetailsRequestData(exchangeId: dataStore?.itemId)
+        let data = ExchangeDetailsRequestData(exchangeId: dataStore?.itemId)
         
-        SwapDetailsWorker().execute(requestData: data) { [weak self] result in
+        ExchangeDetailsWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let data = data, let transactionType = self?.dataStore?.transactionType else { return }
-                let item = SwapDetailsModels.Item(detail: data, type: transactionType)
+                let item = ExchangeDetailsModels.Item(detail: data, type: transactionType)
                 self?.presenter?.presentData(actionResponse: .init(item: item))
                 
             case .failure(let error):
@@ -32,7 +32,7 @@ class SwapDetailsInteractor: NSObject, Interactor, SwapDetailsViewActions {
         }
     }
     
-    func copyValue(viewAction: SwapDetailsModels.CopyValue.ViewAction) {
+    func copyValue(viewAction: ExchangeDetailsModels.CopyValue.ViewAction) {
         let value = viewAction.value ?? ""
         UIPasteboard.general.string = value
     }

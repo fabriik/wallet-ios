@@ -17,11 +17,6 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
         open(scene: Scenes.Swap)
     }
     
-    override func goBack() {
-        parentCoordinator?.childDidFinish(child: self)
-        navigationController.dismiss(animated: true)
-    }
-    
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?) {
         guard let keyStore = keyStore else { fatalError("No key store") }
         
@@ -40,6 +35,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
     
     func showSwapInfo(from: String, to: String, exchangeId: String) {
         open(scene: SwapInfoViewController.self) { vc in
+            vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId
             vc.dataStore?.item = (from: from, to: to)
             vc.prepareData()
@@ -47,7 +43,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
     }
     
     func showSwapDetails(exchangeId: String) {
-        open(scene: SwapDetailsViewController.self) { vc in
+        open(scene: ExchangeDetailsViewController.self) { vc in
             vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId
             vc.dataStore?.transactionType = .swapTransaction
@@ -57,13 +53,14 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
     
     func showFailure() {
         open(scene: Scenes.Failure) { vc in
+            vc.navigationItem.hidesBackButton = true
             vc.failure = FailureReason.swap
             vc.firstCallback = { [weak self] in
-                self?.navigationController.popToRootViewController(animated: true)
+                self?.popToRoot()
             }
             
             vc.secondCallback = { [weak self] in
-                self?.navigationController.dismiss(animated: true)
+                self?.goBack(completion: {})
             }
         }
     }

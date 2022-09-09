@@ -210,7 +210,7 @@ class ModalPresenter: Subscriber, Trackable {
     func presentFaq(articleId: String? = nil, currency: Currency? = nil) {
         guard let url = URL(string: C.supportLink) else { return }
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "Support"))
+        webViewController.setup(with: .init(title: L10n.MenuButton.support))
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         
@@ -365,12 +365,12 @@ class ModalPresenter: Subscriber, Trackable {
                 
             case .privateKey:
                 let alert = UIAlertController(title: L10n.Settings.importTitle, message: nil, preferredStyle: .actionSheet)
-                alert.addAction(UIAlertAction(title: "BTC", style: .default, handler: { _ in
+                alert.addAction(UIAlertAction(title: C.BTC, style: .default, handler: { _ in
                     if let wallet = Currencies.shared.btc?.wallet {
                         self.presentKeyImport(wallet: wallet, scanResult: scanResult)
                     }
                 }))
-                alert.addAction(UIAlertAction(title: "BCH", style: .default, handler: { _ in
+                alert.addAction(UIAlertAction(title: C.BCH, style: .default, handler: { _ in
                     if let wallet = Currencies.shared.bch?.wallet {
                         self.presentKeyImport(wallet: wallet, scanResult: scanResult)
                     }
@@ -1144,8 +1144,7 @@ class ModalPresenter: Subscriber, Trackable {
             }
         ]
         
-        // Add Delete account
-        let deleteAccount = MenuItem(title: "Delete account", color: LightColors.error) { [weak self] in
+        let deleteAccount = MenuItem(title: L10n.Account.deleteAccount, color: LightColors.error) { [weak self] in
             self?.deleteAccountCallback?()
         }
         

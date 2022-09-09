@@ -107,8 +107,8 @@ class BaseCoordinator: NSObject,
                 vc?.dataStore?.coreSystem = coreSystem
                 vc?.dataStore?.keyStore = keyStore
                 vc?.dataStore?.defaultCurrencyCode = Store.state.defaultCurrencyCode.lowercased()
+                // TODO: profile has this as well
                 vc?.dataStore?.isKYCLevelTwo = self?.isKYCLevelTwo
-                vc?.prepareData()
             }
         }
     }
@@ -121,7 +121,6 @@ class BaseCoordinator: NSObject,
                 vc?.dataStore?.coreSystem = coreSystem
                 vc?.dataStore?.keyStore = keyStore
                 vc?.dataStore?.fromCurrency = Store.state.defaultCurrencyCode.lowercased()
-                vc?.prepareData()
             }
         }
     }
@@ -161,6 +160,7 @@ class BaseCoordinator: NSObject,
         // More hint: deleteAccountCallback inside ModalPresenter.
     }
     
+    // TODO: There are 2 goBack functions. Unify them. 
     /// Determines whether the viewcontroller or navigation stack are being dismissed
     func goBack() {
         // if the same coordinator is used in a flow, we dont want to remove it from the parent
@@ -172,6 +172,24 @@ class BaseCoordinator: NSObject,
                 || parentCoordinator?.navigationController == navigationController
         else { return }
         parentCoordinator?.childDidFinish(child: self)
+    }
+    
+    func goBack(completion: (() -> Void)? = nil) {
+        guard parentCoordinator != nil,
+              parentCoordinator?.navigationController != navigationController else {
+            navigationController.popViewController(animated: true)
+            return
+        }
+        navigationController.dismiss(animated: true) {
+            completion?()
+        }
+        parentCoordinator?.childDidFinish(child: self)
+    }
+    
+    func popToRoot(completion: (() -> Void)? = nil) {
+        navigationController.popToRootViewController(animated: true) {
+            completion?()
+        }
     }
 
     /// Remove the child coordinator from the stack after iit finnished its flow
@@ -234,60 +252,56 @@ class BaseCoordinator: NSObject,
         let nvc = RootNavigationController()
         var coordinator: Coordinatable?
         
-        // TODO: If this logic passes QA, then unify the code in other places like "ApplicationController, HomeScreenViewController" and etc.
-        UserManager.shared.refresh { [unowned self] result in
-            switch result {
-            case .success(let profile):
-                guard let profile = profile else { return }
+        switch UserManager.shared.profileResult {
+        case .success(let profile):
+            guard let profile = profile else { return }
+            
+            let roles = profile.roles
+            let status = profile.status
+            isKYCLevelTwo = status == .levelTwo(.levelTwo)
+            
+            if roles.contains(.unverified)
+                || roles.isEmpty == true
+                || status == .emailPending
+                || status == .none {
+                coordinator = RegistrationCoordinator(navigationController: nvc)
                 
-                let roles = profile.roles
-                let status = profile.status
-                
-                isKYCLevelTwo = status == .levelTwo(.levelTwo)
-                
-                if roles.contains(.unverified)
-                    || roles.isEmpty == true
-                    || status == .emailPending
-                    || status == .none {
-                    coordinator = RegistrationCoordinator(navigationController: nvc)
-                    
-                } else if let kycLevel = checkForCustomerRole,
-                          roles.contains(kycLevel) {
-                    completion?(true)
-                } else if checkForCustomerRole == nil {
-                    completion?(true)
-                } else {
-                    coordinator = KYCCoordinator(navigationController: nvc)
-                }
-                
-            case .failure(let error):
-                guard error as? NetworkingError == .sessionExpired
-                        || error as? NetworkingError == .parameterMissing else {
-                    completion?(false)
-                    return
-                }
-                
-                coordinator = RegistrationCoordinator(navigationController: RootNavigationController())
-                
-            default:
+            } else if let kycLevel = checkForCustomerRole,
+                      roles.contains(kycLevel) {
                 completion?(true)
-                
-                return
+            } else if checkForCustomerRole == nil {
+                completion?(true)
+            } else {
+                coordinator = KYCCoordinator(navigationController: nvc)
             }
             
-            guard let coordinator = coordinator else {
+        case .failure(let error):
+            guard error as? NetworkingError == .sessionExpired
+                    || error as? NetworkingError == .parameterMissing else {
                 completion?(false)
-                
                 return
             }
             
-            coordinator.start()
-            coordinator.parentCoordinator = self
-            childCoordinators.append(coordinator)
-            navigationController.show(coordinator.navigationController, sender: nil)
+            coordinator = RegistrationCoordinator(navigationController: RootNavigationController())
             
-            completion?(false)
+        default:
+            completion?(true)
+            
+            return
         }
+        
+        guard let coordinator = coordinator else {
+            completion?(false)
+            
+            return
+        }
+        
+        coordinator.start()
+        coordinator.parentCoordinator = self
+        childCoordinators.append(coordinator)
+        navigationController.show(coordinator.navigationController, sender: nil)
+        
+        completion?(false)
     }
 
     func showMessage(with error: Error? = nil, model: InfoViewModel? = nil, configuration: InfoViewConfiguration? = nil) {
@@ -295,7 +309,6 @@ class BaseCoordinator: NSObject,
         LoadingView.hide()
         
         guard (error as? NetworkingError) != .sessionExpired else {
-            UserDefaults.emailConfirmed = false
             openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.Registration)
             return
         }
@@ -340,18 +353,6 @@ class BaseCoordinator: NSObject,
     }
     
     func hideMessage(_ view: UIView) {}
-
-    func goBack(completion: (() -> Void)? = nil) {
-        guard parentCoordinator != nil,
-              parentCoordinator?.navigationController != navigationController else {
-            navigationController.popViewController(animated: true)
-            return
-        }
-        navigationController.dismiss(animated: true) {
-            completion?()
-        }
-        parentCoordinator?.childDidFinish(child: self)
-    }
     
     func showUnderConstruction(_ feat: String) {
         // TODO: navigate on

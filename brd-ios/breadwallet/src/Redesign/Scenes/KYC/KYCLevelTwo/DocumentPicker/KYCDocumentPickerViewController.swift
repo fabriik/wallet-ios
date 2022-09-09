@@ -18,8 +18,7 @@ class KYCDocumentPickerViewController: BaseTableViewController<KYCCoordinator,
     typealias Models = KYCDocumentPickerModels
     
     override var sceneLeftAlignedTitle: String? {
-         // TODO: localize
-        return "Proof of Identity"
+        return L10n.Account.proofOfIdentity
     }
     
     var confirmPhoto: (() -> Void)?
@@ -46,8 +45,7 @@ class KYCDocumentPickerViewController: BaseTableViewController<KYCCoordinator,
                                                              border: Presets.Border.zero)))
                 view.setupClearMargins()
                 view.snp.makeConstraints { make in
-                    // TODO: This is not alright. We need to have pre defined sizes. Discuss with the designers.
-                    make.height.equalTo(72)
+                    make.height.equalTo(ViewSizes.large.rawValue)
                 }
             })
             

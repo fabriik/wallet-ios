@@ -17,8 +17,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
                                        DeleteProfileInfoResponseDisplays {
     typealias Models = DeleteProfileInfoModels
     
-    // TODO: Localize.
-    override var sceneLeftAlignedTitle: String? { return "You are about to delete your Fabriik account." }
+    override var sceneLeftAlignedTitle: String? { return L10n.AccountDelete.deleteAccountTitle }
     
     private var recoveryKeyFlowNextButton: FEButton?
     private var recoveryKeyFlowBarButton: UIBarButtonItem?
@@ -47,7 +46,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
         }
         
         confirmButton.configure(with: Presets.Button.primary)
-        confirmButton.setup(with: .init(title: "Confirm", enabled: false))
+        confirmButton.setup(with: .init(title: L10n.Button.confirm, enabled: false))
         
         confirmButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
@@ -143,13 +142,12 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
                                closeButtonCallback: { [weak self] in
             self?.interactor?.wipeWallet(viewAction: .init())
         }, callbacks: [ { [weak self] in
-            self?.coordinator?.hidePopup()
             self?.interactor?.wipeWallet(viewAction: .init())
         } ])
     }
     
     func displayToggleTickbox(responseDisplay: DeleteProfileInfoModels.Tickbox.ResponseDisplay) {
-        confirmButton.setup(with: .init(title: "Confirm", enabled: responseDisplay.model.enabled))
+        confirmButton.setup(with: .init(title: L10n.Button.confirm, enabled: responseDisplay.model.enabled))
     }
 
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {

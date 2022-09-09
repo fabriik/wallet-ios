@@ -14,6 +14,9 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
     weak var viewController: BuyViewController?
 
     // MARK: - BuyActionResponses
+    
+    private var exchangeRateViewModel = ExchangeRateViewModel()
+    
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         let sections: [Models.Sections] = [
             .rate,
@@ -23,14 +26,14 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             .error
         ]
         
-        // TODO: Localize
+        exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(), showTimer: false)
 
         let sectionRows: [Models.Sections: [ViewModel]] =  [
-            .rate: [ExchangeRateViewModel()],
+            .rate: [exchangeRateViewModel],
             .accountLimits: [
                 LabelViewModel.text("")
             ],
-            .from: [SwapCurrencyViewModel(title: .text("I want"))],
+            .from: [SwapCurrencyViewModel(title: .text(L10n.Swap.iWant))],
             .to: [CardSelectionViewModel(userInteractionEnabled: true)]
         ]
         
@@ -44,17 +47,17 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             return
         }
         
-        let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "/", from.uppercased())
+        let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "", from.uppercased())
         let min = ExchangeFormatter.fiat.string(for: quote.minimumValue) ?? ""
         let max = ExchangeFormatter.fiat.string(for: quote.maximumValue) ?? ""
-        let limitText = String(format: "Currently, minimum limit for buy is $%@ USD and maximum limit is %@ USD/day.", min, max)
+        let limitText = String(format: L10n.Buy.buyLimits(min, max))
         
-        let model = ExchangeRateViewModel(exchangeRate: text,
-                                          timer: TimerViewModel(till: quote.timestamp,
-                                                                repeats: false,
-                                                                isVisible: false))
+        exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
+                                                      timer: TimerViewModel(till: quote.timestamp,
+                                                                            repeats: false),
+                                                      showTimer: false)
         
-        viewController?.displayExchangeRate(responseDisplay: .init(rate: model,
+        viewController?.displayExchangeRate(responseDisplay: .init(rate: exchangeRateViewModel,
                                                                    limits: .text(limitText)))
     }
     
@@ -62,17 +65,16 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let cryptoModel: SwapCurrencyViewModel
         let cardModel: CardSelectionViewModel
         
-        let fromFiatValue = actionResponse.amount?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(for: actionResponse.amount?.fiatValue ?? 0)
-        let fromTokenValue = actionResponse.amount?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(from: (actionResponse.amount?.tokenValue ?? 0) as NSNumber)
+        let fromFiatValue = actionResponse.amount?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(for: actionResponse.amount?.fiatValue)
+        let fromTokenValue = actionResponse.amount?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(for: actionResponse.amount?.tokenValue)
         
         let formattedFiatString = ExchangeFormatter.createAmountString(string: fromFiatValue ?? "")
         let formattedTokenString = ExchangeFormatter.createAmountString(string: fromTokenValue ?? "")
         
-        // TODO: Localize
         cryptoModel = .init(amount: actionResponse.amount,
                             formattedFiatString: formattedFiatString,
                             formattedTokenString: formattedTokenString,
-                            title: .text("I want"))
+                            title: .text(L10n.Swap.iWant))
         
         if let paymentCard = actionResponse.card {
             cardModel = .init(logo: paymentCard.displayImage,

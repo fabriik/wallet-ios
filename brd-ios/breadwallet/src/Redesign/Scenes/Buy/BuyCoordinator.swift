@@ -16,10 +16,11 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         open(scene: Scenes.Buy)
     }
     
-    func reloadBuy(card: PaymentCard) {
+    func reloadBuy(selectedCard: PaymentCard) {
         let buyVC = navigationController.children.first(where: { $0 is BuyViewController }) as? BuyViewController
-        buyVC?.dataStore?.paymentCard = card
-        buyVC?.prepareData()
+        buyVC?.dataStore?.paymentCard = selectedCard
+        buyVC?.dataStore?.autoSelectDefaultPaymentMethod = false
+        buyVC?.interactor?.getData(viewAction: .init())
     }
     
     func showBillingAddress(addCardDataStore: AddCardStore?) {
@@ -33,7 +34,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         let webViewController = SimpleWebViewController(url: url)
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
-        webViewController.setup(with: .init(title: "3D Secure")) // TODO: Localize
+        webViewController.setup(with: .init(title: L10n.Buy._3DSecure))
         webViewController.didDismiss = { [weak self] in
             (self?.navigationController.topViewController as? DataPresentable)?.prepareData()
             navController.dismiss(animated: true)
@@ -47,11 +48,11 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.dataStore?.itemId = paymentReference
             
             vc.firstCallback = { [weak self] in
-                self?.navigationController.dismiss(animated: true)
+                self?.goBack(completion: {})
             }
             
             vc.secondCallback = { [weak self] in
-                self?.showSwapDetails(exchangeId: paymentReference)
+                self?.showBuyDetails(exchangeId: paymentReference)
             }
         }
     }
@@ -60,9 +61,9 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         open(scene: Scenes.Failure) { vc in
             vc.failure = FailureReason.buy
             vc.firstCallback = { [weak self] in
-                self?.navigationController.popToRootViewController(animated: true) { [weak self] in
-                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getPaymentCards(viewAction: .init())
-                }
+                self?.popToRoot(completion: { [weak self] in
+                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getData(viewAction: .init())
+                })
             }
             
             vc.secondCallback = { [weak self] in
@@ -76,16 +77,16 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.navigationItem.setHidesBackButton(true, animated: false)
             
             vc.firstCallback = { [weak self] in
-                self?.navigationController.popToRootViewController(animated: true) { [weak self] in
+                self?.popToRoot(completion: { [weak self] in
                     (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getData(viewAction: .init())
-                }
+                })
             }
         }
     }
     
     func showTermsAndConditions(url: URL) {
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "Terms and Conditions"))
+        webViewController.setup(with: .init(title: L10n.About.terms))
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         
@@ -95,15 +96,15 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     func showSupport() {
         guard let url = URL(string: C.supportLink) else { return }
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "Support"))
+        webViewController.setup(with: .init(title: L10n.MenuButton.feedback))
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         
         navigationController.present(navController, animated: true)
     }
     
-    func showSwapDetails(exchangeId: String) {
-        open(scene: SwapDetailsViewController.self) { vc in
+    func showBuyDetails(exchangeId: String) {
+        open(scene: ExchangeDetailsViewController.self) { vc in
             vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = exchangeId
             vc.dataStore?.transactionType = .buyTransaction
@@ -118,11 +119,13 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             open(scene: Scenes.CardSelection) { [weak self] vc in
                 vc.dataStore?.isAddingEnabled = true
                 vc.dataStore?.items = cards
+                let backButtonVisible = self?.navigationController.children.last is BillingAddressViewController
+                vc.navigationItem.hidesBackButton = backButtonVisible
                 vc.prepareData()
                 
                 vc.itemSelected = { item in
                     selected?(item as? PaymentCard)
-                    self?.popFlow()
+                    self?.popToRoot()
                 }
                 
                 vc.addItemTapped = { [weak self] in
@@ -165,17 +168,12 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         navigationController.show(nvc, sender: nil)
     }
     
-    func showInfo(from: String, to: String, exchangeId: String) {
-        
-    }
-    
     func showOrderPreview(coreSystem: CoreSystem?,
                           keyStore: KeyStore?,
                           to: Amount?,
                           from: Decimal?,
                           card: PaymentCard?,
-                          quote: Quote?,
-                          networkFee: Amount?) {
+                          quote: Quote?) {
         open(scene: Scenes.OrderPreview) { vc in
             vc.dataStore?.coreSystem = coreSystem
             vc.dataStore?.keyStore = keyStore
@@ -183,25 +181,12 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.dataStore?.to = to
             vc.dataStore?.card = card
             vc.dataStore?.quote = quote
-            vc.dataStore?.networkFee = networkFee
             vc.prepareData()
         }
     }
     
     // MARK: - Aditional helpers
     
-    func dismissFlow() {
-        navigationController.dismiss(animated: true)
-        parentCoordinator?.childDidFinish(child: self)
-    }
-    
-    @objc func popFlow() {
-        if navigationController.children.count == 1 {
-            dismissFlow()
-        }
-        
-        navigationController.popToRootViewController(animated: true)
-    }
 }
 
 extension BuyCoordinator {

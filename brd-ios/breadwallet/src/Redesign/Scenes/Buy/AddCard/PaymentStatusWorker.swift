@@ -22,6 +22,6 @@ class PaymentStatusWorker: BaseApiWorker<AddCardMapper> {
     override func getUrl() -> String {
         guard let urlParams = (requestData as? PaymentStatusRequestData)?.reference else { return "" }
         
-        return APIURLHandler.getUrl(SwapEndpoints.paymentStatus, parameters: urlParams)
+        return APIURLHandler.getUrl(ExchangeEndpoints.paymentStatus, parameters: urlParams)
     }
 }

@@ -23,10 +23,9 @@ struct SegmentControlViewModel: ViewModel {
 
 class FESegmentControl: UISegmentedControl, ViewProtocol {
     enum Values: String, CaseIterable {
-        // TODO: localize
         
-        case min = "Min"
-        case max = "Max"
+        case min
+        case max
     }
     
     var config: SegmentControlConfiguration?
