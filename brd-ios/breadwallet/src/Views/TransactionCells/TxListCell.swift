@@ -114,7 +114,7 @@ class TxListCell: UITableViewCell {
     
     private func handleSwapTransactions() {
         let isSwapFrom = viewModel.tx.swapSource?.currency.uppercased() == viewModel.currency.code.uppercased()
-        let swapString = isSwapFrom ? "from \(viewModel.tx.swapSource?.currency.uppercased() ?? "")" : "to \(viewModel.tx.swapDestination?.currency.uppercased() ?? "")"
+        let swapString = isSwapFrom ? "to \(viewModel.tx.swapDestination?.currency.uppercased() ?? "")" : "from \(viewModel.tx.swapSource?.currency.uppercased() ?? "")"
         
         switch viewModel.status {
         case .complete:
