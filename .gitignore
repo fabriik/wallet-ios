@@ -106,7 +106,8 @@ fabric.properties
 /*.gcno
 
 ## xcode-frameworks folders and plists so that xcode does not complain prior first build of Cosmos.xcframework
-cosmos-bundled/build-frameworks/
+#cosmos-bundled/build-frameworks/
+external/walletkit/
 
 *.env
 
