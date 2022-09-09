@@ -40,7 +40,6 @@ protocol BuyDataStore: BaseDataStore, FetchDataStore {
     var to: Decimal? { get set }
     var values: BuyModels.Amounts.ViewAction { get set }
     var toAmount: Amount? { get set }
-    var toCurrency: Currency? { get set }
     var currencies: [Currency] { get set }
     var supportedCurrencies: [SupportedCurrency]? { get set }
     var paymentCard: PaymentCard? { get set }
