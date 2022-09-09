@@ -81,6 +81,9 @@ build-ios:
       - cosmos-*/**/*
       - .gitlab-ci.yml
   script:
+    - cd brd-ios/scripts
+    - ./cosmos_apple_silicon
+    - cd ../..
     - ./gradlew :cosmos-bundled:createXCFramework
     - xcodebuild clean -workspace brd-ios/breadwallet.xcworkspace -scheme breadwallet | xcquiet
     - xcodebuild test -workspace brd-ios/breadwallet.xcworkspace -scheme breadwallet -destination 'platform=iOS Simulator,name=iPhone 12,OS=14.4' | xcquiet -s
