@@ -450,7 +450,7 @@ internal enum L10n {
     internal static let addDebitCreditCard = L10n.tr("Localizable", "Buy.AddDebitCreditCard")
     /// Billing address
     internal static let billingAddress = L10n.tr("Localizable", "Buy.BillingAddress")
-    /// Currently, minimum limit for buy is $%@ USD and maximum limit is %@ USD/day.
+    /// Currently, minimum limit for buy is $%@ USD and maximum limit is $%@ USD/day.
     internal static func buyLimits(_ p1: Any, _ p2: Any) -> String {
       return L10n.tr("Localizable", "Buy.BuyLimits", String(describing: p1), String(describing: p2))
     }
@@ -1923,7 +1923,7 @@ internal enum L10n {
     /// Sending network fee
     /// (included)
     internal static let sendNetworkFee = L10n.tr("Localizable", "Swap.SendNetworkFee")
-    /// Currently, minimum limit for swap is $%@ USD and maximum limit is %@ USD/day.
+    /// Currently, minimum limit for swap is $%@ USD and maximum limit is $%@ USD/day.
     internal static func swapLimits(_ p1: Any, _ p2: Any) -> String {
       return L10n.tr("Localizable", "Swap.SwapLimits", String(describing: p1), String(describing: p2))
     }
