@@ -374,7 +374,7 @@ class ApplicationController: Subscriber, Trackable {
             case .success(let profile):
                 self?.homeScreenViewController?.canShowPrompts = profile?.status.canBuyTrade == false
                 
-                guard profile?.status == VerificationStatus.none || profile?.status == .emailPending else { return }
+                guard profile?.status == VerificationStatus.none || profile?.status == .emailPending || profile?.roles.contains(.unverified) == true else { return }
                 
                 self?.coordinator?.showRegistration()
                 
