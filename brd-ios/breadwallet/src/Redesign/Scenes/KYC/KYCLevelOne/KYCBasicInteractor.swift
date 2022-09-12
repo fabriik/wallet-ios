@@ -107,7 +107,7 @@ class KYCBasicInteractor: NSObject, Interactor, KYCBasicViewActions {
         
         guard let legalDate = Calendar.current.date(byAdding: .year, value: -18, to: Date()),
               birthDate <= legalDate else {
-            presenter?.presentNotification(actionResponse: .init(body: "You need to be at least 18 years old to complete Level 1 verification"))
+                  presenter?.presentNotification(actionResponse: .init(body: L10n.Account.verification))
             return
         }
         

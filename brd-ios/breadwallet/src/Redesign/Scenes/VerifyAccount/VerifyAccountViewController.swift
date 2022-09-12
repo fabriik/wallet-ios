@@ -29,7 +29,7 @@ class VerifyAccountViewController: BaseTableViewController<KYCCoordinator,
         }
         
         verifyButton.configure(with: Presets.Button.primary)
-        verifyButton.setup(with: .init(title: "Verify your account"))
+        verifyButton.setup(with: .init(title: L10n.Account.accountVerify))
         
         verifyButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }

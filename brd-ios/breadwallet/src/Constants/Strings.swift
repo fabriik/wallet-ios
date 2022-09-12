@@ -62,12 +62,16 @@ internal enum L10n {
     internal static let accountVerify = L10n.tr("Localizable", "Account.AccountVerify")
     /// Balance
     internal static let balance = L10n.tr("Localizable", "Account.balance")
+    /// Before you confirm, please:
+    internal static let beforeConfirm = L10n.tr("Localizable", "Account.BeforeConfirm")
     /// Country
     internal static let country = L10n.tr("Localizable", "Account.Country")
     /// Current limit: $1,000/day
     internal static let currentLimit = L10n.tr("Localizable", "Account.CurrentLimit")
     /// Oops! We had some issues processing your data
     internal static let dataIssues = L10n.tr("Localizable", "Account.DataIssues")
+    /// Date of birth
+    internal static let dateOfBirth = L10n.tr("Localizable", "Account.DateOfBirth")
     /// Delete account
     internal static let deleteAccount = L10n.tr("Localizable", "Account.DeleteAccount")
     /// This token has been delisted. 
@@ -86,12 +90,16 @@ internal enum L10n {
     internal static let idVerification = L10n.tr("Localizable", "Account.IDVerification")
     /// Loading Wallet
     internal static let loadingMessage = L10n.tr("Localizable", "Account.loadingMessage")
+    /// Verify your account to get full access to your Fabriik wallet!
+    internal static let messageVerifyAccount = L10n.tr("Localizable", "Account.MessageVerifyAccount")
     /// Personal Information
     internal static let personalInformation = L10n.tr("Localizable", "Account.PersonalInformation")
     /// I'm ok with receiving future promotion, offers and communications
     internal static let promotion = L10n.tr("Localizable", "Account.Promotion")
     /// Proof of Identity
     internal static let proofOfIdentity = L10n.tr("Localizable", "Account.ProofOfIdentity")
+    /// Retake photo
+    internal static let retakePhoto = L10n.tr("Localizable", "Account.RetakePhoto")
     /// Submit your photo
     internal static let submitPhoto = L10n.tr("Localizable", "Account.SubmitPhoto")
     /// Swap limit: $10,000 USD/day
@@ -99,6 +107,8 @@ internal enum L10n {
     internal static let swapAndBuyLimit = L10n.tr("Localizable", "Account.SwapAndBuyLimit")
     /// Upgrade your limits
     internal static let upgradeLimits = L10n.tr("Localizable", "Account.UpgradeLimits")
+    /// You need to be at least 18 years old to complete Level 1 verification
+    internal static let verification = L10n.tr("Localizable", "Account.Verification")
     /// Why is my verification declined?
     internal static let verificationDeclined = L10n.tr("Localizable", "Account.VerificationDeclined")
     /// We’ll let you know when your account is verified.
@@ -110,10 +120,14 @@ internal enum L10n {
     ///   - Buy assets with credit card
     ///   - 24/7/365 live customer support
     internal static let verifyAccountText = L10n.tr("Localizable", "Account.VerifyAccountText")
+    /// We need to verify your identity in order to buy/sell and swap crypto.
+    internal static let verifyIdentity = L10n.tr("Localizable", "Account.VerifyIdentity")
     /// We need to verify your personal information for compliance purposes. This information won’t be shared with outside sources unless required by law.
     internal static let verifyPersonalInformation = L10n.tr("Localizable", "Account.VerifyPersonalInformation")
     /// Why should I verify my account?
     internal static let whyVerify = L10n.tr("Localizable", "Account.WhyVerify")
+    /// Write your name as it appears on your ID
+    internal static let writeYourName = L10n.tr("Localizable", "Account.WriteYourName")
   }
 
   internal enum AccountCreation {
@@ -404,6 +418,8 @@ internal enum L10n {
     internal static let done = L10n.tr("Localizable", "Button.done")
     /// Finish
     internal static let finish = L10n.tr("Localizable", "Button.Finish")
+    /// Go to dashboard
+    internal static let goToDashboard = L10n.tr("Localizable", "Button.GoToDashboard")
     /// Home
     internal static let home = L10n.tr("Localizable", "Button.Home")
     /// Ignore
@@ -465,6 +481,8 @@ internal enum L10n {
     internal static let addCard = L10n.tr("Localizable", "Buy.AddCard")
     /// Add a debit or credit card
     internal static let addDebitCreditCard = L10n.tr("Localizable", "Buy.AddDebitCreditCard")
+    /// Address
+    internal static let address = L10n.tr("Localizable", "Buy.Address")
     /// Billing address
     internal static let billingAddress = L10n.tr("Localizable", "Buy.BillingAddress")
     /// Currently, minimum limit for buy is $%@ USD and maximum limit is $%@ USD/day.
@@ -475,20 +493,56 @@ internal enum L10n {
     internal static let card = L10n.tr("Localizable", "Buy.Card")
     /// CVV
     internal static let cardCVV = L10n.tr("Localizable", "Buy.CardCVV")
+    /// This fee is charged to cover costs associated with payment processing.
+    internal static let cardFee = L10n.tr("Localizable", "Buy.CardFee")
     /// Card number
     internal static let cardNumber = L10n.tr("Localizable", "Buy.CardNumber")
+    /// City
+    internal static let city = L10n.tr("Localizable", "Buy.City")
+    /// Please confirm your CVV
+    internal static let confirmCVV = L10n.tr("Localizable", "Buy.ConfirmCVV")
     /// Purchase details
     internal static let details = L10n.tr("Localizable", "Buy.Details")
+    /// There was an error while processing your payment
+    internal static let errorProcessingPayment = L10n.tr("Localizable", "Buy.ErrorProcessingPayment")
+    /// Please contact your card issuer/bank or try again with a different payment method.
+    internal static let failureTransactionMessage = L10n.tr("Localizable", "Buy.FailureTransactionMessage")
+    /// First Name
+    internal static let firstName = L10n.tr("Localizable", "Buy.FirstName")
+    /// Last Name
+    internal static let lastName = L10n.tr("Localizable", "Buy.LastName")
     /// MM/YY
     internal static let monthYear = L10n.tr("Localizable", "Buy.MonthYear")
+    /// Network fee prices vary depending on the blockchain in which you are receiving your assets. This is an external fee to cover mining and transaction costs.
+    internal static let networkFeeMessage = L10n.tr("Localizable", "Buy.NetworkFeeMessage")
+    /// Network fees
+    internal static let networkFees = L10n.tr("Localizable", "Buy.NetworkFees")
     /// Order preview
     internal static let orderPreview = L10n.tr("Localizable", "Buy.OrderPreview")
+    /// Payment method
+    internal static let paymentMethod = L10n.tr("Localizable", "Buy.PaymentMethod")
+    /// Pay with
+    internal static let payWith = L10n.tr("Localizable", "Buy.PayWith")
+    /// This purchase will appear as ‘Fabriik Wallet’ on your bank statement.
+    internal static let purchaseSuccessText = L10n.tr("Localizable", "Buy.PurchaseSuccessText")
+    /// Your assets are on the way!
+    internal static let purchaseSuccessTitle = L10n.tr("Localizable", "Buy.PurchaseSuccessTitle")
     /// Security code (CVV)
     internal static let securityCode = L10n.tr("Localizable", "Buy.SecurityCode")
     /// Please enter the 3 digit CVV number as it appears on the back of your card
     internal static let securityCodePopup = L10n.tr("Localizable", "Buy.SecurityCodePopup")
     /// Select payment method
     internal static let selectPayment = L10n.tr("Localizable", "Buy.SelectPayment")
+    /// State/Province
+    internal static let stateProvince = L10n.tr("Localizable", "Buy.StateProvince")
+    /// By placing this order you agree to our
+    internal static let terms = L10n.tr("Localizable", "Buy.Terms")
+    /// Try a different payment method
+    internal static let tryAnotherPayment = L10n.tr("Localizable", "Buy.TryAnotherPayment")
+    /// Your order:
+    internal static let yourOrder = L10n.tr("Localizable", "Buy.YourOrder")
+    /// ZIP/Postal Code
+    internal static let zipPostalCode = L10n.tr("Localizable", "Buy.ZIPPostalCode")
   }
 
   internal enum CameraPlugin {
@@ -1153,8 +1207,14 @@ internal enum L10n {
     internal static func amountText(_ p1: Any, _ p2: Any) -> String {
       return L10n.tr("Localizable", "PaymentConfirmation.amountText", String(describing: p1), String(describing: p2))
     }
+    /// The payment has expired due to inactivity. Please try again with the same card, or use a different card.
+    internal static let paymentExpired = L10n.tr("Localizable", "PaymentConfirmation.PaymentExpired")
+    /// Payment verification timeout
+    internal static let paymentTimeout = L10n.tr("Localizable", "PaymentConfirmation.PaymentTimeout")
     /// Confirmation
     internal static let title = L10n.tr("Localizable", "PaymentConfirmation.title")
+    /// Try again
+    internal static let tryAgain = L10n.tr("Localizable", "PaymentConfirmation.TryAgain")
   }
 
   internal enum PaymentProtocol {
@@ -1917,13 +1977,15 @@ internal enum L10n {
   internal enum Swap {
     /// Add item!
     internal static let addItem = L10n.tr("Localizable", "Swap.AddItem")
-    /// Amount purchased:
+    /// Amount purchased
     internal static let amountPurchased = L10n.tr("Localizable", "Swap.AmountPurchased")
+    /// Back to Home
+    internal static let backToHome = L10n.tr("Localizable", "Swap.BackToHome")
     /// I have %@ %@
     internal static func balance(_ p1: Any, _ p2: Any) -> String {
       return L10n.tr("Localizable", "Swap.Balance", String(describing: p1), String(describing: p2))
     }
-    /// Card fee:
+    /// Card fee
     internal static let cardFee = L10n.tr("Localizable", "Swap.CardFee")
     /// Check your assets!
     internal static let checkAssets = L10n.tr("Localizable", "Swap.CheckAssets")
@@ -1931,11 +1993,15 @@ internal enum L10n {
     internal static let checkAssetsBody = L10n.tr("Localizable", "Swap.CheckAssetsBody")
     /// Swap details
     internal static let details = L10n.tr("Localizable", "Swap.Details")
+    /// There was an error while processing your transaction
+    internal static let errorProcessingTransaction = L10n.tr("Localizable", "Swap.ErrorProcessingTransaction")
+    /// Please try swapping again or come back later.
+    internal static let failureSwapMessage = L10n.tr("Localizable", "Swap.FailureSwapMessage")
     /// Got it!
     internal static let gotItButton = L10n.tr("Localizable", "Swap.GotItButton")
     /// I want
     internal static let iWant = L10n.tr("Localizable", "Swap.iWant")
-    /// Mining network fee:
+    /// Mining network fee
     internal static let miningNetworkFee = L10n.tr("Localizable", "Swap.MiningNetworkFee")
     /// Not a valid pair
     internal static let notValidPair = L10n.tr("Localizable", "Swap.NotValidPair")
@@ -1951,6 +2017,8 @@ internal enum L10n {
     /// Receiving fee
     /// 
     internal static let receivingFee = L10n.tr("Localizable", "Swap.ReceivingFee")
+    /// Select assets
+    internal static let selectAssets = L10n.tr("Localizable", "Swap.SelectAssets")
     /// Sending fee
     /// 
     internal static let sendingFee = L10n.tr("Localizable", "Swap.SendingFee")
@@ -1960,9 +2028,15 @@ internal enum L10n {
     /// Sending network fee
     /// (not included)
     internal static let sendNetworkFeeNotIncluded = L10n.tr("Localizable", "Swap.sendNetworkFeeNotIncluded")
+    /// Swap again
+    internal static let swapAgain = L10n.tr("Localizable", "Swap.SwapAgain")
     /// Currently, minimum limit for swap is $%@ USD and maximum limit is $%@ USD/day.
     internal static func swapLimits(_ p1: Any, _ p2: Any) -> String {
       return L10n.tr("Localizable", "Swap.SwapLimits", String(describing: p1), String(describing: p2))
+    }
+    /// Your %@ is estimated to arrive in 30 minutes. You can continue to use your wallet. We'll let you know when your swap has finished.
+    internal static func swapStatus(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "Swap.SwapStatus", String(describing: p1))
     }
     /// Timestamp
     internal static let timestamp = L10n.tr("Localizable", "Swap.Timestamp")
@@ -2397,6 +2471,8 @@ internal enum L10n {
     internal static let reEnterNew = L10n.tr("Localizable", "UpdatePin.reEnterNew")
     /// Attempts remaining:
     internal static let remainingAttempts = L10n.tr("Localizable", "UpdatePin.RemainingAttempts")
+    /// Your PIN was reset successfully!
+    internal static let resetPinSuccess = L10n.tr("Localizable", "UpdatePin.ResetPinSuccess")
     /// Secured wallet
     internal static let securedWallet = L10n.tr("Localizable", "UpdatePin.securedWallet")
     /// Set your new PIN
