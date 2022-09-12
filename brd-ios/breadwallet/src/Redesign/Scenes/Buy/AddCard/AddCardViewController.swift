@@ -128,7 +128,7 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
     }
     
     func displaySubmit(responseDisplay: AddCardModels.Submit.ResponseDisplay) {
-        coordinator?.showBillingAddress(addCardDataStore: dataStore)
+        coordinator?.showBillingAddress(checkoutToken: responseDisplay.checkoutToken)
     }
     
     func displayCvvInfoPopup(responseDisplay: AddCardModels.CvvInfoPopup.ResponseDisplay) {

@@ -8,7 +8,6 @@
 //  See the LICENSE file at the project root for license information.
 //
 
-import Frames
 import UIKit
 
 class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions {
@@ -113,53 +112,32 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
     }
     
     func submit(viewAction: BillingAddressModels.Submit.ViewAction) {
-        guard let number = dataStore?.addCardDataStore?.cardNumber,
-              let cvv = dataStore?.addCardDataStore?.cardCVV,
-              let month = dataStore?.addCardDataStore?.cardExpDateMonth,
-              let year = dataStore?.addCardDataStore?.cardExpDateYear else { return }
+        guard let dataStore = dataStore, let checkoutToken = dataStore.checkoutToken?.token else { return }
         
-        let checkoutAPIClient = CheckoutAPIClient(publicKey: E.checkoutApiToken,
-                                                  environment: E.isSandbox ? .sandbox : .live)
+        let data = AddCardRequestData(token: checkoutToken,
+                                      firstName: dataStore.firstName,
+                                      lastName: dataStore.lastName,
+                                      countryCode: dataStore.country,
+                                      state: dataStore.stateProvince,
+                                      city: dataStore.city,
+                                      zip: dataStore.zipPostal,
+                                      address: dataStore.address)
         
-        let cardTokenRequest = CkoCardTokenRequest(number: number,
-                                                   expiryMonth: month,
-                                                   expiryYear: year,
-                                                   cvv: cvv)
-        
-        checkoutAPIClient.createCardToken(card: cardTokenRequest) { [weak self] result in
+        AddCardWorker().execute(requestData: data) { [weak self] result in
             switch result {
-            case .success(let response):
-                guard let dataStore = self?.dataStore else { return }
+            case .success(let data):
+                self?.dataStore?.paymentstatus = data?.status
                 
-                let data = AddCardRequestData(token: response.token,
-                                              firstName: dataStore.firstName,
-                                              lastName: dataStore.lastName,
-                                              countryCode: dataStore.country,
-                                              state: dataStore.stateProvince,
-                                              city: dataStore.city,
-                                              zip: dataStore.zipPostal,
-                                              address: dataStore.address)
-                
-                AddCardWorker().execute(requestData: data) { result in
-                    switch result {
-                    case .success(let data):
-                        self?.dataStore?.paymentstatus = data?.status
-                        
-                        if let redirectUrlString = data?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
-                            self?.dataStore?.paymentReference = data?.paymentReference
-                            
-                            self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
-                        } else {
-                            self?.handlePresentSubmit()
-                        }
-                        
-                    case .failure(let error):
-                        self?.presenter?.presentError(actionResponse: .init(error: error))
-                    }
+                if let redirectUrlString = data?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
+                    self?.dataStore?.paymentReference = data?.paymentReference
+                    
+                    self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
+                } else {
+                    self?.handlePresentSubmit()
                 }
                 
-            case .failure:
-                self?.presenter?.presentError(actionResponse: .init(error: BuyErrors.authorizationFailed))
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
     }
@@ -170,7 +148,8 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
             presenter?.presentSubmit(actionResponse: .init())
             
         default:
-            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "Payment failed")))
+            // TODO: Localize. 
+            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "Payment failed.")))
         }
     }
 }
