@@ -95,7 +95,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     private lazy var pullToRefreshControl: UIRefreshControl = {
         let pullToRefreshControl = UIRefreshControl()
-        pullToRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        pullToRefreshControl.attributedTitle = NSAttributedString(string: L10n.HomeScreen.pullToRefresh)
         pullToRefreshControl.addTarget(self, action: #selector(reload), for: .valueChanged)
         return pullToRefreshControl
     }()

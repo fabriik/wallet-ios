@@ -98,6 +98,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         
         dataStore?.toAmount = to
         dataStore?.from = from
+        
         presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
                                                        card: dataStore?.paymentCard,
                                                        quote: dataStore?.quote))

@@ -16,12 +16,12 @@ extension Scenes {
 
 class SuccessViewController: BaseInfoViewController {
     override var imageName: String? { return "successStatusIcon" }
-    override var titleText: String? { return "Your assets are on the way!" }
-    override var descriptionText: String? { return "This purchase will appear as ‘Fabriik Wallet’ on your bank statement." }
+    override var titleText: String? { return L10n.Buy.purchaseSuccessTitle }
+    override var descriptionText: String? { return L10n.Buy.purchaseSuccessText }
     override var buttonViewModels: [ButtonViewModel] {
         return [
-            .init(title: "Back to Home"),
-            .init(title: "Purchase details")
+            .init(title: L10n.Swap.backToHome),
+            .init(title: L10n.Buy.details)
         ]
     }
 

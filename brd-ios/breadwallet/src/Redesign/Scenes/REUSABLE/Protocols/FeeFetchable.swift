@@ -38,7 +38,7 @@ extension FeeFetchable {
         let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
         sender.estimateFee(address: address,
                            amount: amount,
-                           tier: .regular,
+                           tier: .priority,
                            isStake: false) { result in
             switch result {
             case .success(let fee):

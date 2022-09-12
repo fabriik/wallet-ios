@@ -26,7 +26,7 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
         ]
         
         let dateViewModel: DateViewModel
-        let title: LabelViewModel? = .text("Date of birth")
+        let title: LabelViewModel? = .text(L10n.Account.dateOfBirth)
         
         if let date = item.birthdate {
             let components = Calendar.current.dateComponents([.day, .year, .month], from: date)
@@ -50,12 +50,12 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
         
         let sectionRows: [Models.Section: [Any]] = [
             .name: [
-                DoubleHorizontalTextboxViewModel(primaryTitle: .text("Write your name as it appears on your ID"),
-                                                 primary: .init(title: "First Name", value: item.firstName),
-                                                 secondary: .init(title: "Last Name", value: item.lastName))
+                DoubleHorizontalTextboxViewModel(primaryTitle: .text(L10n.Account.writeYourName),
+                                                 primary: .init(title: L10n.Buy.firstName, value: item.firstName),
+                                                 secondary: .init(title: L10n.Buy.lastName, value: item.lastName))
             ],
             .country: [
-                TextFieldModel(title: "Country",
+                TextFieldModel(title: L10n.Account.country,
                                value: item.countryFullName,
                                trailing: .imageName("chevrondown"))
             ],

@@ -6,6 +6,7 @@
 //
 //
 
+import Frames
 import UIKit
 import WalletKit
 
@@ -23,9 +24,9 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         buyVC?.interactor?.getData(viewAction: .init())
     }
     
-    func showBillingAddress(addCardDataStore: AddCardStore?) {
+    func showBillingAddress(checkoutToken: CkoCardTokenResponse?) {
         open(scene: Scenes.BillingAddress) { vc in
-            vc.interactor?.dataStore?.addCardDataStore = addCardDataStore
+            vc.interactor?.dataStore?.checkoutToken = checkoutToken
             vc.prepareData()
         }
     }

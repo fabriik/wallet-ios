@@ -27,7 +27,7 @@ final class ItemSelectionPresenter: NSObject, Presenter, ItemSelectionActionResp
         
         let sectionRows: [Models.Sections: [Any]] = [
             Models.Sections.items: items,
-            Models.Sections.addItem: ["Add item!"]
+            Models.Sections.addItem: [L10n.Swap.addItem]
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))

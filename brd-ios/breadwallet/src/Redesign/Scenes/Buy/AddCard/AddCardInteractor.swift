@@ -8,6 +8,7 @@
 //  See the LICENSE file at the project root for license information.
 //
 
+import Frames
 import UIKit
 
 class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
@@ -86,7 +87,28 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
         }
         */
         
-        presenter?.presentSubmit(actionResponse: .init())
+        guard let number = dataStore?.cardNumber,
+              let cvv = dataStore?.cardCVV,
+              let month = dataStore?.cardExpDateMonth,
+              let year = dataStore?.cardExpDateYear else { return }
+        
+        let checkoutAPIClient = CheckoutAPIClient(publicKey: E.checkoutApiToken,
+                                                  environment: E.isSandbox ? .sandbox : .live)
+        
+        let cardTokenRequest = CkoCardTokenRequest(number: number,
+                                                   expiryMonth: month,
+                                                   expiryYear: year,
+                                                   cvv: cvv)
+        
+        checkoutAPIClient.createCardToken(card: cardTokenRequest) { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.presenter?.presentSubmit(actionResponse: .init(checkoutToken: response))
+                
+            case .failure:
+                self?.presenter?.presentError(actionResponse: .init(error: BuyErrors.authorizationFailed))
+            }
+        }
     }
     
     func showCvvInfoPopup(viewAction: AddCardModels.CvvInfoPopup.ViewAction) {
