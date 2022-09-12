@@ -8,6 +8,7 @@
 //  See the LICENSE file at the project root for license information.
 //
 
+import Frames
 import UIKit
 
 extension Scenes {
@@ -52,7 +53,7 @@ protocol BillingAddressDataStore: BaseDataStore, FetchDataStore {
     var address: String? { get set }
     var paymentReference: String? { get set }
     var paymentstatus: AddCard.Status? { get set }
-    var addCardDataStore: AddCardStore? { get set }
+    var checkoutToken: CkoCardTokenResponse? { get set }
 }
 
 protocol BillingAddressDataPassing {
