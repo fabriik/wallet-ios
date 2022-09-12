@@ -253,13 +253,13 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                             ExchangeFormatter.fiat.string(for: to.fiatValue.doubleValue) ?? "",
                             Store.state.defaultCurrencyCode)
         
-        let fromFeeText = String(format: "%@ %@\n(%@) %@",
+        let fromFeeText = String(format: "%@ %@\n(%@ %@)",
                                  ExchangeFormatter.crypto.string(for: actionResponse.fromFee?.tokenValue.doubleValue) ?? "",
                                  actionResponse.fromFee?.currency.code ?? from.currency.code,
                                  ExchangeFormatter.fiat.string(for: actionResponse.fromFee?.fiatValue.doubleValue) ?? "",
                                  Store.state.defaultCurrencyCode)
         
-        let toFeeText = String(format: "%@ %@\n(%@) %@",
+        let toFeeText = String(format: "%@ %@\n(%@ %@)",
                                ExchangeFormatter.crypto.string(for: actionResponse.toFee?.tokenValue.doubleValue) ?? "",
                                actionResponse.toFee?.currency.code ?? to.currency.code,
                                ExchangeFormatter.fiat.string(for: actionResponse.toFee?.fiatValue.doubleValue) ?? "",
