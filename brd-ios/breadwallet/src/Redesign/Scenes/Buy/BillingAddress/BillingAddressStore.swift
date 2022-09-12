@@ -8,6 +8,7 @@
 //  See the LICENSE file at the project root for license information.
 //
 
+import Frames
 import UIKit
 
 class BillingAddressStore: NSObject, BaseDataStore, BillingAddressDataStore {
@@ -24,7 +25,7 @@ class BillingAddressStore: NSObject, BaseDataStore, BillingAddressDataStore {
     var address: String?
     var paymentReference: String?
     var paymentstatus: AddCard.Status?
-    var addCardDataStore: AddCardStore?
+    var checkoutToken: CkoCardTokenResponse?
     
     // MARK: - Aditional helpers
 }

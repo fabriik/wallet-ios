@@ -16,7 +16,9 @@ extension Amount {
         let formatter = ExchangeFormatter.current
         formatter.maximumFractionDigits = decimals
         
-        let amountString = formatter.string(for: amount) ?? ""
+        let formattedAmount = formatter.string(for: amount) ?? ""
+        
+        let amountString = formattedAmount.cleanupFormatting(forFiat: isFiat)
         
         guard let exchangeRate = exchangeRate,
               decimals >= 0
@@ -39,7 +41,7 @@ extension Amount {
         
         guard let value = value,
                   value.tokenValue != 0 else {
-            self = .init(amount: amount, currency: currency, exchangeRate: exchangeRate, decimals: decimals - 1)
+            self = .init(amount: amount, isFiat: isFiat, currency: currency, exchangeRate: exchangeRate, decimals: decimals - 1)
             return
         }
         self = value

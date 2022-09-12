@@ -16,11 +16,11 @@ extension Scenes {
 
 class TimeoutViewController: BaseInfoViewController {
     override var imageName: String? { return "timeoutStatusIcon" }
-    override var titleText: String? { return "Payment verification timeout" }
-    override var descriptionText: String? { return "The payment has expired due to inactivity. Please try again with the same card, or use a different card." }
+    override var titleText: String? { return L10n.PaymentConfirmation.paymentTimeout }
+    override var descriptionText: String? { return L10n.PaymentConfirmation.paymentExpired }
     override var buttonViewModels: [ButtonViewModel] {
         return [
-            .init(title: "Try again")
+            .init(title: L10n.PaymentConfirmation.tryAgain)
         ]
     }
 

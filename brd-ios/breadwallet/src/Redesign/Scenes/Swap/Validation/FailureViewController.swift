@@ -28,40 +28,40 @@ enum FailureReason: SimpleMessage {
     var title: String {
         switch self {
         case .buy:
-            return "There was an error while processing your payment"
+            return L10n.Buy.errorProcessingPayment
             
         case .swap:
-            return "There was an error while processing your transaction"
+            return L10n.Swap.errorProcessingTransaction
         }
     }
     
     var description: String {
         switch self {
         case .buy:
-            return "Please contact your card issuer/bank or try again with a different payment method."
+            return L10n.Buy.failureTransactionMessage
             
         case .swap:
-            return "Please try swapping again or come back later."
+            return L10n.Swap.failureSwapMessage
         }
     }
     
     var firstButtonTitle: String? {
         switch self {
         case .buy:
-            return "Try a different payment method"
+            return L10n.Buy.tryAnotherPayment
             
         case .swap:
-            return "Swap again"
+            return L10n.Swap.swapAgain
         }
     }
     
     var secondButtonTitle: String? {
         switch self {
         case .buy:
-            return "Contact support"
+            return L10n.UpdatePin.contactSupport
             
         case .swap:
-            return "Back to Home"
+            return L10n.Swap.backToHome
         }
     }
 }

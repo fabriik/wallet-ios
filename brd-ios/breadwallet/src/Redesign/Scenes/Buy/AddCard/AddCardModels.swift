@@ -8,6 +8,7 @@
 //  See the LICENSE file at the project root for license information.
 //
 
+import Frames
 import UIKit
 
 enum AddCardModels {
@@ -52,9 +53,13 @@ enum AddCardModels {
     struct Submit {
         struct ViewAction {}
         
-        struct ActionResponse {}
+        struct ActionResponse {
+            var checkoutToken: CkoCardTokenResponse?
+        }
         
-        struct ResponseDisplay {}
+        struct ResponseDisplay {
+            var checkoutToken: CkoCardTokenResponse?
+        }
     }
     
     struct CvvInfoPopup {
