@@ -14,6 +14,8 @@ struct ExchangeFormatter {
     static var crypto: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
+        formatter.isLenient = true
+        formatter.generatesDecimalNumbers = true
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 8
         return formatter
@@ -22,6 +24,8 @@ struct ExchangeFormatter {
     static var fiat: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
+        formatter.isLenient = true
+        formatter.generatesDecimalNumbers = true
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2
         return formatter
@@ -30,6 +34,8 @@ struct ExchangeFormatter {
     static var current: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
+        formatter.isLenient = true
+        formatter.generatesDecimalNumbers = true
         return formatter
     }
     
