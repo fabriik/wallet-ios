@@ -492,7 +492,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         }
         
         guard let feeBasis = currentFeeBasis else {
-            showAlert(title: L10n.Alert.error, message: "No fee estimate", buttonLabel: L10n.Button.ok)
+            showAlert(title: L10n.Alert.error, message: L10n.Send.noFeeEstimate, buttonLabel: L10n.Button.ok)
             return false
         }
         
@@ -501,7 +501,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         if let attribute = attributeCell?.attribute, currency.isXRP,
            !attribute.isEmpty {
             if UInt32(attribute) == nil {
-               showAlert(title: L10n.Alert.error, message: "Destination tag is too long.", buttonLabel: L10n.Button.ok)
+                showAlert(title: L10n.Alert.error, message: L10n.Send.destinationTag, buttonLabel: L10n.Button.ok)
                return false
             }
             attributeText = attribute

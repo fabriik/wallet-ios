@@ -90,19 +90,19 @@ class TxListCell: UITableViewCell {
     private func handleBuyTransactions() {
         switch viewModel.status {
         case .invalid:
-            timestamp.text = "Purchase failed"
+            timestamp.text = L10n.Transaction.purchaseFailed
             failedIndicator.isHidden = false
             statusIndicator.isHidden = true
             timestamp.isHidden = false
             
         case .complete:
-            timestamp.text = "Purchased"
+            timestamp.text = L10n.Transaction.purchased
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
             
         default:
-            timestamp.text = "Pending purchase"
+            timestamp.text = L10n.Transaction.pendingPurchase
             failedIndicator.isHidden = true
             statusIndicator.isHidden = false
             timestamp.isHidden = false
@@ -118,7 +118,7 @@ class TxListCell: UITableViewCell {
         
         switch viewModel.status {
         case .complete:
-            timestamp.text = "Swapped \(swapString)"
+            timestamp.text = "\(L10n.Transaction.swapped) \(swapString)"
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
@@ -127,7 +127,7 @@ class TxListCell: UITableViewCell {
             NSLayoutConstraint.deactivate(pendingConstraints)
             
         case .pending:
-            timestamp.text = "Pending swap \(swapString)"
+            timestamp.text = "\(L10n.Transaction.pendingSwap) \(swapString)"
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
@@ -136,7 +136,7 @@ class TxListCell: UITableViewCell {
             NSLayoutConstraint.activate(pendingConstraints)
             
         case .failed:
-            timestamp.text = "Failed swap \(swapString)"
+            timestamp.text = "\(L10n.Transaction.failedSwap) \(swapString)"
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false

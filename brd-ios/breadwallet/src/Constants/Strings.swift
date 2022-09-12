@@ -62,6 +62,8 @@ internal enum L10n {
     internal static let accountVerify = L10n.tr("Localizable", "Account.AccountVerify")
     /// Balance
     internal static let balance = L10n.tr("Localizable", "Account.balance")
+    /// Country
+    internal static let country = L10n.tr("Localizable", "Account.Country")
     /// Current limit: $1,000/day
     internal static let currentLimit = L10n.tr("Localizable", "Account.CurrentLimit")
     /// Oops! We had some issues processing your data
@@ -233,10 +235,16 @@ internal enum L10n {
   }
 
   internal enum Alert {
+    /// Account backed up with iCloud Keychain
+    internal static let accountBackedUpiCloud = L10n.tr("Localizable", "Alert.AccountBackedUpiCloud")
+    /// Account succesfully restored from Cloud backup
+    internal static let accountRestorediCloud = L10n.tr("Localizable", "Alert.AccountRestorediCloud")
     /// Error
     internal static let error = L10n.tr("Localizable", "Alert.error")
     /// Insufficient Ethereum Balance
     internal static let ethBalance = L10n.tr("Localizable", "Alert.ethBalance")
+    /// Hedera Account succesfully created.
+    internal static let hederaAccount = L10n.tr("Localizable", "Alert.HederaAccount")
     /// No internet connection found. Check your connection and try again.
     internal static let noInternet = L10n.tr("Localizable", "Alert.noInternet")
     /// Something went wrong. Please try again.
@@ -298,6 +306,15 @@ internal enum L10n {
       /// Fingerprint recognized
       internal static let android = L10n.tr("Localizable", "Alerts.touchIdSucceeded.android")
     }
+  }
+
+  internal enum Amount {
+    /// The minimum required ammount is 10 XRP.
+    internal static let minXRPAmount = L10n.tr("Localizable", "Amount.MinXRPAmount")
+    /// XRP Balance
+    internal static let rippleBalance = L10n.tr("Localizable", "Amount.RippleBalance")
+    /// Ripple requires each wallet to have a minimum balance of 10 XRP, so the balance displayed here is always 10 XRP less than your actual balance.
+    internal static let rippleBalanceText = L10n.tr("Localizable", "Amount.RippleBalanceText")
   }
 
   internal enum Android {
@@ -598,6 +615,8 @@ internal enum L10n {
     internal static let to = L10n.tr("Localizable", "Confirmation.to")
     /// Total Cost:
     internal static let totalLabel = L10n.tr("Localizable", "Confirmation.totalLabel")
+    /// Validator Address
+    internal static let validatorAddress = L10n.tr("Localizable", "Confirmation.ValidatorAddress")
   }
 
   internal enum CreateGift {
@@ -875,6 +894,8 @@ internal enum L10n {
     internal static let menu = L10n.tr("Localizable", "HomeScreen.menu")
     /// Wallets
     internal static let portfolio = L10n.tr("Localizable", "HomeScreen.portfolio")
+    /// Pull to refresh
+    internal static let pullToRefresh = L10n.tr("Localizable", "HomeScreen.PullToRefresh")
     /// Total Assets
     internal static let totalAssets = L10n.tr("Localizable", "HomeScreen.totalAssets")
     /// Swap
@@ -1568,12 +1589,19 @@ internal enum L10n {
     internal static let creatTransactionError = L10n.tr("Localizable", "Send.creatTransactionError")
     /// Memo
     internal static let descriptionLabel = L10n.tr("Localizable", "Send.descriptionLabel")
+    /// Destination tag is too long.
+    internal static let destinationTag = L10n.tr("Localizable", "Send.DestinationTag")
     /// Destination Tag
     internal static let destinationTagOptional = L10n.tr("Localizable", "Send.destinationTag_optional")
     /// Destination Tag (Required)
     internal static let destinationTagRequired = L10n.tr("Localizable", "Send.destinationTag_required")
     /// A valid Destination Tag is required for the target address.
     internal static let destinationTagRequiredError = L10n.tr("Localizable", "Send.destinationTag_required_error")
+    /// Some receiving addresses (exchanges usually) require additional identifying information provided with a Destination Tag.
+    /// 
+    /// If the recipient's address is accompanied by a destination tag, make sure to include it.
+    /// Also, we strongly suggest you send a small amount of cryptocurrency as a test before attempting to send a significant amount.
+    internal static let destinationTagText = L10n.tr("Localizable", "Send.DestinationTagText")
     /// Pasteboard is empty
     internal static let emptyPasteboard = L10n.tr("Localizable", "Send.emptyPasteboard")
     /// Can't send to self.
@@ -1624,6 +1652,8 @@ internal enum L10n {
     internal static let noAddress = L10n.tr("Localizable", "Send.noAddress")
     /// Please enter an amount to send.
     internal static let noAmount = L10n.tr("Localizable", "Send.noAmount")
+    /// No fee estimate
+    internal static let noFeeEstimate = L10n.tr("Localizable", "Send.NoFeeEstimate")
     /// Network Fee conditions are being downloaded. Please try again.
     internal static let noFeesError = L10n.tr("Localizable", "Send.noFeesError")
     /// Paste
@@ -1658,6 +1688,8 @@ internal enum L10n {
     internal static let title = L10n.tr("Localizable", "Send.title")
     /// To
     internal static let toLabel = L10n.tr("Localizable", "Send.toLabel")
+    /// What is a destination tag?
+    internal static let whatIsDestinationTag = L10n.tr("Localizable", "Send.WhatIsDestinationTag")
     internal enum Error {
       /// Authentication Error
       internal static let authenticationError = L10n.tr("Localizable", "Send.Error.authenticationError")
@@ -1883,6 +1915,8 @@ internal enum L10n {
   }
 
   internal enum Swap {
+    /// Add item!
+    internal static let addItem = L10n.tr("Localizable", "Swap.AddItem")
     /// Amount purchased:
     internal static let amountPurchased = L10n.tr("Localizable", "Swap.AmountPurchased")
     /// I have %@ %@
@@ -2077,6 +2111,8 @@ internal enum L10n {
     internal static let exchangeOnDaySent = L10n.tr("Localizable", "Transaction.exchangeOnDaySent")
     /// Failed
     internal static let failed = L10n.tr("Localizable", "Transaction.failed")
+    /// Failed swap
+    internal static let failedSwap = L10n.tr("Localizable", "Transaction.FailedSwap")
     /// (%1$@ fee)
     internal static func fee(_ p1: Any) -> String {
       return L10n.tr("Localizable", "Transaction.fee", String(describing: p1))
@@ -2087,6 +2123,14 @@ internal enum L10n {
     internal static let justNow = L10n.tr("Localizable", "Transaction.justNow")
     /// Pending
     internal static let pending = L10n.tr("Localizable", "Transaction.pending")
+    /// Pending purchase
+    internal static let pendingPurchase = L10n.tr("Localizable", "Transaction.PendingPurchase")
+    /// Pending swap
+    internal static let pendingSwap = L10n.tr("Localizable", "Transaction.PendingSwap")
+    /// Purchased
+    internal static let purchased = L10n.tr("Localizable", "Transaction.Purchased")
+    /// Purchase failed
+    internal static let purchaseFailed = L10n.tr("Localizable", "Transaction.PurchaseFailed")
     /// In progress: %1$@
     internal static func receivedStatus(_ p1: Any) -> String {
       return L10n.tr("Localizable", "Transaction.receivedStatus", String(describing: p1))
@@ -2111,6 +2155,8 @@ internal enum L10n {
     internal static func starting(_ p1: Any) -> String {
       return L10n.tr("Localizable", "Transaction.starting", String(describing: p1))
     }
+    /// Swapped
+    internal static let swapped = L10n.tr("Localizable", "Transaction.Swapped")
     /// Fee for token transfer: %1$@
     internal static func tokenTransfer(_ p1: Any) -> String {
       return L10n.tr("Localizable", "Transaction.tokenTransfer", String(describing: p1))
@@ -2398,6 +2444,12 @@ internal enum L10n {
   }
 
   internal enum Wallet {
+    /// Trouble finding assets?
+    internal static let findAssets = L10n.tr("Localizable", "Wallet.FindAssets")
+    /// Limited assets
+    internal static let limitedAssets = L10n.tr("Localizable", "Wallet.LimitedAssets")
+    /// We currently only support the assets that are listed here. You cannot access other assets through this wallet at the moment.
+    internal static let limitedAssetsMessage = L10n.tr("Localizable", "Wallet.LimitedAssetsMessage")
     /// 1d
     internal static let oneDay = L10n.tr("Localizable", "Wallet.one_day")
     /// 1m

@@ -103,7 +103,7 @@ class AmountViewController: UIViewController, Trackable {
         let errorLabel = UILabel()
         errorLabel.textColor = LightColors.error
         errorLabel.font = ThemeManager.shared.font(for: "Roboto-Regular", size: 12)
-        errorLabel.text = "The minimum required ammount is 10 XRP."
+        errorLabel.text = L10n.Amount.minXRPAmount
         errorLabel.isHidden = true
         
         return errorLabel
@@ -245,9 +245,9 @@ class AmountViewController: UIViewController, Trackable {
     }
     
     @objc private func infoButtonTapped() {
-        let message = "Ripple requires each wallet to have a minimum balance of 10 XRP, so the balance displayed here is always 10 XRP less than your actual balance."
+        let message = L10n.Amount.rippleBalanceText
         
-        let alert = UIAlertController(title: "XRP Balance",
+        let alert = UIAlertController(title: L10n.Amount.rippleBalance,
                                       message: message,
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: L10n.Button.ok, style: .default)
