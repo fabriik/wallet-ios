@@ -42,7 +42,7 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     lazy var infoLabel: UILabel = {
         let infoLabel = UILabel()
-        infoLabel.text = "Trouble finding assets?"
+        infoLabel.text = L10n.Wallet.findAssets
         infoLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)
         infoLabel.textColor = .gray2
         infoLabel.textAlignment = .right
@@ -175,9 +175,9 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @objc private func infoButtonTapped() {
         // show info message alert
-        let message = "We currently only support the assets that are listed here. You cannot access other assets through this wallet at the moment."
+        let message = L10n.Wallet.limitedAssetsMessage
         
-        let alert = UIAlertController(title: "Limited assets",
+        let alert = UIAlertController(title: L10n.Wallet.limitedAssets,
                                       message: message,
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: L10n.Button.ok, style: .default)

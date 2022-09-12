@@ -19,8 +19,8 @@ final class ResetPinPresenter: NSObject, Presenter, ResetPinActionResponses {
         
         let sectionRows: [Models.Section: [Any]] = [
             .image: [ImageViewModel.imageName("unlock-wallet")],
-            .title: [LabelViewModel.text("Your PIN was reset successfully!")],
-            .button: [ButtonViewModel(title: "Go to dashboard", enabled: true)]
+            .title: [LabelViewModel.text(L10n.UpdatePin.resetPinSuccess)],
+            .button: [ButtonViewModel(title: L10n.Button.goToDashboard, enabled: true)]
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
