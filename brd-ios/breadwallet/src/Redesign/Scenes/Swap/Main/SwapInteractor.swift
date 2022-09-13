@@ -172,7 +172,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                            fromFee: dataStore?.fromFeeAmount,
                                                            toFee: dataStore?.toFeeAmount,
                                                            baseBalance: dataStore?.from?.currency.state?.balance,
-                                                           minimumAmount: dataStore?.quote?.minimumUsd,
+                                                           minimumValue: dataStore?.quote?.minimumValue,
+                                                           minimumValueUsd: dataStore?.quote?.minimumUsd,
                                                            handleErrors: viewAction.handleErrors))
             return
         }
@@ -186,7 +187,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                        fromFee: dataStore?.fromFeeAmount,
                                                        toFee: dataStore?.toFeeAmount,
                                                        baseBalance: dataStore?.from?.currency.state?.balance,
-                                                       minimumAmount: dataStore?.quote?.minimumUsd,
+                                                       minimumValue: dataStore?.quote?.minimumValue,
+                                                       minimumValueUsd: dataStore?.quote?.minimumUsd,
                                                        handleErrors: viewAction.handleErrors))
     }
     
@@ -394,13 +396,13 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             error = SwapErrors.noFees
             
         case .outputTooSmall(let amount):
-            error = SwapErrors.tooLow(amount: amount.tokenValue, currency: amount.currency.code)
+            error = SwapErrors.tooLow(amount: amount.tokenValue, currency: amount.currency.code, formatter: ExchangeFormatter.crypto)
             
         case .invalidRequest(let string):
             error = GeneralError(errorMessage: string)
             
         case .paymentTooSmall(let amount):
-            error = SwapErrors.tooLow(amount: amount.tokenValue, currency: amount.currency.code)
+            error = SwapErrors.tooLow(amount: amount.tokenValue, currency: amount.currency.code, formatter: ExchangeFormatter.crypto)
             
         case .usedAddress:
             error = GeneralError(errorMessage: "Used address")

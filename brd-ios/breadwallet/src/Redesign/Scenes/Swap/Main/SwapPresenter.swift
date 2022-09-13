@@ -145,7 +145,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             return
         }
         
-        let minimumAmount: Decimal = actionResponse.minimumAmount ?? 5
+        let minimumValue = actionResponse.minimumValue ?? 0
+        let minimumValueUsd = actionResponse.minimumValueUsd ?? 0
         
         var hasError: Bool = actionResponse.from?.fiatValue == 0
         if actionResponse.baseBalance == nil
@@ -158,50 +159,56 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             presentError(actionResponse: .init(error: SwapErrors.pendingSwap))
             hasError = true
         } else {
-            let value = actionResponse.from?.fiatValue ?? 0
+            let fiatValue = actionResponse.from?.fiatValue ?? 0
+            let tokenValue = actionResponse.from?.tokenValue ?? 0
+            let tokenCode = actionResponse.from?.currency.code.uppercased() ?? ""
             let profile = UserManager.shared.profile
             let dailyLimit = profile?.swapDailyRemainingLimit ?? 0
             let lifetimeLimit = profile?.swapLifetimeRemainingLimit ?? 0
             let exchangeLimit = profile?.swapAllowancePerExchange    ?? 0
             let balance = actionResponse.baseBalance?.tokenValue ?? 0
             
-            switch value {
-            case _ where value <= 0:
-                // fiat value is bellow 0
+            switch (fiatValue, tokenValue) {
+            case _ where fiatValue <= 0:
+                // Fiat value is below 0
                 presentError(actionResponse: .init(error: nil))
                 hasError = true
                 
-            case _ where value > (actionResponse.baseBalance?.fiatValue ?? 0):
-                // value higher than balance
+            case _ where fiatValue > (actionResponse.baseBalance?.fiatValue ?? 0):
+                // Value higher than balance
                 let error = SwapErrors.balanceTooLow(balance: balance, currency: actionResponse.from?.currency.code ?? "")
                 presentError(actionResponse: .init(error: error))
                 hasError = true
                 
-            case _ where value < minimumAmount:
-                // value bellow minimum fiat
-                presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
+            case _ where tokenValue < minimumValue || fiatValue < minimumValueUsd:
+                // Value bellow minimum fiat or crypto
+                let tokenIsLower = tokenValue < minimumValue
+                let amount = tokenIsLower ? minimumValue : minimumValueUsd
+                let currency = tokenIsLower ? tokenCode : Store.state.defaultCurrencyCode
+                let formatter = tokenIsLower ? ExchangeFormatter.crypto : ExchangeFormatter.fiat
+                presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: amount, currency: currency, formatter: formatter)))
                 hasError = true
-                
-            case _ where value > dailyLimit:
-                // over daily limit
+                    
+            case _ where fiatValue > dailyLimit:
+                // Over daily limit
                 let limit = UserManager.shared.profile?.swapAllowanceDaily ?? 0
                 let error = profile?.status == .levelTwo(.levelTwo) ? SwapErrors.overDailyLimitLevel2(limit: limit) : SwapErrors.overDailyLimit(limit: limit)
                 presentError(actionResponse: .init(error: error))
                 hasError = true
                 
-            case _ where value > lifetimeLimit:
-                // over lifetime limit
+            case _ where fiatValue > lifetimeLimit:
+                // Over lifetime limit
                 let limit = UserManager.shared.profile?.swapAllowanceLifetime ?? 0
                 presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit(limit: limit)))
                 hasError = true
                 
-            case _ where value > exchangeLimit:
-                // over exchange limit ???
+            case _ where fiatValue > exchangeLimit:
+                // Over exchange limit ???!
                 presentError(actionResponse: .init(error: SwapErrors.overExchangeLimit))
                 hasError = true
                 
             default:
-                // remove error
+                // Remove presented error
                 presentError(actionResponse: .init(error: nil))
             }
         }
