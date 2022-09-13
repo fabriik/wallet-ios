@@ -13,7 +13,7 @@ import Foundation
 enum SwapErrors: FEError {
     case noQuote(from: String?, to: String?)
     /// Param 1: amount, param 2 currency symbol
-    case tooLow(amount: Decimal, currency: String)
+    case tooLow(amount: Decimal, currency: String, formatter: NumberFormatter)
     /// Param 1: amount, param 2 currency symbol
     case tooHigh(amount: Decimal, currency: String)
     /// Param 1&2 -> currency, param 3 balance
@@ -35,22 +35,22 @@ enum SwapErrors: FEError {
     var errorMessage: String {
         switch self {
         case .balanceTooLow(let balance, let currency):
-            return L10n.ErrorMessages.balanceToLow(currency, currency, ExchangeFormatter.crypto.string(for: balance) ?? "0.00")
+            return L10n.ErrorMessages.balanceTooLow(currency, currency, ExchangeFormatter.crypto.string(for: balance) ?? "")
             
-        case .tooLow(let amount, let currency):
-            return L10n.ErrorMessages.amountToLow(Int(amount.doubleValue), currency)
+        case .tooLow(let amount, let currency, let formatter):
+            return L10n.ErrorMessages.amountTooLow(formatter.string(for: amount.doubleValue) ?? "", currency)
             
         case .tooHigh(let amount, let currency):
-            return L10n.ErrorMessages.swapAmountToHigh(ExchangeFormatter.crypto.string(for: amount) ?? "0", currency)
+            return L10n.ErrorMessages.swapAmountTooHigh(ExchangeFormatter.crypto.string(for: amount) ?? "", currency)
             
         case .overDailyLimit(let limit):
-            return L10n.ErrorMessages.overDailyLimit(ExchangeFormatter.fiat.string(for: limit) ?? "0")
+            return L10n.ErrorMessages.overDailyLimit(ExchangeFormatter.fiat.string(for: limit) ?? "")
             
         case .overLifetimeLimit(let limit):
-            return L10n.ErrorMessages.overLifetimeLimit(ExchangeFormatter.fiat.string(for: limit) ?? "0")
+            return L10n.ErrorMessages.overLifetimeLimit(ExchangeFormatter.fiat.string(for: limit) ?? "")
             
         case .overDailyLimitLevel2(let limit):
-            return L10n.ErrorMessages.overLifetimeLimitLevel2(ExchangeFormatter.fiat.string(for: limit) ?? "0")
+            return L10n.ErrorMessages.overLifetimeLimitLevel2(ExchangeFormatter.fiat.string(for: limit) ?? "")
             
         case .noFees:
             return L10n.ErrorMessages.noFees
