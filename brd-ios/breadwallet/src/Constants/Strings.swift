@@ -519,6 +519,8 @@ internal enum L10n {
     internal static let networkFees = L10n.tr("Localizable", "Buy.NetworkFees")
     /// Order preview
     internal static let orderPreview = L10n.tr("Localizable", "Buy.OrderPreview")
+    /// Payment failed
+    internal static let paymentFailed = L10n.tr("Localizable", "Buy.PaymentFailed")
     /// Payment method
     internal static let paymentMethod = L10n.tr("Localizable", "Buy.PaymentMethod")
     /// Pay with
