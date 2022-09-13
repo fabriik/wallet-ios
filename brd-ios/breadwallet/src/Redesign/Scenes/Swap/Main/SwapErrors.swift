@@ -31,7 +31,6 @@ enum SwapErrors: FEError {
     case pendingSwap
     case selectAssets
     
-    // TODO: localize
     var errorMessage: String {
         switch self {
         case .balanceTooLow(let balance, let currency):

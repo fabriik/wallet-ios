@@ -19,7 +19,6 @@ enum BuyErrors: FEError {
     case pinConfirmation
     case authorizationFailed
     
-    // TODO: localize
     var errorMessage: String {
         switch self {
         case .tooLow(let amount, let currency):
