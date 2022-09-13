@@ -396,13 +396,13 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             error = SwapErrors.noFees
             
         case .outputTooSmall(let amount):
-            error = SwapErrors.tooLow(amount: amount.tokenValue, currency: amount.currency.code, formatter: ExchangeFormatter.crypto)
+            error = SwapErrors.tooLow(amount: amount.tokenValue, currency: amount.currency.code)
             
         case .invalidRequest(let string):
             error = GeneralError(errorMessage: string)
             
         case .paymentTooSmall(let amount):
-            error = SwapErrors.tooLow(amount: amount.tokenValue, currency: amount.currency.code, formatter: ExchangeFormatter.crypto)
+            error = SwapErrors.tooLow(amount: amount.tokenValue, currency: amount.currency.code)
             
         case .usedAddress:
             error = GeneralError(errorMessage: "Used address")

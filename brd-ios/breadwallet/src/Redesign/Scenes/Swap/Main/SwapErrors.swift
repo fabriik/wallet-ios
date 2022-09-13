@@ -13,7 +13,7 @@ import Foundation
 enum SwapErrors: FEError {
     case noQuote(from: String?, to: String?)
     /// Param 1: amount, param 2 currency symbol
-    case tooLow(amount: Decimal, currency: String, formatter: NumberFormatter)
+    case tooLow(amount: Decimal, currency: String)
     /// Param 1: amount, param 2 currency symbol
     case tooHigh(amount: Decimal, currency: String)
     /// Param 1&2 -> currency, param 3 balance
@@ -36,8 +36,8 @@ enum SwapErrors: FEError {
         case .balanceTooLow(let balance, let currency):
             return L10n.ErrorMessages.balanceTooLow(currency, currency, ExchangeFormatter.crypto.string(for: balance) ?? "")
             
-        case .tooLow(let amount, let currency, let formatter):
-            return L10n.ErrorMessages.amountTooLow(formatter.string(for: amount.doubleValue) ?? "", currency)
+        case .tooLow(let amount, let currency):
+            return L10n.ErrorMessages.amountTooLow(ExchangeFormatter.crypto.string(for: amount.doubleValue) ?? "", currency)
             
         case .tooHigh(let amount, let currency):
             return L10n.ErrorMessages.swapAmountTooHigh(ExchangeFormatter.crypto.string(for: amount) ?? "", currency)
