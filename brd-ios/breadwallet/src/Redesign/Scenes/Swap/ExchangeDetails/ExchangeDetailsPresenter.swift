@@ -97,7 +97,7 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
         let transactionStatus = detail.status == .complete
         let orderValue = "\(detail.orderId)"
         let transactionFromValue = String(describing: detail.source.transactionId)
-        let transactionToValue = transactionStatus ? String(describing: detail.destination.transactionId) : transactionStatus.rawValue.localizedCapitalized
+        let transactionToValue = transactionStatus ? String(describing: detail.destination.transactionId) : detail.status.localizedCapitalized
         
         var toCurrencyAssetViewModel = AssetViewModel()
         
