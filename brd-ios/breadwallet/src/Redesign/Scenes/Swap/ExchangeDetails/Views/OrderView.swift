@@ -12,7 +12,8 @@ import UIKit
 
 struct OrderConfiguration: Configurable {
     var title: LabelConfiguration?
-    var value: LabelConfiguration?
+    var copyableValue: LabelConfiguration?
+    var regularValue: LabelConfiguration?
     var shadow: ShadowConfiguration?
     var background: BackgroundConfiguration?
     var contentBackground: BackgroundConfiguration?
@@ -22,6 +23,7 @@ struct OrderViewModel: ViewModel {
     var title: String
     var value: NSAttributedString
     var showsFullValue: Bool
+    var isCopyable: Bool
 }
 
 class OrderView: FEView<OrderConfiguration, OrderViewModel> {
@@ -74,9 +76,6 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         bottomStack.wrappedView.addArrangedSubview(valueLabel)
         bottomStack.content.setupCustomMargins(vertical: .extraSmall, horizontal: .medium)
         bottomStack.setContentHuggingPriority(.required, for: .horizontal)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
-        content.addGestureRecognizer(tapGesture)
     }
     
     override func layoutSubviews() {
@@ -91,10 +90,15 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         super.configure(with: config)
         
         titleLabel.configure(with: config?.title)
-        valueLabel.configure(with: config?.value)
         bottomStack.configure(background: config?.contentBackground)
         configure(background: config?.background)
         configure(shadow: config?.shadow)
+        
+        if viewModel?.isCopyable == true {
+            valueLabel.configure(with: config?.copyableValue)
+        } else {
+            valueLabel.configure(with: config?.regularValue)
+        }
     }
     
     override func setup(with viewModel: OrderViewModel?) {
@@ -103,6 +107,14 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         
         titleLabel.setup(with: .text(viewModel.title))
         valueLabel.setup(with: .attributedText(viewModel.value))
+        
+        guard viewModel.isCopyable else {
+            content.gestureRecognizers?.removeAll()
+            return
+        }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        content.addGestureRecognizer(tapGesture)
     }
     
     // MARK: - User interaction

@@ -229,8 +229,10 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
                 self?.showErrorMessage(L10n.AccountCreation.timeout)
             })
         }
-        //This could take a while because we're waiting for a transaction to confirm, so we need a decent timeout of 45 seconds.
-        self.createTimeoutTimer = Timer.scheduledTimer(withTimeInterval: 45, repeats: false, block: handleTimeout)
+        
+        // This could take a while because we're waiting for a transaction to confirm, so we need a decent timeout of 45 seconds.
+        createTimeoutTimer = Timer.scheduledTimer(withTimeInterval: 45, repeats: false, block: handleTimeout)
+        
         Store.trigger(name: .createAccount(currency, completion))
     }
     
@@ -349,7 +351,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
 extension AccountViewController: TxDetaiViewControllerDelegate {
     func txDetailDidDismiss(detailViewController: TxDetailViewController) {
         if isSearching {
-            // restore the search keyboard that we hid when the transaction details were displayed
+            // Restore the search keyboard that we hid when the transaction details were displayed
             searchHeaderview.becomeFirstResponder()
         }
     }
