@@ -94,8 +94,10 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
         let networkFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.destination.usdFee) ?? "",
                                     currencyCode)
         
+        let transactionStatus = detail.status == .complete
         let orderValue = "\(detail.orderId)"
-        let transactionFromValue = "\(String(describing: detail.source.transactionId))"
+        let transactionFromValue = String(describing: detail.source.transactionId)
+        let transactionToValue = transactionStatus ? String(describing: detail.destination.transactionId) : detail.status.rawValue.localizedCapitalized
         
         var toCurrencyAssetViewModel = AssetViewModel()
         
@@ -118,8 +120,9 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
             Models.Section.header: [header],
             Models.Section.order: [
                 OrderViewModel(title: L10n.Swap.transactionID,
-                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: orderValue),
-                               showsFullValue: false)
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: orderValue, isCopyable: true),
+                               showsFullValue: false,
+                               isCopyable: true)
             ],
             Models.Section.buyOrder: [
                 BuyOrderViewModel(rateValue: .init(title: .text(L10n.Swap.rate), value: .text(rate), infoImage: nil),
@@ -148,17 +151,22 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
                 toCurrencyAssetViewModel
             ],
             Models.Section.timestamp: [
-                TransactionViewModel(title: L10n.Swap.timestamp,
-                                     description: "\(dateString)")
+                OrderViewModel(title: L10n.Swap.timestamp,
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: dateString, isCopyable: false),
+                               showsFullValue: true,
+                               isCopyable: false)
             ],
             Models.Section.transactionFrom: [
                 OrderViewModel(title: "\(detail.source.currency) \(L10n.TransactionDetails.txHashHeader)",
-                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: transactionFromValue),
-                               showsFullValue: true)
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: transactionFromValue, isCopyable: true),
+                               showsFullValue: true,
+                               isCopyable: true)
             ],
             Models.Section.transactionTo: [
-                TransactionViewModel(title: "\(detail.destination.currency) \(L10n.TransactionDetails.txHashHeader)",
-                                     description: "\(detail.status.rawValue.localizedCapitalized)")
+                OrderViewModel(title: "\(detail.destination.currency) \(L10n.TransactionDetails.txHashHeader)",
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: transactionToValue, isCopyable: transactionStatus),
+                               showsFullValue: true,
+                               isCopyable: transactionStatus)
             ]
         ]
         
@@ -167,7 +175,7 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
 
     // MARK: - Additional Helpers
     
-    private static func generateAttributedOrderValue(with value: String) -> NSAttributedString {
+    private static func generateAttributedOrderValue(with value: String, isCopyable: Bool) -> NSAttributedString {
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = UIImage(named: "copy")?.withTintColor(LightColors.Text.one, renderingMode: .alwaysTemplate)
         imageAttachment.bounds = CGRect(x: 0,
@@ -177,8 +185,11 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
         let attachmentString = NSAttributedString(attachment: imageAttachment)
         let completeText = NSMutableAttributedString(string: "")
         completeText.append(NSAttributedString(string: value))
-        completeText.append(NSAttributedString(string: " "))
-        completeText.append(attachmentString)
+        
+        if isCopyable {
+            completeText.append(NSAttributedString(string: " "))
+            completeText.append(attachmentString)
+        }
         
         return completeText
     }

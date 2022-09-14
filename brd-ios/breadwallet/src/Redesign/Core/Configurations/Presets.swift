@@ -440,9 +440,10 @@ extension Presets {
 
 extension Presets {
     struct Order {
-        static var small = OrderConfiguration(title: .init(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1),
-                                              value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1,
-                                                           lineBreakMode: .byTruncatingTail),
+        static var small = OrderConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 1),
+                                              copyableValue: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1,
+                                                                   lineBreakMode: .byTruncatingTail),
+                                              regularValue: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1),
                                               shadow: Presets.Shadow.light,
                                               background: .init(backgroundColor: LightColors.Background.one,
                                                                 tintColor: LightColors.Text.one,
@@ -452,8 +453,9 @@ extension Presets {
                                                                                      borderWidth: BorderWidth.minimum.rawValue,
                                                                                      cornerRadius: .medium)))
         
-        static var full = OrderConfiguration(title: .init(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1),
-                                             value: .init(font: Fonts.Body.two, textColor: LightColors.Link.two, textAlignment: .center, numberOfLines: 0),
+        static var full = OrderConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 1),
+                                             copyableValue: .init(font: Fonts.Body.two, textColor: LightColors.Link.two, textAlignment: .center, numberOfLines: 0),
+                                             regularValue: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1),
                                              shadow: Presets.Shadow.light,
                                              background: .init(backgroundColor: LightColors.Background.one,
                                                                tintColor: LightColors.Text.one,
