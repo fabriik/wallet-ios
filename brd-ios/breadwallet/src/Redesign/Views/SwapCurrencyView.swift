@@ -29,10 +29,6 @@ struct SwapCurrencyViewModel: ViewModel {
 }
 
 class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>, UITextFieldDelegate {
-    enum FeeAndAmountsStackViewState {
-        case shown, hidden
-    }
-    
     var didTapSelectAsset: (() -> Void)?
     var didChangeFiatAmount: ((String?) -> Void)?
     var didChangeCryptoAmount: ((String?) -> Void)?
@@ -159,7 +155,6 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         let view = UIStackView()
         view.axis = .horizontal
         view.distribution = .equalSpacing
-        view.alpha = 0
         return view
     }()
     
@@ -252,24 +247,16 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         }
         
         mainStack.addArrangedSubview(feeAndAmountsStackView)
-        feeAndAmountsStackView.snp.makeConstraints { make in
-            make.height.equalTo(Margins.extraHuge.rawValue)
-        }
-        
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
         feeAndAmountsStackView.addArrangedSubview(feeAmountLabel)
         
+        [feeAndAmountsStackView, feeLabel, feeAmountLabel].forEach({ view in
+            view.snp.makeConstraints { make in
+                make.height.equalTo(ViewSizes.invisible.rawValue)
+            }
+        })
+        
         decidePlaceholder()
-    }
-    
-    func toggleFeeAndAmountsStackView(state: FeeAndAmountsStackViewState, animated: Bool = true) {
-        UIView.animate(withDuration: animated ? Presets.Animation.duration : 0,
-                       delay: 0,
-                       options: .curveEaseOut) { [weak self] in
-            self?.feeAndAmountsStackView.alpha = state == .hidden ? 0.0 : 1.0
-            guard animated else { return }
-            self?.feeAndAmountsStackView.layoutIfNeeded()
-        }
     }
     
     @objc func fiatAmountDidChange(_ textField: UITextField) {
@@ -344,20 +331,19 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         feeLabel.setup(with: viewModel.feeDescription)
         
-        let isHidden = feeAndAmountsStackView.alpha == 0
         let noFee = viewModel.fee == nil || viewModel.fee?.tokenValue == 0 || viewModel.amount?.tokenValue == 0
         
-        feeAndAmountsStackView.isHidden = noFee
-        guard isHidden != noFee else { return }
-        
-        feeAndAmountsStackView.isHidden = false
-        feeAndAmountsStackView.alpha = isHidden ? 0 : 1
-        UIView.animate(withDuration: Presets.Animation.duration, animations: { [weak self] in
-            self?.feeAndAmountsStackView.alpha = isHidden ? 1: 0
-        }, completion: { [weak self] _ in
-            self?.feeAndAmountsStackView.isHidden = !isHidden
-            self?.didChangeContent?()
+        [feeAndAmountsStackView, feeLabel, feeAmountLabel].forEach({ view in
+            view.snp.updateConstraints { make in
+                make.height.equalTo(noFee ? ViewSizes.invisible.rawValue : ViewSizes.medium.rawValue)
+            }
         })
+        
+        UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .transitionCrossDissolve) { [weak self] in
+            self?.feeAndAmountsStackView.layoutIfNeeded()
+        } completion: { [weak self] _ in
+            self?.didChangeContent?()
+        }
     }
     
     @objc private func selectorTapped(_ sender: Any) {
