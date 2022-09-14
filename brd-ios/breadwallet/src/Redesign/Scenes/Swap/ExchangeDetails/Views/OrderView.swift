@@ -93,12 +93,7 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         bottomStack.configure(background: config?.contentBackground)
         configure(background: config?.background)
         configure(shadow: config?.shadow)
-        
-        if viewModel?.isCopyable == true {
-            valueLabel.configure(with: config?.copyableValue)
-        } else {
-            valueLabel.configure(with: config?.regularValue)
-        }
+        valueLabel.configure(with: viewModel?.isCopyable == true ? config?.copyableValue : config?.regularValue)
     }
     
     override func setup(with viewModel: OrderViewModel?) {
