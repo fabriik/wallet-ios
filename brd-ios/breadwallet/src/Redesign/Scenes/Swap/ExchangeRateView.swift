@@ -104,7 +104,7 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
     
     override func setup(with viewModel: ExchangeRateViewModel?) {
         guard let viewModel = viewModel else { return }
-
+        
         super.setup(with: viewModel)
         
         valueLabel.text = viewModel.exchangeRate
@@ -112,6 +112,8 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         
         timerView.setup(with: viewModel.timer)
         timerView.alpha = viewModel.timer == nil || viewModel.showTimer ? 1 : 0
+        
+        UIView.transition(with: content, duration: Presets.Animation.duration, options: .transitionCrossDissolve) {}
     }
     
     func invalidate() {

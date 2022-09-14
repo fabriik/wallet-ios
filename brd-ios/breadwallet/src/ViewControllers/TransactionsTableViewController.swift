@@ -25,18 +25,14 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
     }
 
     let didSelectTransaction: ([Transaction], Int) -> Void
-
+    var didScrollToYOffset: ((CGFloat) -> Void)?
+    var didStopScrolling: (() -> Void)?
     var filters: [TransactionFilter] = [] {
         didSet {
             transactions = filters.reduce(allTransactions, { $0.filter($1) })
-            tableView.reloadData()
+            reload()
         }
     }
-    
-    var didScrollToYOffset: ((CGFloat) -> Void)?
-    var didStopScrolling: (() -> Void)?
-
-    // MARK: - Private
     var wallet: Wallet? {
         didSet {
             if wallet != nil {
@@ -44,8 +40,11 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
             }
         }
     }
-    private let currency: Currency
     
+    // MARK: - Private
+    
+    private let emptyMessage = UILabel.wrapping(font: .customBody(size: 16.0), color: .grayTextTint)
+    private let currency: Currency
     private let transactionCellIdentifier = "TransactionCellIdentifier"
     private var transactions: [Transaction] = []
     private var allTransactions: [Transaction] = [] {
@@ -57,7 +56,6 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
     private var rate: Rate? {
         didSet { reload() }
     }
-    private let emptyMessage = UILabel.wrapping(font: .customBody(size: 16.0), color: .grayTextTint)
 
     // MARK: - Lifecycle
 
@@ -164,7 +162,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         
         guard let index = transactions.firstIndex(where: { txHash == $0.hash }) else { return false }
         
-        // if transaction count stayed the same perform tableView updates block, else reloadData.
+        // If transaction count stayed the same perform tableView updates block, else reloadData.
         guard transactions.count == tableView.numberOfRows(inSection: 0) else {
             tableView.reloadData()
             return true
@@ -181,6 +179,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         assert(Thread.isMainThread)
         
         guard let transfers = wallet?.transfers else { return }
+        allTransactions = transfers
         allTransactions = transfers.sorted(by: { $0.timestamp > $1.timestamp })
         
         TransferManager.shared.reload { [weak self] exchanges in
@@ -189,7 +188,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
                 let destination = exchange.destination
                 let sourceId = source.transactionId
                 let destinationId = destination.transactionId
-                
+
                 if let element = self?.allTransactions.first(where: { $0.transfer.hash?.description == sourceId || $0.transfer.hash?.description == destinationId }) {
                     element.transactionType = exchange.type
                     element.swapOrderId = exchange.orderId
@@ -198,7 +197,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
                     element.swapDestination = exchange.destination
                 }
             }
-            
+
             self?.reload()
         }
     }

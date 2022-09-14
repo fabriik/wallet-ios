@@ -107,6 +107,8 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
+        LoadingView.show()
+        
         interactor?.submit(viewAction: .init())
     }
 
@@ -128,6 +130,8 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
     }
     
     func displaySubmit(responseDisplay: AddCardModels.Submit.ResponseDisplay) {
+        LoadingView.show()
+        
         coordinator?.showBillingAddress(checkoutToken: responseDisplay.checkoutToken)
     }
     

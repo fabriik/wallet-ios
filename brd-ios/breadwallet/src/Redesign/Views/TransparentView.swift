@@ -84,14 +84,12 @@ class TransparentView: FEView<TransparentViewConfiguration, TransparentViewModel
         stack.addArrangedSubview(imageView)
         imageView.snp.makeConstraints { make in
             make.width.equalTo(imageView.snp.height)
-            // TODO: constant
-            make.height.equalTo(79)
+            make.height.equalTo(ViewSizes.large.rawValue)
         }
         
         stack.addArrangedSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            // TODO: constant
-            make.height.equalTo(20)
+            make.height.equalTo(Margins.extraLarge.rawValue)
         }
         
         addSubview(blurView)

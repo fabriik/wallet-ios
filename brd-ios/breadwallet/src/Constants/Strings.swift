@@ -519,6 +519,8 @@ internal enum L10n {
     internal static let networkFees = L10n.tr("Localizable", "Buy.NetworkFees")
     /// Order preview
     internal static let orderPreview = L10n.tr("Localizable", "Buy.OrderPreview")
+    /// Payment failed
+    internal static let paymentFailed = L10n.tr("Localizable", "Buy.PaymentFailed")
     /// Payment method
     internal static let paymentMethod = L10n.tr("Localizable", "Buy.PaymentMethod")
     /// Pay with
@@ -752,19 +754,19 @@ internal enum L10n {
   }
 
   internal enum ErrorMessages {
-    /// The amount is higher than your daily limit of %i %s. Please enter a lower amount.
-    internal static func amountToHigh(_ p1: Int, _ p2: UnsafePointer<CChar>) -> String {
-      return L10n.tr("Localizable", "ErrorMessages.AmountToHigh", p1, p2)
+    /// The amount is higher than your daily limit of %s %s. Please enter a lower amount.
+    internal static func amountTooHigh(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.AmountTooHigh", p1, p2)
     }
-    /// The amount is lower than the minimum of %i %s. Please enter a higher amount.
-    internal static func amountToLow(_ p1: Int, _ p2: UnsafePointer<CChar>) -> String {
-      return L10n.tr("Localizable", "ErrorMessages.amountToLow", p1, p2)
+    /// The amount is lower than the minimum of %s %s. Please enter a higher amount.
+    internal static func amountTooLow(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.amountTooLow", p1, p2)
     }
     /// Card authorization failed. Please contact your credit card issuer/bank or try another card.
     internal static let authorizationFailed = L10n.tr("Localizable", "ErrorMessages.authorizationFailed")
     /// You don't have enough %s to complete this swap. Your current %s balance is %s.
-    internal static func balanceToLow(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>, _ p3: UnsafePointer<CChar>) -> String {
-      return L10n.tr("Localizable", "ErrorMessages.balanceToLow", p1, p2, p3)
+    internal static func balanceTooLow(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>, _ p3: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.balanceTooLow", p1, p2, p3)
     }
     /// Please, check your internet connection and try again later.
     internal static let checkInternet = L10n.tr("Localizable", "ErrorMessages.CheckInternet")
@@ -819,8 +821,8 @@ internal enum L10n {
     /// Oops! Something went wrong, please try again later.
     internal static let somethingWentWrong = L10n.tr("Localizable", "ErrorMessages.SomethingWentWrong")
     /// The amount is higher than the swap maximum of %s %s.
-    internal static func swapAmountToHigh(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>) -> String {
-      return L10n.tr("Localizable", "ErrorMessages.swapAmountToHigh", p1, p2)
+    internal static func swapAmountTooHigh(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.swapAmountTooHigh", p1, p2)
     }
     /// Unknown error.
     internal static let unknownError = L10n.tr("Localizable", "ErrorMessages.UnknownError")
@@ -1999,6 +2001,8 @@ internal enum L10n {
     internal static let failureSwapMessage = L10n.tr("Localizable", "Swap.FailureSwapMessage")
     /// Got it!
     internal static let gotItButton = L10n.tr("Localizable", "Swap.GotItButton")
+    /// I have
+    internal static let iHave = L10n.tr("Localizable", "Swap.iHave")
     /// I want
     internal static let iWant = L10n.tr("Localizable", "Swap.iWant")
     /// Mining network fee

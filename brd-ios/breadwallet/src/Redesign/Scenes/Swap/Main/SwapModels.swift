@@ -50,7 +50,7 @@ enum SwapModels {
             var toFee: Amount?
             
             var baseBalance: Amount?
-            var minimumAmount: Decimal?
+            var minimumValue: Decimal?
             var handleErrors = false
         }
         
@@ -86,7 +86,9 @@ enum SwapModels {
     }
     
     struct Rate {
-        struct ViewAction {}
+        struct ViewAction {
+            var getFees: Bool
+        }
         
         struct ActionResponse {
             var quote: Quote?
