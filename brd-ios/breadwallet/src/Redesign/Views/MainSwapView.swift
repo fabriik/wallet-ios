@@ -194,12 +194,11 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     @objc private func switchPlacesButtonTapped(_ sender: UIButton?) {
         endEditing(true)
         
-        didChangePlaces?()
-
         SwapCurrencyView.animateSwitchPlaces(sender: sender,
                                              baseSwapCurrencyView: baseSwapCurrencyView,
                                              termSwapCurrencyView: termSwapCurrencyView)
-
+        
+        didChangePlaces?()
         contentSizeChanged?()
     }
 }

@@ -178,7 +178,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                            toFee: dataStore?.toFeeAmount,
                                                            baseBalance: dataStore?.from?.currency.state?.balance,
                                                            minimumValue: dataStore?.quote?.minimumValue,
-                                                           minimumValueUsd: dataStore?.quote?.minimumUsd,
                                                            handleErrors: viewAction.handleErrors))
             return
         }
@@ -193,7 +192,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                        toFee: dataStore?.toFeeAmount,
                                                        baseBalance: dataStore?.from?.currency.state?.balance,
                                                        minimumValue: dataStore?.quote?.minimumValue,
-                                                       minimumValueUsd: dataStore?.quote?.minimumUsd,
                                                        handleErrors: viewAction.handleErrors))
     }
     

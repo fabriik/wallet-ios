@@ -134,12 +134,12 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             
             view.didChangePlaces = { [weak self] in
                 self?.view.endEditing(true)
+                
                 self?.interactor?.switchPlaces(viewAction: .init())
             }
             
             view.contentSizeChanged = { [weak self] in
-                self?.tableView.beginUpdates()
-                self?.tableView.endUpdates()
+                self?.updateTableViewWithoutAnimation()
             }
         }
         
@@ -185,16 +185,24 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         LoadingView.hide()
         
         confirmButton.wrappedView.isEnabled = responseDisplay.continueEnabled
+        
         guard let section = sections.firstIndex(of: Models.Sections.swapCard),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<MainSwapView> else { return }
         
         cell.setup { view in
             let model = responseDisplay.amounts
             view.setup(with: model)
+            
             view.contentSizeChanged = { [weak self] in
-                self?.tableView.beginUpdates()
-                self?.tableView.endUpdates()
+                self?.updateTableViewWithoutAnimation()
             }
+        }
+    }
+    
+    private func updateTableViewWithoutAnimation() {
+        UIView.performWithoutAnimation { [weak self] in
+            self?.tableView.beginUpdates()
+            self?.tableView.endUpdates()
         }
     }
     
@@ -205,6 +213,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             cell.setup { view in
                 view.configure(with: .init())
                 view.setup(with: responseDisplay.rate)
+                
                 view.completion = { [weak self] in
                     self?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
                 }
@@ -220,18 +229,25 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             }
         }
         
-        tableView.beginUpdates()
-        tableView.endUpdates()
+        UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) {
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+        }
     }
     
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay) {
         view.endEditing(true)
+        
         coordinator?.showAssetSelector(currencies: responseDisplay.to ?? responseDisplay.from,
                                        supportedCurrencies: dataStore?.supportedCurrencies,
                                        selected: { [weak self] model in
-            guard let model = model as? AssetViewModel, let from = responseDisplay.from else { return }
+            guard let model = model as? AssetViewModel else { return }
             
-            self?.interactor?.assetSelected(viewAction: from.isEmpty ? .init(to: model.subtitle) : .init(from: model.subtitle))
+            guard responseDisplay.from?.isEmpty == false else {
+                self?.interactor?.assetSelected(viewAction: .init(to: model.subtitle))
+                return
+            }
+            self?.interactor?.assetSelected(viewAction: .init(from: model.subtitle))
         })
     }
     
