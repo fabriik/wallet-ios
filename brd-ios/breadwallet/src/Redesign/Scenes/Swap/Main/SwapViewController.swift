@@ -243,7 +243,11 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                                        selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }
             
-            self?.interactor?.assetSelected(viewAction: responseDisplay.from?.isEmpty == true ? .init(to: model.subtitle) : .init(from: model.subtitle))
+            guard responseDisplay.from?.isEmpty == false else {
+                self?.interactor?.assetSelected(viewAction: .init(to: model.subtitle))
+                return
+            }
+            self?.interactor?.assetSelected(viewAction: .init(from: model.subtitle))
         })
     }
     
