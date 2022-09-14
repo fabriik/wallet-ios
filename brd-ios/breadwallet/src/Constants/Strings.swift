@@ -2001,6 +2001,8 @@ internal enum L10n {
     internal static let failureSwapMessage = L10n.tr("Localizable", "Swap.FailureSwapMessage")
     /// Got it!
     internal static let gotItButton = L10n.tr("Localizable", "Swap.GotItButton")
+    /// I have
+    internal static let iHave = L10n.tr("Localizable", "Swap.iHave")
     /// I want
     internal static let iWant = L10n.tr("Localizable", "Swap.iWant")
     /// Mining network fee
