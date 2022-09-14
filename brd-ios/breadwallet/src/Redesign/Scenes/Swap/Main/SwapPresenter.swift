@@ -49,7 +49,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                               fee: .zero(from),
                                               formattedFiatFeeString: nil,
                                               formattedTokenFeeString: nil,
-                                              title: .text("I have 0 \(from.code)"),
+                                              title: .text(String(format: L10n.Swap.balance(ExchangeFormatter.crypto.string(for: 0) ?? "", from.code))),
                                               feeDescription: .text(L10n.Swap.sendNetworkFee)),
                                   to: .init(amount: .zero(to),
                                             fee: .zero(to),
@@ -88,8 +88,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     
     func presentAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         let balance = actionResponse.baseBalance
-        let balanceText = String(format: L10n.Swap.balance(ExchangeFormatter.crypto.string(for: balance?.tokenValue.doubleValue) ?? "",
-                                 balance?.currency.code ?? ""))
+        let balanceText = String(format: L10n.Swap.balance(ExchangeFormatter.crypto.string(for: balance?.tokenValue.doubleValue) ?? "", balance?.currency.code ?? ""))
         let sendingFee = L10n.Swap.sendNetworkFeeNotIncluded
         let receivingFee = L10n.Swap.receiveNetworkFee
         
