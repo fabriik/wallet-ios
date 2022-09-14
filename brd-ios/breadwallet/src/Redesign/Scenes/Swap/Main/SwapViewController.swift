@@ -229,7 +229,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             }
         }
         
-        UIView.transition(with: tableView, duration: 0.3, options: .transitionCrossDissolve) {
+        UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) {
             self.tableView.beginUpdates()
             self.tableView.endUpdates()
         }
