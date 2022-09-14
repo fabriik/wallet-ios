@@ -49,7 +49,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                               fee: .zero(from),
                                               formattedFiatFeeString: nil,
                                               formattedTokenFeeString: nil,
-                                              title: .text("I have 0 \(from.code)"),
+                                              title: .text("\(L10n.Swap.iHave) \(from.code)"),
                                               feeDescription: .text(L10n.Swap.sendNetworkFee)),
                                   to: .init(amount: .zero(to),
                                             fee: .zero(to),
