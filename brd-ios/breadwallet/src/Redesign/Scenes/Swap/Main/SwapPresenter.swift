@@ -146,7 +146,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         }
         
         let minimumValue = actionResponse.minimumValue ?? 0
-        let minimumValueUsd = actionResponse.minimumValueUsd ?? 0
         
         var hasError: Bool = actionResponse.from?.fiatValue == 0
         if actionResponse.baseBalance == nil

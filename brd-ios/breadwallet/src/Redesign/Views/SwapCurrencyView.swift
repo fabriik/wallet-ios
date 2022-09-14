@@ -383,53 +383,48 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
 }
 
 extension SwapCurrencyView {
-    static func animateSwitchPlaces(sender: UIButton?, baseSwapCurrencyView: SwapCurrencyView, termSwapCurrencyView: SwapCurrencyView) {
-        UIView.animate(withDuration: Presets.Animation.duration * 3,
+    static func animateSwitchPlaces(sender: UIButton?,
+                                    baseSwapCurrencyView: SwapCurrencyView,
+                                    termSwapCurrencyView: SwapCurrencyView) {
+        let topFrame = sender?.transform != .identity ? baseSwapCurrencyView.selectorStackView : termSwapCurrencyView.selectorStackView
+        let bottomFrame = sender?.transform == .identity ? baseSwapCurrencyView.selectorStackView : termSwapCurrencyView.selectorStackView
+        let frame = topFrame.convert(topFrame.bounds, from: bottomFrame)
+        let verticalDistance = frame.minY - topFrame.bounds.maxY + topFrame.frame.height
+        
+        UIView.animate(withDuration: Presets.Animation.duration * 2,
                        delay: 0,
                        usingSpringWithDamping: 0.8,
-                       initialSpringVelocity: 3,
-                       options: .curveEaseInOut) {
+                       initialSpringVelocity: 3.0,
+                       options: .curveEaseIn) {
             sender?.isEnabled = false
+            
+            baseSwapCurrencyView.selectorStackView.transform = .init(translationX: 0, y: sender?.transform == .identity ? -verticalDistance : verticalDistance)
+            termSwapCurrencyView.selectorStackView.transform = .init(translationX: 0, y: sender?.transform == .identity ? verticalDistance : -verticalDistance)
+            
             sender?.transform = sender?.transform == .identity ? CGAffineTransform(rotationAngle: .pi) : .identity
-            
-            let topFrame = baseSwapCurrencyView.selectorStackView
-            let bottomFrame = termSwapCurrencyView.selectorStackView
-            var frame = topFrame.convert(topFrame.bounds, from: bottomFrame)
-            frame.size.height = topFrame.bounds.height
-            let verticalDistance = frame.minY - topFrame.bounds.maxY + topFrame.frame.height
-            
-            baseSwapCurrencyView.selectorStackView.transform = baseSwapCurrencyView.selectorStackView.transform == .identity
-            ? .init(translationX: 0, y: verticalDistance) : .identity
-            termSwapCurrencyView.selectorStackView.transform = termSwapCurrencyView.selectorStackView.transform == .identity
-            ? .init(translationX: 0, y: -verticalDistance) : .identity
         }
         
-        UIView.animate(withDuration: Presets.Animation.duration, delay: Presets.Animation.duration, options: []) {
+        UIView.animate(withDuration: Presets.Animation.duration) {
             SwapCurrencyView.updateAlpha(baseSwapCurrencyView: baseSwapCurrencyView, termSwapCurrencyView: termSwapCurrencyView, value: 0.2)
         } completion: { _ in
             UIView.animate(withDuration: Presets.Animation.duration) {
                 SwapCurrencyView.updateAlpha(baseSwapCurrencyView: baseSwapCurrencyView, termSwapCurrencyView: termSwapCurrencyView, value: 1.0)
-                
+            } completion: { _ in
                 sender?.isEnabled = true
             }
         }
     }
     
-    private static  func updateAlpha(baseSwapCurrencyView: SwapCurrencyView, termSwapCurrencyView: SwapCurrencyView, value: CGFloat) {
-        baseSwapCurrencyView.titleLabel.alpha = value
-        baseSwapCurrencyView.fiatStack.alpha = value
-        baseSwapCurrencyView.fiatAmountField.alpha = value
-        baseSwapCurrencyView.fiatCurrencyLabel.alpha = value
-        baseSwapCurrencyView.cryptoAmountField.alpha = value
-        baseSwapCurrencyView.feeAmountLabel.alpha = value
-        baseSwapCurrencyView.feeAmountLabel.alpha = value
-        
-        termSwapCurrencyView.titleLabel.alpha = value
-        termSwapCurrencyView.fiatStack.alpha = value
-        termSwapCurrencyView.fiatAmountField.alpha = value
-        termSwapCurrencyView.fiatCurrencyLabel.alpha = value
-        termSwapCurrencyView.cryptoAmountField.alpha = value
-        termSwapCurrencyView.feeAmountLabel.alpha = value
-        termSwapCurrencyView.feeAmountLabel.alpha = value
+    private static func updateAlpha(baseSwapCurrencyView: SwapCurrencyView,
+                                    termSwapCurrencyView: SwapCurrencyView,
+                                    value: CGFloat) {
+        [baseSwapCurrencyView, termSwapCurrencyView].forEach { view in
+            view.titleLabel.alpha = value
+            view.fiatStack.alpha = value
+            view.fiatAmountField.alpha = value
+            view.fiatCurrencyLabel.alpha = value
+            view.cryptoAmountField.alpha = value
+            view.feeAmountLabel.alpha = value
+        }
     }
 }
