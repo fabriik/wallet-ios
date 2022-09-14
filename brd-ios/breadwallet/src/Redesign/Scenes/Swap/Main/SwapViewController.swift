@@ -206,7 +206,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 view.configure(with: .init())
                 view.setup(with: responseDisplay.rate)
                 view.completion = { [weak self] in
-                    self?.interactor?.getExchangeRate(viewAction: .init())
+                    self?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
                 }
             }
         }
@@ -229,15 +229,9 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         coordinator?.showAssetSelector(currencies: responseDisplay.to ?? responseDisplay.from,
                                        supportedCurrencies: dataStore?.supportedCurrencies,
                                        selected: { [weak self] model in
-            guard let model = model as? AssetViewModel else { return }
+            guard let model = model as? AssetViewModel, let from = responseDisplay.from else { return }
             
-            // TODO: Extract to VIPBaseViewController
-            LoadingView.show()
-            guard responseDisplay.from?.isEmpty == false else {
-                self?.interactor?.assetSelected(viewAction: .init(to: model.subtitle))
-                return
-            }
-            self?.interactor?.assetSelected(viewAction: .init(from: model.subtitle))
+            self?.interactor?.assetSelected(viewAction: from.isEmpty ? .init(to: model.subtitle) : .init(from: model.subtitle))
         })
     }
     

@@ -87,7 +87,9 @@ enum SwapModels {
     }
     
     struct Rate {
-        struct ViewAction {}
+        struct ViewAction {
+            var getFees: Bool
+        }
         
         struct ActionResponse {
             var quote: Quote?
