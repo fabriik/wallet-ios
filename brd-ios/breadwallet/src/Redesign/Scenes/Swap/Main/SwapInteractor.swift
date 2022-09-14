@@ -50,7 +50,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                        quote: self?.dataStore?.quote,
                                        isKYCLevelTwo: self?.dataStore?.isKYCLevelTwo)
                 self?.presenter?.presentData(actionResponse: .init(item: item))
-                self?.getExchangeRate(viewAction: .init())
+                self?.getExchangeRate(viewAction: .init(getFees: false))
                 
             case .failure:
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.selectAssets))
@@ -103,10 +103,15 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             }
             group.leave()
         }
-        
         CoinGeckoClient().load(resource)
         
         group.notify(queue: .main) { [weak self] in
+            guard viewAction.getFees else {
+                self?.setAmountSuccess()
+                
+                return
+            }
+            
             self?.getFees(viewAction: .init())
         }
     }
@@ -124,7 +129,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.toRate = nil
         dataStore?.fromFee = nil
         
-        getExchangeRate(viewAction: .init())
+        getExchangeRate(viewAction: .init(getFees: false))
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
@@ -211,9 +216,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             if self?.dataStore?.fromFee != nil,
                self?.dataStore?.quote != nil {
                 // All good
-                var model: Models.Amounts.ViewAction = self?.dataStore?.values ?? .init()
-                model.handleErrors = true
-                self?.setAmount(viewAction: model)
+                self?.setAmountSuccess()
                 
             } else if self?.dataStore?.quote?.fromFee?.fee != nil,
                       from.currency.isEthereum {
@@ -256,7 +259,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.toRate = nil
         dataStore?.fromFee = nil
         
-        getExchangeRate(viewAction: .init())
+        getExchangeRate(viewAction: .init(getFees: false))
         
         // TODO: Hide error if pressent
         presenter?.presentError(actionResponse: .init())
@@ -316,6 +319,12 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     // MARK: - Aditional helpers
+    
+    private func setAmountSuccess() {
+        var model: Models.Amounts.ViewAction = dataStore?.values ?? .init()
+        model.handleErrors = true
+        setAmount(viewAction: model)
+    }
     
     private func createTransaction(from swap: Swap?) {
         guard let dataStore = dataStore,
