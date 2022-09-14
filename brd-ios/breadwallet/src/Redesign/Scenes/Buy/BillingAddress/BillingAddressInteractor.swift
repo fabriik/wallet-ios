@@ -148,8 +148,7 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
             presenter?.presentSubmit(actionResponse: .init())
             
         default:
-            // TODO: Localize. 
-            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "Payment failed.")))
+            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Buy.paymentFailed)))
         }
     }
 }
