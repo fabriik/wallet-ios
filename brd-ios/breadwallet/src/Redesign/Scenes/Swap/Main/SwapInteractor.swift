@@ -129,6 +129,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.toRate = nil
         dataStore?.fromFee = nil
         
+        // Remove error
+        presenter?.presentError(actionResponse: .init(error: nil))
+        
         getExchangeRate(viewAction: .init(getFees: false))
     }
     
