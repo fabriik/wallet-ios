@@ -241,9 +241,9 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         coordinator?.showAssetSelector(currencies: responseDisplay.to ?? responseDisplay.from,
                                        supportedCurrencies: dataStore?.supportedCurrencies,
                                        selected: { [weak self] model in
-            guard let model = model as? AssetViewModel, let from = responseDisplay.from else { return }
+            guard let model = model as? AssetViewModel else { return }
             
-            self?.interactor?.assetSelected(viewAction: from.isEmpty ? .init(to: model.subtitle) : .init(from: model.subtitle))
+            self?.interactor?.assetSelected(viewAction: responseDisplay.from?.isEmpty == true ? .init(to: model.subtitle) : .init(from: model.subtitle))
         })
     }
     
