@@ -226,7 +226,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 // Not enough ETH for fee
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee))
             } else {
-                return
+                // No quote and no WK fee
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
             }
         }
     }
