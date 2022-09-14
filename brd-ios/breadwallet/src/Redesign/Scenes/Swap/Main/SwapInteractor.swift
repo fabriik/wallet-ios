@@ -18,7 +18,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     var presenter: SwapPresenter?
     var dataStore: SwapStore?
     
+    private var sender: Sender?
+    
     // MARK: - SwapViewActions
+    
     func getData(viewAction: FetchModels.Get.ViewAction) {
         guard dataStore?.currencies.isEmpty == false else { return }
         
@@ -45,6 +48,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 self?.dataStore?.from = .zero(from)
                 self?.dataStore?.to = .zero(to)
                 
+                _ = self?.generateSender()
+                
                 let item = Models.Item(from: self?.dataStore?.from,
                                        to: self?.dataStore?.to,
                                        quote: self?.dataStore?.quote,
@@ -56,6 +61,19 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.selectAssets))
             }
         }
+    }
+    
+    private func generateSender() -> Sender? {
+        guard let fromCurrency = dataStore?.from?.currency,
+              let wallet = dataStore?.coreSystem?.wallet(for: fromCurrency),
+              let keyStore = dataStore?.keyStore,
+              let kvStore = Backend.kvStore else { return nil }
+        
+        sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
+        
+        sender?.updateNetworkFees()
+        
+        return sender
     }
     
     func getExchangeRate(viewAction: SwapModels.Rate.ViewAction) {
@@ -129,6 +147,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.toRate = nil
         dataStore?.fromFee = nil
         
+        _ = generateSender()
+        
         // Remove error
         presenter?.presentError(actionResponse: .init(error: nil))
         
@@ -200,18 +220,16 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     
     func getFees(viewAction: Models.Fee.ViewAction) {
         guard let from = dataStore?.from,
-              let fromAddress = from.currency.wallet?.defaultReceiveAddress
-        else {
+              let fromAddress = from.currency.wallet?.defaultReceiveAddress,
+              let sender = sender else {
             presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
             return
         }
         
         // Fetching new fees
         fetchWkFee(for: from,
-                   address: fromAddress,
-                   wallet: dataStore?.coreSystem?.wallet(for: from.currency),
-                   keyStore: dataStore?.keyStore,
-                   kvStore: Backend.kvStore) { [weak self] fee in
+                   with: sender,
+                   address: fromAddress) { [weak self] fee in
             self?.dataStore?.fromFee = fee
             
             if self?.dataStore?.fromFee != nil,
@@ -259,6 +277,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         dataStore?.fromRate = nil
         dataStore?.toRate = nil
         dataStore?.fromFee = nil
+        
+        _ = generateSender()
         
         getExchangeRate(viewAction: .init(getFees: false))
         

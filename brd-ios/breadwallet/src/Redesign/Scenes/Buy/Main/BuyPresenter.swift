@@ -22,8 +22,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             .rate,
             .accountLimits,
             .from,
-            .to,
-            .error
+            .to
         ]
         
         exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(), showTimer: false)
