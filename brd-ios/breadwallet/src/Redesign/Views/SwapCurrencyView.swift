@@ -160,7 +160,6 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     lazy var feeLabel: FELabel = {
         let view = FELabel()
-        view.text = L10n.Swap.sendNetworkFee
         view.font = Fonts.caption
         view.textColor = LightColors.Text.two
         view.textAlignment = .left
@@ -214,7 +213,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         selectorStackView.addArrangedSubview(currencyIconImageView)
         currencyIconImageView.snp.makeConstraints { make in
-            make.width.equalTo(ViewSizes.medium.rawValue)
+            make.width.height.equalTo(ViewSizes.medium.rawValue)
         }
         
         selectorStackView.addArrangedSubview(codeLabel)
@@ -250,11 +249,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
         feeAndAmountsStackView.addArrangedSubview(feeAmountLabel)
         
-        [feeAndAmountsStackView, feeLabel, feeAmountLabel].forEach({ view in
-            view.snp.makeConstraints { make in
-                make.height.equalTo(ViewSizes.invisible.rawValue)
-            }
-        })
+        feeAndAmountsStackView.alpha = 0
+        feeAndAmountsStackView.isHidden = true
         
         decidePlaceholder()
     }
@@ -264,6 +260,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         let cleanedText = textField.text?.cleanupFormatting(forFiat: true)
         didChangeFiatAmount?(cleanedText)
+        
+        didChangeContent?()
     }
     
     @objc func cryptoAmountDidChange(_ textField: UITextField) {
@@ -271,6 +269,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         let cleanedText = textField.text?.cleanupFormatting(forFiat: false)
         didChangeCryptoAmount?(cleanedText)
+        
+        didChangeContent?()
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -287,6 +287,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
             
             didChangeCryptoAmount?(cleanedText)
         }
+        
         didFinish?()
         
         decidePlaceholder()
@@ -333,20 +334,13 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         let noFee = viewModel.fee == nil || viewModel.fee?.tokenValue == 0 || viewModel.amount?.tokenValue == 0
         
-        [feeAndAmountsStackView, feeLabel, feeAmountLabel].forEach({ view in
-            view.snp.updateConstraints { make in
-                make.height.equalTo(noFee ? ViewSizes.invisible.rawValue : ViewSizes.medium.rawValue)
-            }
-        })
-        
-        UIView.animate(withDuration: Presets.Animation.duration, delay: 0, options: .transitionCrossDissolve) { [weak self] in
-            self?.feeAndAmountsStackView.layoutIfNeeded()
-        } completion: { [weak self] _ in
-            self?.didChangeContent?()
-        }
+        feeAndAmountsStackView.alpha = noFee ? 0 : 1
+        feeAndAmountsStackView.isHidden = noFee
     }
     
     @objc private func selectorTapped(_ sender: Any) {
+        endEditing(true)
+        
         didTapSelectAsset?()
     }
     
@@ -391,6 +385,9 @@ extension SwapCurrencyView {
         }
         
         UIView.animate(withDuration: Presets.Animation.duration) {
+            baseSwapCurrencyView.feeAndAmountsStackView.alpha = 0
+            termSwapCurrencyView.feeAndAmountsStackView.alpha = 0
+            
             SwapCurrencyView.updateAlpha(baseSwapCurrencyView: baseSwapCurrencyView, termSwapCurrencyView: termSwapCurrencyView, value: 0.2)
         } completion: { _ in
             UIView.animate(withDuration: Presets.Animation.duration) {
@@ -410,7 +407,6 @@ extension SwapCurrencyView {
             view.fiatAmountField.alpha = value
             view.fiatCurrencyLabel.alpha = value
             view.cryptoAmountField.alpha = value
-            view.feeAmountLabel.alpha = value
         }
     }
 }
