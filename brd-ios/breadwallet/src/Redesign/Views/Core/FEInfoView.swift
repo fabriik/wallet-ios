@@ -237,21 +237,25 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
                 self?.viewTapped(nil)
             }
             
+            addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:))))
+            
         case .tapToDismiss:
-            let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:)))
-            addGestureRecognizer(tap)
+            addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:))))
             
         default:
             break
         }
         
-        layoutIfNeeded()
         guard headerLeadingView.isHidden,
               headerTitleLabel.isHidden,
               headerTrailingView.isHidden else {
+            layoutIfNeeded()
+            
             return
         }
+        
         headerStackView.isHidden = true
+        
         layoutIfNeeded()
     }
     
