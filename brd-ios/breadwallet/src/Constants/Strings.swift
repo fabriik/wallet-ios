@@ -782,6 +782,8 @@ internal enum L10n {
     internal static func exchangeFailed(_ p1: UnsafePointer<CChar>) -> String {
       return L10n.tr("Localizable", "ErrorMessages.exchangeFailed", p1)
     }
+    /// We are currently having issues making a swap between this pair of coins. Please try again later.
+    internal static let exchangeQuoteFailed = L10n.tr("Localizable", "ErrorMessages.ExchangeQuoteFailed")
     /// This device isn't configured to send messages.
     internal static let messagingUnavailableMessage = L10n.tr("Localizable", "ErrorMessages.messagingUnavailableMessage")
     /// Messaging Unavailable

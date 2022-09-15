@@ -18,6 +18,7 @@ enum BuyErrors: FEError {
     case tooHigh(amount: Decimal, currency: String)
     case pinConfirmation
     case authorizationFailed
+    case quoteFail
     
     var errorMessage: String {
         switch self {
@@ -37,6 +38,10 @@ enum BuyErrors: FEError {
             
         case .authorizationFailed:
             return L10n.ErrorMessages.authorizationFailed
+            
+        case .quoteFail:
+            return L10n.ErrorMessages.exchangeQuoteFailed
+            
         }
     }
 }

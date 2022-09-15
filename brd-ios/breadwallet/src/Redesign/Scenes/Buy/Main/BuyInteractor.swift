@@ -122,8 +122,8 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                 let model = self?.dataStore?.values ?? .init()
                 self?.setAmount(viewAction: model)
                 
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
+            case .failure:
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.quoteFail))
             }
         }
     }
