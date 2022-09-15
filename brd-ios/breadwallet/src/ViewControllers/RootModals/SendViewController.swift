@@ -12,12 +12,8 @@ import WalletKit
 
 typealias PresentScan = ((@escaping ScanCompletion) -> Void)
 
-private let verticalButtonPadding: CGFloat = 32.0
-private let buttonSize = CGSize(width: 52.0, height: 32.0)
-
 // swiftlint:disable type_body_length
 class SendViewController: UIViewController, Subscriber, ModalPresentable, Trackable {
-
     // MARK: - Public
     
     var presentScan: PresentScan?
@@ -64,6 +60,8 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
     private var paymentProtocolRequest: PaymentProtocolRequest?
     private var didIgnoreUsedAddressWarning = false
     private var didIgnoreIdentityNotCertified = false
+    private let verticalButtonPadding: CGFloat = 32.0
+    private let buttonSize = CGSize(width: 52.0, height: 32.0)
     private var feeLevel: FeeLevel = .regular {
         didSet {
             updateFees()

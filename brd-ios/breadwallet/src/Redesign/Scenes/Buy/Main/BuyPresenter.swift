@@ -22,8 +22,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             .rate,
             .accountLimits,
             .from,
-            .to,
-            .error
+            .to
         ]
         
         exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(), showTimer: false)
@@ -93,20 +92,20 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         
         switch fiat {
         case _ where fiat <= 0:
-            // fiat value is bellow 0
+            // Fiat value is below 0
             presentError(actionResponse: .init(error: nil))
             
         case _ where fiat < minimumAmount,
                             _ where minimumAmount > maximumAmount:
-            // value bellow minimum fiat
+            // Value below minimum Fiat
             presentError(actionResponse: .init(error: BuyErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
             
         case _ where fiat > maximumAmount:
-            // over exchange limit ???
+            // Over exchange limit ???
             presentError(actionResponse: .init(error: BuyErrors.tooHigh(amount: maximumAmount, currency: C.usdCurrencyCode)))
             
         default:
-            // remove error
+            // Remove error
             presentError(actionResponse: .init(error: nil))
         }
     }
@@ -125,7 +124,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             return
         }
         
-        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
+        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
         let config = Presets.InfoView.swapError
         
         viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))

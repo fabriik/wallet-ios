@@ -46,10 +46,12 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
                                                         currencyAmountName: .text(toCryptoValue + " " + toCryptoDisplayName),
                                                         rate: .init(exchangeRate: rate, timer: nil),
                                                         amount: .init(title: .text(L10n.Swap.amountPurchased), value: .text(amountText), infoImage: nil),
-                                                        cardFee: .init(title: .text("\(L10n.Swap.cardFee) \(quote.buyFee ?? 0)%)"),
+                                                        cardFee: .init(title: .text("\(L10n.Swap.cardFee) (\(quote.buyFee ?? 0)%)"),
                                                                        value: .text(cardFeeText),
                                                                        infoImage: .image(infoImage)),
-                                                        networkFee: .init(title: .text(L10n.Swap.miningNetworkFee), value: .text(networkFeeText), infoImage: .image(infoImage)),
+                                                        networkFee: .init(title: .text(L10n.Swap.miningNetworkFee),
+                                                                          value: .text(networkFeeText),
+                                                                          infoImage: .image(infoImage)),
                                                         totalCost: .init(title: .text(L10n.Swap.total), value: .text(totalText)))
         
         let termsText = NSMutableAttributedString(string: L10n.Buy.terms + " ")
