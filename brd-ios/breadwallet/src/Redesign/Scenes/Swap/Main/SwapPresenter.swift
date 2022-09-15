@@ -219,19 +219,15 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
-        if let error = actionResponse.error as? SwapErrors,
-           error.errorMessage == SwapErrors.selectAssets.errorMessage {
+        if let error = actionResponse.error as? SwapErrors, error.errorMessage == SwapErrors.selectAssets.errorMessage {
             presentAssetInfoPopup(actionResponse: .init())
-            
         } else if let error = actionResponse.error as? FEError {
-            let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
+            let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
             let config = Presets.InfoView.swapError
             
             viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
-            
         } else {
             viewController?.displayMessage(responseDisplay: .init())
-            
         }
     }
     
