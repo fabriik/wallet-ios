@@ -17,6 +17,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
         open(scene: Scenes.Swap)
     }
     
+    // TODO: Duplicate from BuyCoordinator. Refactor. 
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?) {
         guard let keyStore = keyStore else {
             fatalError("No key store")
@@ -32,7 +33,9 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
             callback?(pin)
             
             if pin == nil {
-                self?.showMessage(with: SwapErrors.pinConfirmation)
+                self?.showMessage(model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
+                                                       dismissType: .auto),
+                                  configuration: Presets.InfoView.error)
             }
         }
         

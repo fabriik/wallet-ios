@@ -148,6 +148,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         }
     }
     
+    // TODO: Duplicate from SwapCoordinator. Refactor.
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?) {
         guard let keyStore = keyStore else {
             fatalError("KeyStore error.")
@@ -163,7 +164,9 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             callback?(pin)
             
             if pin == nil {
-                self?.showMessage(with: SwapErrors.pinConfirmation)
+                self?.showMessage(model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
+                                                       dismissType: .auto),
+                                  configuration: Presets.InfoView.error)
             }
         }
         
