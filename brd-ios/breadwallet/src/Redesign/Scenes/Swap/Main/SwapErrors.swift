@@ -23,6 +23,7 @@ enum SwapErrors: FEError {
     case overDailyLimitLevel2(limit: Decimal)
     case notEnouthEthForFee
     // Unoficial errors
+    case quoteFail
     case noFees
     case networkFee
     case overExchangeLimit
@@ -57,6 +58,9 @@ enum SwapErrors: FEError {
         case .networkFee:
             return L10n.ErrorMessages.networkFee
             
+        case .quoteFail:
+            return L10n.ErrorMessages.exchangeQuoteFailed
+        
         case .noQuote(let from, let to):
             let from = from ?? "/"
             let to = to ?? "/"
@@ -72,8 +76,8 @@ enum SwapErrors: FEError {
             return L10n.ErrorMessages.notEnoughEthForFee
             
         case .failed(let error):
-            return L10n.ErrorMessages.exchangeFailed(error?.localizedDescription ?? "/")
-            
+            return L10n.ErrorMessages.exchangeFailed(error?.localizedDescription ?? "")
+        
         case .pendingSwap:
             return L10n.ErrorMessages.pendingExchange
             

@@ -80,8 +80,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                                            from: from,
                                                                            to: to))
                 
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
+            case .failure:
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.quoteFail))
             }
             group.leave()
         }

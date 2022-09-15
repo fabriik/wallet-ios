@@ -131,7 +131,7 @@ class BaseApiWorker<M: Mapper>: APIWorker {
     
     func apiCallDidFinish(response: HTTPResponse) {
         if let error = response.error {
-           completion?(.failure(error))
+            completion?(.failure(error))
         } else if let data = result {
             completion?(.success(data))
         } else {

@@ -483,6 +483,9 @@
 /* Open Settings button */
 "Button.openSettings" = "Open Settings";
 
+/* Profile button title on tab bar */
+"Button.Profile" = "Profile";
+
 /* receive button */
 "Button.receive" = "Receive";
 
@@ -830,6 +833,8 @@
 "ErrorMessages.ethBalanceLow" = "Insufficient Ethereum balance in your wallet to transfer this type of token.";
 
 "ErrorMessages.exchangeFailed" = "Swap failed. Reason: %s.";
+
+"ErrorMessages.ExchangeQuoteFailed" = "We are currently having issues making a swap between this pair of coins. Please try again later.";
 
 /* Message that gets shown when we've detected the user has encountered the looping lock-screen bug. (preserve [ ] characters) */
 "ErrorMessages.loopingLockScreen.android" = "Fabriik can not be authenticated due to a bug in your version of Android. [Please tap here for more information.]";
