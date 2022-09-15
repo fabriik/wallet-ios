@@ -37,9 +37,7 @@ class AmountViewController: UIViewController, Trackable {
     var didUpdateAmount: ((Amount?) -> Void)?
     var didChangeFirstResponder: ((Bool) -> Void)?
     var didTapMax: (() -> Void)?
-    var currentOutput: String {
-        return amountLabel.text ?? ""
-    }
+    var currentOutput: String { return amountLabel.text ?? "" }
     var selectedRate: Rate? {
         didSet {
             fullRefresh()
@@ -342,11 +340,7 @@ class AmountViewController: UIViewController, Trackable {
         }
         
         if let max = maximum {
-            if amount > max {
-                amountLabel.textColor = UIColor.cameraGuideNegative
-            } else {
-                amountLabel.textColor = .darkText
-            }
+            amountLabel.textColor = amount > max ? UIColor.cameraGuideNegative : .darkText
         }
     }
 

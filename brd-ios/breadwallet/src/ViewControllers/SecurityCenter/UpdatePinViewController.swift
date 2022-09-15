@@ -58,9 +58,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
     private lazy var faq = UIButton.buildFaqButton(articleId: ArticleIds.setPin, currency: nil, position: .right)
     
     private var shouldShowFAQButton: Bool {
-        if type == .recoverBackup {
-            return false
-        }
+        if type == .recoverBackup { return false }
         // Don't show the FAQ button during onboarding because we don't have the wallet/authentication
         // initialized yet, and therefore can't open platform content.
         return eventContext != .onboarding
@@ -93,9 +91,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
     private var newPin: String?
     private var phrase: String?
     private let type: UpdatePinType
-    private var isCreatingPin: Bool {
-        return type != .update
-    }
+    private var isCreatingPin: Bool { return type != .update }
     private let newPinLength = 6
     private let showsBackButton: Bool
     
@@ -137,7 +133,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
     }
 
     private func addConstraints() {
-        let leftRightMargin: CGFloat = E.isSmallScreen ? 40 : 60
+        let leftRightMargin: CGFloat = E.isSmallScreen ? Margins.extraLarge.rawValue * 2 : Margins.extraLarge.rawValue * 3
         header.constrain([
             header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.extraHuge.rawValue),
             header.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leftRightMargin),
@@ -308,9 +304,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
                 let alert = UIAlertController(title: L10n.CloudBackup.backupDeleted,
                                               message: L10n.CloudBackup.backupDeletedMessage,
                                               preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: { _ in
-                    exit(0)
-                }))
+                alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: { _ in exit(0) }))
                 present(alert, animated: true, completion: nil)
             default:
                 clearAfterFailure()
