@@ -225,6 +225,14 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
             let config = Presets.InfoView.swapError
             
+            switch error.errorMessage {
+            case SwapErrors.quoteFail.errorMessage:
+                viewController?.displayExchangeRate(responseDisplay: .init(rate: .init(),
+                                                                           limits: nil))
+            default:
+                break
+            }
+            
             viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
         } else {
             viewController?.displayMessage(responseDisplay: .init())
