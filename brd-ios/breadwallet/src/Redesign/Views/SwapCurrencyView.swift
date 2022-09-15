@@ -33,7 +33,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     var didChangeFiatAmount: ((String?) -> Void)?
     var didChangeCryptoAmount: ((String?) -> Void)?
     var didChangeContent: (() -> Void)?
-    var didFinish: (() -> Void)?
+    var didFinish: ((_ didSwitchPlaces: Bool) -> Void)?
     
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
@@ -288,7 +288,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
             didChangeCryptoAmount?(cleanedText)
         }
         
-        didFinish?()
+        didFinish?(false)
         
         decidePlaceholder()
     }

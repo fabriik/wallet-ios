@@ -77,8 +77,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
             termSwapCurrencyView.didTapSelectAsset = newValue
         }
     }
-    var didFinish: (() -> Void)?
-    var didChangePlaces: (() -> Void)?
+    var didFinish: ((_ didSwitchPlaces: Bool) -> Void)?
     var contentSizeChanged: (() -> Void)? {
         didSet {
             baseSwapCurrencyView.didChangeContent = contentSizeChanged
@@ -179,17 +178,19 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     // MARK: - User interaction
     
     @objc private func topCurrencyTapped(_ sender: Any?) {
+        endEditing(true)
+        
         didTapFromAssetsSelection?()
     }
     
     @objc private func bottomCurrencyTapped(_ sender: Any?) {
+        endEditing(true)
+        
         didTapToAssetsSelection?()
     }
     
     @objc private func switchPlacesButtonTapped(_ sender: UIButton?) {
-        endEditing(true)
-        
-        didChangePlaces?()
+        didFinish?(true)
         contentSizeChanged?()
         
         SwapCurrencyView.animateSwitchPlaces(sender: sender,

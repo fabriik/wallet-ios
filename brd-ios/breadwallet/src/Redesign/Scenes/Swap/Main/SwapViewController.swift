@@ -128,14 +128,12 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 self?.interactor?.selectAsset(viewAction: .init(to: true))
             }
             
-            view.didFinish = { [weak self] in
-                self?.interactor?.getFees(viewAction: .init())
-            }
-            
-            view.didChangePlaces = { [weak self] in
-                self?.view.endEditing(true)
-                
-                self?.interactor?.switchPlaces(viewAction: .init())
+            view.didFinish = { [weak self] didSwitchPlaces in
+                if didSwitchPlaces {
+                    self?.interactor?.switchPlaces(viewAction: .init())
+                } else {
+                    self?.interactor?.getFees(viewAction: .init())
+                }
             }
             
             view.contentSizeChanged = { [weak self] in

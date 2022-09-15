@@ -11,11 +11,11 @@
 import UIKit
 
 enum DismissType {
-    /// after 3 sec
+    /// After 5 sec
     case auto
-    /// tap to remove
+    /// Tap to remove
     case tapToDismiss
-    /// non interactable
+    /// Non interactable
     case persistent
 }
 
@@ -233,7 +233,7 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
         
         switch viewModel.dismissType {
         case .auto:
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
                 self?.viewTapped(nil)
             }
             

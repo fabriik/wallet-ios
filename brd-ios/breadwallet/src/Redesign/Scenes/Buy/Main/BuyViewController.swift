@@ -110,7 +110,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                 self?.interactor?.setAmount(viewAction: .init(tokenValue: value))
             }
             
-            view.didFinish = { [weak self] in
+            view.didFinish = { [weak self] _ in
                 self?.interactor?.setAmount(viewAction: .init())
             }
             
