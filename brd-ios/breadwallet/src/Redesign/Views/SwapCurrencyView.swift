@@ -336,6 +336,13 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         feeAndAmountsStackView.alpha = noFee ? 0 : 1
         feeAndAmountsStackView.isHidden = noFee
+        
+        decidePlaceholder()
+    }
+    
+    func resetTextFieldValues() {
+        fiatAmountField.text = nil
+        cryptoAmountField.text = nil
     }
     
     @objc private func selectorTapped(_ sender: Any) {
@@ -387,6 +394,8 @@ extension SwapCurrencyView {
         UIView.animate(withDuration: Presets.Animation.duration) {
             baseSwapCurrencyView.feeAndAmountsStackView.alpha = 0
             termSwapCurrencyView.feeAndAmountsStackView.alpha = 0
+            baseSwapCurrencyView.resetTextFieldValues()
+            termSwapCurrencyView.resetTextFieldValues()
             
             SwapCurrencyView.updateAlpha(baseSwapCurrencyView: baseSwapCurrencyView, termSwapCurrencyView: termSwapCurrencyView, value: 0.2)
         } completion: { _ in
