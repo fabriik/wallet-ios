@@ -438,6 +438,8 @@ internal enum L10n {
     internal static let ok = L10n.tr("Localizable", "Button.ok")
     /// Open Settings
     internal static let openSettings = L10n.tr("Localizable", "Button.openSettings")
+    /// Profile
+    internal static let profile = L10n.tr("Localizable", "Button.Profile")
     /// Receive
     internal static let receive = L10n.tr("Localizable", "Button.receive")
     /// Search

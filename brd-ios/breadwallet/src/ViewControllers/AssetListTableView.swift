@@ -16,7 +16,7 @@ class AssetListTableView: UITableViewController, Subscriber {
     
     let loadingSpinner = UIActivityIndicatorView(style: .medium)
 
-    private let assetHeight: CGFloat = 80.0 // rowHeight of 72 plus 8 padding
+    private let assetHeight: CGFloat = ViewSizes.large.rawValue
     
     private lazy var manageAssetsButton: ManageAssetsButton = {
         let manageAssetsButton = ManageAssetsButton()
@@ -74,7 +74,7 @@ class AssetListTableView: UITableViewController, Subscriber {
         guard tableView.tableFooterView == nil else { return }
         
         let manageAssetsButtonHeight: CGFloat = 56.0
-        let topBottomInset: CGFloat = 20
+        let topBottomInset: CGFloat = Margins.extraSmall.rawValue
         let leftRightInset: CGFloat = C.padding[2]
         let tableViewWidth = tableView.frame.width - tableView.contentInset.left - tableView.contentInset.right
         
