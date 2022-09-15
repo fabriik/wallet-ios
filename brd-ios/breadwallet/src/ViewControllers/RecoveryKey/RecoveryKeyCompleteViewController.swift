@@ -14,7 +14,7 @@ class RecoveryKeyCompleteViewController: BaseRecoveryKeyViewController {
     private var fromNewUserOnboarding: Bool = false
     
     private var lockTopConstraintConstant: CGFloat {
-        let statusHeight = UIApplication.shared.statusBarFrame.height
+        let statusHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
         let navigationHeight = ((navigationController?.navigationBar.frame.height) ?? 44)
         if E.isIPhone6OrSmaller {
             return (UIScreen.main.bounds.height * 0.2) - statusHeight - navigationHeight
