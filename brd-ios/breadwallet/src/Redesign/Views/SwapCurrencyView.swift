@@ -33,7 +33,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     var didChangeFiatAmount: ((String?) -> Void)?
     var didChangeCryptoAmount: ((String?) -> Void)?
     var didChangeContent: (() -> Void)?
-    var didFinish: (() -> Void)?
+    var didFinish: ((_ didSwitchPlaces: Bool) -> Void)?
     
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
@@ -288,7 +288,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
             didChangeCryptoAmount?(cleanedText)
         }
         
-        didFinish?()
+        didFinish?(false)
         
         decidePlaceholder()
     }
@@ -336,6 +336,13 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         feeAndAmountsStackView.alpha = noFee ? 0 : 1
         feeAndAmountsStackView.isHidden = noFee
+        
+        decidePlaceholder()
+    }
+    
+    func resetTextFieldValues() {
+        fiatAmountField.text = nil
+        cryptoAmountField.text = nil
     }
     
     @objc private func selectorTapped(_ sender: Any) {
@@ -387,6 +394,8 @@ extension SwapCurrencyView {
         UIView.animate(withDuration: Presets.Animation.duration) {
             baseSwapCurrencyView.feeAndAmountsStackView.alpha = 0
             termSwapCurrencyView.feeAndAmountsStackView.alpha = 0
+            baseSwapCurrencyView.resetTextFieldValues()
+            termSwapCurrencyView.resetTextFieldValues()
             
             SwapCurrencyView.updateAlpha(baseSwapCurrencyView: baseSwapCurrencyView, termSwapCurrencyView: termSwapCurrencyView, value: 0.2)
         } completion: { _ in

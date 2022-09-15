@@ -124,7 +124,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             return
         }
         
-        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
+        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
         let config = Presets.InfoView.swapError
         
         viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
