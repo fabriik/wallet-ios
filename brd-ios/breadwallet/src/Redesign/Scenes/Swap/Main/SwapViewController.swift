@@ -246,6 +246,12 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                                                                                 viewModel: responseDisplay.viewModel,
                                                                                 confirmedCallback: { [weak self] in
             self?.coordinator?.showPinInput(keyStore: self?.dataStore?.keyStore) { pin in
+                guard pin != nil else {
+                    self?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
+                    
+                    return
+                }
+                
                 LoadingView.show()
                 
                 self?.interactor?.confirm(viewAction: .init(pin: pin))

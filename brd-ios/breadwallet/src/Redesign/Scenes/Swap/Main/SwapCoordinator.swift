@@ -18,17 +18,24 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
     }
     
     func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?) {
-        guard let keyStore = keyStore else { fatalError("No key store") }
+        guard let keyStore = keyStore else {
+            fatalError("No key store")
+        }
         
         let vc = LoginViewController(for: .confirmation,
                                      keyMaster: keyStore,
                                      shouldDisableBiometrics: true)
-        
         let nvc = RootNavigationController(rootViewController: vc)
-        vc.confirmationCallback = { pin in
-            callback?(pin)
+        
+        vc.confirmationCallback = { [weak self] pin in
             nvc.dismiss(animated: true)
+            callback?(pin)
+            
+            if pin == nil {
+                self?.showMessage(with: SwapErrors.pinConfirmation)
+            }
         }
+        
         nvc.modalPresentationStyle = .fullScreen
         navigationController.show(nvc, sender: nil)
     }

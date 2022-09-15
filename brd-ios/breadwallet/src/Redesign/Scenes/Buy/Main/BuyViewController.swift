@@ -22,6 +22,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }()
     
     // MARK: - Overrides
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
