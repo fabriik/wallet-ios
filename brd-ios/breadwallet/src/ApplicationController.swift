@@ -61,9 +61,7 @@ class ApplicationController: Subscriber, Trackable {
     
     private var isReachable = true {
         didSet {
-            if oldValue == false && isReachable {
-                self.retryAfterIsReachable()
-            }
+            if oldValue == false && isReachable { self.retryAfterIsReachable() }
         }
     }
 
@@ -75,8 +73,7 @@ class ApplicationController: Subscriber, Trackable {
         do {
             self.keyStore = try KeyStore.create()
             self.coreSystem = CoreSystem(keyStore: keyStore)
-        } catch let error { // only possible exception here should be if the keychain is inaccessible
-            print("error initializing key store: \(error)")
+        } catch { // only possible exception here should be if the keychain is inaccessible
             fatalError("error initializing key store")
         }
 
@@ -131,11 +128,7 @@ class ApplicationController: Subscriber, Trackable {
     }
     
     func decideFlow() {
-        if keyStore.noWallet {
-            enterOnboarding()
-        } else {
-            unlockExistingAccount()
-        }
+        keyStore.noWallet ? enterOnboarding() : unlockExistingAccount()
     }
     
     private func setupSubscribers() {

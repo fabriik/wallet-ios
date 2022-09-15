@@ -240,10 +240,10 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     private func setupToolbar() {
         let buttons = [
-            ("Home", #imageLiteral(resourceName: "home"), #selector(showHome)),
+            (L10n.Button.home, #imageLiteral(resourceName: "home"), #selector(showHome)),
             (L10n.HomeScreen.trade, #imageLiteral(resourceName: "trade"), #selector(trade)),
             (L10n.HomeScreen.buy, #imageLiteral(resourceName: "buy"), #selector(buy)),
-            ("Profile", #imageLiteral(resourceName: "user"), #selector(profile)),
+            (L10n.Button.profile, #imageLiteral(resourceName: "user"), #selector(profile)),
             (L10n.HomeScreen.menu, #imageLiteral(resourceName: "more"), #selector(menu))].map { (title, image, selector) -> UIBarButtonItem in
                 let button = UIButton.vertical(title: title, image: image)
                 button.tintColor = .gray1

@@ -109,7 +109,7 @@ class RecoveryKeyLandingPageCell: RecoveryKeyPageCell {
     
     override func setUpConstraints() {
         let screenHeight = UIScreen.main.bounds.height
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = self.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
         let lockImageTop = (screenHeight * lockIconTopConstraintPercent) - statusBarHeight
         
         imageView.constrain([
@@ -172,7 +172,7 @@ class RecoveryKeyIntroCell: RecoveryKeyPageCell {
         super.setUpConstraints()
         
         let screenHeight = UIScreen.main.bounds.height
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = self.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
         let contentTop = (screenHeight * contentTopConstraintPercent) - statusBarHeight
         
         introStepLabel.constrain([

@@ -138,7 +138,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>602</string>
+	<string>620</string>
 	<key>CHECKOUT_API_TOKEN</key>
 	<string>$(CHECKOUT_API_TOKEN)</string>
 	<key>IS_SANDBOX</key>

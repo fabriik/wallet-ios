@@ -77,10 +77,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
 
         case .to:
             cell = self.tableView(tableView, paymentSelectionCellForRowAt: indexPath)
-
-        case .error:
-            cell = self.tableView(tableView, infoViewCellForRowAt: indexPath)
-
+            
         default:
             cell = UITableViewCell()
         }
@@ -113,7 +110,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                 self?.interactor?.setAmount(viewAction: .init(tokenValue: value))
             }
             
-            view.didFinish = { [weak self] in
+            view.didFinish = { [weak self] _ in
                 self?.interactor?.setAmount(viewAction: .init())
             }
             
@@ -125,6 +122,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                     self?.interactor?.setAssets(viewAction: .init(currency: item.subtitle))
                 }
             }
+            
+            view.setupCustomMargins(top: .zero, leading: .zero, bottom: .medium, trailing: .zero)
         }
         
         return cell
@@ -145,19 +144,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             view.didTapSelectCard = { [weak self] in
                 self?.interactor?.getPaymentCards(viewAction: .init())
             }
-        }
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, infoViewCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: WrapperTableViewCell<WrapperView<FEInfoView>> = tableView.dequeueReusableCell(for: indexPath)
-        else {
-            return super.tableView(tableView, cellForRowAt: indexPath)
-        }
-        
-        cell.wrappedView.setup { view in
-            view.setupCustomMargins(all: .large)
+            
+            view.setupCustomMargins(top: .zero, leading: .zero, bottom: .medium, trailing: .zero)
         }
         
         return cell
@@ -182,8 +170,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }
     
     func displayAssets(responseDisplay actionResponse: BuyModels.Assets.ResponseDisplay) {
-        LoadingView.hide()
-        
         guard let fromSection = sections.firstIndex(of: Models.Sections.from),
               let toSection = sections.firstIndex(of: Models.Sections.to),
               let fromCell = tableView.cellForRow(at: .init(row: 0, section: fromSection)) as? WrapperTableViewCell<SwapCurrencyView>,
@@ -194,14 +180,9 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         toCell.wrappedView.setup(with: actionResponse.cardModel)
         
         continueButton.wrappedView.isEnabled = dataStore?.isFormValid ?? false
-        
-        tableView.beginUpdates()
-        tableView.endUpdates()
     }
     
     func displayExchangeRate(responseDisplay: BuyModels.Rate.ResponseDisplay) {
-        LoadingView.hide()
-        
         if let section = sections.firstIndex(of: Models.Sections.rate),
            let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
             cell.setup { view in
@@ -211,7 +192,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                     self?.interactor?.getExchangeRate(viewAction: .init())
                 }
             }
-            
         } else {
             continueButton.wrappedView.isEnabled = false
         }
@@ -225,8 +205,10 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             }
         }
         
-        tableView.beginUpdates()
-        tableView.endUpdates()
+        UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) { [weak self] in
+            self?.tableView.beginUpdates()
+            self?.tableView.endUpdates()
+        }
     }
     
     func displayOrderPreview(responseDisplay: BuyModels.OrderPreview.ResponseDisplay) {

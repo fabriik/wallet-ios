@@ -82,7 +82,7 @@ class InAppNotificationViewController: UIViewController, Trackable {
     private func calculateMarginsAndSizes() {
         let screenHeight = UIScreen.main.bounds.height
         let screenWidth = UIScreen.main.bounds.width
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
         let contentTop = (screenHeight * contentTopMarginPercent) - statusBarHeight
         
         imageTopConstraint = contentTop

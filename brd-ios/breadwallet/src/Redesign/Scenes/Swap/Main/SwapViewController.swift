@@ -128,19 +128,20 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 self?.interactor?.selectAsset(viewAction: .init(to: true))
             }
             
-            view.didFinish = { [weak self] in
-                self?.interactor?.getFees(viewAction: .init())
-            }
-            
-            view.didChangePlaces = { [weak self] in
-                self?.view.endEditing(true)
-                
-                self?.interactor?.switchPlaces(viewAction: .init())
+            view.didFinish = { [weak self] didSwitchPlaces in
+                if didSwitchPlaces {
+                    self?.interactor?.switchPlaces(viewAction: .init())
+                } else {
+                    self?.interactor?.getFees(viewAction: .init())
+                }
             }
             
             view.contentSizeChanged = { [weak self] in
-                self?.updateTableViewWithoutAnimation()
+                self?.tableView.beginUpdates()
+                self?.tableView.endUpdates()
             }
+            
+            view.setupCustomMargins(top: .zero, leading: .zero, bottom: .medium, trailing: .zero)
         }
         
         return cell
@@ -192,17 +193,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         cell.setup { view in
             let model = responseDisplay.amounts
             view.setup(with: model)
-            
-            view.contentSizeChanged = { [weak self] in
-                self?.updateTableViewWithoutAnimation()
-            }
-        }
-    }
-    
-    private func updateTableViewWithoutAnimation() {
-        UIView.performWithoutAnimation { [weak self] in
-            self?.tableView.beginUpdates()
-            self?.tableView.endUpdates()
         }
     }
     
@@ -229,9 +219,9 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             }
         }
         
-        UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) {
-            self.tableView.beginUpdates()
-            self.tableView.endUpdates()
+        UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) { [weak self] in
+            self?.tableView.beginUpdates()
+            self?.tableView.endUpdates()
         }
     }
     
