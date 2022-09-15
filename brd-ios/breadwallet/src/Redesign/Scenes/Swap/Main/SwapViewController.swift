@@ -250,6 +250,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 guard pin != nil else {
                     self?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
                     
+                    self?.coordinator?.showMessage(model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
+                                                                        dismissType: .auto),
+                                                   configuration: Presets.InfoView.error)
+                    
                     return
                 }
                 

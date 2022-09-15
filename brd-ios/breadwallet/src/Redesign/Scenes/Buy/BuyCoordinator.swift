@@ -159,15 +159,10 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
                                      shouldDisableBiometrics: true)
         let nvc = RootNavigationController(rootViewController: vc)
         
-        vc.confirmationCallback = { [weak self] pin in
-            nvc.dismiss(animated: true)
-            callback?(pin)
-            
-            if pin == nil {
-                self?.showMessage(model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
-                                                       dismissType: .auto),
-                                  configuration: Presets.InfoView.error)
-            }
+        vc.confirmationCallback = { pin in
+            nvc.dismiss(animated: true, completion: {
+                callback?(pin)
+            })
         }
         
         nvc.modalPresentationStyle = .fullScreen
