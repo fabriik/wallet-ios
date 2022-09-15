@@ -74,7 +74,7 @@ class AssetListTableView: UITableViewController, Subscriber {
         guard tableView.tableFooterView == nil else { return }
         
         let manageAssetsButtonHeight: CGFloat = 56.0
-        let topBottomInset: CGFloat = Margins.extraSmall.rawValue
+        let topBottomInset: CGFloat = Margins.extraLarge.rawValue
         let leftRightInset: CGFloat = C.padding[2]
         let tableViewWidth = tableView.frame.width - tableView.contentInset.left - tableView.contentInset.right
         
