@@ -28,6 +28,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }()
     
     // MARK: - Overrides
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
