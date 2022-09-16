@@ -28,6 +28,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }()
     
     // MARK: - Overrides
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -246,6 +247,16 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                                                                                 viewModel: responseDisplay.viewModel,
                                                                                 confirmedCallback: { [weak self] in
             self?.coordinator?.showPinInput(keyStore: self?.dataStore?.keyStore) { pin in
+                guard pin != nil else {
+                    self?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
+                    
+                    self?.coordinator?.showMessage(model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
+                                                                        dismissType: .auto),
+                                                   configuration: Presets.InfoView.error)
+                    
+                    return
+                }
+                
                 LoadingView.show()
                 
                 self?.interactor?.confirm(viewAction: .init(pin: pin))

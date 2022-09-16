@@ -126,7 +126,13 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         super.buttonTapped()
         
         coordinator?.showPinInput(keyStore: dataStore?.keyStore) { [weak self] pin in
-            guard pin != nil else { return }
+            guard pin != nil else {
+                self?.coordinator?.showMessage(model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
+                                                                    dismissType: .auto),
+                                               configuration: Presets.InfoView.error)
+                
+                return
+            }
             
             self?.interactor?.checkTimeOut(viewAction: .init())
         }
