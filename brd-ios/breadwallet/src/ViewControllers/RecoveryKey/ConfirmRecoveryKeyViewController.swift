@@ -369,6 +369,8 @@ class RecoveryKeyWordInputView: UIView, UITextFieldDelegate {
     
     private func setUpMainContainer() {
         mainContainer.backgroundColor = Theme.transparentBlue
+        mainContainer.layer.cornerRadius = CornerRadius.common.rawValue
+        
         addSubview(mainContainer)
         mainContainer.constrain([
             mainContainer.heightAnchor.constraint(equalToConstant: mainContainerHeight),

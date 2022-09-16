@@ -54,7 +54,7 @@ class RecoveryKeyPageCell: UICollectionViewCell {
     var titleLabel = UILabel.wrapping(font: Theme.h2Title, color: Theme.primaryText)
     var subTitleLabel = UILabel.wrapping(font: Theme.body1, color: Theme.secondaryText)
     
-    let headingLeftRightMargin: CGFloat = 32
+    let headingLeftRightMargin: CGFloat = Margins.extraHuge.rawValue
 
     override init(frame: CGRect) {
         super.init(frame: frame)
