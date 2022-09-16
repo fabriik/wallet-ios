@@ -35,6 +35,8 @@ class ExchangeDetailsInteractor: NSObject, Interactor, ExchangeDetailsViewAction
     func copyValue(viewAction: ExchangeDetailsModels.CopyValue.ViewAction) {
         let value = viewAction.value ?? ""
         UIPasteboard.general.string = value
+        
+        presenter?.presentCopyValue(actionResponse: .init())
     }
     
     // MARK: - Aditional helpers
