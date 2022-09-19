@@ -211,6 +211,7 @@
 		7BBBF4DF287421CF00E4D36B /* SwapStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBF4D9287421CF00E4D36B /* SwapStore.swift */; };
 		7BBBF4E0287421CF00E4D36B /* SwapMainVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBF4DA287421CF00E4D36B /* SwapMainVIP.swift */; };
 		7BC49D1B282E69A3000BF284 /* ManageAssetsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC49D1A282E69A3000BF284 /* ManageAssetsButton.swift */; };
+		7BD88B5028D92A7A003A766B /* ExchangeAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD88B4F28D92A7A003A766B /* ExchangeAuthHelper.swift */; };
 		7BDB49B62805AC780031F015 /* EmailFeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB49B52805AC780031F015 /* EmailFeedbackManager.swift */; };
 		7BDB49D62806C03A0031F015 /* BRTarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB49D52806C03A0031F015 /* BRTarTests.swift */; };
 		7BDB49E22806CB590031F015 /* ImageStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB49E12806CB590031F015 /* ImageStorageService.swift */; };
@@ -1208,6 +1209,7 @@
 		7BBBF4D9287421CF00E4D36B /* SwapStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwapStore.swift; sourceTree = "<group>"; };
 		7BBBF4DA287421CF00E4D36B /* SwapMainVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwapMainVIP.swift; sourceTree = "<group>"; };
 		7BC49D1A282E69A3000BF284 /* ManageAssetsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManageAssetsButton.swift; path = src/Views/ManageAssetsButton.swift; sourceTree = "<group>"; };
+		7BD88B4F28D92A7A003A766B /* ExchangeAuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeAuthHelper.swift; sourceTree = "<group>"; };
 		7BDB49B52805AC780031F015 /* EmailFeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailFeedbackManager.swift; sourceTree = "<group>"; };
 		7BDB49D52806C03A0031F015 /* BRTarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRTarTests.swift; sourceTree = "<group>"; };
 		7BDB49E12806CB590031F015 /* ImageStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageService.swift; sourceTree = "<group>"; };
@@ -2903,6 +2905,7 @@
 				7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */,
 				7B62ACFA28B3BDA000CE81E7 /* String+Chunk.swift */,
 				7B94EFA928BD501500F63B62 /* UINavigationController+Completion.swift */,
+				7BD88B4F28D92A7A003A766B /* ExchangeAuthHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -5095,6 +5098,7 @@
 				7E8E9798283F4830008606B0 /* ProfileStore.swift in Sources */,
 				CE4DFB2E1E9C26DA0014009E /* ShareDataViewController.swift in Sources */,
 				CE1E5F261EF083A600BD0F72 /* ImportKeyViewController.swift in Sources */,
+				7BD88B5028D92A7A003A766B /* ExchangeAuthHelper.swift in Sources */,
 				7E5CB3AB2835090E00EC787E /* WrapperCollectionViewCell.swift in Sources */,
 				7B94343D2887F98E00638703 /* DeleteProfileWorker.swift in Sources */,
 				CE25BF931DFDA7A600BC67B6 /* MessageUIPresenter.swift in Sources */,

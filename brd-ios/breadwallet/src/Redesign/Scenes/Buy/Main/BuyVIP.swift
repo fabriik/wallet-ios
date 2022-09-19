@@ -63,5 +63,5 @@ protocol BuyRoutes: CoordinatableRoutes {
                           from: Decimal?,
                           card: PaymentCard?,
                           quote: Quote?)
-    func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?)
+    func showPinInput(keyStore: KeyStore?, callback: ((_ success: Bool) -> Void)?)
 }
