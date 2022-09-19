@@ -270,7 +270,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
         }
         chartView.scrubberDidEnd = { [unowned self] in
             self.isScrubbing = false
-            UIView.animate(withDuration: C.animationDuration, animations: {
+            UIView.animate(withDuration: Presets.Animation.duration, animations: {
                 self.priceChangeView.alpha = 1.0
                 self.priceChangeView.isHidden = false
                 self.priceDateLabel.alpha = 0.0
@@ -281,7 +281,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
         chartView.scrubberDidBegin = { [unowned self] in
             self.saveEvent(self.makeEventName([EventContext.wallet.name, self.currency.code.uppercased(), Event.scrubbed.name]))
             self.isScrubbing = true
-            UIView.animate(withDuration: C.animationDuration, animations: {
+            UIView.animate(withDuration: Presets.Animation.duration, animations: {
                 self.priceChangeView.alpha = 0.0
                 self.priceChangeView.isHidden = true
                 self.priceDateLabel.alpha = 1.0
@@ -293,7 +293,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
     
     private func showChart() {
         isChartHidden = false
-        UIView.animate(withDuration: C.animationDuration, animations: {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: {
             self.chartView.alpha = 1.0
             self.exchangeRateLabel.alpha = 1.0
             self.priceChangeView.alpha = 1.0
@@ -306,7 +306,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
     private func hideChart(animated: Bool = true) {
         isChartHidden = true
         if animated {
-            UIView.animate(withDuration: C.animationDuration, animations: {
+            UIView.animate(withDuration: Presets.Animation.duration, animations: {
                 self.setChartTransparent()
             })
         } else {
@@ -359,7 +359,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
     
     private func expandHeader() {
         headerHeight?.constant = AccountHeaderView.headerViewMaxHeight
-        UIView.animate(withDuration: C.animationDuration, animations: {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: {
             self.superview?.superview?.layoutIfNeeded()
         }, completion: { _ in
             self.showChart()
@@ -371,7 +371,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
     func collapseHeader(animated: Bool = true) {
         headerHeight?.constant = AccountHeaderView.headerViewMinHeight
         if animated {
-           UIView.animate(withDuration: C.animationDuration, animations: {
+           UIView.animate(withDuration: Presets.Animation.duration, animations: {
                self.superview?.superview?.layoutIfNeeded()
            }, completion: { _ in
                self.hideChart()
@@ -397,7 +397,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
         NSLayoutConstraint.activate([historyPeriodPillX!, historyPeriodPillY!])
         
         if withAnimation {
-            UIView.spring(C.animationDuration, animations: {
+            UIView.spring(Presets.Animation.duration, animations: {
                 self.layoutIfNeeded()
             }, completion: {_ in})
         }

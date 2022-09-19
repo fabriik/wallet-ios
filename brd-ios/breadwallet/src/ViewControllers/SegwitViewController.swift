@@ -116,7 +116,7 @@ class SegwitViewController: UIViewController {
     }
     
     private func hideConfirmView() {
-        UIView.spring(C.animationDuration, animations: {
+        UIView.spring(Presets.Animation.duration, animations: {
             self.button.isHidden = false
             self.confirmXConstraintEnd?.isActive = false
             self.buttonXConstraintEnd?.isActive = false
@@ -127,7 +127,7 @@ class SegwitViewController: UIViewController {
     }
     
     private func showConfirmView() {
-        UIView.spring(C.animationDuration, animations: {
+        UIView.spring(Presets.Animation.duration, animations: {
             self.buttonXConstraintStart?.isActive = false
             self.confirmXConstraintStart?.isActive = false
             NSLayoutConstraint.activate([self.confirmXConstraintEnd!, self.buttonXConstraintEnd!])
