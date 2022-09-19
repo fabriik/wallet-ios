@@ -8,7 +8,6 @@
 
 import UIKit
 import WalletKit
-import AVFoundation
 
 struct Padding {
     var increment: CGFloat
