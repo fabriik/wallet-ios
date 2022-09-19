@@ -8,6 +8,7 @@
 
 import UIKit
 import WalletKit
+import AVFoundation
 
 struct Padding {
     var increment: CGFloat
@@ -39,7 +40,7 @@ struct C {
     static var defaultTintColor: UIColor = {
         return UIView().tintColor
     }()
-    static let animationDuration: TimeInterval = 0.3
+    
     static let secondsInDay: TimeInterval = 86400
     static let secondsInMinute: TimeInterval = 60
     static let walletQueue = "com.fabriik.one.walletqueue"

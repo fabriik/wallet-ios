@@ -56,7 +56,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     private var shouldShowStatusBar = true {
         didSet {
             if oldValue != shouldShowStatusBar {
-                UIView.animate(withDuration: C.animationDuration) {
+                UIView.animate(withDuration: Presets.Animation.duration) {
                     self.setNeedsStatusBarAppearanceUpdate()
                 }
             }
@@ -300,13 +300,13 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     private func showSearchHeaderView() {
         navigationController?.setNavigationBarHidden(true, animated: false)
         headerView.stopHeightConstraint()
-        UIView.animate(withDuration: C.animationDuration, animations: { [weak self] in
+        UIView.animate(withDuration: Presets.Animation.duration, animations: { [weak self] in
             self?.view.layoutIfNeeded()
         })
         
         UIView.transition(from: headerView,
                           to: searchHeaderview,
-                          duration: C.animationDuration,
+                          duration: Presets.Animation.duration,
                           options: [.transitionFlipFromBottom, .showHideTransitionViews, .curveEaseOut],
                           completion: { [weak self] _ in
             self?.searchHeaderview.triggerUpdate()
@@ -317,13 +317,13 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     private func hideSearchHeaderView() {
         navigationController?.setNavigationBarHidden(false, animated: false)
         headerView.resumeHeightConstraint()
-        UIView.animate(withDuration: C.animationDuration, animations: {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: {
             self.view.layoutIfNeeded()
         })
         
         UIView.transition(from: searchHeaderview,
                           to: headerView,
-                          duration: C.animationDuration,
+                          duration: Presets.Animation.duration,
                           options: [.transitionFlipFromTop, .showHideTransitionViews, .curveEaseOut],
                           completion: { [weak self] _ in
             self?.setNeedsStatusBarAppearanceUpdate()

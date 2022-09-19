@@ -370,7 +370,7 @@ class AmountViewController: UIViewController, Trackable {
     }
 
     @objc private func didTap() {
-        UIView.spring(C.animationDuration, animations: {
+        UIView.spring(Presets.Animation.duration, animations: {
             self.togglePinPad()
             self.parent?.parent?.view.layoutIfNeeded()
         }, completion: { _ in })
