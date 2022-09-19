@@ -246,7 +246,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             return
         }
         
-        let rateText = String(format: "1 %@ = %@ %@", from.currency.code, ExchangeFormatter.fiat.string(for: rate) ?? "", to.currency.code)
+        let rateText = String(format: "1 %@ = %@ %@", from.currency.code, ExchangeFormatter.crypto.string(for: rate) ?? "", to.currency.code)
         
         let fromText = String(format: "%@ %@ (%@ %@)", ExchangeFormatter.crypto.string(for: from.tokenValue.doubleValue) ?? "",
                               from.currency.code,
