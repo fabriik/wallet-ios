@@ -30,7 +30,7 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
     
     private lazy var verticalStack: UIStackView = {
         let view = UIStackView()
-        view.spacing = Margins.large.rawValue
+        view.spacing = Margins.extraSmall.rawValue
         return view
     }()
     
@@ -58,7 +58,7 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
     
     override func setupSubviews() {
         super.setupSubviews()
-        setupCustomMargins(all: .large)
+        setupCustomMargins(all: .extraSmall)
         
         content.addSubview(verticalStack)
         verticalStack.snp.makeConstraints { make in

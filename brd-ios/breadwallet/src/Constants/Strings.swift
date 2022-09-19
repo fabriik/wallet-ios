@@ -1096,7 +1096,7 @@ internal enum L10n {
     internal static let addWallet = L10n.tr("Localizable", "MenuButton.addWallet")
     /// ATM Cash Redemption
     internal static let atmCashRedemption = L10n.tr("Localizable", "MenuButton.atmCashRedemption")
-    /// Support
+    /// Feedback
     internal static let feedback = L10n.tr("Localizable", "MenuButton.feedback")
     /// Lock Wallet
     internal static let lock = L10n.tr("Localizable", "MenuButton.lock")
