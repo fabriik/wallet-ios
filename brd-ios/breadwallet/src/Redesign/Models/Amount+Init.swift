@@ -17,35 +17,39 @@ extension Amount {
         formatter.maximumFractionDigits = decimals
         
         let amountString = formatter.string(for: amount)?.usDecimalString(fromLocale: formatter.locale) ?? ""
+        let isNegative = amount.sign == .minus
         
         guard let exchangeRate = exchangeRate, decimals >= 0 else {
-            let emptyRate = Rate.empty
-            
-            if isFiat, let fallbackAmount = Amount(fiatString: "0", currency: currency, rate: emptyRate) {
-                self = Amount(fiatString: amountString, currency: currency, rate: emptyRate) ?? fallbackAmount
+            if isFiat, let fallbackAmount = Amount(fiatString: "0", currency: currency, rate: rate, negative: isNegative) {
+                let rate = Rate(code: currency.code,
+                                name: currency.name,
+                                rate: exchangeRate?.doubleValue ?? 1,
+                                reciprocalCode: "")
+                
+                self = Amount(fiatString: amountString, currency: currency, rate: rate, negative: isNegative) ?? fallbackAmount
             } else {
-                self = Amount(tokenString: amountString, currency: currency)
+                self = Amount(tokenString: amountString, currency: currency, negative: isNegative)
             }
             
             return
         }
         
+        let value: Amount?
         let rate = Rate(code: currency.code,
                         name: currency.name,
                         rate: exchangeRate.doubleValue,
                         reciprocalCode: "")
         
-        let value: Amount?
-        
         if isFiat {
-            value = Amount(fiatString: amountString, currency: currency, rate: rate)
+            value = Amount(fiatString: amountString, currency: currency, rate: rate, negative: isNegative)
         } else {
-            value = Amount(tokenString: amountString, currency: currency, rate: rate)
+            value = Amount(tokenString: amountString, currency: currency, rate: rate, negative: isNegative)
         }
         
         guard let value = value,
                   value.tokenValue != 0 else {
             self = .init(amount: amount, isFiat: isFiat, currency: currency, exchangeRate: exchangeRate, decimals: decimals - 1)
+            
             return
         }
         self = value
