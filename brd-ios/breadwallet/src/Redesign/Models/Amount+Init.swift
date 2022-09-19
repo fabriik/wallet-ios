@@ -18,15 +18,23 @@ extension Amount {
         
         let amountString = formatter.string(for: amount)?.usDecimalString(fromLocale: formatter.locale) ?? ""
         
-        guard let exchangeRate = exchangeRate, decimals >= 0 else {
-            self = .init(tokenString: amountString, currency: currency)
-            return
-        }
+        guard let exchangeRate = exchangeRate else { return }
         
         let rate = Rate(code: currency.code,
                         name: currency.name,
                         rate: exchangeRate.doubleValue,
                         reciprocalCode: "")
+        
+        guard decimals >= 0 else {
+            if isFiat {
+                self = Amount(fiatString: amountString, currency: currency, rate: rate) ?? .init(tokenString: "0", currency: currency)
+            } else {
+                self = Amount(tokenString: amountString, currency: currency, rate: rate)
+            }
+            
+            return
+        }
+        
         let value: Amount?
         
         if isFiat {
