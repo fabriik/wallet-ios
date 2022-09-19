@@ -22,7 +22,7 @@ class KYCLevelTwoPostValidationViewController: CheckListViewController {
     override func prepareData() {
         super.prepareData()
         
-        confirmButton.setup(with: .init(title: L10n.Button.continueAction))
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.continueAction))
     }
     
     override func buttonTapped() {
