@@ -12,7 +12,9 @@ import UIKit
 import WalletKit
 
 extension Amount {
-    init(amount: Decimal, isFiat: Bool = false, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 16) {
+    init(decimalAmount: Decimal, isFiat: Bool, currency: Currency, exchangeRate: Decimal? = nil, decimals: Int = 16) {
+        let amount = decimalAmount
+        
         let formatter = ExchangeFormatter.current
         formatter.maximumFractionDigits = decimals
         
@@ -47,7 +49,7 @@ extension Amount {
         
         guard let value = value,
                   value.tokenValue != 0 else {
-            self = .init(amount: amount, isFiat: isFiat, currency: currency, exchangeRate: exchangeRate, decimals: decimals - 1)
+            self = .init(decimalAmount: amount, isFiat: isFiat, currency: currency, exchangeRate: exchangeRate, decimals: decimals - 1)
             
             return
         }
