@@ -20,13 +20,12 @@ extension Amount {
         let isNegative = amount.sign == .minus
         
         guard let exchangeRate = exchangeRate, decimals >= 0 else {
-            if isFiat, let fallbackAmount = Amount(fiatString: "0", currency: currency, rate: rate, negative: isNegative) {
-                let rate = Rate(code: currency.code,
+            let fiatRate = Rate(code: currency.code,
                                 name: currency.name,
                                 rate: exchangeRate?.doubleValue ?? 1,
                                 reciprocalCode: "")
-                
-                self = Amount(fiatString: amountString, currency: currency, rate: rate, negative: isNegative) ?? fallbackAmount
+            if isFiat, let fallbackAmount = Amount(fiatString: "0", currency: currency, rate: fiatRate, negative: isNegative) {
+                self = Amount(fiatString: amountString, currency: currency, rate: fiatRate, negative: isNegative) ?? fallbackAmount
             } else {
                 self = Amount(tokenString: amountString, currency: currency, negative: isNegative)
             }
