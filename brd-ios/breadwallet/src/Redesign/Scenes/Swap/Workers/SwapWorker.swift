@@ -77,6 +77,6 @@ class SwapWorker: BaseApiWorker<SwapMapper> {
     }
     
     override func getUrl() -> String {
-        return APIURLHandler.getUrl(ExchangeEndpoints.exchange)
+        return APIURLHandler.getUrl(ExchangeEndpoints.create)
     }
 }

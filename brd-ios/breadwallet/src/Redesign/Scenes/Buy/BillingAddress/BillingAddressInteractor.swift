@@ -24,7 +24,7 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
             return
         }
         
-        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: reference)) { [weak self] result in
+        getPaymentStatus(reference: reference) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.dataStore?.paymentstatus = data?.status
@@ -125,29 +125,45 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
         
         AddCardWorker().execute(requestData: data) { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.dataStore?.paymentstatus = data?.status
-                
-                if let redirectUrlString = data?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
-                    self?.dataStore?.paymentReference = data?.paymentReference
-                    
-                    self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
-                } else {
-                    self?.handlePresentSubmit()
-                }
+            case .success(let exchangeData):
+                self?.getPaymentStatus(reference: exchangeData?.paymentReference ?? "", completion: { result in
+                    switch result {
+                    case .success(let paymentStatusData):
+                        self?.dataStore?.paymentstatus = paymentStatusData?.status
+                        
+                        if let redirectUrlString = exchangeData?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
+                            TransferManager.shared.reload()
+                            
+                            self?.dataStore?.paymentReference = exchangeData?.paymentReference
+                            
+                            self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
+                        } else {
+                            self?.handlePresentSubmit()
+                        }
+                        
+                    case .failure(let error):
+                        self?.presenter?.presentError(actionResponse: .init(error: error))
+                    }
+                })
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
     }
-
+    
+    // MARK: - Aditional helpers
+    
+    private func getPaymentStatus(reference: String, completion: @escaping (Result<AddCard?, Error>) -> Void) {
+        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: reference)) { result in
+            completion(result)
+        }
+    }
+    
     private func handlePresentSubmit() {
-        switch dataStore?.paymentstatus {
-        case .captured, .cardVerified:
+        if C.successfullPayment.contains(where: { $0 == dataStore?.paymentstatus }) {
             presenter?.presentSubmit(actionResponse: .init())
-            
-        default:
+        } else {
             presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Buy.paymentFailed)))
         }
     }
