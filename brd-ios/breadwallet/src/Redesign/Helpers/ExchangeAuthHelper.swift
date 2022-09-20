@@ -18,7 +18,7 @@ struct ExchangeAuthHelper {
         
         let loginVC = LoginViewController(for: .confirmation,
                                           keyMaster: keyStore,
-                                          shouldDisableBiometrics: keyStore.isBiometricsEnabledForTransactions)
+                                          shouldDisableBiometrics: !keyStore.isBiometricsEnabledForTransactions)
         let loginNVC = RootNavigationController(rootViewController: loginVC)
         
         loginVC.confirmationCallback = { success in
