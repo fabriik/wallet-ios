@@ -16,7 +16,7 @@ enum BuyModels {
     }
     
     enum Sections: Sectionable {
-        case rate
+        case rateAndTimer
         case accountLimits
         case from
         case to
