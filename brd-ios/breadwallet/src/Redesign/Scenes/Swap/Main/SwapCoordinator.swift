@@ -46,7 +46,9 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
             vc.navigationItem.hidesBackButton = true
             vc.failure = FailureReason.swap
             vc.firstCallback = { [weak self] in
-                self?.popToRoot()
+                self?.popToRoot(completion: {
+                    (self?.navigationController.topViewController as? SwapViewController)?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
+                })
             }
             
             vc.secondCallback = { [weak self] in
