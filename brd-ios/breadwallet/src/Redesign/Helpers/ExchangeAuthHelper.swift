@@ -13,7 +13,7 @@ import UIKit
 struct ExchangeAuthHelper {
     static func showPinInput(on viewController: UIViewController, keyStore: KeyStore?, callback: ((_ success: Bool) -> Void)?) {
         guard let keyStore = keyStore else {
-            fatalError("No key store")
+            fatalError("KeyStore not found.")
         }
         
         let loginVC = LoginViewController(for: .confirmation,
@@ -22,9 +22,8 @@ struct ExchangeAuthHelper {
         let loginNVC = RootNavigationController(rootViewController: loginVC)
         
         loginVC.confirmationCallback = { success in
-            loginNVC.dismiss(animated: true, completion: {
-                callback?(success)
-            })
+            callback?(success)
+            loginNVC.dismiss(animated: true)
         }
         
         loginNVC.modalPresentationStyle = .fullScreen
