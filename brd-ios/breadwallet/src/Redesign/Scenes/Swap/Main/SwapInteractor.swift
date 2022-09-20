@@ -141,6 +141,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
+        guard let fromRate = dataStore?.fromRate, let toRate = dataStore?.toRate, fromRate > 0, toRate > 0 else { return }
+        
         guard let fromCurrency = dataStore?.from?.currency,
               let toCurrency = dataStore?.to?.currency
         else {
@@ -152,9 +154,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         let toFeeRate = dataStore?.quote?.toFeeRate ?? 1
         let toFee = (dataStore?.quote?.toFee?.fee ?? 0) / toFeeRate
-        
-        let fromRate = dataStore?.fromRate ?? 0
-        let toRate = dataStore?.toRate ?? 0
         
         let from: Amount
         let to: Amount
@@ -377,6 +376,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 }
                 data(pin)
             } completion: { [weak self] result in
+                defer { sender.reset() }
+                
                 var error: FEError?
                 switch result {
                 case .success:
