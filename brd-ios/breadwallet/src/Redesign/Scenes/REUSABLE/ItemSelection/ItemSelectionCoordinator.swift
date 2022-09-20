@@ -14,10 +14,10 @@ class ItemSelectionCoordinator: BaseCoordinator, ItemSelectionRoutes {
         open(scene: Scenes.ItemSelection)
     }
     
-    override func goBack() {
-        parentCoordinator?.childDidFinish(child: self)
-        navigationController.dismiss(animated: true)
-    }
-
     // MARK: - Aditional helpers
+    
+    func dismissFlow() {
+        navigationController.dismiss(animated: true)
+        parentCoordinator?.childDidFinish(child: self)
+    }
 }
