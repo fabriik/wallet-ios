@@ -21,6 +21,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         return button
     }()
     
+    var didTriggerGetData: (() -> Void)?
+    
     // MARK: - Overrides
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -62,6 +64,10 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         continueButton.wrappedView.configure(with: Presets.Button.primary)
         continueButton.wrappedView.setup(with: .init(title: L10n.Button.continueAction, enabled: false))
         continueButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
+        didTriggerGetData = { [weak self] in
+            self?.interactor?.getData(viewAction: .init())
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

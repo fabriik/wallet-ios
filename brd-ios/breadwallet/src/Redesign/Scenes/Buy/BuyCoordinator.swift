@@ -63,7 +63,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             vc.failure = FailureReason.buy
             vc.firstCallback = { [weak self] in
                 self?.popToRoot(completion: { [weak self] in
-                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getData(viewAction: .init())
+                    (self?.navigationController.topViewController as? BuyViewController)?.didTriggerGetData?()
                 })
             }
             
@@ -79,7 +79,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             
             vc.firstCallback = { [weak self] in
                 self?.popToRoot(completion: { [weak self] in
-                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getData(viewAction: .init())
+                    (self?.navigationController.topViewController as? BuyViewController)?.didTriggerGetData?()
                 })
             }
         }
