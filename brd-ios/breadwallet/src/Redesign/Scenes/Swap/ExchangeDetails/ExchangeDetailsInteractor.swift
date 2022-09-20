@@ -33,7 +33,7 @@ class ExchangeDetailsInteractor: NSObject, Interactor, ExchangeDetailsViewAction
     }
     
     func copyValue(viewAction: ExchangeDetailsModels.CopyValue.ViewAction) {
-        let value = viewAction.value ?? ""
+        let value = viewAction.value?.filter { !$0.isWhitespace } ?? ""
         UIPasteboard.general.string = value
         
         presenter?.presentCopyValue(actionResponse: .init())
