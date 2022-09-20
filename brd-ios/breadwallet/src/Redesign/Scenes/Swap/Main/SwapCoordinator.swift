@@ -47,7 +47,7 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
             vc.failure = FailureReason.swap
             vc.firstCallback = { [weak self] in
                 self?.popToRoot(completion: {
-                    (self?.navigationController.topViewController as? SwapViewController)?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
+                    (self?.navigationController.topViewController as? SwapViewController)?.didTriggerGetExchangeRate?()
                 })
             }
             

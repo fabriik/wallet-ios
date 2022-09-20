@@ -27,6 +27,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         return button
     }()
     
+    var didTriggerGetExchangeRate: (() -> Void)?
+    
     // MARK: - Overrides
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -63,6 +65,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         confirmButton.wrappedView.configure(with: Presets.Button.primary)
         confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm, enabled: false))
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
+        didTriggerGetExchangeRate = { [weak self] in
+            self?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
