@@ -263,11 +263,13 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                     
                     self?.interactor?.confirm(viewAction: .init())
                 } else {
-                    self?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
+                    self?.coordinator?
+                        .parentCoordinator?
+                        .showMessage(with: nil, model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
+                                                                     dismissType: .auto),
+                                     configuration: Presets.InfoView.error)
                     
-                    self?.coordinator?.showMessage(model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
-                                                                        dismissType: .auto),
-                                                   configuration: Presets.InfoView.error)
+                    self?.coordinator?.dismissFlow()
                 }
             }
         })

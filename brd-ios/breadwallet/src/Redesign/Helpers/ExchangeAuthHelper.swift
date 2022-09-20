@@ -18,12 +18,13 @@ struct ExchangeAuthHelper {
         
         let loginVC = LoginViewController(for: .confirmation,
                                           keyMaster: keyStore,
-                                          shouldDisableBiometrics: false)
+                                          shouldDisableBiometrics: !keyStore.isBiometricsEnabledForTransactions)
         let loginNVC = RootNavigationController(rootViewController: loginVC)
         
         loginVC.confirmationCallback = { success in
-            callback?(success)
-            loginNVC.dismiss(animated: true)
+            loginNVC.dismiss(animated: true) {
+                callback?(success)
+            }
         }
         
         loginNVC.modalPresentationStyle = .fullScreen

@@ -2521,10 +2521,18 @@
 				7BBBF4D6287421CE00E4D36B /* SwapModels.swift */,
 				7BBBF4D7287421CF00E4D36B /* SwapViewController.swift */,
 				7BBBF4D5287421CE00E4D36B /* SwapInteractor.swift */,
-				7B7863192874266A0092F35B /* SwapCoordinator.swift */,
 				7EC0F8A92886D9B90037145C /* SwapErrors.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		7BD88B5128D9D371003A766B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */,
+				7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		7C377EBC20F64C1200E8CF1C /* Resources */ = {
@@ -2588,16 +2596,16 @@
 		7E52B79D286EF4CE003D2249 /* Swap */ = {
 			isa = PBXGroup;
 			children = (
-				7BBBF4D22874210600E4D36B /* Main */,
-				7E52B79E286EF4CE003D2249 /* Workers */,
+				7B7863192874266A0092F35B /* SwapCoordinator.swift */,
 				7ECCA98E2873059300F99368 /* ExchangeEndpoints.swift */,
-				7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */,
-				7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */,
+				7E516D7828B4E83000BBB702 /* TransferManager.swift */,
+				7BD88B5128D9D371003A766B /* Views */,
+				7E52B79E286EF4CE003D2249 /* Workers */,
+				7BBBF4D22874210600E4D36B /* Main */,
 				7E5B305E28A680070065D2D8 /* Validation */,
 				7ED427E628755C9B00AA19A8 /* ExchangeDetails */,
 				C4520F032875C613003FFB7F /* AssetSelection */,
 				C46C28F5287EBEAC0035C843 /* SwapInfo */,
-				7E516D7828B4E83000BBB702 /* TransferManager.swift */,
 			);
 			path = Swap;
 			sourceTree = "<group>";

@@ -129,9 +129,13 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
             if success {
                 self?.interactor?.checkTimeOut(viewAction: .init())
             } else {
-                self?.coordinator?.showMessage(model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
-                                                                    dismissType: .auto),
-                                               configuration: Presets.InfoView.error)
+                self?.coordinator?
+                    .parentCoordinator?
+                    .showMessage(with: nil, model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
+                                                                 dismissType: .auto),
+                                 configuration: Presets.InfoView.error)
+                
+                self?.coordinator?.dismissFlow()
             }
         }
     }

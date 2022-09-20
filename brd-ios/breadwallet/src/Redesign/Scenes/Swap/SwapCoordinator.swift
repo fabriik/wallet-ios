@@ -58,4 +58,9 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
     }
     
     // MARK: - Aditional helpers
+    
+    func dismissFlow() {
+        navigationController.dismiss(animated: true)
+        parentCoordinator?.childDidFinish(child: self)
+    }
 }
