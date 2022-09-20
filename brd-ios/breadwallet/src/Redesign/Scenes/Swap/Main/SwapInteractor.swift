@@ -291,8 +291,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func confirm(viewAction: SwapModels.Confirm.ViewAction) {
-        dataStore?.pin = viewAction.pin
-        
         guard let currency = dataStore?.currencies.first(where: { $0.code == dataStore?.to?.currency.code }),
               let address = dataStore?.coreSystem?.wallet(for: currency)?.receiveAddress,
               let from = dataStore?.from?.tokenValue,
@@ -363,17 +361,17 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
         let amount = Amount(decimalAmount: amountValue, isFiat: false, currency: currency)
-        let result = sender.createTransaction(address: destination,
-                                              amount: amount,
-                                              feeBasis: fee,
-                                              comment: nil,
-                                              exchangeId: exchangeId)
+        let transaction = sender.createTransaction(address: destination,
+                                                   amount: amount,
+                                                   feeBasis: fee,
+                                                   comment: nil,
+                                                   exchangeId: exchangeId)
         
         var error: FEError?
-        switch result {
+        switch transaction {
         case .ok:
-            sender.sendTransaction(allowBiometrics: true, exchangeId: exchangeId) { [weak self] data in
-                guard let pin = self?.dataStore?.pin else {
+            sender.sendTransaction(allowBiometrics: false, exchangeId: exchangeId) { [weak self] data in
+                guard let pin: String = try? keychainItem(key: KeychainKey.pin) else {
                     self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.pinConfirmation))
                     return
                 }

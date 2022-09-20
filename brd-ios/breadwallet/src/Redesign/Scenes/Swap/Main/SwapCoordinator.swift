@@ -17,25 +17,10 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
         open(scene: Scenes.Swap)
     }
     
-    // TODO: Duplicate from BuyCoordinator. Refactor.
-    func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?) {
-        guard let keyStore = keyStore else {
-            fatalError("No key store")
-        }
-        
-        let vc = LoginViewController(for: .confirmation,
-                                     keyMaster: keyStore,
-                                     shouldDisableBiometrics: true)
-        let nvc = RootNavigationController(rootViewController: vc)
-        
-        vc.confirmationCallback = { pin in
-            nvc.dismiss(animated: true, completion: {
-                callback?(pin)
-            })
-        }
-        
-        nvc.modalPresentationStyle = .fullScreen
-        navigationController.show(nvc, sender: nil)
+    func showPinInput(keyStore: KeyStore?, callback: ((_ success: Bool) -> Void)?) {
+        ExchangeAuthHelper.showPinInput(on: navigationController,
+                                        keyStore: keyStore,
+                                        callback: callback)
     }
     
     func showSwapInfo(from: String, to: String, exchangeId: String) {
