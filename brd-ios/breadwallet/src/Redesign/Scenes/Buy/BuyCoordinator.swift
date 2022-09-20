@@ -46,6 +46,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showSuccess(paymentReference: String) {
         open(scene: Scenes.Success) { vc in
+            vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = paymentReference
             
             vc.firstCallback = { [weak self] in
@@ -60,7 +61,9 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showFailure() {
         open(scene: Scenes.Failure) { vc in
+            vc.navigationItem.hidesBackButton = true
             vc.failure = FailureReason.buy
+            
             vc.firstCallback = { [weak self] in
                 self?.popToRoot(completion: { [weak self] in
                     (self?.navigationController.topViewController as? BuyViewController)?.didTriggerGetData?()
@@ -75,7 +78,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showTimeout() {
         open(scene: Scenes.Timeout) { vc in
-            vc.navigationItem.setHidesBackButton(true, animated: false)
+            vc.navigationItem.hidesBackButton = true
             
             vc.firstCallback = { [weak self] in
                 self?.popToRoot(completion: { [weak self] in

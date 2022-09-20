@@ -25,7 +25,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
             return
         }
         
-        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: reference)) { [weak self] result in
+        getPaymentStatus(reference: reference) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.dataStore?.paymentstatus = data?.status
@@ -64,17 +64,26 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         
         SwapWorker().execute(requestData: data) { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.dataStore?.paymentstatus = data?.status
-                if let redirectUrlString = data?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
-                    TransferManager.shared.reload()
-                    
-                    self?.dataStore?.paymentReference = data?.paymentReference
-                    
-                    self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
-                } else {
-                    self?.handlePresentSubmit()
-                }
+            case .success(let exchangeData):
+                self?.getPaymentStatus(reference: exchangeData?.paymentReference ?? "", completion: { result in
+                    switch result {
+                    case .success(let paymentStatusData):
+                        self?.dataStore?.paymentstatus = paymentStatusData?.status
+                        
+                        if let redirectUrlString = exchangeData?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
+                            TransferManager.shared.reload()
+                            
+                            self?.dataStore?.paymentReference = exchangeData?.paymentReference
+                            
+                            self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
+                        } else {
+                            self?.handlePresentSubmit()
+                        }
+                        
+                    case .failure(let error):
+                        self?.presenter?.presentError(actionResponse: .init(error: error))
+                    }
+                })
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
@@ -95,17 +104,6 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         
         presenter?.presentCvv(actionResponse: .init(isValid: isValid))
     }
-
-    // TODO: Merge the logic with Billing Details. They are the same things. The whole card and 3D secure flow should be reusable.
-    private func handlePresentSubmit() {
-        switch dataStore?.paymentstatus {
-        case .captured, .cardVerified:
-            presenter?.presentSubmit(actionResponse: .init(paymentReference: dataStore?.paymentReference ?? ""))
-            
-        default:
-            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Buy.paymentFailed)))
-        }
-    }
     
     func showTermsAndConditions(viewAction: OrderPreviewModels.TermsAndConditions.ViewAction) {
         guard let url = URL(string: C.termsAndConditions) else { return }
@@ -113,5 +111,20 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     }
     
     // TODO: add rate refreshing logic!
+    
     // MARK: - Aditional helpers
+    
+    private func getPaymentStatus(reference: String, completion: @escaping (Result<AddCard?, Error>) -> Void) {
+        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: reference)) { result in
+            completion(result)
+        }
+    }
+    
+    private func handlePresentSubmit() {
+        if C.successfullPayment.contains(where: { $0 == dataStore?.paymentstatus }) {
+            presenter?.presentSubmit(actionResponse: .init(paymentReference: dataStore?.paymentReference ?? ""))
+        } else {
+            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Buy.paymentFailed)))
+        }
+    }
 }
