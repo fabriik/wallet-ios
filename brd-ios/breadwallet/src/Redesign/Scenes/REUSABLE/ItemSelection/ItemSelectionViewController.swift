@@ -117,7 +117,8 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
         guard let model = sectionRows[section]?[indexPath.row] else { return }
         
         itemSelected?(model)
-        coordinator?.goBack()
+        
+        coordinator?.dismissFlow()
     }
     
     override func displayData(responseDisplay: FetchModels.Get.ResponseDisplay) {

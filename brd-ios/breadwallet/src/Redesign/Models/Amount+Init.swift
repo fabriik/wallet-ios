@@ -22,9 +22,11 @@ extension Amount {
         let isNegative = amount.sign == .minus
         
         guard let exchangeRate = exchangeRate, decimals >= 0 else {
+            let exchangeRate = exchangeRate?.doubleValue ?? 1
+            
             let fiatRate = Rate(code: currency.code,
                                 name: currency.name,
-                                rate: exchangeRate?.doubleValue ?? 1,
+                                rate: exchangeRate <= 0 ? 1 : exchangeRate,
                                 reciprocalCode: "")
             if isFiat, let fallbackAmount = Amount(fiatString: "0", currency: currency, rate: fiatRate, negative: isNegative) {
                 self = Amount(fiatString: amountString, currency: currency, rate: fiatRate, negative: isNegative) ?? fallbackAmount
