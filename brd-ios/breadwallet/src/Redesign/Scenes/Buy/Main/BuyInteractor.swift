@@ -83,7 +83,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         if let value = viewAction.tokenValue,
            let crypto = ExchangeFormatter.current.number(from: value)?.decimalValue {
             to = .init(decimalAmount: crypto, isFiat: false, currency: toCurrency, exchangeRate: 1 / rate)
-            from = (dataStore?.to ?? 0) / rate
+            from = crypto / rate
         } else if let value = viewAction.fiatValue,
                   let fiat = ExchangeFormatter.current.number(from: value)?.decimalValue {
             from = fiat
