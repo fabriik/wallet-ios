@@ -106,7 +106,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         let formattedFromFiatFeeString = String(format: "%@ %@",
                                                 ExchangeFormatter.fiat.string(for: fromFee?.fiatValue) ?? "",
-                                                Store.state.defaultCurrencyCode)
+                                                C.usdCurrencyCode)
         let formattedFromTokenFeeString = String(format: "%@ %@",
                                                  ExchangeFormatter.crypto.string(for: fromFee?.tokenValue) ?? "",
                                                  fromFee?.currency.code.uppercased() ?? "")
@@ -115,7 +115,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         let formattedToFiatFeeString = String(format: "%@ %@",
                                               ExchangeFormatter.fiat.string(for: toFee?.fiatValue) ?? "",
-                                              Store.state.defaultCurrencyCode)
+                                              C.usdCurrencyCode)
         let formattedToTokenFeeString = String(format: "%@ %@",
                                                ExchangeFormatter.crypto.string(for: toFee?.tokenValue) ?? "",
                                                toFee?.currency.code.uppercased() ?? "")
@@ -251,24 +251,24 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let fromText = String(format: "%@ %@ (%@ %@)", ExchangeFormatter.crypto.string(for: from.tokenValue.doubleValue) ?? "",
                               from.currency.code,
                               ExchangeFormatter.fiat.string(for: from.fiatValue.doubleValue) ?? "",
-                              Store.state.defaultCurrencyCode)
+                              C.usdCurrencyCode)
         let toText = String(format: "%@ %@ (%@ %@)",
                             ExchangeFormatter.crypto.string(for: to.tokenValue.doubleValue) ?? "",
                             to.currency.code,
                             ExchangeFormatter.fiat.string(for: to.fiatValue.doubleValue) ?? "",
-                            Store.state.defaultCurrencyCode)
+                            C.usdCurrencyCode)
         
         let fromFeeText = String(format: "%@ %@\n(%@ %@)",
                                  ExchangeFormatter.crypto.string(for: actionResponse.fromFee?.tokenValue.doubleValue) ?? "",
                                  actionResponse.fromFee?.currency.code ?? from.currency.code,
                                  ExchangeFormatter.fiat.string(for: actionResponse.fromFee?.fiatValue.doubleValue) ?? "",
-                                 Store.state.defaultCurrencyCode)
+                                 C.usdCurrencyCode)
         
         let toFeeText = String(format: "%@ %@\n(%@ %@)",
                                ExchangeFormatter.crypto.string(for: actionResponse.toFee?.tokenValue.doubleValue) ?? "",
                                actionResponse.toFee?.currency.code ?? to.currency.code,
                                ExchangeFormatter.fiat.string(for: actionResponse.toFee?.fiatValue.doubleValue) ?? "",
-                               Store.state.defaultCurrencyCode)
+                               C.usdCurrencyCode)
         
         let totalCostText = String(format: "%@ %@", ExchangeFormatter.crypto.string(for: from.tokenValue.doubleValue) ?? "", from.currency.code)
         

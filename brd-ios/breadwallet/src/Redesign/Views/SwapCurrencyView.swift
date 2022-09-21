@@ -100,7 +100,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private lazy var fiatCurrencyLabel: FELabel = {
         let view = FELabel()
-        view.text = Store.state.defaultCurrencyCode
+        view.text = Constant.usdCurrencyCode
         view.font = Fonts.Subtitle.two
         view.textColor = LightColors.Icons.one
         view.textAlignment = .right

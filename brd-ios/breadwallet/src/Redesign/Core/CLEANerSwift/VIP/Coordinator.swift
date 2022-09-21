@@ -106,8 +106,6 @@ class BaseCoordinator: NSObject,
                 vc?.dataStore?.currencies = currencies
                 vc?.dataStore?.coreSystem = coreSystem
                 vc?.dataStore?.keyStore = keyStore
-                vc?.dataStore?.defaultCurrencyCode = Store.state.defaultCurrencyCode.lowercased()
-                // TODO: profile has this as well
                 vc?.dataStore?.isKYCLevelTwo = self?.isKYCLevelTwo
             }
         }
@@ -120,7 +118,6 @@ class BaseCoordinator: NSObject,
             self?.openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy) { vc in
                 vc?.dataStore?.coreSystem = coreSystem
                 vc?.dataStore?.keyStore = keyStore
-                vc?.dataStore?.fromCurrency = Store.state.defaultCurrencyCode.lowercased()
             }
         }
     }
