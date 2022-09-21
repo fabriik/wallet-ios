@@ -64,8 +64,12 @@ internal enum L10n {
     internal static let balance = L10n.tr("Localizable", "Account.balance")
     /// Before you confirm, please:
     internal static let beforeConfirm = L10n.tr("Localizable", "Account.BeforeConfirm")
+    /// Change your email
+    internal static let changeEmail = L10n.tr("Localizable", "Account.ChangeEmail")
     /// Country
     internal static let country = L10n.tr("Localizable", "Account.Country")
+    /// Create a Fabriik account by entering your email address.
+    internal static let createAccount = L10n.tr("Localizable", "Account.CreateAccount")
     /// Current limit: $1,000/day
     internal static let currentLimit = L10n.tr("Localizable", "Account.CurrentLimit")
     /// Oops! We had some issues processing your data
@@ -120,10 +124,14 @@ internal enum L10n {
     ///   - Buy assets with credit card
     ///   - 24/7/365 live customer support
     internal static let verifyAccountText = L10n.tr("Localizable", "Account.VerifyAccountText")
+    /// Enter and verify your new email address for your Fabriik account.
+    internal static let verifyEmail = L10n.tr("Localizable", "Account.VerifyEmail")
     /// We need to verify your identity in order to buy/sell and swap crypto.
     internal static let verifyIdentity = L10n.tr("Localizable", "Account.VerifyIdentity")
     /// We need to verify your personal information for compliance purposes. This information won’t be shared with outside sources unless required by law.
     internal static let verifyPersonalInformation = L10n.tr("Localizable", "Account.VerifyPersonalInformation")
+    /// Welcome!
+    internal static let welcome = L10n.tr("Localizable", "Account.Welcome")
     /// Why should I verify my account?
     internal static let whyVerify = L10n.tr("Localizable", "Account.WhyVerify")
     /// Write your name as it appears on your ID
@@ -1096,7 +1104,7 @@ internal enum L10n {
     internal static let addWallet = L10n.tr("Localizable", "MenuButton.addWallet")
     /// ATM Cash Redemption
     internal static let atmCashRedemption = L10n.tr("Localizable", "MenuButton.atmCashRedemption")
-    /// Support
+    /// Feedback
     internal static let feedback = L10n.tr("Localizable", "MenuButton.feedback")
     /// Lock Wallet
     internal static let lock = L10n.tr("Localizable", "MenuButton.lock")
@@ -2201,6 +2209,8 @@ internal enum L10n {
     internal static let invalid = L10n.tr("Localizable", "Transaction.invalid")
     /// just now
     internal static let justNow = L10n.tr("Localizable", "Transaction.justNow")
+    /// Manually settled
+    internal static let manuallySettled = L10n.tr("Localizable", "Transaction.ManuallySettled")
     /// Pending
     internal static let pending = L10n.tr("Localizable", "Transaction.pending")
     /// Pending purchase
@@ -2215,6 +2225,8 @@ internal enum L10n {
     internal static func receivedStatus(_ p1: Any) -> String {
       return L10n.tr("Localizable", "Transaction.receivedStatus", String(describing: p1))
     }
+    /// Refunded
+    internal static let refunded = L10n.tr("Localizable", "Transaction.refunded")
     /// In progress: %1$@
     internal static func sendingStatus(_ p1: Any) -> String {
       return L10n.tr("Localizable", "Transaction.sendingStatus", String(describing: p1))

@@ -45,7 +45,8 @@ class AssetSelectionViewController: ItemSelectionViewController {
         else { return }
         
         itemSelected?(model)
-        coordinator?.goBack()
+        
+        coordinator?.dismissFlow()
     }
 
     // MARK: - User Interaction

@@ -30,5 +30,6 @@ enum ExchangeDetailsModels {
         struct ViewAction {
             var value: String?
         }
+        struct ActionResponse {}
     }
 }

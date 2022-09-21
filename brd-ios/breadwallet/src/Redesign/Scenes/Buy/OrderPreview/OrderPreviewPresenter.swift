@@ -27,7 +27,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let to = toAmount.fiatValue
         let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal)
         let toFiatValue = toAmount.fiatValue
-        let toCryptoValue = toAmount.tokenFormattedString
+        let toCryptoValue = ExchangeFormatter.crypto.string(for: toAmount.tokenValue) ?? ""
         let toCryptoDisplayImage = item.to?.currency.imageSquareBackground
         let toCryptoDisplayName = item.to?.currency.displayName ?? ""
         let from = item.from ?? 0

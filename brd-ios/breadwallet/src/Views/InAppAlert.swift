@@ -58,7 +58,7 @@ class InAppAlert: UIView {
     }
 
     func dismiss() {
-        UIView.animate(withDuration: C.animationDuration, animations: {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: {
             self.bottomConstraint?.constant = 0.0
             self.superview?.layoutIfNeeded()
         }, completion: { _ in

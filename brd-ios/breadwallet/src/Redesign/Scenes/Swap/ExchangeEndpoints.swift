@@ -15,7 +15,7 @@ enum ExchangeEndpoints: String, URLType {
     
     case supportedCurrencies = "supported-currencies"
     case quote = "quote?from=%@&to=%@"
-    case exchange = "create"
+    case create = "create"
     case details = "exchange/%@"
     case history = "exchanges"
     case paymentInstruments = "payment-instruments"

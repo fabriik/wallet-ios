@@ -21,8 +21,8 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
     
     var continueCallback: (() -> Void)?
     
-    lazy var confirmButton: FEButton = {
-        let button = FEButton()
+    lazy var confirmButton: WrapperView<FEButton> = {
+        let button = WrapperView<FEButton>()
         return button
     }()
     
@@ -32,19 +32,23 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
         
         view.addSubview(confirmButton)
         confirmButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+            make.centerX.leading.equalToSuperview()
             make.bottom.equalTo(view.snp.bottomMargin)
-            make.leading.equalToSuperview().inset(Margins.large.rawValue)
+        }
+        
+        confirmButton.wrappedView.snp.makeConstraints { make in
             make.height.equalTo(ButtonHeights.common.rawValue)
+            make.edges.equalTo(confirmButton.snp.margins)
         }
         
         tableView.snp.remakeConstraints { make in
             make.leading.trailing.top.equalToSuperview()
             make.bottom.equalTo(confirmButton.snp.top)
         }
-        confirmButton.configure(with: Presets.Button.primary)
         
-        confirmButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        confirmButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)
+        confirmButton.wrappedView.configure(with: Presets.Button.primary)
+        confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
     override func prepareData() {
@@ -59,7 +63,7 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
         ]
         
         // TODO: add multi button support
-        confirmButton.setup(with: .init(title: L10n.Button.confirm))
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm))
         tableView.reloadData()
     }
     

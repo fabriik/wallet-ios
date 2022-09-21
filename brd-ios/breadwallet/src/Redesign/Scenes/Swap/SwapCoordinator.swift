@@ -17,20 +17,10 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
         open(scene: Scenes.Swap)
     }
     
-    func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?) {
-        guard let keyStore = keyStore else { fatalError("No key store") }
-        
-        let vc = LoginViewController(for: .confirmation,
-                                     keyMaster: keyStore,
-                                     shouldDisableBiometrics: true)
-        
-        let nvc = RootNavigationController(rootViewController: vc)
-        vc.confirmationCallback = { pin in
-            callback?(pin)
-            nvc.dismiss(animated: true)
-        }
-        nvc.modalPresentationStyle = .fullScreen
-        navigationController.show(nvc, sender: nil)
+    func showPinInput(keyStore: KeyStore?, callback: ((_ success: Bool) -> Void)?) {
+        ExchangeAuthHelper.showPinInput(on: navigationController,
+                                        keyStore: keyStore,
+                                        callback: callback)
     }
     
     func showSwapInfo(from: String, to: String, exchangeId: String) {
@@ -56,7 +46,9 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
             vc.navigationItem.hidesBackButton = true
             vc.failure = FailureReason.swap
             vc.firstCallback = { [weak self] in
-                self?.popToRoot()
+                self?.popToRoot(completion: {
+                    (self?.navigationController.topViewController as? SwapViewController)?.didTriggerGetExchangeRate?()
+                })
             }
             
             vc.secondCallback = { [weak self] in
@@ -66,4 +58,9 @@ class SwapCoordinator: BaseCoordinator, SwapRoutes, AssetSelectionDisplayable {
     }
     
     // MARK: - Aditional helpers
+    
+    func dismissFlow() {
+        navigationController.dismiss(animated: true)
+        parentCoordinator?.childDidFinish(child: self)
+    }
 }
