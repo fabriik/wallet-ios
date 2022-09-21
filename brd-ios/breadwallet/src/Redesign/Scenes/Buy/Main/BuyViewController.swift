@@ -28,11 +28,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        guard let section = sections.firstIndex(of: Models.Sections.rate),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView>
-        else { return continueButton.wrappedView.isEnabled = false }
-        
-        cell.wrappedView.invalidate()
+        getRateAndTimerCell()?.wrappedView.invalidate()
     }
     
     override func setupSubviews() {
@@ -76,7 +72,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         case .accountLimits:
             cell = self.tableView(tableView, labelCellForRowAt: indexPath)
             
-        case .rate:
+        case .rateAndTimer:
             cell = self.tableView(tableView, timerCellForRowAt: indexPath)
 
         case .from:
@@ -158,6 +154,17 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         return cell
     }
     
+    private func getRateAndTimerCell() -> WrapperTableViewCell<ExchangeRateView>? {
+        guard let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> else {
+            continueButton.wrappedView.isEnabled = false
+            
+            return nil
+        }
+        
+        return cell
+    }
+    
     // MARK: - User Interaction
 
     @objc override func buttonTapped() {
@@ -190,8 +197,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }
     
     func displayExchangeRate(responseDisplay: BuyModels.Rate.ResponseDisplay) {
-        if let section = sections.firstIndex(of: Models.Sections.rate),
-           let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
+        if let cell = getRateAndTimerCell() {
             cell.setup { view in
                 view.configure(with: .init())
                 view.setup(with: responseDisplay.rate)
