@@ -440,7 +440,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
     }
     
     private func hideDestinationTag() {
-        UIView.animate(withDuration: C.animationDuration, animations: {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: {
             self.attributeCellHeight?.constant = 0.0
             self.attributeCell?.alpha = 0.0
         }, completion: { _ in

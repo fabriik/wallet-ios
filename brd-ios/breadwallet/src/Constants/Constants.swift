@@ -39,7 +39,7 @@ struct C {
     static var defaultTintColor: UIColor = {
         return UIView().tintColor
     }()
-    static let animationDuration: TimeInterval = 0.3
+    
     static let secondsInDay: TimeInterval = 86400
     static let secondsInMinute: TimeInterval = 60
     static let walletQueue = "com.fabriik.one.walletqueue"
@@ -56,7 +56,8 @@ struct C {
         return E.isTestnet ? 18333 : 8333
     }
     static let bip39CreationTime = TimeInterval(1388534400) - NSTimeIntervalSince1970
-
+    static let successfullPayment: [AddCard.Status] = [.captured, .cardVerified]
+    
     /// Path where core library stores its persistent data
     static var coreDataDirURL: URL {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!

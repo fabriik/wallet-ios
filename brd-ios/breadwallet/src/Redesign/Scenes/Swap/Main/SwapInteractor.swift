@@ -141,6 +141,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func setAmount(viewAction: SwapModels.Amounts.ViewAction) {
+        guard let fromRate = dataStore?.fromRate, let toRate = dataStore?.toRate, fromRate > 0, toRate > 0 else { return }
+        
         guard let fromCurrency = dataStore?.from?.currency,
               let toCurrency = dataStore?.to?.currency
         else {
@@ -153,31 +155,28 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let toFeeRate = dataStore?.quote?.toFeeRate ?? 1
         let toFee = (dataStore?.quote?.toFee?.fee ?? 0) / toFeeRate
         
-        let fromRate = dataStore?.fromRate ?? 0
-        let toRate = dataStore?.toRate ?? 0
-        
         let from: Amount
         let to: Amount
         
         if let fromCryptoAmount = viewAction.fromCryptoAmount,
            let fromCrypto = ExchangeFormatter.current.number(from: fromCryptoAmount)?.decimalValue {
-            from = .init(amount: fromCrypto, currency: fromCurrency, exchangeRate: fromRate)
-            to = .init(amount: fromCrypto * exchangeRate - toFee, currency: toCurrency, exchangeRate: toRate)
+            from = .init(decimalAmount: fromCrypto, isFiat: false, currency: fromCurrency, exchangeRate: fromRate)
+            to = .init(decimalAmount: fromCrypto * exchangeRate - toFee, isFiat: false, currency: toCurrency, exchangeRate: toRate)
             
         } else if let fromFiatAmount = viewAction.fromFiatAmount,
                   let fromFiat = ExchangeFormatter.current.number(from: fromFiatAmount)?.decimalValue {
-            from = .init(amount: fromFiat, isFiat: true, currency: fromCurrency, exchangeRate: fromRate)
-            to = .init(amount: from.tokenValue * exchangeRate - toFee, currency: toCurrency, exchangeRate: toRate)
+            from = .init(decimalAmount: fromFiat, isFiat: true, currency: fromCurrency, exchangeRate: fromRate)
+            to = .init(decimalAmount: from.tokenValue * exchangeRate - toFee, isFiat: false, currency: toCurrency, exchangeRate: toRate)
             
         } else if let toCryptoAmount = viewAction.toCryptoAmount,
                   let toCrypto = ExchangeFormatter.current.number(from: toCryptoAmount)?.decimalValue {
-            from = .init(amount: (toCrypto + toFee * toFeeRate) / exchangeRate, currency: fromCurrency, exchangeRate: fromRate)
-            to = .init(amount: toCrypto, currency: toCurrency, exchangeRate: toRate)
+            from = .init(decimalAmount: (toCrypto + toFee * toFeeRate) / exchangeRate, isFiat: false, currency: fromCurrency, exchangeRate: fromRate)
+            to = .init(decimalAmount: toCrypto, isFiat: false, currency: toCurrency, exchangeRate: toRate)
             
         } else if let toFiatAmount = viewAction.toFiatAmount,
                   let toFiat = ExchangeFormatter.current.number(from: toFiatAmount)?.decimalValue {
-            to = .init(amount: toFiat, isFiat: true, currency: toCurrency, exchangeRate: toRate)
-            from = .init(amount: (to.tokenValue + toFee) / exchangeRate, currency: fromCurrency, exchangeRate: fromRate)
+            to = .init(decimalAmount: toFiat, isFiat: true, currency: toCurrency, exchangeRate: toRate)
+            from = .init(decimalAmount: (to.tokenValue + toFee) / exchangeRate, isFiat: false, currency: fromCurrency, exchangeRate: fromRate)
             
         } else {
             presenter?.presentAmount(actionResponse: .init(from: dataStore?.from,
@@ -291,8 +290,6 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     }
     
     func confirm(viewAction: SwapModels.Confirm.ViewAction) {
-        dataStore?.pin = viewAction.pin
-        
         guard let currency = dataStore?.currencies.first(where: { $0.code == dataStore?.to?.currency.code }),
               let address = dataStore?.coreSystem?.wallet(for: currency)?.receiveAddress,
               let from = dataStore?.from?.tokenValue,
@@ -301,9 +298,15 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             return
         }
         
+        let formatter = ExchangeFormatter.crypto
+        formatter.decimalSeparator = "."
+        
+        let fromTokenValue = formatter.string(for: from) ?? ""
+        let toTokenValue = formatter.string(for: to) ?? ""
+        
         let data = SwapRequestData(quoteId: dataStore?.quote?.quoteId,
-                                   depositQuantity: from,
-                                   withdrawalQuantity: to,
+                                   depositQuantity: fromTokenValue,
+                                   withdrawalQuantity: toTokenValue,
                                    destination: address)
         
         SwapWorker().execute(requestData: data) { [weak self] result in
@@ -362,23 +365,25 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
-        let amount = Amount(amount: amountValue, currency: currency)
-        let result = sender.createTransaction(address: destination,
-                                              amount: amount,
-                                              feeBasis: fee,
-                                              comment: nil,
-                                              exchangeId: exchangeId)
+        let amount = Amount(decimalAmount: amountValue, isFiat: false, currency: currency)
+        let transaction = sender.createTransaction(address: destination,
+                                                   amount: amount,
+                                                   feeBasis: fee,
+                                                   comment: nil,
+                                                   exchangeId: exchangeId)
         
         var error: FEError?
-        switch result {
+        switch transaction {
         case .ok:
-            sender.sendTransaction(allowBiometrics: true, exchangeId: exchangeId) { [weak self] data in
-                guard let pin = self?.dataStore?.pin else {
+            sender.sendTransaction(allowBiometrics: false, exchangeId: exchangeId) { [weak self] data in
+                guard let pin: String = try? keychainItem(key: KeychainKey.pin) else {
                     self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.pinConfirmation))
                     return
                 }
                 data(pin)
             } completion: { [weak self] result in
+                defer { sender.reset() }
+                
                 var error: FEError?
                 switch result {
                 case .success:

@@ -16,16 +16,16 @@ class WhiteNumberPad: GenericPinPadCell {
 
     override func setAppearance() {
         if isHighlighted {
-            backgroundColor = .secondaryShadow
+            backgroundColor = .transparentBlack
             label.textColor = .darkText
         } else {
             if (text?.isEmpty ?? false) || text == PinPadViewController.SpecialKeys.delete.rawValue {
-                backgroundColor = .whiteTint
+                backgroundColor = .white
                 imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
-                imageView.tintColor = .grayTextTint
+                imageView.tintColor = .almostBlack
             } else {
-                backgroundColor = .whiteTint
-                label.textColor = .grayTextTint
+                backgroundColor = .white
+                label.textColor = .almostBlack
             }
         }
     }

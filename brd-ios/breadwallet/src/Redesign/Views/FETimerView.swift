@@ -87,7 +87,7 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         invalidate()
         
         guard viewModel.till != 0 else {
-            titleLabel.text = ""
+            titleLabel.text = "00:00"
             return
         }
         

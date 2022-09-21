@@ -109,6 +109,7 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
         
         valueLabel.text = viewModel.exchangeRate
         valueLabel.isHidden = viewModel.exchangeRate == nil
+        titleLabel.isHidden = viewModel.exchangeRate == nil
         
         timerView.setup(with: viewModel.timer)
         timerView.alpha = viewModel.timer == nil || viewModel.showTimer ? 1 : 0

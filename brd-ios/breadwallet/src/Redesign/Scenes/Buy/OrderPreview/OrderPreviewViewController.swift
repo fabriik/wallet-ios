@@ -125,10 +125,18 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
-        coordinator?.showPinInput(keyStore: dataStore?.keyStore) { [weak self] pin in
-            guard pin != nil else { return }
-            
-            self?.interactor?.checkTimeOut(viewAction: .init())
+        coordinator?.showPinInput(keyStore: dataStore?.keyStore) { [weak self] success in
+            if success {
+                self?.interactor?.checkTimeOut(viewAction: .init())
+            } else {
+                self?.coordinator?
+                    .parentCoordinator?
+                    .showMessage(with: nil, model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
+                                                                 dismissType: .auto),
+                                 configuration: Presets.InfoView.error)
+                
+                self?.coordinator?.dismissFlow()
+            }
         }
     }
     

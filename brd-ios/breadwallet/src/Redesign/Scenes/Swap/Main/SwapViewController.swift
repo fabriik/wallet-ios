@@ -27,15 +27,14 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         return button
     }()
     
+    var didTriggerGetExchangeRate: (() -> Void)?
+    
     // MARK: - Overrides
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        guard let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView>
-        else { return confirmButton.wrappedView.isEnabled = false }
-        
-        cell.wrappedView.invalidate()
+        getRateAndTimerCell()?.wrappedView.invalidate()
     }
     
     override func setupSubviews() {
@@ -66,6 +65,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         confirmButton.wrappedView.configure(with: Presets.Button.primary)
         confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm, enabled: false))
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
+        didTriggerGetExchangeRate = { [weak self] in
+            self?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -147,6 +150,17 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         return cell
     }
     
+    private func getRateAndTimerCell() -> WrapperTableViewCell<ExchangeRateView>? {
+        guard let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> else {
+            confirmButton.wrappedView.isEnabled = false
+            
+            return nil
+        }
+        
+        return cell
+    }
+    
     // MARK: - User Interaction
 
     @objc override func buttonTapped() {
@@ -197,9 +211,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
     }
     
     func displayExchangeRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
-        if let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
-           let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
-            
+        if let cell = getRateAndTimerCell() {
             cell.setup { view in
                 view.configure(with: .init())
                 view.setup(with: responseDisplay.rate)
@@ -245,10 +257,20 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         let _: WrapperPopupView<SwapConfirmationView>? = coordinator?.showPopup(with: responseDisplay.config,
                                                                                 viewModel: responseDisplay.viewModel,
                                                                                 confirmedCallback: { [weak self] in
-            self?.coordinator?.showPinInput(keyStore: self?.dataStore?.keyStore) { pin in
-                LoadingView.show()
-                
-                self?.interactor?.confirm(viewAction: .init(pin: pin))
+            self?.coordinator?.showPinInput(keyStore: self?.dataStore?.keyStore) { success in
+                if success {
+                    LoadingView.show()
+                    
+                    self?.interactor?.confirm(viewAction: .init())
+                } else {
+                    self?.coordinator?
+                        .parentCoordinator?
+                        .showMessage(with: nil, model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
+                                                                     dismissType: .auto),
+                                     configuration: Presets.InfoView.error)
+                    
+                    self?.coordinator?.dismissFlow()
+                }
             }
         })
     }
