@@ -23,6 +23,7 @@ struct Padding {
 
 // swiftlint:disable type_name
 /// Constants
+typealias Constant = C
 struct C {
     static let padding = Padding(increment: 8.0)
     struct Sizes {
