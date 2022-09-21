@@ -21,10 +21,6 @@ enum TransactionStatus: String, ModelResponse {
     case invalid
     /// Failed
     case failed = "FAILED"
-    /// Refunded
-    case refunded = "REFUNDED"
-    /// Manually settled
-    case manuallySettled = "MANUALLY_SETTLED"
     
     init?(string: String?) {
         guard let rawValue = string else {
@@ -148,13 +144,13 @@ class Transaction {
                 
                 switch Int(confirmations) {
                 case 0:
-                    return transactionType == .buyTransaction ? (swapTransationStatus ?? .failed) : .pending
+                    return .pending
                     
                 case 1..<currency.confirmationsUntilFinal:
                     return .confirmed
                     
                 default:
-                    return transactionType == .buyTransaction ? (swapTransationStatus ?? .failed) : .complete
+                    return .complete
                     
                 }
             case .failed, .deleted:
