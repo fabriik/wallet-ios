@@ -67,7 +67,7 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
         let fromImage = getBaseCurrencyImage(currencyCode: detail.source.currency)
         let toImage = getBaseCurrencyImage(currencyCode: detail.destination.currency)
         
-        let currencyCode = Store.state.defaultCurrencyCode.uppercased()
+        let currencyCode = C.usdCurrencyCode
         
         let formattedUsdAmountString = ExchangeFormatter.fiat.string(for: detail.source.usdAmount) ?? ""
         let formattedCurrencyAmountString = ExchangeFormatter.crypto.string(for: detail.source.currencyAmount) ?? ""

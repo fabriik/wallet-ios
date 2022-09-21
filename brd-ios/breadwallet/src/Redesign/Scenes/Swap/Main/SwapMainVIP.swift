@@ -52,8 +52,6 @@ protocol SwapDataStore: BaseDataStore, FetchDataStore {
     
     var fromFee: TransferFeeBasis? { get set }
     
-    var defaultCurrencyCode: String? { get set }
-    
     var quote: Quote? { get set }
     
     var fromRate: Decimal? { get set }

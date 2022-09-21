@@ -129,12 +129,11 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
                 self?.getPaymentStatus(reference: exchangeData?.paymentReference ?? "", completion: { result in
                     switch result {
                     case .success(let paymentStatusData):
+                        self?.dataStore?.paymentReference = exchangeData?.paymentReference
                         self?.dataStore?.paymentstatus = paymentStatusData?.status
                         
                         if let redirectUrlString = exchangeData?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
                             TransferManager.shared.reload()
-                            
-                            self?.dataStore?.paymentReference = exchangeData?.paymentReference
                             
                             self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
                         } else {
