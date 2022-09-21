@@ -298,9 +298,15 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             return
         }
         
+        let formatter = ExchangeFormatter.crypto
+        formatter.decimalSeparator = "."
+        
+        let fromTokenValue = formatter.string(for: from) ?? ""
+        let toTokenValue = formatter.string(for: to) ?? ""
+        
         let data = SwapRequestData(quoteId: dataStore?.quote?.quoteId,
-                                   depositQuantity: from,
-                                   withdrawalQuantity: to,
+                                   depositQuantity: fromTokenValue,
+                                   withdrawalQuantity: toTokenValue,
                                    destination: address)
         
         SwapWorker().execute(requestData: data) { [weak self] result in
