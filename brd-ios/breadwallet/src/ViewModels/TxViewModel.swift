@@ -97,6 +97,10 @@ extension TxViewModel {
                 return .pending(CGFloat(tx.confirmations) / CGFloat(currency.confirmationsUntilFinal))
             }
             
+            if tx.transactionType == .buyTransaction {
+                return exchangeStatusIconDecider(for: tx.status, transactionType: .buyTransaction)
+            }
+            
             if tx.status == .invalid {
                 return .failed
             }
@@ -106,21 +110,30 @@ extension TxViewModel {
             }
             
         case .swapTransaction:
-            if tx.status == .complete {
-                return .swapComplete
-            }
-            
-            if tx.status == .pending {
-                return .swapPending
-            }
-            
-            if tx.status == .failed {
-                return .failed
-            }
-            
+            return exchangeStatusIconDecider(for: tx.status, transactionType: .swapTransaction)
         }
         
         return .sent
+    }
+    
+    private func exchangeStatusIconDecider(for: TransactionStatus, transactionType: Transaction.TransactionType) -> StatusIcon {
+        if tx.status == .complete || tx.status == .manuallySettled {
+            return transactionType == .buyTransaction ? .received : .swapComplete
+        }
+        
+        if tx.status == .pending {
+            return .swapPending
+        }
+        
+        if tx.status == .failed {
+            return .failed
+        }
+        
+        if tx.status == .refunded {
+            return .refunded
+        }
+        
+        return .failed
     }
     
     var gift: Gift? {
