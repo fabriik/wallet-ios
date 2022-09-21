@@ -9,6 +9,8 @@
 import UIKit
 import SwiftUI
 
+// TODO: Fix completeConstraints/pendingConstraints logic and other visible UI bugs. 
+
 class TxListCell: UITableViewCell {
 
     // MARK: - Views
@@ -69,11 +71,17 @@ class TxListCell: UITableViewCell {
             statusIndicator.isHidden = true
             timestamp.isHidden = false
             
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
+            
         case .complete:
             timestamp.text = viewModel.shortTimestamp
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
+            
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
             
         default:
             failedIndicator.isHidden = true
@@ -81,10 +89,9 @@ class TxListCell: UITableViewCell {
             timestamp.isHidden = false
             timestamp.text = "\(viewModel.confirmations)/\(viewModel.currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
             
+            NSLayoutConstraint.deactivate(completeConstraints)
+            NSLayoutConstraint.activate(pendingConstraints)
         }
-        
-        NSLayoutConstraint.activate(completeConstraints)
-        NSLayoutConstraint.deactivate(pendingConstraints)
     }
     
     private func handleBuyTransactions() {
@@ -95,21 +102,36 @@ class TxListCell: UITableViewCell {
             statusIndicator.isHidden = true
             timestamp.isHidden = false
             
-        case .complete:
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
+            
+        case .refunded:
+            timestamp.text = L10n.Transaction.refunded
+            failedIndicator.isHidden = false
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
+            
+        case .complete, .manuallySettled:
             timestamp.text = L10n.Transaction.purchased
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
+            
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
             
         default:
             timestamp.text = L10n.Transaction.pendingPurchase
             failedIndicator.isHidden = true
             statusIndicator.isHidden = false
             timestamp.isHidden = false
+            
+            NSLayoutConstraint.deactivate(completeConstraints)
+            NSLayoutConstraint.activate(pendingConstraints)
         }
-        
-        NSLayoutConstraint.activate(completeConstraints)
-        NSLayoutConstraint.deactivate(pendingConstraints)
     }
     
     private func handleSwapTransactions() {
@@ -117,7 +139,7 @@ class TxListCell: UITableViewCell {
         let swapString = isSwapTo ? "to \(viewModel.tx.swapDestination?.currency.uppercased() ?? "")" : "from \(viewModel.tx.swapSource?.currency.uppercased() ?? "")"
         
         switch viewModel.status {
-        case .complete:
+        case .complete, .manuallySettled:
             timestamp.text = "\(L10n.Transaction.swapped) \(swapString)"
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
@@ -143,10 +165,18 @@ class TxListCell: UITableViewCell {
             
             NSLayoutConstraint.activate(completeConstraints)
             NSLayoutConstraint.deactivate(pendingConstraints)
+        
+        case .refunded:
+            timestamp.text = "\(L10n.Transaction.refunded)"
+            failedIndicator.isHidden = true
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
             
         default:
             break
-            
         }
     }
     
