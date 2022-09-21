@@ -60,6 +60,12 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
         case .failed:
             header = Presets.StatusView.failed
             
+        case .refunded:
+            header = Presets.StatusView.refunded
+            
+        case .manuallySettled:
+            header = Presets.StatusView.manuallySettled
+            
         default:
             break
         }
@@ -94,10 +100,10 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
         let networkFeeText = String(format: currencyFormat, ExchangeFormatter.fiat.string(for: detail.destination.usdFee) ?? "",
                                     currencyCode)
         
-        let transactionStatus = detail.status == .complete
         let orderValue = "\(detail.orderId)"
-        let transactionFromValue = String(describing: detail.source.transactionId)
-        let transactionToValue = transactionStatus ? String(describing: detail.destination.transactionId) : detail.status.rawValue.localizedCapitalized
+        let transactionFromValue = String(describing: detail.source.transactionId ?? "")
+        let transactionToValue = String(describing: detail.destination.transactionId ?? detail.status.rawValue.localizedCapitalized)
+        let transactionToValueIsCopyable = detail.destination.transactionId != nil
         
         var toCurrencyAssetViewModel = AssetViewModel()
         
@@ -164,9 +170,10 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
             ],
             Models.Section.transactionTo: [
                 OrderViewModel(title: "\(detail.destination.currency) \(L10n.TransactionDetails.txHashHeader)",
-                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: transactionToValue, isCopyable: transactionStatus),
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: transactionToValue,
+                                                                                            isCopyable: transactionToValueIsCopyable),
                                showsFullValue: true,
-                               isCopyable: transactionStatus)
+                               isCopyable: transactionToValueIsCopyable)
             ]
         ]
         
