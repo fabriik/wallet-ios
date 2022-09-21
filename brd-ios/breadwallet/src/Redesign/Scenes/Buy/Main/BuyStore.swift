@@ -34,8 +34,6 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
         return .init(decimalAmount: value.fee, isFiat: false, currency: currency, exchangeRate: quote?.exchangeRate)
     }
     
-    var fromCurrency: String? = Store.state.defaultCurrencyCode.lowercased()
-    
     var toAmount: Amount?
     
     var paymentCard: PaymentCard?

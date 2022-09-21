@@ -159,10 +159,7 @@ extension UserDefaults {
             guard FiatCurrency.isCodeAvailable(code) else { return C.usdCurrencyCode }
             return code
         }
-        set {
-            var newValue = newValue
-            newValue = C.usdCurrencyCode
-            defaults.set(newValue, forKey: defaultCurrencyCodeKey) }
+        set { defaults.set(newValue, forKey: defaultCurrencyCodeKey) }
     }
 
     static var hasAquiredShareDataPermission: Bool {

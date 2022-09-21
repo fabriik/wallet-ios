@@ -46,7 +46,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             return
         }
         
-        let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "", from.uppercased())
+        let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "", from)
         let minText = ExchangeFormatter.fiat.string(for: quote.minimumValue) ?? ""
         let maxText = ExchangeFormatter.fiat.string(for: quote.maximumValue) ?? ""
         let limitText = String(format: L10n.Buy.buyLimits(minText, maxText))
@@ -98,7 +98,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         case _ where fiat < minimumAmount,
                             _ where minimumAmount > maximumAmount:
             // Value below minimum Fiat
-            presentError(actionResponse: .init(error: BuyErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
+            presentError(actionResponse: .init(error: BuyErrors.tooLow(amount: minimumAmount, currency: C.usdCurrencyCode)))
             
         case _ where fiat > maximumAmount:
             // Over exchange limit ???

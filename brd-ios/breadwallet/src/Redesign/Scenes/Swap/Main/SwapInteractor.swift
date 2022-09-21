@@ -94,8 +94,10 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         
         group.enter()
         let coinGeckoIds = [baseCurrency, termCurrency]
-        let vs = dataStore?.defaultCurrencyCode ?? ""
-        let resource = Resources.simplePrice(ids: coinGeckoIds, vsCurrency: vs, options: [.change]) { [weak self] (result: Result<[SimplePrice], CoinGeckoError>) in
+        let vsCurrency = C.usdCurrencyCode.lowercased()
+        let resource = Resources.simplePrice(ids: coinGeckoIds,
+                                             vsCurrency: vsCurrency,
+                                             options: [.change]) { [weak self] (result: Result<[SimplePrice], CoinGeckoError>) in
             switch result {
             case .success(let data):
                 self?.dataStore?.fromRate = Decimal(data.first(where: { $0.id == baseCurrency })?.price ?? 0)
