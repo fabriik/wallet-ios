@@ -101,7 +101,7 @@ class ProfileView: FEView<ProfileConfiguration, ProfileViewModel> {
         let zeroBorder = BorderConfiguration(borderWidth: 0, cornerRadius: .fullRadius)
         imageView.wrappedView.configure(with: .init(backgroundColor: .red, tintColor: LightColors.primary, border: zeroBorder))
         editImageView.wrappedView.configure(with: Presets.Background.Primary.normal.withBorder(border: zeroBorder))
-        nameLabel.configure(with: .init(font: Fonts.Title.three,
+        nameLabel.configure(with: .init(font: Fonts.Title.four,
                                         textColor: LightColors.Text.one,
                                         textAlignment: .center))
     }

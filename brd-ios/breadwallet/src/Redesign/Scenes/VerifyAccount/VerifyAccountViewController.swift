@@ -12,8 +12,8 @@ class VerifyAccountViewController: BaseTableViewController<KYCCoordinator,
     
     typealias Models = VerifyAccountModels
     
-    lazy var verifyButton: FEButton = {
-        let button = FEButton()
+    lazy var verifyButton: WrapperView<FEButton> = {
+        let button = WrapperView<FEButton>()
         return button
     }()
     
@@ -22,16 +22,21 @@ class VerifyAccountViewController: BaseTableViewController<KYCCoordinator,
         
         view.addSubview(verifyButton)
         verifyButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.leading.equalToSuperview().inset(Margins.large.rawValue)
+            make.centerX.leading.equalToSuperview()
             make.bottom.equalTo(view.snp.bottomMargin)
-            make.height.equalTo(ButtonHeights.common.rawValue)
         }
         
-        verifyButton.configure(with: Presets.Button.primary)
-        verifyButton.setup(with: .init(title: L10n.Account.accountVerify))
+        verifyButton.wrappedView.snp.makeConstraints { make in
+            make.height.equalTo(ButtonHeights.common.rawValue)
+            make.edges.equalTo(verifyButton.snp.margins)
+        }
         
-        verifyButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        verifyButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)
+        
+        verifyButton.wrappedView.configure(with: Presets.Button.primary)
+        verifyButton.wrappedView.setup(with: .init(title: L10n.Account.accountVerify))
+        
+        verifyButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
 
     // MARK: - Overrides

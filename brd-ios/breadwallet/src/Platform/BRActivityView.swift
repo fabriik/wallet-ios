@@ -35,7 +35,7 @@ class BRActivityViewController: UIViewController {
         backgroundColor = UIColor(white: 0.0, alpha: 0.5)
         
         boundingBoxView.backgroundColor = UIColor(white: 0.0, alpha: 0.5)
-        boundingBoxView.layer.cornerRadius = 12.0
+        boundingBoxView.layer.cornerRadius = CornerRadius.common.rawValue
         
         activityIndicatorView.startAnimating()
         

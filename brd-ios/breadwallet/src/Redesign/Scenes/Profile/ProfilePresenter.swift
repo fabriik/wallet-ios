@@ -14,12 +14,12 @@ extension ProfileModels.NavigationItems {
         switch self {
         case .security:
             return .init(image: .imageName("lock_closed"),
-                         label: .text("Security settings"),
+                         label: .text(L10n.MenuButton.security),
                          button: .init(image: "arrowRight"))
             
         case .preferences:
             return .init(image: .imageName("settings"),
-                         label: .text("Preferences"),
+                         label: .text(L10n.Settings.preferences),
                          button: .init(image: "arrowRight"))
         }
     }

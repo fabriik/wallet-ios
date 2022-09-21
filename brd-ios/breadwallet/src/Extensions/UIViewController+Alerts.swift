@@ -42,7 +42,7 @@ extension UIViewController {
         let messageView = UIView()
         messageView.setupCustomMargins(all: .large)
         messageView.backgroundColor = LightColors.error
-        messageView.layer.cornerRadius = 12
+        messageView.layer.cornerRadius = CornerRadius.common.rawValue
         
         let textLabel = UILabel()
         textLabel.textColor = LightColors.Background.one
