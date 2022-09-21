@@ -167,7 +167,7 @@ class TxListCell: UITableViewCell {
             NSLayoutConstraint.deactivate(pendingConstraints)
         
         case .refunded:
-            timestamp.text = "\(L10n.Transaction.refunded)"
+            timestamp.text = L10n.Transaction.refunded
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
