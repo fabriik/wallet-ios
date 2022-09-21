@@ -53,12 +53,18 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
               let from = dataStore?.from
         else { return }
         
+        let cryptoFormatter = ExchangeFormatter.crypto
+        cryptoFormatter.decimalSeparator = "."
+        let toTokenValue = cryptoFormatter.string(for: to) ?? ""
+        
+        let fiatFormatter = ExchangeFormatter.fiat
+        fiatFormatter.decimalSeparator = "."
         let depositQuantity = from + (dataStore?.networkFee?.fiatValue ?? 0) + from * (dataStore?.quote?.buyFee ?? 1) / 100
-        let formattedDepositQuantity = ExchangeFormatter.fiat.number(from: ExchangeFormatter.fiat.string(from: depositQuantity as NSNumber) ?? "")?.decimalValue ?? 0
+        let formattedDepositQuantity = fiatFormatter.string(from: depositQuantity as NSNumber) ?? ""
         
         let data = SwapRequestData(quoteId: dataStore?.quote?.quoteId,
                                    depositQuantity: formattedDepositQuantity,
-                                   withdrawalQuantity: to,
+                                   withdrawalQuantity: toTokenValue,
                                    destination: address,
                                    sourceInstrumentId: dataStore?.card?.id,
                                    nologCvv: dataStore?.cvv?.description)
