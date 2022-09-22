@@ -1,7 +1,7 @@
 [
   {
     "code": "USD",
-    "name": "US Dollar",
+    "name": "US Dollar aaa",
     "rate": 10260.08
   },
   {
@@ -28,11 +28,6 @@
     "code": "AUD",
     "name": "Australian Dollar",
     "rate": 14967.76
-  },
-  {
-    "code": "CNY",
-    "name": "Chinese Yuan",
-    "rate": 72901.95
   },
   {
     "code": "CHF",
@@ -100,11 +95,6 @@
     "rate": 69365.1
   },
   {
-    "code": "HKD",
-    "name": "Hong Kong Dollar",
-    "rate": 80451.42
-  },
-  {
     "code": "HUF",
     "name": "Hungarian Forint",
     "rate": 3083373.43
@@ -136,7 +126,7 @@
   },
   {
     "code": "MMK",
-    "name": "Myanma Kyat",
+    "name": "Myanmar Kyat",
     "rate": 15661513.17
   },
   {
@@ -170,11 +160,6 @@
     "rate": 40288.58
   },
   {
-    "code": "RUB",
-    "name": "Russian Ruble",
-    "rate": 671586.7
-  },
-  {
     "code": "SAR",
     "name": "Saudi Riyal",
     "rate": 38489.46
@@ -193,11 +178,6 @@
     "code": "TRY",
     "name": "Turkish Lira",
     "rate": 59193.78
-  },
-  {
-    "code": "TWD",
-    "name": "New Taiwan Dollar",
-    "rate": 320361.43
   },
   {
     "code": "UAH",
