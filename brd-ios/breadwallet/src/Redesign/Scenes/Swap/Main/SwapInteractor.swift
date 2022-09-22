@@ -301,7 +301,8 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         }
         
         let formatter = ExchangeFormatter.crypto
-        formatter.decimalSeparator = "."
+        formatter.locale = Locale(identifier: C.usLocaleCode)
+        formatter.usesGroupingSeparator = false
         
         let fromTokenValue = formatter.string(for: from) ?? ""
         let toTokenValue = formatter.string(for: to) ?? ""

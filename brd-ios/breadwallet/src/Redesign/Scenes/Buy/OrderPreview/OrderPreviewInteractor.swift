@@ -54,11 +54,15 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         else { return }
         
         let cryptoFormatter = ExchangeFormatter.crypto
-        cryptoFormatter.decimalSeparator = "."
+        cryptoFormatter.locale = Locale(identifier: C.usLocaleCode)
+        cryptoFormatter.usesGroupingSeparator = false
+        
         let toTokenValue = cryptoFormatter.string(for: to) ?? ""
         
         let fiatFormatter = ExchangeFormatter.fiat
-        fiatFormatter.decimalSeparator = "."
+        fiatFormatter.locale = Locale(identifier: C.usLocaleCode)
+        fiatFormatter.usesGroupingSeparator = false
+        
         let depositQuantity = from + (dataStore?.networkFee?.fiatValue ?? 0) + from * (dataStore?.quote?.buyFee ?? 1) / 100
         let formattedDepositQuantity = fiatFormatter.string(from: depositQuantity as NSNumber) ?? ""
         
