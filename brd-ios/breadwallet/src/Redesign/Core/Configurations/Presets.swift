@@ -318,10 +318,6 @@ extension Presets {
     struct Animation {
         static var duration = 0.25
     }
-    
-    struct Delay {
-        static var duration = 0.35
-    }
 }
 
 extension Presets {
