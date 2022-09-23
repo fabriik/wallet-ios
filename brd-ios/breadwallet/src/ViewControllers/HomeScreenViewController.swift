@@ -287,8 +287,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func setupSubscriptions() {
-        guard isInExchangeFlow == false else { return }
-        
         Store.unsubscribe(self)
         
         Store.subscribe(self, selector: {
