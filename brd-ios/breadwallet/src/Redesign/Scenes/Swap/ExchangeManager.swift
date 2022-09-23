@@ -38,9 +38,6 @@ class ExchangeManager {
     }
     
     func canSwap(_ currency: Currency?) -> Bool {
-        guard exchanges.first(where: { $0.status == .pending && $0.source.currency == currency?.code }) == nil else {
-            return false
-        }
-        return true
+        return exchanges.first(where: { $0.status == .pending && $0.source.currency == currency?.code }) == nil
     }
 }
