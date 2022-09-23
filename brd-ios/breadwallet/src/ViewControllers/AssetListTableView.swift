@@ -140,7 +140,6 @@ class AssetListTableView: UITableViewController, Subscriber {
     
     func reload() {
         DispatchQueue.main.async { [weak self] in
-            guard let tableView = self?.tableView else { return }
             self?.tableView.reloadData()
             self?.didReload?()
             self?.showLoadingState(false)
