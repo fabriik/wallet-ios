@@ -135,10 +135,12 @@ class VIPViewController<C: CoordinatableRoutes,
         }
         navigationItem.setRightBarButton(closeButton, animated: false)
     }
-
+    
     @objc func dismissModal() {
-        navigationController?.dismiss(animated: true, completion: { [weak self] in
-            self?.coordinator?.goBack()
+        ExchangeCurrencyHelper.revertIfNeeded(coordinator: coordinator, completion: { [weak self] in
+            self?.navigationController?.dismiss(animated: true, completion: {
+                self?.coordinator?.goBack()
+            })
         })
     }
     

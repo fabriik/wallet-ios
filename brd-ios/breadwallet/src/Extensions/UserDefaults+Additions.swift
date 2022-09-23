@@ -12,6 +12,7 @@ private let defaults = UserDefaults.standard
 private let isBiometricsEnabledKey = "istouchidenabled"
 private let isBiometricsEnabledForTransactionsKey = "isbiometricsenabledtx"
 private let defaultCurrencyCodeKey = "defaultcurrency"
+private let temporaryDefaultCurrencyCodeKey = "temporaryDefaultCurrency"
 private let hasAquiredShareDataPermissionKey = "has_acquired_permission"
 private let legacyWalletNeedsBackupKey = "WALLET_NEEDS_BACKUP"
 private let writePaperPhraseDateKey = "writepaperphrasedatekey"
@@ -160,6 +161,15 @@ extension UserDefaults {
             return code
         }
         set { defaults.set(newValue, forKey: defaultCurrencyCodeKey) }
+    }
+    
+    static var temporaryDefaultCurrencyCode: String {
+        get {
+            return defaults.string(forKey: temporaryDefaultCurrencyCodeKey) ?? ""
+        }
+        set {
+            defaults.setValue(newValue, forKey: temporaryDefaultCurrencyCodeKey)
+        }
     }
 
     static var hasAquiredShareDataPermission: Bool {

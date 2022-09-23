@@ -125,6 +125,12 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         setupSubscriptions()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        ExchangeCurrencyHelper.revertIfNeeded()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
