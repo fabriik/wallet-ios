@@ -97,7 +97,6 @@ class AssetListTableView: UITableViewController, Subscriber {
     }
     
     private func setupSubscriptions() {
-        
         Store.lazySubscribe(self, selector: {
             self.mapWallets(state: $0, newState: $1)
         }, callback: { _ in
