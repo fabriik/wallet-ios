@@ -85,6 +85,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     var showPrompts: (() -> Void)?
     var didTapMenu: (() -> Void)?
     
+    var isInExchangeFlow = false
+    
     private lazy var totalAssetsNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.isLenient = true
@@ -100,7 +102,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         return pullToRefreshControl
     }()
     
-    // MARK: -
+    // MARK: - Lifecycle
     
     init(walletAuthenticator: WalletAuthenticator, coreSystem: CoreSystem) {
         self.walletAuthenticator = walletAuthenticator
@@ -123,6 +125,7 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        isInExchangeFlow = false
         ExchangeCurrencyHelper.revertIfNeeded()
     }
     
@@ -282,6 +285,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func setupSubscriptions() {
+        guard isInExchangeFlow == false else { return }
+        
         Store.unsubscribe(self)
         
         Store.subscribe(self, selector: {
@@ -294,6 +299,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
             }
             return result
         }, callback: { _ in
+            guard self.isInExchangeFlow == false else { return }
+            
             self.updateTotalAssets()
             self.updateAmountsForWidgets()
         })
@@ -322,6 +329,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         Store.subscribe(self, selector: {
             $0.wallets.count != $1.wallets.count
         }, callback: { _ in
+            guard self.isInExchangeFlow == false else { return }
+            
             self.updateTotalAssets()
             self.updateAmountsForWidgets()
         })

@@ -10,8 +10,6 @@
 
 import Foundation
 
-// TODO: Find a better way. Maybe update Amount locale or Rate object.
-
 struct ExchangeCurrencyHelper {
     static func setUSDifNeeded(completion: (() -> Void)) {
         guard Store.state.defaultCurrencyCode != C.usdCurrencyCode else {
@@ -34,14 +32,10 @@ struct ExchangeCurrencyHelper {
                 
                 return
             }
-            
-            LoadingView.show()
         }
         
         guard UserDefaults.temporaryDefaultCurrencyCode.isEmpty == false &&
                 Store.state.defaultCurrencyCode != UserDefaults.temporaryDefaultCurrencyCode else {
-            LoadingView.hide()
-            
             completion?()
             
             return
@@ -51,10 +45,6 @@ struct ExchangeCurrencyHelper {
         
         UserDefaults.temporaryDefaultCurrencyCode = ""
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + Presets.Delay.duration) {
-            LoadingView.hide()
-            
-            completion?()
-        }
+        completion?()
     }
 }

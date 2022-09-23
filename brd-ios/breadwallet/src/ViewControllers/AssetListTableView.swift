@@ -46,6 +46,7 @@ class AssetListTableView: UITableViewController, Subscriber {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         if Store.state.wallets.isEmpty {
             DispatchQueue.main.async { [weak self] in
                 self?.showLoadingState(true)
@@ -54,11 +55,14 @@ class AssetListTableView: UITableViewController, Subscriber {
     }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
         setupAddWalletButton()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.backgroundColor = .homeBackground
         tableView.register(HomeScreenCell.self, forCellReuseIdentifier: HomeScreenCellIds.regularCell.rawValue)
         tableView.register(HomeScreenHiglightableCell.self, forCellReuseIdentifier: HomeScreenCellIds.highlightableCell.rawValue)
@@ -93,15 +97,22 @@ class AssetListTableView: UITableViewController, Subscriber {
     }
     
     private func setupSubscriptions() {
+        
         Store.lazySubscribe(self, selector: {
             self.mapWallets(state: $0, newState: $1)
         }, callback: { _ in
+            guard let parentViewController = self.parent as? HomeScreenViewController else { return }
+            guard parentViewController.isInExchangeFlow == false else { return }
+            
             self.reload()
         })
         
         Store.lazySubscribe(self, selector: {
             self.mapCurrencies(lhsCurrencies: $0.currencies, rhsCurrencies: $1.currencies)
         }, callback: { _ in
+            guard let parentViewController = self.parent as? HomeScreenViewController else { return }
+            guard parentViewController.isInExchangeFlow == false else { return }
+            
             self.reload()
         })
     }
