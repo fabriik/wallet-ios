@@ -14,9 +14,9 @@ class AssetListTableView: UITableViewController, Subscriber {
     var didTapAddWallet: (() -> Void)?
     var didReload: (() -> Void)?
     
-    let loadingSpinner = UIActivityIndicatorView(style: .medium)
-
+    private let loadingSpinner = UIActivityIndicatorView(style: .medium)
     private let assetHeight: CGFloat = ViewSizes.large.rawValue
+    private var isReloadingData = false
     
     private lazy var manageAssetsButton: ManageAssetsButton = {
         let manageAssetsButton = ManageAssetsButton()
@@ -140,12 +140,22 @@ class AssetListTableView: UITableViewController, Subscriber {
     }
     
     func reload() {
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
+        guard isReloadingData == false else { return }
+        
+        CATransaction.begin()
+        CATransaction.setCompletionBlock({ [weak self] in
             self?.showLoadingState(false)
-            
             self?.didReload?()
+            self?.isReloadingData = false
+        })
+        
+        isReloadingData = true
+        
+        UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) { [weak self] in
+            self?.tableView.reloadData()
         }
+        
+        CATransaction.commit()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -171,6 +181,7 @@ class AssetListTableView: UITableViewController, Subscriber {
         if let cell = cell as? HomeScreenCell {
             cell.set(viewModel: viewModel)
         }
+        
         return cell
     }
     
@@ -192,8 +203,8 @@ class AssetListTableView: UITableViewController, Subscriber {
     }
 }
 
-// loading state management
 extension AssetListTableView {
+    // Loading state management
     
     func showLoadingState(_ show: Bool) {
         showLoadingIndicator(show)
