@@ -16,7 +16,6 @@ class AssetListTableView: UITableViewController, Subscriber {
     
     private let loadingSpinner = UIActivityIndicatorView(style: .medium)
     private let assetHeight: CGFloat = ViewSizes.large.rawValue
-    private var isReloadingData = false
     
     private lazy var manageAssetsButton: ManageAssetsButton = {
         let manageAssetsButton = ManageAssetsButton()
@@ -140,22 +139,16 @@ class AssetListTableView: UITableViewController, Subscriber {
     }
     
     func reload() {
-        guard isReloadingData == false else { return }
-        
-        CATransaction.begin()
-        CATransaction.setCompletionBlock({ [weak self] in
-            self?.showLoadingState(false)
-            self?.didReload?()
-            self?.isReloadingData = false
-        })
-        
-        isReloadingData = true
-        
-        UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) { [weak self] in
-            self?.tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            guard let tableView = self?.tableView else { return }
+            
+            UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) { [weak self] in
+                self?.tableView.reloadData()
+            } completion: { [weak self] _ in
+                self?.didReload?()
+                self?.showLoadingState(false)
+            }
         }
-        
-        CATransaction.commit()
     }
     
     required init?(coder aDecoder: NSCoder) {
