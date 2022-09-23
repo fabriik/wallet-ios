@@ -17,7 +17,7 @@ protocol AssetSelectionDisplayable {
 
 extension AssetSelectionDisplayable where Self: BaseCoordinator {
     func showAssetSelector(currencies: [Currency]?, supportedCurrencies: [SupportedCurrency]?, selected: ((Any?) -> Void)?) {
-        let allCurrencies = CurrencyFileManager().getCurrencyMetaDataFromCache()
+        let allCurrencies = Currencies.shared.currencies
         
         let supportedAssets = allCurrencies.filter { item in supportedCurrencies?.contains(where: { $0.name.lowercased() == item.code}) ?? false }
         

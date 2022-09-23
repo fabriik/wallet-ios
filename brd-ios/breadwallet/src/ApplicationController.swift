@@ -412,18 +412,27 @@ class ApplicationController: Subscriber, Trackable {
             navigationController.pushViewController(accountViewController, animated: true)
         }
         
-        homeScreen.didTapBuy = { [unowned self] in
-            coordinator?.showBuy(coreSystem: coreSystem, keyStore: keyStore)
+        homeScreen.didTapBuy = { [weak self] in
+            guard let self = self else { return }
+            
+            self.homeScreenViewController?.isInExchangeFlow = true
+            
+            self.coordinator?.showBuy(coreSystem: self.coreSystem,
+                                      keyStore: self.keyStore)
         }
         
-        homeScreen.didTapTrade = { [unowned self] in
-            coordinator?.showSwap(currencies: Store.state.currencies,
-                                  coreSystem: coreSystem,
-                                  keyStore: keyStore)
+        homeScreen.didTapTrade = { [weak self] in
+            guard let self = self else { return }
+            
+            self.homeScreenViewController?.isInExchangeFlow = true
+            
+            self.coordinator?.showSwap(currencies: Store.state.currencies,
+                                       coreSystem: self.coreSystem,
+                                       keyStore: self.keyStore)
         }
         
-        homeScreen.didTapProfile = { [unowned self] in
-            coordinator?.showProfile()
+        homeScreen.didTapProfile = { [weak self] in
+            self?.coordinator?.showProfile()
         }
         
         didTapDeleteAccount = { [unowned self] in
@@ -465,6 +474,8 @@ class ApplicationController: Subscriber, Trackable {
     private func createHomeScreen(navigationController: UINavigationController) -> HomeScreenViewController {
         let homeScreen = HomeScreenViewController(walletAuthenticator: keyStore as WalletAuthenticator,
                                                   coreSystem: coreSystem)
+        
+        ExchangeCurrencyHelper.revertIfNeeded()
         
         addHomeScreenHandlers(homeScreen: homeScreen, navigationController: navigationController)
         

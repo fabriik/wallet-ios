@@ -120,7 +120,7 @@ class DefaultWidgetService: WidgetService {
     
     func defaultAssetOptions() -> [AssetOption] {
         return ((try? defaultCurrencies()) ?? [])
-            .filter { Currencies.defaultCurrencyCodes.compactMap { $0.uppercased() }.contains($0.code.uppercased()) }
+            .filter { Currencies.shared.defaultCurrencyCodes.compactMap { $0.uppercased() }.contains($0.code.uppercased()) }
             .map { $0.assetOption() }
     }
 
