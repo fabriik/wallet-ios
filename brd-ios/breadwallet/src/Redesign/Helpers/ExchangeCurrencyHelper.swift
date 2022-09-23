@@ -40,9 +40,9 @@ struct ExchangeCurrencyHelper {
         
         guard UserDefaults.temporaryDefaultCurrencyCode.isEmpty == false &&
                 Store.state.defaultCurrencyCode != UserDefaults.temporaryDefaultCurrencyCode else {
-            completion?()
-            
             LoadingView.hide()
+            
+            completion?()
             
             return
         }
@@ -52,9 +52,9 @@ struct ExchangeCurrencyHelper {
         UserDefaults.temporaryDefaultCurrencyCode = ""
         
         DispatchQueue.main.asyncAfter(deadline: .now() + Presets.Delay.duration) {
-            completion?()
-            
             LoadingView.hide()
+            
+            completion?()
         }
     }
 }
