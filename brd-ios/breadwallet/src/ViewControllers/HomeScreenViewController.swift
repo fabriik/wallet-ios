@@ -114,16 +114,10 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     @objc func reload() {
         setupSubscriptions()
-        updateTotalAssets()
         
         coreSystem.refreshWallet { [weak self] in
             self?.assetListTableView.reload()
         }
-    }
-    
-    private func initialLoad() {
-        setInitialData()
-        setupSubscriptions()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -144,7 +138,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         
         addSubviews()
         addConstraints()
-        initialLoad()
+        setInitialData()
+        setupSubscriptions()
         updateTotalAssets()
         sendErrorsToBackend()
         
@@ -292,10 +287,9 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
                 result = result || oldState[currency]?.currentRate?.rate != newState[currency]?.currentRate?.rate
             }
             return result
-        },
-                        callback: { _ in
-                            self.updateTotalAssets()
-                            self.updateAmountsForWidgets()
+        }, callback: { _ in
+            self.updateTotalAssets()
+            self.updateAmountsForWidgets()
         })
         
         // prompts
