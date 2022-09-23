@@ -299,8 +299,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
             }
             return result
         }, callback: { _ in
-            guard self.isInExchangeFlow == false else { return }
-            
             self.updateTotalAssets()
             self.updateAmountsForWidgets()
         })
@@ -329,14 +327,14 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         Store.subscribe(self, selector: {
             $0.wallets.count != $1.wallets.count
         }, callback: { _ in
-            guard self.isInExchangeFlow == false else { return }
-            
             self.updateTotalAssets()
             self.updateAmountsForWidgets()
         })
     }
     
     private func updateTotalAssets() {
+        guard isInExchangeFlow == false else { return }
+        
         let fiatTotal: Decimal = Store.state.wallets.values.map {
             guard let balance = $0.balance,
                 let rate = $0.currentRate else { return 0.0 }
@@ -354,6 +352,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func updateAmountsForWidgets() {
+        guard isInExchangeFlow == false else { return }
+        
         let info: [CurrencyId: Double] = Store.state.wallets
             .map { ($0, $1) }
             .reduce(into: [CurrencyId: Double]()) {
