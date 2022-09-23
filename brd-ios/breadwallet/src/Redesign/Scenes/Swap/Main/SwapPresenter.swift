@@ -153,7 +153,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             let second = actionResponse.to?.currency.code
             presentError(actionResponse: .init(error: SwapErrors.noQuote(from: first, to: second)))
             hasError = true
-        } else if TransferManager.shared.canSwap(actionResponse.from?.currency) == false {
+        } else if ExchangeManager.shared.canSwap(actionResponse.from?.currency) == false {
             presentError(actionResponse: .init(error: SwapErrors.pendingSwap))
             hasError = true
         } else {
