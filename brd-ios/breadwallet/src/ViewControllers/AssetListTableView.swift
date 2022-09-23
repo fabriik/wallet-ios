@@ -101,7 +101,7 @@ class AssetListTableView: UITableViewController, Subscriber {
             self.mapWallets(state: $0, newState: $1)
         }, callback: { _ in
             guard let parentViewController = self.parent as? HomeScreenViewController,
-            parentViewController.isInExchangeFlow == false else { return }
+                  parentViewController.isInExchangeFlow == false else { return }
             
             self.reload()
         })
