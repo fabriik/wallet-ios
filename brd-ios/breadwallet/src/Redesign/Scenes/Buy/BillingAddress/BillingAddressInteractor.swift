@@ -133,7 +133,7 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
                         self?.dataStore?.paymentstatus = paymentStatusData?.status
                         
                         if let redirectUrlString = exchangeData?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
-                            TransferManager.shared.reload()
+                            ExchangeManager.shared.reload()
                             
                             self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
                         } else {

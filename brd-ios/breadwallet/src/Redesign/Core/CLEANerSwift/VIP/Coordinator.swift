@@ -99,25 +99,29 @@ class BaseCoordinator: NSObject,
     }
     
     func showSwap(currencies: [Currency], coreSystem: CoreSystem, keyStore: KeyStore) {
-        upgradeAccountOrShowPopup(checkForCustomerRole: .kyc1) { [weak self] showPopup in
-            guard showPopup else { return }
-            
-            self?.openModally(coordinator: SwapCoordinator.self, scene: Scenes.Swap) { vc in
-                vc?.dataStore?.currencies = currencies
-                vc?.dataStore?.coreSystem = coreSystem
-                vc?.dataStore?.keyStore = keyStore
-                vc?.dataStore?.isKYCLevelTwo = self?.isKYCLevelTwo
+        ExchangeCurrencyHelper.setUSDifNeeded { [weak self] in
+            upgradeAccountOrShowPopup(checkForCustomerRole: .kyc1) { showPopup in
+                guard showPopup else { return }
+                
+                self?.openModally(coordinator: SwapCoordinator.self, scene: Scenes.Swap) { vc in
+                    vc?.dataStore?.currencies = currencies
+                    vc?.dataStore?.coreSystem = coreSystem
+                    vc?.dataStore?.keyStore = keyStore
+                    vc?.dataStore?.isKYCLevelTwo = self?.isKYCLevelTwo
+                }
             }
         }
     }
     
     func showBuy(coreSystem: CoreSystem?, keyStore: KeyStore?) {
-        upgradeAccountOrShowPopup(checkForCustomerRole: .kyc2) { [weak self] showPopup in
-            guard showPopup else { return }
-            
-            self?.openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy) { vc in
-                vc?.dataStore?.coreSystem = coreSystem
-                vc?.dataStore?.keyStore = keyStore
+        ExchangeCurrencyHelper.setUSDifNeeded { [weak self] in
+            upgradeAccountOrShowPopup(checkForCustomerRole: .kyc2) { showPopup in
+                guard showPopup else { return }
+                
+                self?.openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy) { vc in
+                    vc?.dataStore?.coreSystem = coreSystem
+                    vc?.dataStore?.keyStore = keyStore
+                }
             }
         }
     }
