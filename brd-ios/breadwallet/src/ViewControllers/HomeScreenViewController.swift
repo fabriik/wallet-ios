@@ -119,6 +119,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         
         coreSystem.refreshWallet { [weak self] in
             self?.assetListTableView.reload()
+            
+            Currencies.shared.reloadCurrencies()
         }
     }
     
