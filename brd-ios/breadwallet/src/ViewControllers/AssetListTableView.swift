@@ -101,8 +101,8 @@ class AssetListTableView: UITableViewController, Subscriber {
         Store.lazySubscribe(self, selector: {
             self.mapWallets(state: $0, newState: $1)
         }, callback: { _ in
-            guard let parentViewController = self.parent as? HomeScreenViewController else { return }
-            guard parentViewController.isInExchangeFlow == false else { return }
+            guard let parentViewController = self.parent as? HomeScreenViewController,
+            parentViewController.isInExchangeFlow == false else { return }
             
             self.reload()
         })
@@ -110,8 +110,8 @@ class AssetListTableView: UITableViewController, Subscriber {
         Store.lazySubscribe(self, selector: {
             self.mapCurrencies(lhsCurrencies: $0.currencies, rhsCurrencies: $1.currencies)
         }, callback: { _ in
-            guard let parentViewController = self.parent as? HomeScreenViewController else { return }
-            guard parentViewController.isInExchangeFlow == false else { return }
+            guard let parentViewController = self.parent as? HomeScreenViewController,
+                  parentViewController.isInExchangeFlow == false else { return }
             
             self.reload()
         })
