@@ -141,13 +141,9 @@ class AssetListTableView: UITableViewController, Subscriber {
     func reload() {
         DispatchQueue.main.async { [weak self] in
             guard let tableView = self?.tableView else { return }
-            
-            UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) { [weak self] in
-                self?.tableView.reloadData()
-            } completion: { [weak self] _ in
-                self?.didReload?()
-                self?.showLoadingState(false)
-            }
+            self?.tableView.reloadData()
+            self?.didReload?()
+            self?.showLoadingState(false)
         }
     }
     
