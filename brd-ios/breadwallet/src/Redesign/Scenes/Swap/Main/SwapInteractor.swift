@@ -25,7 +25,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
     func getData(viewAction: FetchModels.Get.ViewAction) {
         guard dataStore?.currencies.isEmpty == false else { return }
         
-        TransferManager.shared.reload()
+        ExchangeManager.shared.reload()
         
         SupportedCurrenciesWorker().execute { [weak self] result in
             switch result {
@@ -390,7 +390,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                 var error: FEError?
                 switch result {
                 case .success:
-                    TransferManager.shared.reload()
+                    ExchangeManager.shared.reload()
                     
                     let from = self?.dataStore?.from?.currency.code
                     let to = self?.dataStore?.to?.currency.code

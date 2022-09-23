@@ -1,5 +1,5 @@
 // 
-//  TransferManager.swift
+//  ExchangeManager.swift
 //  breadwallet
 //
 //  Created by Rok on 23/08/2022.
@@ -10,22 +10,15 @@
 
 import Foundation
 
-class TransferManager {
-    static let shared = TransferManager()
+class ExchangeManager {
+    static let shared = ExchangeManager()
     
     private var worker: SwapHistoryWorker
-    private var timer: Timer
     private var exchanges: [SwapDetail]
     
     init() {
         worker = SwapHistoryWorker()
         exchanges = []
-        
-        timer = Timer()
-        timer = Timer.scheduledTimer(withTimeInterval: C.secondsInMinute,
-                                     repeats: true, block: { [weak self] _ in
-            self?.reload()
-        })
     }
     
     func reload(completion: (([SwapDetail]?) -> Void)? = nil) {

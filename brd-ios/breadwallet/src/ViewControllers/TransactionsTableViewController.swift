@@ -182,7 +182,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         allTransactions = transfers
         allTransactions = transfers.sorted(by: { $0.timestamp > $1.timestamp })
         
-        TransferManager.shared.reload { [weak self] exchanges in
+        ExchangeManager.shared.reload { [weak self] exchanges in
             exchanges?.forEach { exchange in
                 let source = exchange.source
                 let destination = exchange.destination
