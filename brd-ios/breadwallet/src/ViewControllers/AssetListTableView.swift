@@ -99,18 +99,12 @@ class AssetListTableView: UITableViewController, Subscriber {
         Store.lazySubscribe(self, selector: {
             self.mapWallets(state: $0, newState: $1)
         }, callback: { _ in
-            guard let parentViewController = self.parent as? HomeScreenViewController,
-                  parentViewController.isInExchangeFlow == false else { return }
-            
             self.reload()
         })
         
         Store.lazySubscribe(self, selector: {
             self.mapCurrencies(lhsCurrencies: $0.currencies, rhsCurrencies: $1.currencies)
         }, callback: { _ in
-            guard let parentViewController = self.parent as? HomeScreenViewController,
-                  parentViewController.isInExchangeFlow == false else { return }
-            
             self.reload()
         })
     }
@@ -139,6 +133,9 @@ class AssetListTableView: UITableViewController, Subscriber {
     }
     
     func reload() {
+        guard let parentViewController = parent as? HomeScreenViewController,
+              parentViewController.isInExchangeFlow == false else { return }
+        
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
             self?.didReload?()
