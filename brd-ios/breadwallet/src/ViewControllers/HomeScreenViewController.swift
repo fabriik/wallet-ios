@@ -113,7 +113,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     @objc func reload() {
-        initialLoad()
+        setupSubscriptions()
+        updateTotalAssets()
         
         coreSystem.refreshWallet { [weak self] in
             self?.assetListTableView.reload()
