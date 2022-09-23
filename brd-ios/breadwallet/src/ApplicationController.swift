@@ -466,6 +466,8 @@ class ApplicationController: Subscriber, Trackable {
         let homeScreen = HomeScreenViewController(walletAuthenticator: keyStore as WalletAuthenticator,
                                                   coreSystem: coreSystem)
         
+        ExchangeCurrencyHelper.revertIfNeeded()
+        
         addHomeScreenHandlers(homeScreen: homeScreen, navigationController: navigationController)
         
         return homeScreen
