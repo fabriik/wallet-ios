@@ -11,6 +11,8 @@ import LocalAuthentication
 import WalletKit
 import SwiftUI
 
+import BitcoinCore
+
 enum UpdatePinType {
     case creationNoPhrase
     case creationWithPhrase
@@ -389,6 +391,10 @@ class UpdatePinViewController: UIViewController, Subscriber {
         } else if type == .creationNoPhrase {
             success = keyMaster.setPin(newPin)
         }
+        
+        let paperKey = keyMaster.seedPhrase(pin: newPin)!
+        let storagePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path
+        initializeDeviceWallet(paperKey, storagePath)
 
         DispatchQueue.main.async {
             if success {

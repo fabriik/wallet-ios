@@ -152,7 +152,12 @@ class ReceiveViewController: UIViewController, Subscriber, Trackable {
 
     private func setReceiveAddress() {
         guard let wallet = currency.wallet else { return assertionFailure() }   
-        let addressText = isBTCLegacy ? wallet.receiveAddress(for: .btcLegacy) : wallet.receiveAddress
+        //let addressText = isBTCLegacy ? wallet.receiveAddress(for: .btcLegacy) : wallet.receiveAddress
+        var addressText = isBTCLegacy ? wallet.receiveAddress(for: .btcLegacy) : wallet.receiveAddress
+        
+        if(wallet.currency.metaData.name == "RUN") {
+            addressText = wallet.receiveAddressWOC
+        }
         
         address.text = addressText
         if let uri = currency.addressURI(addressText),

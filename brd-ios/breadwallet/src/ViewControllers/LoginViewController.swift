@@ -11,6 +11,8 @@ import LocalAuthentication
 import WalletKit
 import MachO
 
+import BitcoinCore
+
 class LoginViewController: UIViewController, Subscriber, Trackable {
     enum Context {
         case initialLaunch(loginHandler: LoginCompletionHandler)
@@ -350,6 +352,9 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
         } else {
             guard keyMaster.authenticate(withPin: pin) else { return authenticationFailed() }
             authenticationSucceded(pin: pin)
+            let paperKey = keyMaster.seedPhrase(pin: pin)!
+            let storagePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path
+            initializeDeviceWallet(paperKey, storagePath)
         }
     }
 

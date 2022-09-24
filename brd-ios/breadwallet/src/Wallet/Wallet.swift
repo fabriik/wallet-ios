@@ -169,6 +169,10 @@ class Wallet {
         return core.target.sanitizedDescription
     }
     
+    var receiveAddressWOC: String {
+        return core.targetWOC
+    }
+    
     func receiveAddress(for scheme: AddressScheme) -> String {
         return core.targetForScheme(scheme).sanitizedDescription
     }

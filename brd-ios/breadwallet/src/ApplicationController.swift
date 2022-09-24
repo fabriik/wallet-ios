@@ -219,6 +219,7 @@ class ApplicationController: Subscriber, Trackable {
                 let storagePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path
                 
                 authorizerInitializeTables(storagePath)
+                
             }
         }
     }
