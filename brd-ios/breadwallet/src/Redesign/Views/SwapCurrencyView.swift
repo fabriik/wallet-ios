@@ -355,7 +355,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         if let textColor = field.textColor,
            let lineViewColor = fiatLineView.backgroundColor,
            let font = field.font {
-            field.attributedPlaceholder = NSAttributedString(string: "0.00",
+            field.attributedPlaceholder = NSAttributedString(string: ExchangeFormatter.fiat.string(for: 0) ?? "",
                                                              attributes: [NSAttributedString.Key.foregroundColor: isActive ? lineViewColor : textColor,
                                                                           NSAttributedString.Key.font: font]
             )

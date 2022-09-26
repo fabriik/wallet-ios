@@ -76,7 +76,7 @@ class GiftSharingCoordinator {
     
     private func markAsShared() {
         guard let kvStore = Backend.kvStore else { return }
-        guard let newHash = gift.txnHash ?? viewModel?.tx.hash else { return }
+        guard let newHash = gift.txnHash ?? viewModel?.tx?.hash else { return }
         let newGift = Gift(shared: true,
                            claimed: gift.claimed,
                            reclaimed: gift.reclaimed,
@@ -85,7 +85,7 @@ class GiftSharingCoordinator {
                            name: gift.name,
                            rate: gift.rate,
                            amount: gift.amount)
-        viewModel?.tx.updateGiftStatus(gift: newGift, kvStore: kvStore)
+        viewModel?.tx?.updateGiftStatus(gift: newGift, kvStore: kvStore)
         if let hash = newGift.txnHash {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 print("[gifting] txMetaDataUpdated")

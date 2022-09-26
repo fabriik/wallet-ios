@@ -87,11 +87,11 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         addSubscriptions()
         setInitialData()
         
-        transactionsTableView?.didScrollToYOffset = { [unowned self] offset in
-            self.headerView.setOffset(offset)
+        transactionsTableView?.didScrollToYOffset = { [weak self] offset in
+            self?.headerView.setOffset(offset)
         }
-        transactionsTableView?.didStopScrolling = { [unowned self] in
-            self.headerView.didStopScrolling()
+        transactionsTableView?.didStopScrolling = { [weak self] in
+            self?.headerView.didStopScrolling()
         }
     }
     
@@ -269,14 +269,15 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     
     // MARK: show transaction details
     
-    private func didSelectTransaction(transactions: [Transaction], selectedIndex: Int) {
+    private func didSelectTransaction(transactions: [TxListViewModel], selectedIndex: Int) {
         hideSearchKeyboard()
         
         let transaction = transactions[selectedIndex]
         
         switch transaction.transactionType {
         case .defaultTransaction:
-            let transactionDetails = TxDetailViewController(transaction: transactions[selectedIndex], delegate: self)
+            guard let tx = transactions[selectedIndex].tx else { return }
+            let transactionDetails = TxDetailViewController(transaction: tx, delegate: self)
             transactionDetails.modalPresentationStyle = .overCurrentContext
             transactionDetails.transitioningDelegate = transitionDelegate
             transactionDetails.modalPresentationCapturesStatusBarAppearance = true
@@ -286,7 +287,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         case .swapTransaction, .buyTransaction:
             let vc = ExchangeDetailsViewController()
             vc.isModalDismissable = false
-            vc.dataStore?.itemId = String(transaction.swapOrderId ?? -1)
+            vc.dataStore?.itemId = String(transaction.tx?.swapOrderId ?? transaction.swap?.orderId ?? -1)
             vc.dataStore?.transactionType = transaction.transactionType
             
             LoadingView.show()
