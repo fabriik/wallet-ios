@@ -42,7 +42,7 @@ struct TxListViewModel: TxViewModel {
             return format(address)
             
         } else if let swap = swap {
-            return "Sending to \(swap.destination.currency)"
+            return L10n.TransactionDetails.receivedFrom(swap.source.transactionId ?? "")
         } else {
             return ""
         }

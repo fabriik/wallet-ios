@@ -51,7 +51,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
     private let transactionCellIdentifier = "TransactionCellIdentifier"
     private var transactions: [Transaction] = []
     private var allTransactions: [TxListViewModel] {
-        // TODO: combine transactions and swapDetails into 1 array
+        // combine transactions and swapDetails into 1 array
         var items = [TxListViewModel]()
         
         for item in transactions {
