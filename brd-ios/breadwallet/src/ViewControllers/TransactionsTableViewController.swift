@@ -11,7 +11,7 @@ import UIKit
 class TransactionsTableViewController: UITableViewController, Subscriber, Trackable {
 
     // MARK: - Public
-    init(currency: Currency, wallet: Wallet?, didSelectTransaction: @escaping ([Transaction], Int) -> Void) {
+    init(currency: Currency, wallet: Wallet?, didSelectTransaction: @escaping ([TxListViewModel], Int) -> Void) {
         self.wallet = wallet
         self.currency = currency
         self.didSelectTransaction = didSelectTransaction
@@ -24,15 +24,18 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         Store.unsubscribe(self)
     }
 
-    let didSelectTransaction: ([Transaction], Int) -> Void
-    var didScrollToYOffset: ((CGFloat) -> Void)?
-    var didStopScrolling: (() -> Void)?
+    let didSelectTransaction: ([TxListViewModel], Int) -> Void
+
     var filters: [TransactionFilter] = [] {
         didSet {
-            transactions = filters.reduce(allTransactions, { $0.filter($1) })
-            reload()
+            transactions = filters.reduce(transactions, { $0.filter($1) })
+            tableView.reloadData()
         }
     }
+    
+    var didScrollToYOffset: ((CGFloat) -> Void)?
+    var didStopScrolling: (() -> Void)?
+    
     var wallet: Wallet? {
         didSet {
             if wallet != nil {
@@ -47,9 +50,39 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
     private let currency: Currency
     private let transactionCellIdentifier = "TransactionCellIdentifier"
     private var transactions: [Transaction] = []
-    private var allTransactions: [Transaction] = [] {
-        didSet { transactions = allTransactions }
+    private var allTransactions: [TxListViewModel] {
+        // combine transactions and swapDetails into 1 array
+        var items = [TxListViewModel]()
+        
+        for item in transactions {
+            items.append(.init(tx: item))
+        }
+        for item in swaps {
+            items.append(.init(swap: item))
+        }
+        return items.sorted(by: { lhs, rhs in
+            let left: Double
+            if let lhs = lhs.swap {
+                left = Double(lhs.timestamp) / 1000
+            } else if let lhs = lhs.tx {
+                left = lhs.timestamp
+            } else {
+                left = 0
+            }
+            let right: Double
+            if let rhs = rhs.swap {
+                right = Double(rhs.timestamp) / 1000
+            } else if let rhs = rhs.tx {
+                right = rhs.timestamp
+            } else {
+                right = 0
+            }
+            return left > right
+        })
     }
+    
+    private var swaps: [SwapDetail] = []
+    
     private var showFiatAmounts: Bool {
         didSet { reload() }
     }
@@ -179,25 +212,26 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         assert(Thread.isMainThread)
         
         guard let transfers = wallet?.transfers else { return }
-        allTransactions = transfers
-        allTransactions = transfers.sorted(by: { $0.timestamp > $1.timestamp })
+        transactions = transfers.sorted(by: { $0.timestamp > $1.timestamp })
         
-        ExchangeManager.shared.reload { [weak self] exchanges in
+        ExchangeManager.shared.reload(for: currency.code) { [weak self] exchanges in
+            var remaining = exchanges
             exchanges?.forEach { exchange in
                 let source = exchange.source
                 let destination = exchange.destination
                 let sourceId = source.transactionId
                 let destinationId = destination.transactionId
-
-                if let element = self?.allTransactions.first(where: { $0.transfer.hash?.description == sourceId || $0.transfer.hash?.description == destinationId }) {
+                
+                if let element = self?.transactions.first(where: { $0.transfer.hash?.description == sourceId || $0.transfer.hash?.description == destinationId }) {
                     element.transactionType = exchange.type
                     element.swapOrderId = exchange.orderId
                     element.swapTransationStatus = exchange.status
                     element.swapSource = exchange.source
                     element.swapDestination = exchange.destination
+                    remaining?.removeAll(where: { $0.orderId == element.swapOrderId })
                 }
             }
-
+            self?.swaps = remaining?.filter { $0.status != .failed } ?? []
             self?.reload()
         }
     }
@@ -209,7 +243,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return transactions.count
+        return allTransactions.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -217,7 +251,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        didSelectTransaction(transactions, indexPath.row)
+        didSelectTransaction(allTransactions, indexPath.row)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -232,8 +266,8 @@ extension TransactionsTableViewController {
     private func transactionCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: transactionCellIdentifier,
                                                        for: indexPath) as? TxListCell else { assertionFailure(); return UITableViewCell() }
-        
-        cell.setTransaction(TxListViewModel(tx: transactions[indexPath.row]),
+        let viewModel = allTransactions[indexPath.row]
+        cell.setTransaction(viewModel,
                             showFiatAmounts: showFiatAmounts,
                             rate: rate ?? Rate.empty,
                             isSyncing: currency.state?.syncState != .success)

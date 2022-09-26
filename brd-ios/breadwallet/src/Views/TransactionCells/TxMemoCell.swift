@@ -75,9 +75,11 @@ class TxMemoCell: TxDetailRowCell {
     }
     
     fileprivate func saveComment(comment: String) {
-        guard let kvStore = Backend.kvStore else { return }
-        viewModel.tx.save(comment: comment, kvStore: kvStore)
-        Store.trigger(name: .txMetaDataUpdated(viewModel.tx.hash))
+        guard let kvStore = Backend.kvStore,
+              let tx = viewModel.tx else { return }
+        
+        tx.save(comment: comment, kvStore: kvStore)
+        Store.trigger(name: .txMetaDataUpdated(tx.hash))
     }
 }
 

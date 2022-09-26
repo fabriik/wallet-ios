@@ -259,7 +259,7 @@ class ImportKeyViewController: UIViewController, Subscriber {
                            name: gift.name,
                            rate: gift.rate,
                            amount: gift.amount)
-        viewModel.tx.updateGiftStatus(gift: newGift, kvStore: kvStore)
+        viewModel.tx?.updateGiftStatus(gift: newGift, kvStore: kvStore)
         if let hash = newGift.txnHash {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 Store.trigger(name: .txMetaDataUpdated(hash))
