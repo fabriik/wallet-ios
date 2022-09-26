@@ -21,15 +21,14 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         return button
     }()
     
+    var didTriggerGetData: (() -> Void)?
+    
     // MARK: - Overrides
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        guard let section = sections.firstIndex(of: Models.Sections.rate),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView>
-        else { return continueButton.wrappedView.isEnabled = false }
-        
-        cell.wrappedView.invalidate()
+        getRateAndTimerCell()?.wrappedView.invalidate()
     }
     
     override func setupSubviews() {
@@ -61,6 +60,10 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         continueButton.wrappedView.configure(with: Presets.Button.primary)
         continueButton.wrappedView.setup(with: .init(title: L10n.Button.continueAction, enabled: false))
         continueButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
+        didTriggerGetData = { [weak self] in
+            self?.interactor?.getData(viewAction: .init())
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -69,7 +72,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         case .accountLimits:
             cell = self.tableView(tableView, labelCellForRowAt: indexPath)
             
-        case .rate:
+        case .rateAndTimer:
             cell = self.tableView(tableView, timerCellForRowAt: indexPath)
 
         case .from:
@@ -77,10 +80,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
 
         case .to:
             cell = self.tableView(tableView, paymentSelectionCellForRowAt: indexPath)
-
-        case .error:
-            cell = self.tableView(tableView, infoViewCellForRowAt: indexPath)
-
+            
         default:
             cell = UITableViewCell()
         }
@@ -113,7 +113,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                 self?.interactor?.setAmount(viewAction: .init(tokenValue: value))
             }
             
-            view.didFinish = { [weak self] in
+            view.didFinish = { [weak self] _ in
                 self?.interactor?.setAmount(viewAction: .init())
             }
             
@@ -125,6 +125,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                     self?.interactor?.setAssets(viewAction: .init(currency: item.subtitle))
                 }
             }
+            
+            view.setupCustomMargins(top: .zero, leading: .zero, bottom: .medium, trailing: .zero)
         }
         
         return cell
@@ -145,19 +147,19 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             view.didTapSelectCard = { [weak self] in
                 self?.interactor?.getPaymentCards(viewAction: .init())
             }
+            
+            view.setupCustomMargins(top: .zero, leading: .zero, bottom: .medium, trailing: .zero)
         }
         
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, infoViewCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: WrapperTableViewCell<WrapperView<FEInfoView>> = tableView.dequeueReusableCell(for: indexPath)
-        else {
-            return super.tableView(tableView, cellForRowAt: indexPath)
-        }
-        
-        cell.wrappedView.setup { view in
-            view.setupCustomMargins(all: .large)
+    private func getRateAndTimerCell() -> WrapperTableViewCell<ExchangeRateView>? {
+        guard let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> else {
+            continueButton.wrappedView.isEnabled = false
+            
+            return nil
         }
         
         return cell
@@ -182,8 +184,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }
     
     func displayAssets(responseDisplay actionResponse: BuyModels.Assets.ResponseDisplay) {
-        LoadingView.hide()
-        
         guard let fromSection = sections.firstIndex(of: Models.Sections.from),
               let toSection = sections.firstIndex(of: Models.Sections.to),
               let fromCell = tableView.cellForRow(at: .init(row: 0, section: fromSection)) as? WrapperTableViewCell<SwapCurrencyView>,
@@ -193,17 +193,11 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         fromCell.wrappedView.setup(with: actionResponse.cryptoModel)
         toCell.wrappedView.setup(with: actionResponse.cardModel)
         
-        tableView.beginUpdates()
-        tableView.endUpdates()
-        
         continueButton.wrappedView.isEnabled = dataStore?.isFormValid ?? false
     }
     
     func displayExchangeRate(responseDisplay: BuyModels.Rate.ResponseDisplay) {
-        LoadingView.hide()
-        
-        if let section = sections.firstIndex(of: Models.Sections.rate),
-           let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
+        if let cell = getRateAndTimerCell() {
             cell.setup { view in
                 view.configure(with: .init())
                 view.setup(with: responseDisplay.rate)
@@ -211,7 +205,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                     self?.interactor?.getExchangeRate(viewAction: .init())
                 }
             }
-            
         } else {
             continueButton.wrappedView.isEnabled = false
         }
@@ -225,8 +218,10 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             }
         }
         
-        tableView.beginUpdates()
-        tableView.endUpdates()
+        UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) { [weak self] in
+            self?.tableView.beginUpdates()
+            self?.tableView.endUpdates()
+        }
     }
     
     func displayOrderPreview(responseDisplay: BuyModels.OrderPreview.ResponseDisplay) {

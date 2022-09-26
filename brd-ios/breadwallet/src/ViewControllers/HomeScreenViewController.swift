@@ -85,6 +85,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     var showPrompts: (() -> Void)?
     var didTapMenu: (() -> Void)?
     
+    var isInExchangeFlow = false
+    
     private lazy var totalAssetsNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.isLenient = true
@@ -95,12 +97,12 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     private lazy var pullToRefreshControl: UIRefreshControl = {
         let pullToRefreshControl = UIRefreshControl()
-        pullToRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        pullToRefreshControl.attributedTitle = NSAttributedString(string: L10n.HomeScreen.pullToRefresh)
         pullToRefreshControl.addTarget(self, action: #selector(reload), for: .valueChanged)
         return pullToRefreshControl
     }()
     
-    // MARK: -
+    // MARK: - Lifecycle
     
     init(walletAuthenticator: WalletAuthenticator, coreSystem: CoreSystem) {
         self.walletAuthenticator = walletAuthenticator
@@ -113,16 +115,20 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     @objc func reload() {
-        initialLoad()
+        setupSubscriptions()
         
         coreSystem.refreshWallet { [weak self] in
             self?.assetListTableView.reload()
+            
+            Currencies.shared.reloadCurrencies()
         }
     }
     
-    private func initialLoad() {
-        setInitialData()
-        setupSubscriptions()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        isInExchangeFlow = false
+        ExchangeCurrencyHelper.revertIfNeeded()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -143,7 +149,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         
         addSubviews()
         addConstraints()
-        initialLoad()
+        setInitialData()
+        setupSubscriptions()
         updateTotalAssets()
         sendErrorsToBackend()
         
@@ -240,10 +247,10 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     
     private func setupToolbar() {
         let buttons = [
-            ("Home", #imageLiteral(resourceName: "home"), #selector(showHome)),
+            (L10n.Button.home, #imageLiteral(resourceName: "home"), #selector(showHome)),
             (L10n.HomeScreen.trade, #imageLiteral(resourceName: "trade"), #selector(trade)),
             (L10n.HomeScreen.buy, #imageLiteral(resourceName: "buy"), #selector(buy)),
-            ("Profile", #imageLiteral(resourceName: "user"), #selector(profile)),
+            (L10n.Button.profile, #imageLiteral(resourceName: "user"), #selector(profile)),
             (L10n.HomeScreen.menu, #imageLiteral(resourceName: "more"), #selector(menu))].map { (title, image, selector) -> UIBarButtonItem in
                 let button = UIButton.vertical(title: title, image: image)
                 button.tintColor = .gray1
@@ -291,10 +298,9 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
                 result = result || oldState[currency]?.currentRate?.rate != newState[currency]?.currentRate?.rate
             }
             return result
-        },
-                        callback: { _ in
-                            self.updateTotalAssets()
-                            self.updateAmountsForWidgets()
+        }, callback: { _ in
+            self.updateTotalAssets()
+            self.updateAmountsForWidgets()
         })
         
         // prompts
@@ -327,6 +333,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func updateTotalAssets() {
+        guard isInExchangeFlow == false else { return }
+        
         let fiatTotal: Decimal = Store.state.wallets.values.map {
             guard let balance = $0.balance,
                 let rate = $0.currentRate else { return 0.0 }
@@ -344,6 +352,8 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     }
     
     private func updateAmountsForWidgets() {
+        guard isInExchangeFlow == false else { return }
+        
         let info: [CurrencyId: Double] = Store.state.wallets
             .map { ($0, $1) }
             .reduce(into: [CurrencyId: Double]()) {

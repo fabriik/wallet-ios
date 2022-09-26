@@ -23,14 +23,14 @@ struct PaymentMethodConfiguration: Configurable {
 }
 
 struct PaymentMethodViewModel: ViewModel {
-    var methodTitle: LabelViewModel? = .text("Payment method")
+    var methodTitle: LabelViewModel? = .text(L10n.Buy.paymentMethod)
     var logo: ImageViewModel?
     var cardNumber: LabelViewModel?
     var expiration: LabelViewModel?
-    var cvvTitle: TitleValueViewModel? = .init(title: .text("Please confirm your CVV"),
+    var cvvTitle: TitleValueViewModel? = .init(title: .text(L10n.Buy.confirmCVV),
                                                value: .text(""),
                                                infoImage: .image(UIImage(named: "help")?.withRenderingMode(.alwaysOriginal)))
-    var cvv: TextFieldModel? = .init(placeholder: "CVV")
+    var cvv: TextFieldModel? = .init(placeholder: L10n.Buy.cardCVV)
 }
 
 class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewModel> {

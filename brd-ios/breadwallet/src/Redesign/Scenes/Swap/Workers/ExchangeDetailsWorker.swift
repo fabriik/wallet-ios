@@ -35,7 +35,7 @@ struct SwapDetail: Model {
         var currency: String
         var currencyAmount: Double
         var usdAmount: Double
-        var transactionId: String
+        var transactionId: String?
         var usdFee: Double
         var paymentInstrument: PaymentCard
     }
@@ -59,7 +59,7 @@ class ExchangeDetailsMapper: ModelMapper<ExchangeDetailsResponseData, SwapDetail
         let sourceData = SwapDetail.SourceDestination(currency: source?.currency?.uppercased() ?? "",
                                                       currencyAmount: source?.currencyAmount ?? 0,
                                                       usdAmount: source?.usdAmount ?? 0,
-                                                      transactionId: source?.transactionId ?? "",
+                                                      transactionId: source?.transactionId,
                                                       usdFee: source?.usdFee ?? 0,
                                                       paymentInstrument: PaymentCard(id: sourceCard?.id ?? "",
                                                                                      fingerprint: sourceCard?.fingerprint ?? "",
@@ -70,7 +70,7 @@ class ExchangeDetailsMapper: ModelMapper<ExchangeDetailsResponseData, SwapDetail
         let destinationData = SwapDetail.SourceDestination(currency: destination?.currency?.uppercased() ?? "",
                                                            currencyAmount: destination?.currencyAmount ?? 0,
                                                            usdAmount: destination?.usdAmount ?? 0,
-                                                           transactionId: destination?.transactionId ?? "",
+                                                           transactionId: destination?.transactionId,
                                                            usdFee: destination?.usdFee ?? 0,
                                                            paymentInstrument: PaymentCard(id: destinationCard?.id ?? "",
                                                                                           fingerprint: destinationCard?.fingerprint ?? "",

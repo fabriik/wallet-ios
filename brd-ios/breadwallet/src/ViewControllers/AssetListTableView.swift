@@ -14,9 +14,8 @@ class AssetListTableView: UITableViewController, Subscriber {
     var didTapAddWallet: (() -> Void)?
     var didReload: (() -> Void)?
     
-    let loadingSpinner = UIActivityIndicatorView(style: .medium)
-
-    private let assetHeight: CGFloat = 80.0 // rowHeight of 72 plus 8 padding
+    private let loadingSpinner = UIActivityIndicatorView(style: .medium)
+    private let assetHeight: CGFloat = ViewSizes.large.rawValue
     
     private lazy var manageAssetsButton: ManageAssetsButton = {
         let manageAssetsButton = ManageAssetsButton()
@@ -46,6 +45,7 @@ class AssetListTableView: UITableViewController, Subscriber {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         if Store.state.wallets.isEmpty {
             DispatchQueue.main.async { [weak self] in
                 self?.showLoadingState(true)
@@ -54,11 +54,14 @@ class AssetListTableView: UITableViewController, Subscriber {
     }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
         setupAddWalletButton()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.backgroundColor = .homeBackground
         tableView.register(HomeScreenCell.self, forCellReuseIdentifier: HomeScreenCellIds.regularCell.rawValue)
         tableView.register(HomeScreenHiglightableCell.self, forCellReuseIdentifier: HomeScreenCellIds.highlightableCell.rawValue)
@@ -74,7 +77,7 @@ class AssetListTableView: UITableViewController, Subscriber {
         guard tableView.tableFooterView == nil else { return }
         
         let manageAssetsButtonHeight: CGFloat = 56.0
-        let topBottomInset: CGFloat = 20
+        let topBottomInset: CGFloat = Margins.extraLarge.rawValue
         let leftRightInset: CGFloat = C.padding[2]
         let tableViewWidth = tableView.frame.width - tableView.contentInset.left - tableView.contentInset.right
         
@@ -130,11 +133,13 @@ class AssetListTableView: UITableViewController, Subscriber {
     }
     
     func reload() {
+        guard let parentViewController = parent as? HomeScreenViewController,
+              parentViewController.isInExchangeFlow == false else { return }
+        
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
-            self?.showLoadingState(false)
-            
             self?.didReload?()
+            self?.showLoadingState(false)
         }
     }
     
@@ -161,6 +166,7 @@ class AssetListTableView: UITableViewController, Subscriber {
         if let cell = cell as? HomeScreenCell {
             cell.set(viewModel: viewModel)
         }
+        
         return cell
     }
     
@@ -182,8 +188,8 @@ class AssetListTableView: UITableViewController, Subscriber {
     }
 }
 
-// loading state management
 extension AssetListTableView {
+    // Loading state management
     
     func showLoadingState(_ show: Bool) {
         showLoadingIndicator(show)

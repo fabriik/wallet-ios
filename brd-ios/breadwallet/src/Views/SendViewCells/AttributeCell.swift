@@ -136,17 +136,11 @@ class AttributeCell: UIView {
         
         let titleAttributes = [NSAttributedString.Key.font: Fonts.AlertActionSheet.title,
                                NSAttributedString.Key.foregroundColor: UIColor.almostBlack]
-        let titleString = NSAttributedString(string: "What is a destination tag?", attributes: titleAttributes)
+        let titleString = NSAttributedString(string: L10n.Send.whatIsDestinationTag, attributes: titleAttributes)
         
         let messageAttributes = [NSAttributedString.Key.font: Fonts.AlertActionSheet.body,
                                  NSAttributedString.Key.foregroundColor: UIColor.almostBlack]
-        let message = """
-    
-    Some receiving addresses (exchanges usually) require additional identifying information provided with a Destination Tag.
-    
-    If the recipient's address is accompanied by a destination tag, make sure to include it.
-    Also, we strongly suggest you send a small amount of cryptocurrency as a test before attempting to send a significant amount.
-    """
+        let message = L10n.Send.destinationTagText
         let messageString = NSAttributedString(string: message, attributes: messageAttributes)
         
         alert.setValue(titleString, forKey: "attributedTitle")

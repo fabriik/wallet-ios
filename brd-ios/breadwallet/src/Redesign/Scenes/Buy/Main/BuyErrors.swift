@@ -18,15 +18,15 @@ enum BuyErrors: FEError {
     case tooHigh(amount: Decimal, currency: String)
     case pinConfirmation
     case authorizationFailed
+    case quoteFail
     
-    // TODO: localize
     var errorMessage: String {
         switch self {
         case .tooLow(let amount, let currency):
-            return L10n.ErrorMessages.amountToLow(Int(amount.doubleValue), currency)
+            return L10n.ErrorMessages.amountTooLow(ExchangeFormatter.fiat.string(for: amount.doubleValue) ?? "", currency)
             
         case .tooHigh(let amount, let currency):
-            return L10n.ErrorMessages.amountToHigh(Int(amount.doubleValue), currency)
+            return L10n.ErrorMessages.amountTooHigh(ExchangeFormatter.fiat.string(for: amount.doubleValue) ?? "", currency)
             
         case .noQuote(let from, let to):
             let from = from ?? "/"
@@ -38,6 +38,10 @@ enum BuyErrors: FEError {
             
         case .authorizationFailed:
             return L10n.ErrorMessages.authorizationFailed
+            
+        case .quoteFail:
+            return L10n.ErrorMessages.exchangeQuoteFailed
+            
         }
     }
 }

@@ -67,9 +67,6 @@ class BaseTableViewController<C: CoordinatableRoutes,
         tableView.register(WrapperTableViewCell<FESegmentControl>.self)
         tableView.register(WrapperTableViewCell<ExchangeRateView>.self)
         tableView.register(WrapperTableViewCell<DateView>.self)
-        
-        // eg.
-//        tableView.register(WrapperCell<WrapperView<AnimationImageView>>.self)
     }
 
     override func prepareData() {
@@ -83,7 +80,9 @@ class BaseTableViewController<C: CoordinatableRoutes,
         sectionRows = responseDisplay.sectionRows
         
         // TODO: DiffableDataSource
-        tableView.reloadData()
+        UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) { [weak self] in
+            self?.tableView.reloadData()
+        }
         
         tableView.backgroundView?.isHidden = !sections.isEmpty
         LoadingView.hide()

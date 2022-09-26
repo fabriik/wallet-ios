@@ -6,7 +6,6 @@
 //  Copyright © 2019 Breadwinner AG. All rights reserved.
 //
 
-import Foundation
 import WalletKit
 import UIKit
 

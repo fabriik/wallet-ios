@@ -40,7 +40,6 @@ class SwapStore: NSObject, BaseDataStore, SwapDataStore {
     var coreSystem: CoreSystem?
     var keyStore: KeyStore?
     
-    var pin: String?
     var isKYCLevelTwo: Bool?
     
     // MARK: - Aditional helpers

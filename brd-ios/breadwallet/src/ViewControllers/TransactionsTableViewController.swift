@@ -35,8 +35,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
     
     var didScrollToYOffset: ((CGFloat) -> Void)?
     var didStopScrolling: (() -> Void)?
-
-    // MARK: - Private
+    
     var wallet: Wallet? {
         didSet {
             if wallet != nil {
@@ -44,8 +43,11 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
             }
         }
     }
-    private let currency: Currency
     
+    // MARK: - Private
+    
+    private let emptyMessage = UILabel.wrapping(font: .customBody(size: 16.0), color: .grayTextTint)
+    private let currency: Currency
     private let transactionCellIdentifier = "TransactionCellIdentifier"
     private var transactions: [Transaction] = []
     private var allTransactions: [TxListViewModel] {
@@ -87,7 +89,6 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
     private var rate: Rate? {
         didSet { reload() }
     }
-    private let emptyMessage = UILabel.wrapping(font: .customBody(size: 16.0), color: .grayTextTint)
 
     // MARK: - Lifecycle
 
@@ -194,7 +195,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         
         guard let index = transactions.firstIndex(where: { txHash == $0.hash }) else { return false }
         
-        // if transaction count stayed the same perform tableView updates block, else reloadData.
+        // If transaction count stayed the same perform tableView updates block, else reloadData.
         guard transactions.count == tableView.numberOfRows(inSection: 0) else {
             tableView.reloadData()
             return true
@@ -213,7 +214,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         guard let transfers = wallet?.transfers else { return }
         transactions = transfers.sorted(by: { $0.timestamp > $1.timestamp })
         
-        TransferManager.shared.reload(for: currency.code) { [weak self] exchanges in
+        ExchangeManager.shared.reload(for: currency.code) { [weak self] exchanges in
             var remaining = exchanges
             exchanges?.forEach { exchange in
                 let source = exchange.source
@@ -231,7 +232,6 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
                 }
             }
             self?.swaps = remaining?.filter { $0.status != .failed } ?? []
-            
             self?.reload()
         }
     }

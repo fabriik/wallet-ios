@@ -53,19 +53,23 @@ final class TxMetaData: BRKVStoreObject, Codable {
         deviceId = try container.decode(String.self, forKey: .deviceId)
         created = try container.decode(Date.self, forKey: .created)
         comment = try container.decode(String.self, forKey: .comment)
-
-        if !comment.isEmpty {
-            print("[gifting] error: \(comment)")
-        }
+        
+        // No support for gifting yet.
+//        if !comment.isEmpty {
+//            print("[gifting] error: \(comment)")
+//        }
         
         //tokenTransfer is sometimes not present in TxMetaData from Android so we shouldn't throw if it doesn't exist
         tokenTransfer = (try? container.decode(String.self, forKey: .tokenTransfer)) ?? ""
         isReceivedGift = (try? container.decode(Bool.self, forKey: .isReceivedGift)) ?? false
-        do {
-            gift = try container.decode(Gift.self, forKey: .gift)
-        } catch let e {
-            print("[gifting] error: \(e)")
-        }
+        
+        // No support for gifting yet.
+//        do {
+//            gift = try container.decode(Gift.self, forKey: .gift)
+//        } catch let e {
+//            print("[gifting] error: \(e)")
+//        }
+        
         super.init(key: "", version: 0, lastModified: Date(), deleted: true, data: Data())
     }
 

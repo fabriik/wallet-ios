@@ -9,6 +9,8 @@
 import UIKit
 import SwiftUI
 
+// TODO: Fix completeConstraints/pendingConstraints logic and other visible UI bugs. 
+
 class TxListCell: UITableViewCell {
 
     // MARK: - Views
@@ -69,49 +71,69 @@ class TxListCell: UITableViewCell {
             statusIndicator.isHidden = true
             timestamp.isHidden = false
             
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
+            
         case .complete:
             timestamp.text = viewModel.shortTimestamp
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
             
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
+            
         default:
             failedIndicator.isHidden = true
             statusIndicator.isHidden = false
             timestamp.isHidden = false
-            guard let currency = viewModel.currency else {
-                return
-            }
+            
+            guard let currency = viewModel.currency else { return }
             timestamp.text = "\(viewModel.confirmations)/\(currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
+            
+            NSLayoutConstraint.deactivate(completeConstraints)
+            NSLayoutConstraint.activate(pendingConstraints)
         }
-        
-        NSLayoutConstraint.activate(completeConstraints)
-        NSLayoutConstraint.deactivate(pendingConstraints)
     }
     
     private func handleBuyTransactions() {
         switch viewModel.status {
         case .invalid:
-            timestamp.text = "Purchase failed"
+            timestamp.text = L10n.Transaction.purchaseFailed
             failedIndicator.isHidden = false
             statusIndicator.isHidden = true
             timestamp.isHidden = false
             
-        case .complete:
-            timestamp.text = "Purchased"
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
+            
+        case .refunded:
+            timestamp.text = L10n.Transaction.refunded
+            failedIndicator.isHidden = false
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
+            
+        case .complete, .manuallySettled:
+            timestamp.text = L10n.Transaction.purchased
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
             
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
+            
         default:
-            timestamp.text = "Pending purchase"
+            timestamp.text = L10n.Transaction.pendingPurchase
             failedIndicator.isHidden = true
             statusIndicator.isHidden = false
             timestamp.isHidden = false
+            
+            NSLayoutConstraint.deactivate(completeConstraints)
+            NSLayoutConstraint.activate(pendingConstraints)
         }
-        
-        NSLayoutConstraint.activate(completeConstraints)
-        NSLayoutConstraint.deactivate(pendingConstraints)
     }
     
     private func handleSwapTransactions() {
@@ -126,8 +148,8 @@ class TxListCell: UITableViewCell {
         }
         
         switch viewModel.status {
-        case .complete:
-            timestamp.text = "Swapped \(swapString)"
+        case .complete, .manuallySettled:
+            timestamp.text = "\(L10n.Transaction.swapped) \(swapString)"
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
@@ -136,7 +158,7 @@ class TxListCell: UITableViewCell {
             NSLayoutConstraint.deactivate(pendingConstraints)
             
         case .pending:
-            timestamp.text = "Pending swap \(swapString)"
+            timestamp.text = "\(L10n.Transaction.pendingSwap) \(swapString)"
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
@@ -145,7 +167,16 @@ class TxListCell: UITableViewCell {
             NSLayoutConstraint.activate(pendingConstraints)
             
         case .failed:
-            timestamp.text = "Failed swap \(swapString)"
+            timestamp.text = "\(L10n.Transaction.failedSwap) \(swapString)"
+            failedIndicator.isHidden = true
+            statusIndicator.isHidden = true
+            timestamp.isHidden = false
+            
+            NSLayoutConstraint.activate(completeConstraints)
+            NSLayoutConstraint.deactivate(pendingConstraints)
+        
+        case .refunded:
+            timestamp.text = L10n.Transaction.refunded
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
             timestamp.isHidden = false
@@ -155,7 +186,6 @@ class TxListCell: UITableViewCell {
             
         default:
             break
-            
         }
     }
     

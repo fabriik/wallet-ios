@@ -23,6 +23,7 @@ enum SwapErrors: FEError {
     case overDailyLimitLevel2(limit: Decimal)
     case notEnouthEthForFee
     // Unoficial errors
+    case quoteFail
     case noFees
     case networkFee
     case overExchangeLimit
@@ -31,26 +32,25 @@ enum SwapErrors: FEError {
     case pendingSwap
     case selectAssets
     
-    // TODO: localize
     var errorMessage: String {
         switch self {
         case .balanceTooLow(let balance, let currency):
-            return L10n.ErrorMessages.balanceToLow(currency, currency, ExchangeFormatter.crypto.string(for: balance) ?? "0.00")
+            return L10n.ErrorMessages.balanceTooLow(currency, currency, ExchangeFormatter.crypto.string(for: balance) ?? "")
             
         case .tooLow(let amount, let currency):
-            return L10n.ErrorMessages.amountToLow(Int(amount.doubleValue), currency)
+            return L10n.ErrorMessages.amountTooLow(ExchangeFormatter.crypto.string(for: amount.doubleValue) ?? "", currency)
             
         case .tooHigh(let amount, let currency):
-            return L10n.ErrorMessages.swapAmountToHigh(ExchangeFormatter.crypto.string(for: amount) ?? "0", currency)
+            return L10n.ErrorMessages.swapAmountTooHigh(ExchangeFormatter.crypto.string(for: amount) ?? "", currency)
             
         case .overDailyLimit(let limit):
-            return L10n.ErrorMessages.overDailyLimit(ExchangeFormatter.fiat.string(for: limit) ?? "0")
+            return L10n.ErrorMessages.overDailyLimit(ExchangeFormatter.fiat.string(for: limit) ?? "")
             
         case .overLifetimeLimit(let limit):
-            return L10n.ErrorMessages.overLifetimeLimit(ExchangeFormatter.fiat.string(for: limit) ?? "0")
+            return L10n.ErrorMessages.overLifetimeLimit(ExchangeFormatter.fiat.string(for: limit) ?? "")
             
         case .overDailyLimitLevel2(let limit):
-            return L10n.ErrorMessages.overLifetimeLimitLevel2(ExchangeFormatter.fiat.string(for: limit) ?? "0")
+            return L10n.ErrorMessages.overLifetimeLimitLevel2(ExchangeFormatter.fiat.string(for: limit) ?? "")
             
         case .noFees:
             return L10n.ErrorMessages.noFees
@@ -58,6 +58,9 @@ enum SwapErrors: FEError {
         case .networkFee:
             return L10n.ErrorMessages.networkFee
             
+        case .quoteFail:
+            return L10n.ErrorMessages.exchangeQuoteFailed
+        
         case .noQuote(let from, let to):
             let from = from ?? "/"
             let to = to ?? "/"
@@ -73,8 +76,8 @@ enum SwapErrors: FEError {
             return L10n.ErrorMessages.notEnoughEthForFee
             
         case .failed(let error):
-            return L10n.ErrorMessages.exchangeFailed(error?.localizedDescription ?? "/")
-            
+            return L10n.ErrorMessages.exchangeFailed(error?.localizedDescription ?? "")
+        
         case .pendingSwap:
             return L10n.ErrorMessages.pendingExchange
             

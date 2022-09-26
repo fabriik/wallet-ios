@@ -27,7 +27,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let to = toAmount.fiatValue
         let infoImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal)
         let toFiatValue = toAmount.fiatValue
-        let toCryptoValue = toAmount.tokenFormattedString
+        let toCryptoValue = ExchangeFormatter.crypto.string(for: toAmount.tokenValue) ?? ""
         let toCryptoDisplayImage = item.to?.currency.imageSquareBackground
         let toCryptoDisplayName = item.to?.currency.displayName ?? ""
         let from = item.from ?? 0
@@ -45,14 +45,16 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let wrappedViewModel: BuyOrderViewModel = .init(currencyIcon: .image(toCryptoDisplayImage),
                                                         currencyAmountName: .text(toCryptoValue + " " + toCryptoDisplayName),
                                                         rate: .init(exchangeRate: rate, timer: nil),
-                                                        amount: .init(title: .text("Amount purchased"), value: .text(amountText), infoImage: nil),
-                                                        cardFee: .init(title: .text("Card fee (\(quote.buyFee ?? 0)%)"),
+                                                        amount: .init(title: .text(L10n.Swap.amountPurchased), value: .text(amountText), infoImage: nil),
+                                                        cardFee: .init(title: .text("\(L10n.Swap.cardFee) (\(quote.buyFee ?? 0)%)"),
                                                                        value: .text(cardFeeText),
                                                                        infoImage: .image(infoImage)),
-                                                        networkFee: .init(title: .text("Mining network fee"), value: .text(networkFeeText), infoImage: .image(infoImage)),
-                                                        totalCost: .init(title: .text("Total:"), value: .text(totalText)))
+                                                        networkFee: .init(title: .text(L10n.Swap.miningNetworkFee),
+                                                                          value: .text(networkFeeText),
+                                                                          infoImage: .image(infoImage)),
+                                                        totalCost: .init(title: .text(L10n.Swap.total), value: .text(totalText)))
         
-        let termsText = NSMutableAttributedString(string: "By placing this order you agree to our" + " ")
+        let termsText = NSMutableAttributedString(string: L10n.Buy.terms + " ")
         termsText.addAttribute(NSAttributedString.Key.font,
                                value: Fonts.caption,
                                range: NSRange(location: 0, length: termsText.length))
@@ -60,7 +62,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
                                value: LightColors.Text.two,
                                range: NSRange(location: 0, length: termsText.length))
         
-        let interactableText = NSMutableAttributedString(string: "Terms and Conditions")
+        let interactableText = NSMutableAttributedString(string: L10n.About.terms)
         interactableText.addAttribute(NSAttributedString.Key.font,
                                       value: Fonts.caption,
                                       range: NSRange(location: 0, length: interactableText.length))
@@ -108,13 +110,11 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         let model: PopupViewModel
         
         if actionResponse.isCardFee {
-            let feeText = "This fee is charged to cover costs associated with payment processing."
-            model = .init(title: .text("Card fee"), body: feeText)
+            let feeText = L10n.Buy.cardFee
+            model = .init(title: .text(L10n.Swap.cardFee), body: feeText)
         } else {
-            model = .init(title: .text("Network fees"),
-                          body: """
-    Network fee prices vary depending on the blockchain in which you are receiving your assets. This is an external fee to cover mining and transaction costs.
-    """)
+            model = .init(title: .text(L10n.Buy.networkFees),
+                          body: L10n.Buy.networkFeeMessage)
         }
         
         viewController?.displayInfoPopup(responseDisplay: .init(model: model))

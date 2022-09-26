@@ -12,12 +12,8 @@ import WalletKit
 
 typealias PresentScan = ((@escaping ScanCompletion) -> Void)
 
-private let verticalButtonPadding: CGFloat = 32.0
-private let buttonSize = CGSize(width: 52.0, height: 32.0)
-
 // swiftlint:disable type_body_length
 class SendViewController: UIViewController, Subscriber, ModalPresentable, Trackable {
-
     // MARK: - Public
     
     var presentScan: PresentScan?
@@ -64,6 +60,8 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
     private var paymentProtocolRequest: PaymentProtocolRequest?
     private var didIgnoreUsedAddressWarning = false
     private var didIgnoreIdentityNotCertified = false
+    private let verticalButtonPadding: CGFloat = 32.0
+    private let buttonSize = CGSize(width: 52.0, height: 32.0)
     private var feeLevel: FeeLevel = .regular {
         didSet {
             updateFees()
@@ -442,7 +440,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
     }
     
     private func hideDestinationTag() {
-        UIView.animate(withDuration: C.animationDuration, animations: {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: {
             self.attributeCellHeight?.constant = 0.0
             self.attributeCell?.alpha = 0.0
         }, completion: { _ in
@@ -492,7 +490,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         }
         
         guard let feeBasis = currentFeeBasis else {
-            showAlert(title: L10n.Alert.error, message: "No fee estimate", buttonLabel: L10n.Button.ok)
+            showAlert(title: L10n.Alert.error, message: L10n.Send.noFeeEstimate, buttonLabel: L10n.Button.ok)
             return false
         }
         
@@ -501,7 +499,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         if let attribute = attributeCell?.attribute, currency.isXRP,
            !attribute.isEmpty {
             if UInt32(attribute) == nil {
-               showAlert(title: L10n.Alert.error, message: "Destination tag is too long.", buttonLabel: L10n.Button.ok)
+                showAlert(title: L10n.Alert.error, message: L10n.Send.destinationTag, buttonLabel: L10n.Button.ok)
                return false
             }
             attributeText = attribute

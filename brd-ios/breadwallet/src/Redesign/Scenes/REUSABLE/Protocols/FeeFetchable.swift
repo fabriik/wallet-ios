@@ -12,33 +12,20 @@ import Foundation
 import WalletKit
 
 protocol FeeFetchable {
-    // Maybe pass sender instead of wallet/keyStore/kvStore ?
     func fetchWkFee(for amount: Amount,
+                    with sender: Sender,
                     address: String,
-                    wallet: Wallet?,
-                    keyStore: KeyStore?,
-                    kvStore: BRReplicatedKVStore?,
                     completion: @escaping ((TransferFeeBasis?) -> Void))
 }
 
 extension FeeFetchable {
-    
     func fetchWkFee(for amount: Amount,
+                    with sender: Sender,
                     address: String,
-                    wallet: Wallet?,
-                    keyStore: KeyStore?,
-                    kvStore: BRReplicatedKVStore?,
                     completion: @escaping ((TransferFeeBasis?) -> Void)) {
-        guard let wallet = wallet,
-        let keyStore = keyStore,
-        let kvStore = kvStore
-        else { return
-        }
-
-        let sender = Sender(wallet: wallet, authenticator: keyStore, kvStore: kvStore)
         sender.estimateFee(address: address,
                            amount: amount,
-                           tier: .regular,
+                           tier: .priority,
                            isStake: false) { result in
             switch result {
             case .success(let fee):
