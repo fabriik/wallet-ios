@@ -12,7 +12,7 @@ import Foundation
 extension BRAPIClient {
     // updates asset bundles with names included in the AssetBundles.plist file
     // if we are in a staging/debug/test environment the bundle names will have "-staging" appended to them
-    open func updateBundles(completionHandler: @escaping (_ results: [(String, Error?)]) -> Void) {
+    public func updateBundles(completionHandler: @escaping (_ results: [(String, Error?)]) -> Void) {
         // ensure we can create the bundle directory
         do {
             try self.ensureBundlePaths()
@@ -71,7 +71,7 @@ extension BRAPIClient {
         }
     }
     
-    open func getAssetVersions(_ name: String, completionHandler: @escaping ([String]?, Error?) -> Void) {
+    public func getAssetVersions(_ name: String, completionHandler: @escaping ([String]?, Error?) -> Void) {
         let request = URLRequest(url: url("/assets/bundles/\(name)/versions"))
         dataTaskWithRequest(request) {(data, _, err) in
             if let err = err {
@@ -89,7 +89,7 @@ extension BRAPIClient {
         }.resume()
     }
     
-    open func downloadAssetArchive(_ name: String, completionHandler: @escaping (Data?, Error?) -> Void) {
+    public func downloadAssetArchive(_ name: String, completionHandler: @escaping (Data?, Error?) -> Void) {
         let request = URLRequest(url: url("/assets/bundles/\(name)/download"))
         dataTaskWithRequest(request) { (data, response, err) in
             if err != nil {
