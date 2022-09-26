@@ -30,7 +30,9 @@ struct ExchangeDetailsResponseData: ModelResponse {
     var type: String?
 }
 
-struct SwapDetail: Model {
+struct SwapDetail: Model, TxViewModel {
+    var tx: Transaction?
+    
     struct SourceDestination: Model {
         var currency: String
         var currencyAmount: Double

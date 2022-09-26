@@ -79,8 +79,10 @@ class TxListCell: UITableViewCell {
             failedIndicator.isHidden = true
             statusIndicator.isHidden = false
             timestamp.isHidden = false
-            timestamp.text = "\(viewModel.confirmations)/\(viewModel.currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
-            
+            guard let currency = viewModel.currency else {
+                return
+            }
+            timestamp.text = "\(viewModel.confirmations)/\(currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
         }
         
         NSLayoutConstraint.activate(completeConstraints)
@@ -113,8 +115,8 @@ class TxListCell: UITableViewCell {
     }
     
     private func handleSwapTransactions() {
-        let isSwapTo = viewModel.tx.swapSource?.currency.uppercased() == viewModel.currency.code.uppercased()
-        let swapString = isSwapTo ? "to \(viewModel.tx.swapDestination?.currency.uppercased() ?? "")" : "from \(viewModel.tx.swapSource?.currency.uppercased() ?? "")"
+        let isSwapTo = viewModel.tx?.swapSource?.currency.uppercased() == viewModel.currency?.code.uppercased()
+        let swapString = isSwapTo ? "to \(viewModel.tx?.swapDestination?.currency.uppercased() ?? "")" : "from \(viewModel.tx?.swapSource?.currency.uppercased() ?? "")"
         
         switch viewModel.status {
         case .complete:

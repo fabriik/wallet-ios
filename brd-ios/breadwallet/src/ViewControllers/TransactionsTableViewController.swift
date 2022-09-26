@@ -183,7 +183,8 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
         guard let transfers = wallet?.transfers else { return }
         allTransactions = transfers.sorted(by: { $0.timestamp > $1.timestamp })
         
-        TransferManager.shared.reload { [weak self] exchanges in
+        TransferManager.shared.reload(source: currency.code) { [weak self] exchanges in
+//            var remaining = exchanges
             exchanges?.forEach { exchange in
                 let source = exchange.source
                 let destination = exchange.destination
@@ -196,6 +197,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber, Tracka
                     element.swapTransationStatus = exchange.status
                     element.swapSource = exchange.source
                     element.swapDestination = exchange.destination
+//                    remaining?.removeAll(where: { $0.orderId == element.swapOrderId })
                 }
             }
             

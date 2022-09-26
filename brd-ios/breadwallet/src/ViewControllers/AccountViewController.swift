@@ -87,11 +87,11 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         addSubscriptions()
         setInitialData()
         
-        transactionsTableView?.didScrollToYOffset = { [unowned self] offset in
-            self.headerView.setOffset(offset)
+        transactionsTableView?.didScrollToYOffset = { [weak self] offset in
+            self?.headerView.setOffset(offset)
         }
-        transactionsTableView?.didStopScrolling = { [unowned self] in
-            self.headerView.didStopScrolling()
+        transactionsTableView?.didStopScrolling = { [weak self] in
+            self?.headerView.didStopScrolling()
         }
     }
     

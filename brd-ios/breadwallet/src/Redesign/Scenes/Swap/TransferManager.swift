@@ -28,19 +28,24 @@ class TransferManager {
         })
     }
     
-    func reload(completion: (([SwapDetail]?) -> Void)? = nil) {
+    func reload(source: String? = nil, completion: (([SwapDetail]?) -> Void)? = nil) {
         worker.execute { [weak self] result in
             let exchanges: [SwapDetail]
             switch result {
             case .success(let data):
-                exchanges = data ?? []
+                exchanges = data?.sorted(by: { $0.timestamp > $1.timestamp }) ?? []
                 
             case .failure:
                 exchanges = []
             }
             
             self?.exchanges = exchanges
-            completion?(exchanges)
+            
+            guard let source = source else {
+                completion?(exchanges)
+                return
+            }
+            completion?(exchanges.filter { $0.source.currency == source })
         }
     }
     

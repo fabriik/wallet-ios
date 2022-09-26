@@ -17,7 +17,7 @@ struct TxDetailViewModel: TxViewModel {
     let fiatAmount: String
     let originalFiatAmount: String?
     let exchangeRate: String?
-    let tx: Transaction
+    let tx: Transaction?
     
     // Ethereum-specific fields
     var gasPrice: String?
@@ -60,7 +60,7 @@ struct TxDetailViewModel: TxViewModel {
         if direction == .sent {
             return L10n.TransactionDetails.addressToHeader
         } else {
-            if tx.currency.isBitcoinCompatible {
+            if tx?.currency.isBitcoinCompatible == true {
                 return L10n.TransactionDetails.addressViaHeader
             } else {
                 return L10n.TransactionDetails.addressFromHeader
@@ -69,20 +69,24 @@ struct TxDetailViewModel: TxViewModel {
     }
     
     var extraAttribute: String? {
-        return tx.extraAttribute
+        return tx?.extraAttribute
     }
     
     var extraAttributeHeader: String {
-        if tx.currency.isXRP {
+        if tx?.currency.isXRP == true {
             return L10n.TransactionDetails.destinationTag
         }
-        if tx.currency.isHBAR {
+        if tx?.currency.isHBAR == true {
             return L10n.TransactionDetails.hederaMemo
         }
         return ""
     }
     
     var transactionHash: String {
+        guard let tx = tx,
+              let currency = currency
+        else { return "" }
+        
         return currency.isEthereumCompatible ? tx.hash : tx.hash.removing(prefix: "0x")
     }
 }
@@ -103,7 +107,8 @@ extension TxDetailViewModel {
             feeAmount.maximumFractionDigits = Amount.highPrecisionDigits
             fee = Store.state.showFiatAmounts ? feeAmount.fiatDescription : feeAmount.tokenDescription
         }
-
+        
+        let currency = tx.currency
         //TODO:CRYPTO incoming token transfers have a feeBasis with 0 values
         if let feeBasis = tx.feeBasis,
             (currency.isEthereum || (currency.isEthereumCompatible && tx.direction == .sent)) {

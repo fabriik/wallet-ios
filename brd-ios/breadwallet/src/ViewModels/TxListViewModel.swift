@@ -13,9 +13,13 @@ struct TxListViewModel: TxViewModel {
     
     // MARK: - Properties
     
-    let tx: Transaction
+    let tx: Transaction?
     
     var shortDescription: String {
+        guard let tx = tx else {
+            return ""
+        }
+
         let isComplete = tx.status == .complete
         
         if let comment = comment, !comment.isEmpty {
@@ -42,6 +46,9 @@ struct TxListViewModel: TxViewModel {
     }
 
     func amount(showFiatAmounts: Bool, rate: Rate) -> NSAttributedString {
+        guard let tx = tx else {
+            return .init()
+        }
         var amount = tx.amount
 
         if tokenTransferCode != nil {
