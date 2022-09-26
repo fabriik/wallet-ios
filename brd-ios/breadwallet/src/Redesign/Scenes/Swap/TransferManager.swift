@@ -28,7 +28,7 @@ class TransferManager {
         })
     }
     
-    func reload(source: String? = nil, completion: (([SwapDetail]?) -> Void)? = nil) {
+    func reload(for source: String? = nil, completion: (([SwapDetail]?) -> Void)? = nil) {
         worker.execute { [weak self] result in
             let exchanges: [SwapDetail]
             switch result {
@@ -45,7 +45,7 @@ class TransferManager {
                 completion?(exchanges)
                 return
             }
-            completion?(exchanges.filter { $0.source.currency == source })
+            completion?(exchanges.filter { $0.source.currency == source || $0.destination.currency == source })
         }
     }
     

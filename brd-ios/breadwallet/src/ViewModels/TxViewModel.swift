@@ -13,6 +13,7 @@ import UIKit
 /// Representation of a transaction
 protocol TxViewModel {
     var tx: Transaction? { get }
+    var swap: SwapDetail? { get }
     var currency: Currency? { get }
     var blockHeight: String { get }
     var longTimestamp: String { get }
@@ -28,9 +29,33 @@ protocol TxViewModel {
 // Default and passthru values
 extension TxViewModel {
 
-    var currency: Currency? { return tx?.currency }
-    var status: TransactionStatus { return tx?.status ?? .invalid }
-    var transactionType: Transaction.TransactionType { return tx?.transactionType ?? .defaultTransaction }
+    var currency: Currency? {
+        if let tx = tx {
+            return tx.currency
+        } else if let swap = swap {
+            return Store.state.currencies.first(where: { $0.code == swap.source.currency})
+        } else {
+            return nil
+        }
+    }
+    
+    var status: TransactionStatus {
+        if let tx = tx {
+            return tx.status
+        } else if let swap = swap {
+            return swap.status
+        }
+        return .invalid
+    }
+    
+    var transactionType: Transaction.TransactionType {
+        if let tx = tx {
+            return tx.transactionType
+        } else if let swap = swap {
+            return swap.type
+        }
+        return .defaultTransaction
+    }
     var direction: TransferDirection { return tx?.direction ?? .received }
     var comment: String? { return tx?.comment }
     
@@ -88,9 +113,8 @@ extension TxViewModel {
     
     var icon: StatusIcon {
         guard let tx = tx,
-              let currency = currency
-        else {
-            return .failed
+              let currency = currency else {
+            return swapIcon
         }
         
         if let gift = gift, tx.confirmations >= currency.confirmationsUntilFinal {
@@ -140,6 +164,14 @@ extension TxViewModel {
     
     var gift: Gift? {
         return tx?.metaData?.gift
+    }
+    
+    private var swapIcon: StatusIcon {
+        guard swap != nil else {
+            return .failed
+        }
+        
+        return .swapPending
     }
 }
 
