@@ -32,7 +32,7 @@ enum AlertType {
         case .sweepSuccess:
             return L10n.Import.success
         case .accountCreation, .cloudBackupRestoreSuccess, .cloudBackupSuccess:
-            return "Success"
+            return L10n.Import.success
         case .none:
             return "none"
         }
@@ -51,11 +51,11 @@ enum AlertType {
         case .sweepSuccess:
             return L10n.Import.successBody
         case .accountCreation:
-            return "Hedera Account succesfully created."
+            return L10n.Alert.hederaAccount
         case .cloudBackupRestoreSuccess:
-            return "Account succesfully restored from Cloud backup"
+            return L10n.Alert.accountRestorediCloud
         case .cloudBackupSuccess:
-            return "Account backed up with iCloud Keychain"
+            return L10n.Alert.accountBackedUpiCloud
         case .none:
             return "none"
         }

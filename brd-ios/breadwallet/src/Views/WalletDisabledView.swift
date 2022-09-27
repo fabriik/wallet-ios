@@ -21,13 +21,13 @@ class WalletDisabledView: UIView {
     }
 
     func show() {
-        UIView.animate(withDuration: C.animationDuration, animations: {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: {
             self.blur.effect = self.effect
         })
     }
 
     func hide(completion: @escaping () -> Void) {
-        UIView.animate(withDuration: C.animationDuration, animations: {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: {
             self.blur.effect = nil
         }, completion: { _ in
             completion()

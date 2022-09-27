@@ -77,10 +77,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
             termSwapCurrencyView.didTapSelectAsset = newValue
         }
     }
-    var didFinish: (() -> Void)?
-    
-    var didChangePlaces: (() -> Void)?
-    
+    var didFinish: ((_ didSwitchPlaces: Bool) -> Void)?
     var contentSizeChanged: (() -> Void)? {
         didSet {
             baseSwapCurrencyView.didChangeContent = contentSizeChanged
@@ -93,9 +90,10 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         
         content.addSubview(containerStackView)
         containerStackView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
             make.leading.equalTo(content.snp.leadingMargin)
-            make.top.equalTo(content.snp.topMargin).priority(.low)
+            make.trailing.equalTo(content.snp.trailingMargin)
+            make.top.equalTo(content.snp.topMargin)
+            make.bottom.equalTo(content.snp.bottomMargin)
         }
         
         containerStackView.addArrangedSubview(baseSwapCurrencyView)
@@ -117,28 +115,25 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         swapButton.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
+        
         getAmounts()
     }
     
     private func getAmounts() {
         baseSwapCurrencyView.didChangeFiatAmount = { [weak self] amount in
             self?.didChangeFromFiatAmount?(amount)
-            self?.contentSizeChanged?()
         }
         
         baseSwapCurrencyView.didChangeCryptoAmount = { [weak self] amount in
             self?.didChangeFromCryptoAmount?(amount)
-            self?.contentSizeChanged?()
         }
         
         termSwapCurrencyView.didChangeFiatAmount = { [weak self] amount in
             self?.didChangeToFiatAmount?(amount)
-            self?.contentSizeChanged?()
         }
         
         termSwapCurrencyView.didChangeCryptoAmount = { [weak self] amount in
             self?.didChangeToCryptoAmount?(amount)
-            self?.contentSizeChanged?()
         }
     }
     
@@ -167,7 +162,6 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         if baseSwapCurrencyView.selectorStackView.transform != .identity {
             baseSwapCurrencyView.selectorStackView.transform = .identity
             termSwapCurrencyView.selectorStackView.transform = .identity
-            layoutIfNeeded()
         }
         
         baseSwapCurrencyView.setup(with: viewModel.from)
@@ -184,22 +178,23 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     // MARK: - User interaction
     
     @objc private func topCurrencyTapped(_ sender: Any?) {
+        endEditing(true)
+        
         didTapFromAssetsSelection?()
     }
     
     @objc private func bottomCurrencyTapped(_ sender: Any?) {
+        endEditing(true)
+        
         didTapToAssetsSelection?()
     }
     
     @objc private func switchPlacesButtonTapped(_ sender: UIButton?) {
-        endEditing(true)
+        didFinish?(true)
+        contentSizeChanged?()
         
-        didChangePlaces?()
-
         SwapCurrencyView.animateSwitchPlaces(sender: sender,
                                              baseSwapCurrencyView: baseSwapCurrencyView,
                                              termSwapCurrencyView: termSwapCurrencyView)
-
-        contentSizeChanged?()
     }
 }

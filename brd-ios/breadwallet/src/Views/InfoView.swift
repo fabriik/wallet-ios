@@ -10,7 +10,7 @@ import UIKit
 
 class InfoView: UIView {
     
-    private let imageSize: CGFloat = 24
+    private let imageSize: CGFloat = ViewSizes.small.rawValue
     
     private let infoLabel = UILabel()
     private let infoImageView = UIImageView()
@@ -38,6 +38,7 @@ class InfoView: UIView {
     
     private func setUp() {
         backgroundColor = Theme.transparentBlue
+        layer.cornerRadius = CornerRadius.common.rawValue
         
         infoLabel.numberOfLines = 0
         infoLabel.textColor = Theme.secondaryText
@@ -59,7 +60,7 @@ class InfoView: UIView {
             infoImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: C.padding[2])
             ])
         
-        let textPadding: CGFloat = 12
+        let textPadding: CGFloat = Margins.medium.rawValue
         
         infoLabel.constrain([
             infoLabel.leftAnchor.constraint(equalTo: infoImageView.rightAnchor, constant: C.padding[2]),

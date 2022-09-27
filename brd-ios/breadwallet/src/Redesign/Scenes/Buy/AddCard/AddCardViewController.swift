@@ -107,6 +107,8 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
+        LoadingView.show()
+        
         interactor?.submit(viewAction: .init())
     }
 
@@ -128,7 +130,9 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
     }
     
     func displaySubmit(responseDisplay: AddCardModels.Submit.ResponseDisplay) {
-        coordinator?.showBillingAddress(addCardDataStore: dataStore)
+        LoadingView.show()
+        
+        coordinator?.showBillingAddress(checkoutToken: responseDisplay.checkoutToken)
     }
     
     func displayCvvInfoPopup(responseDisplay: AddCardModels.CvvInfoPopup.ResponseDisplay) {

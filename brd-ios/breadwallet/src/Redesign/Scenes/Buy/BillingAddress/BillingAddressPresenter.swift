@@ -31,28 +31,28 @@ final class BillingAddressPresenter: NSObject, Presenter, BillingAddressActionRe
         
         let sectionRows: [Models.Section: [Any]] = [
             .name: [
-                DoubleHorizontalTextboxViewModel(primary: .init(title: "First Name",
+                DoubleHorizontalTextboxViewModel(primary: .init(title: L10n.Buy.firstName,
                                                                 value: item.firstName),
-                                                 secondary: .init(title: "Last Name",
+                                                 secondary: .init(title: L10n.Buy.lastName,
                                                                   value: item.lastName))
             ],
             .country: [
-                TextFieldModel(title: "Country",
+                TextFieldModel(title: L10n.Account.country,
                                value: item.countryFullName,
                                trailing: .imageName("chevrondown"))
             ],
             .stateProvince: [
-                TextFieldModel(title: "State/Province",
+                TextFieldModel(title: L10n.Buy.stateProvince,
                                value: item.stateProvince)
             ],
             .cityAndZipPostal: [
-                DoubleHorizontalTextboxViewModel(primary: .init(title: "City",
+                DoubleHorizontalTextboxViewModel(primary: .init(title: L10n.Buy.city,
                                                                 value: item.city),
-                                                 secondary: .init(title: "ZIP/Postal Code",
+                                                 secondary: .init(title: L10n.Buy.zipPostalCode,
                                                                   value: item.zipPostal))
             ],
             .address: [
-                TextFieldModel(title: "Address",
+                TextFieldModel(title: L10n.Buy.address,
                                value: item.address)
             ],
             .confirm: [

@@ -14,7 +14,7 @@ class RecoveryKeyCompleteViewController: BaseRecoveryKeyViewController {
     private var fromNewUserOnboarding: Bool = false
     
     private var lockTopConstraintConstant: CGFloat {
-        let statusHeight = UIApplication.shared.statusBarFrame.height
+        let statusHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
         let navigationHeight = ((navigationController?.navigationBar.frame.height) ?? 44)
         if E.isIPhone6OrSmaller {
             return (UIScreen.main.bounds.height * 0.2) - statusHeight - navigationHeight
@@ -26,7 +26,7 @@ class RecoveryKeyCompleteViewController: BaseRecoveryKeyViewController {
     private let lockSuccessIcon = UIImageView(image: UIImage(named: "RecoveryKeyLockImageSuccess"))
     private let headingLabel = UILabel()
     private let subheadingLabel = UILabel()
-    private let continueButton = BRDButton(title: L10n.RecoveryKeyFlow.goToWalletButtonTitle, type: .primary)
+    private var continueButton = BRDButton(title: L10n.RecoveryKeyFlow.goToWalletButtonTitle, type: .primary)
 
     init(fromOnboarding: Bool, proceedToWallet: (() -> Void)?) {
         super.init()
@@ -52,34 +52,32 @@ class RecoveryKeyCompleteViewController: BaseRecoveryKeyViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = Theme.primaryBackground
         navigationItem.setHidesBackButton(true, animated: false)
         
-        //
-        // lock button
-        //
         view.addSubview(lockSuccessIcon)
-        
         lockSuccessIcon.contentMode = .scaleAspectFit
         view.addSubview(lockSuccessIcon)
         lockSuccessIcon.constrain([
             lockSuccessIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             lockSuccessIcon.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: lockTopConstraintConstant)
-            ])
+        ])
         
-        //
-        // labels
-        //
+        view.addSubview(continueButton)
+        constrainContinueButton(continueButton)
+        
         let titles = [L10n.RecoveryKeyFlow.successHeading, L10n.RecoveryKeyFlow.successSubheading]
         let fonts = [Theme.h2Title, Theme.body1]
         let colors = [Theme.primaryText, Theme.secondaryText]
         let xInsets: CGFloat = E.isSmallScreen ? 40 : 62
         
-        // define anchor/constant pairs for the label top constraints
+        continueButton.title = shouldShowGoToWalletButton ? L10n.RecoveryKeyFlow.goToWalletButtonTitle : L10n.Button.done
+        
+        // Define anchor/constant pairs for the label top constraints
         let topConstraints: [(a: NSLayoutYAxisAnchor, c: CGFloat)] = [(lockSuccessIcon.bottomAnchor, 38),
                                                                       (headingLabel.bottomAnchor, 18)]
-
+        
         for (i, label) in [headingLabel, subheadingLabel].enumerated() {
             view.addSubview(label)
             label.textAlignment = .center
@@ -93,21 +91,15 @@ class RecoveryKeyCompleteViewController: BaseRecoveryKeyViewController {
                 label.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: xInsets),
                 label.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -xInsets),
                 label.topAnchor.constraint(equalTo: topConstraints[i].a, constant: topConstraints[i].c)
-                ])
+            ])
         }
         
-        //
-        // go-to-wallet button
-        //
-        if shouldShowGoToWalletButton {
-            view.addSubview(continueButton)
-            
-            constrainContinueButton(continueButton)
-            continueButton.tap = { [unowned self] in
+        continueButton.tap = { [unowned self] in
+            if shouldShowGoToWalletButton {
                 self.proceedToWallet?()
+            } else {
+                self.dismiss(animated: true, completion: nil)
             }
-        } else {
-            showCloseButton()
         }
     }
 }

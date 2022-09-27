@@ -153,7 +153,7 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
         }
     }
     
-    private func updateLayout(background: BackgroundConfiguration?, shadow:  ShadowConfiguration?) {
+    private func updateLayout(background: BackgroundConfiguration?, shadow: ShadowConfiguration?) {
         configure(background: background)
         configure(shadow: shadow)
     }

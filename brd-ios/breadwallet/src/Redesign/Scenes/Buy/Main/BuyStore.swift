@@ -31,10 +31,8 @@ class BuyStore: NSObject, BaseDataStore, BuyDataStore {
               let currency = currencies.first(where: { $0.code == value.currency.uppercased() }) else {
             return nil
         }
-        return .init(amount: value.fee, currency: currency, exchangeRate: quote?.exchangeRate)
+        return .init(decimalAmount: value.fee, isFiat: false, currency: currency, exchangeRate: quote?.exchangeRate)
     }
-    
-    var fromCurrency: String? = Store.state.defaultCurrencyCode.lowercased()
     
     var toAmount: Amount?
     

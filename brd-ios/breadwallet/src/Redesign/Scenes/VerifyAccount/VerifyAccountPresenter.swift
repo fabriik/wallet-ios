@@ -21,8 +21,8 @@ final class VerifyAccountPresenter: NSObject, Presenter, VerifyAccountActionResp
         let sectionRows: [Models.Section: [Any]] =
         [
             .image: [ImageViewModel.imageName("VerifyAccount")],
-            .title: [LabelViewModel.text("Verify your account to get full access to your Fabriik wallet!")],
-            .description: [ LabelViewModel.text("We need to verify your identity in order to buy/sell and swap crypto.") ]
+            .title: [LabelViewModel.text(L10n.Account.messageVerifyAccount)],
+            .description: [ LabelViewModel.text(L10n.Account.verifyIdentity) ]
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))

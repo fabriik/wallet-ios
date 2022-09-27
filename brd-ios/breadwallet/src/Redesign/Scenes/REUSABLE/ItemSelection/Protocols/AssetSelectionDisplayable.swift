@@ -17,16 +17,23 @@ protocol AssetSelectionDisplayable {
 
 extension AssetSelectionDisplayable where Self: BaseCoordinator {
     func showAssetSelector(currencies: [Currency]?, supportedCurrencies: [SupportedCurrency]?, selected: ((Any?) -> Void)?) {
-        let allCurrencies = CurrencyFileManager().getCurrencyMetaDataFromCache()
+        let allCurrencies = Currencies.shared.currencies
         
         let supportedAssets = allCurrencies.filter { item in supportedCurrencies?.contains(where: { $0.name.lowercased() == item.code}) ?? false }
         
         var data: [AssetViewModel]? = currencies?.compactMap {
+            let topRightText = String(format: "%@ %@",
+                                      ExchangeFormatter.crypto.string(for: $0.state?.balance?.tokenValue) ?? "",
+                                      $0.code.uppercased())
+            let bottomRightText = String(format: "%@ %@",
+                                         ExchangeFormatter.fiat.string(for: $0.state?.balance?.fiatValue) ?? "",
+                                         C.usdCurrencyCode)
+            
             return AssetViewModel(icon: $0.imageSquareBackground,
                                   title: $0.name,
                                   subtitle: $0.code,
-                                  topRightText: HomeScreenAssetViewModel(currency: $0).tokenBalance,
-                                  bottomRightText: HomeScreenAssetViewModel(currency: $0).fiatBalance,
+                                  topRightText: topRightText,
+                                  bottomRightText: bottomRightText,
                                   isDisabled: isDisabledAsset(code: $0.code, supportedCurrencies: supportedCurrencies) ?? false)
         }
         

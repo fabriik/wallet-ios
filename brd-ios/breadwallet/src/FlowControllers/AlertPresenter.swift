@@ -130,14 +130,14 @@ class AlertPresenter: Subscriber {
         alert.hide = {
             self.hideNotReachable()
         }
-        UIView.spring(C.animationDuration, animations: {
+        UIView.spring(Presets.Animation.duration, animations: {
             alert.bottomConstraint?.constant = InAppAlert.height
             window.layoutIfNeeded()
         }, completion: {_ in})
     }
     
     private func hideNotReachable() {
-        UIView.animate(withDuration: C.animationDuration, animations: {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: {
             self.notReachableAlert?.bottomConstraint?.constant = 0.0
             self.notReachableAlert?.superview?.layoutIfNeeded()
         }, completion: { _ in

@@ -21,20 +21,20 @@ extension Presenter {
            error == .sessionExpired {
             responseDisplay = .init(error: error)
         } else if let error = error as? SwapErrors {
-            let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
+            let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
             let config = Presets.InfoView.swapError
             
             responseDisplay = .init(model: model, config: config)
         } else if let error = error as? FEError {
             // TODO: Investigate localized errors
             let message = error.errorMessage
-            let model = InfoViewModel(description: .text(message))
+            let model = InfoViewModel(description: .text(message), dismissType: .auto)
             
             let config = Presets.InfoView.swapError
             responseDisplay = .init(model: model, config: config)
         } else {
             // TODO: Investigate localized errors
-            let model = InfoViewModel(headerTitle: .text("Error"), description: .text(error.localizedDescription))
+            let model = InfoViewModel(headerTitle: .text("Error"), description: .text(error.localizedDescription), dismissType: .auto)
             // TODO: create Error preset
             let config = Presets.InfoView.primary
             responseDisplay = .init(model: model, config: config)

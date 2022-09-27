@@ -86,6 +86,11 @@ class FETimerView: FEView<TimerConfiguration, TimerViewModel> {
         
         invalidate()
         
+        guard viewModel.till != 0 else {
+            titleLabel.text = "00:00"
+            return
+        }
+        
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         timer?.fire()
     }

@@ -53,7 +53,7 @@ class BRDButton: UIControl {
     private let type: ButtonType
     private let container = UIView()
     private let label = UILabel()
-    private let cornerRadius: CGFloat = 12.0
+    private let cornerRadius: CGFloat = CornerRadius.common.rawValue
     private var imageView: UIImageView?
 
     override var isHighlighted: Bool {

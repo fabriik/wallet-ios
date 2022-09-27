@@ -146,6 +146,7 @@
 		7B0E34C928ABA73900D15180 /* CardDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0E34C728ABA73900D15180 /* CardDetailsView.swift */; };
 		7B0E34CA28ABA73900D15180 /* PaymentMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0E34C828ABA73900D15180 /* PaymentMethodView.swift */; };
 		7B0E906228BF8E54002D5B6D /* ExchangeDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0E906128BF8E54002D5B6D /* ExchangeDetailsWorker.swift */; };
+		7B22AE0A28DDA4CA002CC34F /* ExchangeCurrencyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B22AE0928DDA4CA002CC34F /* ExchangeCurrencyHelper.swift */; };
 		7B2C9AFC27D9270B00D5135C /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B2C9AFB27D9270B00D5135C /* IQKeyboardManagerSwift */; };
 		7B2E5048289800BB008CACD8 /* FieldValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E5047289800BB008CACD8 /* FieldValidator.swift */; };
 		7B2E5052289A5F02008CACD8 /* AddCardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E504C289A5F02008CACD8 /* AddCardStore.swift */; };
@@ -211,6 +212,7 @@
 		7BBBF4DF287421CF00E4D36B /* SwapStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBF4D9287421CF00E4D36B /* SwapStore.swift */; };
 		7BBBF4E0287421CF00E4D36B /* SwapMainVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBF4DA287421CF00E4D36B /* SwapMainVIP.swift */; };
 		7BC49D1B282E69A3000BF284 /* ManageAssetsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC49D1A282E69A3000BF284 /* ManageAssetsButton.swift */; };
+		7BD88B5028D92A7A003A766B /* ExchangeAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD88B4F28D92A7A003A766B /* ExchangeAuthHelper.swift */; };
 		7BDB49B62805AC780031F015 /* EmailFeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB49B52805AC780031F015 /* EmailFeedbackManager.swift */; };
 		7BDB49D62806C03A0031F015 /* BRTarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB49D52806C03A0031F015 /* BRTarTests.swift */; };
 		7BDB49E22806CB590031F015 /* ImageStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB49E12806CB590031F015 /* ImageStorageService.swift */; };
@@ -289,7 +291,7 @@
 		7E2E1A41284E267000E56E69 /* ProfileWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E1A40284E267000E56E69 /* ProfileWorker.swift */; };
 		7E383A9B28AF68160000D2F7 /* BuyErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E383A9A28AF68160000D2F7 /* BuyErrors.swift */; };
 		7E383B4928AE1AFD00A5339F /* AssetSelectionDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E383B4828AE1AFD00A5339F /* AssetSelectionDisplayable.swift */; };
-		7E516D7928B4E83000BBB702 /* TransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E516D7828B4E83000BBB702 /* TransferManager.swift */; };
+		7E516D7928B4E83000BBB702 /* ExchangeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E516D7828B4E83000BBB702 /* ExchangeManager.swift */; };
 		7E52B7A22872CD1E003D2249 /* SupportedCurrenciesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E52B7A12872CD1E003D2249 /* SupportedCurrenciesWorker.swift */; };
 		7E5B305B28A67FC60065D2D8 /* SwapInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B305A28A67FC60065D2D8 /* SwapInfoViewController.swift */; };
 		7E5B306028A680300065D2D8 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B305F28A680300065D2D8 /* SuccessViewController.swift */; };
@@ -745,7 +747,6 @@
 		C491AC0028A6432500E79954 /* BuyOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C491ABFF28A6432500E79954 /* BuyOrderView.swift */; };
 		C49E6177288EC4C000910D01 /* ExchangeHistoryWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49E6176288EC4BF00910D01 /* ExchangeHistoryWorker.swift */; };
 		C4BD1C69284A16E000AFA2A6 /* CountriesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BD1C68284A16E000AFA2A6 /* CountriesWorker.swift */; };
-		C4BDDA4528892D9E003A31E0 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BDDA4428892D9D003A31E0 /* TransactionView.swift */; };
 		C4D5E7FF284951DD000BEE6F /* VerifyAccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D5E7F8284951DD000BEE6F /* VerifyAccountStore.swift */; };
 		C4D5E800284951DD000BEE6F /* VerifyAccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D5E7F9284951DD000BEE6F /* VerifyAccountPresenter.swift */; };
 		C4D5E801284951DD000BEE6F /* VerifyAccountModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D5E7FA284951DD000BEE6F /* VerifyAccountModels.swift */; };
@@ -1154,6 +1155,7 @@
 		7B0E34C728ABA73900D15180 /* CardDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDetailsView.swift; sourceTree = "<group>"; };
 		7B0E34C828ABA73900D15180 /* PaymentMethodView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentMethodView.swift; sourceTree = "<group>"; };
 		7B0E906128BF8E54002D5B6D /* ExchangeDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailsWorker.swift; sourceTree = "<group>"; };
+		7B22AE0928DDA4CA002CC34F /* ExchangeCurrencyHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCurrencyHelper.swift; sourceTree = "<group>"; };
 		7B2E5047289800BB008CACD8 /* FieldValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldValidator.swift; sourceTree = "<group>"; };
 		7B2E504C289A5F02008CACD8 /* AddCardStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardStore.swift; sourceTree = "<group>"; };
 		7B2E504D289A5F02008CACD8 /* AddCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
@@ -1209,6 +1211,7 @@
 		7BBBF4D9287421CF00E4D36B /* SwapStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwapStore.swift; sourceTree = "<group>"; };
 		7BBBF4DA287421CF00E4D36B /* SwapMainVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwapMainVIP.swift; sourceTree = "<group>"; };
 		7BC49D1A282E69A3000BF284 /* ManageAssetsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManageAssetsButton.swift; path = src/Views/ManageAssetsButton.swift; sourceTree = "<group>"; };
+		7BD88B4F28D92A7A003A766B /* ExchangeAuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeAuthHelper.swift; sourceTree = "<group>"; };
 		7BDB49B52805AC780031F015 /* EmailFeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailFeedbackManager.swift; sourceTree = "<group>"; };
 		7BDB49D52806C03A0031F015 /* BRTarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRTarTests.swift; sourceTree = "<group>"; };
 		7BDB49E12806CB590031F015 /* ImageStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageService.swift; sourceTree = "<group>"; };
@@ -1286,7 +1289,7 @@
 		7E2E1A40284E267000E56E69 /* ProfileWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileWorker.swift; sourceTree = "<group>"; };
 		7E383A9A28AF68160000D2F7 /* BuyErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyErrors.swift; sourceTree = "<group>"; };
 		7E383B4828AE1AFD00A5339F /* AssetSelectionDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetSelectionDisplayable.swift; sourceTree = "<group>"; };
-		7E516D7828B4E83000BBB702 /* TransferManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferManager.swift; sourceTree = "<group>"; };
+		7E516D7828B4E83000BBB702 /* ExchangeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeManager.swift; sourceTree = "<group>"; };
 		7E52B7A12872CD1E003D2249 /* SupportedCurrenciesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedCurrenciesWorker.swift; sourceTree = "<group>"; };
 		7E59CB142869A7F900A495E1 /* staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = staging.xcconfig; sourceTree = "<group>"; };
 		7E5B305A28A67FC60065D2D8 /* SwapInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoViewController.swift; sourceTree = "<group>"; };
@@ -1711,7 +1714,6 @@
 		C491ABFF28A6432500E79954 /* BuyOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrderView.swift; sourceTree = "<group>"; };
 		C49E6176288EC4BF00910D01 /* ExchangeHistoryWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeHistoryWorker.swift; sourceTree = "<group>"; };
 		C4BD1C68284A16E000AFA2A6 /* CountriesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesWorker.swift; sourceTree = "<group>"; };
-		C4BDDA4428892D9D003A31E0 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		C4D5E7F8284951DD000BEE6F /* VerifyAccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyAccountStore.swift; sourceTree = "<group>"; };
 		C4D5E7F9284951DD000BEE6F /* VerifyAccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyAccountPresenter.swift; sourceTree = "<group>"; };
 		C4D5E7FA284951DD000BEE6F /* VerifyAccountModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyAccountModels.swift; sourceTree = "<group>"; };
@@ -2521,10 +2523,18 @@
 				7BBBF4D6287421CE00E4D36B /* SwapModels.swift */,
 				7BBBF4D7287421CF00E4D36B /* SwapViewController.swift */,
 				7BBBF4D5287421CE00E4D36B /* SwapInteractor.swift */,
-				7B7863192874266A0092F35B /* SwapCoordinator.swift */,
 				7EC0F8A92886D9B90037145C /* SwapErrors.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		7BD88B5128D9D371003A766B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */,
+				7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		7C377EBC20F64C1200E8CF1C /* Resources */ = {
@@ -2588,16 +2598,16 @@
 		7E52B79D286EF4CE003D2249 /* Swap */ = {
 			isa = PBXGroup;
 			children = (
-				7BBBF4D22874210600E4D36B /* Main */,
-				7E52B79E286EF4CE003D2249 /* Workers */,
+				7B7863192874266A0092F35B /* SwapCoordinator.swift */,
 				7ECCA98E2873059300F99368 /* ExchangeEndpoints.swift */,
-				7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */,
-				7EC0F8B7288813EE0037145C /* SwapConfirmationView.swift */,
+				7E516D7828B4E83000BBB702 /* ExchangeManager.swift */,
+				7BD88B5128D9D371003A766B /* Views */,
+				7E52B79E286EF4CE003D2249 /* Workers */,
+				7BBBF4D22874210600E4D36B /* Main */,
 				7E5B305E28A680070065D2D8 /* Validation */,
 				7ED427E628755C9B00AA19A8 /* ExchangeDetails */,
 				C4520F032875C613003FFB7F /* AssetSelection */,
 				C46C28F5287EBEAC0035C843 /* SwapInfo */,
-				7E516D7828B4E83000BBB702 /* TransferManager.swift */,
 			);
 			path = Swap;
 			sourceTree = "<group>";
@@ -2899,11 +2909,13 @@
 		7E87B32B285346D50097671F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				7B8CF81D28A3D0C600D54D14 /* CardDetailsFormatter.swift */,
 				7B8CF81F28A64B9300D54D14 /* ExchangeFormatter.swift */,
+				7B22AE0928DDA4CA002CC34F /* ExchangeCurrencyHelper.swift */,
+				7BD88B4F28D92A7A003A766B /* ExchangeAuthHelper.swift */,
 				7E87B32C285346E00097671F /* UIImage+Compress.swift */,
-				7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */,
 				7B62ACFA28B3BDA000CE81E7 /* String+Chunk.swift */,
+				7ECCA99628742E1700F99368 /* UIApplication+ActiveWindow.swift */,
+				7B8CF81D28A3D0C600D54D14 /* CardDetailsFormatter.swift */,
 				7B94EFA928BD501500F63B62 /* UINavigationController+Completion.swift */,
 			);
 			path = Helpers;
@@ -3026,7 +3038,6 @@
 			isa = PBXGroup;
 			children = (
 				7ECCA9632875A77300617067 /* OrderView.swift */,
-				C4BDDA4428892D9D003A31E0 /* TransactionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4666,7 +4677,7 @@
 				7BB22E49285B8D60003E37AC /* ContentSizedTableView.swift in Sources */,
 				223DB2191DF691260076A151 /* BRSocketHelpers.c in Sources */,
 				C491ABF828A6395D00E79954 /* OrderPreviewStore.swift in Sources */,
-				7E516D7928B4E83000BBB702 /* TransferManager.swift in Sources */,
+				7E516D7928B4E83000BBB702 /* ExchangeManager.swift in Sources */,
 				7B78631A2874266A0092F35B /* SwapCoordinator.swift in Sources */,
 				3A1D4180250965730089FE63 /* MarketDataPublisher.swift in Sources */,
 				7EBC6AF628488B10000A301F /* RegistrationStore.swift in Sources */,
@@ -4841,6 +4852,7 @@
 				CEAFC8611E5D5B0500E4FD06 /* SegmentedButton.swift in Sources */,
 				3A6FD42D24E456B800068ECE /* KeyStoreUtils.swift in Sources */,
 				7EF45F4F2845352400D1F7B0 /* KYCBasicInteractor.swift in Sources */,
+				7B22AE0A28DDA4CA002CC34F /* ExchangeCurrencyHelper.swift in Sources */,
 				7E52B7A22872CD1E003D2249 /* SupportedCurrenciesWorker.swift in Sources */,
 				7E5CB3982835090E00EC787E /* Controller.swift in Sources */,
 				7EC21A1C28991A6500FED711 /* BillingAddressInteractor.swift in Sources */,
@@ -5098,6 +5110,7 @@
 				7E8E9798283F4830008606B0 /* ProfileStore.swift in Sources */,
 				CE4DFB2E1E9C26DA0014009E /* ShareDataViewController.swift in Sources */,
 				CE1E5F261EF083A600BD0F72 /* ImportKeyViewController.swift in Sources */,
+				7BD88B5028D92A7A003A766B /* ExchangeAuthHelper.swift in Sources */,
 				7E5CB3AB2835090E00EC787E /* WrapperCollectionViewCell.swift in Sources */,
 				7B94343D2887F98E00638703 /* DeleteProfileWorker.swift in Sources */,
 				CE25BF931DFDA7A600BC67B6 /* MessageUIPresenter.swift in Sources */,
@@ -5111,7 +5124,6 @@
 				7B54E5A327F4A2B0002DD1E4 /* HttpRequest.swift in Sources */,
 				C4D5E7FF284951DD000BEE6F /* VerifyAccountStore.swift in Sources */,
 				7E8E9799283F4830008606B0 /* ProfilePresenter.swift in Sources */,
-				C4BDDA4528892D9E003A31E0 /* TransactionView.swift in Sources */,
 				7EF45F88284768C100D1F7B0 /* ItemSelectionInteractor.swift in Sources */,
 				CEA3626A1E01150D0061FC0E /* CGContext+Additions.swift in Sources */,
 				7C6ACCB41FEB34470028ABFA /* TxLabelCell.swift in Sources */,
@@ -5424,11 +5436,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 4R7S6N88W9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 591;
+				DYLIB_CURRENT_VERSION = 635;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Modules/libbz2/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -5453,11 +5465,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 4R7S6N88W9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 591;
+				DYLIB_CURRENT_VERSION = 635;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Modules/libbz2/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -5631,7 +5643,7 @@
 				CODE_SIGN_ENTITLEMENTS = breadwallet/breadwallet.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Modules",
@@ -5660,6 +5672,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";
+				MARKETING_VERSION = 4.14.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -5681,7 +5694,7 @@
 				CODE_SIGN_ENTITLEMENTS = breadwallet/breadwallet.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				EXCLUDED_SOURCE_FILE_NAMES = "brd-tokens-staging.tar";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5711,6 +5724,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";
+				MARKETING_VERSION = 4.14.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -5921,7 +5935,7 @@
 				CODE_SIGN_ENTITLEMENTS = breadwallet/breadwallet.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Modules",
@@ -5950,6 +5964,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";
+				MARKETING_VERSION = 4.14.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6018,11 +6033,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 4R7S6N88W9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 591;
+				DYLIB_CURRENT_VERSION = 635;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Modules/libbz2/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -6080,7 +6095,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = breadwalletWidget/breadwalletWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = breadwalletWidget/Info.plist;
@@ -6110,7 +6125,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = breadwalletIntentHandler/Info.plist;
@@ -6148,7 +6163,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -6180,7 +6195,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = breadwalletIntentHandler/Info.plist;
@@ -6210,7 +6225,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = breadwalletIntentHandler/Info.plist;
@@ -6244,7 +6259,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = breadwalletWidget/breadwalletWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -6280,7 +6295,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = breadwalletWidget/breadwalletWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = breadwalletWidget/Info.plist;
@@ -6314,7 +6329,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = breadwalletWidget/breadwalletWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = breadwalletWidget/Info.plist;
@@ -6460,7 +6475,7 @@
 				CODE_SIGN_ENTITLEMENTS = breadwallet/breadwallet.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEVELOPMENT_TEAM = 4MTMK4ZYK4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Modules",
@@ -6479,6 +6494,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";
+				MARKETING_VERSION = 4.14.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fabriik.one;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6548,11 +6564,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 591;
+				CURRENT_PROJECT_VERSION = 635;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 4R7S6N88W9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 591;
+				DYLIB_CURRENT_VERSION = 635;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Modules/libbz2/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
