@@ -271,16 +271,10 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
         }
     }
     
-    var group: DispatchGroup?
-    
     @objc private func updateFees() {
         guard let amount = amount else { return }
         guard let address = address, !address.isEmpty else { return _ = handleValidationResult(.invalidAddress) }
         
-        // already fetching
-        guard group == nil else { return }
-        group = DispatchGroup()
-        group?.enter()
         sender.estimateFee(address: address, amount: amount, tier: feeLevel, isStake: false) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -292,41 +286,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
                                     message: L10n.ErrorMessages.ethBalanceLow,
                                     buttonLabel: L10n.Button.ok)
                 }
-                self?.group?.leave()
-            }
-        }
-        
-        group?.enter()
-        sender.estimateLimitMaximum(address: address, fee: feeLevel, completion: { [weak self] result in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                switch result {
-                case .success(let maximumAmount):
-                    self.maximum = Amount(cryptoAmount: maximumAmount, currency: self.currency)
-                case .failure(let error):
-                    print("[LIMIT] error: \(error)")
-                }
-                self.group?.leave()
-            }
-        })
-        
-        group?.enter()
-        sender.estimateLimitMinimum(address: address, fee: feeLevel) { [weak self] result in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                switch result {
-                case .success(let minimumAmount):
-                    self.minimum = Amount(cryptoAmount: minimumAmount, currency: self.currency)
-                case .failure(let error):
-                    print("[LIMIT] error: \(error)")
-                }
-                self.group?.leave()
-            }
-        }
-        
-        group?.notify(queue: .global()) { [weak self] in
-            DispatchQueue.main.async {
-                self?.group = nil
+                
                 self?.amountView.updateBalanceLabel()
             }
         }
