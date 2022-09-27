@@ -87,7 +87,6 @@ class ApplicationController: Subscriber {
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalNever)
 
         UNUserNotificationCenter.current().delegate = notificationHandler
-        EventMonitor.shared.register(.pushNotifications)
 
         mainSetup()
         setupKeyboard()

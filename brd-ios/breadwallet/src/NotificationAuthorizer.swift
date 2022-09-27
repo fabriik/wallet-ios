@@ -171,17 +171,12 @@ struct NotificationAuthorizer {
                                       preferredStyle: .alert)
         
         let enableAction = UIAlertAction(title: L10n.Button.ok, style: .default) { _ in
-            
-            self.logEvent(.optInPrompt, .okButton)
-            
             UNUserNotificationCenter.current().requestAuthorization(options: self.options) { (granted, _) in
                 DispatchQueue.main.async {
                     if granted {
                         UIApplication.shared.registerForRemoteNotifications()
-                        self.logEvent(.systemPrompt, .allowButton)
                         completion(.allowed)
                     } else {
-                        self.logEvent(.systemPrompt, .denyButton)
                         completion(.denied)
                     }
                 }
@@ -191,8 +186,6 @@ struct NotificationAuthorizer {
         let deferAction = UIAlertAction(title: L10n.Button.maybeLater, style: .cancel) { _ in
             // Logging this here rather than in `userDidDeferNotificationsOptIn()` so that it's not logged
             // during unit testing; however, at this point 'optInDeferralCount' won't be updated yet, so
-            // add 1 when logging the event.
-            self.logEvent(.optInPrompt, .deferButton, [ "count": String(self.optInDeferralCount + 1) ])
             completion(.deferred)
         }
         
