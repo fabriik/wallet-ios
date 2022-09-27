@@ -782,7 +782,6 @@ class ModalPresenter: Subscriber {
         RecoveryKeyFlowController.enterRecoveryKeyFlow(pin: nil,
                                                        keyMaster: self.keyStore,
                                                        from: vc,
-                                                       context: .none,
                                                        dismissAction: nil)
     }
     

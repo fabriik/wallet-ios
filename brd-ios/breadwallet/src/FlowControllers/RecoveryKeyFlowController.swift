@@ -55,7 +55,6 @@ class RecoveryKeyFlowController {
     static func enterRecoveryKeyFlow(pin: String?,
                                      keyMaster: KeyMaster,
                                      from viewController: UIViewController,
-                                     context: EventContext,
                                      dismissAction: (() -> Void)?,
                                      modalPresentation: Bool = true,
                                      canExit: Bool = true) {
@@ -64,10 +63,6 @@ class RecoveryKeyFlowController {
         let recoveryKeyMode: EnterRecoveryKeyMode = isGeneratingKey ? .generateKey : .writeKey
         let eventContext = (context == .none) ? (isGeneratingKey ? .generateKey : .writeKey) : context
 
-        // Register the context so that the recovery key events are tracked, with the correct context.
-        // When the flow is dismissed,
-        EventMonitor.shared.register(eventContext)
-        
         let recoveryKeyNavController = RecoveryKeyFlowController.makeNavigationController()
         
         var baseNavigationController: RootNavigationController?

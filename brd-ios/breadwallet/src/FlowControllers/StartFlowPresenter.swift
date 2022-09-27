@@ -74,10 +74,6 @@ class StartFlowPresenter: Subscriber {
         /// Displays the onboarding screen (app landing page) that allows the user to either create
         /// a new wallet or restore an existing wallet.
         
-        // Register the onboarding event context so that events are logged to the server throughout
-        // the onboarding process, including post-walkthrough events such as PIN entry and paper-key entry.
-        EventMonitor.shared.register(.onboarding)
-        
         let onboardingScreen = OnboardingViewController(doesCloudBackupExist: keyMaster.doesCloudBackupExist(),
                                                         didExitOnboarding: { [weak self] (action) in
             guard let self = self else { return }
@@ -188,7 +184,6 @@ class StartFlowPresenter: Subscriber {
                                              type: .recoverBackup,
                                              showsBackButton: true,
                                              phrase: nil,
-                                             eventContext: .recoverCloud,
                                              backupKey: backup.identifier)
         update.didRecoverAccount = { [weak self] account in
             self?.handleRecoveredAccount(account)
@@ -251,14 +246,13 @@ class StartFlowPresenter: Subscriber {
         let pinCreationViewController = UpdatePinViewController(keyMaster: keyMaster,
                                                                 type: .creationNoPhrase,
                                                                 showsBackButton: false,
-                                                                phrase: nil,
-                                                                eventContext: .onboarding)
+                                                                phrase: nil)
         pinCreationViewController.setPinSuccess = { [unowned self] pin in
             autoreleasepool {
                 guard let (_, account) = self.keyMaster.setRandomSeedPhrase() else { self.handleWalletCreationError(); return }
                 DispatchQueue.main.async {
                     self.enterCloudBackup(pin: pin, callback: {
-                          self.pushStartPaperPhraseCreationViewController(pin: pin, eventContext: .onboarding)
+                          self.pushStartPaperPhraseCreationViewController(pin: pin)
                           self.onboardingCompletionHandler?(account)
                     })
                 }

@@ -11,7 +11,7 @@ import LocalAuthentication
 import WalletKit
 import MachO
 
-class LoginViewController: UIViewController, Subscriber, Trackable {
+class LoginViewController: UIViewController, Subscriber {
     enum Context {
         case initialLaunch(loginHandler: LoginCompletionHandler)
         case automaticLock
@@ -170,32 +170,16 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         guard UIApplication.shared.applicationState != .background else { return }
 
         if shouldUseBiometrics && !hasAttemptedToShowBiometrics && context.shouldAttemptBiometricUnlock {
             hasAttemptedToShowBiometrics = true
             biometricsTapped()
         }
+        
         if !isResetting {
             lockIfNeeded()
-        }
-        
-        // detect jailbreak so we can throw up an idiot warning, in viewDidLoad so it can't easily be swizzled out
-        if !E.isSimulator {
-            var s = stat()
-            var isJailbroken = (stat("/bin/sh", &s) == 0) ? true : false
-            for i in 0..<_dyld_image_count() {
-                guard !isJailbroken else { break }
-                // some anti-jailbreak detection tools re-sandbox apps, so do a secondary check for any MobileSubstrate dyld images
-                if strstr(_dyld_get_image_name(i), "MobileSubstrate") != nil {
-                    isJailbroken = true
-                }
-            }
-            notificationObservers[UIApplication.willEnterForegroundNotification.rawValue] =
-                NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil) { [weak self] _ in
-                    self?.showJailbreakWarnings(isJailbroken: isJailbroken)
-            }
-            showJailbreakWarnings(isJailbroken: isJailbroken)
         }
     }
 
@@ -345,7 +329,6 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     }
 
     private func authenticationSucceded(forLoginWithAccount account: Account? = nil, pin: String? = nil) {
-        saveEvent("login.success")
         let label = UILabel(font: .customBody(size: 16.0))
         label.textColor = .black
         label.alpha = 0.0
@@ -387,7 +370,6 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     }
 
     private func authenticationFailed() {
-        saveEvent("login.failed")
         pinPad.view.isUserInteractionEnabled = false
         pinView.shake { [weak self] in
             self?.pinPad.view.isUserInteractionEnabled = true
@@ -435,7 +417,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
             }
             return
         }
-        saveEvent("login.locked")
+        
         navigationController?.isNavigationBarHidden = true
         let disabledUntil = keyMaster.walletDisabledUntil
         let disabledUntilDate = Date(timeIntervalSince1970: disabledUntil)
@@ -448,7 +430,6 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
         pinPad.view.isUserInteractionEnabled = false
         unlockTimer?.invalidate()
         unlockTimer =  Timer.scheduledTimer(withTimeInterval: unlockInterval, repeats: false) { _ in
-            self.saveEvent("login.unlocked")
             self.pinPad.view.isUserInteractionEnabled = true
             self.unlockTimer = nil
             self.disabledView.hide { [unowned self] in
@@ -470,19 +451,6 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
         return keyMaster.walletDisabledUntil > now
     }
     
-    private func showJailbreakWarnings(isJailbroken: Bool) {
-        guard isJailbroken else { return }
-        let alert = UIAlertController(title: L10n.JailbreakWarnings.title, message: L10n.JailbreakWarnings.messageWithBalance, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: L10n.JailbreakWarnings.ignore, style: .default, handler: { _ in
-            self.saveEvent(self.makeEventName([EventContext.jailbreak.name, Event.ignore.name]))
-        }))
-        alert.addAction(UIAlertAction(title: L10n.JailbreakWarnings.close, style: .default, handler: { _ in
-            self.saveEvent(self.makeEventName([EventContext.jailbreak.name, Event.close.name]))
-            exit(0)
-        }))
-        present(alert, animated: true, completion: nil)
-    }
-
     private func updateDebugLabel() {
         guard E.isDebug else { return }
         let remaining = keyMaster.pinAttemptsRemaining

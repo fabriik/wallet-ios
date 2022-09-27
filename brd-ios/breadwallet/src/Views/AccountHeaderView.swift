@@ -9,13 +9,12 @@
 import UIKit
 import SwiftUI
 
-private let largeFontSize: CGFloat = 28.0
-private let smallFontSize: CGFloat = 14.0
 private let historyPeriodPillAlpha: CGFloat = 0.3
 
-class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
+class AccountHeaderView: UIView, GradientDrawable, Subscriber {
     
     // MARK: - Views
+    
     private let intrinsicSizeView = UIView()
     private let extendedTouchArea = ExtendedTouchArea()
     private let currencyName = UILabel(font: .customBody(size: 18.0))
@@ -279,7 +278,6 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
         }
         
         chartView.scrubberDidBegin = { [unowned self] in
-            self.saveEvent(self.makeEventName([EventContext.wallet.name, self.currency.code.uppercased(), Event.scrubbed.name]))
             self.isScrubbing = true
             UIView.animate(withDuration: Presets.Animation.duration, animations: {
                 self.priceChangeView.alpha = 0.0
@@ -411,7 +409,6 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
     }
     
     private func didTap(button: UIButton) {
-        saveEvent(makeEventName([EventContext.wallet.name, currency.code.uppercased(), Event.axisToggle.name]))
         updateHistoryPeriodPillPosition(button: button, withAnimation: true)
     }
 
