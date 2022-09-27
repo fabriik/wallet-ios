@@ -37,7 +37,7 @@ class RecoveryKeyCompleteViewController: BaseRecoveryKeyViewController {
     }
     
     override func onCloseButton() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
     
     override func viewDidLoad() {
