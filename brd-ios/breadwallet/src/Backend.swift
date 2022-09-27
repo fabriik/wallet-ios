@@ -55,14 +55,6 @@ class Backend {
         shared.exchangeUpdater?.refresh()
     }
     
-    static func sendLaunchEvent() {
-        DispatchQueue.main.async { // WKWebView creation must be on main thread
-            shared.userAgentFetcher.getUserAgent { userAgent in
-                shared.apiClient.sendLaunchEvent(userAgent: userAgent)
-            }
-        }
-    }
-    
     // MARK: Setup
     
     static func connect(authenticator: WalletAuthenticator) {

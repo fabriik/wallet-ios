@@ -17,7 +17,7 @@ import WidgetKit
 private let timeSinceLastExitKey = "TimeSinceLastExit"
 private let shouldRequireLoginTimeoutKey = "ShouldRequireLoginTimeoutKey"
 
-class ApplicationController: Subscriber, Trackable {
+class ApplicationController: Subscriber {
     
     fileprivate var application: UIApplication?
 
@@ -115,13 +115,7 @@ class ApplicationController: Subscriber, Trackable {
                                         window: window,
                                         alertPresenter: alertPresenter,
                                         deleteAccountCallback: didTapDeleteAccount)
-        
-        // Start collecting analytics events. Once we have a wallet, startBackendServices() will
-        // notify `Backend.apiClient.analytics` so that it can upload events to the server.
-        Backend.apiClient.analytics?.startCollectingEvents()
-
         appRatingManager.start()
-        
         setupSubscribers()
         
         ExchangeCurrencyHelper.revertIfNeeded(coordinator: coordinator, completion: { [weak self] in
@@ -193,8 +187,6 @@ class ApplicationController: Subscriber, Trackable {
     private func setupSystem(with account: Account) {
         // Authenticate with BRDAPI backend
         Backend.connect(authenticator: keyStore as WalletAuthenticator)
-        Backend.sendLaunchEvent()
-        Backend.apiClient.analytics?.onWalletReady()
         
         DispatchQueue.global(qos: .userInitiated).async {
             Backend.kvStore?.syncAllKeys { [weak self] error in
@@ -263,8 +255,6 @@ class ApplicationController: Subscriber, Trackable {
     
     func willEnterForeground() {
         guard !keyStore.noWallet else { return }
-        
-        Backend.sendLaunchEvent()
         
         if shouldRequireLogin() {
             Store.perform(action: RequireLogin())
@@ -353,10 +343,8 @@ class ApplicationController: Subscriber, Trackable {
                 Store.trigger(name: .didSyncKVStore)
             }
         }
-
-        Backend.apiClient.updateExperiments()
+        
         Backend.updateExchangeRates()
-        Backend.apiClient.fetchAnnouncements()
     }
     
     // MARK: - UI
@@ -584,13 +572,9 @@ extension ApplicationController {
             NotificationAuthorizer().areNotificationsAuthorized { authorized in
                 DispatchQueue.main.async {
                     if authorized {
-                        if !Store.state.isPushNotificationsEnabled {
-                            self.saveEvent("push.enabledSettings")
-                        }
                         UIApplication.shared.registerForRemoteNotifications()
                     } else {
                         if Store.state.isPushNotificationsEnabled, let pushToken = UserDefaults.pushToken {
-                            self.saveEvent("push.disabledSettings")
                             Store.perform(action: PushNotifications.SetIsEnabled(false))
                             Backend.apiClient.deletePushNotificationToken(pushToken)
                         }

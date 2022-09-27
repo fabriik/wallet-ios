@@ -54,28 +54,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         return logoImageView
     }()
     
-    private var shouldShowBuyAndSell: Bool {
-        return (Store.state.experimentWithName(.buyAndSell)?.active ?? false) && (Store.state.defaultCurrencyCode == C.usdCurrencyCode)
-    }
-    
-    private var buyButtonTitle: String {
-        return shouldShowBuyAndSell ? L10n.HomeScreen.buyAndSell : L10n.HomeScreen.buy
-    }
-    
-    private let buyButtonIndex = 0
-    private let tradeButtonIndex = 1
-    private let menuButtonIndex = 2
-    
-    private var buyButton: UIButton? {
-        guard toolbarButtons.count == 4 else { return nil }
-        return toolbarButtons[buyButtonIndex]
-    }
-    
-    private var tradeButton: UIButton? {
-        guard toolbarButtons.count == 4 else { return nil }
-        return toolbarButtons[tradeButtonIndex]
-    }
-    
     var didSelectCurrency: ((Currency) -> Void)?
     var didTapManageWallets: (() -> Void)?
     var didTapBuy: (() -> Void)?
@@ -310,18 +288,11 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
 
             }
         })
+        
         Store.subscribe(self, name: .didWritePaperKey, callback: { _ in
             if self.generalPromptView.type == .paperKey {
                 self.hidePrompt(self.generalPromptView)
             }
-        })
-        
-        Store.subscribe(self, selector: {
-            return ($0.experiments ?? nil) != ($1.experiments ?? nil)
-        }, callback: { _ in
-            // Do a full reload of the toolbar so it's laid out correctly with updated button titles.
-            self.setupToolbar()
-            self.saveEvent("experiment.buySellMenuButton", attributes: ["show": self.shouldShowBuyAndSell ? "true" : "false"])
         })
         
         Store.subscribe(self, selector: {
@@ -372,12 +343,10 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     @objc private func showHome() {}
     
     @objc private func buy() {
-        saveEvent("currency.didTapBuyBitcoin", attributes: [ "buyAndSell": shouldShowBuyAndSell ? "true" : "false" ])
         didTapBuy?()
     }
     
     @objc private func trade() {
-        saveEvent("currency.didTapTrade", attributes: [:])
         didTapTrade?()
     }
     
@@ -413,7 +382,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         
         generalPromptView = PromptFactory.createPromptView(prompt: nextPrompt, presenter: self)
         
-        saveEvent("prompt.\(nextPrompt.name).displayed")
         nextPrompt.didPrompt()
         
         generalPromptView.dismissButton.tap = { [unowned self] in
