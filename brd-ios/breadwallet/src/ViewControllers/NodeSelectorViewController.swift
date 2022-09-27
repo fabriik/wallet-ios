@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NodeSelectorViewController: UIViewController, Trackable {
+class NodeSelectorViewController: UIViewController {
 
     private let titleLabel = UILabel(font: .customBold(size: 22.0), color: .white)
     private let nodeLabel = UILabel(font: .customBody(size: 14.0), color: .white)
@@ -99,7 +99,6 @@ class NodeSelectorViewController: UIViewController, Trackable {
 
     private func switchToAuto() {
         guard UserDefaults.customNodeIP != nil else { return } //noop if custom node is already nil
-        saveEvent("nodeSelector.switchToAuto")
         UserDefaults.customNodeIP = nil
         UserDefaults.customNodePort = nil
         button.title = L10n.NodeSelector.manualButton
@@ -114,7 +113,6 @@ class NodeSelectorViewController: UIViewController, Trackable {
             guard let ip = alert.textFields?.first,
                 let port = alert.textFields?.last,
                 let addressText = ip.text?.replacingOccurrences(of: self.decimalSeparator, with: ".") else { return }
-            self.saveEvent("nodeSelector.switchToManual")
             UserDefaults.customNodeIP = addressText
             if let portText = port.text {
                 UserDefaults.customNodePort = Int(portText)

@@ -11,7 +11,7 @@ import UserNotifications
 import UIKit
 
 // Handles user authorization for push notifications.
-struct NotificationAuthorizer: Trackable {
+struct NotificationAuthorizer {
     
     // When the user is initially prompted to opt into push notifications, they can defer the decision,
     // or proceed to the system notifications prompt and either allow or deny
@@ -235,15 +235,5 @@ struct NotificationAuthorizer: Trackable {
         alert.addAction(settingsAction)
         alert.addAction(cancelAction)
         viewController.present(alert, animated: true, completion: nil)
-    }
-    
-    func logEvent(_ screen: Screen, _ event: Event, _ attributes: [String: String]? = nil) {
-        let eventName = makeEventName([EventContext.pushNotifications.name, screen.name, event.name])
-        
-        if let attr = attributes {
-            saveEvent(eventName, attributes: attr)
-        } else {
-            saveEvent(eventName)
-        }
     }
 }

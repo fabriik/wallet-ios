@@ -112,7 +112,7 @@ class RecoveryKeyFlowController {
                 pushNext(ConfirmRecoveryKeyViewController(words: words,
                                                           keyMaster: keyMaster,
                                                           confirmed: {
-                                                            pushNext(RecoveryKeyCompleteViewController(fromOnboarding: fromOnboarding, proceedToWallet: goToWallet))
+                                                            pushNext(RecoveryKeyCompleteViewController())
                 }))
                 
             default:

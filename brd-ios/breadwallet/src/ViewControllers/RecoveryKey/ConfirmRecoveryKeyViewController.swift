@@ -47,11 +47,11 @@ class ConfirmRecoveryKeyViewController: BaseRecoveryKeyViewController {
     
     // MARK: -
         
-    init(words: [String], keyMaster: KeyMaster, eventContext: EventContext, confirmed: (() -> Void)?) {
+    init(words: [String], keyMaster: KeyMaster, confirmed: (() -> Void)?) {
         self.words = words
         self.onConfirmedWords = confirmed
         self.keyMaster = keyMaster
-        super.init(eventContext, .confirmPaperKey)
+        super.init()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -92,19 +92,17 @@ class ConfirmRecoveryKeyViewController: BaseRecoveryKeyViewController {
     }
     
     override var closeButtonStyle: BaseRecoveryKeyViewController.CloseButtonStyle {
-        return eventContext == .onboarding ? .skip : .close
+        return .close
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return eventContext == .onboarding ? .default : .lightContent
+        return .lightContent
     }
     
     override func onCloseButton() {
         RecoveryKeyFlowController.promptToSetUpRecoveryKeyLater(from: self) { [unowned self] (userWantsToSetUpLater) in
             if userWantsToSetUpLater {
-                self.trackEvent(event: .dismissed, metaData: nil, tracked: {
-                    self.dismiss(animated: true, completion: nil)
-                })
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -126,7 +124,6 @@ class ConfirmRecoveryKeyViewController: BaseRecoveryKeyViewController {
     private func userDidWriteKey() {
         UserDefaults.writePaperPhraseDate = Date()
         Store.trigger(name: .didWritePaperKey)
-        trackEvent(event: .paperKeyCreated)
         self.onConfirmedWords?()
     }
     

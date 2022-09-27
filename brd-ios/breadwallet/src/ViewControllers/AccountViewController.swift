@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AccountViewController: UIViewController, Subscriber, Trackable {
+class AccountViewController: UIViewController, Subscriber {
     
     // MARK: - Public
     

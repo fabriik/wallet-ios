@@ -514,14 +514,6 @@ class StakeViewController: UIViewController, Subscriber, Trackable, ModalPresent
     }
 }
 
-// MARK: - Trackable
-
-extension StakeViewController {
-    private func track(eventName: String) {
-        saveEvent(makeEventName([EventContext.wallet.name, currency.code.uppercased(), eventName]))
-    }
-}
-
 // MARK: - ModalDisplayable
 
 extension StakeViewController: ModalDisplayable {

@@ -158,7 +158,6 @@ class WalletConnectionSettingsViewController: UIViewController, Trackable {
         walletConnectionSettings.set(mode: newMode, for: currency)
         UINotificationFeedbackGenerator().notificationOccurred(.success)
         animatedBlockSetLogo.isOn.toggle()
-        saveEvent(makeToggleEvent())
         self.modeChangeCallback(newMode)
     }
     

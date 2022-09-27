@@ -28,16 +28,6 @@ class RecoveryKeyCompleteViewController: BaseRecoveryKeyViewController {
     private let subheadingLabel = UILabel()
     private var continueButton = BRDButton(title: L10n.RecoveryKeyFlow.goToWalletButtonTitle, type: .primary)
 
-    init(fromOnboarding: Bool, proceedToWallet: (() -> Void)?) {
-        super.init()
-        self.fromNewUserOnboarding = fromOnboarding
-        self.proceedToWallet = proceedToWallet
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private var shouldShowGoToWalletButton: Bool {
         return fromNewUserOnboarding
     }

@@ -11,7 +11,7 @@
 import UIKit
 import WalletKit
 
-class GiftViewController: UIViewController, Trackable {
+class GiftViewController: UIViewController {
     
     var presentVerifyPin: ((String, @escaping ((String) -> Void)) -> Void)?
     var onPublishSuccess: (() -> Void)?
@@ -372,7 +372,6 @@ class GiftViewController: UIViewController, Trackable {
                 case .success:
                     self.onPublishSuccess?()
                     guard let gift = self.gift else { return }
-                    self.saveEvent(context: .gift, event: .send)
                     let share = ShareGiftViewController(gift: gift)
                     DispatchQueue.main.async {
                         self.present(share, animated: true, completion: nil)
