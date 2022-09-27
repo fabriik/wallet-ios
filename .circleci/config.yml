@@ -146,11 +146,11 @@ jobs:
                 cp .circleci/config/exportOptions.plist brd-ios/build/exportOptions.plist
             fi
 
-     - run:
-           name: Build Cosmos Project
-           command: |
-             export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
-             ./gradlew cosmos-bundled:createXCFramework
+      - run:
+          name: Build Cosmos Project
+          command: |
+            export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
+            ./gradlew cosmos-bundled:createXCFramework
 
       - run:
           name: Set Versions
