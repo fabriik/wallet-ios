@@ -37,7 +37,6 @@ class UpdatePinViewController: UIViewController, Subscriber {
         self.pinView = PinView(style: .create, length: Store.state.pinLength)
         self.showsBackButton = showsBackButton
         self.type = type
-        self.eventContext = eventContext
         self.backupKey = backupKey
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,13 +54,6 @@ class UpdatePinViewController: UIViewController, Subscriber {
     private let backupKey: String?
     
     private lazy var faq = UIButton.buildFaqButton(articleId: ArticleIds.setPin, currency: nil, position: .right)
-    
-    private var shouldShowFAQButton: Bool {
-        if type == .recoverBackup { return false }
-        // Don't show the FAQ button during onboarding because we don't have the wallet/authentication
-        // initialized yet, and therefore can't open platform content.
-        return eventContext != .onboarding
-    }
     
     private var step: Step = .verify {
         didSet {
@@ -101,9 +93,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
     }
 
     override func viewDidLoad() {
-        if shouldShowFAQButton {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: faq)
-        }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: faq)
         
         header.textAlignment = .center
         instruction.textAlignment = .center

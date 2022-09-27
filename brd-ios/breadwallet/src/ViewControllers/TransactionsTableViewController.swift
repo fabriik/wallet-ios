@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TransactionsTableViewController: UITableViewController, Subscriber, Trackable {
+class TransactionsTableViewController: UITableViewController, Subscriber {
 
     // MARK: - Public
     init(currency: Currency, wallet: Wallet?, didSelectTransaction: @escaping ([TxListViewModel], Int) -> Void) {

@@ -10,7 +10,7 @@ import WalletKit
 import UIKit
 
 // swiftlint:disable type_body_length
-class CoreSystem: Subscriber, Trackable {
+class CoreSystem: Subscriber {
     
     private var system: System?
     private let queue = DispatchQueue(label: "com.fabriik.one.CoreSystem", qos: .utility)

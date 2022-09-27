@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AccountFooterView: UIView, Subscriber, Trackable {
+class AccountFooterView: UIView, Subscriber {
     
     static let height: CGFloat = 67.0
 
