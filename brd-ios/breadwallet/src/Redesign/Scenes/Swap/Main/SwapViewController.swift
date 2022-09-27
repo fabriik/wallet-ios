@@ -263,12 +263,6 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                     
                     self?.interactor?.confirm(viewAction: .init())
                 } else {
-                    self?.coordinator?
-                        .parentCoordinator?
-                        .showMessage(with: nil, model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
-                                                                     dismissType: .auto),
-                                     configuration: Presets.InfoView.error)
-                    
                     self?.coordinator?.dismissFlow()
                 }
             }
