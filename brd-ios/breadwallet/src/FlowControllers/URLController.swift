@@ -8,8 +8,7 @@
 
 import UIKit
 
-class URLController: Trackable, Subscriber {
-
+class URLController: Subscriber {
     init(walletAuthenticator: WalletAuthenticator) {
         self.walletAuthenticator = walletAuthenticator
     }
@@ -36,12 +35,6 @@ class URLController: Trackable, Subscriber {
             return false
         }
         
-        saveEvent("send.handleURL", attributes: [
-            "scheme": url.scheme ?? C.null,
-            "host": url.host ?? C.null,
-            "path": url.path
-        ])
-
         guard let scheme = url.scheme else { return false }
         
         switch scheme {
@@ -74,9 +67,8 @@ class URLController: Trackable, Subscriber {
                 return handlePaymentRequestUri(uri, currency: btc)
             } else if url.host == "debug" {
                 handleDebugLink(url)
-            } else if url.host == "widget.open" {
-                saveEvent("widget.open", attributes: url.queryParameters ?? [:])
             }
+            
             return true
             
         case "https" where url.isDeepLink:

@@ -12,8 +12,7 @@ import SwiftUI
 
 typealias LoginCompletionHandler = ((Account) -> Void)
 
-class StartFlowPresenter: Subscriber, Trackable {
-    
+class StartFlowPresenter: Subscriber {
     // MARK: - Properties
     
     private let rootViewController: RootNavigationController
@@ -74,10 +73,6 @@ class StartFlowPresenter: Subscriber, Trackable {
         
         /// Displays the onboarding screen (app landing page) that allows the user to either create
         /// a new wallet or restore an existing wallet.
-        
-        // Register the onboarding event context so that events are logged to the server throughout
-        // the onboarding process, including post-walkthrough events such as PIN entry and paper-key entry.
-        EventMonitor.shared.register(.onboarding)
         
         let onboardingScreen = OnboardingViewController(doesCloudBackupExist: keyMaster.doesCloudBackupExist(),
                                                         didExitOnboarding: { [weak self] (action) in
@@ -259,8 +254,8 @@ class StartFlowPresenter: Subscriber, Trackable {
                 guard let (_, account) = self.keyMaster.setRandomSeedPhrase() else { self.handleWalletCreationError(); return }
                 DispatchQueue.main.async {
                     self.enterCloudBackup(pin: pin, callback: {
-                          self.pushStartPaperPhraseCreationViewController(pin: pin, eventContext: .onboarding)
-                          self.onboardingCompletionHandler?(account)
+                        self.pushStartPaperPhraseCreationViewController(pin: pin, eventContext: .onboarding)
+                        self.onboardingCompletionHandler?(account)
                     })
                 }
             }
@@ -308,10 +303,8 @@ class StartFlowPresenter: Subscriber, Trackable {
     
     private func dismissStartFlow() {
         guard let navigationController = navigationController else { return assertionFailure() }
-        saveEvent(context: .onboarding, event: .complete)
         
         // Onboarding is finished.
-        EventMonitor.shared.deregister(.onboarding)
         navigationController.dismiss(animated: true) { [unowned self] in
             self.navigationController = nil
             didFinish?()

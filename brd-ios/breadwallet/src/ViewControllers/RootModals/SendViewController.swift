@@ -13,7 +13,7 @@ import WalletKit
 typealias PresentScan = ((@escaping ScanCompletion) -> Void)
 
 // swiftlint:disable type_body_length
-class SendViewController: UIViewController, Subscriber, ModalPresentable, Trackable {
+class SendViewController: UIViewController, Subscriber, ModalPresentable {
     // MARK: - Public
     
     var presentScan: PresentScan?
@@ -586,17 +586,13 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
                         Store.trigger(name: .showStatusBar)
                         self.onPublishSuccess?()
                     }
-                    self.saveEvent("send.success")
                 case .creationError(let message):
                     self.showAlert(title: L10n.Alerts.sendFailure, message: message, buttonLabel: L10n.Button.ok)
-                    self.saveEvent("send.publishFailed", attributes: ["errorMessage": message])
                 case .publishFailure(let code, let message):
                     let codeStr = code == 0 ? "" : " (\(code))"
                     self.showAlert(title: L10n.Send.sendError, message: message + codeStr, buttonLabel: L10n.Button.ok)
-                    self.saveEvent("send.publishFailed", attributes: ["errorMessage": "\(message) (\(code))"])
                 case .insufficientGas(let rpcErrorMessage):
                     self.showInsufficientGasError()
-                    self.saveEvent("send.publishFailed", attributes: ["errorMessage": rpcErrorMessage])
                 }
             }
         }

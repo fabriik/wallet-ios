@@ -10,7 +10,7 @@ import WalletKit
 import UIKit
 
 // swiftlint:disable type_body_length
-class CoreSystem: Subscriber, Trackable {
+class CoreSystem: Subscriber {
     
     private var system: System?
     private let queue = DispatchQueue(label: "com.fabriik.one.CoreSystem", qos: .utility)
@@ -311,9 +311,6 @@ class CoreSystem: Subscriber, Trackable {
                                                      mode: self.connectionMode(for: currency),
                                                      addressScheme: currency.network.defaultAddressScheme,
                                                      currencies: currency.network.currencies.filter { assetCollection.isEnabled($0.uid) })
-            if success {
-                self.saveEvent("hbar.created")
-            }
             assert(success, "failed to create \(currency.network) wallet manager")
         }
     }
@@ -719,7 +716,6 @@ extension CoreSystem: SystemListener {
             case .posix(let errno, let message):
                 let messagePayload = "\(message ?? "") (\(errno))"
                 print("[SYS] \(manager.network) sync error: \(messagePayload)")
-                self.saveEvent("event.syncErrorMessage", attributes: ["network": manager.network.currency.code, "message": messagePayload])
                 syncState = .connecting
                 // retry by reconnecting
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
@@ -756,7 +752,6 @@ extension CoreSystem: SystemListener {
         case .syncRecommended(let depth):
             print("[SYS] \(manager.network) rescan recommended from \(depth)")
             rescan(walletManager: manager, fromDepth: depth)
-            saveEvent("event.recommendRescan")
             
         case .blockUpdated: // (let height):
             manager.wallets.forEach { self.wallets[$0.currency.uid]?.blockUpdated() }

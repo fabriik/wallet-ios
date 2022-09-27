@@ -11,7 +11,7 @@ import UserNotifications
 import UIKit
 
 // Handles user authorization for push notifications.
-struct NotificationAuthorizer: Trackable {
+struct NotificationAuthorizer {
     
     // When the user is initially prompted to opt into push notifications, they can defer the decision,
     // or proceed to the system notifications prompt and either allow or deny
@@ -171,17 +171,12 @@ struct NotificationAuthorizer: Trackable {
                                       preferredStyle: .alert)
         
         let enableAction = UIAlertAction(title: L10n.Button.ok, style: .default) { _ in
-            
-            self.logEvent(.optInPrompt, .okButton)
-            
             UNUserNotificationCenter.current().requestAuthorization(options: self.options) { (granted, _) in
                 DispatchQueue.main.async {
                     if granted {
                         UIApplication.shared.registerForRemoteNotifications()
-                        self.logEvent(.systemPrompt, .allowButton)
                         completion(.allowed)
                     } else {
-                        self.logEvent(.systemPrompt, .denyButton)
                         completion(.denied)
                     }
                 }
@@ -191,8 +186,6 @@ struct NotificationAuthorizer: Trackable {
         let deferAction = UIAlertAction(title: L10n.Button.maybeLater, style: .cancel) { _ in
             // Logging this here rather than in `userDidDeferNotificationsOptIn()` so that it's not logged
             // during unit testing; however, at this point 'optInDeferralCount' won't be updated yet, so
-            // add 1 when logging the event.
-            self.logEvent(.optInPrompt, .deferButton, [ "count": String(self.optInDeferralCount + 1) ])
             completion(.deferred)
         }
         
@@ -235,15 +228,5 @@ struct NotificationAuthorizer: Trackable {
         alert.addAction(settingsAction)
         alert.addAction(cancelAction)
         viewController.present(alert, animated: true, completion: nil)
-    }
-    
-    func logEvent(_ screen: Screen, _ event: Event, _ attributes: [String: String]? = nil) {
-        let eventName = makeEventName([EventContext.pushNotifications.name, screen.name, event.name])
-        
-        if let attr = attributes {
-            saveEvent(eventName, attributes: attr)
-        } else {
-            saveEvent(eventName)
-        }
     }
 }

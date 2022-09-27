@@ -9,7 +9,7 @@
 import UIKit
 // import CoinGecko
 
-class DefaultCurrencyViewController: UITableViewController, Subscriber, Trackable {
+class DefaultCurrencyViewController: UITableViewController, Subscriber {
 
     init() {
         self.selectedCurrencyCode = Store.state.defaultCurrencyCode

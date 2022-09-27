@@ -337,11 +337,9 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
             
         // If generating the key for the first time, confirm that the user really wants to exit.
         case .generateKey:
-            RecoveryKeyFlowController.promptToSetUpRecoveryKeyLater(from: self) { [unowned self] (userWantsToSetUpLater) in
+            RecoveryKeyFlowController.promptToSetUpRecoveryKeyLater(from: self) { userWantsToSetUpLater in
                 if userWantsToSetUpLater {
-                    self.trackEvent(event: .dismissed, metaData: nil, tracked: {
-                        exit(.abort)
-                    })
+                    exit(.abort)
                 }
             }
         
@@ -456,14 +454,7 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
     
     private func exit(action: ExitRecoveryKeyAction) {
         if let exit = exitCallback {
-            
-            if action == .generateKey {
-                trackEvent(event: .generatePaperKeyButton, metaData: nil, tracked: {
-                    exit(action)
-                })
-            } else {
-                exit(action)
-            }
+            exit(action)
         }
     }
     

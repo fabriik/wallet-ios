@@ -10,7 +10,7 @@
 
 import UIKit
 
-class SelectBakerViewController: UIViewController, Subscriber, Trackable, ModalPresentable, UITableViewDataSource, UITableViewDelegate {
+class SelectBakerViewController: UIViewController, Subscriber, ModalPresentable, UITableViewDataSource, UITableViewDelegate {
     
     private let currency: Currency
     private let loadingSpinner = UIActivityIndicatorView(style: .large)

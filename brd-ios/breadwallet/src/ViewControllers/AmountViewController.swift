@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AmountViewController: UIViewController, Trackable {
+class AmountViewController: UIViewController {
     
     private let currency: Currency
     private var canEditFee: Bool
@@ -270,7 +270,6 @@ class AmountViewController: UIViewController, Trackable {
     }
 
     private func toggleCurrency() {
-        saveEvent("amount.swapCurrency")
         selectedRate = selectedRate == nil ? currency.state?.currentRate : nil
         updateCurrencyToggleTitle()
     }

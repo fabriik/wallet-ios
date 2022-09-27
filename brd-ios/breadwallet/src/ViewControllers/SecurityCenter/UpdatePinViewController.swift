@@ -94,9 +94,8 @@ class UpdatePinViewController: UIViewController, Subscriber {
     private var isCreatingPin: Bool { return type != .update }
     private let newPinLength = 6
     private let showsBackButton: Bool
+    private var eventContext: EventContext = .none
     
-    var eventContext: EventContext = .none
-
     private enum Step {
         case verify
         case new
@@ -117,11 +116,6 @@ class UpdatePinViewController: UIViewController, Subscriber {
         setupBackButton()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        trackEvent(event: .appeared)
-    }
-    
     private func addSubviews() {
         view.addSubview(header)
         view.addSubview(instruction)
@@ -315,7 +309,6 @@ class UpdatePinViewController: UIViewController, Subscriber {
     private func didUpdateForNew(pin: String) {
         pinView.fill(pin.utf8.count)
         if pin.utf8.count == newPinLength {
-            trackEvent(event: .pinKeyed)
             newPin = pin
             pushNewStep(.confirmNew)
         }
@@ -326,7 +319,6 @@ class UpdatePinViewController: UIViewController, Subscriber {
         pinView.fill(pin.utf8.count)
         if pin.utf8.count == newPinLength {
             if pin == newPin {
-                trackEvent(event: .pinCreated)
                 didSetNewPin()
             } else {
                 clearAfterFailure()
@@ -342,7 +334,6 @@ class UpdatePinViewController: UIViewController, Subscriber {
             self?.pinView.fill(0)
         }
         pinPad.clear()
-        trackEvent(event: .pinCreationError)
     }
 
     private func replacePinView() {
@@ -423,12 +414,5 @@ class UpdatePinViewController: UIViewController, Subscriber {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// user events tracking
-extension UpdatePinViewController: Trackable {
-    func trackEvent(event: Event) {
-        saveEvent(context: eventContext, screen: .setPin, event: event)
     }
 }

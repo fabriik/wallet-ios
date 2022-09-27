@@ -9,6 +9,25 @@
 import UIKit
 import WalletKit
 
+public enum EventContext: String {
+    case none
+    case onboarding
+    case generateKey
+    case writeKey
+    case recoverCloud
+    
+    var name: String { return rawValue }
+}
+
+public enum Screen: String {
+    case none
+    case confirmPaperKey
+    case paperKeyIntro
+    case writePaperKey
+    
+    var name: String { return rawValue }
+}
+
 struct Padding {
     var increment: CGFloat
     

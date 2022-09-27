@@ -17,7 +17,7 @@ enum PhraseEntryReason {
 
 typealias EnterPhraseCallback = (String) -> Void
 
-class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackable {
+class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
 
     init(keyMaster: KeyMaster, reason: PhraseEntryReason, showBackButton: Bool = true) {
         self.keyMaster = keyMaster
@@ -196,11 +196,9 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
 
         switch reason {
         case .setSeed:
-            saveEvent("enterPhrase.setSeed")
             heading.text = L10n.RecoveryKeyFlow.recoveryYourWallet
             subheading.text = L10n.RecoveryKeyFlow.recoveryYourWalletSubtitle
         case .validateForResettingPin:
-            saveEvent("enterPhrase.resettingPin")
             heading.text = L10n.RecoveryKeyFlow.enterRecoveryKey
             subheading.text = L10n.RecoveryKeyFlow.resetPINInstruction
             faq.tap = {
@@ -208,11 +206,9 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
             }
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: faq)
         case .validateForWipingWallet:
-            saveEvent("enterPhrase.wipeWallet")
             heading.text = L10n.RecoveryKeyFlow.enterRecoveryKey
             subheading.text = L10n.RecoveryKeyFlow.enterRecoveryKeySubtitle
         case .validateForWipingWalletAndDeletingFromDevice:
-            saveEvent("enterPhrase.wipeWallet")
             heading.text = L10n.RecoveryKeyFlow.enterRecoveryKey
             subheading.text = L10n.RecoverWallet.enterRecoveryPhrase
         }
@@ -245,13 +241,11 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate, Trackab
 
     private func validatePhrase(_ phrase: String) {
         guard keyMaster.isSeedPhraseValid(phrase) else {
-            saveEvent("enterPhrase.invalid")
-            
             showErrorMessage()
+            
             return
         }
-        saveEvent("enterPhrase.valid")
-
+        
         switch reason {
         case .setSeed(let callback):
             guard let account = self.keyMaster.setSeedPhrase(phrase) else {
