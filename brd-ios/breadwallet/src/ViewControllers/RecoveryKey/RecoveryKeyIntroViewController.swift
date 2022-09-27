@@ -304,6 +304,7 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
     }
     
     init(mode: EnterRecoveryKeyMode = .generateKey,
+         eventContext: EventContext,
          exitButtonType: RecoveryKeyIntroExitButtonType,
          exitCallback: DidExitRecoveryKeyIntroWithAction?) {
         
@@ -311,7 +312,7 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
         self.exitButtonType = exitButtonType
         self.exitCallback = exitCallback
         
-        super.init()
+        super.init(eventContext, .paperKeyIntro)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -319,11 +320,11 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
     }
     
     override var closeButtonStyle: BaseRecoveryKeyViewController.CloseButtonStyle {
-        return .close
+        return eventContext == .onboarding ? .skip : .close
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return eventContext == .onboarding ? .default : .lightContent
     }
     
     override func onCloseButton() {

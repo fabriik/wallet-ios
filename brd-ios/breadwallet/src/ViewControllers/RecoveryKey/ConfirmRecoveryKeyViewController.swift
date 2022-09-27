@@ -47,11 +47,11 @@ class ConfirmRecoveryKeyViewController: BaseRecoveryKeyViewController {
     
     // MARK: -
         
-    init(words: [String], keyMaster: KeyMaster, confirmed: (() -> Void)?) {
+    init(words: [String], keyMaster: KeyMaster, eventContext: EventContext, confirmed: (() -> Void)?) {
         self.words = words
         self.onConfirmedWords = confirmed
         self.keyMaster = keyMaster
-        super.init()
+        super.init(eventContext, .confirmPaperKey)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -92,11 +92,11 @@ class ConfirmRecoveryKeyViewController: BaseRecoveryKeyViewController {
     }
     
     override var closeButtonStyle: BaseRecoveryKeyViewController.CloseButtonStyle {
-        return .close
+        return eventContext == .onboarding ? .skip : .close
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return eventContext == .onboarding ? .default : .lightContent
     }
     
     override func onCloseButton() {

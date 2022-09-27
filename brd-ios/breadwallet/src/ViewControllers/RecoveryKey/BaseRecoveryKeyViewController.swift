@@ -9,7 +9,6 @@
 import UIKit
 
 class BaseRecoveryKeyViewController: UIViewController {
-    
     enum CloseButtonStyle {
         case close
         case skip
@@ -17,11 +16,20 @@ class BaseRecoveryKeyViewController: UIViewController {
     
     let continueButtonHeight: CGFloat = 48
     
+    var eventContext: EventContext = .none
+    var screen: Screen = .none
+    
     var closeButtonStyle: CloseButtonStyle {
         return .close
     }
 
     init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(_ eventContext: EventContext, _ screen: Screen) {
+        self.eventContext = eventContext
+        self.screen = screen
         super.init(nibName: nil, bundle: nil)
     }
     

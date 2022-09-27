@@ -184,6 +184,7 @@ class StartFlowPresenter: Subscriber {
                                              type: .recoverBackup,
                                              showsBackButton: true,
                                              phrase: nil,
+                                             eventContext: .recoverCloud,
                                              backupKey: backup.identifier)
         update.didRecoverAccount = { [weak self] account in
             self?.handleRecoveredAccount(account)
@@ -246,14 +247,15 @@ class StartFlowPresenter: Subscriber {
         let pinCreationViewController = UpdatePinViewController(keyMaster: keyMaster,
                                                                 type: .creationNoPhrase,
                                                                 showsBackButton: false,
-                                                                phrase: nil)
+                                                                phrase: nil,
+                                                                eventContext: .onboarding)
         pinCreationViewController.setPinSuccess = { [unowned self] pin in
             autoreleasepool {
                 guard let (_, account) = self.keyMaster.setRandomSeedPhrase() else { self.handleWalletCreationError(); return }
                 DispatchQueue.main.async {
                     self.enterCloudBackup(pin: pin, callback: {
-                          self.pushStartPaperPhraseCreationViewController(pin: pin)
-                          self.onboardingCompletionHandler?(account)
+                        self.pushStartPaperPhraseCreationViewController(pin: pin, eventContext: .onboarding)
+                        self.onboardingCompletionHandler?(account)
                     })
                 }
             }
@@ -283,7 +285,7 @@ class StartFlowPresenter: Subscriber {
         navigationController?.present(alert, animated: true, completion: nil)
     }
     
-    private func pushStartPaperPhraseCreationViewController(pin: String) {
+    private func pushStartPaperPhraseCreationViewController(pin: String, eventContext: EventContext = .none) {
         guard let navController = navigationController else { return }
         
         let dismissAction: (() -> Void) = { [weak self] in
@@ -293,6 +295,7 @@ class StartFlowPresenter: Subscriber {
         RecoveryKeyFlowController.enterRecoveryKeyFlow(pin: pin,
                                                        keyMaster: self.keyMaster,
                                                        from: navController,
+                                                       context: eventContext,
                                                        dismissAction: dismissAction,
                                                        modalPresentation: false,
                                                        canExit: false)

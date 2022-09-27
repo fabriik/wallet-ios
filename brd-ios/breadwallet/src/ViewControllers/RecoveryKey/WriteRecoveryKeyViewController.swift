@@ -109,6 +109,7 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
     init(keyMaster: KeyMaster,
          pin: String,
          mode: EnterRecoveryKeyMode,
+         eventContext: EventContext,
          dismissAction: (() -> Void)?,
          exitCallback: WriteRecoveryKeyExitHandler?) {
         
@@ -118,7 +119,7 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
         self.dismissAction = dismissAction
         self.exitCallback = exitCallback
         
-        super.init()
+        super.init(eventContext, .writePaperKey)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -159,11 +160,11 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
     }
     
     override var closeButtonStyle: BaseRecoveryKeyViewController.CloseButtonStyle {
-        return .close
+        return eventContext == .onboarding ? .skip : .close
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return eventContext == .onboarding ? .default : .lightContent
     }
     
     // MARK: lifecycle

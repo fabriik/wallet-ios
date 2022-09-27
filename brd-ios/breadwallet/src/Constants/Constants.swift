@@ -26,6 +26,34 @@ public enum EventContext: String {
     var name: String { return rawValue }
 }
 
+public enum Screen: String {
+    case none = ""
+    
+    // general screens
+    case setPin
+    case paperKeyIntro
+    case writePaperKey
+    case confirmPaperKey
+    
+    // onboarding screens
+    case landingPage
+    case globePage
+    case coinsPage
+    case finalPage
+    
+    // push notifications
+    case optInPrompt
+    case systemPrompt
+    case pushNotificationSettings
+    
+    // in-app notifications
+    case inAppNotification
+    
+    case test
+    
+    var name: String { return rawValue }
+}
+
 struct Padding {
     var increment: CGFloat
     

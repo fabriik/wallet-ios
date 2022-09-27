@@ -46,6 +46,7 @@ class RecoveryKeyFlowController {
     // pin - the user's PIN, which will already be set to a valid pin if entering from the onboarding flow
     // keyMaster - used for obtaining the recovery key phrase words
     // viewController - the view controller that is initiating the recovery key flow
+    // context - event context for logging analytics events
     // dismissAction - a custom dismiss action
     // modalPresentation - whether the recovery key flow should be presented as a modal view controller
     // canExit - whether the user can exit the recovery key flow; when entering from onboarding,
@@ -54,12 +55,14 @@ class RecoveryKeyFlowController {
     static func enterRecoveryKeyFlow(pin: String?,
                                      keyMaster: KeyMaster,
                                      from viewController: UIViewController,
+                                     context: EventContext,
                                      dismissAction: (() -> Void)?,
                                      modalPresentation: Bool = true,
                                      canExit: Bool = true) {
         
         let isGeneratingKey = UserDefaults.walletRequiresBackup
         let recoveryKeyMode: EnterRecoveryKeyMode = isGeneratingKey ? .generateKey : .writeKey
+        let eventContext = (context == .none) ? (isGeneratingKey ? .generateKey : .writeKey) : context
         
         let recoveryKeyNavController = RecoveryKeyFlowController.makeNavigationController()
         
@@ -107,14 +110,17 @@ class RecoveryKeyFlowController {
             switch action {
             case .abort:
                 dismissFlow()
-                
             case .confirmKey:
+                
+                let fromOnboarding = (context == .onboarding)
+                let goToWallet = (context == .onboarding) ? dismissFlow : nil
+                
                 pushNext(ConfirmRecoveryKeyViewController(words: words,
                                                           keyMaster: keyMaster,
+                                                          eventContext: eventContext,
                                                           confirmed: {
-                                                            pushNext(RecoveryKeyCompleteViewController())
+                                                            pushNext(RecoveryKeyCompleteViewController(fromOnboarding: fromOnboarding, proceedToWallet: goToWallet))
                 }))
-                
             default:
                 break
             }
@@ -122,6 +128,7 @@ class RecoveryKeyFlowController {
         
         // the landing page for setting up the recovery key.
         let introVC = RecoveryKeyIntroViewController(mode: recoveryKeyMode,
+                                                     eventContext: eventContext,
                                                      exitButtonType: exitButtonType,
                                                      exitCallback: { (exitAction) in
             switch exitAction {
@@ -136,6 +143,7 @@ class RecoveryKeyFlowController {
                                             pushNext(WriteRecoveryKeyViewController(keyMaster: keyMaster,
                                                                                     pin: responsePin,
                                                                                     mode: recoveryKeyMode,
+                                                                                    eventContext: eventContext,
                                                                                     dismissAction: dismissAction,
                                                                                     exitCallback: { (action) in
                                                                                         let words = phrase.components(separatedBy: " ")
@@ -180,6 +188,7 @@ class RecoveryKeyFlowController {
         }
         
         let introVC = RecoveryKeyIntroViewController(mode: .unlinkWallet,
+                                                     eventContext: .none,
                                                      exitButtonType: .closeButton,
                                                      exitCallback: { (action) in
                                                         if action == .unlinkWallet {
