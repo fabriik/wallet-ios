@@ -626,7 +626,6 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
                         Store.trigger(name: .showStatusBar)
                         self.onPublishSuccess?()
                     }
-                    self.saveEvent("send.success")
                 case .creationError(let message):
                     self.showAlert(title: L10n.Alerts.sendFailure, message: message, buttonLabel: L10n.Button.ok)
                     self.saveEvent("send.publishFailed", attributes: ["errorMessage": message])

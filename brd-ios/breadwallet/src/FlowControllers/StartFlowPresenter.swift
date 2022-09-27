@@ -12,8 +12,7 @@ import SwiftUI
 
 typealias LoginCompletionHandler = ((Account) -> Void)
 
-class StartFlowPresenter: Subscriber, Trackable {
-    
+class StartFlowPresenter: Subscriber {
     // MARK: - Properties
     
     private let rootViewController: RootNavigationController

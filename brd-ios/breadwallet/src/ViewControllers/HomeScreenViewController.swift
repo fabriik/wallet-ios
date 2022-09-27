@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeScreenViewController: UIViewController, Subscriber, Trackable {
+class HomeScreenViewController: UIViewController, Subscriber {
     private let walletAuthenticator: WalletAuthenticator
     private let assetListTableView = AssetListTableView()
     private let debugLabel = UILabel(font: .customBody(size: 12.0), color: .transparentWhiteText) // debug info
@@ -385,8 +385,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         nextPrompt.didPrompt()
         
         generalPromptView.dismissButton.tap = { [unowned self] in
-            self.saveEvent("prompt.\(nextPrompt.name).dismissed")
-            
             self.hidePrompt(self.generalPromptView)
         }
         
@@ -395,7 +393,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
                 if let trigger = nextPrompt.trigger {
                     Store.trigger(name: trigger)
                 }
-                self.saveEvent("prompt.\(nextPrompt.name).trigger")
                 
                 self.hidePrompt(self.generalPromptView)
             }
