@@ -74,7 +74,7 @@ struct TxListViewModel: TxViewModel {
                 color = .darkGray
             } else {
                 let isSedning = swap.source.currency == currency?.code
-                color = isSedning ? .darkGray :.receivedGreen
+                color = isSedning ? .darkGray : .receivedGreen
             }
             
             let amount = ExchangeFormatter.crypto.string(for: swap.destination.currencyAmount) ?? ""
