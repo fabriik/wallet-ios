@@ -87,6 +87,10 @@ class HomeScreenViewController: UIViewController, Subscriber {
         self.coreSystem = coreSystem
         super.init(nibName: nil, bundle: nil)
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     deinit {
         Store.unsubscribe(self)
@@ -130,7 +134,6 @@ class HomeScreenViewController: UIViewController, Subscriber {
         setInitialData()
         setupSubscriptions()
         updateTotalAssets()
-        sendErrorsToBackend()
         
         if !Store.state.isLoginRequired {
             NotificationAuthorizer().showNotificationsOptInAlert(from: self, callback: { _ in
@@ -468,22 +471,6 @@ class HomeScreenViewController: UIViewController, Subscriber {
         } completion: { [weak self] _ in
             self?.promptContainerStack.layoutIfNeeded()
             self?.view.layoutIfNeeded()
-        }
-    }
-    
-    // MARK: -
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func sendErrorsToBackend() {
-        // Only syncs errors on TF builds
-        guard let errors = UserDefaults.errors, !errors.isEmpty else { return }
-        
-        Backend.apiClient.sendErrors(messages: errors) { success in
-            guard success else { return }
-            UserDefaults.errors = nil
         }
     }
 }
