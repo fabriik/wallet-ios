@@ -12,7 +12,7 @@ import UIKit
 import WalletKit
 import SafariServices
 
-class WalletConnectionSettingsViewController: UIViewController, Trackable {
+class WalletConnectionSettingsViewController: UIViewController {
 
     private let walletConnectionSettings: WalletConnectionSettings
     private var currency: Currency? {
@@ -158,7 +158,6 @@ class WalletConnectionSettingsViewController: UIViewController, Trackable {
         walletConnectionSettings.set(mode: newMode, for: currency)
         UINotificationFeedbackGenerator().notificationOccurred(.success)
         animatedBlockSetLogo.isOn.toggle()
-        saveEvent(makeToggleEvent())
         self.modeChangeCallback(newMode)
     }
     
@@ -192,13 +191,6 @@ class WalletConnectionSettingsViewController: UIViewController, Trackable {
         // keep the link working?
         //explanationLabel.isSelectable = false
         explanationLabel.isScrollEnabled = false
-    }
-    
-    private func makeToggleEvent() -> String {
-        guard let currency = currency else { return "" }
-        
-        let event = toggleSwitch.isOn ? Event.enable.name : Event.disable.name
-        return makeEventName([EventContext.fastSync.name, currency.code.uppercased(), event])
     }
 
     required init?(coder aDecoder: NSCoder) {

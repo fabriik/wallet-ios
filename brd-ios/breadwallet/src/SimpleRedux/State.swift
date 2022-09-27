@@ -19,7 +19,6 @@ struct State {
     let pinLength: Int
     let walletID: String?
     let wallets: [CurrencyId: WalletState]
-    var experiments: [Experiment]?
     let creationRequired: [CurrencyId]
     
     subscript(currency: Currency) -> WalletState? {
@@ -62,7 +61,6 @@ extension State {
                         pinLength: 6,
                         walletID: nil,
                         wallets: [:],
-                        experiments: nil,
                         creationRequired: []
         )
     }
@@ -78,7 +76,6 @@ extension State {
                 pinLength: Int? = nil,
                 walletID: String? = nil,
                 wallets: [CurrencyId: WalletState]? = nil,
-                experiments: [Experiment]? = nil,
                 creationRequired: [CurrencyId]? = nil) -> State {
         return State(isLoginRequired: isLoginRequired ?? self.isLoginRequired,
                      rootModal: rootModal ?? self.rootModal,
@@ -90,7 +87,6 @@ extension State {
                      pinLength: pinLength ?? self.pinLength,
                      walletID: walletID ?? self.walletID,
                      wallets: wallets ?? self.wallets,
-                     experiments: experiments ?? self.experiments,
                      creationRequired: creationRequired ?? self.creationRequired)
     }
 
@@ -104,12 +100,6 @@ extension State {
 // MARK: - Experiments
 
 extension State {
-    
-    public func experimentWithName(_ experimentName: ExperimentName) -> Experiment? {
-        guard let set = experiments, let exp = set.first(where: { $0.name == experimentName.rawValue }) else { return nil }
-        return exp
-    }
-    
     public func requiresCreation(_ currency: Currency) -> Bool {
         return creationRequired.contains(currency.uid)
     }

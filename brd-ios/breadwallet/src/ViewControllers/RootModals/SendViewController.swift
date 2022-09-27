@@ -13,7 +13,7 @@ import WalletKit
 typealias PresentScan = ((@escaping ScanCompletion) -> Void)
 
 // swiftlint:disable type_body_length
-class SendViewController: UIViewController, Subscriber, ModalPresentable, Trackable {
+class SendViewController: UIViewController, Subscriber, ModalPresentable {
     // MARK: - Public
     
     var presentScan: PresentScan?
@@ -271,16 +271,10 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         }
     }
     
-    var group: DispatchGroup?
-    
     @objc private func updateFees() {
         guard let amount = amount else { return }
         guard let address = address, !address.isEmpty else { return _ = handleValidationResult(.invalidAddress) }
         
-        // already fetching
-        guard group == nil else { return }
-        group = DispatchGroup()
-        group?.enter()
         sender.estimateFee(address: address, amount: amount, tier: feeLevel, isStake: false) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -292,41 +286,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
                                     message: L10n.ErrorMessages.ethBalanceLow,
                                     buttonLabel: L10n.Button.ok)
                 }
-                self?.group?.leave()
-            }
-        }
-        
-        group?.enter()
-        sender.estimateLimitMaximum(address: address, fee: feeLevel, completion: { [weak self] result in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                switch result {
-                case .success(let maximumAmount):
-                    self.maximum = Amount(cryptoAmount: maximumAmount, currency: self.currency)
-                case .failure(let error):
-                    print("[LIMIT] error: \(error)")
-                }
-                self.group?.leave()
-            }
-        })
-        
-        group?.enter()
-        sender.estimateLimitMinimum(address: address, fee: feeLevel) { [weak self] result in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                switch result {
-                case .success(let minimumAmount):
-                    self.minimum = Amount(cryptoAmount: minimumAmount, currency: self.currency)
-                case .failure(let error):
-                    print("[LIMIT] error: \(error)")
-                }
-                self.group?.leave()
-            }
-        }
-        
-        group?.notify(queue: .global()) { [weak self] in
-            DispatchQueue.main.async {
-                self?.group = nil
+                
                 self?.amountView.updateBalanceLabel()
             }
         }
@@ -626,17 +586,13 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
                         Store.trigger(name: .showStatusBar)
                         self.onPublishSuccess?()
                     }
-                    self.saveEvent("send.success")
                 case .creationError(let message):
                     self.showAlert(title: L10n.Alerts.sendFailure, message: message, buttonLabel: L10n.Button.ok)
-                    self.saveEvent("send.publishFailed", attributes: ["errorMessage": message])
                 case .publishFailure(let code, let message):
                     let codeStr = code == 0 ? "" : " (\(code))"
                     self.showAlert(title: L10n.Send.sendError, message: message + codeStr, buttonLabel: L10n.Button.ok)
-                    self.saveEvent("send.publishFailed", attributes: ["errorMessage": "\(message) (\(code))"])
                 case .insufficientGas(let rpcErrorMessage):
                     self.showInsufficientGasError()
-                    self.saveEvent("send.publishFailed", attributes: ["errorMessage": rpcErrorMessage])
                 }
             }
         }

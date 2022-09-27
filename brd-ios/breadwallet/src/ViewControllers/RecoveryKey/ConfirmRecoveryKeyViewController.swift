@@ -102,9 +102,7 @@ class ConfirmRecoveryKeyViewController: BaseRecoveryKeyViewController {
     override func onCloseButton() {
         RecoveryKeyFlowController.promptToSetUpRecoveryKeyLater(from: self) { [unowned self] (userWantsToSetUpLater) in
             if userWantsToSetUpLater {
-                self.trackEvent(event: .dismissed, metaData: nil, tracked: {
-                    self.dismiss(animated: true, completion: nil)
-                })
+                self.dismiss(animated: true)
             }
         }
     }
@@ -126,7 +124,6 @@ class ConfirmRecoveryKeyViewController: BaseRecoveryKeyViewController {
     private func userDidWriteKey() {
         UserDefaults.writePaperPhraseDate = Date()
         Store.trigger(name: .didWritePaperKey)
-        trackEvent(event: .paperKeyCreated)
         self.onConfirmedWords?()
     }
     

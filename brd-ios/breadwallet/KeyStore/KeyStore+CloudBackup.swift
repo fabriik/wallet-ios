@@ -11,7 +11,7 @@
 import Foundation
 import WalletKit
 
-extension KeyStore: Trackable {
+extension KeyStore {
     
     func doesCurrentWalletHaveBackup() -> Bool {
         let id = Store.state.walletID ?? CloudBackup.noIDKey
@@ -93,7 +93,6 @@ extension KeyStore: Trackable {
         var status = noErr
         if SecItemCopyMatching(query as CFDictionary, nil) != errSecItemNotFound {
             status = SecItemDelete(query as CFDictionary)
-            saveEvent("backup.delete")
         }
         guard status == noErr else { return false }
         return true
@@ -173,7 +172,6 @@ extension KeyStore: Trackable {
                         kSecAttrSynchronizable as String: true as CFBoolean
             ]
             status = SecItemAdd(item as CFDictionary, nil)
-            saveEvent("backup.add")
         }
 
         guard status == noErr else {

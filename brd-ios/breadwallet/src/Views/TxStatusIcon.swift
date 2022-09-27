@@ -24,6 +24,7 @@ enum StatusIcon {
     case failed
     case refunded
     case swapComplete, swapPending, swapFailed
+    case buyPending
     case gift(GiftStatus)
     
     var icon: String {
@@ -35,6 +36,7 @@ enum StatusIcon {
         case .refunded: return "refunded"
         case .swapComplete: return "swapCompleteIndicator"
         case .swapPending: return "swapPendingIndicator"
+        case .buyPending: return "pendingReceivingArrow"
         case .swapFailed: return "failed"
         case .gift(let status):
             switch status {
@@ -56,7 +58,7 @@ enum StatusIcon {
             return Color(UIColor.fromHex("EFEFF2"))
         case .received, .swapComplete:
             return Color(Theme.success).opacity(0.16)
-        case .pending, .swapPending:
+        case .pending, .swapPending, .buyPending:
             return Color(Theme.accent).opacity(0.16)
         case .failed, .swapFailed, .refunded:
             return Color(Theme.error).opacity(0.16)

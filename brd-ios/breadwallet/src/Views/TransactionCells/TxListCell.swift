@@ -116,7 +116,7 @@ class TxListCell: UITableViewCell {
             NSLayoutConstraint.activate(completeConstraints)
             NSLayoutConstraint.deactivate(pendingConstraints)
             
-        case .complete, .manuallySettled:
+        case .complete, .manuallySettled, .confirmed:
             timestamp.text = L10n.Transaction.purchased
             failedIndicator.isHidden = true
             statusIndicator.isHidden = true
