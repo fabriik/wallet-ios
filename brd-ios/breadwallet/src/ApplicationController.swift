@@ -61,9 +61,7 @@ class ApplicationController: Subscriber, Trackable {
     
     private var isReachable = true {
         didSet {
-            if oldValue == false && isReachable {
-                self.retryAfterIsReachable()
-            }
+            if oldValue == false && isReachable { self.retryAfterIsReachable() }
         }
     }
 
@@ -75,8 +73,7 @@ class ApplicationController: Subscriber, Trackable {
         do {
             self.keyStore = try KeyStore.create()
             self.coreSystem = CoreSystem(keyStore: keyStore)
-        } catch let error { // only possible exception here should be if the keychain is inaccessible
-            print("error initializing key store: \(error)")
+        } catch { // only possible exception here should be if the keychain is inaccessible
             fatalError("error initializing key store")
         }
 
@@ -86,6 +83,7 @@ class ApplicationController: Subscriber, Trackable {
     /// didFinishLaunchingWithOptions
     func launch(application: UIApplication, options: [UIApplication.LaunchOptionsKey: Any]?) {
         handleLaunchOptions(options)
+        
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalNever)
 
         UNUserNotificationCenter.current().delegate = notificationHandler
@@ -93,6 +91,7 @@ class ApplicationController: Subscriber, Trackable {
 
         mainSetup()
         setupKeyboard()
+        
         Reachability.addDidChangeCallback({ isReachable in
             self.isReachable = isReachable
         })
@@ -125,12 +124,14 @@ class ApplicationController: Subscriber, Trackable {
         
         setupSubscribers()
         
-        initializeAssets(completionHandler: { [weak self] in
-            self?.decideFlow()
+        ExchangeCurrencyHelper.revertIfNeeded(coordinator: coordinator, completion: { [weak self] in
+            self?.initializeAssets(completionHandler: { [weak self] in
+                self?.decideFlow()
+            })
         })
     }
     
-    func decideFlow() {
+    private func decideFlow() {
         if keyStore.noWallet {
             enterOnboarding()
         } else {
@@ -242,18 +243,19 @@ class ApplicationController: Subscriber, Trackable {
     }
     
     private func handleLaunchOptions(_ options: [UIApplication.LaunchOptionsKey: Any]?) {
-        guard let activityDictionary = options?[.userActivityDictionary] as? [String: Any] else { return }
-        guard let activity = activityDictionary["UIApplicationLaunchOptionsUserActivityKey"] as? NSUserActivity else { return }
-        guard let url = activity.webpageURL else { return }
+        guard let activityDictionary = options?[.userActivityDictionary] as? [String: Any],
+              let activity = activityDictionary["UIApplicationLaunchOptionsUserActivityKey"] as? NSUserActivity,
+              let url = activity.webpageURL else { return }
         
-        //handle gift url at launch
+        // Handle gift URL at launch.
         launchURL = url
         shouldDisableBiometrics = true
     }
     
     private func setupDefaults() {
         if UserDefaults.standard.object(forKey: shouldRequireLoginTimeoutKey) == nil {
-            UserDefaults.standard.set(60.0*3.0, forKey: shouldRequireLoginTimeoutKey) //Default 3 min timeout
+            // Default 3 min timeout.
+            UserDefaults.standard.set(C.secondsInMinute*3.0, forKey: shouldRequireLoginTimeoutKey)
         }
     }
     
@@ -261,13 +263,16 @@ class ApplicationController: Subscriber, Trackable {
     
     func willEnterForeground() {
         guard !keyStore.noWallet else { return }
-        bumpLaunchCount()
+        
         Backend.sendLaunchEvent()
+        
         if shouldRequireLogin() {
             Store.perform(action: RequireLogin())
         }
+        
         resume()
         coreSystem.updateFees()
+        bumpLaunchCount()
     }
 
     func didEnterBackground() {
@@ -374,7 +379,7 @@ class ApplicationController: Subscriber, Trackable {
             case .success(let profile):
                 self?.homeScreenViewController?.canShowPrompts = profile?.status.canBuyTrade == false
                 
-                guard profile?.status == VerificationStatus.none || profile?.status == .emailPending else { return }
+                guard profile?.status == VerificationStatus.none || profile?.status == .emailPending || profile?.roles.contains(.unverified) == true else { return }
                 
                 self?.coordinator?.showRegistration()
                 
@@ -419,18 +424,27 @@ class ApplicationController: Subscriber, Trackable {
             navigationController.pushViewController(accountViewController, animated: true)
         }
         
-        homeScreen.didTapBuy = { [unowned self] in
-            coordinator?.showBuy(coreSystem: coreSystem, keyStore: keyStore)
+        homeScreen.didTapBuy = { [weak self] in
+            guard let self = self else { return }
+            
+            self.homeScreenViewController?.isInExchangeFlow = true
+            
+            self.coordinator?.showBuy(coreSystem: self.coreSystem,
+                                      keyStore: self.keyStore)
         }
         
-        homeScreen.didTapTrade = { [unowned self] in
-            coordinator?.showSwap(currencies: Store.state.currencies,
-                                  coreSystem: coreSystem,
-                                  keyStore: keyStore)
+        homeScreen.didTapTrade = { [weak self] in
+            guard let self = self else { return }
+            
+            self.homeScreenViewController?.isInExchangeFlow = true
+            
+            self.coordinator?.showSwap(currencies: Store.state.currencies,
+                                       coreSystem: self.coreSystem,
+                                       keyStore: self.keyStore)
         }
         
-        homeScreen.didTapProfile = { [unowned self] in
-            coordinator?.showProfile()
+        homeScreen.didTapProfile = { [weak self] in
+            self?.coordinator?.showProfile()
         }
         
         didTapDeleteAccount = { [unowned self] in
@@ -472,7 +486,6 @@ class ApplicationController: Subscriber, Trackable {
     private func createHomeScreen(navigationController: UINavigationController) -> HomeScreenViewController {
         let homeScreen = HomeScreenViewController(walletAuthenticator: keyStore as WalletAuthenticator,
                                                   coreSystem: coreSystem)
-        
         addHomeScreenHandlers(homeScreen: homeScreen, navigationController: navigationController)
         
         return homeScreen

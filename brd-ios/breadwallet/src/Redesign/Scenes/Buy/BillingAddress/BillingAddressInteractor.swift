@@ -8,7 +8,6 @@
 //  See the LICENSE file at the project root for license information.
 //
 
-import Frames
 import UIKit
 
 class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions {
@@ -25,7 +24,7 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
             return
         }
         
-        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: reference)) { [weak self] result in
+        getPaymentStatus(reference: reference) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.dataStore?.paymentstatus = data?.status
@@ -113,40 +112,28 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
     }
     
     func submit(viewAction: BillingAddressModels.Submit.ViewAction) {
-        guard let number = dataStore?.addCardDataStore?.cardNumber,
-              let cvv = dataStore?.addCardDataStore?.cardCVV,
-              let month = dataStore?.addCardDataStore?.cardExpDateMonth,
-              let year = dataStore?.addCardDataStore?.cardExpDateYear else { return }
+        guard let dataStore = dataStore, let checkoutToken = dataStore.checkoutToken?.token else { return }
         
-        let checkoutAPIClient = CheckoutAPIClient(publicKey: E.checkoutApiToken,
-                                                  environment: E.isSandbox ? .sandbox : .live)
+        let data = AddCardRequestData(token: checkoutToken,
+                                      firstName: dataStore.firstName,
+                                      lastName: dataStore.lastName,
+                                      countryCode: dataStore.country,
+                                      state: dataStore.stateProvince,
+                                      city: dataStore.city,
+                                      zip: dataStore.zipPostal,
+                                      address: dataStore.address)
         
-        let cardTokenRequest = CkoCardTokenRequest(number: number,
-                                                   expiryMonth: month,
-                                                   expiryYear: year,
-                                                   cvv: cvv)
-        
-        checkoutAPIClient.createCardToken(card: cardTokenRequest) { [weak self] result in
+        AddCardWorker().execute(requestData: data) { [weak self] result in
             switch result {
-            case .success(let response):
-                guard let dataStore = self?.dataStore else { return }
-                
-                let data = AddCardRequestData(token: response.token,
-                                              firstName: dataStore.firstName,
-                                              lastName: dataStore.lastName,
-                                              countryCode: dataStore.country,
-                                              state: dataStore.stateProvince,
-                                              city: dataStore.city,
-                                              zip: dataStore.zipPostal,
-                                              address: dataStore.address)
-                
-                AddCardWorker().execute(requestData: data) { result in
+            case .success(let exchangeData):
+                self?.getPaymentStatus(reference: exchangeData?.paymentReference ?? "", completion: { result in
                     switch result {
-                    case .success(let data):
-                        self?.dataStore?.paymentstatus = data?.status
+                    case .success(let paymentStatusData):
+                        self?.dataStore?.paymentReference = exchangeData?.paymentReference
+                        self?.dataStore?.paymentstatus = paymentStatusData?.status
                         
-                        if let redirectUrlString = data?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
-                            self?.dataStore?.paymentReference = data?.paymentReference
+                        if let redirectUrlString = exchangeData?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
+                            ExchangeManager.shared.reload()
                             
                             self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
                         } else {
@@ -156,21 +143,27 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
                     case .failure(let error):
                         self?.presenter?.presentError(actionResponse: .init(error: error))
                     }
-                }
+                })
                 
-            case .failure:
-                self?.presenter?.presentError(actionResponse: .init(error: BuyErrors.authorizationFailed))
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
     }
-
+    
+    // MARK: - Aditional helpers
+    
+    private func getPaymentStatus(reference: String, completion: @escaping (Result<AddCard?, Error>) -> Void) {
+        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: reference)) { result in
+            completion(result)
+        }
+    }
+    
     private func handlePresentSubmit() {
-        switch dataStore?.paymentstatus {
-        case .captured, .cardVerified:
+        if C.successfullPayment.contains(where: { $0 == dataStore?.paymentstatus }) {
             presenter?.presentSubmit(actionResponse: .init())
-            
-        default:
-            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: "Payment failed")))
+        } else {
+            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Buy.paymentFailed)))
         }
     }
 }

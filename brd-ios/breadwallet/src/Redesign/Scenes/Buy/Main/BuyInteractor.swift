@@ -22,7 +22,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
             return
         }
 
-        TransferManager.shared.reload()
+        ExchangeManager.shared.reload()
         
         fetchCards { [weak self] result in
             guard let self = self else { return }
@@ -70,7 +70,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
     func setAmount(viewAction: BuyModels.Amounts.ViewAction) {
         guard let rate = dataStore?.quote?.exchangeRate,
               let toCurrency = dataStore?.toAmount?.currency else {
-            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(from: dataStore?.fromCurrency,
+            presenter?.presentError(actionResponse: .init(error: BuyErrors.noQuote(from: C.usdCurrencyCode,
                                                                                    to: dataStore?.toAmount?.currency.code)))
             return
         }
@@ -82,12 +82,12 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         
         if let value = viewAction.tokenValue,
            let crypto = ExchangeFormatter.current.number(from: value)?.decimalValue {
-            to = .init(amount: crypto, currency: toCurrency, exchangeRate: 1 / rate)
-            from = (dataStore?.to ?? 0) / rate
+            to = .init(decimalAmount: crypto, isFiat: false, currency: toCurrency, exchangeRate: 1 / rate)
+            from = crypto / rate
         } else if let value = viewAction.fiatValue,
                   let fiat = ExchangeFormatter.current.number(from: value)?.decimalValue {
             from = fiat
-            to = .init(amount: fiat, isFiat: true, currency: toCurrency, exchangeRate: 1 / rate)
+            to = .init(decimalAmount: fiat, isFiat: true, currency: toCurrency, exchangeRate: 1 / rate)
         } else {
             presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
                                                            card: dataStore?.paymentCard,
@@ -98,31 +98,30 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         
         dataStore?.toAmount = to
         dataStore?.from = from
+        
         presenter?.presentAssets(actionResponse: .init(amount: dataStore?.toAmount,
                                                        card: dataStore?.paymentCard,
                                                        quote: dataStore?.quote))
     }
     
     func getExchangeRate(viewAction: Models.Rate.ViewAction) {
-        guard let from = dataStore?.fromCurrency,
-              let toCurrency = dataStore?.toAmount?.currency.code
-        else { return }
+        guard let toCurrency = dataStore?.toAmount?.currency.code else { return }
         
-        let data = QuoteRequestData(from: from, to: toCurrency)
+        let data = QuoteRequestData(from: C.usdCurrencyCode.lowercased(), to: toCurrency)
         QuoteWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let quote):
                 self?.dataStore?.quote = quote
                 
                 self?.presenter?.presentExchangeRate(actionResponse: .init(quote: quote,
-                                                                           from: from,
+                                                                           from: C.usdCurrencyCode,
                                                                            to: toCurrency))
                 
                 let model = self?.dataStore?.values ?? .init()
                 self?.setAmount(viewAction: model)
                 
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
+            case .failure:
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.quoteFail))
             }
         }
     }

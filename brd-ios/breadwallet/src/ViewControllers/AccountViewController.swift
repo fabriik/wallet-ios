@@ -56,7 +56,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     private var shouldShowStatusBar = true {
         didSet {
             if oldValue != shouldShowStatusBar {
-                UIView.animate(withDuration: C.animationDuration) {
+                UIView.animate(withDuration: Presets.Animation.duration) {
                     self.setNeedsStatusBarAppearanceUpdate()
                 }
             }
@@ -87,11 +87,11 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         addSubscriptions()
         setInitialData()
         
-        transactionsTableView?.didScrollToYOffset = { [unowned self] offset in
-            self.headerView.setOffset(offset)
+        transactionsTableView?.didScrollToYOffset = { [weak self] offset in
+            self?.headerView.setOffset(offset)
         }
-        transactionsTableView?.didStopScrolling = { [unowned self] in
-            self.headerView.didStopScrolling()
+        transactionsTableView?.didStopScrolling = { [weak self] in
+            self?.headerView.didStopScrolling()
         }
     }
     
@@ -229,8 +229,10 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
                 self?.showErrorMessage(L10n.AccountCreation.timeout)
             })
         }
-        //This could take a while because we're waiting for a transaction to confirm, so we need a decent timeout of 45 seconds.
-        self.createTimeoutTimer = Timer.scheduledTimer(withTimeInterval: 45, repeats: false, block: handleTimeout)
+        
+        // This could take a while because we're waiting for a transaction to confirm, so we need a decent timeout of 45 seconds.
+        createTimeoutTimer = Timer.scheduledTimer(withTimeInterval: 45, repeats: false, block: handleTimeout)
+        
         Store.trigger(name: .createAccount(currency, completion))
     }
     
@@ -267,14 +269,15 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     
     // MARK: show transaction details
     
-    private func didSelectTransaction(transactions: [Transaction], selectedIndex: Int) {
+    private func didSelectTransaction(transactions: [TxListViewModel], selectedIndex: Int) {
         hideSearchKeyboard()
         
         let transaction = transactions[selectedIndex]
         
         switch transaction.transactionType {
         case .defaultTransaction:
-            let transactionDetails = TxDetailViewController(transaction: transactions[selectedIndex], delegate: self)
+            guard let tx = transactions[selectedIndex].tx else { return }
+            let transactionDetails = TxDetailViewController(transaction: tx, delegate: self)
             transactionDetails.modalPresentationStyle = .overCurrentContext
             transactionDetails.transitioningDelegate = transitionDelegate
             transactionDetails.modalPresentationCapturesStatusBarAppearance = true
@@ -284,7 +287,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         case .swapTransaction, .buyTransaction:
             let vc = ExchangeDetailsViewController()
             vc.isModalDismissable = false
-            vc.dataStore?.itemId = String(transaction.swapOrderId ?? -1)
+            vc.dataStore?.itemId = String(transaction.tx?.swapOrderId ?? transaction.swap?.orderId ?? -1)
             vc.dataStore?.transactionType = transaction.transactionType
             
             LoadingView.show()
@@ -298,13 +301,13 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     private func showSearchHeaderView() {
         navigationController?.setNavigationBarHidden(true, animated: false)
         headerView.stopHeightConstraint()
-        UIView.animate(withDuration: C.animationDuration, animations: { [weak self] in
+        UIView.animate(withDuration: Presets.Animation.duration, animations: { [weak self] in
             self?.view.layoutIfNeeded()
         })
         
         UIView.transition(from: headerView,
                           to: searchHeaderview,
-                          duration: C.animationDuration,
+                          duration: Presets.Animation.duration,
                           options: [.transitionFlipFromBottom, .showHideTransitionViews, .curveEaseOut],
                           completion: { [weak self] _ in
             self?.searchHeaderview.triggerUpdate()
@@ -315,13 +318,13 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
     private func hideSearchHeaderView() {
         navigationController?.setNavigationBarHidden(false, animated: false)
         headerView.resumeHeightConstraint()
-        UIView.animate(withDuration: C.animationDuration, animations: {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: {
             self.view.layoutIfNeeded()
         })
         
         UIView.transition(from: searchHeaderview,
                           to: headerView,
-                          duration: C.animationDuration,
+                          duration: Presets.Animation.duration,
                           options: [.transitionFlipFromTop, .showHideTransitionViews, .curveEaseOut],
                           completion: { [weak self] _ in
             self?.setNeedsStatusBarAppearanceUpdate()
@@ -349,7 +352,7 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
 extension AccountViewController: TxDetaiViewControllerDelegate {
     func txDetailDidDismiss(detailViewController: TxDetailViewController) {
         if isSearching {
-            // restore the search keyboard that we hid when the transaction details were displayed
+            // Restore the search keyboard that we hid when the transaction details were displayed
             searchHeaderview.becomeFirstResponder()
         }
     }

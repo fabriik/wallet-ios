@@ -26,7 +26,7 @@ struct BuyOrderConfiguration: Configurable {
 }
 
 struct BuyOrderViewModel: ViewModel {
-    var title: LabelViewModel = .text("Your order:")
+    var title: LabelViewModel = .text(L10n.Buy.yourOrder)
     var currencyIcon: ImageViewModel?
     var currencyAmountName: LabelViewModel?
     var rate: ExchangeRateViewModel?

@@ -12,12 +12,8 @@ import WalletKit
 
 typealias PresentScan = ((@escaping ScanCompletion) -> Void)
 
-private let verticalButtonPadding: CGFloat = 32.0
-private let buttonSize = CGSize(width: 52.0, height: 32.0)
-
 // swiftlint:disable type_body_length
 class SendViewController: UIViewController, Subscriber, ModalPresentable, Trackable {
-
     // MARK: - Public
     
     var presentScan: PresentScan?
@@ -64,6 +60,8 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
     private var paymentProtocolRequest: PaymentProtocolRequest?
     private var didIgnoreUsedAddressWarning = false
     private var didIgnoreIdentityNotCertified = false
+    private let verticalButtonPadding: CGFloat = 32.0
+    private let buttonSize = CGSize(width: 52.0, height: 32.0)
     private var feeLevel: FeeLevel = .regular {
         didSet {
             updateFees()
@@ -273,16 +271,10 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         }
     }
     
-    var group: DispatchGroup?
-    
     @objc private func updateFees() {
         guard let amount = amount else { return }
         guard let address = address, !address.isEmpty else { return _ = handleValidationResult(.invalidAddress) }
         
-        // already fetching
-        guard group == nil else { return }
-        group = DispatchGroup()
-        group?.enter()
         sender.estimateFee(address: address, amount: amount, tier: feeLevel, isStake: false) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -294,41 +286,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
                                     message: L10n.ErrorMessages.ethBalanceLow,
                                     buttonLabel: L10n.Button.ok)
                 }
-                self?.group?.leave()
-            }
-        }
-        
-        group?.enter()
-        sender.estimateLimitMaximum(address: address, fee: feeLevel, completion: { [weak self] result in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                switch result {
-                case .success(let maximumAmount):
-                    self.maximum = Amount(cryptoAmount: maximumAmount, currency: self.currency)
-                case .failure(let error):
-                    print("[LIMIT] error: \(error)")
-                }
-                self.group?.leave()
-            }
-        })
-        
-        group?.enter()
-        sender.estimateLimitMinimum(address: address, fee: feeLevel) { [weak self] result in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                switch result {
-                case .success(let minimumAmount):
-                    self.minimum = Amount(cryptoAmount: minimumAmount, currency: self.currency)
-                case .failure(let error):
-                    print("[LIMIT] error: \(error)")
-                }
-                self.group?.leave()
-            }
-        }
-        
-        group?.notify(queue: .global()) { [weak self] in
-            DispatchQueue.main.async {
-                self?.group = nil
+                
                 self?.amountView.updateBalanceLabel()
             }
         }
@@ -442,7 +400,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
     }
     
     private func hideDestinationTag() {
-        UIView.animate(withDuration: C.animationDuration, animations: {
+        UIView.animate(withDuration: Presets.Animation.duration, animations: {
             self.attributeCellHeight?.constant = 0.0
             self.attributeCell?.alpha = 0.0
         }, completion: { _ in
@@ -492,7 +450,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         }
         
         guard let feeBasis = currentFeeBasis else {
-            showAlert(title: L10n.Alert.error, message: "No fee estimate", buttonLabel: L10n.Button.ok)
+            showAlert(title: L10n.Alert.error, message: L10n.Send.noFeeEstimate, buttonLabel: L10n.Button.ok)
             return false
         }
         
@@ -501,7 +459,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable, Tracka
         if let attribute = attributeCell?.attribute, currency.isXRP,
            !attribute.isEmpty {
             if UInt32(attribute) == nil {
-               showAlert(title: L10n.Alert.error, message: "Destination tag is too long.", buttonLabel: L10n.Button.ok)
+                showAlert(title: L10n.Alert.error, message: L10n.Send.destinationTag, buttonLabel: L10n.Button.ok)
                return false
             }
             attributeText = attribute

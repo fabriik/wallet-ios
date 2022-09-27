@@ -37,7 +37,6 @@ class ExchangeDetailsViewController: BaseTableViewController<BaseCoordinator,
         super.setupSubviews()
         
         tableView.register(WrapperTableViewCell<AssetView>.self)
-        tableView.register(WrapperTableViewCell<TransactionView>.self)
         tableView.register(WrapperTableViewCell<OrderView>.self)
         tableView.register(WrapperTableViewCell<BuyOrderView>.self)
     }
@@ -50,14 +49,11 @@ class ExchangeDetailsViewController: BaseTableViewController<BaseCoordinator,
         case .header, .toCurrency, .fromCurrency:
             cell = self.tableView(tableView, headerCellForRowAt: indexPath)
             
-        case .order, .transactionFrom:
+        case .order, .timestamp, .transactionFrom, .transactionTo:
             cell = self.tableView(tableView, orderCellForRowAt: indexPath)
             
         case .image:
             cell = self.tableView(tableView, coverCellForRowAt: indexPath)
-            
-        case .timestamp, .transactionTo:
-            cell = self.tableView(tableView, transactionCellForRowAt: indexPath)
             
         case .buyOrder:
             cell = self.tableView(tableView, buyOrderCellForRowAt: indexPath)
@@ -99,7 +95,6 @@ class ExchangeDetailsViewController: BaseTableViewController<BaseCoordinator,
             view.setup(with: model)
             view.configure(with: model.showsFullValue ? Presets.Order.full : Presets.Order.small)
             view.didCopyValue = { [weak self] value in
-                // Not good to use Coordinators here as this screen is not always being initialized through Coordinators.
                 self?.interactor?.copyValue(viewAction: .init(value: value))
             }
         }
@@ -120,22 +115,6 @@ class ExchangeDetailsViewController: BaseTableViewController<BaseCoordinator,
             view.setup(with: model)
         }
 
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, transactionCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = sections[indexPath.section]
-        guard let cell: WrapperTableViewCell<TransactionView> = tableView.dequeueReusableCell(for: indexPath),
-              let model = sectionRows[section]?[indexPath.row] as? TransactionViewModel
-        else {
-            return UITableViewCell()
-        }
-        
-        cell.setup { view in
-            view.configure(with: .init())
-            view.setup(with: model)
-        }
-        
         return cell
     }
     

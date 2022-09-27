@@ -13,8 +13,8 @@ import UIKit
 struct SwapRequestData: RequestModelData {
     var deviceId: String?
     var quoteId: Int?
-    var depositQuantity: Decimal
-    var withdrawalQuantity: Decimal?
+    var depositQuantity: String
+    var withdrawalQuantity: String
     var destination: String?
     var sourceInstrumentId: String?
     var nologCvv: String?
@@ -23,8 +23,8 @@ struct SwapRequestData: RequestModelData {
         let params: [String: Any?] = [
             "device_id": deviceId,
             "quote_id": quoteId,
-            "deposit_quantity": depositQuantity.description,
-            "withdrawal_quantity": withdrawalQuantity?.description,
+            "deposit_quantity": depositQuantity,
+            "withdrawal_quantity": withdrawalQuantity,
             "destination": destination,
             "source_instrument_id": sourceInstrumentId,
             "nolog_cvv": nologCvv
@@ -77,6 +77,6 @@ class SwapWorker: BaseApiWorker<SwapMapper> {
     }
     
     override func getUrl() -> String {
-        return APIURLHandler.getUrl(ExchangeEndpoints.exchange)
+        return APIURLHandler.getUrl(ExchangeEndpoints.create)
     }
 }

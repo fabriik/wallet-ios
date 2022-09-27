@@ -12,8 +12,9 @@ import UIKit
 
 /// Representation of a transaction
 protocol TxViewModel {
-    var tx: Transaction { get }
-    var currency: Currency { get }
+    var tx: Transaction? { get }
+    var swap: SwapDetail? { get }
+    var currency: Currency? { get }
     var blockHeight: String { get }
     var longTimestamp: String { get }
     var status: TransactionStatus { get }
@@ -28,14 +29,40 @@ protocol TxViewModel {
 // Default and passthru values
 extension TxViewModel {
 
-    var currency: Currency { return tx.currency }
-    var status: TransactionStatus { return tx.status }
-    var transactionType: Transaction.TransactionType { return tx.transactionType }
-    var direction: TransferDirection { return tx.direction }
-    var comment: String? { return tx.comment }
+    var currency: Currency? {
+        if let tx = tx {
+            return tx.currency
+        } else if let swap = swap {
+            return Store.state.currencies.first(where: { $0.code == swap.source.currency})
+        } else {
+            return nil
+        }
+    }
+    
+    var status: TransactionStatus {
+        if let tx = tx {
+            return tx.status
+        } else if let swap = swap {
+            return swap.status
+        }
+        return .invalid
+    }
+    
+    var transactionType: Transaction.TransactionType {
+        if let tx = tx {
+            return tx.transactionType
+        } else if let swap = swap {
+            return swap.type
+        }
+        return .defaultTransaction
+    }
+    var direction: TransferDirection { return tx?.direction ?? .received }
+    var comment: String? { return tx?.comment }
     
     // BTC does not have "from" address, only "sent to" or "received at"
     var displayAddress: String {
+        guard let tx = tx else { return "" }
+        
         if !tx.currency.isBitcoinCompatible {
             if direction == .sent {
                 return tx.toAddress
@@ -48,21 +75,25 @@ extension TxViewModel {
     }
     
     var blockHeight: String {
-        return tx.blockNumber?.description ?? L10n.TransactionDetails.notConfirmedBlockHeightLabel
+        return tx?.blockNumber?.description ?? L10n.TransactionDetails.notConfirmedBlockHeightLabel
     }
     
     var confirmations: String {
-        return "\(tx.confirmations)"
+        return "\(tx?.confirmations ?? 0)"
     }
     
     var longTimestamp: String {
-        guard tx.timestamp > 0 else { return tx.isValid ? L10n.Transaction.justNow : "" }
+        guard let tx = tx,
+              tx.timestamp > 0
+        else { return L10n.Transaction.justNow }
+        
         let date = Date(timeIntervalSince1970: tx.timestamp)
         return DateFormatter.longDateFormatter.string(from: date)
     }
     
     var shortTimestamp: String {
-        guard tx.timestamp > 0 else { return tx.isValid ? L10n.Transaction.justNow : "" }
+        guard let tx = tx,
+              tx.timestamp > 0 else { return L10n.Transaction.justNow }
         let date = Date(timeIntervalSince1970: tx.timestamp)
         
         if date.hasEqualDay(Date()) {
@@ -73,11 +104,19 @@ extension TxViewModel {
     }
     
     var tokenTransferCode: String? {
-        guard let code = tx.metaData?.tokenTransfer, !code.isEmpty else { return nil }
+        guard let tx = tx,
+              let code = tx.metaData?.tokenTransfer,
+              !code.isEmpty
+        else { return nil }
         return code
     }
     
     var icon: StatusIcon {
+        guard let tx = tx,
+              let currency = currency else {
+            return swapIcon
+        }
+        
         if let gift = gift, tx.confirmations >= currency.confirmationsUntilFinal {
             //not shared should override unclaimed
             if gift.reclaimed == true {
@@ -97,6 +136,10 @@ extension TxViewModel {
                 return .pending(CGFloat(tx.confirmations) / CGFloat(currency.confirmationsUntilFinal))
             }
             
+            if tx.transactionType == .buyTransaction {
+                return exchangeStatusIconDecider(for: tx.status, transactionType: .buyTransaction)
+            }
+            
             if tx.status == .invalid {
                 return .failed
             }
@@ -106,25 +149,43 @@ extension TxViewModel {
             }
             
         case .swapTransaction:
-            if tx.status == .complete {
-                return .swapComplete
-            }
-            
-            if tx.status == .pending {
-                return .swapPending
-            }
-            
-            if tx.status == .failed {
-                return .failed
-            }
-            
+            return exchangeStatusIconDecider(for: tx.status, transactionType: .swapTransaction)
         }
         
         return .sent
     }
     
+    private func exchangeStatusIconDecider(for: TransactionStatus, transactionType: Transaction.TransactionType) -> StatusIcon {
+        guard let tx = tx else { return swapIcon }
+        if tx.status == .complete || tx.status == .manuallySettled {
+            return transactionType == .buyTransaction ? .received : .swapComplete
+        }
+        
+        if tx.status == .pending {
+            return .swapPending
+        }
+        
+        if tx.status == .failed {
+            return .failed
+        }
+        
+        if tx.status == .refunded {
+            return .refunded
+        }
+        
+        return .failed
+    }
+    
     var gift: Gift? {
-        return tx.metaData?.gift
+        return tx?.metaData?.gift
+    }
+    
+    private var swapIcon: StatusIcon {
+        guard swap != nil else {
+            return .failed
+        }
+        
+        return .swapPending
     }
 }
 

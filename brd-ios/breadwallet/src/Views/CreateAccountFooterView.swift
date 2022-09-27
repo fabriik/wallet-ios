@@ -14,7 +14,7 @@ class CreateAccountFooterView: UIView {
     
     private let currency: Currency
     private var hasSetup = false
-    private let button = UIButton.rounded(title: "Create Account")
+    private let button = UIButton.rounded(title: L10n.AccountCreation.create)
     var didTapCreate: (() -> Void)? {
         didSet { button.tap = didTapCreate }
     }

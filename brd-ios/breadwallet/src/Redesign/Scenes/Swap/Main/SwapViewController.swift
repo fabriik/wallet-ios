@@ -27,15 +27,14 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         return button
     }()
     
+    var didTriggerGetExchangeRate: (() -> Void)?
+    
     // MARK: - Overrides
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        guard let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView>
-        else { return confirmButton.wrappedView.isEnabled = false }
-        
-        cell.wrappedView.invalidate()
+        getRateAndTimerCell()?.wrappedView.invalidate()
     }
     
     override func setupSubviews() {
@@ -66,6 +65,10 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         confirmButton.wrappedView.configure(with: Presets.Button.primary)
         confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm, enabled: false))
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
+        didTriggerGetExchangeRate = { [weak self] in
+            self?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -128,19 +131,31 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
                 self?.interactor?.selectAsset(viewAction: .init(to: true))
             }
             
-            view.didFinish = { [weak self] in
-                self?.interactor?.getFees(viewAction: .init())
-            }
-            
-            view.didChangePlaces = { [weak self] in
-                self?.view.endEditing(true)
-                self?.interactor?.switchPlaces(viewAction: .init())
+            view.didFinish = { [weak self] didSwitchPlaces in
+                if didSwitchPlaces {
+                    self?.interactor?.switchPlaces(viewAction: .init())
+                } else {
+                    self?.interactor?.getFees(viewAction: .init())
+                }
             }
             
             view.contentSizeChanged = { [weak self] in
                 self?.tableView.beginUpdates()
                 self?.tableView.endUpdates()
             }
+            
+            view.setupCustomMargins(top: .zero, leading: .zero, bottom: .medium, trailing: .zero)
+        }
+        
+        return cell
+    }
+    
+    private func getRateAndTimerCell() -> WrapperTableViewCell<ExchangeRateView>? {
+        guard let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
+              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> else {
+            confirmButton.wrappedView.isEnabled = false
+            
+            return nil
         }
         
         return cell
@@ -185,28 +200,24 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         LoadingView.hide()
         
         confirmButton.wrappedView.isEnabled = responseDisplay.continueEnabled
+        
         guard let section = sections.firstIndex(of: Models.Sections.swapCard),
               let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<MainSwapView> else { return }
         
         cell.setup { view in
             let model = responseDisplay.amounts
             view.setup(with: model)
-            view.contentSizeChanged = { [weak self] in
-                self?.tableView.beginUpdates()
-                self?.tableView.endUpdates()
-            }
         }
     }
     
     func displayExchangeRate(responseDisplay: SwapModels.Rate.ResponseDisplay) {
-        if let section = sections.firstIndex(of: Models.Sections.rateAndTimer),
-           let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<ExchangeRateView> {
-            
+        if let cell = getRateAndTimerCell() {
             cell.setup { view in
                 view.configure(with: .init())
                 view.setup(with: responseDisplay.rate)
+                
                 view.completion = { [weak self] in
-                    self?.interactor?.getExchangeRate(viewAction: .init())
+                    self?.interactor?.getExchangeRate(viewAction: .init(getFees: true))
                 }
             }
         }
@@ -220,19 +231,20 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             }
         }
         
-        tableView.beginUpdates()
-        tableView.endUpdates()
+        UIView.transition(with: tableView, duration: Presets.Animation.duration, options: .transitionCrossDissolve) { [weak self] in
+            self?.tableView.beginUpdates()
+            self?.tableView.endUpdates()
+        }
     }
     
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay) {
         view.endEditing(true)
+        
         coordinator?.showAssetSelector(currencies: responseDisplay.to ?? responseDisplay.from,
                                        supportedCurrencies: dataStore?.supportedCurrencies,
                                        selected: { [weak self] model in
             guard let model = model as? AssetViewModel else { return }
             
-            // TODO: Extract to VIPBaseViewController
-            LoadingView.show()
             guard responseDisplay.from?.isEmpty == false else {
                 self?.interactor?.assetSelected(viewAction: .init(to: model.subtitle))
                 return
@@ -245,10 +257,20 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         let _: WrapperPopupView<SwapConfirmationView>? = coordinator?.showPopup(with: responseDisplay.config,
                                                                                 viewModel: responseDisplay.viewModel,
                                                                                 confirmedCallback: { [weak self] in
-            self?.coordinator?.showPinInput(keyStore: self?.dataStore?.keyStore) { pin in
-                LoadingView.show()
-                
-                self?.interactor?.confirm(viewAction: .init(pin: pin))
+            self?.coordinator?.showPinInput(keyStore: self?.dataStore?.keyStore) { success in
+                if success {
+                    LoadingView.show()
+                    
+                    self?.interactor?.confirm(viewAction: .init())
+                } else {
+                    self?.coordinator?
+                        .parentCoordinator?
+                        .showMessage(with: nil, model: InfoViewModel(description: .text(SwapErrors.pinConfirmation.errorMessage),
+                                                                     dismissType: .auto),
+                                     configuration: Presets.InfoView.error)
+                    
+                    self?.coordinator?.dismissFlow()
+                }
             }
         })
     }

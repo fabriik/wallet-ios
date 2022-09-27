@@ -17,6 +17,7 @@ protocol ExchangeDetailsViewActions: BaseViewActions, FetchViewActions {
 }
 
 protocol ExchangeDetailsActionResponses: BaseActionResponses, FetchActionResponses {
+    func presentCopyValue(actionResponse: ExchangeDetailsModels.CopyValue.ActionResponse)
 }
 
 protocol ExchangeDetailsResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {

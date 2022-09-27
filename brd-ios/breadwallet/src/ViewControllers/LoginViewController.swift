@@ -81,7 +81,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     private let debugLabel = UILabel.wrapping(font: Theme.body3, color: .almostBlack)
     private let shouldDisableBiometrics: Bool
     
-    var confirmationCallback: ((_ pin: String?) -> Void)?
+    var confirmationCallback: ((_ success: Bool) -> Void)?
     
     var isBiometricsEnabledForUnlocking: Bool {
         return self.keyMaster.isBiometricsEnabledForUnlocking
@@ -229,7 +229,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     }
     
     @objc func dismissModal() {
-        confirmationCallback?(nil)
+        confirmationCallback?(false)
     }
 
     private func addSubviews() {
@@ -382,7 +382,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
                 })
                 return
             }
-            self.confirmationCallback?(pin)
+            self.confirmationCallback?(true)
         })
     }
 

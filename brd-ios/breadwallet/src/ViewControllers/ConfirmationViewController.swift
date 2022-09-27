@@ -179,9 +179,9 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter, Trackab
         view.backgroundColor = .clear
         if isStake {
             if addressText == currency.wallet?.receiveAddress {
-                payLabel.text = "Unstake"
+                payLabel.text = L10n.Staking.unstake
             } else {
-                payLabel.text = "Stake"
+                payLabel.text = L10n.Staking.stake
             }
         } else {
             payLabel.text = L10n.Confirmation.send
@@ -198,7 +198,7 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter, Trackab
             amountLabel.text = amount.combinedDescription
         }
 
-        toLabel.text = isStake ? "Validator Address" : L10n.Confirmation.to
+        toLabel.text = isStake ? L10n.Confirmation.validatorAddress : L10n.Confirmation.to
         address.text = addressText
         address.lineBreakMode = .byTruncatingMiddle
 

@@ -60,6 +60,12 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
         case .failed:
             header = Presets.StatusView.failed
             
+        case .refunded:
+            header = Presets.StatusView.refunded
+            
+        case .manuallySettled:
+            header = Presets.StatusView.manuallySettled
+            
         default:
             break
         }
@@ -67,7 +73,7 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
         let fromImage = getBaseCurrencyImage(currencyCode: detail.source.currency)
         let toImage = getBaseCurrencyImage(currencyCode: detail.destination.currency)
         
-        let currencyCode = Store.state.defaultCurrencyCode.uppercased()
+        let currencyCode = C.usdCurrencyCode
         
         let formattedUsdAmountString = ExchangeFormatter.fiat.string(for: detail.source.usdAmount) ?? ""
         let formattedCurrencyAmountString = ExchangeFormatter.crypto.string(for: detail.source.currencyAmount) ?? ""
@@ -95,7 +101,9 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
                                     currencyCode)
         
         let orderValue = "\(detail.orderId)"
-        let transactionFromValue = "\(String(describing: detail.source.transactionId))"
+        let transactionFromValue = String(describing: detail.source.transactionId ?? "")
+        let transactionToValue = String(describing: detail.destination.transactionId ?? detail.status.rawValue.localizedCapitalized)
+        let transactionToValueIsCopyable = detail.destination.transactionId != nil
         
         var toCurrencyAssetViewModel = AssetViewModel()
         
@@ -118,16 +126,17 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
             Models.Section.header: [header],
             Models.Section.order: [
                 OrderViewModel(title: L10n.Swap.transactionID,
-                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: orderValue),
-                               showsFullValue: false)
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: orderValue, isCopyable: true),
+                               showsFullValue: false,
+                               isCopyable: true)
             ],
             Models.Section.buyOrder: [
                 BuyOrderViewModel(rateValue: .init(title: .text(L10n.Swap.rate), value: .text(rate), infoImage: nil),
-                                  amount: .init(title: .text(L10n.Swap.amountPurchased), value: .text(amountText), infoImage: nil),
-                                  cardFee: .init(title: .text(L10n.Swap.cardFee),
+                                  amount: .init(title: .text("\(L10n.Swap.amountPurchased):"), value: .text(amountText), infoImage: nil),
+                                  cardFee: .init(title: .text("\(L10n.Swap.cardFee):"),
                                                  value: .text(cardFeeText),
                                                  infoImage: nil),
-                                  networkFee: .init(title: .text(L10n.Swap.miningNetworkFee), value: .text(networkFeeText), infoImage: nil),
+                                  networkFee: .init(title: .text("\(L10n.Swap.miningNetworkFee):"), value: .text(networkFeeText), infoImage: nil),
                                   totalCost: .init(title: .text(L10n.Swap.total), value: .text(totalText)),
                                   paymentMethod: .init(methodTitle: .text(L10n.Swap.paidWith),
                                                        logo: detail.source.paymentInstrument.displayImage,
@@ -148,26 +157,37 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
                 toCurrencyAssetViewModel
             ],
             Models.Section.timestamp: [
-                TransactionViewModel(title: L10n.Swap.timestamp,
-                                     description: "\(dateString)")
+                OrderViewModel(title: L10n.Swap.timestamp,
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: dateString, isCopyable: false),
+                               showsFullValue: true,
+                               isCopyable: false)
             ],
             Models.Section.transactionFrom: [
                 OrderViewModel(title: "\(detail.source.currency) \(L10n.TransactionDetails.txHashHeader)",
-                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: transactionFromValue),
-                               showsFullValue: true)
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: transactionFromValue, isCopyable: true),
+                               showsFullValue: true,
+                               isCopyable: true)
             ],
             Models.Section.transactionTo: [
-                TransactionViewModel(title: "\(detail.destination.currency) \(L10n.TransactionDetails.txHashHeader)",
-                                     description: "\(detail.status.rawValue.localizedCapitalized)")
+                OrderViewModel(title: "\(detail.destination.currency) \(L10n.TransactionDetails.txHashHeader)",
+                               value: ExchangeDetailsPresenter.generateAttributedOrderValue(with: transactionToValue,
+                                                                                            isCopyable: transactionToValueIsCopyable),
+                               showsFullValue: true,
+                               isCopyable: transactionToValueIsCopyable)
             ]
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
+    
+    func presentCopyValue(actionResponse: ExchangeDetailsModels.CopyValue.ActionResponse) {
+        viewController?.displayMessage(responseDisplay: .init(model: .init(description: .text(L10n.Receive.copied)),
+                                                              config: Presets.InfoView.verification))
+    }
 
     // MARK: - Additional Helpers
     
-    private static func generateAttributedOrderValue(with value: String) -> NSAttributedString {
+    private static func generateAttributedOrderValue(with value: String, isCopyable: Bool) -> NSAttributedString {
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = UIImage(named: "copy")?.withTintColor(LightColors.Text.one, renderingMode: .alwaysTemplate)
         imageAttachment.bounds = CGRect(x: 0,
@@ -177,8 +197,11 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
         let attachmentString = NSAttributedString(attachment: imageAttachment)
         let completeText = NSMutableAttributedString(string: "")
         completeText.append(NSAttributedString(string: value))
-        completeText.append(NSAttributedString(string: " "))
-        completeText.append(attachmentString)
+        
+        if isCopyable {
+            completeText.append(NSAttributedString(string: " "))
+            completeText.append(attachmentString)
+        }
         
         return completeText
     }
