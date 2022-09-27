@@ -167,9 +167,7 @@ jobs:
           name: Build Cosmos Project
           command: |
             export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
-            cp ./local.properties external/walletKit/walletKitJava/local.properties
             ./gradlew cosmos-bundled:createXCFramework
-            sed -i '' '18i\'$'\n        ndkVersion \'21.1.6352462\'\n\n' external/walletkit/WalletKitJava/corenative-android/build.gradle
 
       - run:
           name: Set Versions
