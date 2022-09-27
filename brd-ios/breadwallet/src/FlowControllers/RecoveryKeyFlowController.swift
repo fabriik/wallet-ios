@@ -46,7 +46,6 @@ class RecoveryKeyFlowController {
     // pin - the user's PIN, which will already be set to a valid pin if entering from the onboarding flow
     // keyMaster - used for obtaining the recovery key phrase words
     // viewController - the view controller that is initiating the recovery key flow
-    // context - event context for logging analytics events
     // dismissAction - a custom dismiss action
     // modalPresentation - whether the recovery key flow should be presented as a modal view controller
     // canExit - whether the user can exit the recovery key flow; when entering from onboarding,
@@ -61,8 +60,7 @@ class RecoveryKeyFlowController {
         
         let isGeneratingKey = UserDefaults.walletRequiresBackup
         let recoveryKeyMode: EnterRecoveryKeyMode = isGeneratingKey ? .generateKey : .writeKey
-        let eventContext = (context == .none) ? (isGeneratingKey ? .generateKey : .writeKey) : context
-
+        
         let recoveryKeyNavController = RecoveryKeyFlowController.makeNavigationController()
         
         var baseNavigationController: RootNavigationController?
@@ -182,7 +180,6 @@ class RecoveryKeyFlowController {
         }
         
         let introVC = RecoveryKeyIntroViewController(mode: .unlinkWallet,
-                                                     eventContext: .none,
                                                      exitButtonType: .closeButton,
                                                      exitCallback: { (action) in
                                                         if action == .unlinkWallet {

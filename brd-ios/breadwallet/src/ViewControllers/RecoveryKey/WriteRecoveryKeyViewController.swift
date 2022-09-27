@@ -159,11 +159,11 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
     }
     
     override var closeButtonStyle: BaseRecoveryKeyViewController.CloseButtonStyle {
-        return eventContext == .onboarding ? .skip : .close
+        return .close
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return eventContext == .onboarding ? .default : .lightContent
+        return .lightContent
     }
     
     // MARK: lifecycle
