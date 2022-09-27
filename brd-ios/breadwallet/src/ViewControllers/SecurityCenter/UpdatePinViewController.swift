@@ -58,9 +58,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
     private lazy var faq = UIButton.buildFaqButton(articleId: ArticleIds.setPin, currency: nil, position: .right)
     
     private var shouldShowFAQButton: Bool {
-        if type == .recoverBackup {
-            return false
-        }
+        if type == .recoverBackup { return false }
         // Don't show the FAQ button during onboarding because we don't have the wallet/authentication
         // initialized yet, and therefore can't open platform content.
         return eventContext != .onboarding
@@ -93,9 +91,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
     private var newPin: String?
     private var phrase: String?
     private let type: UpdatePinType
-    private var isCreatingPin: Bool {
-        return type != .update
-    }
+    private var isCreatingPin: Bool { return type != .update }
     private let newPinLength = 6
     private let showsBackButton: Bool
     
@@ -137,7 +133,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
     }
 
     private func addConstraints() {
-        let leftRightMargin: CGFloat = E.isSmallScreen ? 40 : 60
+        let leftRightMargin: CGFloat = E.isSmallScreen ? Margins.extraLarge.rawValue * 2 : Margins.extraLarge.rawValue * 3
         header.constrain([
             header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.extraHuge.rawValue),
             header.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leftRightMargin),
@@ -246,17 +242,9 @@ class UpdatePinViewController: UIViewController, Subscriber {
     }
     
     func faqButtonPressed() {
-        // TODO: localize
-        let text = """
-            The Fabriik Wallet app requires you to set a PIN to secure your wallet, separate from your device passcode.
-            
-            You will be required to enter the PIN to view your balance or send money,
-            which keeps your wallet private even if you let someone use your phone or if your phone is stolen by someone who knows your device passcode.
-            
-            Do not forget your wallet PIN! It can only be reset by using your Recovery Phrase. If you forget your PIN and lose your Recovery Phrase, your wallet will be lost.
-            """
+        let text = L10n.UpdatePin.updatePinPopup
         
-        let model = PopupViewModel(title: .text("Why do I need a PIN?"),
+        let model = PopupViewModel(title: .text(L10n.UpdatePin.whyPIN),
                                    body: text)
         
         showInfoPopup(with: model)
@@ -316,9 +304,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
                 let alert = UIAlertController(title: L10n.CloudBackup.backupDeleted,
                                               message: L10n.CloudBackup.backupDeletedMessage,
                                               preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: { _ in
-                    exit(0)
-                }))
+                alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: { _ in exit(0) }))
                 present(alert, animated: true, completion: nil)
             default:
                 clearAfterFailure()

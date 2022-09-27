@@ -11,34 +11,37 @@
 import Foundation
 
 enum BuyErrors: FEError {
-    case noQuote(pair: String?)
+    case noQuote(from: String?, to: String?)
     /// Param 1: amount, param 2 currency symbol
     case tooLow(amount: Decimal, currency: String)
     /// Param 1: amount, param 2 currency symbol
     case tooHigh(amount: Decimal, currency: String)
     case pinConfirmation
     case authorizationFailed
+    case quoteFail
     
     var errorMessage: String {
         switch self {
         case .tooLow(let amount, let currency):
-            return String(format: "The amount is lower than the minimum of $%.0f %@. Please enter a higher amount.",
-                          amount.doubleValue,
-                          currency)
+            return L10n.ErrorMessages.amountTooLow(ExchangeFormatter.fiat.string(for: amount.doubleValue) ?? "", currency)
             
         case .tooHigh(let amount, let currency):
-            return String(format: "The amount is higher than your daily limit of $%.0f %@. Please enter a lower amount.",
-                          amount.doubleValue,
-                          currency)
+            return L10n.ErrorMessages.amountTooHigh(ExchangeFormatter.fiat.string(for: amount.doubleValue) ?? "", currency)
             
-        case .noQuote(let pair):
-            return "No quote for currency pair \(pair ?? "<missing>")."
+        case .noQuote(let from, let to):
+            let from = from ?? "/"
+            let to = to ?? "/"
+            return L10n.ErrorMessages.noQuoteForPair(from, to)
             
         case  .pinConfirmation:
-            return "PIN Authentication failed"
+            return L10n.ErrorMessages.pinConfirmationFailed
             
         case .authorizationFailed:
-            return "Card authorization failed. Please contact your credit card issuer/bank or try another card."
+            return L10n.ErrorMessages.authorizationFailed
+            
+        case .quoteFail:
+            return L10n.ErrorMessages.exchangeQuoteFailed
+            
         }
     }
 }

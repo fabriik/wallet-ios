@@ -17,14 +17,13 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
                                        DeleteProfileInfoResponseDisplays {
     typealias Models = DeleteProfileInfoModels
     
-    // TODO: Localize.
-    override var sceneLeftAlignedTitle: String? { return "You are about to delete your Fabriik account." }
+    override var sceneLeftAlignedTitle: String? { return L10n.AccountDelete.deleteAccountTitle }
     
     private var recoveryKeyFlowNextButton: FEButton?
     private var recoveryKeyFlowBarButton: UIBarButtonItem?
     
-    lazy var confirmButton: FEButton = {
-        let button = FEButton()
+    lazy var confirmButton: WrapperView<FEButton> = {
+        let button = WrapperView<FEButton>()
         return button
     }()
     
@@ -35,21 +34,25 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
         
         view.addSubview(confirmButton)
         confirmButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+            make.centerX.leading.equalToSuperview()
             make.bottom.equalTo(view.snp.bottomMargin)
-            make.leading.equalToSuperview().inset(Margins.large.rawValue)
-            make.height.equalTo(ButtonHeights.common.rawValue)
         }
+        
+        confirmButton.wrappedView.snp.makeConstraints { make in
+            make.height.equalTo(ButtonHeights.common.rawValue)
+            make.edges.equalTo(confirmButton.snp.margins)
+        }
+        confirmButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)
         
         tableView.snp.remakeConstraints { make in
             make.leading.trailing.top.equalToSuperview()
             make.bottom.equalTo(confirmButton.snp.top)
         }
         
-        confirmButton.configure(with: Presets.Button.primary)
-        confirmButton.setup(with: .init(title: "Confirm", enabled: false))
+        confirmButton.wrappedView.configure(with: Presets.Button.primary)
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm, enabled: false))
         
-        confirmButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -148,7 +151,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
     }
     
     func displayToggleTickbox(responseDisplay: DeleteProfileInfoModels.Tickbox.ResponseDisplay) {
-        confirmButton.setup(with: .init(title: "Confirm", enabled: responseDisplay.model.enabled))
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm, enabled: responseDisplay.model.enabled))
     }
 
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {

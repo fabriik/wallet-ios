@@ -18,8 +18,7 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
     override var isModalDismissableEnabled: Bool { return false }
     
     override var sceneLeftAlignedTitle: String? {
-        // TODO: localize
-        return "Personal Information"
+        return L10n.Account.personalInformation
     }
     private var isValid = false
 

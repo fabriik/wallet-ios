@@ -17,20 +17,20 @@ enum RegistrationModels {
         var title: String {
             switch self {
             case .registration:
-                return "Welcome!"
+                return L10n.Account.welcome
                 
             case .resend:
-                return "Change your email"
+                return L10n.Account.changeEmail
             }
         }
         
         var instructions: String {
             switch self {
             case .registration:
-                return "Create a Fabriik account by entering your email address."
+                return L10n.Account.createAccount
                 
             case .resend:
-                return "Enter and verify your new email address for your Fabriik account."
+                return L10n.Account.verifyEmail
             }
         }
     }

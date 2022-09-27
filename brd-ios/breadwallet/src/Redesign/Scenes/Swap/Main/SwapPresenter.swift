@@ -37,7 +37,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel())
         
-        // TODO: Localize
         let sectionRows: [Models.Sections: [Any]] = [
             .rateAndTimer: [
                 exchangeRateViewModel
@@ -48,46 +47,50 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             .swapCard: [
                 MainSwapViewModel(from: .init(amount: .zero(from),
                                               fee: .zero(from),
-                                              title: .text("I have 0 \(from.code)"),
-                                              feeDescription: .text("Sending network fee\n(included)")),
+                                              formattedFiatFeeString: nil,
+                                              formattedTokenFeeString: nil,
+                                              title: .text(String(format: L10n.Swap.balance(ExchangeFormatter.crypto.string(for: 0) ?? "", from.code))),
+                                              feeDescription: .text(L10n.Swap.sendNetworkFee)),
                                   to: .init(amount: .zero(to),
                                             fee: .zero(to),
-                                            title: .text("I want"),
-                                            feeDescription: .text("Sending network fee\n(included)")))
+                                            formattedFiatFeeString: nil,
+                                            formattedTokenFeeString: nil,
+                                            title: .text(L10n.Swap.iWant),
+                                            feeDescription: .text(L10n.Swap.sendNetworkFee)))
             ]
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
     
-    func presentRate(actionResponse: SwapModels.Rate.ActionResponse) {
+    func presentExchangeRate(actionResponse: SwapModels.Rate.ActionResponse) {
         guard let from = actionResponse.from,
               let to = actionResponse.to,
               let quote = actionResponse.quote else {
             return
         }
         
-        let text = String(format: "1 %@ = %.5f %@", from.code, quote.exchangeRate.doubleValue, to.code)
-
+        let text = String(format: "1 %@ = %@ %@", from.code, ExchangeFormatter.crypto.string(for: quote.exchangeRate.doubleValue) ?? "", to.code)
+        
         let minText = ExchangeFormatter.fiat.string(for: quote.minimumUsd) ?? ""
-        let maxText = ExchangeFormatter.fiat.string(for: quote.maximumUsd) ?? ""
-        let limitText = String(format: "Currently, minimum limit for swap is $%@ USD and maximum limit is %@ USD/day.", minText, maxText)
+        let maxLimit = UserManager.shared.profile?.swapAllowanceDaily
+        let maxText = ExchangeFormatter.fiat.string(for: maxLimit) ?? ""
+        let limitText = String(format: L10n.Swap.swapLimits(minText, maxText))
         
         exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
                                                       timer: TimerViewModel(till: quote.timestamp,
                                                                             repeats: false),
                                                       showTimer: true)
         
-        viewController?.displayRate(responseDisplay: .init(rate: exchangeRateViewModel,
-                                                           limits: .text(limitText)))
+        viewController?.displayExchangeRate(responseDisplay: .init(rate: exchangeRateViewModel,
+                                                                   limits: .text(limitText)))
     }
     
     func presentAmount(actionResponse: SwapModels.Amounts.ActionResponse) {
         let balance = actionResponse.baseBalance
-        let balanceText = String(format: "I have %@ %@", ExchangeFormatter.crypto.string(for: balance?.tokenValue.doubleValue) ?? "",
-                                 balance?.currency.code ?? "")
-        let sendingFee = "Sending network fee\n(not included)"
-        let receivingFee = "Receiving network fee\n(included)"
+        let balanceText = String(format: L10n.Swap.balance(ExchangeFormatter.crypto.string(for: balance?.tokenValue.doubleValue) ?? "", balance?.currency.code ?? ""))
+        let sendingFee = L10n.Swap.sendNetworkFeeNotIncluded
+        let receivingFee = L10n.Swap.receiveNetworkFee
         
         let fromFiatValue = actionResponse.from?.fiatValue == 0 ? nil : ExchangeFormatter.fiat.string(for: actionResponse.from?.fiatValue)
         let fromTokenValue = actionResponse.from?.tokenValue == 0 ? nil : ExchangeFormatter.crypto.string(for: actionResponse.from?.tokenValue)
@@ -99,17 +102,39 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         let toFormattedFiatString = ExchangeFormatter.createAmountString(string: toFiatValue ?? "")
         let toFormattedTokenString = ExchangeFormatter.createAmountString(string: toTokenValue ?? "")
         
+        let fromFee = actionResponse.fromFee
+        
+        let formattedFromFiatFeeString = String(format: "%@ %@",
+                                                ExchangeFormatter.fiat.string(for: fromFee?.fiatValue) ?? "",
+                                                C.usdCurrencyCode)
+        let formattedFromTokenFeeString = String(format: "%@ %@",
+                                                 ExchangeFormatter.crypto.string(for: fromFee?.tokenValue) ?? "",
+                                                 fromFee?.currency.code.uppercased() ?? "")
+        
+        let toFee = actionResponse.toFee
+        
+        let formattedToFiatFeeString = String(format: "%@ %@",
+                                              ExchangeFormatter.fiat.string(for: toFee?.fiatValue) ?? "",
+                                              C.usdCurrencyCode)
+        let formattedToTokenFeeString = String(format: "%@ %@",
+                                               ExchangeFormatter.crypto.string(for: toFee?.tokenValue) ?? "",
+                                               toFee?.currency.code.uppercased() ?? "")
+        
         let swapModel = MainSwapViewModel(from: .init(amount: actionResponse.from,
                                                       formattedFiatString: fromFormattedFiatString,
                                                       formattedTokenString: fromFormattedTokenString,
                                                       fee: actionResponse.fromFee,
+                                                      formattedFiatFeeString: formattedFromFiatFeeString,
+                                                      formattedTokenFeeString: formattedFromTokenFeeString,
                                                       title: .text(balanceText),
                                                       feeDescription: .text(sendingFee)),
                                           to: .init(amount: actionResponse.to,
                                                     formattedFiatString: toFormattedFiatString,
                                                     formattedTokenString: toFormattedTokenString,
-                                                    fee: actionResponse.toFee,
-                                                    title: .text("I want"),
+                                                    fee: actionResponse.fromFee,
+                                                    formattedFiatFeeString: formattedToFiatFeeString,
+                                                    formattedTokenFeeString: formattedToTokenFeeString,
+                                                    title: .text(L10n.Swap.iWant),
                                                     feeDescription: .text(receivingFee)))
         
         guard actionResponse.handleErrors else {
@@ -119,61 +144,65 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             return
         }
         
-        let minimumAmount: Decimal = actionResponse.minimumAmount ?? 5
+        let minimumValue = actionResponse.minimumValue ?? 0
         
         var hasError: Bool = actionResponse.from?.fiatValue == 0
         if actionResponse.baseBalance == nil
             || actionResponse.from?.currency.code == actionResponse.to?.currency.code {
-            let first = actionResponse.from?.currency.code ?? "<base missing>"
-            let second = actionResponse.to?.currency.code ?? "<term missing>"
-            presentError(actionResponse: .init(error: SwapErrors.noQuote(pair: "\(first)-\(second)")))
+            let first = actionResponse.from?.currency.code
+            let second = actionResponse.to?.currency.code
+            presentError(actionResponse: .init(error: SwapErrors.noQuote(from: first, to: second)))
             hasError = true
-        } else if TransferManager.shared.canSwap(actionResponse.from?.currency) == false {
+        } else if ExchangeManager.shared.canSwap(actionResponse.from?.currency) == false {
             presentError(actionResponse: .init(error: SwapErrors.pendingSwap))
             hasError = true
         } else {
-            let value = actionResponse.from?.fiatValue ?? 0
+            let fiatValue = actionResponse.from?.fiatValue ?? 0
+            let tokenValue = actionResponse.from?.tokenValue ?? 0
+            let tokenCode = actionResponse.from?.currency.code.uppercased() ?? ""
             let profile = UserManager.shared.profile
             let dailyLimit = profile?.swapDailyRemainingLimit ?? 0
             let lifetimeLimit = profile?.swapLifetimeRemainingLimit ?? 0
             let exchangeLimit = profile?.swapAllowancePerExchange    ?? 0
             let balance = actionResponse.baseBalance?.tokenValue ?? 0
             
-            switch value {
-            case _ where value <= 0:
-                // fiat value is bellow 0
+            switch (fiatValue, tokenValue) {
+            case _ where fiatValue <= 0:
+                // Fiat value is below 0
                 presentError(actionResponse: .init(error: nil))
                 hasError = true
                 
-            case _ where value > (actionResponse.baseBalance?.fiatValue ?? 0):
-                // value higher than balance
+            case _ where fiatValue > (actionResponse.baseBalance?.fiatValue ?? 0):
+                // Value higher than balance
                 let error = SwapErrors.balanceTooLow(balance: balance, currency: actionResponse.from?.currency.code ?? "")
                 presentError(actionResponse: .init(error: error))
                 hasError = true
                 
-            case _ where value < minimumAmount:
-                // value bellow minimum fiat
-                presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
+            case _ where tokenValue < minimumValue:
+                // Value bellow minimum crypto
+                presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: minimumValue, currency: tokenCode)))
                 hasError = true
-                
-            case _ where value > dailyLimit:
-                // over daily limit
-                let error = profile?.status == .levelTwo(.levelTwo) ? SwapErrors.overDailyLimitLevel2 : SwapErrors.overDailyLimit
+                    
+            case _ where fiatValue > dailyLimit:
+                // Over daily limit
+                let limit = UserManager.shared.profile?.swapAllowanceDaily ?? 0
+                let error = profile?.status == .levelTwo(.levelTwo) ? SwapErrors.overDailyLimitLevel2(limit: limit) : SwapErrors.overDailyLimit(limit: limit)
                 presentError(actionResponse: .init(error: error))
                 hasError = true
                 
-            case _ where value > lifetimeLimit:
-                // over lifetime limit
-                presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit))
+            case _ where fiatValue > lifetimeLimit:
+                // Over lifetime limit
+                let limit = UserManager.shared.profile?.swapAllowanceLifetime ?? 0
+                presentError(actionResponse: .init(error: SwapErrors.overLifetimeLimit(limit: limit)))
                 hasError = true
                 
-            case _ where value > exchangeLimit:
-                // over exchange limit ???
+            case _ where fiatValue > exchangeLimit:
+                // Over exchange limit ???!
                 presentError(actionResponse: .init(error: SwapErrors.overExchangeLimit))
                 hasError = true
                 
             default:
-                // remove error
+                // Remove presented error
                 presentError(actionResponse: .init(error: nil))
             }
         }
@@ -190,19 +219,23 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
-        if let error = actionResponse.error as? SwapErrors,
-           error.errorMessage == SwapErrors.selectAssets.errorMessage {
+        if let error = actionResponse.error as? SwapErrors, error.errorMessage == SwapErrors.selectAssets.errorMessage {
             presentAssetInfoPopup(actionResponse: .init())
-            
         } else if let error = actionResponse.error as? FEError {
-            let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
+            let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
             let config = Presets.InfoView.swapError
             
-            viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
+            switch error.errorMessage {
+            case SwapErrors.quoteFail.errorMessage:
+                viewController?.displayExchangeRate(responseDisplay: .init(rate: .init(),
+                                                                           limits: nil))
+            default:
+                break
+            }
             
+            viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
         } else {
             viewController?.displayMessage(responseDisplay: .init())
-            
         }
     }
     
@@ -213,45 +246,44 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             return
         }
         
-        let rateText = String(format: "1 %@ = %@ %@", from.currency.code, ExchangeFormatter.fiat.string(for: rate) ?? "", to.currency.code)
+        let rateText = String(format: "1 %@ = %@ %@", from.currency.code, ExchangeFormatter.crypto.string(for: rate) ?? "", to.currency.code)
         
         let fromText = String(format: "%@ %@ (%@ %@)", ExchangeFormatter.crypto.string(for: from.tokenValue.doubleValue) ?? "",
                               from.currency.code,
                               ExchangeFormatter.fiat.string(for: from.fiatValue.doubleValue) ?? "",
-                              Store.state.defaultCurrencyCode)
+                              C.usdCurrencyCode)
         let toText = String(format: "%@ %@ (%@ %@)",
                             ExchangeFormatter.crypto.string(for: to.tokenValue.doubleValue) ?? "",
                             to.currency.code,
                             ExchangeFormatter.fiat.string(for: to.fiatValue.doubleValue) ?? "",
-                            Store.state.defaultCurrencyCode)
+                            C.usdCurrencyCode)
         
-        let fromFeeText = String(format: "%@ %@\n(%@) %@",
+        let fromFeeText = String(format: "%@ %@\n(%@ %@)",
                                  ExchangeFormatter.crypto.string(for: actionResponse.fromFee?.tokenValue.doubleValue) ?? "",
                                  actionResponse.fromFee?.currency.code ?? from.currency.code,
                                  ExchangeFormatter.fiat.string(for: actionResponse.fromFee?.fiatValue.doubleValue) ?? "",
-                                 Store.state.defaultCurrencyCode)
+                                 C.usdCurrencyCode)
         
-        let toFeeText = String(format: "%@ %@\n(%@) %@",
+        let toFeeText = String(format: "%@ %@\n(%@ %@)",
                                ExchangeFormatter.crypto.string(for: actionResponse.toFee?.tokenValue.doubleValue) ?? "",
                                actionResponse.toFee?.currency.code ?? to.currency.code,
                                ExchangeFormatter.fiat.string(for: actionResponse.toFee?.fiatValue.doubleValue) ?? "",
-                               Store.state.defaultCurrencyCode)
+                               C.usdCurrencyCode)
         
         let totalCostText = String(format: "%@ %@", ExchangeFormatter.crypto.string(for: from.tokenValue.doubleValue) ?? "", from.currency.code)
         
         let config: WrapperPopupConfiguration<SwapConfimationConfiguration> = .init(wrappedView: .init())
         
-        // TODO: localize
-        let wrappedViewModel: SwapConfirmationViewModel = .init(from: .init(title: .text("From"), value: .text(fromText)),
-                                                                to: .init(title: .text("To"), value: .text(toText)),
-                                                                rate: .init(title: .text("Rate"), value: .text(rateText)),
-                                                                sendingFee: .init(title: .text("Sending fee\n"), value: .text(fromFeeText)),
-                                                                receivingFee: .init(title: .text("Receiving fee\n"), value: .text(toFeeText)),
-                                                                totalCost: .init(title: .text("Total cost:"), value: .text(totalCostText)))
+        let wrappedViewModel: SwapConfirmationViewModel = .init(from: .init(title: .text(L10n.TransactionDetails.addressFromHeader), value: .text(fromText)),
+                                                                to: .init(title: .text(L10n.TransactionDetails.addressToHeader), value: .text(toText)),
+                                                                rate: .init(title: .text(L10n.Swap.rateValue), value: .text(rateText)),
+                                                                sendingFee: .init(title: .text(L10n.Swap.sendingFee), value: .text(fromFeeText)),
+                                                                receivingFee: .init(title: .text(L10n.Swap.receivingFee), value: .text(toFeeText)),
+                                                                totalCost: .init(title: .text(L10n.Confirmation.totalLabel), value: .text(totalCostText)))
         
-        let viewModel: WrapperPopupViewModel<SwapConfirmationViewModel> = .init(title: .text("Confirmation"),
-                                                                                confirm: .init(title: "Confirm"),
-                                                                                cancel: .init(title: "Cancel"),
+        let viewModel: WrapperPopupViewModel<SwapConfirmationViewModel> = .init(title: .text(L10n.Confirmation.title),
+                                                                                confirm: .init(title: L10n.Button.confirm),
+                                                                                cancel: .init(title: L10n.Button.cancel),
                                                                                 wrappedView: wrappedViewModel)
         
         viewController?.displayConfirmation(responseDisplay: .init(config: config, viewModel: viewModel))
@@ -261,19 +293,16 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         guard let from = actionResponse.from,
               let to = actionResponse.to,
               let exchangeId = actionResponse.exchangeId else {
-            presentError(actionResponse: .init(error: GeneralError(errorMessage: "Not a valid pair")))
+                  presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Swap.notValidPair)))
             return
         }
         viewController?.displayConfirm(responseDisplay: .init(from: from, to: to, exchangeId: "\(exchangeId)"))
     }
     
     func presentAssetInfoPopup(actionResponse: SwapModels.AssetInfoPopup.ActionResponse) {
-        // TODO: Localize.
-        let popupViewModel = PopupViewModel(title: .text("Check your assets!"),
-                                            body: """
-In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet.
-""",
-                                            buttons: [.init(title: "Got it!")])
+        let popupViewModel = PopupViewModel(title: .text(L10n.Swap.checkAssets),
+                                            body: L10n.Swap.checkAssetsBody,
+                                            buttons: [.init(title: L10n.Swap.gotItButton)])
         
         viewController?.displayAssetInfoPopup(responseDisplay: .init(popupViewModel: popupViewModel,
                                                                      popupConfig: Presets.Popup.white))

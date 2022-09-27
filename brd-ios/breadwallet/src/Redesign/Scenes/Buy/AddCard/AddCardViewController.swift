@@ -18,8 +18,7 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
     typealias Models = AddCardModels
     
     override var sceneTitle: String? {
-        // TODO: Localize
-        return "Add card"
+        return L10n.Buy.addCard
     }
     private var isValid = false
 
@@ -108,6 +107,8 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
     @objc override func buttonTapped() {
         super.buttonTapped()
         
+        LoadingView.show()
+        
         interactor?.submit(viewAction: .init())
     }
 
@@ -129,7 +130,9 @@ class AddCardViewController: BaseTableViewController<BuyCoordinator,
     }
     
     func displaySubmit(responseDisplay: AddCardModels.Submit.ResponseDisplay) {
-        coordinator?.showBillingAddress(addCardDataStore: dataStore)
+        LoadingView.show()
+        
+        coordinator?.showBillingAddress(checkoutToken: responseDisplay.checkoutToken)
     }
     
     func displayCvvInfoPopup(responseDisplay: AddCardModels.CvvInfoPopup.ResponseDisplay) {

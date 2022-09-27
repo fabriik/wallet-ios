@@ -9,21 +9,20 @@ extension Scenes {
 }
 
 class KYCLevelTwoPostValidationViewController: CheckListViewController {
-    // TODO: localized
-    override var sceneLeftAlignedTitle: String? { return "Your ID verification is in progress" }
-    override var checklistTitle: LabelViewModel { return .text("We are reviewing your documents and will let you know when your account has been verified.") }
+    override var sceneLeftAlignedTitle: String? { return L10n.AccountKYCLevelTwo.inProgress }
+    override var checklistTitle: LabelViewModel { return .text(L10n.AccountKYCLevelTwo.documentsReview) }
     override var checkmarks: [ChecklistItemViewModel] { return [
-        .init(title: .text("Uploading your photos")),
-        .init(title: .text("Checking for errors")),
-        .init(title: .text("Sending your data for verification")),
-        .init(title: .text("Verifying you"))
+        .init(title: .text(L10n.AccountKYCLevelTwo.uploadingPhoto)),
+        .init(title: .text(L10n.AccountKYCLevelTwo.checkingErrors)),
+        .init(title: .text(L10n.AccountKYCLevelTwo.sendingData)),
+        .init(title: .text(L10n.AccountKYCLevelTwo.verifying))
     ]
     }
     
     override func prepareData() {
         super.prepareData()
         
-        confirmButton.setup(with: .init(title: "Continue"))
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.continueAction))
     }
     
     override func buttonTapped() {

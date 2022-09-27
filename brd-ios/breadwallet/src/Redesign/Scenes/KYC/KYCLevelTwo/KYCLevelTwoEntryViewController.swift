@@ -15,13 +15,12 @@ extension Scenes {
 }
 
 class KYCLevelTwoEntryViewController: CheckListViewController {
-    // TODO: localized
-    override var sceneLeftAlignedTitle: String? { return "We need to confirm your ID" }
-    override var checklistTitle: LabelViewModel { return .text("Before you start, please:") }
+    override var sceneLeftAlignedTitle: String? { return L10n.AccountKYCLevelTwo.confirmID }
+    override var checklistTitle: LabelViewModel { return .text(L10n.AccountKYCLevelTwo.beforeStart) }
     override var checkmarks: [ChecklistItemViewModel] { return [
-        .init(title: .text("Prepare a valid government-issued identity document (Passport, National ID card or Drivers license)")),
-        .init(title: .text("Make sure you are in a well-lit room")),
-        .init(title: .text("Be prepared to take a selfie and photos of your ID"))
+        .init(title: .text(L10n.AccountKYCLevelTwo.prepareDocument)),
+        .init(title: .text(L10n.AccountKYCLevelTwo.makeSure)),
+        .init(title: .text(L10n.AccountKYCLevelTwo.takePhotos))
         ]
     }
     

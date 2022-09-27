@@ -23,13 +23,13 @@ class SwapInfoViewController: BaseInfoViewController {
     override var descriptionText: String? {
         let to = (dataStore?.item as? Item)?.to ?? ""
         
-        return "Your \(to) is estimated to arrive in 30 minutes. You can continue to use your wallet. We'll let you know when your swap has finished."
+        return L10n.Swap.swapStatus(to)
     }
     
     override var buttonViewModels: [ButtonViewModel] {
         return [
-            .init(title: "Back to Home"),
-            .init(title: "Swap details")
+            .init(title: L10n.Swap.backToHome),
+            .init(title: L10n.Swap.details)
         ]
     }
     
@@ -41,7 +41,7 @@ class SwapInfoViewController: BaseInfoViewController {
     }
     
     func homeTapped() {
-        coordinator?.goBack()
+        coordinator?.goBack(completion: {})
     }
     
     func swapDetailsTapped() {

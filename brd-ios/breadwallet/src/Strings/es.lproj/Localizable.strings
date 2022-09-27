@@ -771,6 +771,7 @@
 /* Menu button title */
 "MenuButton.atmCashRedemption" = "Canje de efectivo en cajero automático";
 
+/* Feedback menu button title */
 "MenuButton.feedback" = "Support";
 
 /* Menu button title */

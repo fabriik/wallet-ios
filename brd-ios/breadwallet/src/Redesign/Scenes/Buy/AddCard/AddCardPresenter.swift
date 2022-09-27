@@ -28,14 +28,13 @@ final class AddCardPresenter: NSObject, Presenter, AddCardActionResponses {
             .confirm
         ]
         
-        // TODO: Localize
         let trailingImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal)
         bankCardInputDetailsViewModel = BankCardInputDetailsViewModel(number: .init(leading: .imageName("credit_card_icon"),
-                                                                                    title: "Card number",
+                                                                                    title: L10n.Buy.cardNumber,
                                                                                     value: item.cardNumber),
-                                                                      expiration: .init(title: "MM/YY",
+                                                                      expiration: .init(title: L10n.Buy.monthYear,
                                                                                         value: item.cardExpDateString),
-                                                                      cvv: .init(title: "CVV",
+                                                                      cvv: .init(title: L10n.Buy.cardCVV,
                                                                                  value: item.cardCVV,
                                                                                  trailing: .image(trailingImage)))
         
@@ -44,7 +43,7 @@ final class AddCardPresenter: NSObject, Presenter, AddCardActionResponses {
                 bankCardInputDetailsViewModel
             ],
             .confirm: [
-                ButtonViewModel(title: "Confirm")
+                ButtonViewModel(title: L10n.Button.confirm)
             ]
         ]
         
@@ -64,14 +63,13 @@ final class AddCardPresenter: NSObject, Presenter, AddCardActionResponses {
     }
     
     func presentSubmit(actionResponse: AddCardModels.Submit.ActionResponse) {
-        viewController?.displaySubmit(responseDisplay: .init())
+        viewController?.displaySubmit(responseDisplay: .init(checkoutToken: actionResponse.checkoutToken))
     }
     
     func presentCvvInfoPopup(actionResponse: AddCardModels.CvvInfoPopup.ActionResponse) {
-        // TODO: Localize
-        let model = PopupViewModel(title: .text("Security code (CVV)"),
+        let model = PopupViewModel(title: .text(L10n.Buy.securityCode),
                                    imageName: "creditCard",
-                                   body: "Please enter the 3 digit CVV number as it appears on the back of your card")
+                                   body: L10n.Buy.securityCodePopup)
         
         viewController?.displayCvvInfoPopup(responseDisplay: .init(model: model))
     }

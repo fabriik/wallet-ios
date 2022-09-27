@@ -47,8 +47,7 @@ class FELink: FEView<LinkConfiguration, LinkViewModel>, StateDisplayable {
         content.addSubview(stack)
         stack.snp.makeConstraints { make in
             make.edges.equalTo(content.snp.margins)
-            // TODO: constant
-            make.height.equalTo(20)
+            make.height.equalTo(Margins.extraLarge.rawValue)
         }
         stack.addArrangedSubview(imageView)
         stack.addArrangedSubview(titleLabel)

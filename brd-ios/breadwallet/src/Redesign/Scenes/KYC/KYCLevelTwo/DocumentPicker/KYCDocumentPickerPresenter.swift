@@ -24,7 +24,7 @@ final class KYCDocumentPickerPresenter: NSObject, Presenter, KYCDocumentPickerAc
         ]
         
         let sectionRows: [Models.Sections: [Any]] = [
-            .title: [LabelViewModel.text("Select one of the following options:")],
+            .title: [LabelViewModel.text(L10n.AccountKYCLevelTwo.selectOptions)],
             .documents: documents.compactMap { return NavigationViewModel(image: .imageName($0.imageName), label: .text($0.title)) }
         ]
         
@@ -36,28 +36,27 @@ final class KYCDocumentPickerPresenter: NSObject, Presenter, KYCDocumentPickerAc
         var confirmation: String?
         var checklist = [ChecklistItemViewModel]()
         
-        // TODO: localize
         if actionResponse.isFront == true,
            actionResponse.document == .passport {
-            instructions = "Make sure to capture the entire document"
-            confirmation = "You have captured the entire document\nMake sure document details are clearly visible and within the frame"
-            checklist = [ChecklistItemViewModel(title: .text("You have captured the entire document")),
-                         ChecklistItemViewModel(title: .text("Make sure document details are clearly visible and within the frame"))]
+            instructions = L10n.AccountKYCLevelTwo.instructions
+            confirmation = "\(L10n.AccountKYCLevelTwo.instructions)\n\(L10n.AccountKYCLevelTwo.documentConfirmation)"
+            checklist = [ChecklistItemViewModel(title: .text(L10n.AccountKYCLevelTwo.instructions)),
+                         ChecklistItemViewModel(title: .text(L10n.AccountKYCLevelTwo.documentConfirmation))]
         } else if actionResponse.isFront == true {
-            instructions = "Make sure to capture the entire front page of the document"
-            confirmation = "You have captured the entire front page of the document\nMake sure document details are clearly visible and within the frame"
-            checklist = [ChecklistItemViewModel(title: .text("You have captured the entire front page of the document")),
-                         ChecklistItemViewModel(title: .text("Make sure document details are clearly visible and within the frame"))]
+            instructions = L10n.AccountKYCLevelTwo.captureFrontPage
+            confirmation = "\(L10n.AccountKYCLevelTwo.frontPageInstructions)\n\(L10n.AccountKYCLevelTwo.documentConfirmation)"
+            checklist = [ChecklistItemViewModel(title: .text(L10n.AccountKYCLevelTwo.frontPageInstructions)),
+                         ChecklistItemViewModel(title: .text(L10n.AccountKYCLevelTwo.documentConfirmation))]
         } else if actionResponse.isBack == true {
-            instructions = "Make sure to capture the entire back page of the document"
-            confirmation = "You have captured the entire back page of the document\nMake sure document details are clearly visible and within the frame"
-            checklist = [ChecklistItemViewModel(title: .text("You have captured the entire back page of the document")),
-                         ChecklistItemViewModel(title: .text("Make sure document details are clearly visible and within the frame"))]
+            instructions = L10n.AccountKYCLevelTwo.captureBackPage
+            confirmation = "\(L10n.AccountKYCLevelTwo.backPageInstructions)\n\(L10n.AccountKYCLevelTwo.documentConfirmation)"
+            checklist = [ChecklistItemViewModel(title: .text(L10n.AccountKYCLevelTwo.backPageInstructions)),
+                         ChecklistItemViewModel(title: .text(L10n.AccountKYCLevelTwo.documentConfirmation))]
         } else if actionResponse.isSelfie == true {
-            instructions = "Make sure your face is in the frame and clearly visible"
-            confirmation = "Make sure to capture the entire document.\nYour face is clearly visible."
-            checklist = [ChecklistItemViewModel(title: .text("You have captured your entire face in the frame.")),
-                         ChecklistItemViewModel(title: .text("Your face is clearly visible."))]
+            instructions = L10n.AccountKYCLevelTwo.faceVisible
+            confirmation = "\(L10n.AccountKYCLevelTwo.instructions).\n\(L10n.AccountKYCLevelTwo.faceVisibleConfirmation)"
+            checklist = [ChecklistItemViewModel(title: .text(L10n.AccountKYCLevelTwo.faceCaptureInstructions)),
+                         ChecklistItemViewModel(title: .text(L10n.AccountKYCLevelTwo.faceVisibleConfirmation))]
         }
         
         var device: AVCaptureDevice?

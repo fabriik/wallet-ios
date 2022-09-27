@@ -167,7 +167,7 @@ class AssetCollection: Subscriber {
     
     /// Resets the asset list to the items in the AssetIndex
     func revertChanges() {
-        self.enabledAssets = assetIndex.enabledAssetIds.compactMap { allAssets[$0] }
+        enabledAssets = assetIndex.enabledAssetIds.compactMap { allAssets[$0] }
         hasUnsavedChanges = false
     }
     

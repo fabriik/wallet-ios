@@ -44,8 +44,8 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
         
         resetPinButton.isHidden = true
         logo.isHidden = true
-        header.text = "Enter your PIN"
-        instruction.text = "Please enter your PIN to confirm the transaction"
+        header.text = L10n.UpdatePin.enterYourPin
+        instruction.text = L10n.UpdatePin.enterPin
     }
 
     deinit {
@@ -81,7 +81,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     private let debugLabel = UILabel.wrapping(font: Theme.body3, color: .almostBlack)
     private let shouldDisableBiometrics: Bool
     
-    var confirmationCallback: ((_ pin: String?) -> Void)?
+    var confirmationCallback: ((_ success: Bool) -> Void)?
     
     var isBiometricsEnabledForUnlocking: Bool {
         return self.keyMaster.isBiometricsEnabledForUnlocking
@@ -229,7 +229,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     }
     
     @objc func dismissModal() {
-        confirmationCallback?(nil)
+        confirmationCallback?(false)
     }
 
     private func addSubviews() {
@@ -286,18 +286,9 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
     }
     
     func faqButtonPressed() {
-        // TODO: localize
-        let text = """
-                        If you enter an incorrect wallet PIN too many times, your wallet will become disabled for a certain amount of time.
-                        This is to prevent someone else from trying to guess your PIN by quickly making many guesses.
-                        If your wallet is disabled, wait until the time shown and you will be able to enter your PIN again.
-
-                        If you continue to enter the incorrect PIN, the amount of waiting time in between attempts will increase. Eventually, the app will reset and you can start a new wallet.
-
-                        If you have the recovery phrase for your wallet, you can use it to reset your PIN by clicking the “Reset PIN” button.
-                        """
+        let text = L10n.AccountCreation.walletDisabled
         
-        let model = PopupViewModel(title: .text("Why is my wallet disabled?"),
+        let model = PopupViewModel(title: .text(L10n.AccountCreation.walletDisabledTitle),
                                    body: text)
         
         showInfoPopup(with: model)
@@ -391,7 +382,7 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
                 })
                 return
             }
-            self.confirmationCallback?(pin)
+            self.confirmationCallback?(true)
         })
     }
 
@@ -407,9 +398,8 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
             self.lockIfNeeded()
         }
         
-        // TODO: localize
-        let attempts = keyMaster.pinAttemptsRemaining == 7 ? "2 more failed attempts." : "1 more failed attempt."
-        let message = "Incorrect PIN. The wallet will get disabled for 6 minutes after \(attempts)"
+        let attempts = keyMaster.pinAttemptsRemaining == 7 ? L10n.UpdatePin.twoAttempts : L10n.UpdatePin.oneAttempt
+        let message = "\(L10n.UpdatePin.incorrectPin) \(attempts)"
         showToastMessage(message: message)
         
         updateDebugLabel()
@@ -498,8 +488,8 @@ class LoginViewController: UIViewController, Subscriber, Trackable {
         let remaining = keyMaster.pinAttemptsRemaining
         let timestamp = keyMaster.walletDisabledUntil
         let disabledUntil = Date(timeIntervalSince1970: timestamp)
-        let firstLine = "Attempts remaining: \(remaining)"
-        let secondLine = "Disabled until: \(disabledUntil)"
+        let firstLine = "\(L10n.UpdatePin.remainingAttempts) \(remaining)"
+        let secondLine = "\(L10n.UpdatePin.disabledUntil) \(disabledUntil)"
         debugLabel.text = "\(firstLine)\n\(secondLine)"
     }
     

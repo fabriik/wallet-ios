@@ -282,9 +282,11 @@ class RecoveryKeyFlowController {
         })
         
         pinViewController.transitioningDelegate = RecoveryKeyFlowController.pinTransitionDelegate
-        pinViewController.modalPresentationStyle = .overFullScreen
-        pinViewController.modalPresentationCapturesStatusBarAppearance = true
         
-        navigationController.present(pinViewController, animated: true, completion: nil)
+        let navigation = UINavigationController(rootViewController: pinViewController)
+        navigation.modalPresentationStyle = .overFullScreen
+        navigation.modalPresentationCapturesStatusBarAppearance = true
+        
+        navigationController.present(navigation, animated: true, completion: nil)
     }
 }

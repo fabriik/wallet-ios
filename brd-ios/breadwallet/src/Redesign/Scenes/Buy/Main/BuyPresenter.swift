@@ -19,23 +19,20 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
     
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         let sections: [Models.Sections] = [
-            .rate,
+            .rateAndTimer,
             .accountLimits,
             .from,
-            .to,
-            .error
+            .to
         ]
         
         exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(), showTimer: false)
-        
-        // TODO: Localize
 
         let sectionRows: [Models.Sections: [ViewModel]] =  [
-            .rate: [exchangeRateViewModel],
+            .rateAndTimer: [exchangeRateViewModel],
             .accountLimits: [
                 LabelViewModel.text("")
             ],
-            .from: [SwapCurrencyViewModel(title: .text("I want"))],
+            .from: [SwapCurrencyViewModel(title: .text(L10n.Swap.iWant))],
             .to: [CardSelectionViewModel(userInteractionEnabled: true)]
         ]
         
@@ -49,10 +46,10 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             return
         }
         
-        let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "", from.uppercased())
-        let min = ExchangeFormatter.fiat.string(for: quote.minimumValue) ?? ""
-        let max = ExchangeFormatter.fiat.string(for: quote.maximumValue) ?? ""
-        let limitText = String(format: "Currently, minimum limit for buy is $%@ USD and maximum limit is %@ USD/day.", min, max)
+        let text = String(format: "1 %@ = %@ %@", to.uppercased(), ExchangeFormatter.fiat.string(for: 1 / quote.exchangeRate) ?? "", from)
+        let minText = ExchangeFormatter.fiat.string(for: quote.minimumValue) ?? ""
+        let maxText = ExchangeFormatter.fiat.string(for: quote.maximumValue) ?? ""
+        let limitText = String(format: L10n.Buy.buyLimits(minText, maxText))
         
         exchangeRateViewModel = ExchangeRateViewModel(exchangeRate: text,
                                                       timer: TimerViewModel(till: quote.timestamp,
@@ -73,11 +70,10 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         let formattedFiatString = ExchangeFormatter.createAmountString(string: fromFiatValue ?? "")
         let formattedTokenString = ExchangeFormatter.createAmountString(string: fromTokenValue ?? "")
         
-        // TODO: Localize
         cryptoModel = .init(amount: actionResponse.amount,
                             formattedFiatString: formattedFiatString,
                             formattedTokenString: formattedTokenString,
-                            title: .text("I want"))
+                            title: .text(L10n.Swap.iWant))
         
         if let paymentCard = actionResponse.card {
             cardModel = .init(logo: paymentCard.displayImage,
@@ -96,20 +92,20 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         
         switch fiat {
         case _ where fiat <= 0:
-            // fiat value is bellow 0
+            // Fiat value is below 0
             presentError(actionResponse: .init(error: nil))
             
         case _ where fiat < minimumAmount,
                             _ where minimumAmount > maximumAmount:
-            // value bellow minimum fiat
-            presentError(actionResponse: .init(error: BuyErrors.tooLow(amount: minimumAmount, currency: Store.state.defaultCurrencyCode)))
+            // Value below minimum Fiat
+            presentError(actionResponse: .init(error: BuyErrors.tooLow(amount: minimumAmount, currency: C.usdCurrencyCode)))
             
         case _ where fiat > maximumAmount:
-            // over exchange limit ???
+            // Over exchange limit ???
             presentError(actionResponse: .init(error: BuyErrors.tooHigh(amount: maximumAmount, currency: C.usdCurrencyCode)))
             
         default:
-            // remove error
+            // Remove error
             presentError(actionResponse: .init(error: nil))
         }
     }
@@ -128,7 +124,7 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
             return
         }
         
-        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .persistent)
+        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
         let config = Presets.InfoView.swapError
         
         viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))

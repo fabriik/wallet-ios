@@ -63,11 +63,9 @@ class VerifyPinViewController: UIViewController, ContentBoxPresenter {
     private var pinAuthenticationType: PinAuthenticationType = .unlocking
     private let success: (String) -> Void
     private let pinPad: PinPadViewController
-    private let titleLabel = UILabel(font: .customBold(size: 17.0), color: .darkText)
-    private let body = UILabel(font: .customBody(size: 14.0), color: .darkText)
+    private let titleLabel = UILabel.wrapping(font: Theme.h2Title, color: Theme.primaryText)
+    private let body = UILabel.wrapping(font: Theme.body1, color: Theme.secondaryText)
     private let pinView: PinView
-    private let toolbar = UIView(color: .whiteTint)
-    private let cancel = UIButton(type: .system)
     private let bodyText: String
     private let pinLength: Int
     private let walletAuthenticator: WalletAuthenticator
@@ -77,13 +75,12 @@ class VerifyPinViewController: UIViewController, ContentBoxPresenter {
         addConstraints()
         setupSubviews()
         setUpBiometricsAuthentication()
+        setupBackButton()
     }
 
     private func addSubviews() {
         view.addSubview(contentBox)
-        view.addSubview(toolbar)
-        toolbar.addSubview(cancel)
-
+        
         contentBox.addSubview(titleLabel)
         contentBox.addSubview(body)
         contentBox.addSubview(pinView)
@@ -98,45 +95,33 @@ class VerifyPinViewController: UIViewController, ContentBoxPresenter {
 
     private func addConstraints() {
         contentBox.constrain([
+            contentBox.topAnchor.constraint(equalTo: view.topAnchor, constant: C.padding[20]),
             contentBox.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            contentBox.bottomAnchor.constraint(equalTo: pinPad.view.topAnchor, constant: -C.padding[12]),
             contentBox.widthAnchor.constraint(equalToConstant: 256.0) ])
         titleLabel.constrainTopCorners(sidePadding: C.padding[2], topPadding: C.padding[2])
         body.constrain([
             body.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            body.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            body.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor) ])
+            body.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: C.padding[2]),
+            body.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor)])
         pinView.constrain([
-            pinView.topAnchor.constraint(equalTo: body.bottomAnchor, constant: C.padding[2]),
+            pinView.topAnchor.constraint(equalTo: body.bottomAnchor, constant: C.padding[10]),
             pinView.centerXAnchor.constraint(equalTo: body.centerXAnchor),
             pinView.widthAnchor.constraint(equalToConstant: pinView.width),
             pinView.heightAnchor.constraint(equalToConstant: pinView.itemSize),
-            pinView.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -C.padding[2]) ])
-        toolbar.constrain([
-            toolbar.leadingAnchor.constraint(equalTo: pinPad.view.leadingAnchor),
-            toolbar.bottomAnchor.constraint(equalTo: pinPad.view.topAnchor),
-            toolbar.trailingAnchor.constraint(equalTo: pinPad.view.trailingAnchor),
-            toolbar.heightAnchor.constraint(equalToConstant: 44.0) ])
-        cancel.constrain([
-            cancel.centerYAnchor.constraint(equalTo: toolbar.centerYAnchor),
-            cancel.trailingAnchor.constraint(equalTo: toolbar.trailingAnchor, constant: -C.padding[2]) ])
+            pinView.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -C.padding[2])])
     }
 
     private func setupSubviews() {
-        contentBox.backgroundColor = .white
-        contentBox.layer.cornerRadius = 8.0
-        contentBox.layer.borderWidth = 1.0
-        contentBox.layer.borderColor = UIColor.secondaryShadow.cgColor
-        contentBox.layer.shadowColor = UIColor.black.cgColor
-        contentBox.layer.shadowOpacity = 0.15
-        contentBox.layer.shadowRadius = 4.0
-        contentBox.layer.shadowOffset = .zero
-
+        view.backgroundColor = .white
+        
         titleLabel.text = L10n.VerifyPin.title
+        titleLabel.textAlignment = .center
+        
         body.text = bodyText
         body.numberOfLines = 0
         body.lineBreakMode = .byWordWrapping
-
+        body.textAlignment = .center
+        
         pinPad.ouputDidUpdate = { [weak self] output in
             guard let myself = self else { return }
             let attemptLength = output.utf8.count
@@ -152,12 +137,15 @@ class VerifyPinViewController: UIViewController, ContentBoxPresenter {
                 }
             }
         }
-        cancel.tap = { [weak self] in
-            self?.didCancel?()
-            self?.dismiss(animated: true, completion: nil)
-        }
-        cancel.setTitle(L10n.Button.cancel, for: .normal)
-        view.backgroundColor = .clear
+    }
+    
+    func setupBackButton() {
+        let back = UIBarButtonItem(image: UIImage(named: "BackArrowWhite"),
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(backButtonPressed))
+        back.tintColor = Theme.blueBackground
+        navigationItem.leftBarButtonItem = back
     }
 
     private func setUpBiometricsAuthentication() {
@@ -189,9 +177,10 @@ class VerifyPinViewController: UIViewController, ContentBoxPresenter {
             Store.perform(action: RequireLogin())
         })
     }
-
-    override var prefersStatusBarHidden: Bool {
-        return true
+    
+    @objc func backButtonPressed() {
+        didCancel?()
+        dismiss(animated: true, completion: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {

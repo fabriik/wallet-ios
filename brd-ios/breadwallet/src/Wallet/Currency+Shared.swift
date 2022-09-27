@@ -104,9 +104,8 @@ public struct CurrencyMetaData: CurrencyWithIcon {
     var decimals: UInt8
     let type: String
     
-    var isPreferred: Bool {
-        return Currencies.shared.currencies.map { $0.uid }.contains(uid)
-    }
+    var isPreferred: Bool { return Currencies.shared.currencies.map { $0.uid }.contains(uid) }
+    var isERC20Token: Bool { return type == SharedCurrency.TokenType.erc20.rawValue }
     
     var alternateCode: String?
     var coinGeckoId: String?
@@ -227,20 +226,26 @@ class Currencies {
         var value: String { return rawValue }
     }
     
-    var currencies: [CurrencyMetaData] {
-        return CurrencyFileManager().getCurrencyMetaDataFromCache()
+    init() {
+        reloadCurrencies()
     }
     
-    static let defaultCurrencyCodes = [AssetCodes.bsv.value,
-                                       AssetCodes.btc.value,
-                                       AssetCodes.eth.value]
+    func reloadCurrencies() {
+        currencies = CurrencyFileManager.getCurrencyMetaDataFromCache()
+    }
+    
+    var currencies: [CurrencyMetaData] = []
+    
+    let defaultCurrencyCodes = [AssetCodes.bsv.value,
+                                AssetCodes.btc.value,
+                                AssetCodes.eth.value]
     
     var defaultCurrencyIds: [CurrencyId] {
-        return Currencies.defaultCurrencyCodes.compactMap { getUID(from: $0) }
+        return Currencies.shared.defaultCurrencyCodes.compactMap { getUID(from: $0) }
     }
     
     func getUID(from code: String) -> CurrencyId? {
-        return currencies.first(where: { $0.code == code })?.uid
+        return Currencies.shared.currencies.first(where: { $0.code == code })?.uid
     }
 }
 
@@ -258,7 +263,7 @@ struct CurrencyFileManager {
         }
     }
     
-    func getCurrencyMetaDataFromCache() -> [CurrencyMetaData] {
+    static func getCurrencyMetaDataFromCache() -> [CurrencyMetaData] {
         guard let sharedFilePath = CurrencyFileManager.cachedCurrenciesFilePath,
               FileManager.default.fileExists(atPath: sharedFilePath) else { return [] }
         do {

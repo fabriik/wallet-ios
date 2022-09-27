@@ -27,13 +27,13 @@ final class DocumentReviewPresenter: NSObject, Presenter, DocumentReviewActionRe
         
         // HMM
         let sectionRows: [Models.Sections: [Any]] = [
-            .title: [LabelViewModel.text("Before you confirm, please:")],
+            .title: [LabelViewModel.text(L10n.Account.beforeConfirm)],
             .checkmarks: item.checklist ?? [],
             .image: [ImageViewModel.photo(image)],
             .buttons: [
                 ScrollableButtonsViewModel(buttons: [
-                    .init(title: "Retake photo"),
-                    .init(title: "Confirm")
+                    .init(title: L10n.Account.retakePhoto),
+                    .init(title: L10n.Button.confirm)
                 ])
             ]
         ]

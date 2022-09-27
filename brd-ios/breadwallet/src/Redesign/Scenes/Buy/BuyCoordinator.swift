@@ -6,6 +6,7 @@
 //
 //
 
+import Frames
 import UIKit
 import WalletKit
 
@@ -23,9 +24,9 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         buyVC?.interactor?.getData(viewAction: .init())
     }
     
-    func showBillingAddress(addCardDataStore: AddCardStore?) {
+    func showBillingAddress(checkoutToken: CkoCardTokenResponse?) {
         open(scene: Scenes.BillingAddress) { vc in
-            vc.interactor?.dataStore?.addCardDataStore = addCardDataStore
+            vc.interactor?.dataStore?.checkoutToken = checkoutToken
             vc.prepareData()
         }
     }
@@ -34,7 +35,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         let webViewController = SimpleWebViewController(url: url)
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
-        webViewController.setup(with: .init(title: "3D Secure")) // TODO: Localize
+        webViewController.setup(with: .init(title: L10n.Buy._3DSecure))
         webViewController.didDismiss = { [weak self] in
             (self?.navigationController.topViewController as? DataPresentable)?.prepareData()
             navController.dismiss(animated: true)
@@ -45,6 +46,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showSuccess(paymentReference: String) {
         open(scene: Scenes.Success) { vc in
+            vc.navigationItem.hidesBackButton = true
             vc.dataStore?.itemId = paymentReference
             
             vc.firstCallback = { [weak self] in
@@ -59,10 +61,12 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showFailure() {
         open(scene: Scenes.Failure) { vc in
+            vc.navigationItem.hidesBackButton = true
             vc.failure = FailureReason.buy
+            
             vc.firstCallback = { [weak self] in
                 self?.popToRoot(completion: { [weak self] in
-                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getData(viewAction: .init())
+                    (self?.navigationController.topViewController as? BuyViewController)?.didTriggerGetData?()
                 })
             }
             
@@ -74,11 +78,11 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showTimeout() {
         open(scene: Scenes.Timeout) { vc in
-            vc.navigationItem.setHidesBackButton(true, animated: false)
+            vc.navigationItem.hidesBackButton = true
             
             vc.firstCallback = { [weak self] in
                 self?.popToRoot(completion: { [weak self] in
-                    (self?.navigationController.topViewController as? BuyViewController)?.interactor?.getData(viewAction: .init())
+                    (self?.navigationController.topViewController as? BuyViewController)?.didTriggerGetData?()
                 })
             }
         }
@@ -86,7 +90,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showTermsAndConditions(url: URL) {
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "Terms and Conditions"))
+        webViewController.setup(with: .init(title: L10n.About.terms))
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         
@@ -96,7 +100,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     func showSupport() {
         guard let url = URL(string: C.supportLink) else { return }
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "Support"))
+        webViewController.setup(with: .init(title: L10n.MenuButton.support))
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         
@@ -147,25 +151,10 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         }
     }
     
-    func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?) {
-        guard let keyStore = keyStore else {
-            fatalError("KeyStore error.")
-        }
-        
-        let vc = LoginViewController(for: .confirmation,
-                                     keyMaster: keyStore,
-                                     shouldDisableBiometrics: true)
-        
-        let nvc = RootNavigationController(rootViewController: vc)
-        vc.confirmationCallback = { [weak self] pin in
-            if pin == nil {
-                self?.showMessage(with: BuyErrors.pinConfirmation)
-            }
-            callback?(pin)
-            nvc.dismiss(animated: true)
-        }
-        nvc.modalPresentationStyle = .fullScreen
-        navigationController.show(nvc, sender: nil)
+    func showPinInput(keyStore: KeyStore?, callback: ((_ success: Bool) -> Void)?) {
+        ExchangeAuthHelper.showPinInput(on: navigationController,
+                                        keyStore: keyStore,
+                                        callback: callback)
     }
     
     func showOrderPreview(coreSystem: CoreSystem?,
@@ -187,6 +176,10 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     // MARK: - Aditional helpers
     
+    func dismissFlow() {
+        navigationController.dismiss(animated: true)
+        parentCoordinator?.childDidFinish(child: self)
+    }
 }
 
 extension BuyCoordinator {

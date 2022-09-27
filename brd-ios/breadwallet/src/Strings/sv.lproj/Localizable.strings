@@ -771,6 +771,7 @@
 /* Menu button title */
 "MenuButton.atmCashRedemption" = "ATM Cash Redemption";
 
+/* Feedback menu button title */
 "MenuButton.feedback" = "Support";
 
 /* Menu button title */

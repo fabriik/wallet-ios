@@ -22,6 +22,7 @@ enum StatusIcon {
     case received
     case pending(CGFloat) //progress associated value
     case failed
+    case refunded
     case swapComplete, swapPending, swapFailed
     case gift(GiftStatus)
     
@@ -31,6 +32,7 @@ enum StatusIcon {
         case .received: return "receivedArrow"
         case .pending: return "pendingIndicator"
         case .failed: return "failed"
+        case .refunded: return "refunded"
         case .swapComplete: return "swapCompleteIndicator"
         case .swapPending: return "swapPendingIndicator"
         case .swapFailed: return "failed"
@@ -56,7 +58,7 @@ enum StatusIcon {
             return Color(Theme.success).opacity(0.16)
         case .pending, .swapPending:
             return Color(Theme.accent).opacity(0.16)
-        case .failed, .swapFailed:
+        case .failed, .swapFailed, .refunded:
             return Color(Theme.error).opacity(0.16)
         case .gift(let status):
             switch status {

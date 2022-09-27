@@ -16,11 +16,10 @@ enum BuyModels {
     }
     
     enum Sections: Sectionable {
-        case rate
+        case rateAndTimer
         case accountLimits
         case from
         case to
-        case error
         
         var header: AccessoryType? { return nil }
         var footer: AccessoryType? { return nil }

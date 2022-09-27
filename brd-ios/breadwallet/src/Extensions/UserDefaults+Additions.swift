@@ -12,6 +12,7 @@ private let defaults = UserDefaults.standard
 private let isBiometricsEnabledKey = "istouchidenabled"
 private let isBiometricsEnabledForTransactionsKey = "isbiometricsenabledtx"
 private let defaultCurrencyCodeKey = "defaultcurrency"
+private let temporaryDefaultCurrencyCodeKey = "temporaryDefaultCurrency"
 private let hasAquiredShareDataPermissionKey = "has_acquired_permission"
 private let legacyWalletNeedsBackupKey = "WALLET_NEEDS_BACKUP"
 private let writePaperPhraseDateKey = "writepaperphrasedatekey"
@@ -153,17 +154,22 @@ extension UserDefaults {
         defaults.set(nil, forKey: isBiometricsEnabledKey)
     }
 
-    // TODO: change the setter back to newValue when currency changing is reenabled (also dont forget to reenable currency selection in ModelPresenter)
     static var defaultCurrencyCode: String {
         get {
-            let code = /*defaults.string(forKey: defaultCurrencyCodeKey) ?? */ C.usdCurrencyCode
+            let code = defaults.string(forKey: defaultCurrencyCodeKey) ?? C.usdCurrencyCode
             guard FiatCurrency.isCodeAvailable(code) else { return C.usdCurrencyCode }
             return code
         }
+        set { defaults.set(newValue, forKey: defaultCurrencyCodeKey) }
+    }
+    
+    static var temporaryDefaultCurrencyCode: String {
+        get {
+            return defaults.string(forKey: temporaryDefaultCurrencyCodeKey) ?? ""
+        }
         set {
-            var newValue = newValue
-            newValue = C.usdCurrencyCode
-            defaults.set(newValue, forKey: defaultCurrencyCodeKey) }
+            defaults.setValue(newValue, forKey: temporaryDefaultCurrencyCodeKey)
+        }
     }
 
     static var hasAquiredShareDataPermission: Bool {

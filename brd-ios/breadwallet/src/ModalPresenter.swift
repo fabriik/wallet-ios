@@ -210,7 +210,7 @@ class ModalPresenter: Subscriber, Trackable {
     func presentFaq(articleId: String? = nil, currency: Currency? = nil) {
         guard let url = URL(string: C.supportLink) else { return }
         let webViewController = SimpleWebViewController(url: url)
-        webViewController.setup(with: .init(title: "Support"))
+        webViewController.setup(with: .init(title: L10n.MenuButton.support))
         let navController = RootNavigationController(rootViewController: webViewController)
         webViewController.setAsNonDismissableModal()
         
@@ -491,15 +491,14 @@ class ModalPresenter: Subscriber, Trackable {
         // MARK: Preferences
         let preferencesItems: [MenuItem] = [
             // Display Currency
-            // TODO: uncomment to restore currency selection (also update UserDefaults+Additions-defaultCurrencyCode)
-//            MenuItem(title: L10n.Settings.currency, accessoryText: {
-//                let code = Store.state.defaultCurrencyCode
-//                let components: [String: String] = [NSLocale.Key.currencyCode.rawValue: code]
-//                let identifier = Locale.identifier(fromComponents: components)
-//                return Locale(identifier: identifier).currencyCode ?? ""
-//            }, callback: {
-//                menuNav.pushViewController(DefaultCurrencyViewController(), animated: true)
-//            }),
+            MenuItem(title: L10n.Settings.currency, accessoryText: {
+                let code = Store.state.defaultCurrencyCode
+                let components: [String: String] = [NSLocale.Key.currencyCode.rawValue: code]
+                let identifier = Locale.identifier(fromComponents: components)
+                return Locale(identifier: identifier).currencyCode ?? ""
+            }, callback: {
+                menuNav.pushViewController(DefaultCurrencyViewController(), animated: true)
+            }),
             
             btcMenu,
             bchMenu,
@@ -543,7 +542,7 @@ class ModalPresenter: Subscriber, Trackable {
             },
             
             // Feedback
-            MenuItem(title: "Feedback", icon: MenuItem.Icon.feedback) { [weak self] in
+            MenuItem(title: L10n.MenuButton.feedback, icon: MenuItem.Icon.feedback) { [weak self] in
                 guard let topVc = self?.topViewController else { return }
                 
                 let feedback = EmailFeedbackManager.Feedback(recipients: "feedback@fabriik.com", subject: "Fabriik - Feedback", body: "")
@@ -1144,8 +1143,7 @@ class ModalPresenter: Subscriber, Trackable {
             }
         ]
         
-        // Add Delete account
-        let deleteAccount = MenuItem(title: "Delete account", color: LightColors.error) { [weak self] in
+        let deleteAccount = MenuItem(title: L10n.Account.deleteAccount, color: LightColors.error) { [weak self] in
             self?.deleteAccountCallback?()
         }
         

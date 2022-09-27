@@ -17,7 +17,7 @@ extension Scenes {
 
 protocol SwapViewActions: BaseViewActions, FetchViewActions, FeeFetchable {
     func setAmount(viewAction: SwapModels.Amounts.ViewAction)
-    func getRate(viewAction: SwapModels.Rate.ViewAction)
+    func getExchangeRate(viewAction: SwapModels.Rate.ViewAction)
     func switchPlaces(viewAction: SwapModels.SwitchPlaces.ViewAction)
     func selectAsset(viewAction: SwapModels.Assets.ViewAction)
     func showConfirmation(viewAction: SwapModels.ShowConfirmDialog.ViewAction)
@@ -27,7 +27,7 @@ protocol SwapViewActions: BaseViewActions, FetchViewActions, FeeFetchable {
 
 protocol SwapActionResponses: BaseActionResponses, FetchActionResponses {
     func presentAmount(actionResponse: SwapModels.Amounts.ActionResponse)
-    func presentRate(actionResponse: SwapModels.Rate.ActionResponse)
+    func presentExchangeRate(actionResponse: SwapModels.Rate.ActionResponse)
     func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse)
     func presentConfirmation(actionResponse: SwapModels.ShowConfirmDialog.ActionResponse)
     func presentConfirm(actionResponse: SwapModels.Confirm.ActionResponse)
@@ -36,7 +36,7 @@ protocol SwapActionResponses: BaseActionResponses, FetchActionResponses {
 
 protocol SwapResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displayAmount(responseDisplay: SwapModels.Amounts.ResponseDisplay)
-    func displayRate(responseDisplay: SwapModels.Rate.ResponseDisplay)
+    func displayExchangeRate(responseDisplay: SwapModels.Rate.ResponseDisplay)
     func displaySelectAsset(responseDisplay: SwapModels.Assets.ResponseDisplay)
     func displayConfirmation(responseDisplay: SwapModels.ShowConfirmDialog.ResponseDisplay)
     func displayConfirm(responseDisplay: SwapModels.Confirm.ResponseDisplay)
@@ -48,9 +48,9 @@ protocol SwapDataStore: BaseDataStore, FetchDataStore {
     var from: Amount? { get set }
     var to: Amount? { get set }
     
-    var fromFee: TransferFeeBasis? { get set }
+    var values: SwapModels.Amounts.ViewAction { get set }
     
-    var defaultCurrencyCode: String? { get set }
+    var fromFee: TransferFeeBasis? { get set }
     
     var quote: Quote? { get set }
     
@@ -73,6 +73,6 @@ protocol SwapDataPassing {
 
 protocol SwapRoutes: CoordinatableRoutes {
     func showAssetSelector(currencies: [Currency]?, supportedCurrencies: [SupportedCurrency]?, selected: ((Any?) -> Void)?)
-    func showPinInput(keyStore: KeyStore?, callback: ((_ pin: String?) -> Void)?)
+    func showPinInput(keyStore: KeyStore?, callback: ((_ success: Bool) -> Void)?)
     func showSwapInfo(from: String, to: String, exchangeId: String)
 }

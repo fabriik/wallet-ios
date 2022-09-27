@@ -14,7 +14,7 @@ extension Scenes {
 
 class AssetSelectionViewController: ItemSelectionViewController {
     
-    override var sceneTitle: String? { return "Select assets" }
+    override var sceneTitle: String? { return L10n.Swap.selectAssets }
     
     override func setupSubviews() {
         super.setupSubviews()
@@ -45,7 +45,8 @@ class AssetSelectionViewController: ItemSelectionViewController {
         else { return }
         
         itemSelected?(model)
-        coordinator?.goBack()
+        
+        coordinator?.dismissFlow()
     }
 
     // MARK: - User Interaction

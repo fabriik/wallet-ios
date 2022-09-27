@@ -42,7 +42,7 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     lazy var infoLabel: UILabel = {
         let infoLabel = UILabel()
-        infoLabel.text = "Trouble finding assets?"
+        infoLabel.text = L10n.Wallet.findAssets
         infoLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)
         infoLabel.textColor = .gray2
         infoLabel.textAlignment = .right
@@ -84,17 +84,21 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     private func reconcileChanges() {
-        // add eth when adding tokens
         let currenciesToAdd = addedCurrencyIndices.map { allAssets[$0] }
-        if let eth = allAssets.first(where: { $0.uid == Currencies.shared.eth?.uid }),
-            !currenciesToAdd.filter({ $0.tokenAddress != nil && ($0.tokenAddress?.isEmpty == false) }).isEmpty, // tokens are being added
-            !assetCollection.enabledAssets.contains(eth), // eth not already added
-            !currenciesToAdd.contains(eth) { // eth not being explicitly added
+        
+        // Add ETH if needed.
+        if let eth = assetCollection.allAssets.first(where: { $0.value.code == Currencies.AssetCodes.eth.value })?.value,
+           currenciesToAdd.contains(where: { $0.isERC20Token }),
+           !currenciesToAdd.filter({ $0.tokenAddress != nil && ($0.tokenAddress?.isEmpty == false) }).isEmpty, // Tokens are being added
+           !assetCollection.enabledAssets.contains(eth), // ETH not already added
+           !currenciesToAdd.contains(eth) { // ETH not being explicitly added
             self.assetCollection.add(asset: eth)
         }
+        
         addedCurrencyIndices.forEach {
             self.assetCollection.add(asset: allAssets[$0])
         }
+        
         assetCollection.saveChanges()
     }
     
@@ -171,9 +175,9 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @objc private func infoButtonTapped() {
         // show info message alert
-        let message = "We currently only support the assets that are listed here. You cannot access other assets through this wallet at the moment."
+        let message = L10n.Wallet.limitedAssetsMessage
         
-        let alert = UIAlertController(title: "Limited assets",
+        let alert = UIAlertController(title: L10n.Wallet.limitedAssets,
                                       message: message,
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: L10n.Button.ok, style: .default)
