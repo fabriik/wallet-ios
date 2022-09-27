@@ -161,7 +161,6 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
         confirm(address: addressText) { [weak self] success in
             guard success else { return }
             self?.send(address: addressText)
-            self?.track(eventName: Event.stake.name)
         }
     }
     
@@ -170,7 +169,6 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
         confirm(address: address) { [weak self] success in
             guard success else { return }
             self?.send(address: address)
-            self?.track(eventName: Event.unstake.name)
         }
     }
     
