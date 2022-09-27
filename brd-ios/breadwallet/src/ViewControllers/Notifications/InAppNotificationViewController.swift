@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InAppNotificationViewController: UIViewController, Trackable {
+class InAppNotificationViewController: UIViewController {
 
     private let notification: BRDMessage
     private var image: UIImage?
@@ -44,11 +44,6 @@ class InAppNotificationViewController: UIViewController, Trackable {
         
     // MARK: - view lifecycle
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        logEvent(.appeared)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -64,10 +59,7 @@ class InAppNotificationViewController: UIViewController, Trackable {
     // MARK: - misc/setup
     
     @objc private func onCloseButton() {
-        dismiss(animated: true, completion: { [weak self] in
-            guard let self = self else { return }
-            self.logEvent(.dismissed)
-        })
+        dismiss(animated: true)
     }
     
     private func addCloseButton() {
@@ -140,8 +132,6 @@ class InAppNotificationViewController: UIViewController, Trackable {
                 guard let self = self else { return }
                 
                 self.dismiss(animated: true, completion: {
-                    self.logEvent(.notificationCTAButton)
-                    
                     if let ctaUrl = self.notification.ctaUrl, !ctaUrl.isEmpty, let url = URL(string: ctaUrl) {
                         // The UIApplication extension will ensure we handle the url correctly, including deep links.
                         UIApplication.shared.open(url)
@@ -188,14 +178,5 @@ class InAppNotificationViewController: UIViewController, Trackable {
             ctaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[2]),
             ctaButton.heightAnchor.constraint(equalToConstant: C.Sizes.buttonHeight)
         ])
-    }
-    
-    // MARK: - event logging
-    
-    private func logEvent(_ event: Event) {
-        let name = makeEventName([EventContext.inAppNotifications.name, Screen.inAppNotification.name, event.name])
-        saveEvent(name, attributes: [ BRDMessage.Keys.id.rawValue: notification.id ?? "",
-                                      BRDMessage.Keys.message_id.rawValue: notification.messageId ?? "",
-                                      BRDMessage.Keys.cta_url.rawValue: notification.ctaUrl ?? ""])
     }
 }

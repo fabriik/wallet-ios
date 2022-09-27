@@ -8,8 +8,7 @@
 
 import UIKit
 
-class BaseRecoveryKeyViewController: UIViewController, Trackable {
-    
+class BaseRecoveryKeyViewController: UIViewController {
     enum CloseButtonStyle {
         case close
         case skip
@@ -40,11 +39,6 @@ class BaseRecoveryKeyViewController: UIViewController, Trackable {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        trackEvent(event: .appeared)
     }
     
     func constrainContinueButton(_ button: BRDButton) {
@@ -98,17 +92,5 @@ class BaseRecoveryKeyViewController: UIViewController, Trackable {
     
     func hideBackButton() {
         navigationItem.leftBarButtonItem = nil
-    }
-    
-    func trackEvent(event: Event, metaData: [String: String]? = nil, tracked: (() -> Void)? = nil) {
-        if let attributes = metaData {
-            saveEvent(context: eventContext, screen: screen, event: event, attributes: attributes, callback: { _ in
-                tracked?()
-            })
-        } else {
-            saveEvent(context: eventContext, screen: screen, event: event) { _ in
-                tracked?()
-            }
-        }
     }
 }

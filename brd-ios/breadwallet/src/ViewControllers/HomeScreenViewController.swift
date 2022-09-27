@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeScreenViewController: UIViewController, Subscriber, Trackable {
+class HomeScreenViewController: UIViewController, Subscriber {
     private let walletAuthenticator: WalletAuthenticator
     private let assetListTableView = AssetListTableView()
     private let debugLabel = UILabel(font: .customBody(size: 12.0), color: .transparentWhiteText) // debug info
@@ -54,28 +54,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         return logoImageView
     }()
     
-    private var shouldShowBuyAndSell: Bool {
-        return (Store.state.experimentWithName(.buyAndSell)?.active ?? false) && (Store.state.defaultCurrencyCode == C.usdCurrencyCode)
-    }
-    
-    private var buyButtonTitle: String {
-        return shouldShowBuyAndSell ? L10n.HomeScreen.buyAndSell : L10n.HomeScreen.buy
-    }
-    
-    private let buyButtonIndex = 0
-    private let tradeButtonIndex = 1
-    private let menuButtonIndex = 2
-    
-    private var buyButton: UIButton? {
-        guard toolbarButtons.count == 4 else { return nil }
-        return toolbarButtons[buyButtonIndex]
-    }
-    
-    private var tradeButton: UIButton? {
-        guard toolbarButtons.count == 4 else { return nil }
-        return toolbarButtons[tradeButtonIndex]
-    }
-    
     var didSelectCurrency: ((Currency) -> Void)?
     var didTapManageWallets: (() -> Void)?
     var didTapBuy: (() -> Void)?
@@ -108,6 +86,10 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         self.walletAuthenticator = walletAuthenticator
         self.coreSystem = coreSystem
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     deinit {
@@ -152,7 +134,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         setInitialData()
         setupSubscriptions()
         updateTotalAssets()
-        sendErrorsToBackend()
         
         if !Store.state.isLoginRequired {
             NotificationAuthorizer().showNotificationsOptInAlert(from: self, callback: { _ in
@@ -310,18 +291,11 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
 
             }
         })
+        
         Store.subscribe(self, name: .didWritePaperKey, callback: { _ in
             if self.generalPromptView.type == .paperKey {
                 self.hidePrompt(self.generalPromptView)
             }
-        })
-        
-        Store.subscribe(self, selector: {
-            return ($0.experiments ?? nil) != ($1.experiments ?? nil)
-        }, callback: { _ in
-            // Do a full reload of the toolbar so it's laid out correctly with updated button titles.
-            self.setupToolbar()
-            self.saveEvent("experiment.buySellMenuButton", attributes: ["show": self.shouldShowBuyAndSell ? "true" : "false"])
         })
         
         Store.subscribe(self, selector: {
@@ -372,12 +346,10 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
     @objc private func showHome() {}
     
     @objc private func buy() {
-        saveEvent("currency.didTapBuyBitcoin", attributes: [ "buyAndSell": shouldShowBuyAndSell ? "true" : "false" ])
         didTapBuy?()
     }
     
     @objc private func trade() {
-        saveEvent("currency.didTapTrade", attributes: [:])
         didTapTrade?()
     }
     
@@ -413,12 +385,9 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         
         generalPromptView = PromptFactory.createPromptView(prompt: nextPrompt, presenter: self)
         
-        saveEvent("prompt.\(nextPrompt.name).displayed")
         nextPrompt.didPrompt()
         
         generalPromptView.dismissButton.tap = { [unowned self] in
-            self.saveEvent("prompt.\(nextPrompt.name).dismissed")
-            
             self.hidePrompt(self.generalPromptView)
         }
         
@@ -427,7 +396,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
                 if let trigger = nextPrompt.trigger {
                     Store.trigger(name: trigger)
                 }
-                self.saveEvent("prompt.\(nextPrompt.name).trigger")
                 
                 self.hidePrompt(self.generalPromptView)
             }
@@ -503,22 +471,6 @@ class HomeScreenViewController: UIViewController, Subscriber, Trackable {
         } completion: { [weak self] _ in
             self?.promptContainerStack.layoutIfNeeded()
             self?.view.layoutIfNeeded()
-        }
-    }
-    
-    // MARK: -
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func sendErrorsToBackend() {
-        // Only syncs errors on TF builds
-        guard let errors = UserDefaults.errors, !errors.isEmpty else { return }
-        
-        Backend.apiClient.sendErrors(messages: errors) { success in
-            guard success else { return }
-            UserDefaults.errors = nil
         }
     }
 }

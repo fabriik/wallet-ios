@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AccountViewController: UIViewController, Subscriber, Trackable {
+class AccountViewController: UIViewController, Subscriber {
     
     // MARK: - Public
     
@@ -105,8 +105,6 @@ class AccountViewController: UIViewController, Subscriber, Trackable {
         super.viewDidAppear(animated)
         
         wallet?.startGiftingMonitor()
-        
-        saveEvent(makeEventName([EventContext.wallet.name, currency.code.uppercased(), Event.appeared.name]))
     }
     
     override func viewSafeAreaInsetsDidChange() {
