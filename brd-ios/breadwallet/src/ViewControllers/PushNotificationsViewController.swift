@@ -152,10 +152,8 @@ class PushNotificationsViewController: UIViewController {
             }
         }
         
-        openSettingsButton.tap = { [weak self] in
+        openSettingsButton.tap = {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-            guard let self = self else { return }
-            
             UIApplication.shared.open(url)
         }
     }
