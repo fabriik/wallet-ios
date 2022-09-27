@@ -109,7 +109,6 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
     init(keyMaster: KeyMaster,
          pin: String,
          mode: EnterRecoveryKeyMode,
-         eventContext: EventContext,
          dismissAction: (() -> Void)?,
          exitCallback: WriteRecoveryKeyExitHandler?) {
         
@@ -119,7 +118,7 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
         self.dismissAction = dismissAction
         self.exitCallback = exitCallback
         
-        super.init(eventContext, .writePaperKey)
+        super.init()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -144,14 +143,7 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
         
         RecoveryKeyFlowController.promptToSetUpRecoveryKeyLater(from: self) { [unowned self] (userWantsToSetUpLater) in
             if userWantsToSetUpLater {
-                
-                // Track the dismissed event before invoking the dismiss action or we could be
-                // deinit'd before the event is logged.
-                
-                let metaData = [ "step": String(self.pageIndex + 1) ]
-                self.trackEvent(event: .dismissed, metaData: metaData, tracked: {
-                    self.exitWithoutPrompting()
-                })
+                self.exitWithoutPrompting()
             }
         }
     }
@@ -440,22 +432,6 @@ extension WriteRecoveryKeyViewController {
         
         self.scrollOffset = xOffset
     }
-    
-    func trackEvent(event: Event, tracked: @escaping () -> Void) {
-        if event == .dismissed {
-            if mode == .generateKey {
-                let metaData = [ "step": String(pageIndex + 1) ]
-                saveEvent(context: eventContext, screen: .writePaperKey, event: event, attributes: metaData, callback: { _ in
-                    tracked()
-                })
-            }
-        } else {
-            saveEvent(context: eventContext, screen: .writePaperKey, event: event, callback: { _ in
-                tracked()
-            })
-        }
-    }
-    
 }
 
 extension WriteRecoveryKeyViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {

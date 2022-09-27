@@ -283,7 +283,7 @@ class StartFlowPresenter: Subscriber {
         navigationController?.present(alert, animated: true, completion: nil)
     }
     
-    private func pushStartPaperPhraseCreationViewController(pin: String, eventContext: EventContext = .none) {
+    private func pushStartPaperPhraseCreationViewController(pin: String) {
         guard let navController = navigationController else { return }
         
         let dismissAction: (() -> Void) = { [weak self] in
@@ -293,7 +293,6 @@ class StartFlowPresenter: Subscriber {
         RecoveryKeyFlowController.enterRecoveryKeyFlow(pin: pin,
                                                        keyMaster: self.keyMaster,
                                                        from: navController,
-                                                       context: eventContext,
                                                        dismissAction: dismissAction,
                                                        modalPresentation: false,
                                                        canExit: false)
@@ -301,10 +300,8 @@ class StartFlowPresenter: Subscriber {
     
     private func dismissStartFlow() {
         guard let navigationController = navigationController else { return assertionFailure() }
-        saveEvent(context: .onboarding, event: .complete)
         
         // Onboarding is finished.
-        EventMonitor.shared.deregister(.onboarding)
         navigationController.dismiss(animated: true) { [unowned self] in
             self.navigationController = nil
             didFinish?()

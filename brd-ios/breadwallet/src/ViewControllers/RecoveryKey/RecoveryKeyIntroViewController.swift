@@ -304,7 +304,6 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
     }
     
     init(mode: EnterRecoveryKeyMode = .generateKey,
-         eventContext: EventContext,
          exitButtonType: RecoveryKeyIntroExitButtonType,
          exitCallback: DidExitRecoveryKeyIntroWithAction?) {
         

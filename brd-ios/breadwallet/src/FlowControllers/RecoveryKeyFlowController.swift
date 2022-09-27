@@ -84,9 +84,6 @@ class RecoveryKeyFlowController {
         
         // dismisses the entire recovery key flow
         let dismissFlow = {
-            
-            EventMonitor.shared.deregister(eventContext)
-            
             if let dismissAction = dismissAction {
                 dismissAction()
             } else {
@@ -112,17 +109,14 @@ class RecoveryKeyFlowController {
             switch action {
             case .abort:
                 dismissFlow()
+                
             case .confirmKey:
-                
-                let fromOnboarding = (context == .onboarding)
-                let goToWallet = (context == .onboarding) ? dismissFlow : nil
-                
                 pushNext(ConfirmRecoveryKeyViewController(words: words,
                                                           keyMaster: keyMaster,
-                                                          eventContext: eventContext,
                                                           confirmed: {
                                                             pushNext(RecoveryKeyCompleteViewController(fromOnboarding: fromOnboarding, proceedToWallet: goToWallet))
                 }))
+                
             default:
                 break
             }
@@ -130,7 +124,6 @@ class RecoveryKeyFlowController {
         
         // the landing page for setting up the recovery key.
         let introVC = RecoveryKeyIntroViewController(mode: recoveryKeyMode,
-                                                     eventContext: eventContext,
                                                      exitButtonType: exitButtonType,
                                                      exitCallback: { (exitAction) in
             switch exitAction {
@@ -145,7 +138,6 @@ class RecoveryKeyFlowController {
                                             pushNext(WriteRecoveryKeyViewController(keyMaster: keyMaster,
                                                                                     pin: responsePin,
                                                                                     mode: recoveryKeyMode,
-                                                                                    eventContext: eventContext,
                                                                                     dismissAction: dismissAction,
                                                                                     exitCallback: { (action) in
                                                                                         let words = phrase.components(separatedBy: " ")
