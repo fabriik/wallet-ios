@@ -56,22 +56,46 @@ extension TxViewModel {
         }
         return .defaultTransaction
     }
-    var direction: TransferDirection { return tx?.direction ?? .received }
+    var direction: TransferDirection {
+        if let tx = tx {
+            return tx.direction
+        } else if let swap = swap {
+            if swap.source.currency.lowercased() == currency?.code.lowercased() {
+                return .sent
+            } else {
+                return .received
+            }
+        }
+        
+        return .received
+        
+    }
     var comment: String? { return tx?.comment }
     
     // BTC does not have "from" address, only "sent to" or "received at"
     var displayAddress: String {
-        guard let tx = tx else { return "" }
-        
-        if !tx.currency.isBitcoinCompatible {
-            if direction == .sent {
+        if let tx = tx {
+            guard !tx.currency.isBitcoinCompatible || direction != .sent else {
                 return tx.toAddress
-            } else {
-                return tx.fromAddress
             }
-        } else {
-            return tx.toAddress
+            
+            return tx.fromAddress
+        } else if let swap = swap {
+            let address: String?
+            switch direction {
+            case .sent:
+                address = swap.source.transactionId
+                
+            case .received:
+                address = swap.destination.transactionId
+                
+            default:
+                address = ""
+            }
+            return address ?? ""
         }
+        
+        return ""
     }
     
     var blockHeight: String {
@@ -82,19 +106,28 @@ extension TxViewModel {
         return "\(tx?.confirmations ?? 0)"
     }
     
+    private var timestamp: Double? {
+        let time: Double?
+        if let tx = tx,
+           tx.timestamp > 0 {
+            time = tx.timestamp
+        } else if let swap = swap {
+            time = Double(swap.timestamp) / 1000
+        } else {
+            time = nil
+        }
+        return time
+    }
+    
     var longTimestamp: String {
-        guard let tx = tx,
-              tx.timestamp > 0
-        else { return L10n.Transaction.justNow }
-        
-        let date = Date(timeIntervalSince1970: tx.timestamp)
+        guard let time = timestamp else { return L10n.Transaction.justNow }
+        let date = Date(timeIntervalSince1970: time)
         return DateFormatter.longDateFormatter.string(from: date)
     }
     
     var shortTimestamp: String {
-        guard let tx = tx,
-              tx.timestamp > 0 else { return L10n.Transaction.justNow }
-        let date = Date(timeIntervalSince1970: tx.timestamp)
+        guard let time = timestamp else { return L10n.Transaction.justNow }
+        let date = Date(timeIntervalSince1970: time)
         
         if date.hasEqualDay(Date()) {
             return DateFormatter.justTime.string(from: date)
@@ -132,19 +165,13 @@ extension TxViewModel {
         
         switch tx.transactionType {
         case .defaultTransaction, .buyTransaction:
-            if tx.confirmations < currency.confirmationsUntilFinal {
+            if tx.confirmations < currency.confirmationsUntilFinal, tx.transactionType != .buyTransaction {
                 return .pending(CGFloat(tx.confirmations) / CGFloat(currency.confirmationsUntilFinal))
-            }
-            
-            if tx.transactionType == .buyTransaction {
+            } else if tx.transactionType == .buyTransaction {
                 return exchangeStatusIconDecider(for: tx.status, transactionType: .buyTransaction)
-            }
-            
-            if tx.status == .invalid {
+            } else if tx.status == .invalid {
                 return .failed
-            }
-            
-            if tx.direction == .received || tx.direction == .recovered {
+            } else if tx.direction == .received || tx.direction == .recovered {
                 return .received
             }
             
@@ -157,7 +184,7 @@ extension TxViewModel {
     
     private func exchangeStatusIconDecider(for: TransactionStatus, transactionType: Transaction.TransactionType) -> StatusIcon {
         guard let tx = tx else { return swapIcon }
-        if tx.status == .complete || tx.status == .manuallySettled {
+        if tx.status == .complete || tx.status == .manuallySettled || tx.status == .confirmed {
             return transactionType == .buyTransaction ? .received : .swapComplete
         }
         
@@ -184,7 +211,9 @@ extension TxViewModel {
         guard swap != nil else {
             return .failed
         }
-        
+        guard swap?.source.currency != C.usdCurrencyCode else {
+            return .buyPending
+        }
         return .swapPending
     }
 }
