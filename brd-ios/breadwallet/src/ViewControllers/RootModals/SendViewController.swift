@@ -137,6 +137,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
         view.addSubview(addressCell)
         view.addSubview(memoCell)
         view.addSubview(sendButton)
+        sendButton.isEnabled = false
 
         addressCell.constrainTopCorners(height: SendCell.defaultHeight)
 
@@ -280,8 +281,10 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
                 switch result {
                 case .success(let fee):
                     self?.currentFeeBasis = fee
+                    self?.sendButton.isEnabled = true
                     
                 case .failure:
+                    self?.sendButton.isEnabled = false
                     self?.showAlert(title: L10n.Alert.ethBalance,
                                     message: L10n.ErrorMessages.ethBalanceLow,
                                     buttonLabel: L10n.Button.ok)
@@ -591,7 +594,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
                 case .publishFailure(let code, let message):
                     let codeStr = code == 0 ? "" : " (\(code))"
                     self.showAlert(title: L10n.Send.sendError, message: message + codeStr, buttonLabel: L10n.Button.ok)
-                case .insufficientGas(let rpcErrorMessage):
+                case .insufficientGas:
                     self.showInsufficientGasError()
                 }
             }
