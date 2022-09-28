@@ -150,7 +150,7 @@ jobs:
           name: Build Cosmos Project
           command: |
             export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
-            ./gradlew cosmos-bundled:createXCFramework
+            ./gradlew cosmos-bundled:createXCFramework --debug
 
       - run:
           name: Set Versions
