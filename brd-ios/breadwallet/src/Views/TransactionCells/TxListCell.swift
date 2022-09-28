@@ -20,10 +20,6 @@ class TxListCell: UITableViewCell {
     private let descriptionLabel = UILabel(font: .customBody(size: 14.0), color: .lightGray)
     private let amount = UILabel(font: .customBold(size: 18.0))
     private let separator = UIView(color: .separatorGray)
-    private let statusIndicator = TxStatusIndicator(width: 44.0)
-    private let failedIndicator = UIButton(type: .system)
-    private var pendingConstraints = [NSLayoutConstraint]()
-    private var completeConstraints = [NSLayoutConstraint]()
     
     // MARK: Vars
     
@@ -38,11 +34,9 @@ class TxListCell: UITableViewCell {
     
     func setTransaction(_ viewModel: TxListViewModel, showFiatAmounts: Bool, rate: Rate, isSyncing: Bool) {
         self.viewModel = viewModel
-        iconImageView.contentMode = .scaleAspectFit
         iconImageView.image = .init(named: viewModel.icon.icon)
         descriptionLabel.text = viewModel.shortDescription
         amount.attributedText = viewModel.amount(showFiatAmounts: showFiatAmounts, rate: rate)
-        statusIndicator.status = viewModel.status
         
         switch viewModel.transactionType {
         case .defaultTransaction:
@@ -55,40 +49,24 @@ class TxListCell: UITableViewCell {
             handleBuyTransactions()
         }
         
-        failedIndicator.isHidden = true
-        statusIndicator.isHidden = true
+        layoutSubviews()
     }
     
     private func handleDefaultTransactions() {
         switch viewModel.status {
         case .invalid:
             timestamp.text = L10n.Transaction.failed
-            failedIndicator.isHidden = false
-            statusIndicator.isHidden = true
             timestamp.isHidden = false
-            
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
             
         case .complete:
             timestamp.text = viewModel.shortTimestamp
-            failedIndicator.isHidden = true
-            statusIndicator.isHidden = true
             timestamp.isHidden = false
             
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
-            
         default:
-            failedIndicator.isHidden = true
-            statusIndicator.isHidden = false
             timestamp.isHidden = false
             
             guard let currency = viewModel.currency else { return }
             timestamp.text = "\(viewModel.confirmations)/\(currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
-            
-            NSLayoutConstraint.deactivate(completeConstraints)
-            NSLayoutConstraint.activate(pendingConstraints)
         }
     }
     
@@ -96,39 +74,19 @@ class TxListCell: UITableViewCell {
         switch viewModel.status {
         case .invalid:
             timestamp.text = L10n.Transaction.purchaseFailed
-            failedIndicator.isHidden = false
-            statusIndicator.isHidden = true
             timestamp.isHidden = false
-            
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
             
         case .refunded:
             timestamp.text = L10n.Transaction.refunded
-            failedIndicator.isHidden = false
-            statusIndicator.isHidden = true
             timestamp.isHidden = false
-            
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
             
         case .complete, .manuallySettled, .confirmed:
             timestamp.text = L10n.Transaction.purchased
-            failedIndicator.isHidden = true
-            statusIndicator.isHidden = true
             timestamp.isHidden = false
-            
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
             
         default:
             timestamp.text = L10n.Transaction.pendingPurchase
-            failedIndicator.isHidden = true
-            statusIndicator.isHidden = false
             timestamp.isHidden = false
-            
-            NSLayoutConstraint.deactivate(completeConstraints)
-            NSLayoutConstraint.activate(pendingConstraints)
         }
     }
     
@@ -146,39 +104,19 @@ class TxListCell: UITableViewCell {
         switch viewModel.status {
         case .complete, .manuallySettled:
             timestamp.text = "\(L10n.Transaction.swapped) \(swapString)"
-            failedIndicator.isHidden = true
-            statusIndicator.isHidden = true
             timestamp.isHidden = false
-            
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
             
         case .pending:
             timestamp.text = "\(L10n.Transaction.pendingSwap) \(swapString)"
-            failedIndicator.isHidden = true
-            statusIndicator.isHidden = true
             timestamp.isHidden = false
-            
-            NSLayoutConstraint.deactivate(completeConstraints)
-            NSLayoutConstraint.activate(pendingConstraints)
             
         case .failed:
             timestamp.text = "\(L10n.Transaction.failedSwap) \(swapString)"
-            failedIndicator.isHidden = true
-            statusIndicator.isHidden = true
             timestamp.isHidden = false
-            
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
         
         case .refunded:
             timestamp.text = L10n.Transaction.refunded
-            failedIndicator.isHidden = true
-            statusIndicator.isHidden = true
             timestamp.isHidden = false
-            
-            NSLayoutConstraint.activate(completeConstraints)
-            NSLayoutConstraint.deactivate(pendingConstraints)
             
         default:
             break
@@ -195,10 +133,9 @@ class TxListCell: UITableViewCell {
     
     private func addSubviews() {
         contentView.addSubview(iconImageView)
+        iconImageView.contentMode = .scaleAspectFill
         contentView.addSubview(timestamp)
         contentView.addSubview(descriptionLabel)
-        contentView.addSubview(statusIndicator)
-        contentView.addSubview(failedIndicator)
         contentView.addSubview(amount)
         contentView.addSubview(separator)
     }
@@ -206,8 +143,8 @@ class TxListCell: UITableViewCell {
     private func addConstraints() {
         iconImageView.constrain([
             iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2]),
+            iconImageView.widthAnchor.constraint(equalToConstant: FieldHeights.common.rawValue),
             iconImageView.heightAnchor.constraint(equalToConstant: FieldHeights.common.rawValue),
-            iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor),
             iconImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         
@@ -219,23 +156,10 @@ class TxListCell: UITableViewCell {
             descriptionLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: amount.leadingAnchor, constant: -C.padding[2])
         ])
-        pendingConstraints = [
-            descriptionLabel.centerYAnchor.constraint(equalTo: statusIndicator.centerYAnchor),
-            descriptionLabel.leadingAnchor.constraint(equalTo: statusIndicator.trailingAnchor, constant: C.padding[1]),
-            descriptionLabel.heightAnchor.constraint(equalToConstant: 48.0)]
-        completeConstraints = [
+        descriptionLabel.constrain([
             descriptionLabel.topAnchor.constraint(equalTo: timestamp.bottomAnchor),
-            descriptionLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor) ]
-        statusIndicator.constrain([
-            statusIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            statusIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2]),
-            statusIndicator.widthAnchor.constraint(equalToConstant: statusIndicator.width),
-            statusIndicator.heightAnchor.constraint(equalToConstant: statusIndicator.height)])
-        failedIndicator.constrain([
-            failedIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            failedIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2]),
-            failedIndicator.widthAnchor.constraint(equalToConstant: statusIndicator.width),
-            failedIndicator.heightAnchor.constraint(equalToConstant: 20.0)])
+            descriptionLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor)
+        ])
         amount.constrain([
             amount.topAnchor.constraint(equalTo: contentView.topAnchor),
             amount.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -248,12 +172,6 @@ class TxListCell: UITableViewCell {
         amount.textAlignment = .right
         descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         descriptionLabel.lineBreakMode = .byTruncatingTail
-        
-        failedIndicator.setTitle(L10n.Transaction.failed, for: .normal)
-        failedIndicator.titleLabel?.font = .customBold(size: 12.0)
-        failedIndicator.setTitleColor(.white, for: .normal)
-        failedIndicator.backgroundColor = .failedRed
-        failedIndicator.layer.cornerRadius = 3
     }
     
     required init?(coder aDecoder: NSCoder) {
