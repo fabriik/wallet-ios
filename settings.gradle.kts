@@ -15,13 +15,6 @@ include(
     "brd-android:theme"
 )
 
-includeBuild("external/walletkit/WalletKitJava") {
-    dependencySubstitution {
-        substitute(module("com.breadwallet.core:corecrypto-android"))
-            .with(project(":corecrypto-android"))
-    }
-}
-
 includeBuild("external/redacted-compiler-plugin") {
     dependencySubstitution {
         substitute(module("dev.zacsweers.redacted:redacted-compiler-gradle-plugin"))
