@@ -19,6 +19,7 @@ fun Project.ensureAndroidLocalPropertiesWithSdkDir(outputFolder: File = project.
     val path = project.tryToDetectAndroidSdkPath()
     return if (path != null) {
         makeLocalProperties(outputFolder, path)
+        makeLocalProperties(File(outputFolder, "/cosmos-bundled"), path)
         true
     } else false
 }
