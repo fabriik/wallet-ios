@@ -29,15 +29,15 @@ enum StatusIcon {
     
     var icon: String {
         switch self {
-        case .sent: return "sendArrow"
-        case .received: return "receivedArrow"
+        case .sent: return "send_success"
+        case .received: return "purchase_success"
         case .pending: return "pendingIndicator"
-        case .failed: return "failed"
+        case .failed: return "purchase_failed"
         case .refunded: return "refunded"
-        case .swapComplete: return "swapCompleteIndicator"
-        case .swapPending: return "swapPendingIndicator"
-        case .buyPending: return "pendingReceivingArrow"
-        case .swapFailed: return "failed"
+        case .swapComplete: return "swap_success"
+        case .swapPending: return "swap_pending"
+        case .buyPending: return "purchase_pending"
+        case .swapFailed: return "swap_failed"
         case .gift(let status):
             switch status {
             case .claimed:
