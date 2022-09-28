@@ -166,11 +166,11 @@ extension TxViewModel {
         switch tx.transactionType {
         case .defaultTransaction, .buyTransaction:
             if tx.confirmations < currency.confirmationsUntilFinal, tx.transactionType != .buyTransaction {
-                return .pending(CGFloat(tx.confirmations) / CGFloat(currency.confirmationsUntilFinal))
+                return .receivePending
             } else if tx.transactionType == .buyTransaction {
                 return exchangeStatusIconDecider(for: tx.status, transactionType: .buyTransaction)
             } else if tx.status == .invalid {
-                return .failed
+                return tx.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
             } else if tx.direction == .received || tx.direction == .recovered {
                 return .received
             }
@@ -193,14 +193,14 @@ extension TxViewModel {
         }
         
         if tx.status == .failed {
-            return .failed
+            return tx.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
         }
         
         if tx.status == .refunded {
             return .refunded
         }
         
-        return .failed
+        return tx.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
     }
     
     var gift: Gift? {
@@ -209,10 +209,10 @@ extension TxViewModel {
     
     private var swapIcon: StatusIcon {
         guard swap != nil else {
-            return .failed
+            return .swapFailed
         }
         guard swap?.source.currency != C.usdCurrencyCode else {
-            return .buyPending
+            return .receivePending
         }
         return .swapPending
     }

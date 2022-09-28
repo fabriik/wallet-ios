@@ -196,7 +196,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber {
         guard let index = transactions.firstIndex(where: { txHash == $0.hash }) else { return false }
         
         // If transaction count stayed the same perform tableView updates block, else reloadData.
-        guard transactions.count == tableView.numberOfRows(inSection: 0) else {
+        guard allTransactions.count == tableView.numberOfRows(inSection: 0) else {
             tableView.reloadData()
             return true
         }

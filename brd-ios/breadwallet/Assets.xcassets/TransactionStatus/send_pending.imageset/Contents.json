@@ -1,12 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "refunded.pdf",
+      "filename" : "send_pending.pdf",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }
