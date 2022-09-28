@@ -155,7 +155,7 @@ extension TxViewModel {
     
     var icon: StatusIcon {
         guard let tx = tx, let currency = currency else {
-            return exchangeStatusIconDecider()
+            return exchangeStatusIconDecider(status: swap?.status)
         }
         
         if let gift = gift, tx.confirmations >= currency.confirmationsUntilFinal {
@@ -176,7 +176,7 @@ extension TxViewModel {
             if tx.confirmations < currency.confirmationsUntilFinal, tx.transactionType != .buyTransaction {
                 return .receivePending
             } else if tx.transactionType == .buyTransaction {
-                return exchangeStatusIconDecider()
+                return exchangeStatusIconDecider(status: tx.status)
             } else if tx.status == .invalid {
                 return tx.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
             } else if tx.direction == .received || tx.direction == .recovered {
@@ -184,43 +184,33 @@ extension TxViewModel {
             }
             
         case .swapTransaction:
-            return exchangeStatusIconDecider()
+            return exchangeStatusIconDecider(status: tx.status)
             
         }
         
         return .sent
     }
     
-    private func exchangeStatusIconDecider() -> StatusIcon {
-        guard let tx = tx else {
-            guard swap != nil else {
-                return .swapFailed
-            }
-            
-            guard swap?.source.currency != C.usdCurrencyCode else {
-                return .receivePending
-            }
-            
-            return .swapPending
+    private func exchangeStatusIconDecider(status: TransactionStatus?) -> StatusIcon {
+        let status = status ?? .failed
+        
+        if status == .complete || status == .manuallySettled || status == .confirmed {
+            return tx?.transactionType == .buyTransaction ? .received : .swapComplete
         }
         
-        if tx.status == .complete || tx.status == .manuallySettled || tx.status == .confirmed {
-            return tx.transactionType == .buyTransaction ? .received : .swapComplete
+        if status == .pending {
+            return tx?.transactionType == .buyTransaction ? .receivePending : .swapPending
         }
         
-        if tx.status == .pending {
-            return tx.transactionType == .buyTransaction ? .receivePending : .swapPending
+        if status == .failed {
+            return tx?.transactionType == .buyTransaction ? .receiveFailed : .swapFailed
         }
         
-        if tx.status == .failed {
-            return tx.transactionType == .buyTransaction ? .receiveFailed : .swapFailed
-        }
-        
-        if tx.status == .refunded {
+        if status == .refunded {
             return .refunded
         }
         
-        return tx.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
+        return tx?.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
     }
     
     var gift: Gift? {
