@@ -268,6 +268,7 @@ extension TransactionsTableViewController {
                                                        for: indexPath) as? TxListCell else { assertionFailure(); return UITableViewCell() }
         let viewModel = allTransactions[indexPath.row]
         cell.setTransaction(viewModel,
+                            currency: currency,
                             showFiatAmounts: showFiatAmounts,
                             rate: rate ?? Rate.empty,
                             isSyncing: currency.state?.syncState != .success)
