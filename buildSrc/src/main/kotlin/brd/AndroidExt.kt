@@ -19,7 +19,6 @@ fun Project.ensureAndroidLocalPropertiesWithSdkDir(outputFolder: File = project.
     val path = project.tryToDetectAndroidSdkPath()
     return if (path != null) {
         makeLocalProperties(outputFolder, path)
-        makeLocalProperties(File(outputFolder, "/cosmos-bundled"), path)
         true
     } else false
 }
@@ -39,6 +38,7 @@ val tryAndroidSdkDirs: List<File> get() {
         _tryAndroidSdkDirs = listOfNotNull(
             File(System.getenv("ANDROID_HOME")),
             File(System.getProperty("user.home"), "/Library/Android/sdk"), // MacOS
+            File("/Library/Android/sdk"), // MacOS
             File(System.getProperty("user.home"), "/AppData/Local/Android/Sdk") // Windows
         )
     }
