@@ -15,6 +15,7 @@ class TxListCell: UITableViewCell {
 
     // MARK: - Views
     
+    private let iconImageView = UIImageView()
     private let timestamp = UILabel(font: .customBody(size: 16.0), color: .darkGray)
     private let descriptionLabel = UILabel(font: .customBody(size: 14.0), color: .lightGray)
     private let amount = UILabel(font: .customBold(size: 18.0))
@@ -23,8 +24,6 @@ class TxListCell: UITableViewCell {
     private let failedIndicator = UIButton(type: .system)
     private var pendingConstraints = [NSLayoutConstraint]()
     private var completeConstraints = [NSLayoutConstraint]()
-    private var statusIconContainer: UIView?
-    private var statusIconHosting: Any?
     
     // MARK: Vars
     
@@ -39,11 +38,8 @@ class TxListCell: UITableViewCell {
     
     func setTransaction(_ viewModel: TxListViewModel, showFiatAmounts: Bool, rate: Rate, isSyncing: Bool) {
         self.viewModel = viewModel
-        
-        if let hosting = statusIconHosting as? UIHostingController<TxStatusIcon> {
-            hosting.rootView = TxStatusIcon(status: viewModel.icon)
-        }
-        
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.image = .init(named: viewModel.icon.icon)
         descriptionLabel.text = viewModel.shortDescription
         amount.attributedText = viewModel.amount(showFiatAmounts: showFiatAmounts, rate: rate)
         statusIndicator.status = viewModel.status
@@ -198,12 +194,7 @@ class TxListCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        let icon = TxStatusIcon(status: .sent)
-        let iconContainer = UIHostingController(rootView: icon)
-        contentView.addSubview(iconContainer.view)
-        statusIconContainer = iconContainer.view
-        statusIconHosting = iconContainer
-        
+        contentView.addSubview(iconImageView)
         contentView.addSubview(timestamp)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(statusIndicator)
@@ -213,18 +204,16 @@ class TxListCell: UITableViewCell {
     }
     
     private func addConstraints() {
-        if let statusIcon = statusIconContainer {
-            statusIcon.constrain([
-                statusIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2]),
-                statusIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-            ])
-        }
-        
-        let leadingXAnchor = statusIconContainer == nil ? contentView.leadingAnchor : statusIconContainer!.trailingAnchor
+        iconImageView.constrain([
+            iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2]),
+            iconImageView.heightAnchor.constraint(equalToConstant: 40),
+            iconImageView.widthAnchor.constraint(equalToConstant: 40),
+            iconImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        ])
         
         timestamp.constrain([
             timestamp.topAnchor.constraint(equalTo: contentView.topAnchor, constant: C.padding[2]),
-            timestamp.leadingAnchor.constraint(equalTo: leadingXAnchor, constant: C.padding[2])])
+            timestamp.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: C.padding[2])])
         descriptionLabel.constrain([
             descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -C.padding[2]),
             descriptionLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor),
