@@ -39,13 +39,13 @@ extension TxViewModel {
     }
     
     var swapSourceCurrency: Currency? {
-        let sourceCurrency = swap?.source.currency.uppercased() ?? tx?.swapSource?.currency.uppercased()
-        return Store.state.currencies.first(where: { $0.code.uppercased() == sourceCurrency })
+        let sourceCurrency = swap?.source.currency.lowercased() ?? tx?.swapSource?.currency.lowercased()
+        return Store.state.currencies.first(where: { $0.code.lowercased() == sourceCurrency })
     }
     
     var swapDestinationCurrency: Currency? {
-        let destinationCurrency = swap?.destination.currency.uppercased() ?? tx?.swapDestination?.currency.uppercased()
-        return Store.state.currencies.first(where: { $0.code.uppercased() == destinationCurrency })
+        let destinationCurrency = swap?.destination.currency.lowercased() ?? tx?.swapDestination?.currency.lowercased()
+        return Store.state.currencies.first(where: { $0.code.lowercased() == destinationCurrency })
     }
     
     var status: TransactionStatus {
