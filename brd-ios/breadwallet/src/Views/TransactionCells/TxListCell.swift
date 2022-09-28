@@ -206,8 +206,8 @@ class TxListCell: UITableViewCell {
     private func addConstraints() {
         iconImageView.constrain([
             iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2]),
-            iconImageView.heightAnchor.constraint(equalToConstant: 40),
-            iconImageView.widthAnchor.constraint(equalToConstant: 40),
+            iconImageView.heightAnchor.constraint(equalToConstant: FieldHeights.common.rawValue),
+            iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor),
             iconImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         
