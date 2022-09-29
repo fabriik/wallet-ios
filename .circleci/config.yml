@@ -147,10 +147,9 @@ jobs:
             fi
 
       - run:
-          name: Build Cosmos Project
+          name: Export android sdk path
           command: |
             export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
-            ./gradlew cosmos-bundled:createXCFramework
 
       - run:
           name: Set Versions
