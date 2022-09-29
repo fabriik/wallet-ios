@@ -24,6 +24,7 @@ class TxListCell: UITableViewCell {
     // MARK: Vars
     
     private var viewModel: TxListViewModel!
+    private var currency: Currency!
     
     // MARK: - Init
     
@@ -32,8 +33,10 @@ class TxListCell: UITableViewCell {
         setupViews()
     }
     
-    func setTransaction(_ viewModel: TxListViewModel, showFiatAmounts: Bool, rate: Rate, isSyncing: Bool) {
+    func setTransaction(_ viewModel: TxListViewModel, currency: Currency, showFiatAmounts: Bool, rate: Rate, isSyncing: Bool) {
         self.viewModel = viewModel
+        self.currency = currency
+        
         iconImageView.image = .init(named: viewModel.icon.icon)
         descriptionLabel.text = viewModel.shortDescription
         amount.attributedText = viewModel.amount(showFiatAmounts: showFiatAmounts, rate: rate)
@@ -91,15 +94,10 @@ class TxListCell: UITableViewCell {
     }
     
     private func handleSwapTransactions() {
-        let isSwapTo = viewModel.tx?.swapSource?.currency.uppercased() == viewModel.currency?.code.uppercased()
-        let swapString: String
-        if let tx = viewModel.tx {
-            swapString = isSwapTo ? "to \(tx.swapDestination?.currency.uppercased() ?? "")" : "from \(tx.swapSource?.currency.uppercased() ?? "")"
-        } else if let swap = viewModel.swap {
-            swapString = isSwapTo ? "to \(swap.destination.currency.uppercased())" : "from \(swap.source.currency.uppercased())"
-        } else {
-            return
-        }
+        let sourceCurrency = viewModel.swapSourceCurrency?.code.uppercased() ?? ""
+        let destinationCurrency = viewModel.swapDestinationCurrency?.code.uppercased() ?? ""
+        let isOnSource = currency?.code.uppercased() == viewModel.swapSourceCurrency?.code.uppercased()
+        let swapString = isOnSource ? "to \(destinationCurrency)" : "from \(sourceCurrency)"
         
         switch viewModel.status {
         case .complete, .manuallySettled:
