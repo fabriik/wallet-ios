@@ -35,11 +35,6 @@ jobs:
             for ip in $(dig @8.8.8.8 github.com +short); do ssh-keyscan github.com,$ip; ssh-keyscan $ip; done 2>/dev/null >> ~/.ssh/known_hosts || true
 
       - run:
-          name: Pull Submodules
-          command: |
-            git submodule update --init --recursive
-
-      - run:
           name: Check Init
           command: |
             swift --version
@@ -150,7 +145,7 @@ jobs:
           name: Build Cosmos Project
           command: |
             export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
-            ./gradlew cosmos-bundled:createXCFramework
+            ./gradlew cosmos-bundled:createXCFramework --stacktrace
 
       - run:
           name: Set Versions
@@ -161,13 +156,6 @@ jobs:
             cd brd-ios
             agvtool new-marketing-version ${mainBundleShortVersionString}
             agvtool new-version ${mainBundleVersion}
-
-      - run:
-          name: Download Currencies and Bundles
-          command: |
-            cd brd-ios
-            scripts/download_bundles.sh $API_URL/blocksatoshi
-            scripts/download_currencylist.sh $API_URL/blocksatoshi "$BREAD_TOKEN:SIG"
 
       - run:
           name: Run Build
