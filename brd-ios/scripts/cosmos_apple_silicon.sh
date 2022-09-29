@@ -1,10 +1,10 @@
 #!/bin/zsh
 
-# if [[ $(uname -m) != 'arm64' ]]; then
-#  echo "running on intel"
-#  exit 0
-# fi
-# echo "running on arm"
+if [[ $(uname -m) != 'arm64' ]]; then
+ echo "running on intel"
+ exit 0
+fi
+echo "running on arm"
 
 ARM="ios-arm64"
 COSMOS="Cosmos"
