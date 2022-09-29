@@ -142,12 +142,6 @@ jobs:
             fi
 
       - run:
-          name: Build Cosmos Project
-          command: |
-            export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
-            ./gradlew cosmos-bundled:createXCFramework --stacktrace
-
-      - run:
           name: Set Versions
           command: |
             mainBundleShortVersionString=4.11.0
