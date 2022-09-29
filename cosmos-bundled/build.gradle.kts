@@ -8,7 +8,7 @@ plugins {
 }
 
 // Generates "local.properties" file with path to SDK (needed for buidling outside Android Studio)
-hasAndroidSdK()
+// hasAndroidSdK()
 
 android {
     compileSdkVersion(brd.BrdRelease.ANDROID_COMPILE_SDK)
