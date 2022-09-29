@@ -138,17 +138,6 @@ class OnboardingViewController: UIViewController {
                 self.backButton.alpha = backAlpha
                 self.skipButton.alpha = skipAlpha                                
             }, completion: nil)
-            
-            switch pageIndex {
-            case globePageIndex:
-                logEvent(.appeared, screen: .globePage)
-            case coinsPageIndex:
-                logEvent(.appeared, screen: .coinsPage)
-            case finalPageIndex:
-                logEvent(.appeared, screen: .finalPage)
-            default:
-                break
-            }
         }
     }
     
@@ -225,13 +214,10 @@ class OnboardingViewController: UIViewController {
                 self.animateLandingPage()
             })
         })
-        
-        logEvent(.backButton, screen: .globePage)
     }
     
     @objc private func skipTapped(sender: Any) {
         exitWith(action: .createWallet)
-        logEvent(.skipButton, screen: .globePage)
     }
     
     private func reset(completion: @escaping () -> Void) {
@@ -693,7 +679,6 @@ class OnboardingViewController: UIViewController {
     
     private func createWalletTapped() {
         exitWith(action: .createWallet)
-        logEvent(.browseFirstButton, screen: .finalPage)
     }
 
     private func recoverButtonTapped() {
@@ -701,7 +686,6 @@ class OnboardingViewController: UIViewController {
                   button: L10n.CloudBackup.recoverButton,
                   completion: { [weak self] in
                     self?.exitWith(action: .restoreWallet)
-                    self?.logEvent(.restoreWalletButton, screen: .landingPage)
                 })
     }
 
@@ -711,7 +695,6 @@ class OnboardingViewController: UIViewController {
         } else {
             // 'Restore wallet'
             exitWith(action: .restoreWallet)
-            logEvent(.restoreWalletButton, screen: .landingPage)
         }
     }
                          
@@ -729,10 +712,11 @@ class OnboardingViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         if appearanceCount == 0 {
             animateLandingPage()
-            logEvent(.appeared, screen: .landingPage)
         }
+        
         appearanceCount += 1
     }
     
@@ -775,12 +759,5 @@ class OnboardingViewController: UIViewController {
             completion()
         }))
         present(alert, animated: true, completion: nil)
-    }
-}
-
-// analytics
-extension OnboardingViewController: Trackable {
-    func logEvent(_ event: Event, screen: Screen) {
-        saveEvent(context: .onboarding, screen: screen, event: event)
     }
 }

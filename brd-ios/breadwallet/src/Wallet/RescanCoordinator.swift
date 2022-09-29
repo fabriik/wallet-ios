@@ -10,7 +10,7 @@ import Foundation
 import WalletKit
 
 /// Coordinates blockchain rescan for wallet managers
-struct RescanCoordinator: Trackable {
+struct RescanCoordinator {
     
     // 24-hours until incremental rescan is reset
     private static let incrementalRescanInterval: TimeInterval = C.secondsInDay

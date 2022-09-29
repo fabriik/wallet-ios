@@ -9,7 +9,7 @@
 import UIKit
 import LocalAuthentication
 
-class ConfirmationViewController: UIViewController, ContentBoxPresenter, Trackable {
+class ConfirmationViewController: UIViewController, ContentBoxPresenter {
 
     init(amount: Amount,
          fee: Amount,
@@ -225,9 +225,6 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter, Trackab
             myself.dismiss(animated: true, completion: myself.cancelCallback)
         }
         sendButton.tap = strongify(self) { myself in
-            if let resolvedType = myself.resolvedAddress?.type.label {
-                myself.saveEvent("resolvedaddress.\(resolvedType)")
-            }
             myself.dismiss(animated: true, completion: myself.successCallback)
         }
 

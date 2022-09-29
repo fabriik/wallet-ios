@@ -12,7 +12,7 @@ import StoreKit
 /**
  *  Decides when to trigger an app rating prompt, interfacing with Apple's SKStoreReviewController API.
  */
-class AppRatingManager: NSObject, Subscriber, Trackable {
+class AppRatingManager: NSObject, Subscriber {
     
     // Make sure recent transactions being viewed are under one day old.
     static public let recentTransactionThreshold: TimeInterval = (24*60*60)
@@ -61,8 +61,8 @@ class AppRatingManager: NSObject, Subscriber, Trackable {
     
     private func triggerRatingsPrompt(reason: String) {
         guard let currentScene = UIApplication.shared.currentScene else { return }
+        
         SKStoreReviewController.requestReview(in: currentScene)
-        saveEvent(ratingPromptAnalyticsEvent, attributes: [ "reason": reason])
         
         // Store the current app launch count so we can make sure we don't prompt again until
         // a sufficient number of subsequent app launches.
@@ -70,7 +70,6 @@ class AppRatingManager: NSObject, Subscriber, Trackable {
     }
     
     public func start() {
-        
         Store.subscribe(self, name: .didViewTransactions(nil), callback: { (trigger) in
             
             if UserDefaults.debugSuppressAppRatingPrompt {

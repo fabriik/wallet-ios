@@ -9,7 +9,9 @@
 import UIKit
 import MessageUI
 
-class MessageUIPresenter: NSObject, Trackable {
+// TODO: What is this?
+
+class MessageUIPresenter: NSObject {
 
     weak var presenter: UIViewController?
 
@@ -89,7 +91,6 @@ class MessageUIPresenter: NSObject, Trackable {
             emailView.setMessageBody(body, isHTML: false)
         }
         emailView.mailComposeDelegate = self
-        saveEvent("receive.presentMailCompose")
         present(emailView)
     }
 
@@ -117,14 +118,12 @@ class MessageUIPresenter: NSObject, Trackable {
     }
 
     private func showEmailUnavailableAlert() {
-        saveEvent("receive.emailUnavailable")
         let alert = UIAlertController(title: L10n.ErrorMessages.emailUnavailableTitle, message: L10n.ErrorMessages.emailUnavailableMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: L10n.Button.ok, style: .default, handler: nil))
         presenter?.present(alert, animated: true, completion: nil)
     }
 
     private func showMessageUnavailableAlert() {
-        saveEvent("receive.messagingUnavailable")
         let alert = UIAlertController(title: L10n.ErrorMessages.messagingUnavailableTitle,
                                       message: L10n.ErrorMessages.messagingUnavailableMessage,
                                       preferredStyle: .alert)

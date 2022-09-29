@@ -9,7 +9,7 @@
 import UIKit
 import LocalAuthentication
 
-class BiometricsSettingsViewController: UIViewController, Subscriber, Trackable {
+class BiometricsSettingsViewController: UIViewController, Subscriber {
 
     lazy var biometricType = LAContext.biometricType()
         
@@ -164,15 +164,11 @@ class BiometricsSettingsViewController: UIViewController, Subscriber, Trackable 
         unlockToggle.valueChanged = { [weak self] in
             guard let self = self else { return }
             self.toggleChanged(toggle: self.unlockToggle)
-            self.saveEvent("event.enableBiometrics",
-                           attributes: ["isEnabled": "\(self.unlockToggle.isOn)", "type": "unlock"])
         }
         
         transactionsToggle.valueChanged = { [weak self] in
             guard let self = self else { return }
             self.toggleChanged(toggle: self.transactionsToggle)
-            self.saveEvent("event.enableBiometrics",
-                           attributes: ["isEnabled": "\(self.transactionsToggle.isOn)", "type": "sending"])
         }
     }
 

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import UserNotifications
 
-class NotificationHandler: NSObject, UNUserNotificationCenterDelegate, Trackable {
+class NotificationHandler: NSObject, UNUserNotificationCenterDelegate {
     
     static let hasShownInAppNotificationKeyPrefix = "showed-in-app-notification"
     
@@ -19,8 +19,6 @@ class NotificationHandler: NSObject, UNUserNotificationCenterDelegate, Trackable
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        var eventAttributes: [String: String]?
-
         let json = response.notification.request.content.userInfo
         
         if let brdData = json["brd"] as? [String: String],
@@ -28,19 +26,8 @@ class NotificationHandler: NSObject, UNUserNotificationCenterDelegate, Trackable
             let URL = URL(string: url) {
             
             UIApplication.shared.open(URL)
-            
-            // Pass all the BRD attributes back with the analytics event to help correlate push campaigns
-            // with the back-end analytics. 
-            eventAttributes = brdData
         }
         
-        saveEvent(context: .pushNotifications, screen: .none, event: .openNotification, attributes: eventAttributes ?? [:], callback: nil)
-
-        // Log an event for the push notification campaign if applicable.
-        if let messageInfo = json["mp"] as? [String: Any], let campaignId = messageInfo["c"] as? Int {
-            saveEvent("$app_open", attributes: ["campaign_id": String(campaignId)])
-        }
-
         // inbox is always fetched after unlock
         completionHandler()
     }
@@ -76,7 +63,6 @@ extension NotificationHandler {
     }
     
     private func logReceivedEvent(for notification: BRDMessage) {
-        let eventName = self.makeEventName([EventContext.inAppNotifications.name, Event.receivedNotification.name])
         var attributes: [String: String] = [String: String]()
         
         if let id = notification.id {
@@ -86,8 +72,6 @@ extension NotificationHandler {
         if let msgId = notification.messageId {
             attributes[BRDMessage.Keys.message_id.rawValue] = msgId
         }
-        
-        self.saveEvent(eventName, attributes: attributes)
     }
     
     func checkForInAppNotifications() {
