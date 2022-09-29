@@ -18,7 +18,6 @@ private let timeSinceLastExitKey = "TimeSinceLastExit"
 private let shouldRequireLoginTimeoutKey = "ShouldRequireLoginTimeoutKey"
 
 class ApplicationController: Subscriber {
-    
     fileprivate var application: UIApplication?
 
     static let initialLaunchCount = 0
@@ -157,7 +156,7 @@ class ApplicationController: Subscriber {
     }
     
     private func enterOnboarding() {
-        guardProtected(queue: DispatchQueue.main) {
+        guardProtected {
             guard let startFlowController = self.startFlowController, self.keyStore.noWallet else { return assertionFailure() }
             startFlowController.startOnboarding { [unowned self] account in
                 self.setupSystem(with: account)
@@ -169,7 +168,7 @@ class ApplicationController: Subscriber {
     /// Loads the account for initial launch and initializes the core system
     /// Prompts for login if account needs to be recreated from seed
     private func unlockExistingAccount() {
-        guardProtected(queue: DispatchQueue.main) {
+        guardProtected {
             guard let startFlowController = self.startFlowController, !self.keyStore.noWallet else { return assertionFailure() }
             Store.perform(action: PinLength.Set(self.keyStore.pinLength))
             startFlowController.startLogin { [unowned self] account in

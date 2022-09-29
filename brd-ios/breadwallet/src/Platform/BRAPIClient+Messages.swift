@@ -19,7 +19,6 @@ enum BRDMessageType: String {
 }
 
 class BRDMessage: Decodable {
-    
     // Keys that appear in the JSON for the message sent by the server.
     enum Keys: String, CodingKey {
         case id
@@ -43,7 +42,6 @@ class BRDMessage: Decodable {
 }
 
 extension BRAPIClient {
-    
     func checkMessages(callback: @escaping ([BRDMessage]?) -> Void) {
         let path = "/me/messages"
         let req = NSMutableURLRequest(url: url(path))
