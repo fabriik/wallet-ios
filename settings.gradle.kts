@@ -14,12 +14,3 @@ include(
     "brd-android:app-core",
     "brd-android:theme"
 )
-
-includeBuild("external/redacted-compiler-plugin") {
-    dependencySubstitution {
-        substitute(module("dev.zacsweers.redacted:redacted-compiler-gradle-plugin"))
-            .with(project(":redacted-compiler-plugin-gradle"))
-        substitute(module("dev.zacsweers.redacted:redacted-compiler-plugin-annotations"))
-            .with(project(":redacted-compiler-plugin-annotations"))
-    }
-}
