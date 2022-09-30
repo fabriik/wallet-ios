@@ -31,7 +31,7 @@ class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
             return .init(tokenString: fee, currency: currency)
         }
         
-        return .init(decimalAmount: value.fee, isFiat: false, currency: currency, exchangeRate: rate)
+        return .init(decimalAmount: value.fee, isFiat: false, currency: currency, exchangeRate: 1 / rate)
     }
     
     var cvv: String?
