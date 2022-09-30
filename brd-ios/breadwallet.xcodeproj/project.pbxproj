@@ -277,6 +277,7 @@
 		7CF5319D231EE01300E61F12 /* Base32.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF5319C231EE01300E61F12 /* Base32.swift */; };
 		7CF913BE1FFC7DC30085CB70 /* TxMemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF913BD1FFC7DC30085CB70 /* TxMemoCell.swift */; };
 		7E0968B8284A29CE006B4FC2 /* TransparentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0968B7284A29CE006B4FC2 /* TransparentView.swift */; };
+		7E0E365928E70D0F00539D99 /* Cosmos in Frameworks */ = {isa = PBXBuildFile; productRef = 7E0E365828E70D0F00539D99 /* Cosmos */; };
 		7E18DBF328C8C2C600B83E3B /* WalletKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7E18DBF228C8C2C600B83E3B /* WalletKit */; };
 		7E2E1A2B284E097900E56E69 /* KYCCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E1A2A284E097900E56E69 /* KYCCoordinator.swift */; };
 		7E2E1A41284E267000E56E69 /* ProfileWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E1A40284E267000E56E69 /* ProfileWorker.swift */; };
@@ -1879,6 +1880,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E0E365928E70D0F00539D99 /* Cosmos in Frameworks */,
 				3ABD8D1B24E1CF1500EC4C91 /* SwiftUI.framework in Frameworks */,
 				7CBC6B2E21751ECA00899AFB /* iAd.framework in Frameworks */,
 				22A9A9661DF61FEE000F0016 /* WebKit.framework in Frameworks */,
@@ -3960,6 +3962,7 @@
 				7B05888028A2431E00D7C971 /* Frames */,
 				7E18DBF228C8C2C600B83E3B /* WalletKit */,
 				7EEBAE8928E7099400686CA3 /* SnapKit */,
+				7E0E365828E70D0F00539D99 /* Cosmos */,
 			);
 			productName = breadwallet;
 			productReference = 75A2A7901DA5934300A983D8 /* breadwallet.app */;
@@ -6670,7 +6673,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/fabriik/cosmos.git";
 			requirement = {
-				branch = mit;
+				branch = rcresnik/chore/remove_files;
 				kind = branch;
 			};
 		};
@@ -6678,8 +6681,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
-				branch = develop;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -6694,6 +6697,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7B2C9AFA27D9270B00D5135C /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
+		};
+		7E0E365828E70D0F00539D99 /* Cosmos */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7E5CB32B2834E63400EC787E /* XCRemoteSwiftPackageReference "cosmos" */;
+			productName = Cosmos;
 		};
 		7E18DBF228C8C2C600B83E3B /* WalletKit */ = {
 			isa = XCSwiftPackageProductDependency;
