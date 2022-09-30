@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "cosmos",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/fabriik/cosmos.git",
+      "state" : {
+        "branch" : "rcresnik/chore/remove_files",
+        "revision" : "aa4c2703e0a0325cfaa61d1d559509ad6074b3e3"
+      }
+    },
+    {
       "identity" : "frames-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/checkout/frames-ios.git",
