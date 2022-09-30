@@ -26,8 +26,14 @@ class OrderPreviewStore: NSObject, BaseDataStore, OrderPreviewDataStore {
               let currency = Store.state.currencies.first(where: { $0.code == value.currency.uppercased() }) else {
             return nil
         }
-        return .init(tokenString: fee, currency: currency)
+        
+        guard let rate = quote?.toFee?.feeRate else {
+            return .init(tokenString: fee, currency: currency)
+        }
+        
+        return .init(decimalAmount: value.fee, isFiat: false, currency: currency, exchangeRate: rate)
     }
+    
     var cvv: String?
     var paymentReference: String?
     var paymentstatus: AddCard.Status?
