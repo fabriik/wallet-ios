@@ -146,6 +146,7 @@ jobs:
           command: |
             export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
             ./gradlew cosmos-bundled:createXCFramework --stacktrace
+            ./brd-ios/scripts/cosmos_apple_silicon.sh
 
       - run:
           name: Set Versions
