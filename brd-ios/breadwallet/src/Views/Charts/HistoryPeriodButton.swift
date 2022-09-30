@@ -9,9 +9,9 @@
 import UIKit
 
 class HistoryPeriodButton {
-    
     private let historyPeriod: HistoryPeriod
     let button: UIButton
+    
     var callback: ((UIButton, HistoryPeriod) -> Void)? {
         didSet {
             button.tap = {
@@ -33,5 +33,4 @@ class HistoryPeriodButton {
         button.setTitleColor(color, for: .normal)
         button.titleLabel?.font = Theme.body1
     }
-    
 }

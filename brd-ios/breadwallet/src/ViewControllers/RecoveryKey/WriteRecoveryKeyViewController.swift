@@ -516,7 +516,6 @@ class RecoveryWordCell: UICollectionViewCell {
     let normalScale: CGFloat = 1.0
     let offScreenScale: CGFloat = 0.6
     let scaleRange: CGFloat = 0.4
-    let smallScreenWordFont = UIFont(name: "CircularPro-Book", size: 32.0)
     var index: Int = 0
     
     override init(frame: CGRect) {
@@ -530,7 +529,7 @@ class RecoveryWordCell: UICollectionViewCell {
     
     private func setUp() {
         wordLabel.textColor = Theme.primaryText
-        wordLabel.font = E.isIPhone6OrSmaller ? smallScreenWordFont : Theme.h0Title
+        wordLabel.font = E.isIPhone6OrSmaller ? UIFont.customBody(size: 32) : Theme.h0Title
         wordLabel.textAlignment = .center
         wordLabel.adjustsFontSizeToFitWidth = true
         

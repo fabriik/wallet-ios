@@ -180,9 +180,6 @@
 		<string>Degular-Bold.otf</string>
 		<string>Degular-Regular.otf</string>
 		<string>Degular-Semibold.otf</string>
-		<string>Font-Bold.otf</string>
-		<string>Font-Book.otf</string>
-		<string>Font-Medium.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
