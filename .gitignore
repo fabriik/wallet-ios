@@ -107,7 +107,7 @@ fabric.properties
 
 ## xcode-frameworks folders and plists so that xcode does not complain prior first build of Cosmos.xcframework
 cosmos-bundled/build-frameworks/
-modified_dir_do_not_delete.txt
+modified_cosmos_dir_do_not_delete.txt
 
 *.env
 
