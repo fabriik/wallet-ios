@@ -8,21 +8,20 @@
 
 import UIKit
 
+// TODO: Unify fonts. 
+
 extension UIFont {
     static var header: UIFont {
         return customBold(size: 18.0)
     }
     static func customBold(size: CGFloat) -> UIFont {
-        guard let font = UIFont(name: "CircularPro-Bold", size: size) else { return UIFont.systemFont(ofSize: size, weight: .bold) }
-        return font
+        return UIFont.systemFont(ofSize: size, weight: .bold)
     }
     static func customBody(size: CGFloat) -> UIFont {
-        guard let font = UIFont(name: "CircularPro-Book", size: size) else { return UIFont.systemFont(ofSize: size, weight: .regular) }
-        return font
+        return UIFont.systemFont(ofSize: size, weight: .regular)
     }
     static func customMedium(size: CGFloat) -> UIFont {
-        guard let font = UIFont(name: "CircularPro-Medium", size: size) else { return UIFont.systemFont(ofSize: size, weight: .medium) }
-        return font
+        return UIFont.systemFont(ofSize: size, weight: .medium)
     }
     static func emailPlaceholder() -> UIFont {
         return customBody(size: 15.0)
