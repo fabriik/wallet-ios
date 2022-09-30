@@ -70,6 +70,7 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
     }()
     
     var didTapSelectCard: (() -> Void)?
+    var moreButtonCallback: (() -> Void)?
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -132,6 +133,10 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
                                           cardNumber: viewModel?.cardNumber,
                                           expiration: viewModel?.expiration))
         cardDetailsView.isHidden = viewModel?.logo == nil
+        
+        cardDetailsView.moreButtonCallback = { [weak self] in
+            self?.moreButtonCallback?()
+        }
         
         arrowImageView.setup(with: viewModel?.arrow)
         arrowImageView.isHidden = viewModel?.expiration != nil && titleLabel.isHidden

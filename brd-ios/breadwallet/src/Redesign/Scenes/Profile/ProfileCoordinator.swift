@@ -34,6 +34,23 @@ class ProfileCoordinator: BaseCoordinator, ProfileRoutes {
         modalPresenter?.presentPreferences()
     }
     
+    func showCardSelector(cards: [PaymentCard], selected: ((PaymentCard?) -> Void)?) {
+        if cards.isEmpty == true {
+            open(scene: Scenes.AddCard)
+        } else {            openModally(coordinator: BuyCoordinator.self, scene: Scenes.CardSelection) { vc in
+                vc?.dataStore?.isAddingEnabled = true
+                vc?.dataStore?.items = cards
+                let backButtonVisible = self.navigationController.children.last is BillingAddressViewController
+                vc?.navigationItem.hidesBackButton = backButtonVisible
+                vc?.prepareData()
+                
+                vc?.addItemTapped = { [weak self] in
+                    self?.open(scene: Scenes.AddCard)
+                }
+            }
+        }
+    }
+    
     func showExport() {}
 
     // MARK: - Aditional helpers

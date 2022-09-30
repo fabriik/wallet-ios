@@ -22,6 +22,7 @@ enum ProfileModels {
     }
     
     enum NavigationItems: String, CaseIterable {
+        case paymentMethods
         case security
         case preferences
     }

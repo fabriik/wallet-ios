@@ -148,6 +148,10 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                 self?.interactor?.getPaymentCards(viewAction: .init())
             }
             
+            view.moreButtonCallback = { [weak self] in
+                self?.showActionSheet()
+            }
+            
             view.setupCustomMargins(top: .zero, leading: .zero, bottom: .medium, trailing: .zero)
         }
         
@@ -250,4 +254,16 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }
     
     // MARK: - Additional Helpers
+    func showActionSheet() {
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let saveAction = UIAlertAction(title: "Choose Option", style: .default)
+        
+        let cancelAction = UIAlertAction(title: L10n.Button.cancel, style: .cancel)
+        
+        optionMenu.addAction(saveAction)
+        optionMenu.addAction(cancelAction)
+        
+        self.present(optionMenu, animated: true, completion: nil)
+    }
 }
