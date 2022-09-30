@@ -14,20 +14,14 @@ import IQKeyboardManagerSwift
 import WidgetKit
 #endif
 
-private let timeSinceLastExitKey = "TimeSinceLastExit"
-private let shouldRequireLoginTimeoutKey = "ShouldRequireLoginTimeoutKey"
-
 class ApplicationController: Subscriber {
-    fileprivate var application: UIApplication?
+    private var application: UIApplication?
 
     static let initialLaunchCount = 0
     
     let window = UIWindow()
     var coordinator: BaseCoordinator?
     
-    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-    private var startFlowController: StartFlowPresenter?
-    private var alertPresenter: AlertPresenter?
     private var modalPresenter: ModalPresenter? {
         didSet {
             if let nvc = self.rootNavigationController {
@@ -37,9 +31,8 @@ class ApplicationController: Subscriber {
         }
     }
     
-    var rootNavigationController: RootNavigationController? {
-        guard let root = window.rootViewController as? RootNavigationController else { return nil }
-        return root
+    private var rootNavigationController: RootNavigationController? {
+        return window.rootViewController as? RootNavigationController
     }
     
     var homeScreenViewController: HomeScreenViewController? {
@@ -50,8 +43,12 @@ class ApplicationController: Subscriber {
         
     private let coreSystem: CoreSystem!
     private var keyStore: KeyStore!
-
+    private let timeSinceLastExitKey = "TimeSinceLastExit"
+    private let shouldRequireLoginTimeoutKey = "ShouldRequireLoginTimeoutKey"
     private var launchURL: URL?
+    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+    private var startFlowController: StartFlowPresenter?
+    private var alertPresenter: AlertPresenter?
     private var urlController: URLController?
     private let notificationHandler = NotificationHandler()
     private var appRatingManager = AppRatingManager()
@@ -60,7 +57,7 @@ class ApplicationController: Subscriber {
     
     private var isReachable = true {
         didSet {
-            if oldValue == false && isReachable { self.retryAfterIsReachable() }
+            if oldValue == false && isReachable { retryAfterIsReachable() }
         }
     }
 
@@ -83,8 +80,6 @@ class ApplicationController: Subscriber {
     func launch(application: UIApplication, options: [UIApplication.LaunchOptionsKey: Any]?) {
         handleLaunchOptions(options)
         
-        application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalNever)
-
         UNUserNotificationCenter.current().delegate = notificationHandler
 
         mainSetup()
