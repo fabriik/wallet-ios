@@ -37,6 +37,7 @@ struct QuoteModelResponse: ModelResponse {
     struct Fee: Codable {
         var feeCurrency: String?
         var rate: Decimal?
+        var depositRate: Decimal?
     }
     var fromFeeCurrency: Fee?
     var toFeeCurrency: Fee?
@@ -63,6 +64,7 @@ struct Quote {
 
 struct EstimateFee: Model {
     var fee: Decimal
+    var feeRate: Decimal?
     var currency: String
 }
 
@@ -79,7 +81,7 @@ class QuoteMapper: ModelMapper<QuoteModelResponse, Quote> {
         var toFee: EstimateFee?
         if let currency = response.toFeeCurrency?.feeCurrency,
             let value = response.toFee {
-            toFee = .init(fee: value, currency: currency)
+            toFee = .init(fee: value, feeRate: response.toFeeCurrency?.depositRate ?? 0, currency: currency)
         }
         
         return .init(quoteId: response.quoteId,
