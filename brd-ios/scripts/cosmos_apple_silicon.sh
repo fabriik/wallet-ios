@@ -1,10 +1,12 @@
 #!/bin/zsh
 
+echo "Kaj si ti ja cist nor toto res ne dela nic!"
 if [[ $(uname -m) != 'arm64' ]]; then
- echo "running on intel"
- exit 0
+    echo "Running on X86"
+    exit 0
 fi
-echo "running on arm"
+
+echo "Running on ARM"
 
 ARM="ios-arm64"
 COSMOS="Cosmos"
@@ -16,7 +18,7 @@ FAT_SIMULATOR="fat-simulator"
 COSMOS_FRAMEWORK="$COSMOS.framework"
 INFO_PLIST="Info.plist"
 
-FRAMEWORK_PATH="${PWD%/*/*}/cosmos-bundled/build-frameworks/$COSMOS.xcframework"
+FRAMEWORK_PATH="cosmos-bundled/build-frameworks/$COSMOS.xcframework"
 FRAMEWORK_BIN_PATH="$FRAMEWORK_PATH/$ARM_SIMULATOR/$COSMOS_FRAMEWORK/$COSMOS"
 FRAMEWORK_PATH_PLIST="$FRAMEWORK_PATH/$COSMOS_FRAMEWORK"
 FRAMEWORK_PATH_ARM_PLIST="$FRAMEWORK_PATH/$ARM_SIMULATOR/$COSMOS_FRAMEWORK/$INFO_PLIST"
@@ -26,6 +28,14 @@ ARM_SIMULATOR_PATH="$FRAMEWORK_PATH/$ARM_SIMULATOR"
 X86_BINARY_PATH="$FRAMEWORK_PATH/$X86_SIMULATOR/$COSMOS_FRAMEWORK/$COSMOS"
 ARM_BINARY_PATH="$FRAMEWORK_PATH/$ARM_SIMULATOR/$COSMOS_FRAMEWORK/$COSMOS"
 FAT_BINARY_PATH="$FRAMEWORK_PATH/$FAT_SIMULATOR/"
+
+MODIFICATION_INDICATOR="modified_cosmos_dir_do_not_delete.txt"
+
+if [ -f $FRAMEWORK_PATH/$MODIFICATION_INDICATOR ]; then
+    echo "Framework has already been modified for ARM devices."
+    exit 0
+fi
+
 
 cp -r $FRAMEWORK_PATH/$ARM $ARM_SIMULATOR_PATH
 
@@ -49,3 +59,5 @@ lipo -create -output "$FAT_BINARY_PATH/$COSMOS_FRAMEWORK/$COSMOS" $ARM_BINARY_PA
 rm -r -f "$FRAMEWORK_PATH/$X86_SIMULATOR/"
 rm -r -f "$ARM_SIMULATOR_PATH"
 mv "$FAT_BINARY_PATH" "$FRAMEWORK_PATH/$X86_SIMULATOR"
+
+touch $FRAMEWORK_PATH/$MODIFICATION_INDICATOR

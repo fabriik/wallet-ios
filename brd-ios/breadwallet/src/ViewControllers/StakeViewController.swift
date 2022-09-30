@@ -11,7 +11,6 @@
 import UIKit
 
 class StakeViewController: UIViewController, Subscriber, ModalPresentable {
-    
     fileprivate let midContentHeight: CGFloat = 90.0
     fileprivate let bakerContentHeight: CGFloat = 40.0
     fileprivate let selectBakerButtonHeight: CGFloat = 70.0

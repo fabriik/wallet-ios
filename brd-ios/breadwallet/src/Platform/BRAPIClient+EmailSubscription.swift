@@ -9,7 +9,6 @@
 import Foundation
 
 extension BRAPIClient {
-    
     /**
      *  Sends the given email to the server so that the user can be subscribed to email updates,
      *  optionally including a specific email list to which to subscribe.
@@ -48,5 +47,4 @@ extension BRAPIClient {
             
         }).resume()
     }
-    
 }

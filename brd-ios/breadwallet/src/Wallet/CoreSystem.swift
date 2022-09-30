@@ -53,7 +53,11 @@ class CoreSystem: Subscriber {
         Reachability.addDidChangeCallback { [weak self] isReachable in
             guard let self = self, let system = self.system else { return }
             system.setNetworkReachable(isReachable)
-            isReachable ? self.connect() : self.pause()
+            if isReachable {
+                self.connect()
+            } else {
+                self.pause()
+            }
         }
         
         Store.subscribe(self, name: .createAccount(nil, nil)) { [weak self] trigger in
@@ -594,12 +598,10 @@ class CoreSystem: Subscriber {
     // the app from being backgrounded while syncing
     private func startActivity() {
         UIApplication.shared.isIdleTimerDisabled = true
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
     private func endActivity() {
         UIApplication.shared.isIdleTimerDisabled = false
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
     
     // MARK: Wallet ID
