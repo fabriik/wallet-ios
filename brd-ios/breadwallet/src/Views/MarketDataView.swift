@@ -59,7 +59,7 @@ struct MarketDataView: View {
     }
     
     func text(_ text: String) -> some View {
-        return Text(text)
+        Text(text)
             .font(Font(Theme.body1))
             .foregroundColor(textColor)
             .minimumScaleFactor(0.1)
