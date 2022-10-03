@@ -474,6 +474,9 @@
 		7EF45F8E284768EC00D1F7B0 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF45F7A2846244F00D1F7B0 /* ItemView.swift */; };
 		7EF45F8F284768FE00D1F7B0 /* RegistrationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF45F7D2847672C00D1F7B0 /* RegistrationWorker.swift */; };
 		7EF45F91284777AC00D1F7B0 /* RegistrationConfirmationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF45F90284777AC00D1F7B0 /* RegistrationConfirmationWorker.swift */; };
+		7EF514B728EB5B6D004A31C5 /* debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7EF514B428EB5B6D004A31C5 /* debug.xcconfig */; };
+		7EF514B828EB5B6D004A31C5 /* staging.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7EF514B528EB5B6D004A31C5 /* staging.xcconfig */; };
+		7EF514B928EB5B6D004A31C5 /* prod.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7EF514B628EB5B6D004A31C5 /* prod.xcconfig */; };
 		9A39B1232202AA3400E5018B /* HomeScreenCellHighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A39B1222202AA3400E5018B /* HomeScreenCellHighlightView.swift */; };
 		9A39B1252202AE9E00E5018B /* MultiframeAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A39B1242202AE9E00E5018B /* MultiframeAnimation.swift */; };
 		9A926F4422034B3700CC2263 /* CellHighlight-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A926EEE22034B2E00CC2263 /* CellHighlight-29.png */; };
@@ -1254,15 +1257,12 @@
 		7CF5319C231EE01300E61F12 /* Base32.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base32.swift; path = src/Utilities/Base32.swift; sourceTree = "<group>"; };
 		7CF913BD1FFC7DC30085CB70 /* TxMemoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TxMemoCell.swift; path = src/Views/TransactionCells/TxMemoCell.swift; sourceTree = "<group>"; };
 		7E0968B7284A29CE006B4FC2 /* TransparentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentView.swift; sourceTree = "<group>"; };
-		7E09EA4027D60D2100B0268C /* prod.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = prod.xcconfig; sourceTree = "<group>"; };
-		7E2C2F8327D7BE7A00114923 /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
 		7E2E1A2A284E097900E56E69 /* KYCCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCCoordinator.swift; sourceTree = "<group>"; };
 		7E2E1A40284E267000E56E69 /* ProfileWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileWorker.swift; sourceTree = "<group>"; };
 		7E383A9A28AF68160000D2F7 /* BuyErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyErrors.swift; sourceTree = "<group>"; };
 		7E383B4828AE1AFD00A5339F /* AssetSelectionDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetSelectionDisplayable.swift; sourceTree = "<group>"; };
 		7E516D7828B4E83000BBB702 /* ExchangeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeManager.swift; sourceTree = "<group>"; };
 		7E52B7A12872CD1E003D2249 /* SupportedCurrenciesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedCurrenciesWorker.swift; sourceTree = "<group>"; };
-		7E59CB142869A7F900A495E1 /* staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = staging.xcconfig; sourceTree = "<group>"; };
 		7E5B305A28A67FC60065D2D8 /* SwapInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapInfoViewController.swift; sourceTree = "<group>"; };
 		7E5B305F28A680300065D2D8 /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
 		7E5B306128A681760065D2D8 /* FailureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureViewController.swift; sourceTree = "<group>"; };
@@ -1438,6 +1438,9 @@
 		7EF45F85284768C100D1F7B0 /* ItemSelectionModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemSelectionModels.swift; sourceTree = "<group>"; };
 		7EF45F86284768C100D1F7B0 /* ItemSelectionCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemSelectionCoordinator.swift; sourceTree = "<group>"; };
 		7EF45F90284777AC00D1F7B0 /* RegistrationConfirmationWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationConfirmationWorker.swift; sourceTree = "<group>"; };
+		7EF514B428EB5B6D004A31C5 /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
+		7EF514B528EB5B6D004A31C5 /* staging.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = staging.xcconfig; sourceTree = "<group>"; };
+		7EF514B628EB5B6D004A31C5 /* prod.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = prod.xcconfig; sourceTree = "<group>"; };
 		9A39B1222202AA3400E5018B /* HomeScreenCellHighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeScreenCellHighlightView.swift; path = src/Views/AnimatedIcons/HomeScreenCellHighlightView.swift; sourceTree = "<group>"; };
 		9A39B1242202AE9E00E5018B /* MultiframeAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiframeAnimation.swift; path = src/Views/AnimatedIcons/MultiframeAnimation.swift; sourceTree = "<group>"; };
 		9A926EEE22034B2E00CC2263 /* CellHighlight-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CellHighlight-29.png"; path = "src/Views/AnimatedIcons/Cell Highlight View Frames/CellHighlight-29.png"; sourceTree = "<group>"; };
@@ -2165,9 +2168,7 @@
 		75A2A7871DA5934300A983D8 = {
 			isa = PBXGroup;
 			children = (
-				7E09EA4027D60D2100B0268C /* prod.xcconfig */,
-				7E2C2F8327D7BE7A00114923 /* debug.xcconfig */,
-				7E59CB142869A7F900A495E1 /* staging.xcconfig */,
+				7EF514B328EB5B6D004A31C5 /* configurations */,
 				75A2A7921DA5934300A983D8 /* breadwallet */,
 				75A2A7A71DA5934300A983D8 /* breadwalletTests */,
 				75A2A7B21DA5934300A983D8 /* breadwalletUITests */,
@@ -3104,6 +3105,16 @@
 				7EF45F86284768C100D1F7B0 /* ItemSelectionCoordinator.swift */,
 			);
 			path = ItemSelection;
+			sourceTree = "<group>";
+		};
+		7EF514B328EB5B6D004A31C5 /* configurations */ = {
+			isa = PBXGroup;
+			children = (
+				7EF514B428EB5B6D004A31C5 /* debug.xcconfig */,
+				7EF514B528EB5B6D004A31C5 /* staging.xcconfig */,
+				7EF514B628EB5B6D004A31C5 /* prod.xcconfig */,
+			);
+			path = configurations;
 			sourceTree = "<group>";
 		};
 		9A39B0752202A96500E5018B /* Cell Highlight View Frames */ = {
@@ -4206,6 +4217,7 @@
 				9AE800D721FFF81F00D5058C /* rewardsIcon-44.gif in Resources */,
 				9AE800FB21FFF81F00D5058C /* rewardsIcon-32.gif in Resources */,
 				9A926F6A22034B3800CC2263 /* CellHighlight-77.png in Resources */,
+				7EF514B728EB5B6D004A31C5 /* debug.xcconfig in Resources */,
 				9A926F8022034B3800CC2263 /* CellHighlight-19.png in Resources */,
 				9A926F9522034B3800CC2263 /* CellHighlight-3.png in Resources */,
 				9A926F6822034B3800CC2263 /* CellHighlight-53.png in Resources */,
@@ -4224,6 +4236,7 @@
 				9AE800DD21FFF81F00D5058C /* rewardsIcon-24.gif in Resources */,
 				9AE800E921FFF81F00D5058C /* rewardsIcon-33.gif in Resources */,
 				9A926F7122034B3800CC2263 /* CellHighlight-46.png in Resources */,
+				7EF514B828EB5B6D004A31C5 /* staging.xcconfig in Resources */,
 				9AE800EE21FFF81F00D5058C /* rewardsIcon-46.gif in Resources */,
 				9A926F5122034B3800CC2263 /* CellHighlight-83.png in Resources */,
 				9A926F7B22034B3800CC2263 /* CellHighlight-79.png in Resources */,
@@ -4297,6 +4310,7 @@
 				9A926F9222034B3800CC2263 /* CellHighlight-21.png in Resources */,
 				9A926F8122034B3800CC2263 /* CellHighlight-28.png in Resources */,
 				C47BD50A282E427300FAA903 /* Roboto-Regular.otf in Resources */,
+				7EF514B928EB5B6D004A31C5 /* prod.xcconfig in Resources */,
 				9A926F7722034B3800CC2263 /* CellHighlight-44.png in Resources */,
 				9A926F4B22034B3800CC2263 /* CellHighlight-11.png in Resources */,
 				9AE800FD21FFF81F00D5058C /* rewardsIcon-59.gif in Resources */,
@@ -5542,7 +5556,7 @@
 		};
 		75A2A7E41DA5934400A983D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E2C2F8327D7BE7A00114923 /* debug.xcconfig */;
+			baseConfigurationReference = 7EF514B428EB5B6D004A31C5 /* debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${APP_ICON}";
@@ -5591,7 +5605,7 @@
 		};
 		75A2A7E51DA5934400A983D8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E09EA4027D60D2100B0268C /* prod.xcconfig */;
+			baseConfigurationReference = 7EF514B628EB5B6D004A31C5 /* prod.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${APP_ICON}";
@@ -5767,6 +5781,7 @@
 		};
 		7ECCA9842872FD1000F99368 /* Staging */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EF514B528EB5B6D004A31C5 /* staging.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BRCORE_CONFIGURATION = Staging;
@@ -5830,7 +5845,6 @@
 		};
 		7ECCA9852872FD1000F99368 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E59CB142869A7F900A495E1 /* staging.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${APP_ICON}";
@@ -5985,6 +5999,7 @@
 		};
 		7ECCA98B2872FD1000F99368 /* Staging */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EF514B528EB5B6D004A31C5 /* staging.xcconfig */;
 			buildSettings = {
 				APP_GROUPS_ID = com.fabriik.one.breadwallet;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -6019,6 +6034,7 @@
 		};
 		7ECCA98C2872FD1000F99368 /* Staging */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EF514B528EB5B6D004A31C5 /* staging.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -6057,6 +6073,7 @@
 		};
 		9F29A9A425D5C605000FEB40 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EF514B428EB5B6D004A31C5 /* debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -6119,6 +6136,7 @@
 		};
 		9F29A9A825D5C605000FEB40 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EF514B628EB5B6D004A31C5 /* prod.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -6149,6 +6167,7 @@
 		};
 		9FB0CA1F25D5AD190057DD11 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EF514B428EB5B6D004A31C5 /* debug.xcconfig */;
 			buildSettings = {
 				APP_GROUPS_ID = com.fabriik.one.breadwallet;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -6219,6 +6238,7 @@
 		};
 		9FB0CA2325D5AD190057DD11 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EF514B628EB5B6D004A31C5 /* prod.xcconfig */;
 			buildSettings = {
 				APP_GROUPS_ID = com.fabriik.one.breadwallet;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
