@@ -11,7 +11,6 @@
 import SwiftUI
 
 struct MarketDataView: View {
-    
     private let strokeColor = Color.white.opacity(0.15)
     private let fillColor = Color.white.opacity(0.1)
     private let textColor = Color.white
@@ -59,10 +58,12 @@ struct MarketDataView: View {
         })
     }
     
-    func text(_ text: String) -> Text {
+    func text(_ text: String) -> some View {
         Text(text)
             .font(Font(Theme.body1))
             .foregroundColor(textColor)
+            .minimumScaleFactor(0.1)
+            .lineLimit(1)
     }
     
     func subText(_ text: String) -> Text {

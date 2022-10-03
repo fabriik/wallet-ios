@@ -133,7 +133,7 @@ class ScanViewController: UIViewController {
         }
 
         if device.hasTorch {
-            flash.tap = { [weak self] in
+            flash.tap = {
                 do {
                     try device.lockForConfiguration()
                     device.torchMode = device.torchMode == .on ? .off : .on

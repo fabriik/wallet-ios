@@ -43,7 +43,7 @@ class ImportKeyViewController: UIViewController, Subscriber {
     private let balanceActivity = BRActivityViewController(message: L10n.Import.checking)
     private let importingActivity = BRActivityViewController(message: L10n.Import.importing)
     private let unlockingActivity = BRActivityViewController(message: L10n.Import.unlockingActivity)
-    private var viewModel: TxViewModel?
+    private var viewModel: (any TxViewModel)?
     
     // Previously scanned QR code passed to init()
     private var initialQRCode: QRCode?

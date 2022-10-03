@@ -113,12 +113,17 @@ extension UserDefaults {
     /// A UUID unique to the installation, generated on first use
     /// Used for BlockchainDB subscription, tx metadata, backend auth
     static var deviceID: String {
-        if let s = defaults.string(forKey: deviceIdKey) {
+        get {
+            guard let s = defaults.string(forKey: deviceIdKey),
+                  s.isEmpty == false else {
+                let s = UUID().uuidString
+                defaults.set(s, forKey: deviceIdKey)
+                return s
+            }
             return s
         }
-        let s = UUID().uuidString
-        defaults.set(s, forKey: deviceIdKey)
-        return s
+        
+        set { defaults.set(newValue, forKey: deviceIdKey) }
     }
     
     /// After the user goes through the registration flow, we

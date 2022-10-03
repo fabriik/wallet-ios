@@ -31,11 +31,11 @@ enum FeeLevel: Int {
         if currency.isEthereumCompatible {
             switch self {
             case .economy:
-                return Int(C.secondsInMinute) * 5 * 1000
+                return Int(C.secondsInMinute) * 60 * 1000 // 60 min
             case .regular:
-                return Int(C.secondsInMinute) * 3 * 1000
+                return Int(C.secondsInMinute) * 20 * 1000 // 20 min
             case .priority:
-                return Int(C.secondsInMinute) * 1 * 1000
+                return Int(C.secondsInMinute) * 1 * 1000 // 1 min
             }
         }
         

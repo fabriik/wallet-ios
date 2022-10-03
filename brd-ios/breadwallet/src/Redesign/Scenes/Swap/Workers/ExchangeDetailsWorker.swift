@@ -30,8 +30,8 @@ struct ExchangeDetailsResponseData: ModelResponse {
     var type: String?
 }
 
-struct SwapDetail: Model {
-    struct SourceDestination: Model {
+struct SwapDetail: Model, Hashable {
+    struct SourceDestination: Model, Hashable {
         var currency: String
         var currencyAmount: Double
         var usdAmount: Double

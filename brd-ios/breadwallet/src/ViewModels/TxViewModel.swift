@@ -11,7 +11,7 @@ import WalletKit
 import UIKit
 
 /// Representation of a transaction
-protocol TxViewModel {
+protocol TxViewModel: Hashable {
     var tx: Transaction? { get }
     var swap: SwapDetail? { get }
     var currency: Currency? { get }
@@ -28,15 +28,24 @@ protocol TxViewModel {
 
 // Default and passthru values
 extension TxViewModel {
-
     var currency: Currency? {
         if let tx = tx {
             return tx.currency
         } else if let swap = swap {
-            return Store.state.currencies.first(where: { $0.code == swap.source.currency})
+            return Store.state.currencies.first(where: { $0.code.lowercased() == swap.source.currency.lowercased() })
         } else {
             return nil
         }
+    }
+    
+    var swapSourceCurrency: Currency? {
+        let sourceCurrency = swap?.source.currency.lowercased() ?? tx?.swapSource?.currency.lowercased()
+        return Store.state.currencies.first(where: { $0.code.lowercased() == sourceCurrency })
+    }
+    
+    var swapDestinationCurrency: Currency? {
+        let destinationCurrency = swap?.destination.currency.lowercased() ?? tx?.swapDestination?.currency.lowercased()
+        return Store.state.currencies.first(where: { $0.code.lowercased() == destinationCurrency })
     }
     
     var status: TransactionStatus {
@@ -139,19 +148,18 @@ extension TxViewModel {
     var tokenTransferCode: String? {
         guard let tx = tx,
               let code = tx.metaData?.tokenTransfer,
-              !code.isEmpty
-        else { return nil }
+              !code.isEmpty else { return nil }
+        
         return code
     }
     
     var icon: StatusIcon {
-        guard let tx = tx,
-              let currency = currency else {
-            return swapIcon
+        guard let tx = tx, let currency = currency else {
+            return exchangeStatusIconDecider(status: swap?.status)
         }
         
         if let gift = gift, tx.confirmations >= currency.confirmationsUntilFinal {
-            //not shared should override unclaimed
+            // Not shared should override unclaimed
             if gift.reclaimed == true {
                 return .gift(.reclaimed)
             } else if gift.claimed {
@@ -166,55 +174,39 @@ extension TxViewModel {
         switch tx.transactionType {
         case .defaultTransaction, .buyTransaction:
             if tx.confirmations < currency.confirmationsUntilFinal, tx.transactionType != .buyTransaction {
-                return .pending(CGFloat(tx.confirmations) / CGFloat(currency.confirmationsUntilFinal))
+                return tx.direction == .received ? .receivePending : .sendPending
             } else if tx.transactionType == .buyTransaction {
-                return exchangeStatusIconDecider(for: tx.status, transactionType: .buyTransaction)
+                return exchangeStatusIconDecider(status: tx.status)
             } else if tx.status == .invalid {
-                return .failed
+                return tx.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
             } else if tx.direction == .received || tx.direction == .recovered {
                 return .received
             }
             
         case .swapTransaction:
-            return exchangeStatusIconDecider(for: tx.status, transactionType: .swapTransaction)
+            return exchangeStatusIconDecider(status: tx.status)
+            
         }
         
         return .sent
     }
     
-    private func exchangeStatusIconDecider(for: TransactionStatus, transactionType: Transaction.TransactionType) -> StatusIcon {
-        guard let tx = tx else { return swapIcon }
-        if tx.status == .complete || tx.status == .manuallySettled || tx.status == .confirmed {
-            return transactionType == .buyTransaction ? .received : .swapComplete
+    private func exchangeStatusIconDecider(status: TransactionStatus?) -> StatusIcon {
+        let status = status ?? .failed
+        
+        if status == .complete || status == .manuallySettled || status == .confirmed {
+            return tx?.transactionType == .buyTransaction ? .received : .swapComplete
         }
         
-        if tx.status == .pending {
-            return .swapPending
+        if status == .pending {
+            return tx?.transactionType == .buyTransaction ? .receivePending : .swapPending
         }
         
-        if tx.status == .failed {
-            return .failed
-        }
-        
-        if tx.status == .refunded {
-            return .refunded
-        }
-        
-        return .failed
+        return tx?.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
     }
     
     var gift: Gift? {
         return tx?.metaData?.gift
-    }
-    
-    private var swapIcon: StatusIcon {
-        guard swap != nil else {
-            return .failed
-        }
-        guard swap?.source.currency != C.usdCurrencyCode else {
-            return .buyPending
-        }
-        return .swapPending
     }
 }
 

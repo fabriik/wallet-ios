@@ -12,7 +12,6 @@ import UIKit
 import WalletKit
 
 class GiftViewController: UIViewController {
-    
     var presentVerifyPin: ((String, @escaping ((String) -> Void)) -> Void)?
     var onPublishSuccess: (() -> Void)?
     

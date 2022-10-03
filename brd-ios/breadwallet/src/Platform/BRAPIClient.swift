@@ -334,10 +334,8 @@ extension Dictionary where Key == String, Value == String {
         if let v = self[lcKey] {
             return v
         }
-        for (lk, v) in self {
-            if lk.lowercased() == lcKey {
-                return v
-            }
+        for (lk, v) in self where lk.lowercased() == lcKey {
+            return v
         }
         return nil
     }

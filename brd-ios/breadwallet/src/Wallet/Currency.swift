@@ -266,11 +266,11 @@ extension Currency {
         
         switch index {
         case 0:
-            return L10n.FeeSelector.estimatedDeliver(timeString(forMinutes: 6))
+            return L10n.FeeSelector.estimatedDeliver(timeString(forMinutes: FeeLevel.economy.preferredTime(forCurrency: self) / 60 / 1000))
         case 1:
-            return L10n.FeeSelector.estimatedDeliver(timeString(forMinutes: 4))
+            return L10n.FeeSelector.estimatedDeliver(timeString(forMinutes: FeeLevel.regular.preferredTime(forCurrency: self) / 60 / 1000))
         case 2:
-            return L10n.FeeSelector.estimatedDeliver(timeString(forMinutes: 2))
+            return L10n.FeeSelector.estimatedDeliver(timeString(forMinutes: FeeLevel.priority.preferredTime(forCurrency: self) / 60 / 1000))
         default:
             return ""
         }

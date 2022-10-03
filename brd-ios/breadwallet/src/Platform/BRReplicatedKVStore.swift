@@ -481,11 +481,9 @@ open class BRReplicatedKVStore: NSObject {
             }
             let allRemoteKeys = Set(keyData.map { e in return e.0 })
             var allKeyData = keyData
-            for k in localKeyData {
-                if !allRemoteKeys.contains(k.0) {
-                    // server is missing a key that we have
-                    allKeyData.append((k.0, 0, Date(timeIntervalSince1970: Double()), nil))
-                }
+            for k in localKeyData where !allRemoteKeys.contains(k.0) {
+                // server is missing a key that we have
+                allKeyData.append((k.0, 0, Date(timeIntervalSince1970: Double()), nil))
             }
             
             self.log("Syncing \(allKeyData.count) keys")
