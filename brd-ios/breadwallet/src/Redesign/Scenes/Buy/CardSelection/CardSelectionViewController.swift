@@ -16,7 +16,7 @@ extension Scenes {
 
 class CardSelectionViewController: ItemSelectionViewController {
     
-    override var sceneTitle: String? { return L10n.Buy.selectPayment }
+    override var sceneTitle: String? { return L10n.Buy.paymentMethod }
     override var isSearchEnabled: Bool { return false }
     
     override func setupSubviews() {

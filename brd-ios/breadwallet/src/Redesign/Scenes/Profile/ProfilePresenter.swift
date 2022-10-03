@@ -14,7 +14,7 @@ extension ProfileModels.NavigationItems {
         switch self {
         case .paymentMethods:
             return .init(image: .imageName("credit_card_icon"),
-                         label: .text("Payment methods"),
+                         label: .text(L10n.Buy.paymentMethod),
                          button: .init(image: "arrowRight"))
             
         case .security:

@@ -72,7 +72,6 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
     private lazy var moreButton: FEButton = {
         let view = FEButton()
         view.setImage(UIImage(named: "more"), for: .normal)
-        view.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
         return view
     }()
 
@@ -117,6 +116,8 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         }
         
         selectorStack.addArrangedSubview(moreButton)
+        moreButton.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
+        layoutIfNeeded()
     }
     
     override func configure(with config: CardDetailsConfiguration?) {

@@ -31,6 +31,9 @@ struct CardSelectionViewModel: ViewModel {
 }
 
 class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewModel> {
+    
+    var moreButtonCallback: (() -> Void)?
+    
     private lazy var containerStack: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
@@ -70,7 +73,6 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
     }()
     
     var didTapSelectCard: (() -> Void)?
-    var moreButtonCallback: (() -> Void)?
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -106,6 +108,10 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         arrowImageView.snp.makeConstraints { make in
             make.width.equalTo(ViewSizes.small.rawValue)
         }
+        
+        cardDetailsView.moreButtonCallback = { [weak self] in
+            self?.moreButtonTapped()
+        }
     }
     
     override func configure(with config: CardSelectionConfiguration?) {
@@ -134,10 +140,6 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
                                           expiration: viewModel?.expiration))
         cardDetailsView.isHidden = viewModel?.logo == nil
         
-        cardDetailsView.moreButtonCallback = { [weak self] in
-            self?.moreButtonCallback?()
-        }
-        
         arrowImageView.setup(with: viewModel?.arrow)
         arrowImageView.isHidden = viewModel?.expiration != nil && titleLabel.isHidden
         spacerView.isHidden = arrowImageView.isHidden
@@ -152,5 +154,9 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
     
     @objc private func cardSelectorTapped(_ sender: Any) {
         didTapSelectCard?()
+    }
+    
+    private func moreButtonTapped() {
+        moreButtonCallback?()
     }
 }

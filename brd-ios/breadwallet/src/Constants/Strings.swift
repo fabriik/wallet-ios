@@ -507,6 +507,10 @@ internal enum L10n {
     internal static let cardFee = L10n.tr("Localizable", "Buy.CardFee")
     /// Card number
     internal static let cardNumber = L10n.tr("Localizable", "Buy.CardNumber")
+    /// Card removal failed. Please try again.
+    internal static let cardRemovalFailed = L10n.tr("Localizable", "Buy.CardRemovalFailed")
+    /// Card removed
+    internal static let cardRemoved = L10n.tr("Localizable", "Buy.CardRemoved")
     /// City
     internal static let city = L10n.tr("Localizable", "Buy.City")
     /// Please confirm your CVV
@@ -539,6 +543,12 @@ internal enum L10n {
     internal static let purchaseSuccessText = L10n.tr("Localizable", "Buy.PurchaseSuccessText")
     /// Your assets are on the way!
     internal static let purchaseSuccessTitle = L10n.tr("Localizable", "Buy.PurchaseSuccessTitle")
+    /// Are you sure you want to remove this card?
+    internal static let removeCard = L10n.tr("Localizable", "Buy.RemoveCard")
+    /// You will no longer be able to use it to buy assets.
+    internal static let removeCardOption = L10n.tr("Localizable", "Buy.RemoveCardOption")
+    /// Remove payment method
+    internal static let removePaymentMethod = L10n.tr("Localizable", "Buy.RemovePaymentMethod")
     /// Security code (CVV)
     internal static let securityCode = L10n.tr("Localizable", "Buy.SecurityCode")
     /// Please enter the 3 digit CVV number as it appears on the back of your card
