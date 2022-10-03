@@ -54,17 +54,11 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
         case .pending:
             header = Presets.StatusView.pending
             
-        case .complete:
+        case .complete, .manuallySettled:
             header = Presets.StatusView.complete
             
-        case .failed:
+        case .failed, .refunded:
             header = Presets.StatusView.failed
-            
-        case .refunded:
-            header = Presets.StatusView.refunded
-            
-        case .manuallySettled:
-            header = Presets.StatusView.manuallySettled
             
         default:
             break

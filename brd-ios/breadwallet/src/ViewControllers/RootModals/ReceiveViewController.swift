@@ -253,6 +253,6 @@ extension ReceiveViewController: ModalDisplayable {
     }
 
     var modalTitle: String {
-        return "\(L10n.Receive.title) \(currency.code)"
+        return "\(L10n.Receive.title) \(currency.name)"
     }
 }

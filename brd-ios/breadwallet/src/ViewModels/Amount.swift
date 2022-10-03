@@ -230,10 +230,10 @@ public struct Amount {
         format.generatesDecimalNumbers = true
         format.negativeFormat = "-\(format.positiveFormat!)"
         if let rate = rate {
-            format.currencySymbol = rate.currencySymbol
+            format.currencySymbol = rate.code
             format.maximumFractionDigits = rate.maxFractionalDigits
         } else if let rate = currency.state?.currentRate {
-            format.currencySymbol = rate.currencySymbol
+            format.currencySymbol = rate.code
             format.maximumFractionDigits = rate.maxFractionalDigits
         }
         format.minimumFractionDigits = minimumFractionDigits ?? format.minimumFractionDigits
