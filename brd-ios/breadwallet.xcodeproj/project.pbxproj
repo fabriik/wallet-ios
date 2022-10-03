@@ -4473,8 +4473,7 @@
 		};
 		7E154C7D28E6EF590062A4C3 /* Cosmos */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -4486,7 +4485,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "./scripts/cosmos_apple_silicon.sh\n";
 		};
@@ -6674,7 +6673,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/fabriik/cosmos.git";
 			requirement = {
-				branch = rcresnik/chore/remove_files;
+				branch = mit;
 				kind = branch;
 			};
 		};
