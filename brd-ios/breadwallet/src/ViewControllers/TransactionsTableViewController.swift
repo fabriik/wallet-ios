@@ -205,7 +205,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber {
         
         Store.subscribe(self, name: .txMetaDataUpdated("")) { [weak self] trigger in
             guard let trigger = trigger, case .txMetaDataUpdated = trigger else { return }
-            _ = self?.createSnapshot(for: self?.allTransactions ?? [])
+            _ = self?.updateTransactions()
         }
         
         subscribeToTransactionUpdates()
@@ -220,7 +220,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber {
                     .transferChanged,
                     .transferSubmitted:
                 guard let self = self else { return }
-                self.createSnapshot(for: self.allTransactions)
+                self.updateTransactions()
             
             default:
                 break
