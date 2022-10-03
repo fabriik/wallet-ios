@@ -11,23 +11,32 @@
 set -e
 
 # Install SwiftLint to run lint checks
-brew install SwiftLint
+ brew install SwiftLint
 
 # Create the .env file
-cd /Volumes/workspace/repository/brd-ios
 
-BRD_ENV=.env
+BRD_ENV=../.env
 touch $BRD_ENV
 
 # The environment variables go here
-echo "BREAD_TOKEN=$BREAD_TOKEN" >> $BRD_ENV
+echo "API_URL=$API_URL" >> $BRD_ENV
+echo "API_TOKEN=$API_TOKEN" >> $BRD_ENV
+echo "CHECKOUT_API_TOKEN=$CHECKOUT_API_TOKEN" >> $BRD_ENV
+
+echo "DEBUG_URL=$DEBUG_URL" >> $BRD_ENV
+echo "DEBUG_TOKEN=$DEBUG_TOKEN" >> $BRD_ENV
+echo "DEBUG_CHECKOUT_TOKEN=$DEBUG_CHECKOUT_TOKEN" >> $BRD_ENV
+echo "IS_TEST=true" >> $BRD_ENV
+
+
 echo "STAGING_URL=$STAGING_URL" >> $BRD_ENV
 echo "STAGING_TOKEN=$STAGING_TOKEN" >> $BRD_ENV
 echo "STAGING_CHECKOUT_TOKEN=$STAGING_CHECKOUT_TOKEN" >> $BRD_ENV
+
 echo "" >> $BRD_ENV
 
 # display the script
 cat << $BRD_ENV
 
 # Setting the marketing build
-agvtool new-marketing-version $MARKETING_VERSION
+# agvtool new-marketing-version $MARKETING_VERSION
