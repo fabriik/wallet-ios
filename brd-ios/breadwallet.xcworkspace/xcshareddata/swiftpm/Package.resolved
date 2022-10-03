@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/fabriik/cosmos.git",
       "state" : {
-        "branch" : "rcresnik/chore/remove_files",
-        "revision" : "aa4c2703e0a0325cfaa61d1d559509ad6074b3e3"
+        "branch" : "mit",
+        "revision" : "20f0b6e0788b8432aa02f0e5f7193ba33c3bbaf4"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/marmelroy/PhoneNumberKit.git",
       "state" : {
-        "revision" : "104a53d62c55aa5794faf30b29ccad319653b552",
-        "version" : "3.4.5"
+        "revision" : "2964493a52e64812833662a7bd19def82f35973c",
+        "version" : "3.4.10"
       }
     },
     {
