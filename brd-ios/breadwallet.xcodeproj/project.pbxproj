@@ -5586,7 +5586,6 @@
 				INFOPLIST_FILE = breadwallet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(SRCROOT)/../cosmos-bundled/build-frameworks",
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
@@ -5636,7 +5635,6 @@
 				INFOPLIST_FILE = breadwallet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(SRCROOT)/../cosmos-bundled/build-frameworks",
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
@@ -5874,7 +5872,6 @@
 				INFOPLIST_FILE = breadwallet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(SRCROOT)/../cosmos-bundled/build-frameworks",
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
@@ -6410,7 +6407,6 @@
 				INFOPLIST_FILE = breadwallet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(SRCROOT)/../cosmos-bundled/build-frameworks",
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
