@@ -15,7 +15,7 @@ import WebKit
 // swiftlint:disable type_body_length
 // swiftlint:disable cyclomatic_complexity
 
-class ModalPresenter: Subscriber, Trackable {
+class ModalPresenter: Subscriber {
 
     // MARK: - Public
     
@@ -161,8 +161,6 @@ class ModalPresenter: Subscriber, Trackable {
             guard let trigger = $0, let `self` = self else { return }
             if case let .handleGift(url) = trigger {
                 if let gift = QRCode(url: url, viewModel: nil) {
-                    let eventName = self.makeEventName([EventContext.gift.name, Event.redeem.name])
-                    self.saveEvent(eventName, attributes: ["\(eventName).method": "link"])
                     self.handleGift(qrCode: gift)
                 }
             }
@@ -174,8 +172,6 @@ class ModalPresenter: Subscriber, Trackable {
                 guard let gift = viewModel?.gift else { return assertionFailure() }
                 let code = QRCode(url: URL(string: gift.url!)!, viewModel: viewModel)
                 guard let wallet = Currencies.shared.btc?.wallet else { return assertionFailure() }
-                let eventName = self.makeEventName([EventContext.gift.name, Event.redeem.name])
-                self.saveEvent(eventName, attributes: ["\(eventName).method": "reclaim"])
                 self.presentKeyImport(wallet: wallet, scanResult: code)
             }
         }
@@ -261,7 +257,6 @@ class ModalPresenter: Subscriber, Trackable {
                 giftView?.present(vc, animated: true, completion: nil)
             }
             giftView.onPublishSuccess = { [weak self] in
-                self?.saveEvent("gift.send")
                 self?.alertPresenter?.presentAlert(.sendSuccess, completion: {})
             }
             
@@ -382,8 +377,6 @@ class ModalPresenter: Subscriber, Trackable {
             case .invalid:
                 break
             case .gift:
-                let eventName = makeEventName([EventContext.gift.name, Event.redeem.name])
-                saveEvent(eventName, attributes: ["\(eventName).method": "scan"])
                 self.handleGift(qrCode: scanResult)
             }
         }
@@ -443,7 +436,6 @@ class ModalPresenter: Subscriber, Trackable {
             })
             enableSegwit.shouldShow = { return !UserDefaults.hasOptedInSegwit }
             var viewLegacyAddress = MenuItem(title: L10n.Settings.viewLegacyAddress, callback: {
-                Backend.apiClient.sendViewLegacyAddress()
                 Store.perform(action: RootModalActions.Present(modal: .receiveLegacy))
             })
             viewLegacyAddress.shouldShow = { return UserDefaults.hasOptedInSegwit }
@@ -587,35 +579,6 @@ class ModalPresenter: Subscriber, Trackable {
                 self?.presentExportTransfers()
             }
         ]
-
-        // ATM Finder
-        if let experiment = Store.state.experimentWithName(.atmFinder), experiment.active,
-            let meta = experiment.meta as? BrowserExperimentMetaData,
-            let url = meta.url, !url.isEmpty,
-            let URL = URL(string: url) {
-            
-            rootItems.append(MenuItem(title: L10n.Settings.atmMapMenuItemTitle,
-                                      subTitle: L10n.Settings.atmMapMenuItemSubtitle,
-                                      icon: MenuItem.Icon.atmMap) { [weak self] in
-                guard let self = self else { return }
-                
-                let browser = BRBrowserViewController()
-                
-                browser.isNavigationBarHidden = true
-                browser.showsBottomToolbar = false
-                browser.statusBarStyle = .lightContent
-                
-                if let closeUrl = meta.closeOn {
-                    browser.closeOnURL = closeUrl
-                }
-                
-                let req = URLRequest(url: URL)
-                
-                browser.load(req)
-                
-                self.topViewController?.present(browser, animated: true, completion: nil)
-            })
-        }
         
         // MARK: Developer/QA Menu
         
@@ -800,7 +763,6 @@ class ModalPresenter: Subscriber, Trackable {
     private func presentScan(parent: UIViewController, currency: Currency?) -> PresentScan {
         return { [weak parent] scanCompletion in
             guard ScanViewController.isCameraAllowed else {
-                self.saveEvent("scan.cameraDenied")
                 if let parent = parent {
                     ScanViewController.presentCameraUnavailableAlert(fromRoot: parent)
                 }

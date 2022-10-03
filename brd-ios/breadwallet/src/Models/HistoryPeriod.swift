@@ -44,9 +44,9 @@ enum HistoryPeriod: String, CaseIterable {
         UserDefaults.lastChartHistoryPeriod = self.rawValue
     }
     
-    //DateComponentsFormatter uses 'mo' as a month abbreviation due to collision with minutes.
-    //The trailing o is removed to keep the headering looking clean
-    //DateComponentsFormatter also inserts a space between the number and unit, which is also trimmed out
+    // DateComponentsFormatter uses 'mo' as a month abbreviation due to collision with minutes.
+    // The trailing o is removed to keep the headering looking clean
+    // DateComponentsFormatter also inserts a space between the number and unit, which is also trimmed out
     var buttonLabel: String {
         switch self {
         case .day:

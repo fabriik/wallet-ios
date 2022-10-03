@@ -11,7 +11,7 @@ import WalletKit
 import UIKit
 
 /// Representation of a transaction
-protocol TxViewModel {
+protocol TxViewModel: Hashable {
     var tx: Transaction? { get }
     var swap: SwapDetail? { get }
     var currency: Currency? { get }
@@ -28,15 +28,24 @@ protocol TxViewModel {
 
 // Default and passthru values
 extension TxViewModel {
-
     var currency: Currency? {
         if let tx = tx {
             return tx.currency
         } else if let swap = swap {
-            return Store.state.currencies.first(where: { $0.code == swap.source.currency})
+            return Store.state.currencies.first(where: { $0.code.lowercased() == swap.source.currency.lowercased() })
         } else {
             return nil
         }
+    }
+    
+    var swapSourceCurrency: Currency? {
+        let sourceCurrency = swap?.source.currency.lowercased() ?? tx?.swapSource?.currency.lowercased()
+        return Store.state.currencies.first(where: { $0.code.lowercased() == sourceCurrency })
+    }
+    
+    var swapDestinationCurrency: Currency? {
+        let destinationCurrency = swap?.destination.currency.lowercased() ?? tx?.swapDestination?.currency.lowercased()
+        return Store.state.currencies.first(where: { $0.code.lowercased() == destinationCurrency })
     }
     
     var status: TransactionStatus {
@@ -56,22 +65,46 @@ extension TxViewModel {
         }
         return .defaultTransaction
     }
-    var direction: TransferDirection { return tx?.direction ?? .received }
+    var direction: TransferDirection {
+        if let tx = tx {
+            return tx.direction
+        } else if let swap = swap {
+            if swap.source.currency.lowercased() == currency?.code.lowercased() {
+                return .sent
+            } else {
+                return .received
+            }
+        }
+        
+        return .received
+        
+    }
     var comment: String? { return tx?.comment }
     
     // BTC does not have "from" address, only "sent to" or "received at"
     var displayAddress: String {
-        guard let tx = tx else { return "" }
-        
-        if !tx.currency.isBitcoinCompatible {
-            if direction == .sent {
+        if let tx = tx {
+            guard !tx.currency.isBitcoinCompatible || direction != .sent else {
                 return tx.toAddress
-            } else {
-                return tx.fromAddress
             }
-        } else {
-            return tx.toAddress
+            
+            return tx.fromAddress
+        } else if let swap = swap {
+            let address: String?
+            switch direction {
+            case .sent:
+                address = swap.source.transactionId
+                
+            case .received:
+                address = swap.destination.transactionId
+                
+            default:
+                address = ""
+            }
+            return address ?? ""
         }
+        
+        return ""
     }
     
     var blockHeight: String {
@@ -82,19 +115,28 @@ extension TxViewModel {
         return "\(tx?.confirmations ?? 0)"
     }
     
+    private var timestamp: Double? {
+        let time: Double?
+        if let tx = tx,
+           tx.timestamp > 0 {
+            time = tx.timestamp
+        } else if let swap = swap {
+            time = Double(swap.timestamp) / 1000
+        } else {
+            time = nil
+        }
+        return time
+    }
+    
     var longTimestamp: String {
-        guard let tx = tx,
-              tx.timestamp > 0
-        else { return L10n.Transaction.justNow }
-        
-        let date = Date(timeIntervalSince1970: tx.timestamp)
+        guard let time = timestamp else { return L10n.Transaction.justNow }
+        let date = Date(timeIntervalSince1970: time)
         return DateFormatter.longDateFormatter.string(from: date)
     }
     
     var shortTimestamp: String {
-        guard let tx = tx,
-              tx.timestamp > 0 else { return L10n.Transaction.justNow }
-        let date = Date(timeIntervalSince1970: tx.timestamp)
+        guard let time = timestamp else { return L10n.Transaction.justNow }
+        let date = Date(timeIntervalSince1970: time)
         
         if date.hasEqualDay(Date()) {
             return DateFormatter.justTime.string(from: date)
@@ -106,19 +148,18 @@ extension TxViewModel {
     var tokenTransferCode: String? {
         guard let tx = tx,
               let code = tx.metaData?.tokenTransfer,
-              !code.isEmpty
-        else { return nil }
+              !code.isEmpty else { return nil }
+        
         return code
     }
     
     var icon: StatusIcon {
-        guard let tx = tx,
-              let currency = currency else {
-            return swapIcon
+        guard let tx = tx, let currency = currency else {
+            return exchangeStatusIconDecider(status: swap?.status)
         }
         
         if let gift = gift, tx.confirmations >= currency.confirmationsUntilFinal {
-            //not shared should override unclaimed
+            // Not shared should override unclaimed
             if gift.reclaimed == true {
                 return .gift(.reclaimed)
             } else if gift.claimed {
@@ -132,60 +173,40 @@ extension TxViewModel {
         
         switch tx.transactionType {
         case .defaultTransaction, .buyTransaction:
-            if tx.confirmations < currency.confirmationsUntilFinal {
-                return .pending(CGFloat(tx.confirmations) / CGFloat(currency.confirmationsUntilFinal))
-            }
-            
-            if tx.transactionType == .buyTransaction {
-                return exchangeStatusIconDecider(for: tx.status, transactionType: .buyTransaction)
-            }
-            
-            if tx.status == .invalid {
-                return .failed
-            }
-            
-            if tx.direction == .received || tx.direction == .recovered {
+            if tx.confirmations < currency.confirmationsUntilFinal, tx.transactionType != .buyTransaction {
+                return tx.direction == .received ? .receivePending : .sendPending
+            } else if tx.transactionType == .buyTransaction {
+                return exchangeStatusIconDecider(status: tx.status)
+            } else if tx.status == .invalid {
+                return tx.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
+            } else if tx.direction == .received || tx.direction == .recovered {
                 return .received
             }
             
         case .swapTransaction:
-            return exchangeStatusIconDecider(for: tx.status, transactionType: .swapTransaction)
+            return exchangeStatusIconDecider(status: tx.status)
+            
         }
         
         return .sent
     }
     
-    private func exchangeStatusIconDecider(for: TransactionStatus, transactionType: Transaction.TransactionType) -> StatusIcon {
-        guard let tx = tx else { return swapIcon }
-        if tx.status == .complete || tx.status == .manuallySettled {
-            return transactionType == .buyTransaction ? .received : .swapComplete
+    private func exchangeStatusIconDecider(status: TransactionStatus?) -> StatusIcon {
+        let status = status ?? .failed
+        
+        if status == .complete || status == .manuallySettled || status == .confirmed {
+            return tx?.transactionType == .buyTransaction ? .received : .swapComplete
         }
         
-        if tx.status == .pending {
-            return .swapPending
+        if status == .pending {
+            return tx?.transactionType == .buyTransaction ? .receivePending : .swapPending
         }
         
-        if tx.status == .failed {
-            return .failed
-        }
-        
-        if tx.status == .refunded {
-            return .refunded
-        }
-        
-        return .failed
+        return tx?.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
     }
     
     var gift: Gift? {
         return tx?.metaData?.gift
-    }
-    
-    private var swapIcon: StatusIcon {
-        guard swap != nil else {
-            return .failed
-        }
-        
-        return .swapPending
     }
 }
 

@@ -9,13 +9,12 @@
 import UIKit
 import SwiftUI
 
-private let largeFontSize: CGFloat = 28.0
-private let smallFontSize: CGFloat = 14.0
 private let historyPeriodPillAlpha: CGFloat = 0.3
 
-class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
+class AccountHeaderView: UIView, GradientDrawable, Subscriber {
     
     // MARK: - Views
+    
     private let intrinsicSizeView = UIView()
     private let extendedTouchArea = ExtendedTouchArea()
     private let currencyName = UILabel(font: .customBody(size: 18.0))
@@ -61,12 +60,12 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
     
     // MARK: Properties
     private static  let marketDataHeight: CGFloat = 130
-    static let headerViewMinHeight: CGFloat = 160.0
     private let currency: Currency
     private var isChartHidden = false
     private var shouldLockExpandingChart = false
     private var isScrubbing = false
     var setHostContentOffset: ((CGFloat) -> Void)?
+    static let headerViewMinHeight: CGFloat = 160.0
     static var headerViewMaxHeight: CGFloat {
         return Self.shouldShowMarketData ? 375.0 + AccountHeaderView.marketDataHeight : 375.0
     }
@@ -140,13 +139,14 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
             chartView.trailingAnchor.constraint(equalTo: trailingAnchor),
             chartView.heightAnchor.constraint(equalToConstant: 100.0),
             chartView.bottomAnchor.constraint(equalTo: graphButtonStackView.topAnchor, constant: -C.padding[1])])
-        currencyName.constrain([
-            currencyName.constraint(.leading, toView: self, constant: C.padding[2]),
-            currencyName.constraint(.trailing, toView: self, constant: -C.padding[2]),
-            currencyName.constraint(.top, toView: self, constant: E.isIPhoneX ? C.padding[7] : C.padding[5])])
+        currencyName.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(RootNavigationController().navigationBar.frame.height)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(-RootNavigationController().navigationBar.frame.height)
+        }
         priceInfoStackView.constrain([
             priceInfoStackView.centerXAnchor.constraint(equalTo: currencyName.centerXAnchor),
-            priceInfoStackView.topAnchor.constraint(equalTo: currencyName.bottomAnchor, constant: C.padding[2])])
+            priceInfoStackView.topAnchor.constraint(equalTo: currencyName.bottomAnchor)])
         modeLabel.constrain([
             modeLabel.centerXAnchor.constraint(equalTo: priceInfoStackView.centerXAnchor),
             modeLabel.topAnchor.constraint(equalTo: priceInfoStackView.bottomAnchor)])
@@ -279,7 +279,6 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
         }
         
         chartView.scrubberDidBegin = { [unowned self] in
-            self.saveEvent(self.makeEventName([EventContext.wallet.name, self.currency.code.uppercased(), Event.scrubbed.name]))
             self.isScrubbing = true
             UIView.animate(withDuration: Presets.Animation.duration, animations: {
                 self.priceChangeView.alpha = 0.0
@@ -320,7 +319,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
         priceChangeView.alpha = 0.0
         graphButtonStackView.alpha = 0.0
         historyPeriodPill.alpha = 0.0
-        self.marketDataView?.alpha = 0.0
+        marketDataView?.alpha = 0.0
     }
     
     func setOffset(_ offset: CGFloat) {
@@ -411,7 +410,6 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber, Trackable {
     }
     
     private func didTap(button: UIButton) {
-        saveEvent(makeEventName([EventContext.wallet.name, currency.code.uppercased(), Event.axisToggle.name]))
         updateHistoryPeriodPillPosition(button: button, withAnimation: true)
     }
 

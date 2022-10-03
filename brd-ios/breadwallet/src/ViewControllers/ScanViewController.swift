@@ -11,7 +11,7 @@ import AVFoundation
 
 typealias ScanCompletion = (QRCode?) -> Void
 
-class ScanViewController: UIViewController, Trackable {
+class ScanViewController: UIViewController {
 
     static func presentCameraUnavailableAlert(fromRoot: UIViewController) {
         let alertController = UIAlertController(title: L10n.Send.cameraUnavailableTitle, message: L10n.Send.cameraunavailableMessage, preferredStyle: .alert)
@@ -81,7 +81,6 @@ class ScanViewController: UIViewController, Trackable {
         guide.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
 
         close.tap = { [unowned self] in
-            self.saveEvent("scan.dismiss")
             self.dismiss(animated: true, completion: {
                 self.completion(nil)
             })
@@ -134,16 +133,11 @@ class ScanViewController: UIViewController, Trackable {
         }
 
         if device.hasTorch {
-            flash.tap = { [weak self] in
+            flash.tap = {
                 do {
                     try device.lockForConfiguration()
                     device.torchMode = device.torchMode == .on ? .off : .on
                     device.unlockForConfiguration()
-                    if device.torchMode == .on {
-                        self?.saveEvent("scan.torchOn")
-                    } else {
-                        self?.saveEvent("scan.torchOff")
-                    }
                 } catch let error {
                     print("Camera Torch error: \(error)")
                 }
@@ -216,39 +210,13 @@ extension ScanViewController: AVCaptureMetadataOutputObjectsDelegate {
         //need to make sure the completion block only gets called once
         guard !hasCompleted else { return }
         hasCompleted = true
-        // add a small delay so the green guide will be seen
-        saveScanEvent(result)
+        
+        // Add a small delay so the green guide will be seen
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             self.dismiss(animated: true, completion: {
                 self.completion(result)
             })
         })
-    }
-    
-    private func saveScanEvent(_ result: QRCode) {
-        switch result {
-        case .paymentRequest(let request):
-            switch request?.currency.code {
-            case Currencies.shared.bch?.code:
-                saveEvent("scan.bCashAddr")
-            case Currencies.shared.btc?.code:
-                saveEvent("scan.bitcoinUri")
-            case Currencies.shared.eth?.code:
-                saveEvent("scan.ethAddress")
-            default:
-                saveEvent("scan.otherCurrency")
-            }
-            
-        case .privateKey:
-            saveEvent("scan.privateKey")
-            
-        case .deepLink:
-            saveEvent("scan.deepLink")
-        case .gift:
-            saveEvent("scan.gift")
-        default:
-            assertionFailure("unexpected result")
-        }
     }
 }
 

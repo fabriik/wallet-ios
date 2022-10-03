@@ -10,8 +10,7 @@
 
 import UIKit
 
-class StakeViewController: UIViewController, Subscriber, Trackable, ModalPresentable {
-    
+class StakeViewController: UIViewController, Subscriber, ModalPresentable {
     fileprivate let midContentHeight: CGFloat = 90.0
     fileprivate let bakerContentHeight: CGFloat = 40.0
     fileprivate let selectBakerButtonHeight: CGFloat = 70.0
@@ -161,7 +160,6 @@ class StakeViewController: UIViewController, Subscriber, Trackable, ModalPresent
         confirm(address: addressText) { [weak self] success in
             guard success else { return }
             self?.send(address: addressText)
-            self?.track(eventName: Event.stake.name)
         }
     }
     
@@ -170,7 +168,6 @@ class StakeViewController: UIViewController, Subscriber, Trackable, ModalPresent
         confirm(address: address) { [weak self] success in
             guard success else { return }
             self?.send(address: address)
-            self?.track(eventName: Event.unstake.name)
         }
     }
     
@@ -511,14 +508,6 @@ class StakeViewController: UIViewController, Subscriber, Trackable, ModalPresent
         pendingLabel.constrain([
             pendingLabel.centerYAnchor.constraint(equalTo: pendingSpinner.centerYAnchor),
             pendingLabel.leadingAnchor.constraint(equalTo: pendingSpinner.trailingAnchor, constant: C.padding[2]) ])
-    }
-}
-
-// MARK: - Trackable
-
-extension StakeViewController {
-    private func track(eventName: String) {
-        saveEvent(makeEventName([EventContext.wallet.name, currency.code.uppercased(), eventName]))
     }
 }
 

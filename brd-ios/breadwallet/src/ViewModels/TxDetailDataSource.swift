@@ -135,7 +135,6 @@ extension TxDetailDataSource: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let field = fields[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: field.rawValue,
                                                  for: indexPath)

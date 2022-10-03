@@ -10,7 +10,7 @@ import WalletKit
 import UIKit
 
 // swiftlint:disable type_body_length
-class CoreSystem: Subscriber, Trackable {
+class CoreSystem: Subscriber {
     
     private var system: System?
     private let queue = DispatchQueue(label: "com.fabriik.one.CoreSystem", qos: .utility)
@@ -53,7 +53,11 @@ class CoreSystem: Subscriber, Trackable {
         Reachability.addDidChangeCallback { [weak self] isReachable in
             guard let self = self, let system = self.system else { return }
             system.setNetworkReachable(isReachable)
-            isReachable ? self.connect() : self.pause()
+            if isReachable {
+                self.connect()
+            } else {
+                self.pause()
+            }
         }
         
         Store.subscribe(self, name: .createAccount(nil, nil)) { [weak self] trigger in
@@ -311,9 +315,6 @@ class CoreSystem: Subscriber, Trackable {
                                                      mode: self.connectionMode(for: currency),
                                                      addressScheme: currency.network.defaultAddressScheme,
                                                      currencies: currency.network.currencies.filter { assetCollection.isEnabled($0.uid) })
-            if success {
-                self.saveEvent("hbar.created")
-            }
             assert(success, "failed to create \(currency.network) wallet manager")
         }
     }
@@ -597,12 +598,10 @@ class CoreSystem: Subscriber, Trackable {
     // the app from being backgrounded while syncing
     private func startActivity() {
         UIApplication.shared.isIdleTimerDisabled = true
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
     private func endActivity() {
         UIApplication.shared.isIdleTimerDisabled = false
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
     
     // MARK: Wallet ID
@@ -719,7 +718,6 @@ extension CoreSystem: SystemListener {
             case .posix(let errno, let message):
                 let messagePayload = "\(message ?? "") (\(errno))"
                 print("[SYS] \(manager.network) sync error: \(messagePayload)")
-                self.saveEvent("event.syncErrorMessage", attributes: ["network": manager.network.currency.code, "message": messagePayload])
                 syncState = .connecting
                 // retry by reconnecting
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
@@ -756,7 +754,6 @@ extension CoreSystem: SystemListener {
         case .syncRecommended(let depth):
             print("[SYS] \(manager.network) rescan recommended from \(depth)")
             rescan(walletManager: manager, fromDepth: depth)
-            saveEvent("event.recommendRescan")
             
         case .blockUpdated: // (let height):
             manager.wallets.forEach { self.wallets[$0.currency.uid]?.blockUpdated() }

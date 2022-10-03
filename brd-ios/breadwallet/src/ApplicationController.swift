@@ -14,33 +14,22 @@ import IQKeyboardManagerSwift
 import WidgetKit
 #endif
 
-private let timeSinceLastExitKey = "TimeSinceLastExit"
-private let shouldRequireLoginTimeoutKey = "ShouldRequireLoginTimeoutKey"
-
-class ApplicationController: Subscriber, Trackable {
-    
-    fileprivate var application: UIApplication?
-
-    static let initialLaunchCount = 0
-    
+class ApplicationController: Subscriber {
     let window = UIWindow()
     var coordinator: BaseCoordinator?
     
-    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-    private var startFlowController: StartFlowPresenter?
-    private var alertPresenter: AlertPresenter?
     private var modalPresenter: ModalPresenter? {
         didSet {
-            if let nvc = self.rootNavigationController {
+            DispatchQueue.main.async {
+                guard let nvc = self.rootNavigationController else { return }
                 self.coordinator = BaseCoordinator(navigationController: nvc)
                 self.coordinator?.modalPresenter = self.modalPresenter
             }
         }
     }
     
-    var rootNavigationController: RootNavigationController? {
-        guard let root = window.rootViewController as? RootNavigationController else { return nil }
-        return root
+    private var rootNavigationController: RootNavigationController? {
+        return window.rootViewController as? RootNavigationController
     }
     
     var homeScreenViewController: HomeScreenViewController? {
@@ -48,11 +37,16 @@ class ApplicationController: Subscriber, Trackable {
               let homeScreen = rootNavController.viewControllers.first as? HomeScreenViewController else { return nil }
         return homeScreen
     }
-        
+    
+    private var application: UIApplication?
     private let coreSystem: CoreSystem!
     private var keyStore: KeyStore!
-
+    private let timeSinceLastExitKey = "TimeSinceLastExit"
+    private let shouldRequireLoginTimeoutKey = "ShouldRequireLoginTimeoutKey"
     private var launchURL: URL?
+    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+    private var startFlowController: StartFlowPresenter?
+    private var alertPresenter: AlertPresenter?
     private var urlController: URLController?
     private let notificationHandler = NotificationHandler()
     private var appRatingManager = AppRatingManager()
@@ -61,7 +55,7 @@ class ApplicationController: Subscriber, Trackable {
     
     private var isReachable = true {
         didSet {
-            if oldValue == false && isReachable { self.retryAfterIsReachable() }
+            if oldValue == false && isReachable { retryAfterIsReachable() }
         }
     }
 
@@ -84,10 +78,7 @@ class ApplicationController: Subscriber, Trackable {
     func launch(application: UIApplication, options: [UIApplication.LaunchOptionsKey: Any]?) {
         handleLaunchOptions(options)
         
-        application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalNever)
-
         UNUserNotificationCenter.current().delegate = notificationHandler
-        EventMonitor.shared.register(.pushNotifications)
 
         mainSetup()
         setupKeyboard()
@@ -115,13 +106,7 @@ class ApplicationController: Subscriber, Trackable {
                                         window: window,
                                         alertPresenter: alertPresenter,
                                         deleteAccountCallback: didTapDeleteAccount)
-        
-        // Start collecting analytics events. Once we have a wallet, startBackendServices() will
-        // notify `Backend.apiClient.analytics` so that it can upload events to the server.
-        Backend.apiClient.analytics?.startCollectingEvents()
-
         appRatingManager.start()
-        
         setupSubscribers()
         
         ExchangeCurrencyHelper.revertIfNeeded(coordinator: coordinator, completion: { [weak self] in
@@ -164,7 +149,7 @@ class ApplicationController: Subscriber, Trackable {
     }
     
     private func enterOnboarding() {
-        guardProtected(queue: DispatchQueue.main) {
+        guardProtected {
             guard let startFlowController = self.startFlowController, self.keyStore.noWallet else { return assertionFailure() }
             startFlowController.startOnboarding { [unowned self] account in
                 self.setupSystem(with: account)
@@ -176,7 +161,7 @@ class ApplicationController: Subscriber, Trackable {
     /// Loads the account for initial launch and initializes the core system
     /// Prompts for login if account needs to be recreated from seed
     private func unlockExistingAccount() {
-        guardProtected(queue: DispatchQueue.main) {
+        guardProtected {
             guard let startFlowController = self.startFlowController, !self.keyStore.noWallet else { return assertionFailure() }
             Store.perform(action: PinLength.Set(self.keyStore.pinLength))
             startFlowController.startLogin { [unowned self] account in
@@ -193,8 +178,6 @@ class ApplicationController: Subscriber, Trackable {
     private func setupSystem(with account: Account) {
         // Authenticate with BRDAPI backend
         Backend.connect(authenticator: keyStore as WalletAuthenticator)
-        Backend.sendLaunchEvent()
-        Backend.apiClient.analytics?.onWalletReady()
         
         DispatchQueue.global(qos: .userInitiated).async {
             Backend.kvStore?.syncAllKeys { [weak self] error in
@@ -246,7 +229,6 @@ class ApplicationController: Subscriber, Trackable {
         guard let activityDictionary = options?[.userActivityDictionary] as? [String: Any],
               let activity = activityDictionary["UIApplicationLaunchOptionsUserActivityKey"] as? NSUserActivity,
               let url = activity.webpageURL else { return }
-        
         // Handle gift URL at launch.
         launchURL = url
         shouldDisableBiometrics = true
@@ -263,8 +245,6 @@ class ApplicationController: Subscriber, Trackable {
     
     func willEnterForeground() {
         guard !keyStore.noWallet else { return }
-        
-        Backend.sendLaunchEvent()
         
         if shouldRequireLogin() {
             Store.perform(action: RequireLogin())
@@ -332,8 +312,8 @@ class ApplicationController: Subscriber, Trackable {
     }
 
     private func endBackgroundTask() {
-        UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
-        self.backgroundTaskID = .invalid
+        UIApplication.shared.endBackgroundTask(backgroundTaskID)
+        backgroundTaskID = .invalid
     }
     
     /// Initialize WalletInfo in KV-store. Needed prior to creating the System.
@@ -353,10 +333,8 @@ class ApplicationController: Subscriber, Trackable {
                 Store.trigger(name: .didSyncKVStore)
             }
         }
-
-        Backend.apiClient.updateExperiments()
+        
         Backend.updateExchangeRates()
-        Backend.apiClient.fetchAnnouncements()
     }
     
     // MARK: - UI
@@ -584,13 +562,9 @@ extension ApplicationController {
             NotificationAuthorizer().areNotificationsAuthorized { authorized in
                 DispatchQueue.main.async {
                     if authorized {
-                        if !Store.state.isPushNotificationsEnabled {
-                            self.saveEvent("push.enabledSettings")
-                        }
                         UIApplication.shared.registerForRemoteNotifications()
                     } else {
                         if Store.state.isPushNotificationsEnabled, let pushToken = UserDefaults.pushToken {
-                            self.saveEvent("push.disabledSettings")
                             Store.perform(action: PushNotifications.SetIsEnabled(false))
                             Backend.apiClient.deletePushNotificationToken(pushToken)
                         }

@@ -14,7 +14,6 @@ enum PriceChangeViewStyle {
 }
 
 class PriceChangeView: UIView, Subscriber {
-    
     var currency: Currency? {
         didSet {
             //These cells get recycled, so we need to cancel any previous subscriptions
@@ -23,9 +22,9 @@ class PriceChangeView: UIView, Subscriber {
         }
     }
     
-    private let percentLabel = UILabel(font: Theme.body3)
-    private let absoluteLabel = UILabel(font: Theme.body3)
-    private let prefixLabel = UILabel(font: Theme.body3)
+    private let percentLabel = UILabel(font: .customBody(size: 16.0))
+    private let absoluteLabel = UILabel(font: .customBody(size: 16.0))
+    private let prefixLabel = UILabel(font: .customBody(size: 16.0))
     
     private var priceInfo: FiatPriceInfo? {
         didSet {
@@ -137,5 +136,4 @@ class PriceChangeView: UIView, Subscriber {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

@@ -27,15 +27,6 @@ struct LoginSuccess: Action {
     }
 }
 
-struct UpdateExperiments: Action {
-    let reduce: Reducer
-    init(_ experiments: [Experiment]) {
-        reduce = {
-            return $0.mutate(experiments: experiments)
-        }
-    }
-}
-
 struct SetRequiresCreation: Action {
     let reduce: Reducer
     init(_ currency: Currency) {
@@ -87,7 +78,7 @@ enum ManageWallets {
 }
 
 // MARK: - Wallet State
-struct WalletChange: Trackable {
+struct WalletChange {
     struct WalletAction: Action {
         let reduce: Reducer
     }
@@ -181,14 +172,13 @@ enum Alert {
 }
 
 enum DefaultCurrency {
-    struct SetDefault: Action, Trackable {
+    struct SetDefault: Action {
         let reduce: Reducer
         init(_ defaultCurrencyCode: String) {
             let isCodeAvailable = FiatCurrency.isCodeAvailable(defaultCurrencyCode)
             let newCode = isCodeAvailable ? defaultCurrencyCode : C.usdCurrencyCode
             UserDefaults.defaultCurrencyCode = newCode
             reduce = { $0.mutate(defaultCurrencyCode: newCode) }
-            saveEvent("event.setDefaultCurrency", attributes: ["code": newCode])
         }
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 /// View model of a transaction in list view
-struct TxListViewModel: TxViewModel {
+struct TxListViewModel: TxViewModel, Hashable {
     
     // MARK: - Properties
     
@@ -24,6 +24,10 @@ struct TxListViewModel: TxViewModel {
         } else if let tokenCode = tokenTransferCode {
             return L10n.Transaction.tokenTransfer(tokenCode.uppercased())
         } else if let tx = tx {
+            guard transactionType == .defaultTransaction else {
+                return shortTimestamp
+            }
+            
             var address = tx.toAddress
             var format: (Any) -> String
             
@@ -41,10 +45,8 @@ struct TxListViewModel: TxViewModel {
             }
             return format(address)
             
-        } else if let swap = swap {
-            return L10n.TransactionDetails.receivedFrom(swap.source.transactionId ?? "")
         } else {
-            return ""
+            return shortTimestamp
         }
     }
 
@@ -66,10 +68,17 @@ struct TxListViewModel: TxViewModel {
             return NSMutableAttributedString(string: text,
                                              attributes: [.foregroundColor: color])
         } else if let swap = swap {
-            let isSedning = swap.source.currency == currency?.code
-            let color: UIColor = isSedning ? .darkGray :.receivedGreen
+            let color: UIColor
+            if swap.source.currency == C.usdCurrencyCode,
+               swap.status == .pending {
+                color = .darkGray
+            } else {
+                let isSedning = swap.source.currency == currency?.code
+                color = isSedning ? .darkGray : .receivedGreen
+            }
             
-            return NSMutableAttributedString(string: "\(swap.source.currencyAmount.description) \(swap.source.currency)",
+            let amount = ExchangeFormatter.crypto.string(for: swap.destination.currencyAmount) ?? ""
+            return NSMutableAttributedString(string: "\(amount) \(swap.destination.currency)",
                                              attributes: [.foregroundColor: color])
         } else {
             return .init()

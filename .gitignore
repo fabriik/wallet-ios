@@ -107,6 +107,7 @@ fabric.properties
 
 ## xcode-frameworks folders and plists so that xcode does not complain prior first build of Cosmos.xcframework
 cosmos-bundled/build-frameworks/
+modified_cosmos_dir_do_not_delete.txt
 
 *.env
 
@@ -185,13 +186,8 @@ fastlane/test_output
 Pods/
 
 brd-ios/breadwallet/src/Strings/zh-Hans.lproj/
-
 brd-ios/breadwallet/src/Strings/zh-Hant.lproj/
-
 brd-ios/breadwallet/src/Strings/ru.lproj/
-
 brd-ios/breadwallet/src/Strings/ko.lproj/
-
 brd-ios/breadwallet/src/Strings/ja.lproj/
-
 brd-ios/breadwallet/src/Strings/.phrase.yml

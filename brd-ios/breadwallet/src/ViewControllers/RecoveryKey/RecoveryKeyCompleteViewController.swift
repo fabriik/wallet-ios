@@ -27,7 +27,7 @@ class RecoveryKeyCompleteViewController: BaseRecoveryKeyViewController {
     private let headingLabel = UILabel()
     private let subheadingLabel = UILabel()
     private var continueButton = BRDButton(title: L10n.RecoveryKeyFlow.goToWalletButtonTitle, type: .primary)
-
+    
     init(fromOnboarding: Bool, proceedToWallet: (() -> Void)?) {
         super.init()
         self.fromNewUserOnboarding = fromOnboarding
@@ -47,7 +47,7 @@ class RecoveryKeyCompleteViewController: BaseRecoveryKeyViewController {
     }
     
     override func onCloseButton() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
     
     override func viewDidLoad() {
