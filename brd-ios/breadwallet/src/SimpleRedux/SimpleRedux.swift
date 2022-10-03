@@ -72,7 +72,7 @@ enum TriggerName {
     case didSyncKVStore
     case createAccount(Currency?, ((Wallet?) -> Void)?)
     case handleGift(URL)
-    case reImportGift(TxViewModel?)
+    case reImportGift((any TxViewModel)?)
     case didSelectBaker(Baker?)
 } //NB : remember to add to triggers to == fuction below
 

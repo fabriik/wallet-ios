@@ -15,16 +15,13 @@ import WidgetKit
 #endif
 
 class ApplicationController: Subscriber {
-    private var application: UIApplication?
-
-    static let initialLaunchCount = 0
-    
     let window = UIWindow()
     var coordinator: BaseCoordinator?
     
     private var modalPresenter: ModalPresenter? {
         didSet {
-            if let nvc = self.rootNavigationController {
+            DispatchQueue.main.async {
+                guard let nvc = self.rootNavigationController else { return }
                 self.coordinator = BaseCoordinator(navigationController: nvc)
                 self.coordinator?.modalPresenter = self.modalPresenter
             }
@@ -40,7 +37,8 @@ class ApplicationController: Subscriber {
               let homeScreen = rootNavController.viewControllers.first as? HomeScreenViewController else { return nil }
         return homeScreen
     }
-        
+    
+    private var application: UIApplication?
     private let coreSystem: CoreSystem!
     private var keyStore: KeyStore!
     private let timeSinceLastExitKey = "TimeSinceLastExit"
@@ -231,7 +229,6 @@ class ApplicationController: Subscriber {
         guard let activityDictionary = options?[.userActivityDictionary] as? [String: Any],
               let activity = activityDictionary["UIApplicationLaunchOptionsUserActivityKey"] as? NSUserActivity,
               let url = activity.webpageURL else { return }
-        
         // Handle gift URL at launch.
         launchURL = url
         shouldDisableBiometrics = true
@@ -315,8 +312,8 @@ class ApplicationController: Subscriber {
     }
 
     private func endBackgroundTask() {
-        UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
-        self.backgroundTaskID = .invalid
+        UIApplication.shared.endBackgroundTask(backgroundTaskID)
+        backgroundTaskID = .invalid
     }
     
     /// Initialize WalletInfo in KV-store. Needed prior to creating the System.

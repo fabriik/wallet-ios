@@ -7,29 +7,42 @@
 //
 
 import UIKit
+import WalletKit
 
 class TransactionsTableViewController: UITableViewController, Subscriber {
-
-    // MARK: - Public
+    // MARK: - Properties and initialization
+    
+    typealias DataSource = UITableViewDiffableDataSource<Section, AnyHashable>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, AnyHashable>
+    
+    enum Section {
+        case transactions
+    }
+    
     init(currency: Currency, wallet: Wallet?, didSelectTransaction: @escaping ([TxListViewModel], Int) -> Void) {
         self.wallet = wallet
         self.currency = currency
         self.didSelectTransaction = didSelectTransaction
         self.showFiatAmounts = Store.state.showFiatAmounts
+        
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     deinit {
         wallet?.unsubscribe(self)
         Store.unsubscribe(self)
     }
-
+    
     let didSelectTransaction: ([TxListViewModel], Int) -> Void
-
+    
     var filters: [TransactionFilter] = [] {
         didSet {
             transactions = filters.reduce(transactions, { $0.filter($1) })
-            tableView.reloadData()
+            updateTransactions()
         }
     }
     
@@ -46,12 +59,19 @@ class TransactionsTableViewController: UITableViewController, Subscriber {
     
     // MARK: - Private
     
-    private let emptyMessage = UILabel.wrapping(font: .customBody(size: 16.0), color: .grayTextTint)
+    private lazy var emptyMessage: UILabel = {
+        let view = UILabel.wrapping(font: .customBody(size: 16.0), color: .grayTextTint)
+        view.textAlignment = .center
+        view.text = L10n.TransactionDetails.emptyMessage
+        return view
+    }()
+    
     private let currency: Currency
-    private let transactionCellIdentifier = "TransactionCellIdentifier"
+    private var remainingExchanges = [SwapDetail]()
+    private var swaps: [SwapDetail] = []
     private var transactions: [Transaction] = []
     private var allTransactions: [TxListViewModel] {
-        // combine transactions and swapDetails into 1 array
+        // Combine transactions and swapDetails into 1 array.
         var items = [TxListViewModel]()
         
         for item in transactions {
@@ -61,221 +81,217 @@ class TransactionsTableViewController: UITableViewController, Subscriber {
             items.append(.init(swap: item))
         }
         return items.sorted(by: { lhs, rhs in
-            let left: Double
-            if let lhs = lhs.swap {
-                left = Double(lhs.timestamp) / 1000
-            } else if let lhs = lhs.tx {
-                left = lhs.timestamp
-            } else {
-                left = 0
-            }
-            let right: Double
-            if let rhs = rhs.swap {
-                right = Double(rhs.timestamp) / 1000
-            } else if let rhs = rhs.tx {
-                right = rhs.timestamp
-            } else {
-                right = 0
-            }
-            return left > right
+            return combineTransactions(tx: lhs) > combineTransactions(tx: rhs)
         })
     }
     
-    private var swaps: [SwapDetail] = []
+    private func combineTransactions(tx: TxListViewModel) -> Double {
+        let result: Double
+        
+        if let tx = tx.swap {
+            result = Double(tx.timestamp) / 1000
+        } else if let tx = tx.tx {
+            result = tx.timestamp
+        } else {
+            result = 0
+        }
+        
+        return result
+    }
     
     private var showFiatAmounts: Bool {
-        didSet { reload() }
+        didSet {
+            updateTransactions()
+        }
     }
+    
     private var rate: Rate? {
-        didSet { reload() }
+        didSet {
+            updateTransactions()
+        }
     }
-
+    
+    private var dataSource: DataSource?
+    private let sections: [Section] = [
+        .transactions
+    ]
+    
     // MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.register(TxListCell.self, forCellReuseIdentifier: transactionCellIdentifier)
-
+        
+        tableView.register(TxListCell.self)
         tableView.separatorStyle = .none
         tableView.estimatedRowHeight = 60.0
         tableView.rowHeight = UITableView.automaticDimension
         tableView.contentInsetAdjustmentBehavior = .never
-
+        tableView.delegate = self
+        
+        setupUI()
+        prepareData()
+    }
+    
+    private func setupUI() {
         let header = SyncingHeaderView(currency: currency)
         header.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 40.0)
         tableView.tableHeaderView = header
-
-        emptyMessage.textAlignment = .center
-        emptyMessage.text = L10n.TransactionDetails.emptyMessage
         
+        tableView.addSubview(emptyMessage)
+        emptyMessage.constrain([
+            emptyMessage.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            emptyMessage.topAnchor.constraint(equalTo: tableView.topAnchor, constant: E.isIPhone5 ? 50.0 : AccountHeaderView.headerViewMinHeight),
+            emptyMessage.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -C.padding[2])
+        ])
+    }
+    
+    private func prepareData() {
+        setupDataSource()
         setupSubscriptions()
-        updateTransactions()
+        
+        loadRemainingExchanges { [weak self] in
+            self?.updateTransactions()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         Store.trigger(name: .didViewTransactions(transactions))
+    }
+    
+    private func setupDataSource() {
+        dataSource?.defaultRowAnimation = .fade
+        dataSource = DataSource(tableView: tableView) { [weak self] _, indexPath, _ in
+            return self?.transactionCell(indexPath)
+        }
+    }
+    
+    private func createSnapshot(for items: [AnyHashable], completion: (() -> Void)? = nil) {
+        var snapshot = Snapshot()
+        snapshot.appendSections([.transactions])
+        snapshot.appendItems(items, toSection: .transactions)
+        
+        dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
+            self?.emptyMessage.isHidden = self?.transactions.isEmpty != true
+            
+            completion?()
+        }
+    }
+    
+    private func loadRemainingExchanges(completion: @escaping (() -> Void)) {
+        ExchangeManager.shared.reload(for: currency.code) { [weak self] exchanges in
+            self?.remainingExchanges = exchanges ?? []
+            
+            completion()
+        }
     }
     
     private func setupSubscriptions() {
         Store.subscribe(self,
                         selector: { $0.showFiatAmounts != $1.showFiatAmounts },
                         callback: { [weak self] state in
-                            self?.showFiatAmounts = state.showFiatAmounts
+            self?.showFiatAmounts = state.showFiatAmounts
         })
+        
         Store.subscribe(self,
                         selector: { [weak self] oldState, newState in
-                            guard let self = self else { return false }
-                            return oldState[self.currency]?.currentRate != newState[self.currency]?.currentRate},
+            guard let self = self else { return false }
+            return oldState[self.currency]?.currentRate != newState[self.currency]?.currentRate},
                         callback: { [weak self] state in
-                            guard let self = self else { return }
-                            self.rate = state[self.currency]?.currentRate
+            guard let self = self else { return }
+            self.rate = state[self.currency]?.currentRate
         })
         
         Store.subscribe(self, name: .txMetaDataUpdated("")) { [weak self] trigger in
-            guard let trigger = trigger else { return }
-            if case .txMetaDataUpdated(let txHash) = trigger {
-                _ = self?.reload(txHash: txHash)
-            }
+            guard let trigger = trigger, case .txMetaDataUpdated = trigger else { return }
+            _ = self?.createSnapshot(for: self?.allTransactions ?? [])
         }
+        
         subscribeToTransactionUpdates()
     }
     
     private func subscribeToTransactionUpdates() {
         wallet?.subscribe(self) { [weak self] event in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch event {
-                case .balanceUpdated, .transferAdded, .transferDeleted:
-                    self.updateTransactions()
-
-                case .transferChanged(let transfer),
-                     .transferSubmitted(let transfer, _):
-                    if let txHash = transfer.hash?.description, self.reload(txHash: txHash) {
-                        break
-                    }
-                    self.updateTransactions()
-                default:
-                    break
-                }
+            switch event {
+            case .balanceUpdated,
+                    .transferAdded,
+                    .transferDeleted,
+                    .transferChanged,
+                    .transferSubmitted:
+                guard let self = self else { return }
+                self.createSnapshot(for: self.allTransactions)
+            
+            default:
+                break
             }
         }
         
         wallet?.subscribeManager(self) { [weak self] event in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                if case .blockUpdated = event {
-                    self.updateTransactions()
-                }
-            }
+            guard case .blockUpdated = event else { return }
+            self?.updateTransactions()
         }
-    }
-
-    // MARK: - 
-
-    private func reload() {
-        assert(Thread.isMainThread)
-        tableView.reloadData()
-        if transactions.isEmpty {
-            if emptyMessage.superview == nil {
-                tableView.addSubview(emptyMessage)
-                emptyMessage.constrain([
-                    emptyMessage.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-                    emptyMessage.topAnchor.constraint(equalTo: tableView.topAnchor, constant: E.isIPhone5 ? 50.0 : AccountHeaderView.headerViewMinHeight),
-                    emptyMessage.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -C.padding[2]) ])
-            }
-        } else {
-            emptyMessage.removeFromSuperview()
-        }
-    }
-
-    private func reload(txHash: String) -> Bool {
-        assert(Thread.isMainThread)
-        
-        guard let index = transactions.firstIndex(where: { txHash == $0.hash }) else { return false }
-        
-        // If transaction count stayed the same perform tableView updates block, else reloadData.
-        guard allTransactions.count == tableView.numberOfRows(inSection: 0) else {
-            tableView.reloadData()
-            return true
-        }
-        
-        tableView.beginUpdates()
-        tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-        tableView.endUpdates()
-        
-        return true
     }
     
     private func updateTransactions() {
-        assert(Thread.isMainThread)
-        
         guard let transfers = wallet?.transfers else { return }
+        
         transactions = transfers.sorted(by: { $0.timestamp > $1.timestamp })
         
-        ExchangeManager.shared.reload(for: currency.code) { [weak self] exchanges in
-            var remaining = exchanges
-            exchanges?.forEach { exchange in
-                let source = exchange.source
-                let destination = exchange.destination
-                let sourceId = source.transactionId
-                let destinationId = destination.transactionId
-                
-                if let element = self?.transactions.first(where: { $0.transfer.hash?.description == sourceId || $0.transfer.hash?.description == destinationId }) {
-                    element.transactionType = exchange.type
-                    element.swapOrderId = exchange.orderId
-                    element.swapTransationStatus = exchange.status
-                    element.swapSource = exchange.source
-                    element.swapDestination = exchange.destination
-                    remaining?.removeAll(where: { $0.orderId == element.swapOrderId })
-                }
+        var remaining = remainingExchanges
+        remainingExchanges.forEach { exchange in
+            let source = exchange.source
+            let destination = exchange.destination
+            let sourceId = source.transactionId
+            let destinationId = destination.transactionId
+            
+            if let element = transactions.first(where: { $0.transfer.hash?.description == sourceId || $0.transfer.hash?.description == destinationId }) {
+                element.transactionType = exchange.type
+                element.swapOrderId = exchange.orderId
+                element.swapTransationStatus = exchange.status
+                element.swapSource = exchange.source
+                element.swapDestination = exchange.destination
+                remaining.removeAll(where: { $0.orderId == element.swapOrderId })
             }
-            self?.swaps = remaining?.filter { $0.status != .failed } ?? []
-            self?.reload()
         }
+        
+        swaps = remaining.filter { $0.status != .failed }
+        
+        createSnapshot(for: allTransactions)
     }
-
-    // MARK: - Table view data source
-
+    
+    // MARK: - TableView data source
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return allTransactions.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return transactionCell(tableView: tableView, indexPath: indexPath)
+        return transactionCell(indexPath)
     }
-
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         didSelectTransaction(allTransactions, indexPath.row)
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - Cell Builders
-
-extension TransactionsTableViewController {
-
-    private func transactionCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: transactionCellIdentifier,
-                                                       for: indexPath) as? TxListCell else { assertionFailure(); return UITableViewCell() }
-        let viewModel = allTransactions[indexPath.row]
+    
+    private func transactionCell(_ indexPath: IndexPath) -> UITableViewCell {
+        guard let cell: TxListCell = tableView.dequeueReusableCell(for: indexPath),
+              let viewModel = dataSource?.itemIdentifier(for: indexPath) as? TxListViewModel else { return UITableViewCell() }
+        
         cell.setTransaction(viewModel,
                             currency: currency,
                             showFiatAmounts: showFiatAmounts,
-                            rate: rate ?? Rate.empty,
-                            isSyncing: currency.state?.syncState != .success)
+                            rate: rate ?? Rate.empty)
         
         return cell
     }
 }
+
+// MARK: - ScrollView delegate
 
 extension TransactionsTableViewController {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -283,9 +299,9 @@ extension TransactionsTableViewController {
     }
     
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate {
-            didStopScrolling?()
-        }
+        guard !decelerate else { return }
+        
+        didStopScrolling?()
     }
     
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
