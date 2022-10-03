@@ -8,7 +8,7 @@ workflows:
 jobs:
   build-one-ios:
     macos:
-      xcode: 13.3 # Specify the Xcode version to use
+      xcode: 14.0.1 # Specify the Xcode version to use
 
     steps:
       - checkout
