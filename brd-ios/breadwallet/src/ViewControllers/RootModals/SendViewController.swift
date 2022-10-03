@@ -755,6 +755,6 @@ extension SendViewController: ModalDisplayable {
     }
 
     var modalTitle: String {
-        return "\(L10n.Send.title) \(currency.code)"
+        return "\(L10n.Send.title) \(currency.name)"
     }
 }
