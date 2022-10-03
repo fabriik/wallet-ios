@@ -96,18 +96,10 @@ jobs:
             cp breadwallet.xcodeproj/project.pbxproj.rnm breadwallet.xcodeproj/project.pbxproj
 
       - run:
-          name: Help and Project List
-          command: |
-            cd brd-ios
-            xcodebuild --help
-            xcodebuild -project breadwallet.xcodeproj -list
-
-      - run:
           name: Build Clean
           command: |
             cd brd-ios
             xcodebuild clean -workspace breadwallet.xcworkspace -scheme wallet | xcpretty
-
 
       - run:
           name: Create .env

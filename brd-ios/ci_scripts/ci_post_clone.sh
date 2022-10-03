@@ -11,12 +11,11 @@
 set -e
 
 # Install SwiftLint to run lint checks
-brew install SwiftLint
+# brew install SwiftLint
 
 # Create the .env file
-cd /Volumes/workspace/repository/brd-ios
 
-BRD_ENV=.env
+BRD_ENV=../.env
 touch $BRD_ENV
 
 # The environment variables go here
@@ -40,4 +39,4 @@ echo "" >> $BRD_ENV
 cat << $BRD_ENV
 
 # Setting the marketing build
-agvtool new-marketing-version $MARKETING_VERSION
+# agvtool new-marketing-version $MARKETING_VERSION
