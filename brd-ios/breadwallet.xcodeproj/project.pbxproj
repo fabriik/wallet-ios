@@ -4473,6 +4473,7 @@
 		};
 		7E154C7D28E6EF590062A4C3 /* Cosmos */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
