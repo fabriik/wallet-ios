@@ -112,7 +112,7 @@ jobs:
       - run:
           name: Create .env
           command: |
-            cd brd-ios/ci-scripts
+            cd brd-ios/ci_scripts
             ./ci_post_clone.sh
 
       - run:
