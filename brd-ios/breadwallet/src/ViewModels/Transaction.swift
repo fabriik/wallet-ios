@@ -27,11 +27,11 @@ enum TransactionStatus: String, ModelResponse {
     case manuallySettled = "MANUALLY_SETTLED"
     
     init?(string: String?) {
-        guard let rawValue = string else {
+        guard let string = string else {
             self = .failed
             return
         }
-        self.init(rawValue: rawValue)
+        self.init(rawValue: string)
     }
 }
 

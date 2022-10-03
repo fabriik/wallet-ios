@@ -202,14 +202,6 @@ extension TxViewModel {
             return tx?.transactionType == .buyTransaction ? .receivePending : .swapPending
         }
         
-        if status == .failed {
-            return tx?.transactionType == .buyTransaction ? .receiveFailed : .swapFailed
-        }
-        
-        if status == .refunded {
-            return .refunded
-        }
-        
         return tx?.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
     }
     

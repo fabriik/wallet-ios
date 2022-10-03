@@ -75,14 +75,10 @@ class TxListCell: UITableViewCell {
     
     private func handleBuyTransactions() {
         switch viewModel.status {
-        case .invalid:
+        case .invalid, .failed, .refunded:
             timestamp.text = L10n.Transaction.purchaseFailed
             timestamp.isHidden = false
-            
-        case .refunded:
-            timestamp.text = L10n.Transaction.refunded
-            timestamp.isHidden = false
-            
+    
         case .complete, .manuallySettled, .confirmed:
             timestamp.text = L10n.Transaction.purchased
             timestamp.isHidden = false
@@ -108,12 +104,9 @@ class TxListCell: UITableViewCell {
             timestamp.text = "\(L10n.Transaction.pendingSwap) \(swapString)"
             timestamp.isHidden = false
             
-        case .failed:
+        case .failed, .refunded:
+
             timestamp.text = "\(L10n.Transaction.failedSwap) \(swapString)"
-            timestamp.isHidden = false
-        
-        case .refunded:
-            timestamp.text = L10n.Transaction.refunded
             timestamp.isHidden = false
             
         default:
