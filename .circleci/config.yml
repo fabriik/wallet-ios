@@ -142,12 +142,6 @@ jobs:
             fi
 
       - run:
-          name: Build Cosmos Project
-          command: |
-            cd brd-ios/scripts
-            ./cosmos_apple_silicon.sh
-
-      - run:
           name: Set Versions
           command: |
             mainBundleShortVersionString=4.11.0
