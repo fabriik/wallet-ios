@@ -8,7 +8,7 @@ workflows:
 jobs:
   build-one-ios:
     macos:
-      xcode: 13.3 # Specify the Xcode version to use
+      xcode: 14.0.1 # Specify the Xcode version to use
 
     steps:
       - checkout
@@ -140,12 +140,6 @@ jobs:
                 mkdir -pv brd-ios/build
                 cp .circleci/config/exportOptions.plist brd-ios/build/exportOptions.plist
             fi
-
-      - run:
-          name: Build Cosmos Project
-          command: |
-            cd brd-ios/scripts
-            ./cosmos_apple_silicon.sh
 
       - run:
           name: Set Versions
