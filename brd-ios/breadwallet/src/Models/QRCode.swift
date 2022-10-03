@@ -12,7 +12,7 @@ import WalletKit
 enum QRCode: Equatable {
     case paymentRequest(PaymentRequest?)
     case privateKey(String)
-    case gift(String, TxViewModel?)
+    case gift(String, (any TxViewModel)?)
     case deepLink(URL)
     case invalid
     
@@ -31,7 +31,7 @@ enum QRCode: Equatable {
     }
     
     //TxViewModel is needed for marking as reclaimed
-    init?(url: URL, viewModel: TxViewModel?) {
+    init?(url: URL, viewModel: (any TxViewModel)?) {
         guard let key = QRCode.extractPrivKeyFromGift(url: url) else { return nil }
         self = .gift(key, viewModel)
     }

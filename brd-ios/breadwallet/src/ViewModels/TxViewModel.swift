@@ -11,7 +11,7 @@ import WalletKit
 import UIKit
 
 /// Representation of a transaction
-protocol TxViewModel {
+protocol TxViewModel: Hashable {
     var tx: Transaction? { get }
     var swap: SwapDetail? { get }
     var currency: Currency? { get }
