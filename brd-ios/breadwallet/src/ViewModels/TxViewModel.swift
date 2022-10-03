@@ -174,7 +174,7 @@ extension TxViewModel {
         switch tx.transactionType {
         case .defaultTransaction, .buyTransaction:
             if tx.confirmations < currency.confirmationsUntilFinal, tx.transactionType != .buyTransaction {
-                return .receivePending
+                return tx.direction == .received ? .receivePending : .sendPending
             } else if tx.transactionType == .buyTransaction {
                 return exchangeStatusIconDecider(status: tx.status)
             } else if tx.status == .invalid {
