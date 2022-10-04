@@ -564,6 +564,12 @@
 /* Card number label in add card flow */
 "Buy.CardNumber" = "Card number";
 
+/* Card removal failed error message on delete card flow */
+"Buy.CardRemovalFailed" = "Card removal failed. Please try again.";
+
+/* Card removed message on delete card flow */
+"Buy.CardRemoved" = "Card removed";
+
 /* City label in billing address view on buy flow */
 "Buy.City" = "City";
 
@@ -611,6 +617,15 @@
 
 /* Your assets are on the way message in purchase details screen */
 "Buy.PurchaseSuccessTitle" = "Your assets are on the way!";
+
+/* Are you sure you want to remove this card title dialog */
+"Buy.RemoveCard" = "Are you sure you want to remove this card?";
+
+/* You will no longer be able to use it to buy assets description on removing card dialog  */
+"Buy.RemoveCardOption" = "You will no longer be able to use it to buy assets.";
+
+/* Remove payment method action sheet option on profile screen */
+"Buy.RemovePaymentMethod" = "Remove payment method";
 
 /* Security code (CVV) label in add card flow */
 "Buy.SecurityCode" = "Security code (CVV)";
@@ -830,7 +845,7 @@
 "ErrorMessages.authorizationFailed" = "Card authorization failed. Please contact your credit card issuer/bank or try another card.";
 
 /* Accepts 3 parameters:, - currency code, - current balance, - (same) currency code */
-"ErrorMessages.balanceTooLow" = "You don't have enough %s to complete this swap. Your current %s balance is %s.";
+"ErrorMessages.balanceTooLow" = "You need %s %s  in your wallet to cover network fees. Please add more %s to your wallet. ";
 
 /* Check your internet connection message */
 "ErrorMessages.CheckInternet" = "Please, check your internet connection and try again later.";
@@ -870,7 +885,7 @@
 /* Accepts 2 parameters:, - first currency code, - second currency code */
 "ErrorMessages.noQuoteForPair" = "No quote for currency pair %s-%s.";
 
-"ErrorMessages.notEnoughEthForFee" = "Please make sure you have enough ETH to cover for the network fees while swapping within Ethereum-based assets.";
+"ErrorMessages.notEnoughEthForFee" = "%s is an ERC-20 token on the Ethereum blockchain and requires ETH network fees. Please add ETH to your wallet.";
 
 "ErrorMessages.overDailyLimit" = "The amount is higher than your daily limit of %s USD. Please upgrade your account or enter a lower amount.";
 
