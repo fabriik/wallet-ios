@@ -58,14 +58,14 @@
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
       <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
+        runnableDebuggingMode = "0">
+        <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "75A2A78F1DA5934300A983D8"
             BuildableName = "breadwallet.app"
             BlueprintName = "breadwallet"
             ReferencedContainer = "container:breadwallet.xcodeproj">
-         </BuildableReference>
+        </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
