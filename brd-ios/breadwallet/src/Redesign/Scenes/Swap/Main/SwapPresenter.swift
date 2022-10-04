@@ -164,7 +164,6 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             let dailyLimit = profile?.swapDailyRemainingLimit ?? 0
             let lifetimeLimit = profile?.swapLifetimeRemainingLimit ?? 0
             let exchangeLimit = profile?.swapAllowancePerExchange    ?? 0
-            let balance = actionResponse.baseBalance?.tokenValue ?? 0
             
             switch (fiatValue, tokenValue) {
             case _ where fiatValue <= 0:
@@ -174,7 +173,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 
             case _ where fiatValue > (actionResponse.baseBalance?.fiatValue ?? 0):
                 // Value higher than balance
-                let error = SwapErrors.balanceTooLow(balance: balance, currency: actionResponse.from?.currency.code ?? "")
+                let error = SwapErrors.balanceTooLow(balance: fromFee?.tokenValue ?? 0, currency: actionResponse.from?.currency.code ?? "")
                 presentError(actionResponse: .init(error: error))
                 hasError = true
                 
