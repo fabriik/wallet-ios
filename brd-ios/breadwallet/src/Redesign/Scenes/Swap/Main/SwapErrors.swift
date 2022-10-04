@@ -16,12 +16,12 @@ enum SwapErrors: FEError {
     case tooLow(amount: Decimal, currency: String)
     /// Param 1: amount, param 2 currency symbol
     case tooHigh(amount: Decimal, currency: String)
-    /// Param 1&2 -> currency, param 3 balance
+    /// Param 1: amount, param 2 currency symbol
     case balanceTooLow(balance: Decimal, currency: String)
     case overDailyLimit(limit: Decimal)
     case overLifetimeLimit(limit: Decimal)
     case overDailyLimitLevel2(limit: Decimal)
-    case notEnouthEthForFee
+    case notEnouthEthForFee(currency: String)
     // Unoficial errors
     case quoteFail
     case noFees
@@ -34,8 +34,8 @@ enum SwapErrors: FEError {
     
     var errorMessage: String {
         switch self {
-        case .balanceTooLow(let balance, let currency):
-            return L10n.ErrorMessages.balanceTooLow(currency, currency, ExchangeFormatter.crypto.string(for: balance) ?? "")
+        case .balanceTooLow(let amount, let currency):
+            return L10n.ErrorMessages.balanceTooLow(ExchangeFormatter.crypto.string(for: amount) ?? "", currency, currency)
             
         case .tooLow(let amount, let currency):
             return L10n.ErrorMessages.amountTooLow(ExchangeFormatter.crypto.string(for: amount.doubleValue) ?? "", currency)
@@ -72,8 +72,8 @@ enum SwapErrors: FEError {
         case  .pinConfirmation:
             return L10n.ErrorMessages.pinConfirmationFailed
             
-        case .notEnouthEthForFee:
-            return L10n.ErrorMessages.notEnoughEthForFee
+        case .notEnouthEthForFee(let currency):
+            return L10n.ErrorMessages.notEnoughEthForFee(currency)
             
         case .failed(let error):
             return L10n.ErrorMessages.exchangeFailed(error?.localizedDescription ?? "")

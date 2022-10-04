@@ -507,6 +507,10 @@ internal enum L10n {
     internal static let cardFee = L10n.tr("Localizable", "Buy.CardFee")
     /// Card number
     internal static let cardNumber = L10n.tr("Localizable", "Buy.CardNumber")
+    /// Card removal failed. Please try again.
+    internal static let cardRemovalFailed = L10n.tr("Localizable", "Buy.CardRemovalFailed")
+    /// Card removed
+    internal static let cardRemoved = L10n.tr("Localizable", "Buy.CardRemoved")
     /// City
     internal static let city = L10n.tr("Localizable", "Buy.City")
     /// Please confirm your CVV
@@ -539,6 +543,12 @@ internal enum L10n {
     internal static let purchaseSuccessText = L10n.tr("Localizable", "Buy.PurchaseSuccessText")
     /// Your assets are on the way!
     internal static let purchaseSuccessTitle = L10n.tr("Localizable", "Buy.PurchaseSuccessTitle")
+    /// Are you sure you want to remove this card?
+    internal static let removeCard = L10n.tr("Localizable", "Buy.RemoveCard")
+    /// You will no longer be able to use it to buy assets.
+    internal static let removeCardOption = L10n.tr("Localizable", "Buy.RemoveCardOption")
+    /// Remove payment method
+    internal static let removePaymentMethod = L10n.tr("Localizable", "Buy.RemovePaymentMethod")
     /// Security code (CVV)
     internal static let securityCode = L10n.tr("Localizable", "Buy.SecurityCode")
     /// Please enter the 3 digit CVV number as it appears on the back of your card
@@ -774,7 +784,7 @@ internal enum L10n {
     }
     /// Card authorization failed. Please contact your credit card issuer/bank or try another card.
     internal static let authorizationFailed = L10n.tr("Localizable", "ErrorMessages.authorizationFailed")
-    /// You don't have enough %s to complete this swap. Your current %s balance is %s.
+    /// You need %s %s  in your wallet to cover network fees. Please add more %s to your wallet. 
     internal static func balanceTooLow(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>, _ p3: UnsafePointer<CChar>) -> String {
       return L10n.tr("Localizable", "ErrorMessages.balanceTooLow", p1, p2, p3)
     }
@@ -808,8 +818,10 @@ internal enum L10n {
     internal static func noQuoteForPair(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>) -> String {
       return L10n.tr("Localizable", "ErrorMessages.noQuoteForPair", p1, p2)
     }
-    /// Please make sure you have enough ETH to cover for the network fees while swapping within Ethereum-based assets.
-    internal static let notEnoughEthForFee = L10n.tr("Localizable", "ErrorMessages.notEnoughEthForFee")
+    /// %s is an ERC-20 token on the Ethereum blockchain and requires ETH network fees. Please add ETH to your wallet.
+    internal static func notEnoughEthForFee(_ p1: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "ErrorMessages.notEnoughEthForFee", p1)
+    }
     /// The amount is higher than your daily limit of %s USD. Please upgrade your account or enter a lower amount.
     internal static func overDailyLimit(_ p1: UnsafePointer<CChar>) -> String {
       return L10n.tr("Localizable", "ErrorMessages.overDailyLimit", p1)
