@@ -130,6 +130,22 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
     }
     
+    func presentRemovePaymentPopup(actionResponse: BuyModels.RemovePaymenetPopup.ActionResponse) {
+        let popupViewModel = PopupViewModel(title: .text(L10n.Buy.removeCard),
+                                            body: L10n.Buy.removeCardOption,
+                                            buttons: [.init(title: L10n.Staking.remove),
+                                                      .init(title: L10n.Button.cancel)],
+                                            closeButton: .init(image: "close"))
+        
+        viewController?.displayRemovePaymentPopup(responseDisplay: .init(popupViewModel: popupViewModel,
+                                                                    popupConfig: Presets.Popup.whiteDimmed))
+    }
+    
+    func presentRemovePaymentMessage(actionResponse: BuyModels.RemovePaymenetMessage.ActionResponse) {
+        viewController?.displayMessage(responseDisplay: .init(model: .init(description: .text(L10n.Buy.cardRemoved)),
+                                                              config: Presets.InfoView.verification))
+    }
+    
     // MARK: - Additional Helpers
 
 }

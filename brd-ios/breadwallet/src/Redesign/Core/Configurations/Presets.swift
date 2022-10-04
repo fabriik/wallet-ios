@@ -303,8 +303,8 @@ extension Presets {
         static var whiteDimmed = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
                                                                       tintColor: LightColors.Contrast.two,
                                                                       border: Presets.Border.zero),
-                                                    title: .init(font: Fonts.Title.five, textColor: LightColors.Icons.one),
-                                                    body: .init(font: Fonts.Title.five, textColor: LightColors.Text.one, textAlignment: .center),
+                                                    title: .init(font: Fonts.Title.five, textColor: LightColors.Text.one),
+                                                    body: .init(font: Fonts.Body.one, textColor: LightColors.Text.one, textAlignment: .center),
                                                     
                                                     buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
                                                                                                  selected: Presets.Border.selected,

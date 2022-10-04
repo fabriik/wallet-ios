@@ -149,7 +149,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             }
             
             view.moreButtonCallback = { [weak self] in
-                self?.showActionSheet()
+                self?.showActionSheetRemovePayment()
             }
             
             view.setupCustomMargins(top: .zero, leading: .zero, bottom: .medium, trailing: .zero)
@@ -253,15 +253,32 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                  configuration: responseDisplay.config)
     }
     
+    func displayRemovePaymentPopup(responseDisplay: BuyModels.RemovePaymenetPopup.ResponseDisplay) {
+        guard let navigationController = coordinator?.navigationController else { return }
+        
+        coordinator?.showPopup(on: navigationController,
+                               blurred: false,
+                               with: responseDisplay.popupViewModel,
+                               config: responseDisplay.popupConfig,
+                               closeButtonCallback: { [weak self] in
+            self?.interactor?.removePaymenetMessage(viewAction: .init())
+        }, callbacks: [ { [weak self] in
+            // self?.interactor?.removePayment(viewAction: .init())
+            self?.interactor?.removePaymenetMessage(viewAction: .init())
+        } ])
+    }
+    
     // MARK: - Additional Helpers
-    func showActionSheet() {
+    func showActionSheetRemovePayment() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let saveAction = UIAlertAction(title: "Choose Option", style: .default)
+        let removePaymentAction = UIAlertAction(title: L10n.Buy.removePaymentMethod, style: .destructive, handler: { [weak self] _ in
+            self?.interactor?.removePaymenetPopup(viewAction: .init())
+        })
         
         let cancelAction = UIAlertAction(title: L10n.Button.cancel, style: .cancel)
         
-        optionMenu.addAction(saveAction)
+        optionMenu.addAction(removePaymentAction)
         optionMenu.addAction(cancelAction)
         
         self.present(optionMenu, animated: true, completion: nil)

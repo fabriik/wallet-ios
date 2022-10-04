@@ -141,6 +141,14 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         presenter?.presentOrderPreview(actionResponse: .init())
     }
     
+    func removePaymenetPopup(viewAction: BuyModels.RemovePaymenetPopup.ViewAction) {
+        presenter?.presentRemovePaymentPopup(actionResponse: .init())
+    }
+    
+    func removePaymenetMessage(viewAction: BuyModels.RemovePaymenetMessage.ViewAction) {
+        presenter?.presentRemovePaymentMessage(actionResponse: .init())
+    }
+    
     // MARK: - Aditional helpers
     
     private func fetchCards(completion: ((Result<[PaymentCard]?, Error>) -> Void)?) {
