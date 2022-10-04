@@ -147,10 +147,10 @@ class TransactionsTableViewController: UITableViewController, Subscriber {
     
     private func prepareData() {
         setupDataSource()
-        setupSubscriptions()
+        createSnapshot(for: allTransactions)
         
         loadRemainingExchanges { [weak self] in
-            self?.updateTransactions()
+            self?.setupSubscriptions()
         }
     }
     
@@ -173,7 +173,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber {
         snapshot.appendItems(items, toSection: .transactions)
         
         dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
-            self?.emptyMessage.isHidden = self?.transactions.isEmpty != true
+            self?.emptyMessage.isHidden = self?.allTransactions.isEmpty != true
             
             completion?()
         }
@@ -251,6 +251,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber {
                 element.swapTransationStatus = exchange.status
                 element.swapSource = exchange.source
                 element.swapDestination = exchange.destination
+                
                 remaining.removeAll(where: { $0.orderId == element.swapOrderId })
             }
         }
