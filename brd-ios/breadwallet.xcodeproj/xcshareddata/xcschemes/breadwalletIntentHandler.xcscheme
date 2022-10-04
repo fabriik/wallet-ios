@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1240"
+   LastUpgradeVersion = "1400"
    wasCreatedForAppExtension = "YES"
    version = "2.0">
    <BuildAction
@@ -58,14 +58,14 @@
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
       <BuildableProductRunnable
-        runnableDebuggingMode = "0">
-        <BuildableReference
+         runnableDebuggingMode = "0">
+         <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "75A2A78F1DA5934300A983D8"
             BuildableName = "breadwallet.app"
             BlueprintName = "breadwallet"
             ReferencedContainer = "container:breadwallet.xcodeproj">
-        </BuildableReference>
+         </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction

@@ -192,12 +192,15 @@ extension TxDetailDataSource: UITableViewDataSource {
         case .total:
             guard let labelCell = cell as? TxLabelCell else { return cell }
             labelCell.value = viewModel.total ?? ""
+            
         case .confirmations:
             guard let labelCell = cell as? TxLabelCell else { return cell }
             labelCell.value = viewModel.confirmations
+            
         case .extraAttribute:
             guard let labelCell = cell as? TxLabelCell else { return cell }
             labelCell.value = viewModel.extraAttribute ?? ""
+            
         case .gift:
             guard let giftCell = cell as? TxGiftCell else { return cell }
             guard let gift = viewModel.gift else { return cell }

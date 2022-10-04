@@ -463,9 +463,11 @@ class KYCCameraViewController: UIViewController, ViewProtocol {
                                                object: session)
     }
     
-    private func removeObservers() {
+    deinit {
         NotificationCenter.default.removeObserver(self)
-        
+    }
+    
+    private func removeObservers() {
         for keyValueObservation in keyValueObservations {
             keyValueObservation.invalidate()
         }
