@@ -46,4 +46,16 @@ enum ProfileModels {
             var model: PopupViewModel
         }
     }
+    
+    struct PaymentCards {
+        struct ViewAction {}
+        
+        struct ActionResponse {
+            var allPaymentCards: [PaymentCard]
+        }
+        
+        struct ResponseDisplay {
+            var allPaymentCards: [PaymentCard]
+        }
+    }
 }

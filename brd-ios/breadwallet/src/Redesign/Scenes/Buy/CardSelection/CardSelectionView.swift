@@ -33,6 +33,7 @@ struct CardSelectionViewModel: ViewModel {
 class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewModel> {
     
     var moreButtonCallback: (() -> Void)?
+    var didTapSelectCard: (() -> Void)?
     
     private lazy var containerStack: UIStackView = {
         let view = UIStackView()
@@ -71,8 +72,6 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         let view = FEImageView()
         return view
     }()
-    
-    var didTapSelectCard: (() -> Void)?
     
     override func layoutSubviews() {
         super.layoutSubviews()

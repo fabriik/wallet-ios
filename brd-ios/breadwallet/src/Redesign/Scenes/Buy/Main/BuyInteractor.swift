@@ -137,16 +137,33 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         getExchangeRate(viewAction: .init())
     }
     
+    func removePayment(viewAction: BuyModels.RemovePayment.ViewAction) {
+        PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
+            switch result {
+            case .success(let data):
+                DeleteCardWorker().execute(requestData: DeleteCardRequestData(instrumentId: data?[0].id)) { [weak self] result in
+                        switch result {
+                        case .success(let data):
+                            print(data)
+                            self?.presenter?.presentRemovePaymentMessage(actionResponse: .init())
+                            
+                        case .failure(let error):
+                            self?.presenter?.presentError(actionResponse: .init(error: error))
+                        }
+                    }
+            
+            case .failure(let error):
+                self?.presenter?.presentError(actionResponse: .init(error: error))
+            }
+        }
+    }
+    
     func showOrderPreview(viewAction: BuyModels.OrderPreview.ViewAction) {
         presenter?.presentOrderPreview(actionResponse: .init())
     }
     
-    func removePaymenetPopup(viewAction: BuyModels.RemovePaymenetPopup.ViewAction) {
+    func removePaymenetPopup(viewAction: BuyModels.RemovePaymentPopup.ViewAction) {
         presenter?.presentRemovePaymentPopup(actionResponse: .init())
-    }
-    
-    func removePaymenetMessage(viewAction: BuyModels.RemovePaymenetMessage.ViewAction) {
-        presenter?.presentRemovePaymentMessage(actionResponse: .init())
     }
     
     // MARK: - Aditional helpers

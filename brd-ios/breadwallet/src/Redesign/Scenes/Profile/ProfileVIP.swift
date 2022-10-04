@@ -15,16 +15,19 @@ extension Scenes {
 protocol ProfileViewActions: BaseViewActions, FetchViewActions {
     func showVerificationInfo(viewAction: ProfileModels.VerificationInfo.ViewAction)
     func navigate(viewAction: ProfileModels.Navigate.ViewAction)
+    func getPaymentCards(viewAction: ProfileModels.PaymentCards.ViewAction)
 }
 
 protocol ProfileActionResponses: BaseActionResponses, FetchActionResponses {
     func presentVerificationInfo(actionResponse: ProfileModels.VerificationInfo.ActionResponse)
     func presentNavigation(actionResponse: ProfileModels.Navigate.ActionResponse)
+    func presentPaymentCards(actionResponse: ProfileModels.PaymentCards.ActionResponse)
 }
 
 protocol ProfileResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displayVerificationInfo(responseDisplay: ProfileModels.VerificationInfo.ResponseDisplay)
     func displayNavigation(responseDisplay: ProfileModels.Navigate.ResponseDisplay)
+    func displayPaymentCards(responseDisplay: ProfileModels.PaymentCards.ResponseDisplay)
 }
 
 protocol ProfileDataStore: BaseDataStore, FetchDataStore {

@@ -140,6 +140,19 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     // MARK: - User Interaction
 
     // MARK: - ItemSelectionResponseDisplay
+    func displayRemovePaymentPopup(responseDisplay: ItemSelectionModels.RemovePaymenetPopup.ResponseDisplay) {
+        guard let navigationController = coordinator?.navigationController else { return }
+        
+        coordinator?.showPopup(on: navigationController,
+                               blurred: false,
+                               with: responseDisplay.popupViewModel,
+                               config: responseDisplay.popupConfig,
+                               closeButtonCallback: { [weak self] in
+           // self?.interactor?.removePaymenetMessage(viewAction: .init())
+        }, callbacks: [ { [weak self] in
+            // self?.interactor?.removePayment(viewAction: .init())
+        } ])
+    }
 
     // MARK: - Additional Helpers
 }

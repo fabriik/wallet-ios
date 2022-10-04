@@ -253,7 +253,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                  configuration: responseDisplay.config)
     }
     
-    func displayRemovePaymentPopup(responseDisplay: BuyModels.RemovePaymenetPopup.ResponseDisplay) {
+    func displayRemovePaymentPopup(responseDisplay: BuyModels.RemovePaymentPopup.ResponseDisplay) {
         guard let navigationController = coordinator?.navigationController else { return }
         
         coordinator?.showPopup(on: navigationController,
@@ -261,10 +261,9 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                with: responseDisplay.popupViewModel,
                                config: responseDisplay.popupConfig,
                                closeButtonCallback: { [weak self] in
-            self?.interactor?.removePaymenetMessage(viewAction: .init())
+            self?.coordinator?.goBack(completion: {})
         }, callbacks: [ { [weak self] in
-            // self?.interactor?.removePayment(viewAction: .init())
-            self?.interactor?.removePaymenetMessage(viewAction: .init())
+            self?.interactor?.removePayment(viewAction: .init())
         } ])
     }
     

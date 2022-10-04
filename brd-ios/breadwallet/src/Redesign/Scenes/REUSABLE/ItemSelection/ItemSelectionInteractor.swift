@@ -32,5 +32,10 @@ class ItemSelectionInteractor: NSObject, Interactor, ItemSelectionViewActions {
         let item = Models.Item(items: searchData, isAddingEnabled: dataStore?.isAddingEnabled)
         presenter?.presentData(actionResponse: .init(item: item))
     }
+    
+    func removePaymenetPopup(viewAction: ItemSelectionModels.RemovePaymenetPopup.ViewAction) {
+        presenter?.presentRemovePaymentPopup(actionResponse: .init())
+    }
+    
     // MARK: - Aditional helpers
 }

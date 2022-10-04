@@ -120,10 +120,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
     func displayNavigation(responseDisplay: ProfileModels.Navigate.ResponseDisplay) {
         switch responseDisplay.item {
         case .paymentMethods:
-            // remove this and show payments methods
-            coordinator?.showCardSelector(cards: [.init(id: "sssss", fingerprint: "dddd", expiryMonth: 1, expiryYear: 2, scheme: .visa, last4: "0004")],
-                                          selected: nil,
-                                          fromBuy: false)
+            interactor?.getPaymentCards(viewAction: .init())
             
         case .preferences:
             coordinator?.showPreferences()
@@ -131,6 +128,12 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
         case .security:
             coordinator?.showSecuirtySettings()
         }
+    }
+    
+    func displayPaymentCards(responseDisplay: ProfileModels.PaymentCards.ResponseDisplay) {
+        coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards,
+                                      selected: nil,
+                                      fromBuy: false)
     }
     
     // MARK: - Additional Helpers

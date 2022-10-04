@@ -77,6 +77,10 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
     
+    func presentPaymentCards(actionResponse: ProfileModels.PaymentCards.ActionResponse) {
+        viewController?.displayPaymentCards(responseDisplay: .init(allPaymentCards: actionResponse.allPaymentCards))
+    }
+    
     func presentVerificationInfo(actionResponse: ProfileModels.VerificationInfo.ActionResponse) {
         let text = L10n.Account.verifyAccountText
         let model = PopupViewModel(title: .text(L10n.Account.whyVerify),
