@@ -48,11 +48,13 @@ class LoginViewController: UIViewController, Subscriber {
         instruction.text = L10n.UpdatePin.enterPin
     }
 
-    deinit {
-        Store.unsubscribe(self)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         notificationObservers.values.forEach { observer in
             NotificationCenter.default.removeObserver(observer)
         }
+        Store.unsubscribe(self)
     }
 
     // MARK: - Private
