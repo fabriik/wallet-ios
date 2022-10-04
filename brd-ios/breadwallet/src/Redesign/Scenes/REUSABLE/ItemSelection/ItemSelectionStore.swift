@@ -15,6 +15,7 @@ class ItemSelectionStore: NSObject, BaseDataStore, ItemSelectionDataStore {
     
     /// Enable adding entries
     var isAddingEnabled: Bool? = false
+    var isSelectingEnabled: Bool? = true
     
     // MARK: - Aditional helpers
 }

@@ -116,12 +116,13 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         }
     }
     
-    func showCardSelector(cards: [PaymentCard], selected: ((PaymentCard?) -> Void)?) {
+    func showCardSelector(cards: [PaymentCard], selected: ((PaymentCard?) -> Void)?, fromBuy: Bool = true) {
         if cards.isEmpty == true {
             open(scene: Scenes.AddCard)
         } else {
             open(scene: Scenes.CardSelection) { [weak self] vc in
                 vc.dataStore?.isAddingEnabled = true
+                vc.dataStore?.isSelectingEnabled = fromBuy
                 vc.dataStore?.items = cards
                 let backButtonVisible = self?.navigationController.children.last is BillingAddressViewController
                 vc.navigationItem.hidesBackButton = backButtonVisible

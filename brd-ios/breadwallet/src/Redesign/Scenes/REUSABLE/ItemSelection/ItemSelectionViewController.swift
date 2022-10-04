@@ -114,7 +114,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
             return
         }
         
-        guard let model = sectionRows[section]?[indexPath.row] else { return }
+        guard let model = sectionRows[section]?[indexPath.row], dataStore?.isSelectingEnabled == true else { return }
         
         itemSelected?(model)
         
