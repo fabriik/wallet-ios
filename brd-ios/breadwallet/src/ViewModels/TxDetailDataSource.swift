@@ -133,7 +133,7 @@ extension TxDetailDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fields.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let field = fields[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: field.rawValue,
@@ -156,14 +156,42 @@ extension TxDetailDataSource: UITableViewDataSource {
             guard let memoCell = cell as? TxMemoCell else { return cell }
             memoCell.set(viewModel: viewModel, tableView: tableView)
             
+        case .address:
+            guard let addressCell = cell as? TxAddressCell else { return cell }
+            addressCell.set(address: viewModel.displayAddress)
+            
+        case .transactionId:
+            guard let addressCell = cell as? TxAddressCell else { return cell }
+            addressCell.set(address: viewModel.transactionHash)
+            
+        case .confirmations:
+            guard let labelCell = cell as? TxLabelCell else { return cell }
+            labelCell.value = viewModel.confirmations
+            
+        case .gift:
+            guard let giftCell = cell as? TxGiftCell else { return cell }
+            guard let gift = viewModel.gift else { return cell }
+            giftCell.set(gift: gift, viewModel: viewModel)
+            
+        default:
+            return self.tableView(tableView, labelCellForRowAt: indexPath, for: field)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, labelCellForRowAt indexPath: IndexPath, for field: Field) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: field.rawValue, for: indexPath)
+        
+        if let rowCell = cell as? TxDetailRowCell {
+            rowCell.title = title(forField: field)
+        }
+
+        switch field {
         case .timestamp:
             guard let labelCell = cell as? TxLabelCell else { return cell }
             labelCell.titleLabel.attributedText = viewModel.timestampHeader
             labelCell.value = viewModel.longTimestamp
-            
-        case .address:
-            guard let addressCell = cell as? TxAddressCell else { return cell }
-            addressCell.set(address: viewModel.displayAddress)
             
         case .exchangeRate:
             guard let labelCell = cell as? TxLabelCell else { return cell }
@@ -172,10 +200,6 @@ extension TxDetailDataSource: UITableViewDataSource {
         case .blockHeight:
             guard let labelCell = cell as? TxLabelCell else { return cell }
             labelCell.value = viewModel.blockHeight
-            
-        case .transactionId:
-            guard let addressCell = cell as? TxAddressCell else { return cell }
-            addressCell.set(address: viewModel.transactionHash)
             
         case .gasPrice:
             guard let labelCell = cell as? TxLabelCell else { return cell }
@@ -201,14 +225,10 @@ extension TxDetailDataSource: UITableViewDataSource {
             guard let labelCell = cell as? TxLabelCell else { return cell }
             labelCell.value = viewModel.extraAttribute ?? ""
             
-        case .gift:
-            guard let giftCell = cell as? TxGiftCell else { return cell }
-            guard let gift = viewModel.gift else { return cell }
-            giftCell.set(gift: gift, viewModel: viewModel)
+        default:
+            return UITableViewCell()
         }
         
         return cell
-
     }
-    
 }
