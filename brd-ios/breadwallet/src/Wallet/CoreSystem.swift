@@ -9,7 +9,6 @@
 import WalletKit
 import UIKit
 
-// swiftlint:disable type_body_length
 class CoreSystem: Subscriber {
     
     private var system: System?
