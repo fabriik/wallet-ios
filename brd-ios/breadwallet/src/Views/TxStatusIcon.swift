@@ -21,7 +21,6 @@ enum StatusIcon {
     case sent, sendPending, sendFailed
     case received, receivePending, receiveFailed
     case swapComplete, swapPending, swapFailed
-    case refunded
     case gift(GiftStatus)
     
     var icon: String {
@@ -38,7 +37,6 @@ enum StatusIcon {
         case .swapPending: return "swap_pending"
         case .swapFailed: return "swap_failed"
             
-        case .refunded: return "refunded"
         case .gift(let status):
             switch status {
             case .claimed:

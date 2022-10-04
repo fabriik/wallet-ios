@@ -15,7 +15,7 @@ class GiftSharingCoordinator {
     
     private let gift: Gift
     var parent: UIViewController?
-    var viewModel: TxViewModel?
+    var viewModel: (any TxViewModel)?
     
     init(gift: Gift) {
         self.gift = gift

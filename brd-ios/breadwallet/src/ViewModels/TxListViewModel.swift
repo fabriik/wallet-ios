@@ -9,7 +9,7 @@
 import UIKit
 
 /// View model of a transaction in list view
-struct TxListViewModel: TxViewModel {
+struct TxListViewModel: TxViewModel, Hashable {
     
     // MARK: - Properties
     

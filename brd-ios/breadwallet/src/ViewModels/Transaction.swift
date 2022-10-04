@@ -10,7 +10,7 @@ import Foundation
 import WalletKit
 
 /// Transacton status
-enum TransactionStatus: String, ModelResponse {
+enum TransactionStatus: String, Hashable, ModelResponse {
     /// Zero confirmations
     case pending = "PENDING"
     /// One or more confirmations
@@ -27,11 +27,11 @@ enum TransactionStatus: String, ModelResponse {
     case manuallySettled = "MANUALLY_SETTLED"
     
     init?(string: String?) {
-        guard let rawValue = string else {
+        guard let string = string else {
             self = .failed
             return
         }
-        self.init(rawValue: rawValue)
+        self.init(rawValue: string)
     }
 }
 
@@ -122,7 +122,7 @@ class Transaction {
     
     var hash: String { return transfer.hash?.description ?? "" }
     
-    enum TransactionType: String {
+    enum TransactionType: String, Hashable {
         case swapTransaction = "SWAP"
         case buyTransaction = "BUY"
         case defaultTransaction

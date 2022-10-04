@@ -9,16 +9,19 @@
 import UIKit
 import SwiftUI
 
-// TODO: Fix completeConstraints/pendingConstraints logic and other visible UI bugs. 
-
-class TxListCell: UITableViewCell {
+class TxListCell: UITableViewCell, Identifiable {
 
     // MARK: - Views
     
     private let iconImageView = UIImageView()
     private let timestamp = UILabel(font: .customBody(size: 16.0), color: .darkGray)
     private let descriptionLabel = UILabel(font: .customBody(size: 14.0), color: .lightGray)
-    private let amount = UILabel(font: .customBold(size: 18.0))
+    private  let amount: UILabel = {
+        let label = UILabel(font: .customBold(size: 18.0))
+        label.lineBreakMode = .byTruncatingMiddle
+        return label
+    }()
+    
     private let separator = UIView(color: .separatorGray)
     
     // MARK: Vars
@@ -33,7 +36,7 @@ class TxListCell: UITableViewCell {
         setupViews()
     }
     
-    func setTransaction(_ viewModel: TxListViewModel, currency: Currency, showFiatAmounts: Bool, rate: Rate, isSyncing: Bool) {
+    func setTransaction(_ viewModel: TxListViewModel, currency: Currency, showFiatAmounts: Bool, rate: Rate) {
         self.viewModel = viewModel
         self.currency = currency
         
@@ -68,21 +71,17 @@ class TxListCell: UITableViewCell {
         default:
             timestamp.isHidden = false
             
-            guard let currency = viewModel.currency else { return }
+            guard let currency = currency else { return }
             timestamp.text = "\(viewModel.confirmations)/\(currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
         }
     }
     
     private func handleBuyTransactions() {
         switch viewModel.status {
-        case .invalid:
+        case .invalid, .failed, .refunded:
             timestamp.text = L10n.Transaction.purchaseFailed
             timestamp.isHidden = false
-            
-        case .refunded:
-            timestamp.text = L10n.Transaction.refunded
-            timestamp.isHidden = false
-            
+    
         case .complete, .manuallySettled, .confirmed:
             timestamp.text = L10n.Transaction.purchased
             timestamp.isHidden = false
@@ -108,12 +107,9 @@ class TxListCell: UITableViewCell {
             timestamp.text = "\(L10n.Transaction.pendingSwap) \(swapString)"
             timestamp.isHidden = false
             
-        case .failed:
+        case .failed, .refunded:
+
             timestamp.text = "\(L10n.Transaction.failedSwap) \(swapString)"
-            timestamp.isHidden = false
-        
-        case .refunded:
-            timestamp.text = L10n.Transaction.refunded
             timestamp.isHidden = false
             
         default:
@@ -159,6 +155,7 @@ class TxListCell: UITableViewCell {
             descriptionLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor)
         ])
         amount.constrain([
+            amount.leadingAnchor.constraint(equalTo: timestamp.trailingAnchor, constant: C.padding[2]),
             amount.topAnchor.constraint(equalTo: contentView.topAnchor),
             amount.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             amount.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -C.padding[2])])

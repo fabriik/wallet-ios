@@ -11,7 +11,7 @@ import WalletKit
 import UIKit
 
 /// Representation of a transaction
-protocol TxViewModel {
+protocol TxViewModel: Hashable {
     var tx: Transaction? { get }
     var swap: SwapDetail? { get }
     var currency: Currency? { get }
@@ -174,7 +174,7 @@ extension TxViewModel {
         switch tx.transactionType {
         case .defaultTransaction, .buyTransaction:
             if tx.confirmations < currency.confirmationsUntilFinal, tx.transactionType != .buyTransaction {
-                return .receivePending
+                return tx.direction == .received ? .receivePending : .sendPending
             } else if tx.transactionType == .buyTransaction {
                 return exchangeStatusIconDecider(status: tx.status)
             } else if tx.status == .invalid {
@@ -200,14 +200,6 @@ extension TxViewModel {
         
         if status == .pending {
             return tx?.transactionType == .buyTransaction ? .receivePending : .swapPending
-        }
-        
-        if status == .failed {
-            return tx?.transactionType == .buyTransaction ? .receiveFailed : .swapFailed
-        }
-        
-        if status == .refunded {
-            return .refunded
         }
         
         return tx?.transactionType == .buyTransaction ? .receiveFailed : .sendFailed

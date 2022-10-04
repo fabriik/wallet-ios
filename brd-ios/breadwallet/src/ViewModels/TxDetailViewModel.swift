@@ -9,7 +9,7 @@
 import UIKit
 
 /// View model of a transaction in detail view
-struct TxDetailViewModel: TxViewModel {
+struct TxDetailViewModel: TxViewModel, Hashable {
     
     // MARK: -
     

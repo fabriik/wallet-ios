@@ -24,6 +24,7 @@ class ExchangeManager {
     func reload(for source: String? = nil, completion: (([SwapDetail]?) -> Void)? = nil) {
         worker.execute { [weak self] result in
             let exchanges: [SwapDetail]
+            
             switch result {
             case .success(let data):
                 exchanges = data?.sorted(by: { $0.timestamp > $1.timestamp }) ?? []

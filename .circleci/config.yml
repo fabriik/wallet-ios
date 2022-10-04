@@ -8,7 +8,7 @@ workflows:
 jobs:
   build-one-ios:
     macos:
-      xcode: 13.3 # Specify the Xcode version to use
+      xcode: 14.0.1 # Specify the Xcode version to use
 
     steps:
       - checkout
@@ -33,11 +33,6 @@ jobs:
           name: Set Known Host IPs for github (Work Around xCode bug)
           command : |
             for ip in $(dig @8.8.8.8 github.com +short); do ssh-keyscan github.com,$ip; ssh-keyscan $ip; done 2>/dev/null >> ~/.ssh/known_hosts || true
-
-      - run:
-          name: Pull Submodules
-          command: |
-            git submodule update --init --recursive
 
       - run:
           name: Check Init
@@ -86,21 +81,7 @@ jobs:
           name: Install Prerequisites
           command: |
             brew --cache
-
-            brew tap adoptopenjdk/openjdk
-            brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
-            export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-            ls -la /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-
             brew install SwiftLint
-            brew install --cask android-commandlinetools
-
-      - run:
-          name: Copy SDK License
-          command: |
-            mkdir /usr/local/share/android-commandlinetools/cmdline-tools/latest/bin/licenses
-            touch /usr/local/share/android-commandlinetools/cmdline-tools/latest/bin/licenses/android-sdk-license
-            printf "8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee\n" > /usr/local/share/android-commandlinetools/cmdline-tools/latest/bin/licenses/android-sdk-license
 
       - run:
           name: Check Key
@@ -115,44 +96,16 @@ jobs:
             cp breadwallet.xcodeproj/project.pbxproj.rnm breadwallet.xcodeproj/project.pbxproj
 
       - run:
-          name: Help and Project List
-          command: |
-            cd brd-ios
-            xcodebuild --help
-            xcodebuild -project breadwallet.xcodeproj -list
-
-      - run:
           name: Build Clean
           command: |
             cd brd-ios
             xcodebuild clean -workspace breadwallet.xcworkspace -scheme wallet | xcpretty
 
-
       - run:
-          name: Create .env and local.properties and fix build.gradle
+          name: Create .env
           command: |
-            cd brd-ios
-            BRD_ENV=.env
-            touch $BRD_ENV
-
-            echo "// PRODUCTION" >> $BRD_ENV
-            echo "API_URL=$PROD_URL" >> $BRD_ENV
-            echo "API_TOKEN=$PROD_TOKEN" >> $BRD_ENV
-            echo "" >> $BRD_ENV
-
-            echo "// DEVELOPMENT" >> $BRD_ENV
-            echo "DEBUG_URL=$DEV_URL" >> $BRD_ENV
-            echo "DEBUG_TOKEN=$DEV_TOKEN" >> $BRD_ENV
-            echo "IS_TEST=true" >> $BRD_ENV
-            echo "" >> $BRD_ENV
-
-            echo "// STAGING" >> $BRD_ENV
-            echo "STAGING_URL=$STAGING_URL" >> $BRD_ENV
-            echo "STAGING_TOKEN=$STAGING_TOKEN" >> $BRD_ENV
-            echo "" >> $BRD_ENV
-
-            cd ..
-            echo "sdk.dir=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin" > ./local.properties
+            cd brd-ios/ci_scripts
+            ./ci_post_clone.sh
 
       - run:
           name: Create exportOptions.plist
@@ -164,14 +117,6 @@ jobs:
             fi
 
       - run:
-          name: Build Cosmos Project
-          command: |
-            export ANDROID_SDK_ROOT=/usr/local/share/android-commandlinetools/cmdline-tools/latest/bin
-            cp ./local.properties external/walletKit/walletKitJava/local.properties
-            ./gradlew cosmos-bundled:createXCFramework
-            sed -i '' '18i\'$'\n        ndkVersion \'21.1.6352462\'\n\n' external/walletkit/WalletKitJava/corenative-android/build.gradle
-
-      - run:
           name: Set Versions
           command: |
             mainBundleShortVersionString=4.11.0
@@ -180,13 +125,6 @@ jobs:
             cd brd-ios
             agvtool new-marketing-version ${mainBundleShortVersionString}
             agvtool new-version ${mainBundleVersion}
-
-      - run:
-          name: Download Currencies and Bundles
-          command: |
-            cd brd-ios
-            scripts/download_bundles.sh $API_URL/blocksatoshi
-            scripts/download_currencylist.sh $API_URL/blocksatoshi "$BREAD_TOKEN:SIG"
 
       - run:
           name: Run Build
