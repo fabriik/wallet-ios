@@ -40,7 +40,6 @@ struct Padding {
     }
 }
 
-// swiftlint:disable type_name
 /// Constants
 typealias Constant = C
 struct C {

@@ -14,12 +14,10 @@ opt_in_rules:
 
 excluded:
   - Modules
-  - Screenshots
   - breadwalletTests
   - breadwalletUITests
   - breadwallet/src/Constants/Strings.swift
   - breadwallet/*.pb.swift # ProtoBuf generated files
-  - ../external 
 
 line_length:
     warning: 170
@@ -32,8 +30,8 @@ function_parameter_count:
     warning: 6
     error: 8
 type_body_length:
-    warning: 300
-    error: 500
+    warning: 400
+    error: 600
 file_length:
     warning: 1000
     error: 1500
@@ -45,5 +43,15 @@ cyclomatic_complexity:
 nesting:
     type_level: 2
     statement_level: 5
+type_name:
+    max_length: 50 #warning
+    excluded:
+    - T
+    - U
+    - I
+    - DS
+    - VM
+    - C
+    - P
 
 reporter: "xcode"
