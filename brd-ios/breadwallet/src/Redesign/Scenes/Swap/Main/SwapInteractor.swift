@@ -190,6 +190,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                            handleErrors: viewAction.handleErrors))
             return
         }
+        
         dataStore?.values = viewAction
         dataStore?.values.handleErrors = false
         dataStore?.from = from
@@ -222,16 +223,14 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                self?.dataStore?.quote != nil {
                 // All good
                 self?.setAmountSuccess()
-                
             } else if self?.dataStore?.quote?.fromFee?.fee != nil,
                       from.currency.isEthereum {
                 // Not enough ETH for Swap + Fee
-                let balance = from.currency.state?.balance?.tokenValue ?? 0
-                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.balanceTooLow(balance: balance,
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.balanceTooLow(balance: self?.dataStore?.fromFeeAmount?.tokenValue ?? 0,
                                                                                                     currency: from.currency.code)))
             } else if self?.dataStore?.quote?.fromFee?.fee != nil {
                 // Not enough ETH for fee
-                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee))
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee(currency: from.currency.code)))
             } else {
                 // No quote and no WK fee
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
@@ -421,7 +420,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             error = GeneralError(errorMessage: "Own address")
             
         case .insufficientFunds:
-            error = SwapErrors.balanceTooLow(balance: currency.state?.balance?.tokenValue ?? 0, currency: currency.code)
+            error = SwapErrors.balanceTooLow(balance: dataStore.fromFeeAmount?.tokenValue ?? 0, currency: currency.code)
             
         case .noExchangeRate:
             error = SwapErrors.noQuote(from: dataStore.from?.currency.code, to: dataStore.to?.currency.code)

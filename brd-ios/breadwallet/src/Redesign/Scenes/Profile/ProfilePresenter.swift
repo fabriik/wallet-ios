@@ -65,7 +65,7 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
         ]
         
         var navigationModel = Models.NavigationItems.allCases
-        if status == .levelTwo(.levelTwo) {
+        if status != .levelTwo(.levelTwo) {
             navigationModel = [ Models.NavigationItems.preferences,
                                 Models.NavigationItems.security ]
         }
