@@ -64,6 +64,12 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
             .navigation
         ]
         
+        var navigationModel = Models.NavigationItems.allCases
+        if status == .levelTwo(.levelTwo) {
+            navigationModel = [ Models.NavigationItems.preferences,
+                                Models.NavigationItems.security ]
+        }
+        
         let sectionRows: [Models.Section: [Any]] = [
             .profile: [
                 ProfileViewModel(name: item.title ?? "<unknown", image: item.image ?? "")
@@ -71,7 +77,7 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
             .verification: [
                 infoView
             ],
-            .navigation: Models.NavigationItems.allCases.compactMap { $0.model }
+            .navigation: navigationModel.compactMap { $0.model }
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
