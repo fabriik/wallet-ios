@@ -22,6 +22,7 @@ struct CardDetailsViewModel: ViewModel {
     var title: LabelViewModel?
     var cardNumber: LabelViewModel?
     var expiration: LabelViewModel?
+    var moreOption: Bool = false
 }
 
 class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
@@ -142,7 +143,8 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         
         expirationLabel.setup(with: viewModel?.expiration)
         
-        moreButton.isHidden = viewModel?.title != nil
+        guard let moreOption = viewModel?.moreOption else { return }
+        moreButton.isHidden = !moreOption
     }
     
     @objc private func moreButtonTapped(_ sender: UIButton?) {

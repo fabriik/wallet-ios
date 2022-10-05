@@ -133,14 +133,17 @@ class CardSelectionView: FEView<CardSelectionConfiguration, CardSelectionViewMod
         subtitleLabel.setup(with: viewModel?.subtitle)
         subtitleLabel.isHidden = viewModel?.logo != nil && viewModel?.cardNumber != nil && viewModel?.expiration != nil
         
-        cardDetailsView.setup(with: .init(logo: viewModel?.logo,
-                                          title: titleLabel.isHidden == true ? viewModel?.title : nil,
-                                          cardNumber: viewModel?.cardNumber,
-                                          expiration: viewModel?.expiration))
         cardDetailsView.isHidden = viewModel?.logo == nil
         
         arrowImageView.setup(with: viewModel?.arrow)
         arrowImageView.isHidden = viewModel?.expiration != nil && titleLabel.isHidden
+        
+        cardDetailsView.setup(with: .init(logo: viewModel?.logo,
+                                          title: titleLabel.isHidden == true ? viewModel?.title : nil,
+                                          cardNumber: viewModel?.cardNumber,
+                                          expiration: viewModel?.expiration,
+                                          moreOption: arrowImageView.isHidden))
+        
         spacerView.isHidden = arrowImageView.isHidden
         
         guard viewModel?.userInteractionEnabled == true else {
