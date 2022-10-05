@@ -320,7 +320,6 @@ class LoginViewController: UIViewController, Subscriber {
     }
 
     private func authenticate(withPin pin: String) {
-        guard !E.isScreenshots else { return authenticationSucceded(pin: pin) }
         if case .initialLaunch = context {
             guard let account = keyMaster.createAccount(withPin: pin) else { return authenticationFailed() }
             authenticationSucceded(forLoginWithAccount: account, pin: pin)

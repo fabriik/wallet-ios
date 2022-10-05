@@ -212,7 +212,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         view.backgroundColor = .homeBackground
         navigationItem.titleView = UIView()
         
-        if E.isTestnet && !E.isScreenshots {
+        if E.isTestnet {
             debugLabel.text = "(Testnet)"
             debugLabel.isHidden = false
         } else if (E.isTestFlight || E.isDebug), let debugHost = UserDefaults.debugBackendHost {
