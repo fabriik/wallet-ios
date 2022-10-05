@@ -190,6 +190,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                            handleErrors: viewAction.handleErrors))
             return
         }
+        
         dataStore?.values = viewAction
         dataStore?.values.handleErrors = false
         dataStore?.from = from
@@ -222,11 +223,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                self?.dataStore?.quote != nil {
                 // All good
                 self?.setAmountSuccess()
-                
             } else if self?.dataStore?.quote?.fromFee?.fee != nil,
                       from.currency.isEthereum {
                 // Not enough ETH for Swap + Fee
-                let balance = from.currency.state?.balance?.tokenValue ?? 0
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.balanceTooLow(balance: self?.dataStore?.fromFeeAmount?.tokenValue ?? 0,
                                                                                                     currency: from.currency.code)))
             } else if self?.dataStore?.quote?.fromFee?.fee != nil {
