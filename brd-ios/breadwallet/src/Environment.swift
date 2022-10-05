@@ -45,14 +45,6 @@ struct E {
         #endif
     }()
     
-    static let isScreenshots: Bool = {
-        #if SCREENSHOTS
-            return true
-        #else
-            return false
-        #endif
-    }()
-    
     static let isRunningTests: Bool = {
         #if DEBUG
             return ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil

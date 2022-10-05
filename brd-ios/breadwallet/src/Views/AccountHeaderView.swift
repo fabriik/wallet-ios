@@ -215,7 +215,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
 
         modeLabel.isHidden = true
 
-        if (E.isDebug || E.isTestFlight) && !E.isScreenshots {
+        if E.isDebug || E.isTestFlight {
             var modeName = ""
             if let mode = currency.wallet?.connectionMode {
                 modeName = "\(mode)"
