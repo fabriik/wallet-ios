@@ -24,11 +24,13 @@ protocol ItemSelectionActionResponses: BaseActionResponses, FetchActionResponses
 
 protocol ItemSelectionResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
     func displayRemovePaymentPopup(responseDisplay: ItemSelectionModels.RemovePaymenetPopup.ResponseDisplay)
+    func displayRemovePaymentSuccess(responseDisplay: ItemSelectionModels.RemovePayment.ResponseDisplay)
 }
 
 protocol ItemSelectionDataStore: BaseDataStore, FetchDataStore {
     var items: [ItemSelectable]? { get set }
     var isAddingEnabled: Bool? { get set }
+    var instrumentID: String? { get set }
 }
 
 protocol ItemSelectionDataPassing {

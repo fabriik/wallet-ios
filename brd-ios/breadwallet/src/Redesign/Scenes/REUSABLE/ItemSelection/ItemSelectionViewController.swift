@@ -21,8 +21,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     var isSearchEnabled: Bool { return true }
     
     override var sceneTitle: String? { return L10n.Account.country }
-    
-    var addItemTapped: (() -> Void)?
+
     var itemSelected: ((Any?) -> Void)?
     var searchController = UISearchController()
     
@@ -110,7 +109,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let section = sections[indexPath.section] as? Models.Sections,
               section == Models.Sections.items else {
-            addItemTapped?()
+            coordinator?.open(scene: Scenes.AddCard)
             return
         }
         
@@ -148,10 +147,16 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
                                with: responseDisplay.popupViewModel,
                                config: responseDisplay.popupConfig,
                                closeButtonCallback: { [weak self] in
-            self?.coordinator?.goBack(completion: {})
+            self?.coordinator?.hidePopup()
         }, callbacks: [ { [weak self] in
+            self?.coordinator?.hidePopup()
             self?.interactor?.removePayment(viewAction: .init())
         } ])
+    }
+    
+    func displayRemovePaymentSuccess(responseDisplay: ItemSelectionModels.RemovePayment.ResponseDisplay) {
+        // TODO: Reload card items
+        print("reload card items")
     }
 
     // MARK: - Additional Helpers

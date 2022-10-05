@@ -38,7 +38,9 @@ enum ItemSelectionModels {
     }
     
     struct RemovePaymenetPopup {
-        struct ViewAction {}
+        struct ViewAction {
+            var instrumentID: String
+        }
         
         struct ActionResponse {}
         

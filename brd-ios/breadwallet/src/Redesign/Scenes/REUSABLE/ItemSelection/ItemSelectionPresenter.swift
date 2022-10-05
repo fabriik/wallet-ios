@@ -50,6 +50,8 @@ final class ItemSelectionPresenter: NSObject, Presenter, ItemSelectionActionResp
         
         viewController?.displayMessage(responseDisplay: .init(model: model,
                                                               config: config))
+        
+        viewController?.displayRemovePaymentSuccess(responseDisplay: .init())
     }
     
     // MARK: - Additional Helpers

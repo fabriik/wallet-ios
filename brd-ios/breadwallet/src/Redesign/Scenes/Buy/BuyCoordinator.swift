@@ -118,23 +118,21 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showCardSelector(cards: [PaymentCard], selected: ((PaymentCard?) -> Void)?, fromBuy: Bool = true) {
         if cards.isEmpty == true {
-            open(scene: Scenes.AddCard)
+            openModally(coordinator: ItemSelectionCoordinator.self,
+                        scene: Scenes.AddCard)
         } else {
-            open(scene: Scenes.CardSelection) { [weak self] vc in
-                vc.dataStore?.isAddingEnabled = true
-                vc.dataStore?.isSelectingEnabled = fromBuy
-                vc.dataStore?.items = cards
-                let backButtonVisible = self?.navigationController.children.last is BillingAddressViewController
-                vc.navigationItem.hidesBackButton = backButtonVisible
-                vc.prepareData()
+            openModally(coordinator: ItemSelectionCoordinator.self,
+                        scene: Scenes.CardSelection) { vc in
+                vc?.dataStore?.isAddingEnabled = true
+                vc?.dataStore?.isSelectingEnabled = fromBuy
+                vc?.dataStore?.items = cards
+                let backButtonVisible = self.navigationController.children.last is BillingAddressViewController
+                vc?.navigationItem.hidesBackButton = backButtonVisible
+                vc?.prepareData()
                 
-                vc.itemSelected = { item in
+                vc?.itemSelected = { item in
                     selected?(item as? PaymentCard)
-                    self?.popToRoot()
-                }
-                
-                vc.addItemTapped = { [weak self] in
-                    self?.open(scene: Scenes.AddCard)
+                    self.popToRoot()
                 }
             }
         }
