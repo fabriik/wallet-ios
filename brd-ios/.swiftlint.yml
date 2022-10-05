@@ -1,3 +1,5 @@
+swiftlint_version: 0.9.1
+
 disabled_rules:
   - trailing_whitespace
   - identifier_name

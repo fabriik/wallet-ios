@@ -64,7 +64,7 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
     }
     
     func submit(viewAction: AddCardModels.Submit.ViewAction) {
-        // FETCH ALL ADDED CARDS AND DELETE IF NEEDED. WILL BE USED. 
+        // FETCH ALL ADDED CARDS AND DELETE IF NEEDED. WILL BE USED.
         /*
         PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
             switch result {
