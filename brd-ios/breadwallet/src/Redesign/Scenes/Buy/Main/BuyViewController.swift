@@ -148,10 +148,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                 self?.interactor?.getPaymentCards(viewAction: .init())
             }
             
-            view.moreButtonCallback = { [weak self] in
-                self?.showActionSheetRemovePayment()
-            }
-            
             view.setupCustomMargins(top: .zero, leading: .zero, bottom: .medium, trailing: .zero)
         }
         
@@ -251,35 +247,5 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
         coordinator?.showMessage(with: responseDisplay.error,
                                  model: responseDisplay.model,
                                  configuration: responseDisplay.config)
-    }
-    
-    func displayRemovePaymentPopup(responseDisplay: BuyModels.RemovePaymentPopup.ResponseDisplay) {
-        guard let navigationController = coordinator?.navigationController else { return }
-        
-        coordinator?.showPopup(on: navigationController,
-                               blurred: false,
-                               with: responseDisplay.popupViewModel,
-                               config: responseDisplay.popupConfig,
-                               closeButtonCallback: { [weak self] in
-            self?.coordinator?.goBack(completion: {})
-        }, callbacks: [ { [weak self] in
-            self?.interactor?.removePayment(viewAction: .init())
-        } ])
-    }
-    
-    // MARK: - Additional Helpers
-    func showActionSheetRemovePayment() {
-        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let removePaymentAction = UIAlertAction(title: L10n.Buy.removePaymentMethod, style: .destructive, handler: { [weak self] _ in
-            self?.interactor?.removePaymenetPopup(viewAction: .init())
-        })
-        
-        let cancelAction = UIAlertAction(title: L10n.Button.cancel, style: .cancel)
-        
-        optionMenu.addAction(removePaymentAction)
-        optionMenu.addAction(cancelAction)
-        
-        self.present(optionMenu, animated: true, completion: nil)
     }
 }

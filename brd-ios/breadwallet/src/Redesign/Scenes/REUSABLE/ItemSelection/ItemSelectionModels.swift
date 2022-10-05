@@ -29,6 +29,14 @@ enum ItemSelectionModels {
         }
     }
     
+    struct RemovePayment {
+        struct ViewAction {}
+        
+        struct ActionResponse {}
+        
+        struct ResponseDisplay {}
+    }
+    
     struct RemovePaymenetPopup {
         struct ViewAction {}
         

@@ -109,23 +109,4 @@ enum BuyModels {
         
         struct ResponseDisplay {}
     }
-    
-    struct RemovePayment {
-        struct ViewAction {}
-        
-        struct ActionResponse {}
-        
-        struct ResponseDisplay {}
-    }
-    
-    struct RemovePaymentPopup {
-        struct ViewAction {}
-        
-        struct ActionResponse {}
-        
-        struct ResponseDisplay {
-            var popupViewModel: PopupViewModel
-            var popupConfig: PopupConfiguration
-        }
-    }
 }

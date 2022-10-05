@@ -44,6 +44,14 @@ final class ItemSelectionPresenter: NSObject, Presenter, ItemSelectionActionResp
                                                                     popupConfig: Presets.Popup.whiteDimmed))
     }
     
+    func presentRemovePaymentMessage(actionResponse: ItemSelectionModels.RemovePayment.ActionResponse) {
+        let model = InfoViewModel(description: .text(L10n.Buy.cardRemoved), dismissType: .auto)
+        let config = Presets.InfoView.verification
+        
+        viewController?.displayMessage(responseDisplay: .init(model: model,
+                                                              config: config))
+    }
+    
     // MARK: - Additional Helpers
 
 }

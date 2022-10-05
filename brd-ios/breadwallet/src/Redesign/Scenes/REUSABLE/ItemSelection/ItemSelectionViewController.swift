@@ -148,9 +148,9 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
                                with: responseDisplay.popupViewModel,
                                config: responseDisplay.popupConfig,
                                closeButtonCallback: { [weak self] in
-           // self?.interactor?.removePaymenetMessage(viewAction: .init())
+            self?.coordinator?.goBack(completion: {})
         }, callbacks: [ { [weak self] in
-            // self?.interactor?.removePayment(viewAction: .init())
+            self?.interactor?.removePayment(viewAction: .init())
         } ])
     }
 

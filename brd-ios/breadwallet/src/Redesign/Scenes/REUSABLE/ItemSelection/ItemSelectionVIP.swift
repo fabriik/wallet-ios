@@ -14,10 +14,12 @@ extension Scenes {
 
 protocol ItemSelectionViewActions: BaseViewActions, FetchViewActions {
     func removePaymenetPopup(viewAction: ItemSelectionModels.RemovePaymenetPopup.ViewAction)
+    func removePayment(viewAction: ItemSelectionModels.RemovePayment.ViewAction)
 }
 
 protocol ItemSelectionActionResponses: BaseActionResponses, FetchActionResponses {
     func presentRemovePaymentPopup(actionResponse: ItemSelectionModels.RemovePaymenetPopup.ActionResponse)
+    func presentRemovePaymentMessage(actionResponse: ItemSelectionModels.RemovePayment.ActionResponse)
 }
 
 protocol ItemSelectionResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
