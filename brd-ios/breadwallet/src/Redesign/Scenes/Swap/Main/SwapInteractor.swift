@@ -226,8 +226,9 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             } else if self?.dataStore?.quote?.fromFee?.fee != nil,
                       from.currency.isEthereum {
                 // Not enough ETH for Swap + Fee
-                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.balanceTooLow(balance: self?.dataStore?.fromFeeAmount?.tokenValue ?? self?.dataStore?.quote?.fromFee?.fee ?? 0,
-                                                                                                    currency: from.currency.code)))
+                let value = self?.dataStore?.fromFeeAmount?.tokenValue ?? self?.dataStore?.quote?.fromFee?.fee ?? 0
+                let error = SwapErrors.balanceTooLow(balance: value, currency: from.currency.code)
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             } else if self?.dataStore?.quote?.fromFee?.fee != nil {
                 // Not enough ETH for fee
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee(currency: from.currency.code)))
