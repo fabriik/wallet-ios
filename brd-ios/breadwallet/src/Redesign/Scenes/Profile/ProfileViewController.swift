@@ -104,7 +104,8 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch sections[indexPath.section] as? Models.Section {
         case .navigation:
-            interactor?.navigate(viewAction: .init(index: indexPath.row))
+            let indexPath = dataStore?.profile?.status == .levelTwo(.levelTwo) ? indexPath.row : indexPath.row + 1
+            interactor?.navigate(viewAction: .init(index: indexPath))
         default:
             return
         }

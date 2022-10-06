@@ -117,23 +117,23 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     }
     
     func showCardSelector(cards: [PaymentCard], selected: ((PaymentCard?) -> Void)?, fromBuy: Bool = true) {
-        if cards.isEmpty == true {
+        guard !cards.isEmpty else {
             openModally(coordinator: ItemSelectionCoordinator.self,
                         scene: Scenes.AddCard)
-        } else {
-            openModally(coordinator: ItemSelectionCoordinator.self,
-                        scene: Scenes.CardSelection) { vc in
-                vc?.dataStore?.isAddingEnabled = true
-                vc?.dataStore?.isSelectingEnabled = fromBuy
-                vc?.dataStore?.items = cards
-                let backButtonVisible = self.navigationController.children.last is BillingAddressViewController
-                vc?.navigationItem.hidesBackButton = backButtonVisible
-                vc?.prepareData()
-                
-                vc?.itemSelected = { item in
-                    selected?(item as? PaymentCard)
-                    self.popToRoot()
-                }
+            return
+        }
+        openModally(coordinator: ItemSelectionCoordinator.self,
+                    scene: Scenes.CardSelection) { vc in
+            vc?.dataStore?.isAddingEnabled = true
+            vc?.dataStore?.isSelectingEnabled = fromBuy
+            vc?.dataStore?.items = cards
+            let backButtonVisible = self.navigationController.children.last is BillingAddressViewController
+            vc?.navigationItem.hidesBackButton = backButtonVisible
+            vc?.prepareData()
+            
+            vc?.itemSelected = { item in
+                selected?(item as? PaymentCard)
+                self.popToRoot()
             }
         }
     }
