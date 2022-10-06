@@ -12,6 +12,11 @@ extension ProfileModels.NavigationItems {
     
     var model: NavigationViewModel {
         switch self {
+        case .paymentMethods:
+            return .init(image: .imageName("credit_card_icon"),
+                         label: .text(L10n.Buy.paymentMethod),
+                         button: .init(image: "arrowRight"))
+            
         case .security:
             return .init(image: .imageName("lock_closed"),
                          label: .text(L10n.MenuButton.security),
@@ -59,6 +64,12 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
             .navigation
         ]
         
+        var navigationModel = Models.NavigationItems.allCases
+        if status != .levelTwo(.levelTwo) {
+            navigationModel = [ Models.NavigationItems.preferences,
+                                Models.NavigationItems.security ]
+        }
+        
         let sectionRows: [Models.Section: [Any]] = [
             .profile: [
                 ProfileViewModel(name: item.title ?? "<unknown", image: item.image ?? "")
@@ -66,10 +77,14 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
             .verification: [
                 infoView
             ],
-            .navigation: Models.NavigationItems.allCases.compactMap { $0.model }
+            .navigation: navigationModel.compactMap { $0.model }
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
+    }
+    
+    func presentPaymentCards(actionResponse: ProfileModels.PaymentCards.ActionResponse) {
+        viewController?.displayPaymentCards(responseDisplay: .init(allPaymentCards: actionResponse.allPaymentCards))
     }
     
     func presentVerificationInfo(actionResponse: ProfileModels.VerificationInfo.ActionResponse) {

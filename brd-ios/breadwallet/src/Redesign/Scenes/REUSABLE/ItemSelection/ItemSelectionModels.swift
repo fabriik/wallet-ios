@@ -28,4 +28,25 @@ enum ItemSelectionModels {
             let text: String?
         }
     }
+    
+    struct RemovePayment {
+        struct ViewAction {}
+        
+        struct ActionResponse {}
+        
+        struct ResponseDisplay {}
+    }
+    
+    struct RemovePaymenetPopup {
+        struct ViewAction {
+            var instrumentID: String
+        }
+        
+        struct ActionResponse {}
+        
+        struct ResponseDisplay {
+            var popupViewModel: PopupViewModel
+            var popupConfig: PopupConfiguration
+        }
+    }
 }

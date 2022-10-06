@@ -10,7 +10,7 @@
 
 import UIKit
 
-class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
+class BillingAddressViewController: BaseTableViewController<ItemSelectionCoordinator,
                                     BillingAddressInteractor,
                                     BillingAddressPresenter,
                                     BillingAddressStore>,
@@ -189,7 +189,7 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     
     func displaySubmit(responseDisplay: BillingAddressModels.Submit.ResponseDisplay) {
         LoadingView.hide()
-        
+        coordinator?.dismissFlow()
         coordinator?.showOverlay(with: .success) { [weak self] in
             self?.interactor?.getPaymentCards(viewAction: .init())
         }

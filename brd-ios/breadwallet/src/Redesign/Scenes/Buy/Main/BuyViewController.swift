@@ -248,6 +248,4 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                  model: responseDisplay.model,
                                  configuration: responseDisplay.config)
     }
-    
-    // MARK: - Additional Helpers
 }
