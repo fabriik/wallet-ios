@@ -118,12 +118,12 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
     
     func showCardSelector(cards: [PaymentCard], selected: ((PaymentCard?) -> Void)?, fromBuy: Bool = true) {
         guard !cards.isEmpty else {
-            openModally(coordinator: ItemSelectionCoordinator.self,
+            openModally(coordinator: PaymentsCoordinator.self,
                         scene: Scenes.AddCard)
             return
         }
-        openModally(coordinator: ItemSelectionCoordinator.self,
-                    scene: Scenes.CardSelection) { vc in
+        openModally(coordinator: PaymentsCoordinator.self,
+                    scene: Scenes.Payments) { vc in
             vc?.dataStore?.isAddingEnabled = true
             vc?.dataStore?.isSelectingEnabled = fromBuy
             vc?.dataStore?.items = cards

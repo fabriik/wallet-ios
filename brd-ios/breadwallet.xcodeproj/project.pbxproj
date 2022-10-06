@@ -401,7 +401,6 @@
 		7EC21A1D28991A6500FED711 /* BillingAddressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC21A1728991A6500FED711 /* BillingAddressStore.swift */; };
 		7EC21A1E28991A6500FED711 /* BillingAddressVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC21A1828991A6500FED711 /* BillingAddressVIP.swift */; };
 		7EC21A1F28991A6500FED711 /* BillingAddressPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC21A1928991A6500FED711 /* BillingAddressPresenter.swift */; };
-		7EC21A22289946C300FED711 /* CardSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC21A21289946C300FED711 /* CardSelectionViewController.swift */; };
 		7EC37909281C098900028CA1 /* ErrorStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC37908281C098900028CA1 /* ErrorStruct.swift */; };
 		7ECCA9642875A77300617067 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9632875A77300617067 /* OrderView.swift */; };
 		7ECCA98F2873059300F99368 /* ExchangeEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA98E2873059300F99368 /* ExchangeEndpoints.swift */; };
@@ -701,6 +700,13 @@
 		A2439D019C08106D6E14D70A /* MarketInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24399A172C828ECD708E17D /* MarketInfo.swift */; };
 		A2439D7BB746E6CFC3F9B64A /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2439F5D8263945E73EFF4A3 /* CacheService.swift */; };
 		C416BE0628509C4E0020ACCD /* KYCLevelTwoPostValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C416BE0528509C4E0020ACCD /* KYCLevelTwoPostValidation.swift */; };
+		C43973CC28EF559E007ADF68 /* PaymentsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43973C528EF559E007ADF68 /* PaymentsCoordinator.swift */; };
+		C43973CD28EF559E007ADF68 /* PaymentsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43973C628EF559E007ADF68 /* PaymentsStore.swift */; };
+		C43973CE28EF559E007ADF68 /* PaymentsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43973C728EF559E007ADF68 /* PaymentsPresenter.swift */; };
+		C43973CF28EF559E007ADF68 /* PaymentsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43973C828EF559E007ADF68 /* PaymentsModels.swift */; };
+		C43973D028EF559E007ADF68 /* PaymentsVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43973C928EF559E007ADF68 /* PaymentsVIP.swift */; };
+		C43973D128EF559E007ADF68 /* PaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43973CA28EF559E007ADF68 /* PaymentsViewController.swift */; };
+		C43973D228EF559E007ADF68 /* PaymentsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43973CB28EF559E007ADF68 /* PaymentsInteractor.swift */; };
 		C4520F102875C726003FFB7F /* AssetSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4520F092875C726003FFB7F /* AssetSelectionViewController.swift */; };
 		C45E0BA62845F4C40083F028 /* AccountVerificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E0B9F2845F4C40083F028 /* AccountVerificationCoordinator.swift */; };
 		C45E0BA72845F4C40083F028 /* AccountVerificationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E0BA02845F4C40083F028 /* AccountVerificationStore.swift */; };
@@ -1366,7 +1372,6 @@
 		7EC21A1728991A6500FED711 /* BillingAddressStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillingAddressStore.swift; sourceTree = "<group>"; };
 		7EC21A1828991A6500FED711 /* BillingAddressVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillingAddressVIP.swift; sourceTree = "<group>"; };
 		7EC21A1928991A6500FED711 /* BillingAddressPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillingAddressPresenter.swift; sourceTree = "<group>"; };
-		7EC21A21289946C300FED711 /* CardSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSelectionViewController.swift; sourceTree = "<group>"; };
 		7EC37908281C098900028CA1 /* ErrorStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStruct.swift; sourceTree = "<group>"; };
 		7ECCA9632875A77300617067 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		7ECCA98E2873059300F99368 /* ExchangeEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeEndpoints.swift; sourceTree = "<group>"; };
@@ -1637,6 +1642,13 @@
 		A24399A172C828ECD708E17D /* MarketInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketInfo.swift; sourceTree = "<group>"; };
 		A2439F5D8263945E73EFF4A3 /* CacheService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
 		C416BE0528509C4E0020ACCD /* KYCLevelTwoPostValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCLevelTwoPostValidation.swift; sourceTree = "<group>"; };
+		C43973C528EF559E007ADF68 /* PaymentsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCoordinator.swift; sourceTree = "<group>"; };
+		C43973C628EF559E007ADF68 /* PaymentsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsStore.swift; sourceTree = "<group>"; };
+		C43973C728EF559E007ADF68 /* PaymentsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsPresenter.swift; sourceTree = "<group>"; };
+		C43973C828EF559E007ADF68 /* PaymentsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsModels.swift; sourceTree = "<group>"; };
+		C43973C928EF559E007ADF68 /* PaymentsVIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsVIP.swift; sourceTree = "<group>"; };
+		C43973CA28EF559E007ADF68 /* PaymentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsViewController.swift; sourceTree = "<group>"; };
+		C43973CB28EF559E007ADF68 /* PaymentsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsInteractor.swift; sourceTree = "<group>"; };
 		C4520F092875C726003FFB7F /* AssetSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetSelectionViewController.swift; sourceTree = "<group>"; };
 		C45E0B9F2845F4C40083F028 /* AccountVerificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerificationCoordinator.swift; sourceTree = "<group>"; };
 		C45E0BA02845F4C40083F028 /* AccountVerificationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerificationStore.swift; sourceTree = "<group>"; };
@@ -2934,7 +2946,13 @@
 			isa = PBXGroup;
 			children = (
 				7EB8FD282897F22B000FF75C /* CardSelectionView.swift */,
-				7EC21A21289946C300FED711 /* CardSelectionViewController.swift */,
+				C43973C528EF559E007ADF68 /* PaymentsCoordinator.swift */,
+				C43973C628EF559E007ADF68 /* PaymentsStore.swift */,
+				C43973C728EF559E007ADF68 /* PaymentsPresenter.swift */,
+				C43973C828EF559E007ADF68 /* PaymentsModels.swift */,
+				C43973C928EF559E007ADF68 /* PaymentsVIP.swift */,
+				C43973CA28EF559E007ADF68 /* PaymentsViewController.swift */,
+				C43973CB28EF559E007ADF68 /* PaymentsInteractor.swift */,
 			);
 			path = CardSelection;
 			sourceTree = "<group>";
@@ -4617,6 +4635,7 @@
 				7E5CB38F2835090E00EC787E /* NSLayoutConstraint+priority.swift in Sources */,
 				C4BD1C69284A16E000AFA2A6 /* CountriesWorker.swift in Sources */,
 				7B54E5A127F4A2B0002DD1E4 /* APIURLHandler.swift in Sources */,
+				C43973CD28EF559E007ADF68 /* PaymentsStore.swift in Sources */,
 				CE0822661FCE059A00EF371D /* HomeScreenCell.swift in Sources */,
 				7EC21A1B28991A6500FED711 /* BillingAddressViewController.swift in Sources */,
 				CE44BA1B1F33BFC500392A1A /* NodeSelectorViewController.swift in Sources */,
@@ -4765,6 +4784,7 @@
 				7B02D6282859201500C5C384 /* KYCCameraViewController.swift in Sources */,
 				7E383B4928AE1AFD00A5339F /* AssetSelectionDisplayable.swift in Sources */,
 				7BBBF4DC287421CF00E4D36B /* SwapModels.swift in Sources */,
+				C43973CE28EF559E007ADF68 /* PaymentsPresenter.swift in Sources */,
 				7ECCA9912873079100F99368 /* QuoteWorker.swift in Sources */,
 				7EDDB82628C8684900C287CB /* Amount+Init.swift in Sources */,
 				7CBABD9C20181D890077CB55 /* NSMutableAttributedString+Additions.swift in Sources */,
@@ -4824,6 +4844,7 @@
 				7E67680328479765007EC155 /* ResendConfirmationWorker.swift in Sources */,
 				7EF2999227E3B8D200A2238A /* SimplePrice.swift in Sources */,
 				7E8E97A5283F9804008606B0 /* FEPopupView.swift in Sources */,
+				C43973D128EF559E007ADF68 /* PaymentsViewController.swift in Sources */,
 				7BBBF4DE287421CF00E4D36B /* SwapPresenter.swift in Sources */,
 				CE977109216FA16300B9F621 /* SegwitViewController.swift in Sources */,
 				7BBBF4E0287421CF00E4D36B /* SwapMainVIP.swift in Sources */,
@@ -4839,6 +4860,7 @@
 				CE4DFB2C1E9BE5880014009E /* ReScanViewController.swift in Sources */,
 				7ECCA9642875A77300617067 /* OrderView.swift in Sources */,
 				7E5CB3A22835090E00EC787E /* Marginable.swift in Sources */,
+				C43973D228EF559E007ADF68 /* PaymentsInteractor.swift in Sources */,
 				7C9724661FF07B9A004248C4 /* StatusPip.swift in Sources */,
 				C4520F102875C726003FFB7F /* AssetSelectionViewController.swift in Sources */,
 				7EF45F542845352400D1F7B0 /* KYCBasicModels.swift in Sources */,
@@ -4864,6 +4886,7 @@
 				CE4C1CC61ED65D830063E184 /* DrawableCircle.swift in Sources */,
 				7E5CB3A12835090E00EC787E /* ViewProtocol.swift in Sources */,
 				7CBD57912107FAFA0042C388 /* PairedWalletIndex.swift in Sources */,
+				C43973CC28EF559E007ADF68 /* PaymentsCoordinator.swift in Sources */,
 				CEEC708C1E95461A00EF788E /* AboutViewController.swift in Sources */,
 				7ED427EF28755CB200AA19A8 /* ExchangeDetailsStore.swift in Sources */,
 				7BC49D1B282E69A3000BF284 /* ManageAssetsButton.swift in Sources */,
@@ -4920,12 +4943,14 @@
 				3A0063BE2509D36500C74A97 /* ExtendedTouchArea.swift in Sources */,
 				3A3D63DE22F10B58000DE920 /* ManageWalletsViewController.swift in Sources */,
 				7ED83AFD284F418E00261565 /* KYCDocumentWorker.swift in Sources */,
+				C43973D028EF559E007ADF68 /* PaymentsVIP.swift in Sources */,
 				CE20C9011DBBFFF800C8397A /* Actions.swift in Sources */,
 				CE20C9191DBE7B8200C8397A /* State.swift in Sources */,
 				CEEC70811E90C04700EF788E /* SeparatorCell.swift in Sources */,
 				CE97710D216FF20F00B9F621 /* SegwitEnabledView.swift in Sources */,
 				7EC21A1F28991A6500FED711 /* BillingAddressPresenter.swift in Sources */,
 				7C230E752037AD52002F0FF1 /* SyncingIndicator.swift in Sources */,
+				C43973CF28EF559E007ADF68 /* PaymentsModels.swift in Sources */,
 				7EB8FD222897D212000FF75C /* BuyStore.swift in Sources */,
 				7E5CB39C2835090E00EC787E /* Coordinator.swift in Sources */,
 				CEEC70861E94397D00EF788E /* UserDefaults+Additions.swift in Sources */,
@@ -4947,7 +4972,6 @@
 				7B54E59F27F4A2B0002DD1E4 /* KYCAPI.swift in Sources */,
 				7EB8FD292897F22B000FF75C /* CardSelectionView.swift in Sources */,
 				7EBC6AF928488B10000A301F /* RegistrationVIP.swift in Sources */,
-				7EC21A22289946C300FED711 /* CardSelectionViewController.swift in Sources */,
 				7CBA74E62022784D00FBBFA9 /* HomeScreenAssetViewModel.swift in Sources */,
 				7CA1C47420EC25B9002E9E68 /* QRCode.swift in Sources */,
 				7BBBF4DB287421CF00E4D36B /* SwapInteractor.swift in Sources */,

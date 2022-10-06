@@ -10,7 +10,7 @@
 
 import UIKit
 
-class BillingAddressViewController: BaseTableViewController<ItemSelectionCoordinator,
+class BillingAddressViewController: BaseTableViewController<PaymentsCoordinator,
                                     BillingAddressInteractor,
                                     BillingAddressPresenter,
                                     BillingAddressStore>,

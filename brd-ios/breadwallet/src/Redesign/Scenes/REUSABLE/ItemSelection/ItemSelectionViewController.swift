@@ -113,7 +113,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
             return
         }
         
-        guard let model = sectionRows[section]?[indexPath.row], dataStore?.isSelectingEnabled == true else { return }
+        guard let model = sectionRows[section]?[indexPath.row] else { return }
         
         itemSelected?(model)
         
@@ -137,28 +137,6 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     }
     
     // MARK: - User Interaction
-
-    // MARK: - ItemSelectionResponseDisplay
-    func displayRemovePaymentPopup(responseDisplay: ItemSelectionModels.RemovePaymenetPopup.ResponseDisplay) {
-        guard let navigationController = coordinator?.navigationController else { return }
-        
-        coordinator?.showPopup(on: navigationController,
-                               blurred: false,
-                               with: responseDisplay.popupViewModel,
-                               config: responseDisplay.popupConfig,
-                               closeButtonCallback: { [weak self] in
-            self?.coordinator?.hidePopup()
-        }, callbacks: [ {[weak self] in
-                self?.coordinator?.hidePopup()
-                self?.interactor?.removePayment(viewAction: .init())
-            }, {[weak self] in
-                self?.coordinator?.hidePopup()}
-        ])
-    }
-    
-    func displayRemovePaymentSuccess(responseDisplay: ItemSelectionModels.RemovePayment.ResponseDisplay) {
-        interactor?.getPaymentCards(viewAction: .init())
-    }
 
     // MARK: - Additional Helpers
 }
