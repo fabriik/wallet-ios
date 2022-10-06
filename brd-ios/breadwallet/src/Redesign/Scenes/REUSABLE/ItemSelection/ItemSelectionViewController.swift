@@ -148,10 +148,12 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
                                config: responseDisplay.popupConfig,
                                closeButtonCallback: { [weak self] in
             self?.coordinator?.hidePopup()
-        }, callbacks: [ { [weak self] in
-            self?.coordinator?.hidePopup()
-            self?.interactor?.removePayment(viewAction: .init())
-        } ])
+        }, callbacks: [ {[weak self] in
+                self?.coordinator?.hidePopup()
+                self?.interactor?.removePayment(viewAction: .init())
+            }, {[weak self] in
+                self?.coordinator?.hidePopup()}
+        ])
     }
     
     func displayRemovePaymentSuccess(responseDisplay: ItemSelectionModels.RemovePayment.ResponseDisplay) {
