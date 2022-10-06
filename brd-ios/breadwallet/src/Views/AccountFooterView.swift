@@ -65,6 +65,7 @@ class AccountFooterView: UIView, Subscriber {
             button.addTarget(self, action: selector, for: .touchUpInside)
             return UIBarButtonItem(customView: button)
         }
+        buttons.first?.isEnabled = currency.wallet?.balance.isZero != true
         
         let paddingWidth = C.padding[2]
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
