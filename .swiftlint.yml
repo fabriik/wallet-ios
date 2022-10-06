@@ -42,7 +42,7 @@ cyclomatic_complexity:
     ignores_case_statements: true
 nesting:
     type_level: 2
-    statement_level: 5
+    function_level: 5
 type_name:
     max_length: 50 #warning
     excluded:
