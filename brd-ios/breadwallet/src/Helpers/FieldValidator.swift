@@ -21,9 +21,13 @@ struct FieldValidator {
         return fieldValidationIsAllowed.values.contains(where: { $0 == false }) == false
     }
     
-    static func validate(CVV: String) -> Bool {
-        let isValid = CVV.count > 2 && CVV.count < 5
-        
-        return isValid
+    static func validate(cvv: String?) -> Bool {
+        guard let cvv = cvv else { return false }
+        return cvv.count > 2 && cvv.count < 5
+    }
+    
+    static func validate(cardNumber: String?) -> Bool {
+        guard let cardNumber = cardNumber else { return false }
+        return cardNumber.count > 11 && cardNumber.count < 17
     }
 }

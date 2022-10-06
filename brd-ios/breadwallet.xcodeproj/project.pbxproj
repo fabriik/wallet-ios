@@ -4336,6 +4336,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		7B8A33CA28566577007D3131 /* SwiftGen */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 12;
 			files = (
 			);
@@ -4350,10 +4351,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd BuildTools\nSDKROOT=macosx\nswift run -c release swiftgen\n";
+			shellScript = "cd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\nswift run -c release swiftgen --config Resources/swiftgen.yml\n";
 		};
 		7C3C4695218253DC0036D95A /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 12;
 			files = (
 			);
@@ -4368,7 +4370,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Confirm homebrew root for M1 machines\nif test -d \"/opt/homebrew/bin/\"; then\n PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\nexport PATH\n\nif which swiftlint >/dev/null; then\n  swiftlint --config ../.swiftlint.yml --path breadwallet/\nelse\n  if [ \"${CONFIGURATION}\" == \"Release\" ]; then\n    exit 0;\n  else\n    echo \"error: SwiftLint not installed, download from https://github.com/realm/SwiftLint or install via homebrew\"\n    exit 0\n  fi\nfi\n";
+			shellScript = "# Confirm homebrew root for M1 machines\nif test -d \"/opt/homebrew/bin/\"; then\n PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\nexport PATH\n\nif which swiftlint >/dev/null; then\n git status --porcelain | grep -v '^ \\?D' | cut -c 4- | sed 's/.* -> //' | tr -d '\"' | while read file \n do\n     if [[ \"$file\" == *.swift ]]; then\n         swiftlint \"$file\" --fix \n        swiftlint --config ../.swiftlint.yml \"$file\" --fix\n     fi\n done\nelse\n  if [ \"${CONFIGURATION}\" == \"Release\" ]; then\n    exit 0;\n  else\n    echo \"error: SwiftLint not installed, download from https://github.com/realm/SwiftLint or install via homebrew\"\n    exit 0\n  fi\nfi\n";
 		};
 		7CDC6A5521125C14004AE68E /* Thin Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
