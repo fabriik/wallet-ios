@@ -23,6 +23,7 @@ struct E {
     
     static let isTestFlight: Bool = {
         #if TESTFLIGHT
+        
             return true
         #else
             return false
