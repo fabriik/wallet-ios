@@ -157,8 +157,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     }
     
     func displayRemovePaymentSuccess(responseDisplay: ItemSelectionModels.RemovePayment.ResponseDisplay) {
-        // TODO: Reload card items
-        print("reload card items")
+        interactor?.getPaymentCards(viewAction: .init())
     }
 
     // MARK: - Additional Helpers
