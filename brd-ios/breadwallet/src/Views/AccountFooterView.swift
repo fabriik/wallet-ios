@@ -63,13 +63,9 @@ class AccountFooterView: UIView, Subscriber {
             button.tintColor = .white
             button.backgroundColor = .transparentWhite
             button.addTarget(self, action: selector, for: .touchUpInside)
-            
-            let barButton = UIBarButtonItem(customView: button)
-            if title == L10n.Button.send {
-                barButton.isEnabled = currency.wallet?.balance.isZero != true
-            }
-            return barButton
+            return UIBarButtonItem(customView: button)
         }
+        buttons.first?.isEnabled = currency.wallet?.balance.isZero != true
         
         let paddingWidth = C.padding[2]
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
