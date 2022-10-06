@@ -67,7 +67,7 @@ struct C {
     static let fabriikURL = "fabriik.com"
     static let privacyPolicy = "https://\(fabriikURL)/privacy-policy/"
     static let termsAndConditions = "https://\(fabriikURL)/terms-and-conditions/"
-    static let feedbackEmail = "feedback@\(fabriikURL)"
+    static let feedbackEmail = "hello@\(fabriikURL)"
     static let iosEmail = "ios@\(fabriikURL)"
     static let reviewLink = "https://apps.apple.com/us/app/fabriik/id1595167194?action=write-review"
     static let supportLink = "https://app-support.\(fabriikURL)/"
