@@ -23,6 +23,7 @@ struct E {
     
     static let isTestFlight: Bool = {
         #if TESTFLIGHT
+        
             return true
         #else
             return false
@@ -39,14 +40,6 @@ struct E {
     
     static let isDebug: Bool = {
         #if DEBUG
-            return true
-        #else
-            return false
-        #endif
-    }()
-    
-    static let isScreenshots: Bool = {
-        #if SCREENSHOTS
             return true
         #else
             return false

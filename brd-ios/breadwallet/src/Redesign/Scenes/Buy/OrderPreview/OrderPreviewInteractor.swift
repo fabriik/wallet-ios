@@ -82,18 +82,18 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
                         self?.dataStore?.paymentReference = exchangeData?.paymentReference
                         self?.dataStore?.paymentstatus = paymentStatusData?.status
                         
-                        if let redirectUrlString = exchangeData?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
-                            ExchangeManager.shared.reload()
-                            
-                            self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
-                        } else {
-                            self?.handlePresentSubmit()
-                        }
-                        
                     case .failure(let error):
                         self?.presenter?.presentError(actionResponse: .init(error: error))
                     }
                 })
+                
+                guard let redirectUrlString = exchangeData?.redirectUrl,
+                      let redirectUrl = URL(string: redirectUrlString) else {
+                    self?.handlePresentSubmit()
+                    return
+                }
+                ExchangeManager.shared.reload()
+                self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
@@ -109,8 +109,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     
     func updateCvv(viewAction: OrderPreviewModels.CvvValidation.ViewAction) {
         dataStore?.cvv = viewAction.cvv
-        
-        let isValid = FieldValidator.validate(CVV: dataStore?.cvv ?? "")
+        let isValid = FieldValidator.validate(cvv: dataStore?.cvv)
         
         presenter?.presentCvv(actionResponse: .init(isValid: isValid))
     }
