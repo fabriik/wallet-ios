@@ -56,11 +56,11 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
     }
     
     func validate(viewAction: AddCardModels.Validate.ViewAction) {
-        let isValidInfo = FieldValidator.validate(fields: [dataStore?.cardNumber,
-                                                           dataStore?.cardExpDateString])
-        let isValidCVV = FieldValidator.validate(CVV: dataStore?.cardCVV ?? "")
+        let isValid = FieldValidator.validate(fields: [dataStore?.cardExpDateString])
+        && FieldValidator.validate(cvv: dataStore?.cardCVV)
+        && FieldValidator.validate(cardNumber: dataStore?.cardNumber)
         
-        presenter?.presentValidate(actionResponse: .init(isValid: isValidInfo && isValidCVV))
+        presenter?.presentValidate(actionResponse: .init(isValid: isValid))
     }
     
     func submit(viewAction: AddCardModels.Submit.ViewAction) {
