@@ -8,16 +8,11 @@
 
 import UIKit
 
-class ItemSelectionCoordinator: BaseCoordinator, ItemSelectionRoutes {
+class ItemSelectionCoordinator: BuyCoordinator, ItemSelectionRoutes {
     // MARK: - ItemSelectionRoutes
     override func start() {
         open(scene: Scenes.ItemSelection)
     }
     
     // MARK: - Aditional helpers
-    
-    func dismissFlow() {
-        navigationController.dismiss(animated: true)
-        parentCoordinator?.childDidFinish(child: self)
-    }
 }

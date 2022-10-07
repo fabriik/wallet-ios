@@ -104,7 +104,8 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch sections[indexPath.section] as? Models.Section {
         case .navigation:
-            interactor?.navigate(viewAction: .init(index: indexPath.row))
+            let indexPath = dataStore?.profile?.status == .levelTwo(.levelTwo) ? indexPath.row : indexPath.row + 1
+            interactor?.navigate(viewAction: .init(index: indexPath))
         default:
             return
         }
@@ -119,12 +120,21 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
     
     func displayNavigation(responseDisplay: ProfileModels.Navigate.ResponseDisplay) {
         switch responseDisplay.item {
+        case .paymentMethods:
+            interactor?.getPaymentCards(viewAction: .init())
+            
         case .preferences:
             coordinator?.showPreferences()
             
         case .security:
             coordinator?.showSecuirtySettings()
         }
+    }
+    
+    func displayPaymentCards(responseDisplay: ProfileModels.PaymentCards.ResponseDisplay) {
+        coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards,
+                                      selected: nil,
+                                      fromBuy: false)
     }
     
     // MARK: - Additional Helpers
