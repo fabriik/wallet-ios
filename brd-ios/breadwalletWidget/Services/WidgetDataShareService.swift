@@ -79,7 +79,6 @@ extension DefaultWidgetDataShareService {
         static let portfolioInfoKey = "PortfolioInfo"
         static let sharePortfolioKey = "SharePortfolio"
         static let quoteCurrencyCodeKey = "QuoteCurrencyCode"
-        static let appGroupsId = Bundle.main.object(forInfoDictionaryKey: "APP_GROUPS_ID") as? String
-        static let defaults = UserDefaults(suiteName: appGroupsId ?? "fail")!
+        static let defaults = UserDefaults(suiteName: AppGroup.fabriikOne.rawValue)!
     }
 }
