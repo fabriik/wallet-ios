@@ -103,7 +103,9 @@ class ProfileView: FEView<ProfileConfiguration, ProfileViewModel> {
         editImageView.wrappedView.configure(with: Presets.Background.Primary.normal.withBorder(border: zeroBorder))
         nameLabel.configure(with: .init(font: Fonts.Title.four,
                                         textColor: LightColors.Text.one,
-                                        textAlignment: .center))
+                                        textAlignment: .center,
+                                        numberOfLines: 1))
+        nameLabel.adjustsFontSizeToFitWidth = true
     }
     
     override func setup(with viewModel: ProfileViewModel?) {
