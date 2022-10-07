@@ -28,6 +28,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         open(scene: Scenes.BillingAddress) { vc in
             vc.interactor?.dataStore?.checkoutToken = checkoutToken
             vc.prepareData()
+            LoadingView.hide()
         }
     }
     
