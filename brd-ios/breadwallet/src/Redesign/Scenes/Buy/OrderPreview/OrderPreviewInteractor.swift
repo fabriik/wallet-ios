@@ -25,12 +25,16 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
             return
         }
         
-        getPaymentStatus(reference: reference) { [weak self] result in
+        let requestData = PaymentStatusRequestData(reference: reference)
+        PaymentStatusWorker().execute(requestData: requestData) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.dataStore?.paymentstatus = data?.status
-                
-                self?.handlePresentSubmit()
+                guard data?.status == .captured || data?.status == .cardVerified else {
+                    self?.presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Buy.paymentFailed)))
+                    return
+                }
+                self?.presenter?.presentSubmit(actionResponse: .init(paymentReference: self?.dataStore?.paymentReference ?? ""))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
@@ -76,22 +80,13 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
         SwapWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let exchangeData):
-                self?.getPaymentStatus(reference: exchangeData?.paymentReference ?? "", completion: { result in
-                    switch result {
-                    case .success(let paymentStatusData):
-                        self?.dataStore?.paymentReference = exchangeData?.paymentReference
-                        self?.dataStore?.paymentstatus = paymentStatusData?.status
-                        
-                    case .failure(let error):
-                        self?.presenter?.presentError(actionResponse: .init(error: error))
-                    }
-                })
-                
-                guard let redirectUrlString = exchangeData?.redirectUrl,
-                      let redirectUrl = URL(string: redirectUrlString) else {
-                    self?.handlePresentSubmit()
+                self?.dataStore?.paymentReference = exchangeData?.paymentReference
+                guard let redirectUrlString = exchangeData?.redirectUrl, let
+                        redirectUrl = URL(string: redirectUrlString) else {
+                    self?.getData(viewAction: .init())
                     return
                 }
+                
                 ExchangeManager.shared.reload()
                 self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
                 
@@ -120,20 +115,5 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
     }
     
     // TODO: add rate refreshing logic!
-    
     // MARK: - Aditional helpers
-    
-    private func getPaymentStatus(reference: String, completion: @escaping (Result<AddCard?, Error>) -> Void) {
-        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: reference)) { result in
-            completion(result)
-        }
-    }
-    
-    private func handlePresentSubmit() {
-        if C.successfullPayment.contains(where: { $0 == dataStore?.paymentstatus }) {
-            presenter?.presentSubmit(actionResponse: .init(paymentReference: dataStore?.paymentReference ?? ""))
-        } else {
-            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Buy.paymentFailed)))
-        }
-    }
 }
