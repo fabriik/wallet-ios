@@ -30,7 +30,7 @@ class OrderPreviewInteractor: NSObject, Interactor, OrderPreviewViewActions {
             switch result {
             case .success(let data):
                 self?.dataStore?.paymentstatus = data?.status
-                guard data?.status == .captured || data?.status == .cardVerified else {
+                guard data?.status.isSuccesful == true else {
                     self?.presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Buy.paymentFailed)))
                     return
                 }
