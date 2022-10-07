@@ -83,7 +83,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         content.addSubview(closeButton)
         closeButton.snp.makeConstraints { make in
             make.trailing.top.equalToSuperview().inset(Margins.extraLarge.rawValue)
-            make.width.height.equalTo(Margins.extraLarge.rawValue)
+            make.width.height.equalTo(Margins.huge.rawValue)
         }
         
         content.addSubview(mainStack)
@@ -110,7 +110,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         
         scrollView.addSubview(scrollingStack)
         scrollingStack.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(mainStack).inset(Margins.small.rawValue)
+            make.leading.trailing.equalTo(mainStack).inset(Margins.extraSmall.rawValue)
             make.top.bottom.equalToSuperview()
         }
         

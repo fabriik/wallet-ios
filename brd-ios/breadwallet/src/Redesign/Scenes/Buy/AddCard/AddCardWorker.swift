@@ -34,6 +34,13 @@ struct AddCard: Model {
         case refunded = "REFUNDED"
         
         case none
+        
+        var isSuccesful: Bool {
+            switch self {
+            case .cardVerified, .captured: return true
+            default: return false
+            }
+        }
     }
     
     var status: Status
