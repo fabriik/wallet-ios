@@ -186,7 +186,7 @@ class ApplicationController: Subscriber {
                 guard let self = self else { return }
                 self.setWalletInfo(account: account)
                 self.coreSystem.create(account: account,
-                                       authToken: E.apiToken,
+                                       authToken: UserDefaults.kycSessionKeyValue ?? E.apiToken,
                                        btcWalletCreationCallback: self.handleDeferedLaunchURL) {
                     self.modalPresenter = ModalPresenter(keyStore: self.keyStore,
                                                          system: self.coreSystem,
