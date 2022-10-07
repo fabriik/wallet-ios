@@ -198,11 +198,13 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
 
     func animateSwitchPlaces() {
         let isNormal = swapButton.transform == .identity
-        let topFrame = isNormal ? termSwapCurrencyView.selectorStackView : baseSwapCurrencyView.selectorStackView
-        let bottomFrame = isNormal ? baseSwapCurrencyView.selectorStackView : termSwapCurrencyView.selectorStackView
         
-        let frame = topFrame.convert(topFrame.bounds, from: bottomFrame)
-        let verticalDistance = frame.minY - topFrame.bounds.maxY + topFrame.frame.height
+        let base = baseSwapCurrencyView.selectorStackView
+        let term = termSwapCurrencyView.selectorStackView
+        let baseTop = base.convert(base.bounds, to: self).minY
+        let termTop = term.convert(term.bounds, to: self).minY
+        let verticalDistance = isNormal ? baseTop - termTop : termTop - baseTop
+        
         swapButton.isEnabled = false
         
         UIView.animate(withDuration: Presets.Animation.duration * 2,
@@ -210,8 +212,8 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 3.0,
                        options: .curveEaseIn) { [weak self] in
-            self?.baseSwapCurrencyView.selectorStackView.transform = .init(translationX: 0, y: isNormal ? -verticalDistance : verticalDistance)
-            self?.termSwapCurrencyView.selectorStackView.transform = .init(translationX: 0, y: isNormal ? verticalDistance : -verticalDistance)
+            self?.baseSwapCurrencyView.selectorStackView.transform = isNormal ? .init(translationX: 0, y: -verticalDistance) : .identity
+            self?.termSwapCurrencyView.selectorStackView.transform = isNormal ? .init(translationX: 0, y: verticalDistance) : .identity
             self?.swapButton.transform = isNormal ? CGAffineTransform(rotationAngle: .pi) : .identity
         }
         
