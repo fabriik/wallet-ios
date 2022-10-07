@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileCoordinator: BaseCoordinator, ProfileRoutes {
+class ProfileCoordinator: BuyCoordinator, ProfileRoutes {
     // MARK: - ProfileRoutes
     
     override func start() {
@@ -35,11 +35,6 @@ class ProfileCoordinator: BaseCoordinator, ProfileRoutes {
     }
     
     func showExport() {}
-
-    // MARK: - Aditional helpers
-    override func goBack() {
-        navigationController.popViewController(animated: true)
-    }
 }
 
 extension BaseCoordinator {

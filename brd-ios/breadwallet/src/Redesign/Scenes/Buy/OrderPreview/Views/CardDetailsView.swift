@@ -22,9 +22,13 @@ struct CardDetailsViewModel: ViewModel {
     var title: LabelViewModel?
     var cardNumber: LabelViewModel?
     var expiration: LabelViewModel?
+    var moreOption: Bool = false
 }
 
 class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
+    
+    var moreButtonCallback: (() -> Void)?
+    
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -63,6 +67,12 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
     
     private lazy var expirationLabel: FELabel = {
         let view = FELabel()
+        return view
+    }()
+    
+    private lazy var moreButton: FEButton = {
+        let view = FEButton()
+        view.setImage(UIImage(named: "more"), for: .normal)
         return view
     }()
 
@@ -105,6 +115,10 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         spacer2.snp.makeConstraints { make in
             make.width.equalTo(Margins.extraSmall.rawValue).priority(.low)
         }
+        
+        selectorStack.addArrangedSubview(moreButton)
+        moreButton.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
+        layoutIfNeeded()
     }
     
     override func configure(with config: CardDetailsConfiguration?) {
@@ -128,5 +142,12 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         logoImageView.isHidden = viewModel?.logo == nil
         
         expirationLabel.setup(with: viewModel?.expiration)
+        
+        guard let moreOption = viewModel?.moreOption else { return }
+        moreButton.isHidden = !moreOption
+    }
+    
+    @objc private func moreButtonTapped(_ sender: UIButton?) {
+        moreButtonCallback?()
     }
 }

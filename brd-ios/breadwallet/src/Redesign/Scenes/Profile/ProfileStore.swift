@@ -12,5 +12,11 @@ class ProfileStore: NSObject, BaseDataStore, ProfileDataStore {
     // MARK: - ProfileDataStore
     var itemId: String?
     var profile: Profile?
+    
+    var allPaymentCards: [PaymentCard]?
+    var paymentCard: PaymentCard?
+    
+    var autoSelectDefaultPaymentMethod = true
+    
     // MARK: - Aditional helpers
 }
