@@ -13,16 +13,19 @@ extension Scenes {
 }
 
 protocol PaymentsViewActions: BaseViewActions, FetchViewActions {
+    func showActionSheetRemovePayment(viewAction: PaymentsModels.ActionSheet.ViewAction)
     func removePaymenetPopup(viewAction: PaymentsModels.RemovePaymenetPopup.ViewAction)
     func removePayment(viewAction: PaymentsModels.RemovePayment.ViewAction)
 }
 
 protocol PaymentsActionResponses: BaseActionResponses, FetchActionResponses {
+    func presentActionSheetRemovePayment(actionResponse: PaymentsModels.ActionSheet.ActionResponse)
     func presentRemovePaymentPopup(actionResponse: PaymentsModels.RemovePaymenetPopup.ActionResponse)
     func presentRemovePaymentMessage(actionResponse: PaymentsModels.RemovePayment.ActionResponse)
 }
 
 protocol PaymentsResponseDisplays: AnyObject, BaseResponseDisplays, FetchResponseDisplays {
+    func displayActionSheetRemovePayment(responseDisplay: PaymentsModels.ActionSheet.ResponseDisplay)
     func displayRemovePaymentPopup(responseDisplay: PaymentsModels.RemovePaymenetPopup.ResponseDisplay)
     func displayRemovePaymentSuccess(responseDisplay: PaymentsModels.RemovePayment.ResponseDisplay)
 }

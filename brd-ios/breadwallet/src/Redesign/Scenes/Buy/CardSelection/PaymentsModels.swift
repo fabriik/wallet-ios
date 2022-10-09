@@ -29,6 +29,23 @@ enum PaymentsModels {
         }
     }
     
+    struct ActionSheet {
+        struct ViewAction {
+            var instrumentId: String
+        }
+        
+        struct ActionResponse {
+            var instrumentId: String
+        }
+        
+        struct ResponseDisplay {
+            var instrumentId: String
+            var actionSheetOkButton: String
+            var actionSheetCancelButton: String
+
+        }
+    }
+    
     struct RemovePayment {
         struct ViewAction {}
         

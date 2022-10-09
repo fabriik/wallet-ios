@@ -63,9 +63,6 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch sections[indexPath.section] as? Models.Sections {
-        case .addItem:
-            cell = self.tableView(tableView, addItemCellForRowAt: indexPath)
-            
         case .items:
             cell = self.tableView(tableView, itemCellForRowAt: indexPath)
             
@@ -74,20 +71,6 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
         }
         
         cell.contentView.setupCustomMargins(vertical: .small, horizontal: .zero)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, addItemCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = sections[indexPath.section]
-        guard let cell: WrapperTableViewCell<ItemView> = tableView.dequeueReusableCell(for: indexPath),
-              let model = sectionRows[section]?[indexPath.row] as? ItemSelectable
-        else { return UITableViewCell() }
-        
-        cell.setup { view in
-            view.setup(with: .init(title: model.displayName ?? "", image: model.displayImage))
-            view.setupCustomMargins(all: .large)
-        }
         
         return cell
     }

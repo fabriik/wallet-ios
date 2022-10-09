@@ -52,6 +52,10 @@ class PaymentsInteractor: NSObject, Interactor, PaymentsViewActions {
         }
     }
     
+    func showActionSheetRemovePayment(viewAction: PaymentsModels.ActionSheet.ViewAction) {
+        presenter?.presentActionSheetRemovePayment(actionResponse: .init(instrumentId: viewAction.instrumentId))
+    }
+    
     func removePayment(viewAction: PaymentsModels.RemovePayment.ViewAction) {
         DeleteCardWorker().execute(requestData: DeleteCardRequestData(instrumentId: self.dataStore?.instrumentID)) { [weak self] result in
             switch result {

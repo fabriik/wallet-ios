@@ -33,6 +33,12 @@ final class PaymentsPresenter: NSObject, Presenter, PaymentsActionResponses {
     weak var viewController: PaymentsViewController?
 
     // MARK: - PaymentsActionResponses
+    func presentActionSheetRemovePayment(actionResponse: PaymentsModels.ActionSheet.ActionResponse) {
+        viewController?.displayActionSheetRemovePayment(responseDisplay: .init(instrumentId: actionResponse.instrumentId,
+                                                                               actionSheetOkButton: L10n.Buy.removePaymentMethod,
+                                                                               actionSheetCancelButton: L10n.Button.cancel))
+    }
+    
     func presentRemovePaymentPopup(actionResponse: PaymentsModels.RemovePaymenetPopup.ActionResponse) {
         let popupViewModel = PopupViewModel(title: .text(L10n.Buy.removeCard),
                                             body: L10n.Buy.removeCardOption,
