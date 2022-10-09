@@ -194,6 +194,7 @@ class DefaultWidgetService: WidgetService {
                 .sorted { $0.metaData.isPreferred && !$1.metaData.isPreferred }
                 .sorted { $0.isEthereum && !$1.isEthereum }
                 .sorted { $0.isBitcoin && !$1.isBitcoin }
+                .sorted { $0.isBitcoinSV && !$1.isBitcoinSV }
             currenciesCache = currencies
             return currencies
         }
