@@ -43,7 +43,8 @@ class CardSelectionViewController: ItemSelectionViewController {
                                    expiration: .text(CardDetailsFormatter.formatExpirationDate(month: model.expiryMonth, year: model.expiryYear))))
             
             view.moreButtonCallback = { [weak self] in
-                self?.showActionSheetRemovePayment(instrumentID: model.id)
+                self?.interactor?.showActionSheetRemovePayment(viewAction: .init(instrumentId: model.id,
+                                                                                 last4: model.last4))
             }
             
             view.setupCustomMargins(top: .zero, leading: .large, bottom: .zero, trailing: .large)
@@ -72,18 +73,4 @@ class CardSelectionViewController: ItemSelectionViewController {
     }
     
     // MARK: - Additional Helpers
-    func showActionSheetRemovePayment(instrumentID: String) {
-        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let removePaymentAction = UIAlertAction(title: L10n.Buy.removePaymentMethod, style: .destructive, handler: { [weak self] _ in
-            self?.interactor?.removePaymenetPopup(viewAction: .init(instrumentID: instrumentID))
-        })
-        
-        let cancelAction = UIAlertAction(title: L10n.Button.cancel, style: .cancel)
-        
-        optionMenu.addAction(removePaymentAction)
-        optionMenu.addAction(cancelAction)
-        
-        self.present(optionMenu, animated: true, completion: nil)
-    }
 }
