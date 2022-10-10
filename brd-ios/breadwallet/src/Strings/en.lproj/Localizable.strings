@@ -621,7 +621,7 @@
 "Buy.PurchaseSuccessTitle" = "Your assets are on the way!";
 
 /* Are you sure you want to remove this card title dialog */
-"Buy.RemoveCard" = "Are you sure you want to remove this card?";
+"Buy.RemoveCard" = "Are you sure you want to remove card ending in";
 
 /* You will no longer be able to use it to buy assets description on removing card dialog  */
 "Buy.RemoveCardOption" = "You will no longer be able to use it to buy assets.";

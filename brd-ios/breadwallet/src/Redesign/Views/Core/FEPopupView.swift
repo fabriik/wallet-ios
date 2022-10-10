@@ -1,4 +1,4 @@
-// 
+//
 //  FEPopupView.swift
 //  breadwallet
 //
@@ -11,7 +11,7 @@
 import UIKit
 import SnapKit
 
-// TODO: Get rid of this and use the new popups on redesign. 
+// TODO: Get rid of this and use the new popups on redesign.
 
 struct PopupConfiguration: Configurable {
     var background: BackgroundConfiguration?
@@ -71,7 +71,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         view.isUserInteractionEnabled = false
         return view
     }()
-
+    
     private lazy var textView: UITextView = {
         let view = UITextView()
         view.isEditable = false
@@ -125,7 +125,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         scrollView.addSubview(scrollingStack)
         scrollingStack.snp.makeConstraints { make in
             make.leading.trailing.equalTo(mainStack).inset(Margins.small.rawValue)
-            make.top.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(Margins.extraSmall.rawValue)
         }
         
         scrollingStack.addArrangedSubview(textView)
@@ -149,7 +149,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
     
     override func setup(with viewModel: PopupViewModel?) {
         guard let viewModel = viewModel else { return }
-
+        
         super.setup(with: viewModel)
         titleLabel.setup(with: viewModel.title)
         titleLabel.isHidden = viewModel.title == nil
