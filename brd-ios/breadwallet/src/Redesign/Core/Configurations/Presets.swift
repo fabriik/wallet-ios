@@ -281,7 +281,7 @@ extension Presets {
         static var normal = PopupConfiguration(background: .init(backgroundColor: LightColors.secondary,
                                                                  tintColor: LightColors.Contrast.two,
                                                                  border: Presets.Border.zero),
-                                               title: .init(font: Fonts.Title.seven, textColor: LightColors.Contrast.two),
+                                               title: .init(font: Fonts.Title.four, textColor: LightColors.Contrast.two),
                                                body: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
                                                buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
                                                                                             selected: Presets.Border.selected,

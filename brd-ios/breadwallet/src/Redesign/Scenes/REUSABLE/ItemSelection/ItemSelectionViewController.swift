@@ -139,6 +139,14 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     // MARK: - User Interaction
 
     // MARK: - ItemSelectionResponseDisplay
+    func displayActionSheetRemovePayment(responseDisplay: ItemSelectionModels.ActionSheet.ResponseDisplay) {
+        coordinator?.showPaymentsActionSheet(okButtonTitle: responseDisplay.actionSheetOkButton,
+                                             cancelButtonTitle: responseDisplay.actionSheetCancelButton,
+                                             handler: { [weak self] in
+            self?.interactor?.removePaymenetPopup(viewAction: .init(instrumentID: responseDisplay.instrumentId, last4: responseDisplay.last4))
+        })
+    }
+    
     func displayRemovePaymentPopup(responseDisplay: ItemSelectionModels.RemovePaymenetPopup.ResponseDisplay) {
         guard let navigationController = coordinator?.navigationController else { return }
         

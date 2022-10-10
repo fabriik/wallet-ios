@@ -1,4 +1,4 @@
-// 
+//
 //  FEPopupView.swift
 //  breadwallet
 //
@@ -10,6 +10,8 @@
 
 import UIKit
 import SnapKit
+
+// TODO: Get rid of this and use the new popups on redesign.
 
 struct PopupConfiguration: Configurable {
     var background: BackgroundConfiguration?
@@ -28,7 +30,6 @@ struct PopupViewModel: ViewModel {
 }
 
 class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
-    
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -58,12 +59,19 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         return view
     }()
     
-    private lazy var closeButton: WrapperView<FEButton> = {
+    private lazy var closeButtonContainer: WrapperView<FEButton> = {
         let view = WrapperView<FEButton>()
         view.wrappedView.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         return view
     }()
-
+    
+    private lazy var closeButton: WrapperView<FEButton> = {
+        let view = WrapperView<FEButton>()
+        view.wrappedView.setupCustomMargins(all: .large)
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
     private lazy var textView: UITextView = {
         let view = UITextView()
         view.isEditable = false
@@ -74,24 +82,30 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
     }()
     
     private lazy var buttons: [FEButton] = []
+    
     var closeCallback: (() -> Void)?
     var buttonCallbacks: [() -> Void] = []
     
     override func setupSubviews() {
         super.setupSubviews()
         
-        content.addSubview(closeButton)
-        closeButton.snp.makeConstraints { make in
-            make.trailing.top.equalToSuperview().inset(Margins.extraLarge.rawValue)
-            make.width.height.equalTo(Margins.extraLarge.rawValue)
-        }
-        
         content.addSubview(mainStack)
         mainStack.snp.makeConstraints { make in
-            make.top.equalTo(closeButton).inset(Margins.large.rawValue)
+            make.top.equalTo(Margins.extraHuge.rawValue + Margins.huge.rawValue)
             make.leading.trailing.bottom.equalToSuperview().inset(Margins.large.rawValue)
         }
-        content.setupCustomMargins(all: .huge)
+        
+        content.addSubview(closeButtonContainer)
+        closeButtonContainer.snp.makeConstraints { make in
+            make.trailing.top.equalToSuperview()
+            make.width.height.equalTo(Margins.huge.rawValue * 2 + ViewSizes.extraSmall.rawValue)
+        }
+        
+        closeButtonContainer.addSubview(closeButton)
+        closeButton.snp.makeConstraints { make in
+            make.trailing.top.equalToSuperview().inset(Margins.huge.rawValue)
+            make.width.height.equalTo(ViewSizes.extraSmall.rawValue)
+        }
         
         mainStack.addArrangedSubview(imageView)
         imageView.snp.makeConstraints { make in
@@ -111,7 +125,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         scrollView.addSubview(scrollingStack)
         scrollingStack.snp.makeConstraints { make in
             make.leading.trailing.equalTo(mainStack).inset(Margins.small.rawValue)
-            make.top.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(Margins.extraSmall.rawValue)
         }
         
         scrollingStack.addArrangedSubview(textView)
@@ -135,14 +149,14 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
     
     override func setup(with viewModel: PopupViewModel?) {
         guard let viewModel = viewModel else { return }
-
+        
         super.setup(with: viewModel)
         titleLabel.setup(with: viewModel.title)
         titleLabel.isHidden = viewModel.title == nil
         
         closeButton.wrappedView.setup(with: viewModel.closeButton)
         
-        imageView.setup(with: .imageName(viewModel.imageName ?? ""))
+        imageView.setup(with: .imageName(viewModel.imageName))
         imageView.isHidden = viewModel.imageName == nil
         
         textView.text = viewModel.body

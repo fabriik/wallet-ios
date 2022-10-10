@@ -116,7 +116,7 @@ class HomeScreenCell: UITableViewCell, Subscriber {
 
     private func addSubviews() {
         backgroundColor = .homeBackground
-        // TODO: extract to CardView or smth
+        
         contentView.addSubview(container)
         container.addSubview(cardView)
         cardView.addSubview(iconContainer)
@@ -125,8 +125,9 @@ class HomeScreenCell: UITableViewCell, Subscriber {
         cardView.addSubview(price)
         cardView.addSubview(fiatBalance)
         cardView.addSubview(tokenBalance)
-        cardView.addSubview(priceChangeView)
         cardView.addSubview(syncIndicator)
+        cardView.addSubview(priceChangeView)
+        syncIndicator.isHidden = true
     }
 
     private func addConstraints() {
@@ -166,15 +167,13 @@ class HomeScreenCell: UITableViewCell, Subscriber {
         tokenBalance.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         fiatBalance.setContentCompressionResistancePriority(.required, for: .vertical)
         fiatBalance.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
         syncIndicator.constrain([
-            syncIndicator.trailingAnchor.constraint(equalTo: fiatBalance.leadingAnchor),
-            syncIndicator.leadingAnchor.constraint(equalTo: currencyName.trailingAnchor, constant: C.padding[1]),
-            syncIndicator.bottomAnchor.constraint(equalTo: currencyName.bottomAnchor),
-            syncIndicator.topAnchor.constraint(equalTo: currencyName.topAnchor)])
-        syncIndicator.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        currencyName.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            syncIndicator.trailingAnchor.constraint(equalTo: fiatBalance.trailingAnchor),
+            syncIndicator.leadingAnchor.constraint(greaterThanOrEqualTo: priceChangeView.trailingAnchor, constant: C.padding[1]),
+            syncIndicator.bottomAnchor.constraint(equalTo: tokenBalance.bottomAnchor, constant: 0.0)])
+        syncIndicator.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         layoutIfNeeded()
-        syncIndicator.backgroundColor = .yellow
     }
 
     private func setupStyle() {

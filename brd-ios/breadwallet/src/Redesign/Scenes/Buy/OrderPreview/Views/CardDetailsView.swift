@@ -142,6 +142,7 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         logoImageView.isHidden = viewModel?.logo == nil
         
         expirationLabel.setup(with: viewModel?.expiration)
+        expirationLabel.isHidden = viewModel?.expiration == nil
         
         guard let moreOption = viewModel?.moreOption else { return }
         moreButton.isHidden = !moreOption
