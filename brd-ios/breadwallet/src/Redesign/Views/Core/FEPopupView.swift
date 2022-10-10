@@ -11,7 +11,7 @@
 import UIKit
 import SnapKit
 
-// TODO: Get rif of this and use the new popups on redesign. 
+// TODO: Get rid of this and use the new popups on redesign. 
 
 struct PopupConfiguration: Configurable {
     var background: BackgroundConfiguration?
