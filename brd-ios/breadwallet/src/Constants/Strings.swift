@@ -114,12 +114,12 @@ internal enum L10n {
     /// We’ll let you know when your account is verified.
     internal static let verifiedAccountMessage = L10n.tr("Localizable", "Account.VerifiedAccountMessage", fallback: "We’ll let you know when your account is verified.")
     /// If you verify your account, you are given access to:
-    ///   - Unlimited deposits/withdrawals
-    ///   - Enhanced security
-    ///   - Full asset support
-    ///   - Buy assets with credit card
-    ///   - 24/7/365 live customer support
-    internal static let verifyAccountText = L10n.tr("Localizable", "Account.VerifyAccountText", fallback: "If you verify your account, you are given access to:\n  - Unlimited deposits/withdrawals\n  - Enhanced security\n  - Full asset support\n  - Buy assets with credit card\n  - 24/7/365 live customer support")
+    /// ・Unlimited deposits/withdrawals
+    /// ・Enhanced security
+    /// ・Full asset support
+    /// ・Buy assets with credit card
+    /// ・24/7/365 live customer support
+    internal static let verifyAccountText = L10n.tr("Localizable", "Account.VerifyAccountText", fallback: "If you verify your account, you are given access to:\n・Unlimited deposits/withdrawals\n・Enhanced security\n・Full asset support\n・Buy assets with credit card\n・24/7/365 live customer support")
     /// Enter and verify your new email address for your Fabriik account.
     internal static let verifyEmail = L10n.tr("Localizable", "Account.VerifyEmail", fallback: "Enter and verify your new email address for your Fabriik account.")
     /// We need to verify your identity in order to buy/sell and swap crypto.
@@ -497,6 +497,8 @@ internal enum L10n {
     internal static let city = L10n.tr("Localizable", "Buy.City", fallback: "City")
     /// Please confirm your CVV
     internal static let confirmCVV = L10n.tr("Localizable", "Buy.ConfirmCVV", fallback: "Please confirm your CVV")
+    /// Country
+    internal static let country = L10n.tr("Localizable", "Buy.Country", fallback: "Country")
     /// Purchase details
     internal static let details = L10n.tr("Localizable", "Buy.Details", fallback: "Purchase details")
     /// There was an error while processing your payment
@@ -525,8 +527,8 @@ internal enum L10n {
     internal static let purchaseSuccessText = L10n.tr("Localizable", "Buy.PurchaseSuccessText", fallback: "This purchase will appear as ‘Fabriik Wallet’ on your bank statement.")
     /// Your assets are on the way!
     internal static let purchaseSuccessTitle = L10n.tr("Localizable", "Buy.PurchaseSuccessTitle", fallback: "Your assets are on the way!")
-    /// Are you sure you want to remove this card?
-    internal static let removeCard = L10n.tr("Localizable", "Buy.RemoveCard", fallback: "Are you sure you want to remove this card?")
+    /// Are you sure you want to remove card ending in
+    internal static let removeCard = L10n.tr("Localizable", "Buy.RemoveCard", fallback: "Are you sure you want to remove card ending in")
     /// You will no longer be able to use it to buy assets.
     internal static let removeCardOption = L10n.tr("Localizable", "Buy.RemoveCardOption", fallback: "You will no longer be able to use it to buy assets.")
     /// Remove payment method

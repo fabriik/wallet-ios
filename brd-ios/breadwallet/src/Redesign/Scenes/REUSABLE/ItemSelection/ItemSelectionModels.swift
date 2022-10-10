@@ -29,6 +29,26 @@ enum ItemSelectionModels {
         }
     }
     
+    struct ActionSheet {
+        struct ViewAction {
+            var instrumentId: String
+            var last4: String
+        }
+        
+        struct ActionResponse {
+            var instrumentId: String
+            var last4: String
+        }
+        
+        struct ResponseDisplay {
+            var instrumentId: String
+            var last4: String
+            var actionSheetOkButton: String
+            var actionSheetCancelButton: String
+
+        }
+    }
+    
     struct RemovePayment {
         struct ViewAction {}
         
@@ -40,9 +60,12 @@ enum ItemSelectionModels {
     struct RemovePaymenetPopup {
         struct ViewAction {
             var instrumentID: String
+            var last4: String
         }
         
-        struct ActionResponse {}
+        struct ActionResponse {
+            var last4: String
+        }
         
         struct ResponseDisplay {
             var popupViewModel: PopupViewModel

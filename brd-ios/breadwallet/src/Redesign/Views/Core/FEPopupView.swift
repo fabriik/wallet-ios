@@ -88,7 +88,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         
         content.addSubview(mainStack)
         mainStack.snp.makeConstraints { make in
-            make.top.equalTo(closeButton).inset(Margins.large.rawValue)
+            make.top.equalTo(closeButton.snp.bottom).offset(Margins.small.rawValue)
             make.leading.trailing.bottom.equalToSuperview().inset(Margins.large.rawValue)
         }
         content.setupCustomMargins(all: .huge)
@@ -111,7 +111,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         scrollView.addSubview(scrollingStack)
         scrollingStack.snp.makeConstraints { make in
             make.leading.trailing.equalTo(mainStack).inset(Margins.small.rawValue)
-            make.top.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(Margins.extraSmall.rawValue)
         }
         
         scrollingStack.addArrangedSubview(textView)
