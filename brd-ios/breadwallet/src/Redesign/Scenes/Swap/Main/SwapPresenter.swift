@@ -178,7 +178,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 hasError = true
                 
             case _ where tokenValue < minimumValue:
-                // Value bellow minimum crypto
+                // Value below minimum crypto
                 presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: minimumValue, currency: tokenCode)))
                 hasError = true
                 

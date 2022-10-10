@@ -9,7 +9,6 @@
 import UIKit
 
 enum ProfileModels {
-    
     typealias Item = (title: String?, image: String?, status: VerificationStatus?)
     
     enum Section: Sectionable {
@@ -56,6 +55,27 @@ enum ProfileModels {
         
         struct ResponseDisplay {
             var allPaymentCards: [PaymentCard]
+        }
+    }
+}
+
+extension ProfileModels.NavigationItems {
+    var model: NavigationViewModel {
+        switch self {
+        case .paymentMethods:
+            return .init(image: .imageName("credit_card_icon"),
+                         label: .text(L10n.Buy.paymentMethod),
+                         button: .init(image: "arrowRight"))
+            
+        case .security:
+            return .init(image: .imageName("lock_closed"),
+                         label: .text(L10n.MenuButton.security),
+                         button: .init(image: "arrowRight"))
+            
+        case .preferences:
+            return .init(image: .imageName("settings"),
+                         label: .text(L10n.Settings.preferences),
+                         button: .init(image: "arrowRight"))
         }
     }
 }
