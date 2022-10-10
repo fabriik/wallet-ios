@@ -24,15 +24,6 @@ class PaymentsInteractor: NSObject, Interactor, PaymentsViewActions {
         presenter?.presentData(actionResponse: .init(item: item))
     }
     
-    func search(viewAction: ItemSelectionModels.Search.ViewAction) {
-        guard let items = dataStore?.items,
-              let searchText = viewAction.text?.lowercased() else { return }
-        
-        let searchData = searchText.isEmpty ? items : items.filter { $0.displayName?.lowercased().contains(searchText) ?? false }
-        let item = Models.Item(items: searchData, isAddingEnabled: dataStore?.isAddingEnabled)
-        presenter?.presentData(actionResponse: .init(item: item))
-    }
-    
     func getPaymentCards(viewAction: BuyModels.PaymentCards.ViewAction) {
         fetchCards { [weak self] result in
             guard let self = self else { return }
