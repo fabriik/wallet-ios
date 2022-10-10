@@ -45,7 +45,6 @@ enum ItemSelectionModels {
             var last4: String
             var actionSheetOkButton: String
             var actionSheetCancelButton: String
-
         }
     }
     
