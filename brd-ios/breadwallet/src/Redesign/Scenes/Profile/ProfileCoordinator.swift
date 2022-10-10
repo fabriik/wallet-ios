@@ -78,7 +78,7 @@ extension BaseCoordinator {
         
         UIView.animate(withDuration: Presets.Animation.duration) {
             popup.alpha = 1.0
-            blurView.alpha = blurred ? 1.0 : 0.7
+            blurView.alpha = blurred ? 0.88 : 0.70
         }
     }
     
