@@ -9,6 +9,11 @@
 import UIKit
 
 final class PaymentsPresenter: NSObject, Presenter, PaymentsActionResponses {
+    typealias Models = PaymentsModels
+
+    weak var viewController: PaymentsViewController?
+
+    // MARK: - PaymentsActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let item = actionResponse.item as? Models.Item,
               let items = item.items,
@@ -28,11 +33,6 @@ final class PaymentsPresenter: NSObject, Presenter, PaymentsActionResponses {
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
     
-    typealias Models = PaymentsModels
-
-    weak var viewController: PaymentsViewController?
-
-    // MARK: - PaymentsActionResponses
     func presentActionSheetRemovePayment(actionResponse: PaymentsModels.ActionSheet.ActionResponse) {
         viewController?.displayActionSheetRemovePayment(responseDisplay: .init(instrumentId: actionResponse.instrumentId,
                                                                                actionSheetOkButton: L10n.Buy.removePaymentMethod,
