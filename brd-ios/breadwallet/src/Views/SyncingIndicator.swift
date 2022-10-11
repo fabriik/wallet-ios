@@ -36,16 +36,16 @@ class SyncingIndicator: UIView {
                 case .account:
                     self.text = ""
                 }
-                setNeedsLayout()
             case .syncing:
                 self.text = L10n.SyncingView.syncing
-                setNeedsLayout()
             case .success:
                 // TODO: localize
-                self.text = "Connected"
+                self.text = ""
             case .failed:
                 self.text = L10n.SyncingView.failed
             }
+            
+            setNeedsLayout()
         }
     }
 

@@ -683,7 +683,6 @@ extension CoreSystem: SystemListener {
                 // only show the initial sync for API-mode wallets
                 let isP2Psync = manager.mode == .p2p_only
                 manager.network.currencies.compactMap { self.currencies[$0.uid] }
-                    .filter { isP2Psync || (Store.state[$0]?.syncState == .connecting) }
                     .forEach { Store.perform(action: WalletChange($0).setSyncingState(.syncing)) }
                 if isP2Psync {
                     self.startActivity()
