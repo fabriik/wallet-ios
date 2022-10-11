@@ -72,7 +72,7 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
         }
         verticalStack.addArrangedSubview(leading)
         leading.snp.makeConstraints { make in
-            make.width.equalTo(Margins.huge.rawValue)
+            make.width.equalTo(FieldHeights.common.rawValue)
         }
         leading.setupClearMargins()
         verticalStack.addArrangedSubview(titleLabel)
