@@ -53,7 +53,7 @@ class HomeScreenCell: UITableViewCell, Subscriber {
     
     let container = Background()    // not private for inheritance
         
-    private var isSyncIndicatorVisible: Bool = false {
+    private var isSyncIndicatorVisible: Bool = true {
         didSet {
             UIView.crossfade(tokenBalance, syncIndicator, toRight: isSyncIndicatorVisible, duration: isSyncIndicatorVisible == oldValue ? 0.0 : 0.3)
             fiatBalance.textColor = (isSyncIndicatorVisible || !(container.currency?.isSupported ?? false)) ? .transparentBlack : .black
@@ -127,7 +127,6 @@ class HomeScreenCell: UITableViewCell, Subscriber {
         cardView.addSubview(tokenBalance)
         cardView.addSubview(syncIndicator)
         cardView.addSubview(priceChangeView)
-        syncIndicator.isHidden = true
     }
 
     private func addConstraints() {

@@ -5642,7 +5642,6 @@
 		};
 		7ECCA9842872FD1000F99368 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7EF514B528EB5B6D004A31C5 /* staging.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BRCORE_CONFIGURATION = Staging;
@@ -5706,6 +5705,7 @@
 		};
 		7ECCA9852872FD1000F99368 /* Staging */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EF514B528EB5B6D004A31C5 /* staging.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${APP_ICON}";
