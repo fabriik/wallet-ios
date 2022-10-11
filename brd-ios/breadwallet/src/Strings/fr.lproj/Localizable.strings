@@ -13,7 +13,7 @@
 /* About screen reddit label */
 "About.reddit" = "Reddit";
 
-/* Terms And Conditions button label */
+/* Terms of Use button label */
 "About.terms" = "Conditions d'utilisation";
 
 /* About screen title */
@@ -619,7 +619,7 @@
 /* Label for the total balance of all the user's assets (style is all lower case if your language permits) */
 "HomeScreen.totalAssets" = "Capital total";
 
-/* (Tap here to) swap (your assets for other assets) */
+/* (Tap here to) trade (your assets for other assets) */
 "HomeScreen.trade" = "Échanger";
 
 /* Checking private key balance progress view text */
@@ -941,7 +941,7 @@
 /* Title for a prompt that asks the user to subscribe to email updates to find out product updates. */
 "Prompts.Email.title" = "Tenez-vous au courant";
 
-/* Enable face ID prompt body */
+/* Body text for a prompt that asks the user to subscribe to email updates to find out product updates., Placeholder text for an email address text field., Body text that is shown when the user successfully subscribes to email updates., Text that is displayed as a footnote when the user successfully subscribes to email updates., Title that is shown when the user successfully subscribes to email updates., Title for a prompt that asks the user to subscribe to email updates to find out product updates., Enable face ID prompt body */
 "Prompts.FaceId.body" = "Touchez Continuer pour activer Face ID";
 
 /* Enable face ID prompt title */
@@ -1295,7 +1295,7 @@
 /* Paper Key button description */
 "SecurityCenter.paperKeyDescription" = "La seule façon d'accéder à votre bitcoin si vous perdez ou mettez à niveau votre téléphone.";
 
-/* Recovery Phrase button title. This used to be called 'paper key', so leaving the string key as `paperKeyTitle` in order,  * to not break existing client code. */
+/* Recovery Phrase button title. This used to be called 'paper key', so leaving the string key as `paperKeyTitle` in order, * to not break existing client code. */
 "SecurityCenter.paperKeyTitle" = "Clé papier";
 
 /* Paper Key button title */
