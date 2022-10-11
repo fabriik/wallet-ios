@@ -43,8 +43,8 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
         
         var navigationModel = Models.NavigationItems.allCases
         if status != .levelTwo(.levelTwo) {
-            navigationModel = [Models.NavigationItems.preferences,
-                               Models.NavigationItems.security]
+            navigationModel = [Models.NavigationItems.security,
+                               Models.NavigationItems.preferences]
         }
         
         let sectionRows: [Models.Section: [Any]] = [
