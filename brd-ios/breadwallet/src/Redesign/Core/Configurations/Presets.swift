@@ -387,6 +387,7 @@ extension Presets {
 }
 
 extension Presets {
+    // TODO: presets are for configurations, not viewModels
     struct VerificationInfoView {
         static var none = InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
                                         headerTrailing: .init(image: "help"),
@@ -495,6 +496,7 @@ extension Presets {
                                                  imageAlpha: 0.5)
     }
     
+    // TODO: presets are for configurations, not viewModels
     struct StatusView {
         static var pending = AssetViewModel(icon: UIImage(named: "pendingIcon"), title: L10n.Staking.statusPending)
         static var complete = AssetViewModel(icon: UIImage(named: "completeIcon"), title: L10n.Transaction.complete)

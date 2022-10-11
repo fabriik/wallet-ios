@@ -22,8 +22,8 @@ internal enum L10n {
     /// About screen blog label
     internal static let blog = L10n.tr("Localizable", "About.blog", fallback: "Blog")
     /// About screen footer
-    internal static func footer(_ p1: Any, _ p2: Any) -> String {
-      return L10n.tr("Localizable", "About.footer", String(describing: p1), String(describing: p2), fallback: "Made by the global Fabriik team.\nVersion %1$@ Build %2$@")
+    internal static func footer(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "About.footer", p1, p2, fallback: "Made by the global Fabriik team.\nVersion %1$s Build %2$s")
     }
     /// Privay Policy button label
     internal static let privacy = L10n.tr("Localizable", "About.privacy", fallback: "Privacy Policy")
