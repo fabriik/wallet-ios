@@ -22,14 +22,14 @@ internal enum L10n {
     /// About screen blog label
     internal static let blog = L10n.tr("Localizable", "About.blog", fallback: "Blog")
     /// About screen footer
-    internal static func footer(_ p1: Any, _ p2: Any) -> String {
-      return L10n.tr("Localizable", "About.footer", String(describing: p1), String(describing: p2), fallback: "Made by the global Fabriik team.\nVersion %1$@ Build %2$@")
+    internal static func footer(_ p1: UnsafePointer<CChar>, _ p2: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Localizable", "About.footer", p1, p2, fallback: "Made by the global Fabriik team.\nVersion %1$s Build %2$s")
     }
     /// Privay Policy button label
     internal static let privacy = L10n.tr("Localizable", "About.privacy", fallback: "Privacy Policy")
     /// About screen reddit label
     internal static let reddit = L10n.tr("Localizable", "About.reddit", fallback: "Reddit")
-    /// Terms And Conditions button label
+    /// Terms of Use button label
     internal static let terms = L10n.tr("Localizable", "About.terms", fallback: "Terms And Conditions")
     /// About screen title
     internal static let title = L10n.tr("Localizable", "About.title", fallback: "About")
@@ -110,7 +110,7 @@ internal enum L10n {
     /// Verified account message on profile screen
     internal static let verifiedAccountMessage = L10n.tr("Localizable", "Account.VerifiedAccountMessage", fallback: "We’ll let you know when your account is verified.")
     /// Verify account text in popup
-    internal static let verifyAccountText = L10n.tr("Localizable", "Account.VerifyAccountText", fallback: "If you verify your account, you are given access to:\n  - Unlimited deposits/withdrawals\n  - Enhanced security\n  - Full asset support\n  - Buy assets with credit card\n  - 24/7/365 live customer support")
+    internal static let verifyAccountText = L10n.tr("Localizable", "Account.VerifyAccountText", fallback: "If you verify your account, you are given access to:\n・Unlimited deposits/withdrawals\n・Enhanced security\n・Full asset support\n・Buy assets with credit card\n・24/7/365 live customer support")
     /// Enter and verify your email address for your account label in registration flow
     internal static let verifyEmail = L10n.tr("Localizable", "Account.VerifyEmail", fallback: "Enter and verify your new email address for your Fabriik account.")
     /// We need to verify your identity in order to buy/sell and swap crypto.
@@ -469,6 +469,8 @@ internal enum L10n {
     internal static let cardFee = L10n.tr("Localizable", "Buy.CardFee", fallback: "This fee is charged to cover costs associated with payment processing.")
     /// Card number label in add card flow
     internal static let cardNumber = L10n.tr("Localizable", "Buy.CardNumber", fallback: "Card number")
+    /// XXXX XXXX XXXX XXXX
+    internal static let cardNumberHint = L10n.tr("Localizable", "Buy.CardNumberHint", fallback: "XXXX XXXX XXXX XXXX")
     /// Card removal failed error message on delete card flow
     internal static let cardRemovalFailed = L10n.tr("Localizable", "Buy.CardRemovalFailed", fallback: "Card removal failed. Please try again.")
     /// Card removed message on delete card flow
@@ -477,10 +479,16 @@ internal enum L10n {
     internal static let city = L10n.tr("Localizable", "Buy.City", fallback: "City")
     /// Please confirm your CVV label in payment view
     internal static let confirmCVV = L10n.tr("Localizable", "Buy.ConfirmCVV", fallback: "Please confirm your CVV")
+    /// Country
+    internal static let country = L10n.tr("Localizable", "Buy.Country", fallback: "Country")
+    /// XXX
+    internal static let cvvHint = L10n.tr("Localizable", "Buy.CvvHint", fallback: "XXX")
     /// Buy details title
     internal static let details = L10n.tr("Localizable", "Buy.Details", fallback: "Purchase details")
     /// There was an error while processing your payment title in buy failure screen
     internal static let errorProcessingPayment = L10n.tr("Localizable", "Buy.ErrorProcessingPayment", fallback: "There was an error while processing your payment")
+    /// Expiration date
+    internal static let expirationDate = L10n.tr("Localizable", "Buy.ExpirationDate", fallback: "Expiration date")
     /// Failure transaction message on buy
     internal static let failureTransactionMessage = L10n.tr("Localizable", "Buy.FailureTransactionMessage", fallback: "Please contact your card issuer/bank or try again with a different payment method.")
     /// First Name label in billing address view on buy flow
@@ -506,7 +514,7 @@ internal enum L10n {
     /// Your assets are on the way message in purchase details screen
     internal static let purchaseSuccessTitle = L10n.tr("Localizable", "Buy.PurchaseSuccessTitle", fallback: "Your assets are on the way!")
     /// Are you sure you want to remove this card title dialog
-    internal static let removeCard = L10n.tr("Localizable", "Buy.RemoveCard", fallback: "Are you sure you want to remove this card?")
+    internal static let removeCard = L10n.tr("Localizable", "Buy.RemoveCard", fallback: "Are you sure you want to remove card ending in")
     /// You will no longer be able to use it to buy assets description on removing card dialog
     internal static let removeCardOption = L10n.tr("Localizable", "Buy.RemoveCardOption", fallback: "You will no longer be able to use it to buy assets.")
     /// Remove payment method action sheet option on profile screen
@@ -919,7 +927,7 @@ internal enum L10n {
     internal static let pullToRefresh = L10n.tr("Localizable", "HomeScreen.PullToRefresh", fallback: "Pull to refresh")
     /// Label for the total balance of all the user's assets (style is all lower case if your language permits)
     internal static let totalAssets = L10n.tr("Localizable", "HomeScreen.totalAssets", fallback: "Total Assets")
-    /// (Tap here to) swap (your assets for other assets)
+    /// (Tap here to) trade (your assets for other assets)
     internal static let trade = L10n.tr("Localizable", "HomeScreen.trade", fallback: "Swap")
   }
   internal enum Import {
@@ -1208,7 +1216,7 @@ internal enum L10n {
       internal static let title = L10n.tr("Localizable", "Prompts.Email.title", fallback: "Get in the loop")
     }
     internal enum FaceId {
-      /// Enable face ID prompt body
+      /// Body text for a prompt that asks the user to subscribe to email updates to find out product updates., Placeholder text for an email address text field., Body text that is shown when the user successfully subscribes to email updates., Text that is displayed as a footnote when the user successfully subscribes to email updates., Title that is shown when the user successfully subscribes to email updates., Title for a prompt that asks the user to subscribe to email updates to find out product updates., Enable face ID prompt body
       internal static let body = L10n.tr("Localizable", "Prompts.FaceId.body", fallback: "Tap Continue to enable Face ID")
       /// Enable face ID prompt title
       internal static let title = L10n.tr("Localizable", "Prompts.FaceId.title", fallback: "Enable Face ID")
@@ -1521,7 +1529,7 @@ internal enum L10n {
     internal static let faceIdTitle = L10n.tr("Localizable", "SecurityCenter.faceIdTitle", fallback: "Face ID")
     /// Paper Key button description
     internal static let paperKeyDescription = L10n.tr("Localizable", "SecurityCenter.paperKeyDescription", fallback: "The only way to access your assets if you lose or upgrade your phone.")
-    /// Recovery Phrase button title. This used to be called 'paper key', so leaving the string key as `paperKeyTitle` in order,  * to not break existing client code.
+    /// Recovery Phrase button title. This used to be called 'paper key', so leaving the string key as `paperKeyTitle` in order, * to not break existing client code.
     internal static let paperKeyTitle = L10n.tr("Localizable", "SecurityCenter.paperKeyTitle", fallback: "Recovery Phrase")
     /// PIN button description
     internal static let pinDescription = L10n.tr("Localizable", "SecurityCenter.pinDescription", fallback: "Protects your Fabriik from unauthorized users.")

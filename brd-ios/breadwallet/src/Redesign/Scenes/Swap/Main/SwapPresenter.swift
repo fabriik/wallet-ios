@@ -163,7 +163,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             let profile = UserManager.shared.profile
             let dailyLimit = profile?.swapDailyRemainingLimit ?? 0
             let lifetimeLimit = profile?.swapLifetimeRemainingLimit ?? 0
-            let exchangeLimit = profile?.swapAllowancePerExchange    ?? 0
+            let exchangeLimit = profile?.swapAllowancePerExchange ?? 0
             
             switch (fiatValue, tokenValue) {
             case _ where fiatValue <= 0:
@@ -178,10 +178,10 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                 hasError = true
                 
             case _ where tokenValue < minimumValue:
-                // Value bellow minimum crypto
+                // Value below minimum crypto
                 presentError(actionResponse: .init(error: SwapErrors.tooLow(amount: minimumValue, currency: tokenCode)))
                 hasError = true
-                    
+                
             case _ where fiatValue > dailyLimit:
                 // Over daily limit
                 let limit = UserManager.shared.profile?.swapAllowanceDaily ?? 0
@@ -292,7 +292,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         guard let from = actionResponse.from,
               let to = actionResponse.to,
               let exchangeId = actionResponse.exchangeId else {
-                  presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Swap.notValidPair)))
+            presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Swap.notValidPair)))
             return
         }
         viewController?.displayConfirm(responseDisplay: .init(from: from, to: to, exchangeId: "\(exchangeId)"))

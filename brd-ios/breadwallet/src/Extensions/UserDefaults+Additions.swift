@@ -428,6 +428,10 @@ extension UserDefaults {
         set { defaults.set(newValue, forKey: kycSessionKey) }
     }
     
+    static var sessionToken: String {
+        return Self.kycSessionKeyValue ?? E.apiToken
+    }
+    
     static var walletTokenValue: String? {
         get { return defaults.string(forKey: walletToken) }
         set { defaults.set(newValue, forKey: walletToken) }

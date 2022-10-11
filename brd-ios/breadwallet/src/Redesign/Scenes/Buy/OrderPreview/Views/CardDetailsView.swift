@@ -11,7 +11,7 @@
 import UIKit
 
 struct CardDetailsConfiguration: Configurable {
-    var logo: BackgroundConfiguration?
+    var logo: BackgroundConfiguration? = .init(tintColor: LightColors.Icons.two)
     var title: LabelConfiguration? = .init(font: Fonts.Title.six, textColor: LightColors.secondary, numberOfLines: 1)
     var cardNumber: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Icons.one, numberOfLines: 1)
     var expiration: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Icons.one)
@@ -142,6 +142,7 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         logoImageView.isHidden = viewModel?.logo == nil
         
         expirationLabel.setup(with: viewModel?.expiration)
+        expirationLabel.isHidden = viewModel?.expiration == nil
         
         guard let moreOption = viewModel?.moreOption else { return }
         moreButton.isHidden = !moreOption
