@@ -343,8 +343,8 @@ class BaseTableViewController<C: CoordinatableRoutes,
         else { return UITableViewCell() }
         
         cell.setup { view in
-            view.configure(with: .init(image: Presets.Image.primary,
-                                       label: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.one),
+            view.configure(with: .init(image: .init(tintColor: LightColors.Icons.two),
+                                       label: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
                                        button: Presets.Button.blackIcon))
             view.setup(with: model)
         }

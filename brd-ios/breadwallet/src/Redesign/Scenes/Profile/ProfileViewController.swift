@@ -17,12 +17,6 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
     
     // MARK: - Overrides
     
-    override func setupSubviews() {
-        super.setupSubviews()
-        tableView.separatorInset = .zero
-        tableView.separatorStyle = .singleLine
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
