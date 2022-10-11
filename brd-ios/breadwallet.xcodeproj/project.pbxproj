@@ -13,7 +13,6 @@
 			buildPhases = (
 				7E390A2A27F57D15003C929D /* Download */,
 				7E67772628C9C4910052927A /* Generate localization */,
-				7E13389128EC44B8008411AE /* Localization */,
 			);
 			dependencies = (
 			);
@@ -1151,6 +1150,7 @@
 		7B54E59527F4A2B0002DD1E4 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		7B62ACF828B381BE00CE81E7 /* TimeoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeoutViewController.swift; sourceTree = "<group>"; };
 		7B62ACFA28B3BDA000CE81E7 /* String+Chunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Chunk.swift"; sourceTree = "<group>"; };
+		7B662C0C28F545D3007D663C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7B7863192874266A0092F35B /* SwapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapCoordinator.swift; sourceTree = "<group>"; };
 		7B78631B287427680092F35B /* MainSwapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSwapView.swift; sourceTree = "<group>"; };
 		7B78631D2874D36D0092F35B /* SwapCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapCurrencyView.swift; sourceTree = "<group>"; };
@@ -1176,6 +1176,7 @@
 		7BBBF4D9287421CF00E4D36B /* SwapStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwapStore.swift; sourceTree = "<group>"; };
 		7BBBF4DA287421CF00E4D36B /* SwapMainVIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwapMainVIP.swift; sourceTree = "<group>"; };
 		7BC49D1A282E69A3000BF284 /* ManageAssetsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManageAssetsButton.swift; path = src/Views/ManageAssetsButton.swift; sourceTree = "<group>"; };
+		7BCFF15628F545B40019D7CD /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7BD88B4F28D92A7A003A766B /* ExchangeAuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeAuthHelper.swift; sourceTree = "<group>"; };
 		7BDB49B52805AC780031F015 /* EmailFeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailFeedbackManager.swift; sourceTree = "<group>"; };
 		7BDB49D52806C03A0031F015 /* BRTarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRTarTests.swift; sourceTree = "<group>"; };
@@ -4074,6 +4075,8 @@
 				it,
 				pt,
 				sv,
+				ko,
+				ja,
 			);
 			mainGroup = 75A2A7871DA5934300A983D8;
 			packageReferences = (
@@ -4387,25 +4390,6 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/usr/bin/env bash\n\nAPP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\n\nif [ ! -f \"${FRAMEWORK_EXECUTABLE_PATH}\" ]; then\ncontinue\nfi\n\nif xcrun lipo -info \"${FRAMEWORK_EXECUTABLE_PATH}\" | grep --silent \"Non-fat\"; then\necho \"Framework non-fat, skipping: $FRAMEWORK_EXECUTABLE_NAME\"\ncontinue\nfi\n\necho \"Thinning framework $FRAMEWORK_EXECUTABLE_NAME\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nxcrun lipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nxcrun lipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\ndone\n";
 		};
-		7E13389128EC44B8008411AE /* Localization */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = Localization;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "phrase pull\n";
-			showEnvVarsInLog = 0;
-		};
 		7E390A2A27F57D15003C929D /* Download */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4440,7 +4424,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "phrase pull\n\nswiftgen\n\n";
+			shellScript = "/opt/homebrew/bin/phrase pull\n";
 		};
 		CEE0EF531EBF8C8A0018DB36 /* Icon Versioning */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5237,6 +5221,8 @@
 				CE27074E1F016D2400431BBC /* pt */,
 				CE0FC0F91F72417500E7C626 /* sv */,
 				7CE19FF221166B27008C55CE /* en */,
+				7BCFF15628F545B40019D7CD /* ko */,
+				7B662C0C28F545D3007D663C /* ja */,
 			);
 			name = Localizable.strings;
 			path = src/Strings;
@@ -5656,7 +5642,6 @@
 		};
 		7ECCA9842872FD1000F99368 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7EF514B528EB5B6D004A31C5 /* staging.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BRCORE_CONFIGURATION = Staging;
@@ -5720,6 +5705,7 @@
 		};
 		7ECCA9852872FD1000F99368 /* Staging */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EF514B528EB5B6D004A31C5 /* staging.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${APP_ICON}";

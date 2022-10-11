@@ -166,7 +166,7 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
     
     private lazy var statusImageView: WrapperView<FEImageView> = {
         let view = WrapperView<FEImageView>()
-        view.wrappedView.setup(with: .init(.imageName("CircleCheckSolid")))
+        view.wrappedView.setup(with: .init(.imageName("selected")))
         view.tintColor = LightColors.primary
         return view
     }()
@@ -301,13 +301,26 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
         benefitsLabel.configure(background: backgroundConfiguration)
         buyBenefitsLabel.configure(background: backgroundConfiguration)
         
-        if viewModel.status == .levelTwo(.declined) || viewModel.status == .levelTwo(.resubmit) {
-            statusImageView.wrappedView.setup(with: .init(.imageName("errorIcon")))
+        let image: String
+        switch viewModel.status {
+        case .none:
+            image = "selected_gray"
+            
+        case .levelTwo(.declined),
+                .levelTwo(.resubmit):
+            image = "errorIcon"
+            
+        default:
+            image = "selected"
         }
+        
+        statusImageView.wrappedView.setup(with: .init(.imageName(image)))
         
         if viewModel.status == .email {
             statusView.isHidden = true
             statusImageView.tintColor = LightColors.InteractionPrimary.disabled
         }
+        statusImageView.backgroundColor = .clear
+        statusImageView.wrappedView.backgroundColor = .clear
     }
 }

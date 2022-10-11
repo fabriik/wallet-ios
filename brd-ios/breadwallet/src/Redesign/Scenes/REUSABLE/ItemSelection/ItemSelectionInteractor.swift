@@ -52,6 +52,10 @@ class ItemSelectionInteractor: NSObject, Interactor, ItemSelectionViewActions {
         }
     }
     
+    func showActionSheetRemovePayment(viewAction: ItemSelectionModels.ActionSheet.ViewAction) {
+        presenter?.presentActionSheetRemovePayment(actionResponse: .init(instrumentId: viewAction.instrumentId, last4: viewAction.last4))
+    }
+    
     func removePayment(viewAction: ItemSelectionModels.RemovePayment.ViewAction) {
         DeleteCardWorker().execute(requestData: DeleteCardRequestData(instrumentId: self.dataStore?.instrumentID)) { [weak self] result in
             switch result {
@@ -66,7 +70,7 @@ class ItemSelectionInteractor: NSObject, Interactor, ItemSelectionViewActions {
     
     func removePaymenetPopup(viewAction: ItemSelectionModels.RemovePaymenetPopup.ViewAction) {
         dataStore?.instrumentID = viewAction.instrumentID
-        presenter?.presentRemovePaymentPopup(actionResponse: .init())
+        presenter?.presentRemovePaymentPopup(actionResponse: .init(last4: viewAction.last4))
     }
     
     // MARK: - Aditional helpers
