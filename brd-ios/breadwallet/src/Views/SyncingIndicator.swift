@@ -41,7 +41,8 @@ class SyncingIndicator: UIView {
                 self.text = L10n.SyncingView.syncing
                 setNeedsLayout()
             case .success:
-                self.text = ""
+                // TODO: localize
+                self.text = "Connected"
             case .failed:
                 self.text = L10n.SyncingView.failed
             }

@@ -5,7 +5,7 @@
 "About.blog" = "Blog";
 
 /* About screen footer */
-"About.footer" = "Made by the global Fabriik team.\nVersion %1$@ Build %2$@";
+"About.footer" = "Made by the global Fabriik team.\nVersion %1$s Build %2$s";
 
 /* Privay Policy button label */
 "About.privacy" = "Privacy Policy";
