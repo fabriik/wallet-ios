@@ -189,7 +189,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         didTapToAssetsSelection?()
     }
     
-    func toggleSwapButtonState(_ value: Bool) {
+    func setToggleSwitchPlacesButtonState(_ value: Bool) {
         swapButton.isEnabled = value
     }
     
@@ -209,7 +209,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     }
 
     func animateSwitchPlaces() {
-        toggleSwapButtonState(false)
+        setToggleSwitchPlacesButtonState(false)
         
         let isNormal = swapButton.transform == .identity
         let topFrame = isNormal ? baseSwapCurrencyView.selectorStackView : termSwapCurrencyView.selectorStackView

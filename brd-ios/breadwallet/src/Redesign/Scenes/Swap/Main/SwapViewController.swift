@@ -237,7 +237,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         if let section = sections.firstIndex(of: Models.Sections.swapCard),
            let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<MainSwapView> {
             cell.setup { view in
-                view.toggleSwapButtonState(true)
+                view.setToggleSwitchPlacesButtonState(true)
             }
         }
         
