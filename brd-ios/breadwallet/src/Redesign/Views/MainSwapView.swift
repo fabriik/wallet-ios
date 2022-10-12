@@ -50,7 +50,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         return view
     }()
     
-    private lazy var swapButton: FEButton = {
+    lazy var swapButton: FEButton = {
         let view = FEButton()
         view.setImage(UIImage(named: "swap"), for: .normal)
         view.addTarget(self, action: #selector(switchPlacesButtonTapped), for: .touchUpInside)
@@ -189,44 +189,53 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         didTapToAssetsSelection?()
     }
     
+    func toggleSwapButtonState(_ value: Bool) {
+        swapButton.isEnabled = value
+    }
+    
     @objc private func switchPlacesButtonTapped(_ sender: UIButton?) {
-        didFinish?(true)
-        contentSizeChanged?()
-        
-        animateSwitchPlaces()
+        if !baseSwapCurrencyView.isFeeAndAmountsStackViewHidden || !termSwapCurrencyView.isFeeAndAmountsStackViewHidden {
+            UIView.animate(withDuration: Presets.Animation.duration) { [weak self] in
+                self?.baseSwapCurrencyView.hideFeeAndAmountsStackView(noFee: true)
+                self?.termSwapCurrencyView.hideFeeAndAmountsStackView(noFee: true)
+            } completion: { [weak self] _ in
+                self?.contentSizeChanged?()
+                self?.animateSwitchPlaces()
+            }
+        } else {
+            contentSizeChanged?()
+            animateSwitchPlaces()
+        }
     }
 
     func animateSwitchPlaces() {
+        toggleSwapButtonState(false)
+        
         let isNormal = swapButton.transform == .identity
-        let topFrame = isNormal ? termSwapCurrencyView.selectorStackView : baseSwapCurrencyView.selectorStackView
-        let bottomFrame = isNormal ? baseSwapCurrencyView.selectorStackView : termSwapCurrencyView.selectorStackView
+        let topFrame = isNormal ? baseSwapCurrencyView.selectorStackView : termSwapCurrencyView.selectorStackView
+        let bottomFrame = isNormal ? termSwapCurrencyView.selectorStackView : baseSwapCurrencyView.selectorStackView
         
-        let frame = topFrame.convert(topFrame.bounds, from: bottomFrame)
-        let verticalDistance = frame.minY - topFrame.bounds.maxY + topFrame.frame.height
-        swapButton.isEnabled = false
+        let verticalDistance = (topFrame.bounds.minY - bottomFrame.bounds.maxY - topFrame.frame.height - 2) * 2
         
-        UIView.animate(withDuration: Presets.Animation.duration * 2,
-                       delay: 0,
-                       usingSpringWithDamping: 0.8,
-                       initialSpringVelocity: 3.0,
-                       options: .curveEaseIn) { [weak self] in
-            self?.baseSwapCurrencyView.selectorStackView.transform = .init(translationX: 0, y: isNormal ? -verticalDistance : verticalDistance)
-            self?.termSwapCurrencyView.selectorStackView.transform = .init(translationX: 0, y: isNormal ? verticalDistance : -verticalDistance)
+        UIView.animate(withDuration: Presets.Animation.duration,
+                       delay: 0.0,
+                       options: .curveLinear) { [weak self] in
+            topFrame.transform = CGAffineTransform(translationX: 0, y: isNormal ?  -verticalDistance : verticalDistance)
+            bottomFrame.transform = CGAffineTransform(translationX: 0, y: isNormal ? verticalDistance : -verticalDistance)
             self?.swapButton.transform = isNormal ? CGAffineTransform(rotationAngle: .pi) : .identity
-        }
-        
-        UIView.animate(withDuration: Presets.Animation.duration) { [weak self] in
+            
             self?.baseSwapCurrencyView.setAlphaToLabels(alpha: 0.2)
             self?.termSwapCurrencyView.setAlphaToLabels(alpha: 0.2)
             self?.baseSwapCurrencyView.resetTextFieldValues()
             self?.termSwapCurrencyView.resetTextFieldValues()
-        } completion: { _ in
-            UIView.animate(withDuration: Presets.Animation.duration) { [weak self] in
-                self?.baseSwapCurrencyView.setAlphaToLabels(alpha: 1)
-                self?.termSwapCurrencyView.setAlphaToLabels(alpha: 1)
-            } completion: { [weak self] _ in
-                self?.swapButton.isEnabled = true
-            }
+        }
+        
+        UIView.animate(withDuration: Presets.Animation.duration,
+                       delay: Presets.Animation.duration) { [weak self] in
+            self?.baseSwapCurrencyView.setAlphaToLabels(alpha: 1.0)
+            self?.termSwapCurrencyView.setAlphaToLabels(alpha: 1.0)
+        } completion: { [weak self] _ in
+            self?.didFinish?(true)
         }
     }
 }
