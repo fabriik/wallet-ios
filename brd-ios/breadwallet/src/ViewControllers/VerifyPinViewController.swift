@@ -9,13 +9,19 @@
 import UIKit
 import LocalAuthentication
 
+protocol ContentBoxPresenter {
+    var contentBox: UIView { get }
+    var blurView: UIVisualEffectView { get }
+    var effect: UIBlurEffect { get }
+}
+
 enum PinAuthenticationType {
     case unlocking
     case transactions
     case recoveryKey
 }
 
-class VerifyPinViewController: UIViewController {
+class VerifyPinViewController: UIViewController, ContentBoxPresenter {
 
     init(bodyText: String,
          pinLength: Int,
