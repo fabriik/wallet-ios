@@ -50,7 +50,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         return view
     }()
     
-    lazy var swapButton: FEButton = {
+    private lazy var swapButton: FEButton = {
         let view = FEButton()
         view.setImage(UIImage(named: "swap"), for: .normal)
         view.addTarget(self, action: #selector(switchPlacesButtonTapped), for: .touchUpInside)
