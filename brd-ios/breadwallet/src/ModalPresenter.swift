@@ -318,10 +318,13 @@ class ModalPresenter: Subscriber {
                                              pinAuthenticationType: .transactions,
                                              success: success)
             vc.transitioningDelegate = self.verifyPinTransitionDelegate
-            vc.modalPresentationStyle = .overFullScreen
-            vc.modalPresentationCapturesStatusBarAppearance = true
+            
+            let navigation = UINavigationController(rootViewController: vc)
+            navigation.modalPresentationStyle = .overFullScreen
+            navigation.modalPresentationCapturesStatusBarAppearance = true
+            
             root.view.isFrameChangeBlocked = true
-            root.present(vc, animated: true, completion: nil)
+            root.present(navigation, animated: true, completion: nil)
         }
         sendVC.onPublishSuccess = { [weak self] in
             self?.alertPresenter?.presentAlert(.sendSuccess, completion: {})
