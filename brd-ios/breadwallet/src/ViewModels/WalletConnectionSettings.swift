@@ -35,9 +35,9 @@ class WalletConnectionSettings {
         case Currencies.shared.bch?.uid:
             return .api_only
         case Currencies.shared.eth?.uid:
-            return .api_only
+            return .p2p_only
         default:
-            return .api_only
+            return .p2p_only
         }
     }
 
