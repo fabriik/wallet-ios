@@ -180,7 +180,7 @@ class DefaultWidgetService: WidgetService {
             return currenciesCache
         }
         
-        guard let path = CurrencyFileManager.bundledCurrenciesFilePath else {
+        guard let path = CurrencyFileManager.bundledFilePath(type: .currencies) else {
             throw WidgetServiceError.failedToLoadCurrenciesFile
         }
         

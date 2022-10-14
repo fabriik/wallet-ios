@@ -98,7 +98,8 @@ class CoreSystem: Subscriber {
     }
     
     private func getCurrencyMetaData(kvStore: BRReplicatedKVStore, client: SystemClient? = nil, account: Account, completion: @escaping () -> Void) {
-        Backend.apiClient.getCurrencyMetaData { currencyMetaData in
+        Backend.apiClient.getCurrencyMetaData(type: .fiatCurrencies) { _ in }
+        Backend.apiClient.getCurrencyMetaData(type: .currencies) { currencyMetaData in
             self.queue.async {
                 self.assetCollection = AssetCollection(kvStore: kvStore,
                                                        allTokens: currencyMetaData,
