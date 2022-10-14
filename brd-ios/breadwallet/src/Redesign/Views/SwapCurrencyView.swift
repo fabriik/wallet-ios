@@ -35,6 +35,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     var didChangeContent: (() -> Void)?
     var didFinish: ((_ didSwitchPlaces: Bool) -> Void)?
     
+    var isFeeAndAmountsStackViewHidden = true
+    
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -158,7 +160,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         return view
     }()
     
-    lazy var feeLabel: FELabel = {
+    private lazy var feeLabel: FELabel = {
         let view = FELabel()
         view.font = Fonts.caption
         view.textColor = LightColors.Text.two
@@ -167,7 +169,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         return view
     }()
     
-    lazy var feeAmountLabel: FELabel = {
+    private lazy var feeAmountLabel: FELabel = {
         let view = FELabel()
         view.font = Fonts.caption
         view.textColor = LightColors.Text.two
@@ -249,8 +251,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
         feeAndAmountsStackView.addArrangedSubview(feeAmountLabel)
         
-        feeAndAmountsStackView.alpha = 0
-        feeAndAmountsStackView.isHidden = true
+        hideFeeAndAmountsStackView(noFee: true)
         
         decidePlaceholder()
     }
@@ -333,11 +334,16 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         feeLabel.setup(with: viewModel.feeDescription)
         
         let noFee = viewModel.fee == nil || viewModel.fee?.tokenValue == 0 || viewModel.amount?.tokenValue == 0
-        
-        feeAndAmountsStackView.alpha = noFee ? 0 : 1
-        feeAndAmountsStackView.isHidden = noFee
+        hideFeeAndAmountsStackView(noFee: noFee)
         
         decidePlaceholder()
+    }
+    
+    func hideFeeAndAmountsStackView(noFee: Bool) {
+        isFeeAndAmountsStackViewHidden = noFee
+        
+        feeAndAmountsStackView.alpha = isFeeAndAmountsStackViewHidden ? 0 : 1
+        feeAndAmountsStackView.isHidden = isFeeAndAmountsStackViewHidden
     }
     
     func resetTextFieldValues() {

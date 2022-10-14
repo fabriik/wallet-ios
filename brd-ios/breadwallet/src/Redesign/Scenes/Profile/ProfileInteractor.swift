@@ -58,7 +58,7 @@ class ProfileInteractor: NSObject, Interactor, ProfileViewActions {
         PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.dataStore?.allPaymentCards = data?.reversed()
+                self?.dataStore?.allPaymentCards = data
                 
                 if self?.dataStore?.autoSelectDefaultPaymentMethod == true {
                     self?.dataStore?.paymentCard = self?.dataStore?.allPaymentCards?.first

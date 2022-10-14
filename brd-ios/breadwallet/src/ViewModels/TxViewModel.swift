@@ -195,14 +195,14 @@ extension TxViewModel {
         let status = status ?? .failed
         
         if status == .complete || status == .manuallySettled || status == .confirmed {
-            return tx?.transactionType == .buyTransaction ? .received : .swapComplete
+            return transactionType == .buyTransaction ? .received : .swapComplete
         }
         
         if status == .pending {
-            return tx?.transactionType == .buyTransaction ? .receivePending : .swapPending
+            return transactionType == .buyTransaction ? .receivePending : .swapPending
         }
         
-        return tx?.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
+        return transactionType == .buyTransaction ? .receiveFailed : .sendFailed
     }
     
     var gift: Gift? {
