@@ -682,7 +682,7 @@ extension CoreSystem: SystemListener {
         case .syncStarted:
             DispatchQueue.main.async {
                 manager.network.currencies.compactMap { self.currencies[$0.uid] }
-                    .filter { Store.state[$0]?.syncState == .connecting }
+                    .filter { Store.state[$0]?.syncState == .success }
                     .forEach { Store.perform(action: WalletChange($0).setSyncingState(.syncing)) }
                 
                 self.startActivity()

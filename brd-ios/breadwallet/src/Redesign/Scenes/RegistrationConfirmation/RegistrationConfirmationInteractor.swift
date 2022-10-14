@@ -27,12 +27,9 @@ class RegistrationConfirmationInteractor: NSObject, Interactor, RegistrationConf
     func validate(viewAction: RegistrationConfirmationModels.Validate.ViewAction) {
         let code = viewAction.item ?? ""
         dataStore?.code = code
-        guard code.count == 6 else {
-            presenter?.presentValidate(actionResponse: .init(isValid: false))
-            return
-        }
+        guard code.count <= 6 else { return }
         
-        confirm(viewAction: .init())
+        presenter?.presentValidate(actionResponse: .init(isValid: code.count == 6))
     }
     
     func confirm(viewAction: RegistrationConfirmationModels.Confirm.ViewAction) {
