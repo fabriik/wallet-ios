@@ -103,6 +103,7 @@ public struct CurrencyMetaData: CurrencyWithIcon {
     var tokenAddress: String?
     var decimals: UInt8
     let type: String
+    let fiatRate: Float?
     
     var isPreferred: Bool { return Currencies.shared.currencies.map { $0.uid }.contains(uid) }
     var isERC20Token: Bool { return type == SharedCurrency.TokenType.erc20.rawValue }
@@ -120,6 +121,7 @@ public struct CurrencyMetaData: CurrencyWithIcon {
         case decimals = "scale"
         case alternateNames = "alternate_names"
         case type
+        case fiatRate = "rate"
     }
 }
 
@@ -127,29 +129,27 @@ extension CurrencyMetaData: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         //TODO:CRYPTO temp hack until testnet support to added /currencies endpoint (BAK-318)
-        var uid = try container.decode(String.self, forKey: .uid)
+        var uid = try container.decodeIfPresent(String.self, forKey: .uid)
         if E.isTestnet {
-            uid = uid.replacingOccurrences(of: "mainnet", with: "testnet")
-            uid = uid.replacingOccurrences(of: "0x558ec3152e2eb2174905cd19aea4e34a23de9ad6", with: "0x7108ca7c4718efa810457f228305c9c71390931a") // BRD token
-            uid = uid.replacingOccurrences(of: "ethereum-testnet", with: "ethereum-goerli")
+            uid = uid?.replacingOccurrences(of: "mainnet", with: "testnet")
+            uid = uid?.replacingOccurrences(of: "0x558ec3152e2eb2174905cd19aea4e34a23de9ad6", with: "0x7108ca7c4718efa810457f228305c9c71390931a") // BRD token
+            uid = uid?.replacingOccurrences(of: "ethereum-testnet", with: "ethereum-goerli")
         }
-        self.uid = CurrencyId(rawValue: uid) //try container.decode(CurrencyId.self, forKey: .uid)
+        self.uid = CurrencyId(rawValue: uid ?? "") //try container.decode(CurrencyId.self, forKey: .uid)
         code = try container.decode(String.self, forKey: .code)
-        let colorValues = try container.decode([String].self, forKey: .colors)
-        if colorValues.count == 2 {
-            colors = (UIColor.fromHex(colorValues[0]), UIColor.fromHex(colorValues[1]))
+        let colorValues = try container.decodeIfPresent([String].self, forKey: .colors)
+        if colorValues?.count == 2 {
+            colors = (UIColor.fromHex(colorValues?[0] ?? ""), UIColor.fromHex(colorValues?[1] ?? ""))
         } else {
-            if E.isDebug {
-                throw DecodingError.dataCorruptedError(forKey: .colors, in: container, debugDescription: "Invalid/missing color values")
-            }
             colors = (UIColor.black, UIColor.black)
         }
-        isSupported = try container.decode(Bool.self, forKey: .isSupported)
+        isSupported = try container.decodeIfPresent(Bool.self, forKey: .isSupported) ?? false
         name = try container.decode(String.self, forKey: .name)
-        tokenAddress = try container.decode(String.self, forKey: .tokenAddress)
-        decimals = try container.decode(UInt8.self, forKey: .decimals)
+        tokenAddress = try container.decodeIfPresent(String.self, forKey: .tokenAddress)
+        decimals = try container.decodeIfPresent(UInt8.self, forKey: .decimals) ?? 0
+        fiatRate = try container.decodeIfPresent(Float.self, forKey: .fiatRate) ?? 0
         
-        let type = try container.decode(String.self, forKey: .type)
+        let type = try container.decodeIfPresent(String.self, forKey: .type)
         self.type = type != SharedCurrency.TokenType.erc20.rawValue ? SharedCurrency.TokenType.native.rawValue : SharedCurrency.TokenType.erc20.rawValue
         
         var didFindCoinGeckoID = false
@@ -189,6 +189,7 @@ extension CurrencyMetaData: Codable {
         try container.encode(tokenAddress, forKey: .tokenAddress)
         try container.encode(type, forKey: .type)
         try container.encode(decimals, forKey: .decimals)
+        try container.encode(fiatRate, forKey: .fiatRate)
         
         var alternateNames = [String: String]()
         if let alternateCode = alternateCode {
@@ -231,7 +232,7 @@ class Currencies {
     }
     
     func reloadCurrencies() {
-        currencies = CurrencyFileManager.getCurrencyMetaDataFromCache()
+        currencies = CurrencyFileManager.getCurrencyMetaDataFromCache(type: .currencies)
     }
     
     var currencies: [CurrencyMetaData] = []
@@ -250,11 +251,22 @@ class Currencies {
 }
 
 struct CurrencyFileManager {
-    static var sharedCurrenciesFilePath: String? = AppGroup.fabriikOne.containerURL?.appendingPathComponent("currencies.json").path
-    static var bundledCurrenciesFilePath: String? = Bundle.main.path(forResource: "currencies", ofType: "json")
-    static var cachedCurrenciesFilePath: String? {
-        guard let sharedFilePath = sharedCurrenciesFilePath,
-              let bundleFilePath = bundledCurrenciesFilePath else { return nil }
+    enum DownloadedCurrencyType: String {
+        case currencies
+        case fiatCurrencies = "fiat_currencies"
+    }
+    
+    static func sharedFilePath(type: DownloadedCurrencyType) -> String? {
+        return AppGroup.fabriikOne.containerURL?.appendingPathComponent("\(type.rawValue).json").path
+    }
+    
+    static func bundledFilePath(type: DownloadedCurrencyType) -> String? {
+        return Bundle.main.path(forResource: type.rawValue, ofType: "json")
+    }
+    
+    static func cachedCurrenciesFilePath(type: DownloadedCurrencyType) -> String? {
+        guard let sharedFilePath = sharedFilePath(type: type),
+              let bundleFilePath = bundledFilePath(type: type) else { return nil }
         
         if FileManager.default.fileExists(atPath: sharedFilePath) {
             return sharedFilePath
@@ -263,64 +275,79 @@ struct CurrencyFileManager {
         }
     }
     
-    static func getCurrencyMetaDataFromCache() -> [CurrencyMetaData] {
-        guard let sharedFilePath = CurrencyFileManager.cachedCurrenciesFilePath,
+    static func isFiatCodeAvailable(_ code: String) -> Bool {
+        let available = CurrencyFileManager.getCurrencyMetaDataFromCache(type: .fiatCurrencies).map { $0.code.lowercased() }
+        return available.contains(code.lowercased())
+    }
+    
+    static func getCurrencyMetaDataFromCache(type: DownloadedCurrencyType) -> [CurrencyMetaData] {
+        guard let sharedFilePath = CurrencyFileManager.cachedCurrenciesFilePath(type: type),
               FileManager.default.fileExists(atPath: sharedFilePath) else { return [] }
         do {
-            print("[CurrencyList] using cached token list")
+            print("[\(type.rawValue.uppercased())] using cached currencies list")
             let cachedData = try Data(contentsOf: URL(fileURLWithPath: sharedFilePath))
             let currencies = try JSONDecoder().decode([CurrencyMetaData].self, from: cachedData)
             
-            print("[CurrencyList] tokens updated: \(currencies.count) tokens")
+            print("[\(type.rawValue.uppercased())] updated: \(currencies.count) tokens")
             
             return currencies
         } catch let e {
-            print("[CurrencyList] error reading from cache: \(e)")
+            print("[\(type.rawValue.uppercased())] error reading from cache: \(e)")
             // remove the invalid cached data
             try? FileManager.default.removeItem(at: URL(fileURLWithPath: sharedFilePath))
             return []
         }
     }
     
-    static func getCurrencyMetaDataFromCache(completion: @escaping ([CurrencyId: CurrencyMetaData]) -> Void) {
-        guard let sharedFilePath = CurrencyFileManager.cachedCurrenciesFilePath else { return }
+    static func getCurrencyMetaDataFromCache(type: DownloadedCurrencyType, completion: @escaping ([CurrencyId: CurrencyMetaData]) -> Void) {
+        guard let sharedFilePath = CurrencyFileManager.cachedCurrenciesFilePath(type: type) else { return }
         
-        _ = processCurrenciesCache(path: sharedFilePath, completion: completion)
+        _ = processCurrenciesCache(type: type, path: sharedFilePath, completion: completion)
     }
     
     // Converts an array of CurrencyMetaData to a dictionary keyed on uid
-    static func processCurrencies(_ currencies: [CurrencyMetaData], completion: ([CurrencyId: CurrencyMetaData]) -> Void) {
+    static func processCurrencies(type: DownloadedCurrencyType, _ currencies: [CurrencyMetaData], completion: ([CurrencyId: CurrencyMetaData]) -> Void) {
         let currencyMetaData = currencies.reduce(into: [CurrencyId: CurrencyMetaData](), { (dict, token) in
             dict[token.uid] = token
         })
         
-        print("[CurrencyList] tokens updated: \(currencies.count) tokens")
+        print("[\(type.rawValue.uppercased())] updated: \(currencies.count) \(type.rawValue)")
         
         completion(currencyMetaData)
     }
 
     // Loads and processes cached currencies
-    static func processCurrenciesCache(path: String, completion: ([CurrencyId: CurrencyMetaData]) -> Void) -> Bool {
+    static func processCurrenciesCache(type: DownloadedCurrencyType, path: String, completion: ([CurrencyId: CurrencyMetaData]) -> Void) -> Bool {
         guard FileManager.default.fileExists(atPath: path) else { return false }
         do {
-            print("[CurrencyList] using cached token list")
+            print("[\(type.rawValue.uppercased())] using cached currencies list")
             let cachedData = try Data(contentsOf: URL(fileURLWithPath: path))
             let currencies = try JSONDecoder().decode([CurrencyMetaData].self, from: cachedData)
-            processCurrencies(currencies, completion: completion)
+            processCurrencies(type: type, currencies, completion: completion)
             return true
         } catch let e {
-            print("[CurrencyList] error reading from cache: \(e)")
+            print("[\(type.rawValue.uppercased())] error reading from cache: \(e)")
             // remove the invalid cached data
             try? FileManager.default.removeItem(at: URL(fileURLWithPath: path))
             return false
         }
     }
 
+    // Updates the currency cache
+    static func updateCache(type: DownloadedCurrencyType, _ currencies: [CurrencyMetaData], cachedFilePath: String) {
+        do {
+            let data = try JSONEncoder().encode(currencies)
+            try data.write(to: URL(fileURLWithPath: cachedFilePath))
+        } catch let e {
+            print("[\(type.rawValue.uppercased())] Failed to write to cache: \(e.localizedDescription)")
+        }
+    }
+    
     // Copies currencies embedded in bundle if cached file doesn't exist
-    static func copyEmbeddedCurrencies(path: String) {
+    static func copyEmbeddedCurrencies(type: DownloadedCurrencyType, path: String) {
         let fileManager = FileManager.default
         
-        if let embeddedFilePath = Bundle.main.path(forResource: "currencies", ofType: "json"), !fileManager.fileExists(atPath: path) {
+        if let embeddedFilePath = Bundle.main.path(forResource: type.rawValue, ofType: "json"), !fileManager.fileExists(atPath: path) {
             do {
                 try fileManager.copyItem(atPath: embeddedFilePath, toPath: path)
                 print("[CurrencyList] copied bundle tokens list to cache")

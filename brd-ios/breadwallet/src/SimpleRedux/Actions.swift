@@ -175,7 +175,7 @@ enum DefaultCurrency {
     struct SetDefault: Action {
         let reduce: Reducer
         init(_ defaultCurrencyCode: String) {
-            let isCodeAvailable = FiatCurrency.isCodeAvailable(defaultCurrencyCode)
+            let isCodeAvailable = CurrencyFileManager.isFiatCodeAvailable(defaultCurrencyCode)
             let newCode = isCodeAvailable ? defaultCurrencyCode : C.usdCurrencyCode
             UserDefaults.defaultCurrencyCode = newCode
             reduce = { $0.mutate(defaultCurrencyCode: newCode) }
