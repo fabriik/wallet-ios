@@ -83,6 +83,21 @@ class SyncingHeaderView: UIView, Subscriber {
         
         Store.subscribe(self,
                         selector: { [weak self] oldState, newState in
+            guard let currency = self?.currency else { return false }
+            
+            return oldState[currency]?.syncProgress != newState[currency]?.syncProgress
+            || oldState[currency]?.lastBlockTimestamp != newState[currency]?.lastBlockTimestamp
+        },
+                        callback: { [weak self] state in
+            guard let currency = self?.currency,
+                  let state = state[currency] else { return }
+            
+            self?.lastBlockTimestamp = state.lastBlockTimestamp
+            self?.syncIndicator.progress = state.syncProgress
+        })
+        
+        Store.subscribe(self,
+                        selector: { [weak self] oldState, newState in
                             guard let self = self else { return false }
                             return oldState[self.currency]?.syncProgress != newState[self.currency]?.syncProgress ||
                                 oldState[self.currency]?.lastBlockTimestamp != newState[self.currency]?.lastBlockTimestamp
