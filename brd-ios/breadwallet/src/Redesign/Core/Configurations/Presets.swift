@@ -260,6 +260,13 @@ extension Presets {
                                                                        tintColor: LightColors.Contrast.two,
                                                                        border: Presets.Border.zero),
                                                      shadow: Presets.Shadow.zero)
+        
+        static var redAlert = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
+                                                    description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
+                                                    background: .init(backgroundColor: LightColors.Error.one,
+                                                                      tintColor: LightColors.Contrast.two,
+                                                                      border: Presets.Border.zero),
+                                                    shadow: Presets.Shadow.zero)
     }
 }
 

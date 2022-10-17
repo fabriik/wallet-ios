@@ -119,13 +119,15 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
     }
     
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
+        guard !isAccessDenied(error: actionResponse.error) else { return }
+        
         guard let error = actionResponse.error as? FEError else {
             viewController?.displayMessage(responseDisplay: .init())
             return
         }
         
         let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
-        let config = Presets.InfoView.swapError
+        let config = Presets.InfoView.redAlert
         
         viewController?.displayMessage(responseDisplay: .init(error: error, model: model, config: config))
     }
