@@ -64,29 +64,6 @@ class AddCardInteractor: NSObject, Interactor, AddCardViewActions {
     }
     
     func submit(viewAction: AddCardModels.Submit.ViewAction) {
-        // FETCH ALL ADDED CARDS AND DELETE IF NEEDED. WILL BE USED.
-        /*
-        PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
-            switch result {
-            case .success(let data):
-                for d in data {
-                    DeleteCardWorker().execute(requestData: DeleteCardRequestData(instrumentId: d.id)) { [weak self] result in
-                        switch result {
-                        case .success(let data):
-                            print(data)
-                            
-                        case .failure(let error):
-                            self?.presenter?.presentError(actionResponse: .init(error: error))
-                        }
-                    }
-                }
-            
-            case .failure(let error):
-                self?.presenter?.presentError(actionResponse: .init(error: error))
-            }
-        }
-        */
-        
         guard let number = dataStore?.cardNumber,
               let cvv = dataStore?.cardCVV,
               let month = dataStore?.cardExpDateMonth,

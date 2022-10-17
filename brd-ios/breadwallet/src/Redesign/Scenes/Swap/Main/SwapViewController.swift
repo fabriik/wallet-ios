@@ -180,6 +180,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             LoadingView.hide()
         }
         
+        guard !isAccessDenied(responseDisplay: responseDisplay) else { return }
+        
         guard let error = responseDisplay.error as? SwapErrors else {
             coordinator?.hideMessage()
             return
