@@ -14,16 +14,16 @@ protocol BaseControllable: UIViewController {
 }
 
 protocol Coordinatable: CoordinatableRoutes {
-
     // TODO: should eventually die
     var modalPresenter: ModalPresenter? { get set }
     var childCoordinators: [Coordinatable] { get set }
     var navigationController: UINavigationController { get set }
     var parentCoordinator: Coordinatable? { get set }
 
+    init(navigationController: UINavigationController)
+    
     func childDidFinish(child: Coordinatable)
     func goBack()
-    init(navigationController: UINavigationController)
     func start()
 }
 
@@ -304,21 +304,34 @@ class BaseCoordinator: NSObject,
         
         completion?(false)
     }
-
+    
     func showMessage(with error: Error? = nil, model: InfoViewModel? = nil, configuration: InfoViewConfiguration? = nil) {
         hideOverlay()
         LoadingView.hide()
         
-        guard (error as? NetworkingError) != .sessionExpired else {
+        let error = error as? NetworkingError
+        
+        switch error {
+        case .accessDenied:
+            UserManager.shared.refresh()
+            
+        case .sessionExpired:
             openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.Registration)
+            
             return
+            
+        default:
+            break
         }
         
         guard let superview = navigationController.topViewController?.view,
-              let model = model, let configuration = configuration
-        else { return }
+              let model = model, let configuration = configuration  else { return }
         
         let notification: FEInfoView = (superview.subviews.first(where: { $0 is FEInfoView }) as? FEInfoView) ?? FEInfoView()
+        
+        notification.didFinish = { [weak self] in
+            self?.hideMessage()
+        }
         
         if notification.superview == nil {
             notification.setupCustomMargins(all: .large)
@@ -343,9 +356,8 @@ class BaseCoordinator: NSObject,
     
     func hideMessage() {
         guard let superview = navigationController.topViewController?.view,
-              let view = superview.subviews.first(where: { $0 is FEInfoView })
-        else { return }
-            
+              let view = superview.subviews.first(where: { $0 is FEInfoView }) else { return }
+        
         UIView.animate(withDuration: Presets.Animation.duration) {
             view.alpha = 0
         } completion: { _ in
@@ -353,10 +365,7 @@ class BaseCoordinator: NSObject,
         }
     }
     
-    func hideMessage(_ view: UIView) {}
-    
     func showUnderConstruction(_ feat: String) {
-        // TODO: navigate on
         showPopup(on: navigationController.topViewController,
                   with: .init(title: .text("Under construction"),
                               body: "The \(feat.uppercased()) functionality is being developed for You by the awesome Fabriik team. Stay tuned!"))

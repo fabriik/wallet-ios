@@ -16,6 +16,8 @@ struct GeneralError: FEError {
 enum NetworkingError: FEError {
     case general
     case noConnection
+    /// Status code 101
+    case accessDenied
     /// Status code 103
     case parameterMissing
     /// Status code 105
@@ -44,6 +46,9 @@ enum NetworkingError: FEError {
 //            <#code#>
 //        case .unprocessableEntity:
 //            <#code#>
+        case .accessDenied:
+            return L10n.ErrorMessages.accessDenied
+            
         case .serverAtCapacity:
             return L10n.ErrorMessages.somethingWentWrong
             
@@ -54,6 +59,9 @@ enum NetworkingError: FEError {
     
     init?(error: ServerResponse.ServerError?) {
         switch error?.statusCode {
+        case 101:
+            self = .accessDenied
+            
         case 103:
             self = .parameterMissing
             
