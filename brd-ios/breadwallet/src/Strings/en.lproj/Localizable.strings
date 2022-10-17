@@ -356,11 +356,15 @@
 /* No internet alert message */
 "Alert.noInternet" = "No internet connection found. Check your connection and try again.";
 
+"Alert.PermissionCamera" = "KYCCamera doesn't have permission to use the camera, please change privacy settings";
+
 /* General error message */
 "Alert.somethingWentWrong" = "Something went wrong. Please try again.";
 
 /* Request timed out error message */
 "Alert.timedOut" = "Request timed out. Check your connection and try again.";
+
+"Alert.UnableCapture" = "Unable to capture media";
 
 /* Warning alert title */
 "Alert.warning" = "Warning";
