@@ -1023,6 +1023,9 @@
 		22C431331DF89DFE0017CAEA /* BRCoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BRCoderTests.swift; sourceTree = "<group>"; };
 		22C431351DF8A6DF0017CAEA /* BRAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BRAPIClientTests.swift; sourceTree = "<group>"; };
 		22E773031EE7813000397E0E /* Bonjour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Bonjour.swift; path = src/Platform/Bonjour.swift; sourceTree = "<group>"; };
+		2CEAEAC928E64E2400562EA0 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../external/walletkit/BitcoinCore/Sources/BitcoinCore/include/libcurl.4.dylib; sourceTree = "<group>"; };
+		2CEAEACB28E72AEF00562EA0 /* walletkit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = walletkit; path = ../external/walletkit; sourceTree = "<group>"; };
+		2CEAEACD28E72B3100562EA0 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../external/walletkit/BitcoinCore/Sources/BitcoinCore/include/libcurl.a; sourceTree = "<group>"; };
 		3A0063BD2509D36500C74A97 /* ExtendedTouchArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExtendedTouchArea.swift; path = src/Views/ExtendedTouchArea.swift; sourceTree = "<group>"; };
 		3A0915C924D8B31100CDC6A4 /* EnableKeychainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EnableKeychainView.swift; path = src/CloudBackup/EnableKeychainView.swift; sourceTree = "<group>"; };
 		3A188FEB257FF1A300957819 /* GiftCurrencyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GiftCurrencyCell.swift; path = src/Gifting/GiftCurrencyCell.swift; sourceTree = "<group>"; };
@@ -2309,6 +2312,9 @@
 		75A2A7F11DA5935F00A983D8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2CEAEACD28E72B3100562EA0 /* libcurl.a */,
+				2CEAEACB28E72AEF00562EA0 /* walletkit */,
+				2CEAEAC928E64E2400562EA0 /* libcurl.4.dylib */,
 				9F18E566261630EB00698ADB /* Cosmos.xcframework */,
 				3ABD8D0D24E1CF1500EC4C91 /* SwiftUI.framework */,
 				22717B052315D3E300F77F4E /* CloudKit.framework */,

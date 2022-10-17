@@ -314,20 +314,20 @@ struct CurrencyFileManager {
         let color1Run:UIColor = UIColor.almostBlack
         let color2Run:UIColor = UIColor.magenta
         let colorsRun:(UIColor, UIColor) = (color1Run,color2Run)
-//        if(E.isTestnet) {
-//            let currencyRun:CurrencyId = CurrencyId(rawValue: String("whatsonchain-testnet:__native__"))
-//
-//            tokenRun = CurrencyMetaData(uid:currencyRun,code:"run",isSupported:true,colors:colorsRun,name:"RUN",tokenAddress:"__native__",decimals:UInt8(0),type:"native")
-//
-//            currencyMetaData[currencyRun] = tokenRun
-//        } else {
+        if(E.isTestnet) {
+            let currencyRun:CurrencyId = CurrencyId(rawValue: String("whatsonchain-testnet:__native__"))
+
+            tokenRun = CurrencyMetaData(uid:currencyRun,code:"run",isSupported:true,colors:colorsRun,name:"RUN",tokenAddress:"__native__",decimals:UInt8(0),type:"native")
+
+            currencyMetaData[currencyRun] = tokenRun
+        } else {
             let currencyRun:CurrencyId = CurrencyId(rawValue:
                                                         String("whatsonchainMain-testnet:__native__"))
                                     //String("whatsonchain-mainnet:__native__"))
             
             tokenRun = CurrencyMetaData(uid:currencyRun,code:"run",isSupported:true,colors:colorsRun,name:"RUN",tokenAddress:"__native__",decimals:UInt8(0),type:"native")
             currencyMetaData[currencyRun] = tokenRun
-        //}
+        }
         
         completion(currencyMetaData)
     }

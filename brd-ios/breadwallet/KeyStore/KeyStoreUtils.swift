@@ -31,13 +31,13 @@ struct KeychainKey {
     public static let apiUserAccount = "https://" + E.apiUrl + "blocksatoshi/wallet"
     public static let systemAccount = "systemAccount"
     public static let seed = "seed" // deprecated
-    public static let masterPubKey = "masterpubkey" // deprecated 
+    public static let masterPubKey = "masterpubkey" // deprecated
     //ACCOUNT 2
-    /*public static let pin = "pin2"
-    public static let apiUserAccount = "https://" + E.apiUrl + "blocksatoshi/wallet2"
-    public static let systemAccount = "systemAccount2"
-    public static let seed = "seed2" // deprecated
-    public static let masterPubKey = "masterpubkey2" // deprecated */
+//    public static let pin = "pin2"
+//    public static let apiUserAccount = "https://" + E.apiUrl + "blocksatoshi/wallet2"
+//    public static let systemAccount = "systemAccount2"
+//    public static let seed = "seed2" // deprecated
+//    public static let masterPubKey = "masterpubkey2" // deprecated 
 
     public static let pinFailCount = "pinfailcount"
     public static let pinFailTime = "pinfailheight"

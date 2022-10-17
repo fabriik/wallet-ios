@@ -159,6 +159,10 @@ class ReceiveViewController: UIViewController, Subscriber, Trackable {
             addressText = wallet.receiveAddressWOC
         }
         
+        if(wallet.currency.metaData.name == "SFP") {
+            addressText = wallet.receiveAddressRPC
+        }
+        
         address.text = addressText
         if let uri = currency.addressURI(addressText),
            let qrImage = UIImage.qrCode(from: uri) {
