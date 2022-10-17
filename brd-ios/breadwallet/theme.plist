@@ -13,12 +13,6 @@
 	</dict>
 	<key>colors</key>
 	<dict>
-		<key>primary</key>
-		<string>6EAEA1</string>
-		<key>secondary</key>
-		<string>3C5346</string>
-		<key>tertiary</key>
-		<string>EACA66</string>
 		<key>background-01</key>
 		<string>FFFFFF</string>
 		<key>background-02</key>
@@ -27,28 +21,22 @@
 		<string>DEE7E3</string>
 		<key>background-cards</key>
 		<string>ECECEC</string>
+		<key>primary</key>
+		<string>6EAEA1</string>
+		<key>secondary</key>
+		<string>3C5346</string>
+		<key>tertiary</key>
+		<string>EACA66</string>
+		<key>contrast-01</key>
+		<string>FFFFFF</string>
+		<key>contrast-02</key>
+		<string>2B2B28</string>
 		<key>text-01</key>
 		<string>3C5346</string>
 		<key>text-02</key>
 		<string>2B2B28</string>
 		<key>text-03</key>
 		<string>666664</string>
-		<key>error-01</key>
-		<string>D5554E</string>
-		<key>error-02</key>
-		<string>FAEAE9</string>
-		<key>success-01</key>
-		<string>7ACDA5</string>
-		<key>success-02</key>
-		<string>E4F5ED</string>
-		<key>pending-01</key>
-		<string>EACA66</string>
-		<key>pending-02</key>
-		<string>FDFAF0</string>
-		<key>contrast-01</key>
-		<string>FFFFFF</string>
-		<key>contrast-02</key>
-		<string>2B2B28</string>
 		<key>outline-01</key>
 		<string>ECECEC</string>
 		<key>outline-02</key>
@@ -57,36 +45,65 @@
 		<string>C5DFD9</string>
 		<key>disabled-02</key>
 		<string>C7C7C5</string>
-		<key>inverse-background-01</key>
-		<string>1B1B1B</string>
-		<key>inverse-background-02</key>
-		<string>2B2B28</string>
-		<key>inverse-background-03</key>
-		<string>375144</string>
-		<key>inverse-bacground-cards</key>
-		<string>393938</string>
-		<key>inverse-text-01</key>
-		<string>F6F6F5</string>
-		<key>inverse-text-02</key>
-		<string>ECECEC</string>
-		<key>inverse-text-03</key>
-		<string>DADAD8</string>
-		<key>inverse-error-01</key>
-		<string>D5554E</string>
-		<key>inverse-error-02</key>
-		<string>FAEAE9</string>
-		<key>inverse-success-01</key>
+		<key>success-01</key>
 		<string>7ACDA5</string>
-		<key>inverse-success-02</key>
+		<key>success-02</key>
 		<string>E4F5ED</string>
-		<key>inverse-contrast-01</key>
-		<string>FFFFFF</string>
-		<key>inverse-contrast-02</key>
+		<key>pending-01</key>
+		<string>EACA66</string>
+		<key>pending-02</key>
+		<string>FDFAF0</string>
+		<key>error-01</key>
+		<string>D5554E</string>
+		<key>error-02</key>
+		<string>FAEAE9</string>
+	</dict>
+	<key>inverse-colors</key>
+	<dict>
+		<key>background-01</key>
+		<string>1B1B1B</string>
+		<key>background-02</key>
 		<string>2B2B28</string>
-		<key>inverse-outline-01</key>
+		<key>background-03</key>
+		<string>375144</string>
+		<key>background-cards</key>
+		<string>1B1B1B</string>
+		<key>primary</key>
+		<string>6EAEA1</string>
+		<key>secondary</key>
+		<string>3C5346</string>
+		<key>tertiary</key>
+		<string>EACA66</string>
+		<key>contrast-01</key>
+		<string>FFFFFF</string>
+		<key>contrast-02</key>
+		<string>2B2B28</string>
+		<key>text-01</key>
+		<string>F6F6F5</string>
+		<key>text-02</key>
+		<string>ECECEC</string>
+		<key>text-03</key>
+		<string>DADAD8</string>
+		<key>outline-01</key>
 		<string>393938</string>
-		<key>inverse-outline-02</key>
+		<key>outline-02</key>
 		<string>848481</string>
+		<key>disabled-01</key>
+		<string>C5DFD9</string>
+		<key>disabled-02</key>
+		<string>A2A29E</string>
+		<key>success-01</key>
+		<string>7ACDA5</string>
+		<key>success-02</key>
+		<string>E4F5ED</string>
+		<key>pending-01</key>
+		<string>EACA66</string>
+		<key>pending-02</key>
+		<string>FDFAF0</string>
+		<key>error-01</key>
+		<string>D5554E</string>
+		<key>error-02</key>
+		<string>FAEAE9</string>
 	</dict>
 </dict>
 </plist>

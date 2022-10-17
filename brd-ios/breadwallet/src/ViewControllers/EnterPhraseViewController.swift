@@ -49,7 +49,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
         let attributes: [NSAttributedString.Key: Any] = [
         NSAttributedString.Key.underlineStyle: 1,
         NSAttributedString.Key.font: Fonts.Body.two,
-        NSAttributedString.Key.foregroundColor: LightColors.Link.one]
+        NSAttributedString.Key.foregroundColor: LightColors.Text.one]
 
         let attributedString = NSMutableAttributedString(string: L10n.UpdatePin.contactSupport, attributes: attributes)
         button.setAttributedTitle(attributedString, for: .normal)

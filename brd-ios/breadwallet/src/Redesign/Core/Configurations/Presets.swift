@@ -18,11 +18,11 @@ struct Presets {
                                                         tintColor: LightColors.Contrast.two,
                                                         border: Presets.Border.normal)
             
-            static var selected = BackgroundConfiguration(backgroundColor: LightColors.InteractionPrimary.pressed,
+            static var selected = BackgroundConfiguration(backgroundColor: .clear,
                                                           tintColor: LightColors.Contrast.two,
                                                           border: Presets.Border.selected)
             
-            static var disabled = BackgroundConfiguration(backgroundColor: LightColors.InteractionPrimary.disabled,
+            static var disabled = BackgroundConfiguration(backgroundColor: LightColors.Disabled.one,
                                                           tintColor: LightColors.Contrast.two,
                                                           border: Presets.Border.disabled)
             
@@ -32,10 +32,10 @@ struct Presets {
         }
         
         struct Secondary {
-            static var normal = BackgroundConfiguration(tintColor: LightColors.Link.one)
-            static var selected = BackgroundConfiguration(tintColor: LightColors.Link.one)
-            static var blue = BackgroundConfiguration(tintColor: LightColors.Link.two)
-            static var disabled = BackgroundConfiguration(tintColor: LightColors.InteractionPrimary.disabled)
+            static var normal = BackgroundConfiguration(tintColor: LightColors.Text.one)
+            static var selected = BackgroundConfiguration(tintColor: LightColors.Text.one)
+            static var blue = BackgroundConfiguration(tintColor: LightColors.Text.two)
+            static var disabled = BackgroundConfiguration(tintColor: LightColors.Disabled.two)
             static var error = BackgroundConfiguration(tintColor: .red)
         }
         
@@ -50,7 +50,7 @@ struct Presets {
         static var selected = BorderConfiguration(tintColor: LightColors.primary, borderWidth: 1, cornerRadius: .medium)
         static var disabled = BorderConfiguration(tintColor: .lightGray, borderWidth: 1, cornerRadius: .medium)
         static var cardDetails = BorderConfiguration(borderWidth: 0, cornerRadius: .extraSmall)
-        static var error = BorderConfiguration(tintColor: LightColors.error, borderWidth: 1, cornerRadius: .medium)
+        static var error = BorderConfiguration(tintColor: LightColors.Error.one, borderWidth: 1, cornerRadius: .medium)
         static var accountVerification = BorderConfiguration(tintColor: LightColors.Outline.one, borderWidth: 1, cornerRadius: .small)
     }
     
@@ -95,22 +95,22 @@ extension Presets {
                                                    selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal))
         
         static var icon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.two),
-                                              selectedConfiguration: .init(tintColor: LightColors.Icons.one),
-                                              disabledConfiguration: .init(tintColor: LightColors.InteractionPrimary.disabled))
+                                              selectedConfiguration: .init(tintColor: LightColors.Text.one),
+                                              disabledConfiguration: .init(tintColor: LightColors.Disabled.one))
         
-        static var link = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Link.one),
-                                              selectedConfiguration: .init(tintColor: LightColors.Link.two),
-                                              disabledConfiguration: .init(tintColor: LightColors.InteractionPrimary.disabled))
+        static var link = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Text.one),
+                                              selectedConfiguration: .init(tintColor: LightColors.Text.two),
+                                              disabledConfiguration: .init(tintColor: LightColors.Disabled.one))
         
         static var blackIcon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.one),
-                                                   selectedConfiguration: .init(tintColor: LightColors.Icons.one),
-                                                   disabledConfiguration: .init(tintColor: LightColors.InteractionPrimary.disabled))
+                                                   selectedConfiguration: .init(tintColor: LightColors.Text.one),
+                                                   disabledConfiguration: .init(tintColor: LightColors.Disabled.one))
     }
 }
 
 extension Presets {
     struct TextField {
-        static var primary = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Icons.two),
+        static var primary = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Text.two),
                                                     titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                     selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
                                                     textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
@@ -132,7 +132,7 @@ extension Presets {
                                                 disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
                                                 errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error))
         
-        static var email = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Icons.two),
+        static var email = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Text.two),
                                                   titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                   selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
                                                   textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
@@ -146,7 +146,7 @@ extension Presets {
                                                   autocorrectionType: .no,
                                                   keyboardType: .emailAddress)
         
-        static var number = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Icons.two),
+        static var number = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Text.two),
                                                    titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                    selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
                                                    textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
@@ -256,7 +256,7 @@ extension Presets {
         
         static var swapError = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
                                                      description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
-                                                     background: .init(backgroundColor: LightColors.error,
+                                                     background: .init(backgroundColor: LightColors.Error.one,
                                                                        tintColor: LightColors.Contrast.two,
                                                                        border: Presets.Border.zero),
                                                      shadow: Presets.Shadow.zero)
@@ -292,8 +292,8 @@ extension Presets {
         static var white = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
                                                                 tintColor: LightColors.Contrast.two,
                                                                 border: Presets.Border.zero),
-                                              title: .init(font: Fonts.Title.five, textColor: LightColors.Icons.one),
-                                              body: .init(font: Fonts.Body.one, textColor: LightColors.Icons.one, textAlignment: .left),
+                                              title: .init(font: Fonts.Title.five, textColor: LightColors.Text.one),
+                                              body: .init(font: Fonts.Body.one, textColor: LightColors.Text.one, textAlignment: .left),
                                               buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
                                                                                            selected: Presets.Border.selected,
                                                                                            disabled: Presets.Border.disabled),
@@ -341,7 +341,7 @@ extension Presets {
                                                         status: .init(title: .init(font: Fonts.Body.two,
                                                                                    textColor: LightColors.Contrast.two,
                                                                                    textAlignment: .center),
-                                                                      background: .init(backgroundColor: LightColors.error,
+                                                                      background: .init(backgroundColor: LightColors.Error.one,
                                                                                         tintColor: LightColors.Contrast.two,
                                                                                         border: Presets.Border.small)),
                                                         infoButton: .init(backgroundConfiguration: Presets.Background.Secondary.normal,
@@ -358,7 +358,7 @@ extension Presets {
                                                        status: .init(title: .init(font: Fonts.Body.two,
                                                                                   textColor: LightColors.Contrast.one,
                                                                                   textAlignment: .center),
-                                                                     background: .init(backgroundColor: LightColors.pending,
+                                                                     background: .init(backgroundColor: LightColors.Pending.one,
                                                                                        tintColor: LightColors.Contrast.one,
                                                                                        border: Presets.Border.small)),
                                                        infoButton: .init(backgroundConfiguration: Presets.Background.Secondary.normal,
@@ -375,7 +375,7 @@ extension Presets {
                                                         status: .init(title: .init(font: Fonts.Body.two,
                                                                                    textColor: LightColors.Contrast.two,
                                                                                    textAlignment: .center),
-                                                                      background: .init(backgroundColor: LightColors.success,
+                                                                      background: .init(backgroundColor: LightColors.Success.one,
                                                                                         tintColor: LightColors.Contrast.two,
                                                                                         border: Presets.Border.small)),
                                                         infoButton: .init(backgroundConfiguration: Presets.Background.Secondary.normal,
@@ -454,7 +454,7 @@ extension Presets {
                                                                                      cornerRadius: .medium)))
         
         static var full = OrderConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 1),
-                                             copyableValue: .init(font: Fonts.Body.two, textColor: LightColors.Link.two, textAlignment: .center, numberOfLines: 0),
+                                             copyableValue: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 0),
                                              regularValue: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1),
                                              shadow: Presets.Shadow.light,
                                              background: .init(backgroundColor: LightColors.Background.one,
@@ -474,7 +474,7 @@ extension Presets {
                                                backgroundConfiguration: .init(backgroundColor: LightColors.tertiary,
                                                                               tintColor: LightColors.Text.one,
                                                                               border: Presets.Border.zero),
-                                               imageConfig: .init(backgroundColor: LightColors.pending,
+                                               imageConfig: .init(backgroundColor: LightColors.Pending.one,
                                                                   tintColor: .white,
                                                                   border: .init(borderWidth: 0,
                                                                                 cornerRadius: .medium)),

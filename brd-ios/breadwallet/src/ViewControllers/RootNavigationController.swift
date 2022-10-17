@@ -35,9 +35,9 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         viewController.navigationItem.backBarButtonItem = item
     }
     
-    func setNormalNavigationBar(normalBackgroundColor: UIColor = LightColors.Contrast.two,
+    func setNormalNavigationBar(normalBackgroundColor: UIColor = .clear,
                                 scrollBackgroundColor: UIColor = .clear,
-                                tintColor: UIColor = LightColors.Icons.one) {
+                                tintColor: UIColor = LightColors.Text.one) {
         let normalAppearance = UINavigationBarAppearance()
         normalAppearance.configureWithOpaqueBackground()
         normalAppearance.backgroundColor = normalBackgroundColor
@@ -55,9 +55,9 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         navigationBar.prefersLargeTitles = false
         
         navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: Fonts.Title.seven
+            NSAttributedString.Key.font: Fonts.Title.six
         ]
         
-        view.backgroundColor = LightColors.Contrast.two
+        view.backgroundColor = LightColors.Text.one
     }
 }

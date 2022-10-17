@@ -35,7 +35,7 @@ class VIPViewController<C: CoordinatableRoutes,
         view.font = Fonts.Title.four
         view.textAlignment = .left
         view.numberOfLines = 0
-        view.textColor = LightColors.Icons.one
+        view.textColor = LightColors.Text.one
         return view
     }()
     
