@@ -54,7 +54,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private lazy var titleLabel: FELabel = {
         let view = FELabel()
-        view.font = Fonts.caption
+        view.font = Fonts.Body.three
         view.textColor = LightColors.Text.one
         view.textAlignment = .left
         return view
@@ -162,7 +162,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private lazy var feeLabel: FELabel = {
         let view = FELabel()
-        view.font = Fonts.caption
+        view.font = Fonts.Body.three
         view.textColor = LightColors.Text.two
         view.textAlignment = .left
         view.numberOfLines = 2
@@ -171,7 +171,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private lazy var feeAmountLabel: FELabel = {
         let view = FELabel()
-        view.font = Fonts.caption
+        view.font = Fonts.Body.three
         view.textColor = LightColors.Text.two
         view.textAlignment = .right
         view.numberOfLines = 2

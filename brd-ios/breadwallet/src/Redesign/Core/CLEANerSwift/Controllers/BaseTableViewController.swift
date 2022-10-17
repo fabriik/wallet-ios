@@ -136,7 +136,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
 
         view.setup { view in
             view.setup(with: .text(text))
-            view.configure(with: .init(font: Fonts.caption, textColor: LightColors.Text.one))
+            view.configure(with: .init(font: Fonts.Body.three, textColor: LightColors.Text.one))
         }
 
         return view
@@ -150,7 +150,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
         view.setup { view in
             // TODO: attributed string support
             view.setup(with: .attributedText(text))
-            view.configure(with: .init(font: Fonts.caption, textColor: LightColors.Text.one))
+            view.configure(with: .init(font: Fonts.Body.three, textColor: LightColors.Text.one))
         }
 
         return view
@@ -216,7 +216,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
         }
         
         cell.setup { view in
-            view.configure(with: .init(font: Fonts.caption, textColor: LightColors.Text.one))
+            view.configure(with: .init(font: Fonts.Body.three, textColor: LightColors.Text.one))
             view.setup(with: model)
         }
         

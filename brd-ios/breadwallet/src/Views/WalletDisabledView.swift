@@ -84,7 +84,7 @@ class WalletDisabledView: UIView {
     private lazy var descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
         descriptionLabel.textColor = Theme.secondaryText
-        descriptionLabel.font = Fonts.caption
+        descriptionLabel.font = Fonts.Body.three
         descriptionLabel.textAlignment = .center
         descriptionLabel.text = L10n.UnlockScreen.walletDisabledDescription
         
