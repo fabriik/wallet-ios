@@ -9,9 +9,6 @@ struct Fonts {
     static var Secondary = "Roboto-Regular"
     static var Tertiary = "Roboto-Medium"
     
-    static var caption = ThemeManager.shared.font(for: Fonts.Secondary, size: 12)
-    static var overline = ThemeManager.shared.font(for: Fonts.Secondary, size: 12)
-    
     struct Title {
         static var one = ThemeManager.shared.font(for: Fonts.Primary, size: 50)
         static var two = ThemeManager.shared.font(for: Fonts.Primary, size: 42)

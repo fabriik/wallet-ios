@@ -67,7 +67,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
         }
         
         cell.setup { view in
-            view.configure(with: .init(font: Fonts.caption, textColor: LightColors.Text.one))
+            view.configure(with: .init(font: Fonts.Body.three, textColor: LightColors.Text.one))
             view.setup(with: model)
         }
         

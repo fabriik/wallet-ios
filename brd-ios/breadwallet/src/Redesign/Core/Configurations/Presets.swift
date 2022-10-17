@@ -112,20 +112,20 @@ extension Presets {
     struct TextField {
         static var primary = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Text.two),
                                                     titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                    selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                    selectedTitleConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
                                                     textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                     placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                    hintConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                    hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
                                                     backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
                                                     selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
                                                     disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
                                                     errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error))
         
         static var two = TextFieldConfiguration(titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                selectedTitleConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
                                                 textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                 placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                hintConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
                                                 trailingImageConfiguration: .init(tintColor: LightColors.Text.two),
                                                 backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
                                                 selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
@@ -134,10 +134,10 @@ extension Presets {
         
         static var email = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Text.two),
                                                   titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                  selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                  selectedTitleConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
                                                   textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                   placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                  hintConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                  hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
                                                   backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
                                                   selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
                                                   disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
@@ -148,10 +148,10 @@ extension Presets {
         
         static var number = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Text.two),
                                                    titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                   selectedTitleConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                   selectedTitleConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
                                                    textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                    placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                                   hintConfiguration: .init(font: Fonts.caption, textColor: LightColors.Text.two),
+                                                   hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
                                                    backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
                                                    selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
                                                    disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
@@ -163,10 +163,10 @@ extension Presets {
 extension Presets {
     struct InfoView {
         static var verification = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
-                                                        headerTitle: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                        headerTitle: .init(font: Fonts.Body.three, textColor: LightColors.Contrast.two),
                                                         headerTrailing: Presets.Button.icon,
                                                         status: VerificationView.resubmit.status,
-                                                        title: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                        title: .init(font: Fonts.Body.three, textColor: LightColors.Contrast.two),
                                                         description: .init(font: Fonts.Subtitle.two, textColor: LightColors.Contrast.two),
                                                         button: Presets.Button.primary.withBorder(normal: Presets.Border.small,
                                                                                                   selected: Presets.Border.selected,
@@ -177,10 +177,10 @@ extension Presets {
                                                         shadow: Presets.Shadow.normal)
         
         static var verificationPrompt = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
-                                                              headerTitle: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                              headerTitle: .init(font: Fonts.Body.three, textColor: LightColors.Contrast.two),
                                                               headerTrailing: Presets.Button.icon,
                                                               status: VerificationView.resubmit.status,
-                                                              title: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                              title: .init(font: Fonts.Body.three, textColor: LightColors.Contrast.two),
                                                               description: .init(font: Fonts.Subtitle.two, textColor: LightColors.Contrast.two),
                                                               button: Presets.Button.primary.withBorder(normal: Presets.Border.small,
                                                                                                         selected: Presets.Border.selected,
@@ -191,10 +191,10 @@ extension Presets {
                                                               shadow: Presets.Shadow.normal)
         
         static var pending = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
-                                                   headerTitle: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                   headerTitle: .init(font: Fonts.Body.three, textColor: LightColors.Contrast.two),
                                                    headerTrailing: Presets.Button.icon,
                                                    status: VerificationView.pending.status,
-                                                   title: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                   title: .init(font: Fonts.Body.three, textColor: LightColors.Contrast.two),
                                                    description: .init(font: Fonts.Subtitle.two, textColor: LightColors.Contrast.two),
                                                    button: Presets.Button.primary.withBorder(normal: Presets.Border.small,
                                                                                              selected: Presets.Border.selected,
@@ -205,10 +205,10 @@ extension Presets {
                                                    shadow: Presets.Shadow.normal)
         
         static var verified = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
-                                                    headerTitle: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                    headerTitle: .init(font: Fonts.Body.three, textColor: LightColors.Contrast.two),
                                                     headerTrailing: Presets.Button.icon,
                                                     status: VerificationView.verified.status,
-                                                    title: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                    title: .init(font: Fonts.Body.three, textColor: LightColors.Contrast.two),
                                                     description: .init(font: Fonts.Subtitle.two, textColor: LightColors.Contrast.two),
                                                     button: Presets.Button.primary.withBorder(normal: Presets.Border.small,
                                                                                               selected: Presets.Border.selected,
@@ -219,10 +219,10 @@ extension Presets {
                                                     shadow: Presets.Shadow.normal)
         
         static var declined = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
-                                                    headerTitle: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                    headerTitle: .init(font: Fonts.Body.three, textColor: LightColors.Contrast.two),
                                                     headerTrailing: Presets.Button.icon,
                                                     status: VerificationView.resubmit.status,
-                                                    title: .init(font: Fonts.overline, textColor: LightColors.Contrast.two),
+                                                    title: .init(font: Fonts.Body.three, textColor: LightColors.Contrast.two),
                                                     description: .init(font: Fonts.Subtitle.two, textColor: LightColors.Contrast.two),
                                                     button: Presets.Button.primary.withBorder(normal: Presets.Border.small,
                                                                                               selected: Presets.Border.selected,
@@ -253,13 +253,6 @@ extension Presets {
                                                                    tintColor: LightColors.Contrast.two,
                                                                    border: Presets.Border.zero),
                                                  shadow: Presets.Shadow.normal)
-        
-        static var swapError = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
-                                                     description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
-                                                     background: .init(backgroundColor: LightColors.Error.one,
-                                                                       tintColor: LightColors.Contrast.two,
-                                                                       border: Presets.Border.zero),
-                                                     shadow: Presets.Shadow.zero)
         
         static var redAlert = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
                                                     description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
@@ -521,8 +514,8 @@ extension Presets {
         static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1),
                                                       value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
         
-        static var verticalSmall = TitleValueConfiguration(title: .init(font: Fonts.caption, textColor: LightColors.Text.one, numberOfLines: 1),
-                                                           value: .init(font: Fonts.caption, textColor: LightColors.Text.one, textAlignment: .right))
+        static var verticalSmall = TitleValueConfiguration(title: .init(font: Fonts.Body.three, textColor: LightColors.Text.one, numberOfLines: 1),
+                                                           value: .init(font: Fonts.Body.three, textColor: LightColors.Text.one, textAlignment: .right))
         
         static var subtitle = TitleValueConfiguration(title: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, numberOfLines: 1),
                                                       value: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, textAlignment: .right))

@@ -56,7 +56,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         
         let termsText = NSMutableAttributedString(string: L10n.Buy.terms + " ")
         termsText.addAttribute(NSAttributedString.Key.font,
-                               value: Fonts.caption,
+                               value: Fonts.Body.three,
                                range: NSRange(location: 0, length: termsText.length))
         termsText.addAttribute(NSAttributedString.Key.foregroundColor,
                                value: LightColors.Text.two,
@@ -64,7 +64,7 @@ final class OrderPreviewPresenter: NSObject, Presenter, OrderPreviewActionRespon
         
         let interactableText = NSMutableAttributedString(string: L10n.About.terms)
         interactableText.addAttribute(NSAttributedString.Key.font,
-                                      value: Fonts.caption,
+                                      value: Fonts.Body.three,
                                       range: NSRange(location: 0, length: interactableText.length))
         let linkAttributes: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.foregroundColor: LightColors.primary,
