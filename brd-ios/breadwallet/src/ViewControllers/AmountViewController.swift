@@ -99,7 +99,8 @@ class AmountViewController: UIViewController {
     
     lazy var errorLabel: UILabel = {
         let errorLabel = UILabel()
-        errorLabel.textColor = LightColors.error
+        // TODO: check
+        errorLabel.textColor = LightColors.Error.one
         errorLabel.font = ThemeManager.shared.font(for: "Roboto-Regular", size: 12)
         errorLabel.text = L10n.Amount.minXRPAmount
         errorLabel.isHidden = true

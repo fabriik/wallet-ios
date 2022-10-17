@@ -14,33 +14,45 @@ protocol Presenter: NSObject, BaseActionResponses {
 
 extension Presenter {
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
-        guard let error = actionResponse.error else { return }
-
         let responseDisplay: MessageModels.ResponseDisplays
-        if let error = error as? NetworkingError,
-           error == .sessionExpired {
+        let error = actionResponse.error
+        
+        guard !isAccessDenied(error: actionResponse.error) else { return }
+        
+        if let error = error as? NetworkingError, error == .sessionExpired {
             responseDisplay = .init(error: error)
         } else if let error = error as? SwapErrors {
             let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
-            let config = Presets.InfoView.swapError
-            
+            let config = Presets.InfoView.redAlert
             responseDisplay = .init(model: model, config: config)
         } else if let error = error as? FEError {
             // TODO: Investigate localized errors
             let message = error.errorMessage
             let model = InfoViewModel(description: .text(message), dismissType: .auto)
             
-            let config = Presets.InfoView.swapError
+            let config = Presets.InfoView.redAlert
             responseDisplay = .init(model: model, config: config)
         } else {
             // TODO: Investigate localized errors
-            let model = InfoViewModel(headerTitle: .text("Error"), description: .text(error.localizedDescription), dismissType: .auto)
+            let model = InfoViewModel(headerTitle: .text(L10n.Alert.error), description: .text(error?.localizedDescription ?? ""), dismissType: .auto)
             // TODO: create Error preset
             let config = Presets.InfoView.primary
             responseDisplay = .init(model: model, config: config)
         }
     
         viewController?.displayMessage(responseDisplay: responseDisplay)
+    }
+    
+    func isAccessDenied(error: Error?) -> Bool {
+        guard let error = error as? NetworkingError, error == .accessDenied else { return false }
+        
+        let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
+        let config = Presets.InfoView.redAlert
+        let responseDisplay: MessageModels.ResponseDisplays = .init(error: error, model: model, config: config)
+        
+        viewController?.displayMessage(responseDisplay: responseDisplay)
+        
+        return true
     }
     
     func presentNotification(actionResponse: MessageModels.Notification.ActionResponse) {

@@ -35,7 +35,7 @@ class VIPViewController<C: CoordinatableRoutes,
         view.font = Fonts.Title.four
         view.textAlignment = .left
         view.numberOfLines = 0
-        view.textColor = LightColors.Icons.one
+        view.textColor = LightColors.Text.one
         return view
     }()
     
@@ -168,15 +168,25 @@ class VIPViewController<C: CoordinatableRoutes,
     func prepareData() {}
 
     // MARK: BaseResponseDisplay
+    
     func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
+        guard !isAccessDenied(responseDisplay: responseDisplay) else { return }
+        
         coordinator?.showMessage(with: responseDisplay.error, model: responseDisplay.model, configuration: responseDisplay.config)
     }
     
-    func hideNotification(notification: UIView) {
-        coordinator?.hideMessage(notification)
+    func isAccessDenied(responseDisplay: MessageModels.ResponseDisplays) -> Bool {
+        guard let error = responseDisplay.error as? NetworkingError, error == .accessDenied else { return false }
+         
+        coordinator?.showMessage(with: responseDisplay.error,
+                                 model: responseDisplay.model,
+                                 configuration: responseDisplay.config)
+        
+        return true
     }
     
     // MARK: - Blurrable
+    
     func toggleBlur(animated: Bool) {
         guard let blurView = blurView else { return }
         guard blurView.superview == nil else {

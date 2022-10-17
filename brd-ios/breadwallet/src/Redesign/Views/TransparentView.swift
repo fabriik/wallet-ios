@@ -13,7 +13,7 @@ import SnapKit
 
 struct TransparentViewConfiguration: Configurable {
     var background = BackgroundConfiguration(backgroundColor: LightColors.Contrast.two.withAlphaComponent(0.8),
-                                             tintColor: LightColors.success)
+                                             tintColor: LightColors.Success.one)
     var title: LabelConfiguration?
 }
 

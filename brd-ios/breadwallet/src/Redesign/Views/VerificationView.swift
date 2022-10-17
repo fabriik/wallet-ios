@@ -179,7 +179,7 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
     private lazy var arrowImageView: WrapperView<FEImageView> = {
         let view = WrapperView<FEImageView>()
         view.wrappedView.setup(with: .init(.imageName("forward")))
-        view.tintColor = LightColors.Icons.two
+        view.tintColor = LightColors.Text.two
         return view
     }()
     
@@ -296,7 +296,7 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
             backgroundConfiguration = Presets.Background.Primary.normal.withBorder(border: Presets.Border.accountVerification)
         } else {
             backgroundConfiguration = Presets.Background.Primary.disabled.withBorder(border: Presets.Border.accountVerification)
-            statusImageView.tintColor = LightColors.InteractionPrimary.disabled
+            statusImageView.tintColor = LightColors.Disabled.one
         }
         benefitsLabel.configure(background: backgroundConfiguration)
         buyBenefitsLabel.configure(background: backgroundConfiguration)
@@ -318,7 +318,7 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
         
         if viewModel.status == .email {
             statusView.isHidden = true
-            statusImageView.tintColor = LightColors.InteractionPrimary.disabled
+            statusImageView.tintColor = LightColors.Disabled.one
         }
         statusImageView.backgroundColor = .clear
         statusImageView.wrappedView.backgroundColor = .clear
