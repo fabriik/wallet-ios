@@ -14,83 +14,79 @@
 	<key>colors</key>
 	<dict>
 		<key>primary</key>
-		<string>2C78FF</string>
+		<string>6EAEA1</string>
 		<key>secondary</key>
-		<string>122348</string>
+		<string>3C5346</string>
 		<key>tertiary</key>
-		<string>EEF4FF</string>
+		<string>EACA66</string>
 		<key>background-01</key>
 		<string>FFFFFF</string>
 		<key>background-02</key>
-		<string>F1F3F4</string>
+		<string>F6F6F5</string>
 		<key>background-03</key>
-		<string>FFFFFF</string>
+		<string>DEE7E3</string>
+		<key>background-cards</key>
+		<string>ECECEC</string>
 		<key>text-01</key>
-		<string>2E3134</string>
+		<string>3C5346</string>
 		<key>text-02</key>
-		<string>5F6368</string>
-		<key>error</key>
-		<string>D72431</string>
-		<key>success</key>
-		<string>00A86E</string>
-		<key>pending</key>
-		<string>F8BA37</string>
-		<key>link-01</key>
-		<string>122348</string>
-		<key>link-02</key>
-		<string>0053E7</string>
+		<string>2B2B28</string>
+		<key>text-03</key>
+		<string>666664</string>
+		<key>error-01</key>
+		<string>D5554E</string>
+		<key>error-02</key>
+		<string>FAEAE9</string>
+		<key>success-01</key>
+		<string>7ACDA5</string>
+		<key>success-02</key>
+		<string>E4F5ED</string>
+		<key>pending-01</key>
+		<string>EACA66</string>
+		<key>pending-02</key>
+		<string>FDFAF0</string>
 		<key>contrast-01</key>
-		<string>2E3134</string>
+		<string>FFFFFF</string>
 		<key>contrast-02</key>
-		<string>FFFFFF</string>
-		<key>contrast-03</key>
-		<string>FFFFFF</string>
+		<string>2B2B28</string>
 		<key>outline-01</key>
-		<string>BDC1C6</string>
+		<string>ECECEC</string>
 		<key>outline-02</key>
-		<string>DADCE0</string>
-		<key>outline-03</key>
-		<string>9AA0A6</string>
-		<key>icons-01</key>
-		<string>3C4043</string>
-		<key>icons-02</key>
-		<string>5F6368</string>
+		<string>A2A29E</string>
+		<key>disabled-01</key>
+		<string>C5DFD9</string>
+		<key>disabled-02</key>
+		<string>C7C7C5</string>
 		<key>inverse-background-01</key>
-		<string>2E3134</string>
+		<string>1B1B1B</string>
+		<key>inverse-background-02</key>
+		<string>2B2B28</string>
+		<key>inverse-background-03</key>
+		<string>375144</string>
+		<key>inverse-bacground-cards</key>
+		<string>393938</string>
 		<key>inverse-text-01</key>
-		<string>FFFFFF</string>
+		<string>F6F6F5</string>
 		<key>inverse-text-02</key>
-		<string>DADCE0</string>
-		<key>inverse-error</key>
-		<string>FF7F89</string>
-		<key>inverse-success</key>
-		<string>00A86E</string>
-		<key>inverse-contrast-03</key>
-		<string>2E3134</string>
-		<key>inverse-link-01</key>
+		<string>ECECEC</string>
+		<key>inverse-text-03</key>
+		<string>DADAD8</string>
+		<key>inverse-error-01</key>
+		<string>D5554E</string>
+		<key>inverse-error-02</key>
+		<string>FAEAE9</string>
+		<key>inverse-success-01</key>
+		<string>7ACDA5</string>
+		<key>inverse-success-02</key>
+		<string>E4F5ED</string>
+		<key>inverse-contrast-01</key>
 		<string>FFFFFF</string>
+		<key>inverse-contrast-02</key>
+		<string>2B2B28</string>
 		<key>inverse-outline-01</key>
-		<string>80868B</string>
+		<string>393938</string>
 		<key>inverse-outline-02</key>
-		<string>5F6368</string>
-		<key>inverse-outline-03</key>
-		<string>9AA0A6</string>
-		<key>inverse-icons-01</key>
-		<string>FFFFFF</string>
-		<key>inverse-icons-02</key>
-		<string>DADCE0</string>
-		<key>interaction-primary-hover</key>
-		<string>0861FF</string>
-		<key>interaction-primary-pressed</key>
-		<string>0053E7</string>
-		<key>interaction-primary-selected</key>
-		<string>0053E7</string>
-		<key>interaction-primary-focused</key>
-		<string>2C78FF</string>
-		<key>interaction-primary-disabled</key>
-		<string>9AA0A6</string>
-		<key>interaction-listing-hover</key>
-		<string>F1F3F4</string>
+		<string>848481</string>
 	</dict>
 </dict>
 </plist>
