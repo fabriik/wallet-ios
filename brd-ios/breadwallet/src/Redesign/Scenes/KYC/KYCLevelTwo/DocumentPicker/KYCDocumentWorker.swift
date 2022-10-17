@@ -51,10 +51,10 @@ enum Document: String, Model {
     
     var title: String {
         switch self {
-        case .idCard: return "National ID card"
-        case .driversLicense: return "Driver’s license"
-        case .residencePermit: return "Residence permit"
-        default: return "Passport"
+        case .idCard: return L10n.AccountKYCLevelTwo.nationalIdCard
+        case .driversLicense: return L10n.AccountKYCLevelTwo.drivingLicence
+        case .residencePermit: return L10n.AccountKYCLevelTwo.residencePermit
+        default: return L10n.AccountKYCLevelTwo.passport
         }
     }
     

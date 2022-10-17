@@ -79,7 +79,7 @@ class ItemSelectionInteractor: NSObject, Interactor, ItemSelectionViewActions {
         PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.dataStore?.items = data?.reversed()
+                self?.dataStore?.items = data
                 
             default:
                 break
