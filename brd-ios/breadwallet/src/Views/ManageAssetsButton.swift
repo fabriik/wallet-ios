@@ -13,11 +13,11 @@ class ManageAssetsButton: RoundedView {
         manageAssetsButton.titleLabel?.font = Fonts.button
         manageAssetsButton.tintColor = LightColors.primary
         manageAssetsButton.setTitleColor(LightColors.primary, for: .normal)
-        manageAssetsButton.setTitleColor(Theme.transparentBlue, for: .highlighted)
+        manageAssetsButton.setTitleColor(LightColors.Disabled.one, for: .highlighted)
         
-        manageAssetsButton.layer.borderColor = UIColor.gray2.cgColor
-        manageAssetsButton.layer.borderWidth = 0.5
-        manageAssetsButton.layer.cornerRadius = C.Sizes.homeCellCornerRadius
+        manageAssetsButton.layer.borderColor = LightColors.primary.cgColor
+        manageAssetsButton.layer.borderWidth = 1.5
+        manageAssetsButton.layer.cornerRadius = CornerRadius.fullRadius.rawValue
         
         manageAssetsButton.contentHorizontalAlignment = .center
         manageAssetsButton.contentVerticalAlignment = .center
@@ -31,6 +31,11 @@ class ManageAssetsButton: RoundedView {
         super.init(frame: .zero)
         
         setup()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        manageAssetsButton.layer.cornerRadius = manageAssetsButton.frame.height * CornerRadius.fullRadius.rawValue
     }
     
     required init?(coder aDecoder: NSCoder) {
