@@ -12,33 +12,22 @@ import UIKit
 
 class ThemeManager {
     private var colors: [String: String]
-    private var inverseColors: [String: String]
     
     static var shared = ThemeManager()
     
     init() {
         guard let path = Bundle.main.path(forResource: "theme", ofType: "plist"),
               let dict = NSDictionary(contentsOfFile: path),
-              let colors = dict["colors"] as? [String: String],
-              let inverseColors = dict["inverse-colors"] as? [String: String]
+              let colors = dict["colors"] as? [String: String]
                 // TODO: get fonts / other theme configs as well
         else {
             fatalError("Theme.plist error")
         }
         self.colors = colors
-        self.inverseColors = inverseColors
     }
     
     func color(for key: String) -> UIColor {
         guard let color = colors[key]
-        else {
-            return .clear
-        }
-        return UIColor(hex: color)
-    }
-    
-    func inverseColor(for key: String) -> UIColor {
-        guard let color = inverseColors[key]
         else {
             return .clear
         }
