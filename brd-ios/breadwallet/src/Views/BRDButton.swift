@@ -42,7 +42,16 @@ class BRDButton: UIControl {
     var isToggleable = false
     var title: String {
         didSet {
-            label.text = title
+            guard type == .blackTransparent else {
+                label.text = title
+                return
+            }
+            
+            let underlineAttribute = [
+                NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue
+            ]
+            let underlineAttributedString = NSAttributedString(string: title, attributes: underlineAttribute)
+            label.attributedText = underlineAttributedString
         }
     }
     var image: UIImage? {
@@ -53,7 +62,7 @@ class BRDButton: UIControl {
     private let type: ButtonType
     private let container = UIView()
     private let label = UILabel()
-    private let cornerRadius: CGFloat = CornerRadius.common.rawValue
+    private var cornerRadius = CornerRadius.common
     private var imageView: UIImageView?
 
     override var isHighlighted: Bool {
@@ -99,6 +108,17 @@ class BRDButton: UIControl {
             setColors()
         }
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        guard cornerRadius == .fullRadius else {
+            container.layer.cornerRadius = cornerRadius.rawValue
+            return
+        }
+        
+        container.layer.cornerRadius = cornerRadius.rawValue * container.frame.height
+    }
 
     private func setupViews() {
         addContent()
@@ -113,7 +133,6 @@ class BRDButton: UIControl {
     private func addContent() {
         addSubview(container)
         container.backgroundColor = .primaryButton
-        container.layer.cornerRadius = cornerRadius
         container.isUserInteractionEnabled = false
         container.constrain(toSuperviewEdges: nil)
         label.text = title
@@ -162,11 +181,11 @@ class BRDButton: UIControl {
             container.layer.borderWidth = 0.0
             imageView?.tintColor = .white
         case .secondary:
-            container.backgroundColor = .secondaryButton
-            label.textColor = Theme.blueBackground
-            container.layer.borderColor = UIColor.secondaryBorder.cgColor
-            container.layer.borderWidth = 1.0
-            imageView?.tintColor = .darkText
+            // redesigned
+            container.backgroundColor = LightColors.primary
+            label.textColor = LightColors.Contrast.two
+            imageView?.tintColor = LightColors.Contrast.two
+            cornerRadius = .fullRadius
         case .tertiary:
             container.backgroundColor = .secondaryButton
             label.textColor = .grayTextTint
@@ -175,10 +194,8 @@ class BRDButton: UIControl {
             imageView?.tintColor = .grayTextTint
         case .blackTransparent:
             container.backgroundColor = .clear
-            label.textColor = LightColors.Text.one
-            container.layer.borderColor = Theme.blueBackground.cgColor
-            container.layer.borderWidth = 1.0
-            imageView?.tintColor = .grayTextTint
+            label.textColor = LightColors.Contrast.two
+            imageView?.tintColor = LightColors.Contrast.two
         case .darkOpaque:
             container.backgroundColor = .darkOpaqueButton
             label.textColor = .black

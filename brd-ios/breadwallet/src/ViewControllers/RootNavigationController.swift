@@ -25,17 +25,18 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController is AccountViewController ||
             viewController is HomeScreenViewController ||
-            viewController is KYCCameraViewController {
-            setNormalNavigationBar(normalBackgroundColor: .clear, scrollBackgroundColor: .clear, tintColor: LightColors.Contrast.two)
+            viewController is KYCCameraViewController ||
+            viewController is OnboardingViewController {
+            setNormalNavigationBar(tintColor: LightColors.Contrast.two)
         } else {
-            setNormalNavigationBar()
+            setNormalNavigationBar(normalBackgroundColor: LightColors.Contrast.two)
         }
         
         let item = SimpleBackBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         viewController.navigationItem.backBarButtonItem = item
     }
     
-    func setNormalNavigationBar(normalBackgroundColor: UIColor = LightColors.Contrast.two,
+    func setNormalNavigationBar(normalBackgroundColor: UIColor = .clear,
                                 scrollBackgroundColor: UIColor = .clear,
                                 tintColor: UIColor = LightColors.Text.one) {
         let normalAppearance = UINavigationBarAppearance()

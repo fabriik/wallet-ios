@@ -20,7 +20,6 @@ typealias DidExitOnboardingWithAction = ((OnboardingExitAction) -> Void)
 struct OnboardingPage {
     var heading: String
     var subheading: String
-    var videoClip: String
 }
 
 // swiftlint:disable type_body_length
@@ -28,9 +27,6 @@ struct OnboardingPage {
 /**
 *  Takes the user through a sequence of onboarding screens (product walkthrough)
 *  and allows the user to either create a new wallet or restore an existing wallet.
-*
-*  As the user taps the Next button and transitions through the screens, video clips
-*  are played in the background.
 */
 class OnboardingViewController: UIViewController {
     
@@ -39,7 +35,7 @@ class OnboardingViewController: UIViewController {
     // restoration, PIN creation, etc.
     private var didExitWithAction: DidExitOnboardingWithAction?
         
-    private let logoImageView: UIImageView = UIImageView(image: UIImage(named: "LogoGradientLarge"))
+    private let logoImageView: UIImageView = .init(image: .init(named: "logo_vertical_white"))
     
     private var showingLogo: Bool = false {
         didSet {
@@ -50,26 +46,8 @@ class OnboardingViewController: UIViewController {
         }
     }
     
-    // Cache a separate player and video layer for each page that shows a video
-    // clip so that all we have to do is unhide the layer and play the clip. If
-    // we use a single player and make calls to replaceCurrentItem() it tends to
-    // cause a slight judder when starting the next clip.
-    var videoPlayers: [AVPlayer] = [AVPlayer]()
-    var videoLayers: [AVPlayerLayer] = [AVPlayerLayer]()
-    
-    var videoRates: [Float] = [1.2, 1.2, 1.2]
-    
-    // Each video clip is embedded as an AVPlayerLayer within a container view.
-    // Visibility of the container views is controlled by setting their alpha
-    // values to 0 or 1 in prepareVideoPlayer()
-    private var videoContainerViews: [UIView] = [UIView]()
-
     // page content
     var pages: [OnboardingPage] = [OnboardingPage]()
-    
-    // delays for starting page animations; fourth page is tuned so as not to overlay
-    // with the video content
-    var animationDelays: [TimeInterval] = [0, 0.2, 0.2, 0.4]
     
     // controls how far the heading/subheading labels animate up from the constraint anchor
     var fadeInOffsetFactors: [CGFloat] = [2.0, 2.0, 3.0, 2.0]
@@ -97,14 +75,6 @@ class OnboardingViewController: UIViewController {
     
     var subheadingInset: CGFloat {
         return headingInset - 10
-    }
-
-    var videoClipContainerTopInset: CGFloat {
-        if E.isIPhone6OrSmaller {
-            return 0
-        } else {
-            return 30
-        }
     }
     
     // Used to ensure we only animate the landing page on the first appearance.
@@ -173,22 +143,6 @@ class OnboardingViewController: UIViewController {
         didExitWithAction?(exitAction)
     }
             
-    // Starts the video clip for the given page.
-    private func startVideoClipForPage(pageIndex: Int) {
-        let page: OnboardingPage = pages[pageIndex]
-        let videoClip = page.videoClip
-        
-        guard !videoClip.isEmpty else { return }   // no clip for this page
-             
-        let clipIndex = pageIndex - 1
-        let rate = videoRates[clipIndex]
-        
-        prepareVideoPlayer(index: clipIndex)
-                
-        let player = videoPlayers[clipIndex]
-        player.playImmediately(atRate: rate)            
-    }
-    
     @objc private func backTapped(sender: Any) {
         
         let headingLabel = headingLabels[pageIndex]
@@ -203,10 +157,6 @@ class OnboardingViewController: UIViewController {
             headingLabel.alpha = 0
             subheadingLabel.alpha = 0
             headingConstraint.constant -= (self.headingLabelAnimationOffset)
-            
-            for videoContainer in self.videoContainerViews {
-                videoContainer.alpha = 0
-            }
             
             self.view.layoutIfNeeded()
         }, completion: { _ in
@@ -232,14 +182,6 @@ class OnboardingViewController: UIViewController {
         
         view.layoutIfNeeded()
         
-        self.videoPlayers.removeAll()
-        self.videoLayers.removeAll()
-
-        self.videoContainerViews.forEach { $0.removeFromSuperview() }
-        self.videoContainerViews.removeAll()
-        
-        self.setUpVideoClips()
-        
         self.pageIndex = 0
 
         self.createWalletButton.title = createWalletButtonText(pageIndex: 0)
@@ -261,59 +203,59 @@ class OnboardingViewController: UIViewController {
             ])
     }
     
-    private func animateIcons(metaData: [CurrencyMetaData]?) {
-        guard pageIndex == 0 else { return }
-        guard let metaData = metaData else {
-            animateIcons(metaData: Currencies.shared.currencies)
-            return
-        }
-        
-        // Used to be 20, and the app crashed
-        let iconCount = metaData.count
-        let iconSize: CGFloat = 40
-        let duration = 10.0
-        let maxDelay = 15.0
-        
-        let currencies: [CurrencyMetaData] = Array(Array(metaData).sorted { return $0.isPreferred && !$1.isPreferred }[..<iconCount])
-        for currency in currencies {
-            
-            //Add icon
-            let imageView = UIImageView(image: currency.imageNoBackground)
-            iconImageViews.append(imageView)
-            imageView.frame = CGRect(x: logoImageView.frame.midX - iconSize/2.0,
-                                     y: logoImageView.frame.midY - iconSize/2.0,
-                                     width: iconSize,
-                                     height: iconSize)
-            self.view.addSubview(imageView)
-            self.view.sendSubviewToBack(imageView)
-            imageView.alpha = 0.0
-            imageView.tintColor = .white
-            
-            let delay = Double.random(in: 0.0...maxDelay)
-            
-            //Fade in Icon
-            UIView.animate(withDuration: 1.5, delay: delay, animations: {
-                imageView.alpha = 0.2
-            })
-            
-            //Animate icon on hypotenuse
-            UIView.animate(withDuration: duration, delay: delay, animations: {
-                let angle = CGFloat.random(in: 0...360.0) * .pi / 180.0
-                let hypotenuse: CGFloat = 700.0
-                imageView.frame = imageView.frame.offsetBy(dx: cos(angle) * hypotenuse, dy: sin(angle) * hypotenuse)
-                let rotationAngle: CGFloat = Bool.random() ? .pi / -1.1 : .pi
-                imageView.transform = imageView.transform.rotated(by: rotationAngle)
-            }, completion: { _ in
-                imageView.alpha = 0.0
-                imageView.removeFromSuperview()
-            })
-        }
-        
-        //Repeat
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration + maxDelay, execute: { [weak self] in
-            self?.animateIcons(metaData: metaData)
-        })
-    }
+//    private func animateIcons(metaData: [CurrencyMetaData]?) {
+//        guard pageIndex == 0 else { return }
+//        guard let metaData = metaData else {
+//            animateIcons(metaData: Currencies.shared.currencies)
+//            return
+//        }
+//
+//        // Used to be 20, and the app crashed
+//        let iconCount = metaData.count
+//        let iconSize: CGFloat = 40
+//        let duration = 10.0
+//        let maxDelay = 15.0
+//
+//        let currencies: [CurrencyMetaData] = Array(Array(metaData).sorted { return $0.isPreferred && !$1.isPreferred }[..<iconCount])
+//        for currency in currencies {
+//
+//            //Add icon
+//            let imageView = UIImageView(image: currency.imageNoBackground)
+//            iconImageViews.append(imageView)
+//            imageView.frame = CGRect(x: logoImageView.frame.midX - iconSize/2.0,
+//                                     y: logoImageView.frame.midY - iconSize/2.0,
+//                                     width: iconSize,
+//                                     height: iconSize)
+//            self.view.addSubview(imageView)
+//            self.view.sendSubviewToBack(imageView)
+//            imageView.alpha = 0.0
+//            imageView.tintColor = .white
+//
+//            let delay = Double.random(in: 0.0...maxDelay)
+//
+//            //Fade in Icon
+//            UIView.animate(withDuration: 1.5, delay: delay, animations: {
+//                imageView.alpha = 0.2
+//            })
+//
+//            //Animate icon on hypotenuse
+//            UIView.animate(withDuration: duration, delay: delay, animations: {
+//                let angle = CGFloat.random(in: 0...360.0) * .pi / 180.0
+//                let hypotenuse: CGFloat = 700.0
+//                imageView.frame = imageView.frame.offsetBy(dx: cos(angle) * hypotenuse, dy: sin(angle) * hypotenuse)
+//                let rotationAngle: CGFloat = Bool.random() ? .pi / -1.1 : .pi
+//                imageView.transform = imageView.transform.rotated(by: rotationAngle)
+//            }, completion: { _ in
+//                imageView.alpha = 0.0
+//                imageView.removeFromSuperview()
+//            })
+//        }
+//
+//        //Repeat
+//        DispatchQueue.main.asyncAfter(deadline: .now() + duration + maxDelay, execute: { [weak self] in
+//            self?.animateIcons(metaData: metaData)
+//        })
+//    }
     
     private func hideStarburstIcons() {
         iconImageViews.forEach { $0.layer.removeAllAnimations() }
@@ -323,18 +265,14 @@ class OnboardingViewController: UIViewController {
     }
     
     private func setUpPages() {
-        
         pages.append(OnboardingPage(heading: L10n.OnboardingPageOne.title,
-                                    subheading: "",
-                                    videoClip: ""))
+                                    subheading: ""))
         
         pages.append(OnboardingPage(heading: L10n.OnboardingPageTwo.title,
-                                    subheading: "",
-                                    videoClip: "onboarding-video-globe"))
+                                    subheading: ""))
         
         pages.append(OnboardingPage(heading: L10n.OnboardingPageThree.title,
-                                    subheading: L10n.OnboardingPageThree.subtitle,
-                                    videoClip: "onboarding-video-coins-in"))
+                                    subheading: L10n.OnboardingPageThree.subtitle))
     }
     
     private func makeHeadingLabel(text: String, font: UIFont, color: UIColor) -> UILabel {
@@ -349,14 +287,6 @@ class OnboardingViewController: UIViewController {
         
         return label
     }
-    
-    private func headingFont(for page: OnboardingPage) -> UIFont {
-        if !E.isIPhone6OrSmaller || page.subheading.isEmpty {
-            return UIFont.onboardingHeading()
-        } else {
-            return UIFont.onboardingSmallHeading()
-        }
-    }
         
     private func setUpHeadingLabels() {
 
@@ -364,8 +294,8 @@ class OnboardingViewController: UIViewController {
             
             // create the headings
             let headingLabel = makeHeadingLabel(text: page.heading, 
-                                                font: headingFont(for: page),
-                                                color: .onboardingHeadingText)
+                                                font: Fonts.Title.six,
+                                                color: LightColors.Contrast.two)
             view.addSubview(headingLabel)
             
             let offset: CGFloat = (index == 0) ? 0 : -(self.headingLabelAnimationOffset)
@@ -510,70 +440,6 @@ class OnboardingViewController: UIViewController {
         }
     }
     
-    private func setUpVideoClips() {
-                
-        videoPlayers.removeAll()
-        videoLayers.removeAll()
-        
-        for view in videoContainerViews {
-            view.removeFromSuperview()
-        }
-        
-        videoContainerViews.removeAll()
-        
-        for index in 1...lastPageIndex {
-            let page = pages[index]
-            let clipName = page.videoClip
-            
-            guard let filePath = Bundle.main.path(forResource: clipName, ofType: "mp4") else { 
-                continue
-            }
-            
-            let fileURL = URL.init(fileURLWithPath: filePath)
-            let asset = AVURLAsset(url: fileURL, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
-
-            let videoItem = AVPlayerItem(asset: asset)
-            let player = AVPlayer(playerItem: videoItem)
-            let videoLayer: AVPlayerLayer = AVPlayerLayer(player: player)
-
-            let containerView = UIView(frame: view.frame)
-            containerView.backgroundColor = .clear
-            containerView.alpha = 0
-            containerView.layer.addSublayer(videoLayer)            
-            view.insertSubview(containerView, at: 0)
-            
-            // On larger screens such as iPhone XR the video content can overlap the subheading text
-            // due to scaling of the video, so use `videoClipContainerTopInset` here.
-            let insets = UIEdgeInsets(top: videoClipContainerTopInset, left: 0, bottom: 0, right: 0)
-            containerView.constrain(toSuperviewEdges: insets)
-            
-            // add the video layer with aspect-fill so that it conforms to the bounds
-            // of the container view
-            videoLayer.frame = containerView.frame
-            videoLayer.backgroundColor = UIColor.clear.cgColor
-            videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-            
-            videoPlayers.append(player)
-            videoLayers.append(videoLayer)
-            videoContainerViews.append(containerView)
-        }
-        
-        // Make the first video layer visible so it's ready to roll when the user navigates to 
-        // the first page.
-        if let firstLayer = videoLayers.first {
-            firstLayer.isHidden = false
-        }
-    }
-
-    private func prepareVideoPlayer(index: Int) {
-        // makes all the video layers hidden except for the one at 'index'
-        var idx = 0
-        for container in videoContainerViews {
-            container.alpha = (index != idx) ? 0 : 1
-            idx += 1
-        }
-    }
-    
     private func addBackAndSkipButtons() {
         let image = UIImage(named: "BackArrowWhite")
         
@@ -670,11 +536,9 @@ class OnboardingViewController: UIViewController {
             self.view.layoutIfNeeded()
         })
         
-        UIView.animate(withDuration: duration * 2.0, delay: delay * 3.0, options: .curveEaseInOut, animations: { 
+        UIView.animate(withDuration: duration * 2.0, delay: delay * 3.0, options: .curveEaseInOut) {
             self.logoImageView.alpha = 1
-        }, completion: { [weak self] _ in
-            self?.animateIcons(metaData: nil)
-        })
+        }
     }
     
     private func createWalletTapped() {
@@ -700,7 +564,6 @@ class OnboardingViewController: UIViewController {
                          
     private func setupSubviews() {
         setUpHeadingLabels()
-        setUpVideoClips()
         
         setUpBottomButtons()
         addBackAndSkipButtons()        
@@ -727,23 +590,11 @@ class OnboardingViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        // make sure the video layers' frames match the container view
-        var index = 0
-        for videoContainer in videoContainerViews {
-            let videoLayer = videoLayers[index]
-            videoLayer.frame = videoContainer.frame
-            index += 1
-        }        
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.isNavigationBarHidden = true
-        view.backgroundColor = Theme.onboardingBackground
+        view.backgroundColor = LightColors.Contrast.one
                 
         setUpLogo()
         setUpPages()
