@@ -35,21 +35,22 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         viewController.navigationItem.backBarButtonItem = item
     }
     
-    func setNormalNavigationBar(normalBackgroundColor: UIColor = .clear,
+    func setNormalNavigationBar(normalBackgroundColor: UIColor = LightColors.Contrast.two,
                                 scrollBackgroundColor: UIColor = .clear,
                                 tintColor: UIColor = LightColors.Text.one) {
         let normalAppearance = UINavigationBarAppearance()
         normalAppearance.configureWithOpaqueBackground()
         normalAppearance.backgroundColor = normalBackgroundColor
         normalAppearance.shadowColor = nil
-        navigationBar.standardAppearance = normalAppearance
-        navigationBar.compactAppearance = normalAppearance
         
         let scrollAppearance = UINavigationBarAppearance()
         scrollAppearance.configureWithTransparentBackground()
-        scrollAppearance.backgroundColor = scrollBackgroundColor
+        scrollAppearance.backgroundColor = normalBackgroundColor
         scrollAppearance.shadowColor = nil
-        navigationBar.scrollEdgeAppearance = scrollAppearance
+        
+        navigationBar.scrollEdgeAppearance = normalAppearance
+        navigationBar.standardAppearance = scrollAppearance
+        navigationBar.compactAppearance = scrollAppearance
         
         navigationBar.tintColor = tintColor
         navigationBar.prefersLargeTitles = false
