@@ -129,6 +129,7 @@ class EnterPhraseCell: UICollectionViewCell {
         previousField.tintColor = LightColors.Text.one
         nextField.tintColor = LightColors.Text.one
         done.setTitle(L10n.RecoverWallet.done, for: .normal)
+        done.setTitleColor(LightColors.primary, for: .normal)
     }
 
     private var accessoryView: UIView {
