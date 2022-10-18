@@ -17,23 +17,8 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
     // MARK: - ProfileActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let item = actionResponse.item as? Models.Item,
-              let status = item.status else { return }
-        
-        var infoView: InfoViewModel
-        switch status {
-        case .none, .email:
-            infoView = Presets.VerificationInfoView.none
-        case .emailPending, .levelTwo(.submitted):
-            infoView = Presets.VerificationInfoView.pending
-        case .levelOne, .levelTwo(.notStarted):
-            infoView = Presets.VerificationInfoView.verified
-        case .levelTwo(.levelTwo):
-            infoView = Presets.VerificationInfoView.verifiedLevelTwo
-        case .levelTwo(.expired), .levelTwo(.resubmit):
-            infoView = Presets.VerificationInfoView.resubmit
-        case .levelTwo(.declined):
-            infoView = Presets.VerificationInfoView.declined
-        }
+              let status = item.status,
+              var infoView: InfoViewModel = status.viewModel else { return }
         
         let sections: [Models.Section] = [
             .profile,

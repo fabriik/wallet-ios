@@ -5,11 +5,7 @@
 	<key>fonts</key>
 	<dict>
 		<key>Degular-Bold</key>
-		<string>Degular-Bold.otf</string>
-		<key>Degular-Regular</key>
-		<string>Degular-Regular.otf</string>
-		<key>Degular-Semibold</key>
-		<string>Degular-SemiBold.otf</string>
+		<string>Sofia-Pro.otf</string>
 	</dict>
 	<key>colors</key>
 	<dict>
@@ -20,7 +16,7 @@
 		<key>background-03</key>
 		<string>DEE7E3</string>
 		<key>background-cards</key>
-		<string>ECECEC</string>
+		<string>FFFFFF</string>
 		<key>primary</key>
 		<string>6EAEA1</string>
 		<key>secondary</key>
@@ -28,15 +24,15 @@
 		<key>tertiary</key>
 		<string>EACA66</string>
 		<key>contrast-01</key>
-		<string>FFFFFF</string>
+		<string>2B2B28</string>
 		<key>contrast-02</key>
-		<string>2B2B28</string>
+		<string>FFFFFF</string>
 		<key>text-01</key>
-		<string>3C5346</string>
-		<key>text-02</key>
 		<string>2B2B28</string>
-		<key>text-03</key>
+		<key>text-02</key>
 		<string>666664</string>
+		<key>text-03</key>
+		<string>3C5346</string>
 		<key>outline-01</key>
 		<string>ECECEC</string>
 		<key>outline-02</key>
@@ -45,53 +41,6 @@
 		<string>C5DFD9</string>
 		<key>disabled-02</key>
 		<string>C7C7C5</string>
-		<key>success-01</key>
-		<string>7ACDA5</string>
-		<key>success-02</key>
-		<string>E4F5ED</string>
-		<key>pending-01</key>
-		<string>EACA66</string>
-		<key>pending-02</key>
-		<string>FDFAF0</string>
-		<key>error-01</key>
-		<string>D5554E</string>
-		<key>error-02</key>
-		<string>FAEAE9</string>
-	</dict>
-	<key>inverse-colors</key>
-	<dict>
-		<key>background-01</key>
-		<string>1B1B1B</string>
-		<key>background-02</key>
-		<string>2B2B28</string>
-		<key>background-03</key>
-		<string>375144</string>
-		<key>background-cards</key>
-		<string>1B1B1B</string>
-		<key>primary</key>
-		<string>6EAEA1</string>
-		<key>secondary</key>
-		<string>3C5346</string>
-		<key>tertiary</key>
-		<string>EACA66</string>
-		<key>contrast-01</key>
-		<string>FFFFFF</string>
-		<key>contrast-02</key>
-		<string>2B2B28</string>
-		<key>text-01</key>
-		<string>F6F6F5</string>
-		<key>text-02</key>
-		<string>ECECEC</string>
-		<key>text-03</key>
-		<string>DADAD8</string>
-		<key>outline-01</key>
-		<string>393938</string>
-		<key>outline-02</key>
-		<string>848481</string>
-		<key>disabled-01</key>
-		<string>C5DFD9</string>
-		<key>disabled-02</key>
-		<string>A2A29E</string>
 		<key>success-01</key>
 		<string>7ACDA5</string>
 		<key>success-02</key>

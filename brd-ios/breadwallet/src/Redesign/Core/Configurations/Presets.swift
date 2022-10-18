@@ -387,58 +387,6 @@ extension Presets {
 }
 
 extension Presets {
-    // TODO: presets are for configurations, not viewModels
-    struct VerificationInfoView {
-        static var none = InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
-                                        headerTrailing: .init(image: "help"),
-                                        status: VerificationStatus.none,
-                                        description: .text(L10n.Account.fullAccess),
-                                        button: .init(title: L10n.Account.accountVerify),
-                                        dismissType: .persistent)
-        
-        static var nonePrompt = InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
-                                              headerTrailing: .init(image: "CloseModern"),
-                                              status: VerificationStatus.none,
-                                              description: .text(L10n.Account.fullAccess),
-                                              button: .init(title: L10n.Account.accountVerify),
-                                              dismissType: .persistent)
-        
-        static var verified = InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
-                                            headerTrailing: .init(image: "help"),
-                                            status: VerificationStatus.levelOne,
-                                            description: .text(L10n.Account.currentLimit),
-                                            button: .init(title: L10n.Account.upgradeLimits),
-                                            dismissType: .persistent)
-        
-        static var pending = InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
-                                           headerTrailing: .init(image: "help"),
-                                           status: VerificationStatus.emailPending,
-                                           description: .text(L10n.Account.verifiedAccountMessage),
-                                           dismissType: .persistent)
-        
-        static var verifiedLevelTwo = InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
-                                                    headerTrailing: .init(image: "help"),
-                                                    status: VerificationStatus.levelTwo(.levelTwo),
-                                                    description: .text(L10n.Account.swapAndBuyLimit),
-                                                    dismissType: .persistent)
-        
-        static var resubmit = InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
-                                            headerTrailing: .init(image: "help"),
-                                            status: VerificationStatus.levelTwo(.resubmit),
-                                            description: .text(L10n.Account.dataIssues),
-                                            button: .init(title: L10n.Account.verificationDeclined),
-                                            dismissType: .persistent)
-        
-        static var declined = InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
-                                            headerTrailing: .init(image: "help"),
-                                            status: VerificationStatus.levelTwo(.declined),
-                                            description: .text(L10n.Account.dataIssues),
-                                            button: .init(title: L10n.Account.verificationDeclined),
-                                            dismissType: .persistent)
-    }
-}
-
-extension Presets {
     struct Order {
         static var small = OrderConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 1),
                                               copyableValue: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1,
@@ -494,15 +442,6 @@ extension Presets {
                                                                                  textColor: LightColors.Text.two.withAlphaComponent(0.5),
                                                                                  textAlignment: .right),
                                                  imageAlpha: 0.5)
-    }
-    
-    // TODO: presets are for configurations, not viewModels
-    struct StatusView {
-        static var pending = AssetViewModel(icon: UIImage(named: "pendingIcon"), title: L10n.Staking.statusPending)
-        static var complete = AssetViewModel(icon: UIImage(named: "completeIcon"), title: L10n.Transaction.complete)
-        static var failed = AssetViewModel(icon: UIImage(named: "errorIcon")?.withRenderingMode(.alwaysOriginal), title: L10n.Transaction.failed)
-        static var refunded = AssetViewModel(icon: UIImage(named: "refundedIcon")?.withRenderingMode(.alwaysOriginal), title: L10n.Transaction.refunded)
-        static var manuallySettled = AssetViewModel(icon: UIImage(named: "completeIcon")?.withRenderingMode(.alwaysOriginal), title: L10n.Transaction.manuallySettled)
     }
 }
 

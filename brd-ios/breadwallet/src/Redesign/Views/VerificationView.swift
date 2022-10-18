@@ -89,6 +89,53 @@ enum VerificationStatus: Equatable {
             return false
         }
     }
+    
+    var viewModel: InfoViewModel? {
+        switch self {
+        case .none, .email:
+            return InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.none,
+                                 description: .text(L10n.Account.fullAccess),
+                                 button: .init(title: L10n.Account.accountVerify),
+                                 dismissType: .persistent)
+            
+        case .emailPending, .levelTwo(.submitted):
+            return InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.emailPending,
+                                 description: .text(L10n.Account.verifiedAccountMessage),
+                                 dismissType: .persistent)
+            
+        case .levelOne, .levelTwo(.notStarted):
+            return InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.levelOne,
+                                 description: .text(L10n.Account.currentLimit),
+                                 button: .init(title: L10n.Account.upgradeLimits),
+                                 dismissType: .persistent)
+        case .levelTwo(.levelTwo):
+            return InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.levelTwo(.levelTwo),
+                                 description: .text(L10n.Account.swapAndBuyLimit),
+                                 dismissType: .persistent)
+        case .levelTwo(.expired), .levelTwo(.resubmit):
+            return InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.levelTwo(.resubmit),
+                                 description: .text(L10n.Account.dataIssues),
+                                 button: .init(title: L10n.Account.verificationDeclined),
+                                 dismissType: .persistent)
+        case .levelTwo(.declined):
+            return InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.levelTwo(.declined),
+                                 description: .text(L10n.Account.dataIssues),
+                                 button: .init(title: L10n.Account.verificationDeclined),
+                                 dismissType: .persistent)
+        }
+    }
 }
 
 struct StatusViewConfiguration: Configurable {
