@@ -10,6 +10,12 @@
 
 import UIKit
 
+extension Presets {
+    // TODO: presets are for configurations, not viewModels
+    struct VerificationInfoView {
+    }
+}
+
 enum DismissType {
     /// After 5 sec
     case auto

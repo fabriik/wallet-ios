@@ -48,21 +48,7 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
             break
         }
         
-        var header = AssetViewModel()
-        
-        switch detail.status {
-        case .pending:
-            header = Presets.StatusView.pending
-            
-        case .complete, .manuallySettled:
-            header = Presets.StatusView.complete
-            
-        case .failed, .refunded:
-            header = Presets.StatusView.failed
-            
-        default:
-            break
-        }
+        guard let header = detail.status.viewModel else { return }
         
         let fromImage = getBaseCurrencyImage(currencyCode: detail.source.currency)
         let toImage = getBaseCurrencyImage(currencyCode: detail.destination.currency)
