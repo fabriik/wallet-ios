@@ -11,7 +11,7 @@ import UIKit
 class HomeScreenViewController: UIViewController, Subscriber {
     private let walletAuthenticator: WalletAuthenticator
     private let assetListTableView = AssetListTableView()
-    private let debugLabel = UILabel(font: .customBody(size: 12.0), color: .transparentWhiteText) // debug info
+    private let debugLabel = UILabel(font: Fonts.Body.one, color: LightColors.Text.one) // debug info
     private let toolbar = UIToolbar()
     private var toolbarButtons = [UIButton]()
     private let notificationHandler = NotificationHandler()
@@ -20,14 +20,14 @@ class HomeScreenViewController: UIViewController, Subscriber {
     private lazy var subHeaderView: UIView = {
         let subHeaderView = UIView()
         subHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        subHeaderView.backgroundColor = .homeBackground
+        subHeaderView.backgroundColor = .clear
         subHeaderView.clipsToBounds = false
         
         return subHeaderView
     }()
     
     private lazy var totalAssetsTitleLabel: UILabel = {
-        let totalAssetsTitleLabel = UILabel(font: Theme.caption, color: Theme.tertiaryText)
+        let totalAssetsTitleLabel = UILabel(font: Fonts.Body.two, color: LightColors.Text.three)
         totalAssetsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         totalAssetsTitleLabel.text = L10n.HomeScreen.totalAssets
         
@@ -35,7 +35,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
     }()
     
     private lazy var totalAssetsAmountLabel: UILabel = {
-        let totalAssetsAmountLabel = UILabel(font: Theme.boldTitle.withSize(Theme.FontSize.h1Title.rawValue), color: Theme.tertiaryText)
+        let totalAssetsAmountLabel = UILabel(font: Fonts.Title.three, color: LightColors.Text.three)
         totalAssetsAmountLabel.translatesAutoresizingMaskIntoConstraints = false
         totalAssetsAmountLabel.adjustsFontSizeToFitWidth = true
         totalAssetsAmountLabel.minimumScaleFactor = 0.5
@@ -49,7 +49,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         let logoImageView = UIImageView()
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.contentMode = .scaleAspectFit
-        logoImageView.image = E.isIPhone6OrSmaller ? UIImage(named: "LogoBlue") : UIImage(named: "LogoBlueWithText")
+        logoImageView.image = E.isIPhone6OrSmaller ? UIImage(named: "logo_icon") : UIImage(named: "logo")
         
         return logoImageView
     }()

@@ -69,7 +69,7 @@ class LoginViewController: UIViewController, Subscriber {
         return PinView(style: pinViewStyle, length: Store.state.pinLength)
     }()
     private let disabledView: WalletDisabledView
-    private var logo = UIImageView(image: #imageLiteral(resourceName: "LogoBlue"))
+    private var logo = UIImageView(image: #imageLiteral(resourceName: "logo_icon"))
     private var pinPadPottom: NSLayoutConstraint?
     private var topControlTop: NSLayoutConstraint?
     private var unlockTimer: Timer?

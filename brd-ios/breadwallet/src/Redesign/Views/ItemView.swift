@@ -57,7 +57,7 @@ class ItemView: FEView<ItemViewConfiguration, ItemViewModel> {
         
         titleLabel.setup(with: .text(viewModel.title))
 
-        let image = viewModel.image ?? .imageName("LogoBlue")
+        let image = viewModel.image ?? .imageName("logo_icon")
         imageView.setup(with: image)
     }
 }
