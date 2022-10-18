@@ -218,16 +218,19 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
+        guard !isAccessDenied(error: actionResponse.error) else { return }
+        
         if let error = actionResponse.error as? SwapErrors, error.errorMessage == SwapErrors.selectAssets.errorMessage {
             presentAssetInfoPopup(actionResponse: .init())
         } else if let error = actionResponse.error as? FEError {
             let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
-            let config = Presets.InfoView.swapError
+            let config = Presets.InfoView.redAlert
             
             switch error.errorMessage {
             case SwapErrors.quoteFail.errorMessage:
                 viewController?.displayExchangeRate(responseDisplay: .init(rate: .init(),
                                                                            limits: nil))
+                
             default:
                 break
             }
