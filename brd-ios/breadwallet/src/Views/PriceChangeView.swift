@@ -48,12 +48,12 @@ class PriceChangeView: UIView, Subscriber {
         guard let change24Hrs = priceInfo?.change24Hrs else { return nil }
         
         if change24Hrs > 0 {
-            return .greenCheck
+            return LightColors.Success.one
         } else if change24Hrs < 0 {
-            return .redCheck
+            return LightColors.Error.one
         }
         
-        return .shuttleGrey
+        return LightColors.Text.one
     }
     
     private var currencyNumberFormatter: NumberFormatter {
@@ -109,7 +109,7 @@ class PriceChangeView: UIView, Subscriber {
             absoluteLabel.text = "(\(absoluteString))"
             prefixLabel.text = prefixValue
             percentLabel.text = percentText
-            textColor = Theme.primaryBackground
+            textColor = LightColors.Text.one
             layoutIfNeeded()
         } else if style == .percentOnly {
             UIView.transition(with: percentLabel,

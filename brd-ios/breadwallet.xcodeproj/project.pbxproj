@@ -410,6 +410,7 @@
 		7ECCA9992874342C00F99368 /* FETimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9982874342C00F99368 /* FETimerView.swift */; };
 		7ECCA99B28744CD600F99368 /* ExchangeRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */; };
 		7ECCA99D28745E0400F99368 /* AssetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99C28745E0400F99368 /* AssetView.swift */; };
+		7ECF38B428FEC157008EB59D /* SofiaPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7ECF38B328FEC157008EB59D /* SofiaPro-Regular.otf */; };
 		7ED427EF28755CB200AA19A8 /* ExchangeDetailsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427E828755CB200AA19A8 /* ExchangeDetailsStore.swift */; };
 		7ED427F028755CB200AA19A8 /* ExchangeDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427E928755CB200AA19A8 /* ExchangeDetailsPresenter.swift */; };
 		7ED427F128755CB200AA19A8 /* ExchangeDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427EA28755CB200AA19A8 /* ExchangeDetailsModels.swift */; };
@@ -714,10 +715,6 @@
 		C46C2901287EBF4F0035C843 /* BaseInfoVIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28FA287EBF4F0035C843 /* BaseInfoVIP.swift */; };
 		C46C2902287EBF4F0035C843 /* BaseInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28FB287EBF4F0035C843 /* BaseInfoViewController.swift */; };
 		C46C2903287EBF4F0035C843 /* BaseInfoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C28FC287EBF4F0035C843 /* BaseInfoInteractor.swift */; };
-		C47BD4FD282E3CE600FAA903 /* Degular-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C47BD4FA282E3CE600FAA903 /* Degular-Semibold.otf */; };
-		C47BD4FE282E3CE600FAA903 /* Degular-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C47BD4FB282E3CE600FAA903 /* Degular-Bold.otf */; };
-		C47BD4FF282E3CE600FAA903 /* Degular-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C47BD4FC282E3CE600FAA903 /* Degular-Regular.otf */; };
-		C47BD509282E427300FAA903 /* Roboto-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C47BD506282E427300FAA903 /* Roboto-Bold.otf */; };
 		C47BD50A282E427300FAA903 /* Roboto-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C47BD507282E427300FAA903 /* Roboto-Regular.otf */; };
 		C47BD50B282E427300FAA903 /* Roboto-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C47BD508282E427300FAA903 /* Roboto-Medium.otf */; };
 		C47F46FA286A2931002287F1 /* ResetPinCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47F46F3286A2931002287F1 /* ResetPinCoordinator.swift */; };
@@ -1379,6 +1376,7 @@
 		7ECCA9982874342C00F99368 /* FETimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FETimerView.swift; sourceTree = "<group>"; };
 		7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateView.swift; sourceTree = "<group>"; };
 		7ECCA99C28745E0400F99368 /* AssetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetView.swift; sourceTree = "<group>"; };
+		7ECF38B328FEC157008EB59D /* SofiaPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SofiaPro-Regular.otf"; path = "Fonts/SofiaPro-Regular.otf"; sourceTree = "<group>"; };
 		7ED427E828755CB200AA19A8 /* ExchangeDetailsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailsStore.swift; sourceTree = "<group>"; };
 		7ED427E928755CB200AA19A8 /* ExchangeDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailsPresenter.swift; sourceTree = "<group>"; };
 		7ED427EA28755CB200AA19A8 /* ExchangeDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailsModels.swift; sourceTree = "<group>"; };
@@ -1654,10 +1652,6 @@
 		C46C28FA287EBF4F0035C843 /* BaseInfoVIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInfoVIP.swift; sourceTree = "<group>"; };
 		C46C28FB287EBF4F0035C843 /* BaseInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInfoViewController.swift; sourceTree = "<group>"; };
 		C46C28FC287EBF4F0035C843 /* BaseInfoInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInfoInteractor.swift; sourceTree = "<group>"; };
-		C47BD4FA282E3CE600FAA903 /* Degular-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Degular-Semibold.otf"; path = "Fonts/Degular-Semibold.otf"; sourceTree = "<group>"; };
-		C47BD4FB282E3CE600FAA903 /* Degular-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Degular-Bold.otf"; path = "Fonts/Degular-Bold.otf"; sourceTree = "<group>"; };
-		C47BD4FC282E3CE600FAA903 /* Degular-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Degular-Regular.otf"; path = "Fonts/Degular-Regular.otf"; sourceTree = "<group>"; };
-		C47BD506282E427300FAA903 /* Roboto-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Bold.otf"; path = "Fonts/Roboto-Bold.otf"; sourceTree = "<group>"; };
 		C47BD507282E427300FAA903 /* Roboto-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.otf"; path = "Fonts/Roboto-Regular.otf"; sourceTree = "<group>"; };
 		C47BD508282E427300FAA903 /* Roboto-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.otf"; path = "Fonts/Roboto-Medium.otf"; sourceTree = "<group>"; };
 		C47F46F3286A2931002287F1 /* ResetPinCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPinCoordinator.swift; sourceTree = "<group>"; };
@@ -3736,10 +3730,7 @@
 		CEAA9E9C1DC2F8270066731D /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				C47BD4FB282E3CE600FAA903 /* Degular-Bold.otf */,
-				C47BD4FC282E3CE600FAA903 /* Degular-Regular.otf */,
-				C47BD4FA282E3CE600FAA903 /* Degular-Semibold.otf */,
-				C47BD506282E427300FAA903 /* Roboto-Bold.otf */,
+				7ECF38B328FEC157008EB59D /* SofiaPro-Regular.otf */,
 				C47BD508282E427300FAA903 /* Roboto-Medium.otf */,
 				C47BD507282E427300FAA903 /* Roboto-Regular.otf */,
 			);
@@ -4119,7 +4110,6 @@
 				9A926F5A22034B3800CC2263 /* CellHighlight-13.png in Resources */,
 				9AE8010E21FFF81F00D5058C /* rewardsIcon-41.gif in Resources */,
 				9A926F9822034B3800CC2263 /* CellHighlight-24.png in Resources */,
-				C47BD509282E427300FAA903 /* Roboto-Bold.otf in Resources */,
 				9AE8010321FFF81F00D5058C /* rewardsIcon-50.gif in Resources */,
 				9A926F7222034B3800CC2263 /* CellHighlight-74.png in Resources */,
 				9A926F5922034B3800CC2263 /* CellHighlight-26.png in Resources */,
@@ -4127,7 +4117,6 @@
 				9A926F8D22034B3800CC2263 /* CellHighlight-55.png in Resources */,
 				9AE800F021FFF81F00D5058C /* rewardsIcon-31.gif in Resources */,
 				9AE800ED21FFF81F00D5058C /* rewardsIcon-60.gif in Resources */,
-				C47BD4FE282E3CE600FAA903 /* Degular-Bold.otf in Resources */,
 				9AE8010121FFF81F00D5058C /* rewardsIcon-1.gif in Resources */,
 				9AE8011221FFF81F00D5058C /* rewardsIcon-51.gif in Resources */,
 				9AE800E521FFF81F00D5058C /* rewardsIcon-15.gif in Resources */,
@@ -4180,7 +4169,6 @@
 				9A926F4622034B3700CC2263 /* CellHighlight-72.png in Resources */,
 				9AE800E121FFF81F00D5058C /* rewardsIcon-2.gif in Resources */,
 				9AE800E321FFF81F00D5058C /* rewardsIcon-55.gif in Resources */,
-				C47BD4FF282E3CE600FAA903 /* Degular-Regular.otf in Resources */,
 				9AE8011421FFF81F00D5058C /* rewardsIcon-63.gif in Resources */,
 				9A926F8622034B3800CC2263 /* CellHighlight-10.png in Resources */,
 				9A926F6F22034B3800CC2263 /* CellHighlight-60.png in Resources */,
@@ -4224,6 +4212,7 @@
 				9A926F5D22034B3800CC2263 /* CellHighlight-15.png in Resources */,
 				9A926F4522034B3700CC2263 /* CellHighlight-62.png in Resources */,
 				9A926F9222034B3800CC2263 /* CellHighlight-21.png in Resources */,
+				7ECF38B428FEC157008EB59D /* SofiaPro-Regular.otf in Resources */,
 				9A926F8122034B3800CC2263 /* CellHighlight-28.png in Resources */,
 				C47BD50A282E427300FAA903 /* Roboto-Regular.otf in Resources */,
 				9A926F7722034B3800CC2263 /* CellHighlight-44.png in Resources */,
@@ -4289,7 +4278,6 @@
 				9A926F7522034B3800CC2263 /* CellHighlight-33.png in Resources */,
 				9A926F6C22034B3800CC2263 /* CellHighlight-61.png in Resources */,
 				9A926F9422034B3800CC2263 /* CellHighlight-56.png in Resources */,
-				C47BD4FD282E3CE600FAA903 /* Degular-Semibold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
