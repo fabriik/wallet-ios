@@ -53,7 +53,6 @@ class EnterPhraseCollectionViewController: UICollectionViewController, UICollect
     
     override func viewDidLoad() {
         collectionView = NonScrollingCollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout)
-        collectionView.backgroundColor = Theme.primaryBackground
         collectionView?.register(EnterPhraseCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView?.delegate = self
         collectionView?.dataSource = self
