@@ -22,9 +22,9 @@ class PriceChangeView: UIView, Subscriber {
         }
     }
     
-    private let percentLabel = UILabel(font: .customBody(size: 16.0))
-    private let absoluteLabel = UILabel(font: .customBody(size: 16.0))
-    private let prefixLabel = UILabel(font: .customBody(size: 16.0))
+    private let percentLabel = UILabel(font: Fonts.Subtitle.two, color: LightColors.Success.one)
+    private let absoluteLabel = UILabel(font: Fonts.Subtitle.two, color: LightColors.Success.one)
+    private let prefixLabel = UILabel(font: Fonts.Subtitle.two, color: LightColors.Success.one)
     
     private var priceInfo: FiatPriceInfo? {
         didSet {
