@@ -21,13 +21,18 @@ class ToggleButton: UIButton {
         self.setTitleColor(selectedColor, for: .selected)
         self.setTitleColor(selectedColor, for: .highlighted)
         self.setTitleColor(normalColor.withAlphaComponent(0.4), for: .disabled)
-        self.layer.cornerRadius = 6.0
         self.layer.borderWidth = 1.0
         updateColors()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        layer.cornerRadius = frame.height * CornerRadius.fullRadius.rawValue
     }
     
     override var isSelected: Bool {
@@ -45,11 +50,9 @@ class ToggleButton: UIButton {
     private func updateColors() {
         if listType == .manage {
             guard let color = isHighlighted ? titleColor(for: .selected) : titleColor(for: .normal) else { return }
-            self.backgroundColor = color.withAlphaComponent(0.1)
             self.layer.borderColor = color.withAlphaComponent(0.5).cgColor
         } else {
             guard let color = isSelected ? titleColor(for: .selected) : titleColor(for: .normal) else { return }
-            self.backgroundColor = color.withAlphaComponent(0.1)
             self.layer.borderColor = color.withAlphaComponent(0.5).cgColor
         }
     }
