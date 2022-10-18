@@ -10,9 +10,9 @@ class ManageAssetsButton: RoundedView {
     private lazy var manageAssetsButton: UIButton = {
         let manageAssetsButton = UIButton()
         manageAssetsButton.translatesAutoresizingMaskIntoConstraints = false
-        manageAssetsButton.titleLabel?.font = Theme.body1
-        manageAssetsButton.tintColor = Theme.tertiaryBackground
-        manageAssetsButton.setTitleColor(Theme.blueBackground, for: .normal)
+        manageAssetsButton.titleLabel?.font = Fonts.button
+        manageAssetsButton.tintColor = LightColors.primary
+        manageAssetsButton.setTitleColor(LightColors.primary, for: .normal)
         manageAssetsButton.setTitleColor(Theme.transparentBlue, for: .highlighted)
         
         manageAssetsButton.layer.borderColor = UIColor.gray2.cgColor
