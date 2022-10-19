@@ -227,7 +227,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
                                    style: .plain,
                                    target: self,
                                    action: #selector(backButtonPressed))
-        back.tintColor = Theme.blueBackground
+        back.tintColor = LightColors.Text.three
         navigationItem.leftBarButtonItem = back
     }
     
