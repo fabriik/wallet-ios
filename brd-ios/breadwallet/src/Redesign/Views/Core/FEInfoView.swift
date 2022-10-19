@@ -241,7 +241,7 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
         descriptionLabel.isHidden = viewModel.description == nil
         
         bottomButton.setup(with: viewModel.button)
-        bottomButton.isHidden = viewModel.button == nil
+        bottomButtonContainerView.isHidden = viewModel.button == nil
         
         switch viewModel.dismissType {
         case .auto:

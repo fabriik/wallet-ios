@@ -170,6 +170,7 @@
 		7B54E5BB27F4A2B1002DD1E4 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54E59527F4A2B0002DD1E4 /* LoadingView.swift */; };
 		7B62ACF928B381BE00CE81E7 /* TimeoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B62ACF828B381BE00CE81E7 /* TimeoutViewController.swift */; };
 		7B62ACFB28B3BDA000CE81E7 /* String+Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B62ACFA28B3BDA000CE81E7 /* String+Chunk.swift */; };
+		7B68CB2228FFC93A008B3DFA /* SofiaPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7B68CB2128FFC93A008B3DFA /* SofiaPro-Bold.otf */; };
 		7B78631A2874266A0092F35B /* SwapCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7863192874266A0092F35B /* SwapCoordinator.swift */; };
 		7B78631C287427680092F35B /* MainSwapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B78631B287427680092F35B /* MainSwapView.swift */; };
 		7B78631E2874D36D0092F35B /* SwapCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B78631D2874D36D0092F35B /* SwapCurrencyView.swift */; };
@@ -410,7 +411,6 @@
 		7ECCA9992874342C00F99368 /* FETimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA9982874342C00F99368 /* FETimerView.swift */; };
 		7ECCA99B28744CD600F99368 /* ExchangeRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */; };
 		7ECCA99D28745E0400F99368 /* AssetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCA99C28745E0400F99368 /* AssetView.swift */; };
-		7ECF38B428FEC157008EB59D /* SofiaPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7ECF38B328FEC157008EB59D /* SofiaPro-Regular.otf */; };
 		7ED427EF28755CB200AA19A8 /* ExchangeDetailsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427E828755CB200AA19A8 /* ExchangeDetailsStore.swift */; };
 		7ED427F028755CB200AA19A8 /* ExchangeDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427E928755CB200AA19A8 /* ExchangeDetailsPresenter.swift */; };
 		7ED427F128755CB200AA19A8 /* ExchangeDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED427EA28755CB200AA19A8 /* ExchangeDetailsModels.swift */; };
@@ -1150,6 +1150,7 @@
 		7B662C0C28F545D3007D663C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7B662C1328F5527D007D663C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/BreadwalletWidget.strings; sourceTree = "<group>"; };
 		7B662C1528F5527F007D663C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/BreadwalletWidget.strings; sourceTree = "<group>"; };
+		7B68CB2128FFC93A008B3DFA /* SofiaPro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SofiaPro-Bold.otf"; sourceTree = "<group>"; };
 		7B7863192874266A0092F35B /* SwapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapCoordinator.swift; sourceTree = "<group>"; };
 		7B78631B287427680092F35B /* MainSwapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSwapView.swift; sourceTree = "<group>"; };
 		7B78631D2874D36D0092F35B /* SwapCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapCurrencyView.swift; sourceTree = "<group>"; };
@@ -1376,7 +1377,6 @@
 		7ECCA9982874342C00F99368 /* FETimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FETimerView.swift; sourceTree = "<group>"; };
 		7ECCA99A28744CD600F99368 /* ExchangeRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateView.swift; sourceTree = "<group>"; };
 		7ECCA99C28745E0400F99368 /* AssetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetView.swift; sourceTree = "<group>"; };
-		7ECF38B328FEC157008EB59D /* SofiaPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SofiaPro-Regular.otf"; path = "Fonts/SofiaPro-Regular.otf"; sourceTree = "<group>"; };
 		7ED427E828755CB200AA19A8 /* ExchangeDetailsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailsStore.swift; sourceTree = "<group>"; };
 		7ED427E928755CB200AA19A8 /* ExchangeDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailsPresenter.swift; sourceTree = "<group>"; };
 		7ED427EA28755CB200AA19A8 /* ExchangeDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailsModels.swift; sourceTree = "<group>"; };
@@ -3730,7 +3730,7 @@
 		CEAA9E9C1DC2F8270066731D /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				7ECF38B328FEC157008EB59D /* SofiaPro-Regular.otf */,
+				7B68CB2128FFC93A008B3DFA /* SofiaPro-Bold.otf */,
 				C47BD508282E427300FAA903 /* Roboto-Medium.otf */,
 				C47BD507282E427300FAA903 /* Roboto-Regular.otf */,
 			);
@@ -4206,13 +4206,13 @@
 				9AE800DA21FFF81F00D5058C /* rewardsIcon-29.gif in Resources */,
 				9AE800E221FFF81F00D5058C /* rewardsIcon-38.gif in Resources */,
 				9A926F9322034B3800CC2263 /* CellHighlight-35.png in Resources */,
+				7B68CB2228FFC93A008B3DFA /* SofiaPro-Bold.otf in Resources */,
 				9AE800E021FFF81F00D5058C /* rewardsIcon-25.gif in Resources */,
 				9A926F9622034B3800CC2263 /* CellHighlight-12.png in Resources */,
 				9A926F7422034B3800CC2263 /* CellHighlight-30.png in Resources */,
 				9A926F5D22034B3800CC2263 /* CellHighlight-15.png in Resources */,
 				9A926F4522034B3700CC2263 /* CellHighlight-62.png in Resources */,
 				9A926F9222034B3800CC2263 /* CellHighlight-21.png in Resources */,
-				7ECF38B428FEC157008EB59D /* SofiaPro-Regular.otf in Resources */,
 				9A926F8122034B3800CC2263 /* CellHighlight-28.png in Resources */,
 				C47BD50A282E427300FAA903 /* Roboto-Regular.otf in Resources */,
 				9A926F7722034B3800CC2263 /* CellHighlight-44.png in Resources */,
