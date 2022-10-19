@@ -5,7 +5,7 @@
 import UIKit
 
 struct Fonts {
-    static var Primary = "SofiaPro-Regular"
+    static var Primary = "SofiaPro-Bold"
     static var Secondary = "Roboto-Regular"
     static var Tertiary = "Roboto-Medium"
     
