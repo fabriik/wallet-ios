@@ -45,7 +45,6 @@ struct Presets {
     
     struct Border {
         static var zero = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
-        static var small = BorderConfiguration(tintColor: LightColors.Outline.one, borderWidth: 0, cornerRadius: .small)
         static var common = BorderConfiguration(borderWidth: 0, cornerRadius: .common)
         static var error = BorderConfiguration(tintColor: LightColors.Error.one, borderWidth: 1, cornerRadius: .medium)
         static var accountVerification = BorderConfiguration(tintColor: LightColors.Outline.one, borderWidth: 1, cornerRadius: .small)
@@ -53,6 +52,14 @@ struct Presets {
         static var normal = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
         static var selected = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
         static var disabled = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
+        
+        static var normalButton = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
+        static var selectedButton = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
+        static var disabledButton = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
+        
+        static var normalTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
+        static var selectedTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
+        static var disabledTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
     }
     
     // TODO: add as needed
@@ -88,12 +95,12 @@ extension Presets {
                                                  selectedConfiguration: Presets.Background.Primary.selected,
                                                  disabledConfiguration: Presets.Background.Primary.disabled)
         
-        static var secondary = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
-                                                   selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
-                                                   disabledConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled))
+        static var secondary = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selectedButton),
+                                                   selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalButton),
+                                                   disabledConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledButton))
         
-        static var blue = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.blue.withBorder(border: Presets.Border.selected),
-                                                   selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal))
+        static var blue = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.blue.withBorder(border: Presets.Border.selectedButton),
+                                                   selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalButton))
         
         static var icon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.two),
                                               selectedConfiguration: .init(tintColor: LightColors.Text.one),
@@ -117,9 +124,9 @@ extension Presets {
                                                     textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                     placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                     hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
-                                                    backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
-                                                    selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
-                                                    disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
+                                                    backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalTextField),
+                                                    selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selectedTextField),
+                                                    disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledTextField),
                                                     errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error))
         
         static var two = TextFieldConfiguration(titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
@@ -128,9 +135,9 @@ extension Presets {
                                                 placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                 hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
                                                 trailingImageConfiguration: .init(tintColor: LightColors.Text.two),
-                                                backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
-                                                selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
-                                                disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
+                                                backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalTextField),
+                                                selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selectedTextField),
+                                                disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledTextField),
                                                 errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error))
         
         static var email = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Text.two),
@@ -139,9 +146,9 @@ extension Presets {
                                                   textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                   placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                   hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
-                                                  backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
-                                                  selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
-                                                  disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
+                                                  backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalTextField),
+                                                  selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selectedTextField),
+                                                  disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledTextField),
                                                   errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error),
                                                   autocapitalizationType: UITextAutocapitalizationType.none,
                                                   autocorrectionType: .no,
@@ -153,9 +160,9 @@ extension Presets {
                                                    textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                    placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                    hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
-                                                   backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normal),
-                                                   selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selected),
-                                                   disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabled),
+                                                   backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalTextField),
+                                                   selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selectedTextField),
+                                                   disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledTextField),
                                                    errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error),
                                                    keyboardType: .numberPad)
     }
@@ -170,11 +177,11 @@ extension Presets {
                                                               title: .init(font: Fonts.Body.three, textColor: LightColors.Contrast.two),
                                                               description: .init(font: Fonts.Subtitle.two, textColor: LightColors.Contrast.two),
                                                               button: Presets.Button.primary.withBorder(normal: Presets.Border.small,
-                                                                                                        selected: Presets.Border.selected,
-                                                                                                        disabled: Presets.Border.disabled),
+                                                                                                        selected: Presets.Border.selectedButton,
+                                                                                                        disabled: Presets.Border.disabledButton),
                                                               background: .init(backgroundColor: LightColors.secondary,
                                                                                 tintColor: LightColors.Contrast.two,
-                                                                                border: Presets.Border.small),
+                                                                                border: Presets.Border.common),
                                                               shadow: Presets.Shadow.normal)
         
         static var verification = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
@@ -184,8 +191,8 @@ extension Presets {
                                                         title: .init(font: Fonts.Subtitle.three, textColor: LightColors.Text.one),
                                                         description: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                         button: Presets.Button.primary.withBorder(normal: Presets.Border.normal,
-                                                                                                  selected: Presets.Border.selected,
-                                                                                                  disabled: Presets.Border.disabled),
+                                                                                                  selected: Presets.Border.selectedButton,
+                                                                                                  disabled: Presets.Border.disabledButton),
                                                         background: .init(backgroundColor: LightColors.Background.three,
                                                                           border: Presets.Border.common),
                                                         shadow: Presets.Shadow.zero)
@@ -242,8 +249,8 @@ extension Presets {
                                                title: .init(font: Fonts.Title.four, textColor: LightColors.Contrast.two),
                                                body: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
                                                buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
-                                                                                            selected: Presets.Border.selected,
-                                                                                            disabled: Presets.Border.disabled),
+                                                                                            selected: Presets.Border.selectedButton,
+                                                                                            disabled: Presets.Border.disabledButton),
                                                           Presets.Button.secondary ],
                                                closeButton: Presets.Button.icon)
         
@@ -253,8 +260,8 @@ extension Presets {
                                               title: .init(font: Fonts.Title.five, textColor: LightColors.Text.one),
                                               body: .init(font: Fonts.Body.one, textColor: LightColors.Text.one, textAlignment: .left),
                                               buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
-                                                                                           selected: Presets.Border.selected,
-                                                                                           disabled: Presets.Border.disabled),
+                                                                                           selected: Presets.Border.selectedButton,
+                                                                                           disabled: Presets.Border.disabledButton),
                                                          Presets.Button.secondary ],
                                               closeButton: Presets.Button.blackIcon)
         
@@ -265,8 +272,8 @@ extension Presets {
                                                     body: .init(font: Fonts.Body.one, textColor: LightColors.Text.one, textAlignment: .center),
                                                     
                                                     buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
-                                                                                                 selected: Presets.Border.selected,
-                                                                                                 disabled: Presets.Border.disabled),
+                                                                                                 selected: Presets.Border.selectedButton,
+                                                                                                 disabled: Presets.Border.disabledButton),
                                                                Presets.Button.secondary ],
                                                     closeButton: Presets.Button.blackIcon)
     }
