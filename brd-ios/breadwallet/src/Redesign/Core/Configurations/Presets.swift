@@ -110,7 +110,7 @@ extension Presets {
                                               selectedConfiguration: .init(tintColor: LightColors.Text.two),
                                               disabledConfiguration: .init(tintColor: LightColors.Disabled.one))
         
-        static var blackIcon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.one),
+        static var blackIcon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Text.three),
                                                    selectedConfiguration: .init(tintColor: LightColors.Text.one),
                                                    disabledConfiguration: .init(tintColor: LightColors.Disabled.one))
     }
@@ -243,16 +243,16 @@ extension Presets {
 
 extension Presets {
     struct Popup {
-        static var normal = PopupConfiguration(background: .init(backgroundColor: LightColors.secondary,
+        static var normal = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.cards,
                                                                  tintColor: LightColors.Contrast.two,
                                                                  border: Presets.Border.zero),
-                                               title: .init(font: Fonts.Title.four, textColor: LightColors.Contrast.two),
-                                               body: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
+                                               title: .init(font: Fonts.Title.six, textColor: LightColors.Text.three, textAlignment: .center),
+                                               body: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center),
                                                buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
                                                                                             selected: Presets.Border.selectedButton,
                                                                                             disabled: Presets.Border.disabledButton),
                                                           Presets.Button.secondary ],
-                                               closeButton: Presets.Button.icon)
+                                               closeButton: Presets.Button.blackIcon)
         
         static var white = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
                                                                 tintColor: LightColors.Contrast.two,
