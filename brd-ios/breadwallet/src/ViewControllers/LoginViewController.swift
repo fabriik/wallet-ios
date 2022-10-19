@@ -43,7 +43,6 @@ class LoginViewController: UIViewController, Subscriber {
         super.init(nibName: nil, bundle: nil)
         
         resetPinButton.isHidden = true
-        logo.isHidden = true
         header.text = L10n.UpdatePin.enterYourPin
         instruction.text = L10n.UpdatePin.enterPin
     }
@@ -69,18 +68,22 @@ class LoginViewController: UIViewController, Subscriber {
         return PinView(style: pinViewStyle, length: Store.state.pinLength)
     }()
     private let disabledView: WalletDisabledView
-    private var logo = UIImageView(image: .init(named: "logo_vertical"))
+    private var logo: UIImageView = {
+        let view = UIImageView(image: .init(named: "logo_vertical"))
+        view.isHidden = true
+        return view
+    }()
     private var pinPadPottom: NSLayoutConstraint?
     private var topControlTop: NSLayoutConstraint?
     private var unlockTimer: Timer?
-    private let pinPadBackground = UIView(color: .almostBlack)
+    private let pinPadBackground = UIView(color: LightColors.Text.one)
     private let logoBackground = MotionGradientView()
     private var hasAttemptedToShowBiometrics = false
     private let lockedOverlay = UIVisualEffectView()
     private var isResetting = false
     private let context: Context
     private var notificationObservers = [String: NSObjectProtocol]()
-    private let debugLabel = UILabel.wrapping(font: Theme.body3, color: .almostBlack)
+    private let debugLabel = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.two)
     private let shouldDisableBiometrics: Bool
     
     var confirmationCallback: ((_ success: Bool) -> Void)?
@@ -91,8 +94,8 @@ class LoginViewController: UIViewController, Subscriber {
     
     lazy var header: UILabel = {
         let header = UILabel()
-        header.textColor = Theme.primaryText
-        header.font = Fonts.Title.four
+        header.textColor = LightColors.Text.three
+        header.font = Fonts.Title.six
         header.textAlignment = .center
         header.text = L10n.UpdatePin.securedWallet
         
@@ -101,7 +104,7 @@ class LoginViewController: UIViewController, Subscriber {
     
     lazy var instruction: UILabel = {
         let instruction = UILabel()
-        instruction.textColor = Theme.secondaryText
+        instruction.textColor = LightColors.Text.two
         instruction.font = Fonts.Body.two
         instruction.textAlignment = .center
         instruction.text = L10n.UpdatePin.enterYourPin
@@ -114,7 +117,7 @@ class LoginViewController: UIViewController, Subscriber {
         let attributes: [NSAttributedString.Key: Any] = [
         NSAttributedString.Key.underlineStyle: 1,
         NSAttributedString.Key.font: Fonts.Subtitle.two,
-        NSAttributedString.Key.foregroundColor: Theme.primaryText]
+        NSAttributedString.Key.foregroundColor: LightColors.secondary]
 
         let attributedString = NSMutableAttributedString(string: L10n.RecoverWallet.headerResetPin, attributes: attributes)
         resetPinButton.setAttributedTitle(attributedString, for: .normal)
@@ -231,7 +234,7 @@ class LoginViewController: UIViewController, Subscriber {
 
     private func addConstraints() {
         backgroundView.constrain(toSuperviewEdges: nil)
-        backgroundView.backgroundColor = Theme.primaryBackground
+        backgroundView.backgroundColor = LightColors.Background.one
         pinViewContainer.constrain(toSuperviewEdges: nil)
         debugLabel.constrain([
             debugLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: C.padding[3]),
@@ -330,8 +333,8 @@ class LoginViewController: UIViewController, Subscriber {
     }
 
     private func authenticationSucceded(forLoginWithAccount account: Account? = nil, pin: String? = nil) {
-        let label = UILabel(font: .customBody(size: 16.0))
-        label.textColor = .black
+        let label = UILabel(font: Fonts.Body.one)
+        label.textColor = LightColors.Text.two
         label.alpha = 0.0
         let lock = UIImageView(image: #imageLiteral(resourceName: "unlock"))
         lock.alpha = 0.0
