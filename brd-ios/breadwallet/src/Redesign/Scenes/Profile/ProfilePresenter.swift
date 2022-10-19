@@ -18,7 +18,7 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let item = actionResponse.item as? Models.Item,
               let status = item.status,
-              var infoView: InfoViewModel = status.viewModel else { return }
+              let infoView: InfoViewModel = status.viewModel else { return }
         
         let sections: [Models.Section] = [
             .profile,
@@ -28,8 +28,7 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
         
         var navigationModel = Models.NavigationItems.allCases
         if status != .levelTwo(.levelTwo) {
-            navigationModel = [Models.NavigationItems.security,
-                               Models.NavigationItems.preferences]
+            navigationModel = navigationModel.filter { $0 == .paymentMethods }
         }
         
         let sectionRows: [Models.Section: [Any]] = [

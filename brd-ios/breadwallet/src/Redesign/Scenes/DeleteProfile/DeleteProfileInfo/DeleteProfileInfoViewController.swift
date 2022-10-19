@@ -39,7 +39,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
         }
         
         confirmButton.wrappedView.snp.makeConstraints { make in
-            make.height.equalTo(ButtonHeights.common.rawValue)
+            make.height.equalTo(FieldHeights.common.rawValue)
             make.edges.equalTo(confirmButton.snp.margins)
         }
         confirmButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)

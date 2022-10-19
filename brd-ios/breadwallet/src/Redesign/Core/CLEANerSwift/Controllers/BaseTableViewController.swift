@@ -268,7 +268,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
             view.setup(with: model)
             view.setupCustomMargins(vertical: .large, horizontal: .large)
             view.snp.makeConstraints { make in
-                make.height.equalTo(ButtonHeights.common.rawValue)
+                make.height.equalTo(FieldHeights.common.rawValue)
             }
             view.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         }
@@ -343,11 +343,13 @@ class BaseTableViewController<C: CoordinatableRoutes,
         else { return UITableViewCell() }
         
         cell.setup { view in
-            view.configure(with: .init(image: .init(tintColor: LightColors.Text.two),
-                                       label: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
+            view.configure(with: .init(image: .init(tintColor: LightColors.Text.three),
+                                       label: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.three),
                                        button: Presets.Button.blackIcon))
             view.setup(with: model)
         }
+        
+        cell.setupCustomMargins(vertical: .zero, horizontal: .extraExtraHuge)
         
         return cell
     }

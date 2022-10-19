@@ -27,7 +27,7 @@ struct PaymentCard: ItemSelectable, Hashable {
     enum Scheme: String {
         case visa = "VISA"
         case mastercard = "MASTERCARD"
-        case none = "credit_card_icon"
+        case none = "card"
     }
     
     var id: String

@@ -34,15 +34,14 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
             
         case .verification:
             cell = self.tableView(tableView, infoViewCellForRowAt: indexPath)
+            cell.setupCustomMargins(vertical: .large, horizontal: .extraHuge)
             
         case .navigation:
             cell = self.tableView(tableView, navigationCellForRowAt: indexPath)
-
+            
         default:
             cell = super.tableView(tableView, cellForRowAt: indexPath)
         }
-        
-        cell.setupCustomMargins(vertical: .huge, horizontal: .large)
         
         return cell
     }
@@ -59,28 +58,31 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
             view.setup { view in
                 view.setup(with: model)
                 
+                view.setupCustomMargins(all: .small)
+                
                 let config: InfoViewConfiguration
-                switch (model.kyc, model.status) {
-                    
-                case (.levelOne, .levelOne),
-                    (.levelTwo, .levelTwo(.levelTwo)):
-                    config = Presets.InfoView.verified
-                    
-                case (.levelTwo, .levelTwo(.submitted)):
-                    config = Presets.InfoView.pending
-                    
-                case (.levelTwo, .levelTwo(.resubmit)),
-                    (.levelTwo, .levelTwo(.declined)),
-                    (.levelTwo, .levelTwo(.expired)):
-                    config = Presets.InfoView.declined
-                    
-                default:
-                    config = Presets.InfoView.verification
-                }
+                config = Presets.InfoView.verification
+                
+//                switch (model.kyc, model.status) {
+//
+//                case (.levelOne, .levelOne),
+//                    (.levelTwo, .levelTwo(.levelTwo)):
+//                    config = Presets.InfoView.verified
+//
+//                case (.levelTwo, .levelTwo(.submitted)):
+//                    config = Presets.InfoView.pending
+//
+//                case (.levelTwo, .levelTwo(.resubmit)),
+//                    (.levelTwo, .levelTwo(.declined)),
+//                    (.levelTwo, .levelTwo(.expired)):
+//                    config = Presets.InfoView.declined
+//
+//                default:
+//                    config = Presets.InfoView.verification
+//                }
                 
                 view.configure(with: config)
                 
-                view.setupCustomMargins(all: .large)
                 view.headerButtonCallback = { [weak self] in
                     self?.interactor?.showVerificationInfo(viewAction: .init())
                 }
@@ -89,9 +91,8 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
                     self?.coordinator?.showVerificationScreen(for: self?.dataStore?.profile)
                 }
             }
-            view.setupCustomMargins(all: .large)
-            
         }
+        
         return cell
     }
     
@@ -100,6 +101,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
         case .navigation:
             let indexPath = dataStore?.profile?.status == .levelTwo(.levelTwo) ? indexPath.row : indexPath.row + 1
             interactor?.navigate(viewAction: .init(index: indexPath))
+            
         default:
             return
         }
@@ -108,6 +110,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
     // MARK: - User Interaction
     
     // MARK: - ProfileResponseDisplay
+    
     func displayVerificationInfo(responseDisplay: ProfileModels.VerificationInfo.ResponseDisplay) {
         coordinator?.showPopup(with: responseDisplay.model)
     }

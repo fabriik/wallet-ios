@@ -175,9 +175,9 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
         
         nextButton.constrain([
             nextButton.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -ButtonHeights.common.rawValue),
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -FieldHeights.common.rawValue),
             nextButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margins.large.rawValue),
-            nextButton.heightAnchor.constraint(equalToConstant: ButtonHeights.common.rawValue)
+            nextButton.heightAnchor.constraint(equalToConstant: FieldHeights.common.rawValue)
         ])
         nextButton.configure(with: Presets.Button.primary)
         nextButton.addTarget(self, action: #selector(nextTapped(_:)), for: .touchUpInside)

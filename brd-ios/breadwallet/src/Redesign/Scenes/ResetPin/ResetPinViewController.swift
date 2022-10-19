@@ -74,7 +74,7 @@ class ResetPinViewController: BaseTableViewController<ResetPinCoordinator,
             view.setup(with: model)
             view.setupCustomMargins(vertical: .large, horizontal: .large)
             view.snp.makeConstraints { make in
-                make.height.equalTo(ButtonHeights.common.rawValue)
+                make.height.equalTo(FieldHeights.small.rawValue)
                 make.top.equalTo(ViewSizes.extraLarge.rawValue)
             }
             view.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
