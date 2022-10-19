@@ -44,10 +44,15 @@ class UpdatePinViewController: UIViewController, Subscriber {
     }
 
     // MARK: - Private
-    private let header = UILabel.wrapping(font: Fonts.Title.four, color: Theme.primaryText)
-    private let instruction = UILabel.wrapping(font: Fonts.Body.two, color: Theme.secondaryText)
-    private let caption = UILabel.wrapping(font: .customBody(size: 13.0), color: .almostBlack)
-    private let warning = UILabel.wrapping(font: Theme.body1, color: Theme.blueBackground)
+    private let header = UILabel.wrapping(font: Fonts.Title.six, color: LightColors.Text.three)
+    private let instruction = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.two)
+    private let caption: UILabel = {
+        let label = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.two)
+        label.textAlignment = .center
+        return label
+    }()
+        
+    private let warning = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.two)
     private var pinView: PinView
     private let pinPadBackground = UIView(color: .almostBlack)
     private let pinPad = PinPadViewController(style: .clear, keyboardType: .pinPad, maxDigits: 0, shouldShowBiometrics: false)
