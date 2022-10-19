@@ -40,7 +40,6 @@ class ItemSelectionInteractor: NSObject, Interactor, ItemSelectionViewActions {
             switch result {
             case .success:
                 guard let items = self.dataStore?.items,
-                      items.isEmpty == false,
                       let isAddingEnabled = self.dataStore?.isAddingEnabled else { return }
                 
                 let item = Models.Item(items: items, isAddingEnabled: isAddingEnabled)
