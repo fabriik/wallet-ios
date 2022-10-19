@@ -27,6 +27,8 @@ enum Margins: CGFloat {
     case huge = 24
     /// 32
     case extraHuge = 32
+    /// 36
+    case extraExtraHuge = 36
 }
 
 enum BorderWidth: CGFloat {
@@ -78,9 +80,4 @@ enum FieldHeights: CGFloat {
     case common = 48.0
     /// 65
     case large = 65.0   
-}
-
-enum ButtonHeights: CGFloat {
-    /// 48
-    case common = 48.0
 }

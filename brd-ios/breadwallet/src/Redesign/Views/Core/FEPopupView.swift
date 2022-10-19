@@ -170,7 +170,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         buttons.forEach { $0.removeFromSuperview() }
         buttons = []
         
-        let buttonHeight = ButtonHeights.common.rawValue
+        let buttonHeight = FieldHeights.common.rawValue
         
         if viewModel.buttons.isEmpty == false {
             for i in (0...viewModel.buttons.count - 1) {

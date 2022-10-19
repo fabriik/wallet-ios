@@ -32,7 +32,7 @@
 "AccessibilityLabels.faq" = "Support Center";
 
 /* Account limits title in profile view */
-"Account.AccountLimits" = "ACCOUNT LIMITS";
+"Account.AccountLimits" = "Account limits";
 
 /* Account Verification screen title */
 "Account.AccountVerification" = "Account Verification";

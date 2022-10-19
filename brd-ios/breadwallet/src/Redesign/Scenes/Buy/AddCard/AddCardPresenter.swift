@@ -29,7 +29,7 @@ final class AddCardPresenter: NSObject, Presenter, AddCardActionResponses {
         ]
         
         let trailingImage = UIImage(named: "help")?.withRenderingMode(.alwaysOriginal)
-        bankCardInputDetailsViewModel = BankCardInputDetailsViewModel(number: .init(leading: .imageName("credit_card_icon"),
+        bankCardInputDetailsViewModel = BankCardInputDetailsViewModel(number: .init(leading: .imageName("card"),
                                                                                     title: L10n.Buy.cardNumber,
                                                                                     value: item.cardNumber),
                                                                       expiration: .init(title: L10n.Buy.monthYear,

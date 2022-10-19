@@ -63,7 +63,7 @@ extension ProfileModels.NavigationItems {
     var model: NavigationViewModel {
         switch self {
         case .paymentMethods:
-            return .init(image: .imageName("credit_card_icon"),
+            return .init(image: .imageName("card"),
                          label: .text(L10n.Buy.paymentMethod),
                          button: .init(image: "arrowRight"))
             
