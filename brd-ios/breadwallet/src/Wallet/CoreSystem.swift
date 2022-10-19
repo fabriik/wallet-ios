@@ -681,14 +681,18 @@ extension CoreSystem: SystemListener {
             
         case .syncStarted:
             DispatchQueue.main.async {
+                // only show the initial sync for API-mode wallets
+                let isP2Psync = manager.mode == .p2p_only
                 manager.network.currencies.compactMap { self.currencies[$0.uid] }
-                    .filter { Store.state[$0]?.syncState == .success }
+                    .filter { isP2Psync || (Store.state[$0]?.syncState == .connecting) }
                     .forEach { Store.perform(action: WalletChange($0).setSyncingState(.syncing)) }
-                
-                self.startActivity()
+                if isP2Psync {
+                    self.startActivity()
+                }
             }
             
         case .syncProgress(let timestamp, let percentComplete):
+            guard manager.mode == .p2p_only else { break }
             DispatchQueue.main.async {
                 manager.network.currencies.compactMap { self.currencies[$0.uid] }.forEach {
                     let seconds = UInt32(timestamp?.timeIntervalSince1970 ?? 0)
