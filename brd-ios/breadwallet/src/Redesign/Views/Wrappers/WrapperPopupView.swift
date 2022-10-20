@@ -175,11 +175,11 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
         
         buttonStack.addArrangedSubview(confirmButton)
         confirmButton.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.common.rawValue)
+            make.height.equalTo(ViewSizes.Common.largeButton.rawValue)
         }
         buttonStack.addArrangedSubview(cancelButton)
         cancelButton.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.common.rawValue)
+            make.height.equalTo(ViewSizes.Common.largeButton.rawValue)
         }
         
         isUserInteractionEnabled = true

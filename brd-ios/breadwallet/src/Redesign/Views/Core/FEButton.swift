@@ -88,8 +88,6 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
         setTitleColor(config.disabledConfiguration?.tintColor, for: .disabled)
         setTitleColor(config.selectedConfiguration?.tintColor, for: .selected)
         setTitleColor(config.selectedConfiguration?.tintColor, for: .highlighted)
-//        configure(background: config.backgroundConfiguration)
-//        configure(shadow: config.shadowConfiguration)
         layoutIfNeeded()
     }
     
@@ -175,7 +173,8 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
         backgroundColor = background?.backgroundColor
         
         guard let border = background?.border else { return }
-        layer.cornerRadius = border.cornerRadius.rawValue
+        let radius = border.cornerRadius == .fullRadius ? bounds.height / 2 : border.cornerRadius.rawValue
+        layer.cornerRadius = radius
         layer.borderWidth = border.borderWidth
         layer.borderColor = border.tintColor.cgColor
         
@@ -184,7 +183,7 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
         layer.shadowOpacity = 0
         layer.shadowOffset = .zero
         layer.shadowRadius = 0
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: border.cornerRadius.rawValue).cgPath
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: radius).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
     }

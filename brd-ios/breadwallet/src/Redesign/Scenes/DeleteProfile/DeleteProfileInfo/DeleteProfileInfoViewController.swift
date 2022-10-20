@@ -39,7 +39,7 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
         }
         
         confirmButton.wrappedView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.common.rawValue)
+            make.height.equalTo(ViewSizes.Common.largeButton.rawValue)
             make.edges.equalTo(confirmButton.snp.margins)
         }
         confirmButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)
@@ -60,53 +60,23 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
         switch sections[indexPath.section] as? DeleteProfileInfoModels.Section {
         case .title:
             cell =  self.tableView(tableView, labelCellForRowAt: indexPath)
-            (cell as? WrapperTableViewCell<FELabel>)?.wrappedView.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.one))
+            (cell as? WrapperTableViewCell<FELabel>)?.wrappedView.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.three))
+            (cell as? WrapperTableViewCell<FELabel>)?.setupCustomMargins(top: .huge, leading: .large, bottom: .extraSmall, trailing: .huge)
             
         case .checkmarks:
             cell = self.tableView(tableView, checkmarkCellForRowAt: indexPath)
+            (cell as? WrapperTableViewCell<ChecklistItemView>)?.wrappedView.setupCustomMargins(top: .medium, leading: .small, bottom: .medium, trailing: .huge)
             
         case .tickbox:
             cell = self.tableView(tableView, tickboxCellForRowAt: indexPath)
+            (cell as? WrapperTableViewCell<TickboxItemView>)?.wrappedView.setupCustomMargins(top: .large, leading: .small, bottom: .extraSmall, trailing: .huge)
+
+            (cell as? WrapperTableViewCell<TickboxItemView>)?.wrappedView.didToggleTickbox = { [weak self] value in
+                self?.tickboxToggled(value: value)
+            }
             
         default:
             cell = UITableViewCell()
-        }
-        
-        cell.setupCustomMargins(vertical: .huge, horizontal: .large)
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, checkmarkCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = sections[indexPath.section]
-        guard let cell: WrapperTableViewCell<ChecklistItemView> = tableView.dequeueReusableCell(for: indexPath),
-              let model = sectionRows[section]?[indexPath.row] as? ChecklistItemViewModel else {
-            return UITableViewCell()
-        }
-        
-        cell.setup { view in
-            view.configure(with: .init())
-            view.setup(with: model)
-            view.setupCustomMargins(vertical: .medium)
-        }
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, tickboxCellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = sections[indexPath.section]
-        guard let cell: WrapperTableViewCell<TickboxItemView> = tableView.dequeueReusableCell(for: indexPath),
-              let model = sectionRows[section]?[indexPath.row] as? TickboxItemViewModel else {
-            return UITableViewCell()
-        }
-        
-        cell.setup { view in
-            view.configure(with: .init())
-            view.setup(with: model)
-            
-            view.didToggleTickbox = { [weak self] value in
-                self?.tickboxToggled(value: value)
-            }
         }
         
         return cell

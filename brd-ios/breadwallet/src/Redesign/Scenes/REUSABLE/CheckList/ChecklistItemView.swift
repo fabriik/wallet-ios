@@ -11,7 +11,7 @@
 import UIKit
 
 struct ChecklistItemConfiguration: Configurable {
-    var title: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Text.two)
+    var title: LabelConfiguration? = .init(font: Fonts.Body.one, textColor: LightColors.Text.one)
     var image: BackgroundConfiguration? = .init(backgroundColor: .clear, tintColor: LightColors.primary)
 }
 
@@ -21,7 +21,6 @@ struct ChecklistItemViewModel: ViewModel {
 }
 
 class ChecklistItemView: FEView<ChecklistItemConfiguration, ChecklistItemViewModel> {
-    
     private lazy var checkmarkImageView: FEImageView = {
         let view = FEImageView()
         return view
