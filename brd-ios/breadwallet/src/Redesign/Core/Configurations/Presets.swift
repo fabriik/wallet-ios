@@ -32,7 +32,7 @@ struct Presets {
         }
         
         struct Secondary {
-            static var normal = BackgroundConfiguration(tintColor: LightColors.Text.one)
+            static var normal = BackgroundConfiguration(tintColor: LightColors.primary)
             static var selected = BackgroundConfiguration(tintColor: LightColors.Text.one)
             static var blue = BackgroundConfiguration(tintColor: LightColors.Text.two)
             static var disabled = BackgroundConfiguration(tintColor: LightColors.Disabled.two)
@@ -56,6 +56,7 @@ struct Presets {
         static var normalButton = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
         static var selectedButton = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
         static var disabledButton = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
+        static var secondaryButton = BorderConfiguration(tintColor: LightColors.primary, borderWidth: 1, cornerRadius: .medium)
         
         static var normalTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
         static var selectedTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
@@ -95,7 +96,7 @@ extension Presets {
                                                  selectedConfiguration: Presets.Background.Primary.selected,
                                                  disabledConfiguration: Presets.Background.Primary.disabled)
         
-        static var secondary = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selectedButton),
+        static var secondary = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.secondaryButton),
                                                    selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalButton),
                                                    disabledConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledButton))
         
@@ -268,13 +269,13 @@ extension Presets {
         static var whiteDimmed = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
                                                                       tintColor: LightColors.Contrast.two,
                                                                       border: Presets.Border.zero),
-                                                    title: .init(font: Fonts.Title.five, textColor: LightColors.Text.one),
+                                                    title: .init(font: Fonts.Title.six, textColor: LightColors.Text.one),
                                                     body: .init(font: Fonts.Body.one, textColor: LightColors.Text.one, textAlignment: .center),
                                                     
-                                                    buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
-                                                                                                 selected: Presets.Border.selectedButton,
-                                                                                                 disabled: Presets.Border.disabledButton),
-                                                               Presets.Button.secondary ],
+                                                    buttons: [Presets.Button.primary.withBorder(normal: Presets.Border.zero,
+                                                                                                selected: Presets.Border.selectedButton,
+                                                                                                disabled: Presets.Border.disabledButton),
+                                                              Presets.Button.secondary],
                                                     closeButton: Presets.Button.blackIcon)
     }
 }
