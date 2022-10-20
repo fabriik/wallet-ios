@@ -98,7 +98,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
     
     @objc func reload() {
         setupSubscriptions()
-        
+        UserManager.shared.refresh()
         coreSystem.refreshWallet { [weak self] in
             self?.assetListTableView.reload()
             
@@ -409,7 +409,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         
         switch profileResult {
         case .success(let profile):
-            if profile?.status.canBuyTrade == false {
+            if profile?.status.canBuy == false {
                 setupKYCPrompt(result: profileResult)
             } else {
                 attemptShowGeneralPrompt()
