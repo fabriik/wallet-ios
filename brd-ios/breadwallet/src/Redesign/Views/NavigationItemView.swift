@@ -72,7 +72,7 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
         
         verticalStack.addArrangedSubview(leadingImageView)
         leadingImageView.snp.makeConstraints { make in
-            make.width.equalTo(FieldHeights.medium.rawValue)
+            make.width.equalTo(ViewSizes.medium.rawValue)
         }
         
         leadingImageView.setupClearMargins()

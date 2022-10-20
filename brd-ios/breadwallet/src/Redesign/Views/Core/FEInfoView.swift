@@ -48,18 +48,23 @@ struct InfoViewModel: ViewModel {
 }
 
 class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
-    
-    // MARK: public properties
     var headerButtonCallback: (() -> Void)?
     var trailingButtonCallback: (() -> Void)?
     
     // MARK: Lazy UI
+    
     private lazy var verticalStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.spacing = Margins.medium.rawValue
-        stack.alignment = .fill
         stack.distribution = .fill
+        return stack
+    }()
+    
+    private lazy var buttonsStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .equalSpacing
         return stack
     }()
     
@@ -104,14 +109,12 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
         return label
     }()
     
-    private lazy var bottomButtonContainerView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    
     private lazy var bottomButton: FEButton = {
         let view = FEButton()
         view.addTarget(self, action: #selector(trailingButtonTapped), for: .touchUpInside)
+        view.titleLabel?.numberOfLines = 0
+        view.titleLabel?.textAlignment = .center
+        view.titleLabel?.lineBreakMode = .byWordWrapping
         return view
     }()
     
@@ -159,15 +162,19 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
 
         verticalStackView.addArrangedSubview(descriptionLabel)
         
-        verticalStackView.addArrangedSubview(bottomButtonContainerView)
-        bottomButtonContainerView.snp.makeConstraints { make in
-            make.height.equalTo(ViewSizes.medium.rawValue)
+        verticalStackView.addArrangedSubview(buttonsStackView)
+        buttonsStackView.snp.makeConstraints { make in
+            // TODO: Height is not working. 
+            make.height.greaterThanOrEqualTo(ViewSizes.medium.rawValue).priority(.low)
+            make.width.equalToSuperview()
         }
         
-        bottomButtonContainerView.addSubview(bottomButton)
-        bottomButton.snp.makeConstraints { make in
-            make.leading.top.bottom.height.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.7).priority(.high)
+        buttonsStackView.addArrangedSubview(bottomButton)
+        
+        let fillerView = UIView()
+        buttonsStackView.addArrangedSubview(fillerView)
+        fillerView.snp.makeConstraints { make in
+            make.width.greaterThanOrEqualToSuperview().priority(.medium)
         }
     }
     
@@ -241,7 +248,7 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
         descriptionLabel.isHidden = viewModel.description == nil
         
         bottomButton.setup(with: viewModel.button)
-        bottomButtonContainerView.isHidden = viewModel.button == nil
+        buttonsStackView.isHidden = viewModel.button == nil
         
         switch viewModel.dismissType {
         case .auto:

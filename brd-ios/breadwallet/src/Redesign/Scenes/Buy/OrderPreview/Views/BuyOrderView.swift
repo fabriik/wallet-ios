@@ -134,7 +134,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         
         mainStack.addArrangedSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(currencyStackView)
@@ -151,7 +151,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         
         mainStack.addArrangedSubview(rateView)
         rateView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(topLineView)
@@ -161,22 +161,22 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         
         mainStack.addArrangedSubview(rateValueView)
         rateValueView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(amountView)
         amountView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(cardFeeView)
         cardFeeView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(networkFeeView)
         networkFeeView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(bottomLineView)
@@ -186,7 +186,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         
         mainStack.addArrangedSubview(totalCostView)
         totalCostView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(paymentMethodView)

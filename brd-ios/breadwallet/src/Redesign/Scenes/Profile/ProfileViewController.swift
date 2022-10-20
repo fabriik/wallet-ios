@@ -14,15 +14,15 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
                              ProfileStore>,
                              ProfileResponseDisplays {
     typealias Models = ProfileModels
+    
     private var isPaymentsPressed = false
     
     // MARK: - Overrides
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    override func prepareData() {
         guard dataStore?.profile?.status != UserManager.shared.profile?.status else { return }
-        interactor?.getData(viewAction: .init())
+        
+        super.prepareData()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,32 +57,28 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
         
         cell.setup { view in
             view.setup { view in
-                view.setup(with: model)
+                var config = Presets.InfoView.verification
+                
+                switch (model.kyc, model.status) {
+                case (.levelOne, .levelOne),
+                    (.levelTwo, .levelTwo(.levelTwo)):
+                    config.status = Presets.VerificationView.verified.status
+                    
+                case (.levelTwo, .levelTwo(.submitted)):
+                    config.status = Presets.VerificationView.pending.status
+                    
+                case (.levelTwo, .levelTwo(.resubmit)),
+                    (.levelTwo, .levelTwo(.declined)),
+                    (.levelTwo, .levelTwo(.expired)):
+                    config.status = Presets.VerificationView.resubmitAndDeclined.status
+                    
+                default:
+                    config.status = Presets.VerificationView.resubmitAndDeclined.status
+                }
                 
                 view.setupCustomMargins(all: .small)
-                
-                let config: InfoViewConfiguration
-                config = Presets.InfoView.verification
-                
-//                switch (model.kyc, model.status) {
-//
-//                case (.levelOne, .levelOne),
-//                    (.levelTwo, .levelTwo(.levelTwo)):
-//                    config = Presets.InfoView.verified
-//
-//                case (.levelTwo, .levelTwo(.submitted)):
-//                    config = Presets.InfoView.pending
-//
-//                case (.levelTwo, .levelTwo(.resubmit)),
-//                    (.levelTwo, .levelTwo(.declined)),
-//                    (.levelTwo, .levelTwo(.expired)):
-//                    config = Presets.InfoView.declined
-//
-//                default:
-//                    config = Presets.InfoView.verification
-//                }
-                
                 view.configure(with: config)
+                view.setup(with: model)
                 
                 view.headerButtonCallback = { [weak self] in
                     self?.interactor?.showVerificationInfo(viewAction: .init())
@@ -127,6 +123,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
             
         case .security:
             coordinator?.showSecuirtySettings()
+            
         }
     }
     

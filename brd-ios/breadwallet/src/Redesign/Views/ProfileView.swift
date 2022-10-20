@@ -65,13 +65,13 @@ class ProfileView: FEView<ProfileConfiguration, ProfileViewModel> {
         stack.addArrangedSubview(imageContentView)
         stack.addArrangedSubview(nameLabel)
         imageContentView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.large.rawValue)
+            make.height.equalTo(64)
         }
         imageContentView.addSubview(imageView)
         imageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.top.equalToSuperview()
-            make.height.equalTo(FieldHeights.large.rawValue)
+            make.height.equalTo(imageContentView.snp.height)
             make.width.equalTo(imageView.snp.height)
         }
         imageView.content.setupClearMargins()
