@@ -26,7 +26,7 @@ struct PopupViewModel: ViewModel {
     var imageName: String?
     var body: String?
     var buttons: [ButtonViewModel] = []
-    var closeButton: ButtonViewModel? = .init(image: "cancel")
+    var closeButton: ButtonViewModel? = .init(image: "Close")
 }
 
 class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
@@ -104,7 +104,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         closeButtonContainer.addSubview(closeButton)
         closeButton.snp.makeConstraints { make in
             make.trailing.top.equalToSuperview().inset(Margins.huge.rawValue)
-            make.width.height.equalTo(ViewSizes.extraSmall.rawValue)
+            make.width.height.equalTo(Margins.medium.rawValue)
         }
         
         mainStack.addArrangedSubview(imageView)
