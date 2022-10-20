@@ -103,6 +103,8 @@ internal enum L10n {
     internal static let resubmit = L10n.tr("Localizable", "Account.Resubmit", fallback: "Resubmit")
     /// Retake photo button on create account
     internal static let retakePhoto = L10n.tr("Localizable", "Account.RetakePhoto", fallback: "Retake photo")
+    /// Select country
+    internal static let selectCountry = L10n.tr("Localizable", "Account.SelectCountry", fallback: "Select country")
     /// Submit your photo for document id title
     internal static let submitPhoto = L10n.tr("Localizable", "Account.SubmitPhoto", fallback: "Submit your photo")
     /// Swap and buy limit per day description label
