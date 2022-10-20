@@ -120,8 +120,14 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                 let model = self?.dataStore?.values ?? .init()
                 self?.setAmount(viewAction: model)
                 
-            case .failure:
-                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.quoteFail))
+            case .failure(let error):
+                guard let error = error as? NetworkingError,
+                      error == .accessDenied else {
+                    self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.quoteFail))
+                    return
+                }
+                
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
     }
