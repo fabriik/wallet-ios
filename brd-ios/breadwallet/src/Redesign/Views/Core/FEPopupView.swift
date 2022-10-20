@@ -26,7 +26,7 @@ struct PopupViewModel: ViewModel {
     var imageName: String?
     var body: String?
     var buttons: [ButtonViewModel] = []
-    var closeButton: ButtonViewModel? = .init(image: "cancel")
+    var closeButton: ButtonViewModel? = .init(image: "Close")
 }
 
 class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
@@ -104,7 +104,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         closeButtonContainer.addSubview(closeButton)
         closeButton.snp.makeConstraints { make in
             make.trailing.top.equalToSuperview().inset(Margins.huge.rawValue)
-            make.width.height.equalTo(ViewSizes.extraSmall.rawValue)
+            make.width.height.equalTo(Margins.medium.rawValue)
         }
         
         mainStack.addArrangedSubview(imageView)
@@ -125,7 +125,8 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         scrollView.addSubview(scrollingStack)
         scrollingStack.snp.makeConstraints { make in
             make.leading.trailing.equalTo(mainStack).inset(Margins.small.rawValue)
-            make.top.bottom.equalToSuperview().inset(Margins.extraSmall.rawValue)
+            make.top.equalToSuperview().inset(Margins.medium.rawValue)
+            make.bottom.equalToSuperview()
         }
         
         scrollingStack.addArrangedSubview(textView)
@@ -164,13 +165,11 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         textView.sizeToFit()
         
         layoutIfNeeded()
-        // if this happens.. its a human mistake :D
         
-        // remove previous ones, if exist
         buttons.forEach { $0.removeFromSuperview() }
         buttons = []
         
-        let buttonHeight = ButtonHeights.common.rawValue
+        let buttonHeight = ViewSizes.Common.largeButton.rawValue
         
         if viewModel.buttons.isEmpty == false {
             for i in (0...viewModel.buttons.count - 1) {
@@ -190,9 +189,10 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
             }
         }
         
-        let count = Double(buttons.count)
+        scrollingStack.layoutIfNeeded()
+        
         var newHeight = textView.contentSize.height
-        newHeight += count * (buttonHeight + scrollingStack.spacing)
+        newHeight += (CGFloat(viewModel.buttons.count) * buttonHeight) + Margins.huge.rawValue
         
         scrollView.snp.makeConstraints { make in
             make.height.equalTo(newHeight)

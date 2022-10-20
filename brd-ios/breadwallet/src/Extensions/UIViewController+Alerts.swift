@@ -41,7 +41,7 @@ extension UIViewController {
     func showToastMessage(message: String) {
         let messageView = UIView()
         messageView.setupCustomMargins(all: .large)
-        messageView.backgroundColor = LightColors.error
+        messageView.backgroundColor = LightColors.Error.one
         messageView.layer.cornerRadius = CornerRadius.common.rawValue
         
         let textLabel = UILabel()

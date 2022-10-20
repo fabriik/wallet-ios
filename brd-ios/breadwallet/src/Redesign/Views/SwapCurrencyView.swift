@@ -54,8 +54,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private lazy var titleLabel: FELabel = {
         let view = FELabel()
-        view.font = Fonts.caption
-        view.textColor = LightColors.Icons.one
+        view.font = Fonts.Body.three
+        view.textColor = LightColors.Text.one
         view.textAlignment = .left
         return view
     }()
@@ -70,7 +70,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private lazy var fiatAmountField: UITextField = {
         let view = UITextField()
-        view.textColor = LightColors.Icons.one
+        view.textColor = LightColors.Text.one
         view.font = Fonts.Subtitle.two
         view.tintColor = view.textColor
         view.textAlignment = .right
@@ -83,7 +83,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private lazy var cryptoAmountField: UITextField = {
         let view = UITextField()
-        view.textColor = LightColors.Icons.one
+        view.textColor = LightColors.Text.one
         view.font = Fonts.Title.four
         view.tintColor = view.textColor
         view.textAlignment = .right
@@ -104,7 +104,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         let view = FELabel()
         view.text = Constant.usdCurrencyCode
         view.font = Fonts.Subtitle.two
-        view.textColor = LightColors.Icons.one
+        view.textColor = LightColors.Text.one
         view.textAlignment = .right
         return view
     }()
@@ -134,7 +134,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     private lazy var codeLabel: FELabel = {
         let view = FELabel()
         view.font = Fonts.Title.four
-        view.textColor = LightColors.Icons.one
+        view.textColor = LightColors.Text.one
         view.textAlignment = .center
         return view
     }()
@@ -162,7 +162,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private lazy var feeLabel: FELabel = {
         let view = FELabel()
-        view.font = Fonts.caption
+        view.font = Fonts.Body.three
         view.textColor = LightColors.Text.two
         view.textAlignment = .left
         view.numberOfLines = 2
@@ -171,7 +171,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     
     private lazy var feeAmountLabel: FELabel = {
         let view = FELabel()
-        view.font = Fonts.caption
+        view.font = Fonts.Body.three
         view.textColor = LightColors.Text.two
         view.textAlignment = .right
         view.numberOfLines = 2
@@ -210,7 +210,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         cryptoStack.addArrangedSubview(selectorStackView)
         selectorStackView.snp.makeConstraints { make in
-            make.width.equalTo(ViewSizes.extraHuge.rawValue)
+            make.width.equalTo(150)
         }
         
         selectorStackView.addArrangedSubview(currencyIconImageView)

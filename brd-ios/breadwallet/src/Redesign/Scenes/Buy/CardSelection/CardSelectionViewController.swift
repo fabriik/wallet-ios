@@ -15,7 +15,6 @@ extension Scenes {
 }
 
 class CardSelectionViewController: ItemSelectionViewController {
-    
     override var sceneTitle: String? { return L10n.Buy.paymentMethod }
     override var isSearchEnabled: Bool { return false }
     
@@ -62,7 +61,7 @@ class CardSelectionViewController: ItemSelectionViewController {
             view.configure(with: .init())
             view.setup(with: .init(title: .text(L10n.Buy.card),
                                    subtitle: nil,
-                                   logo: .imageName("credit_card_icon"),
+                                   logo: .imageName("card"),
                                    cardNumber: .text(L10n.Buy.addDebitCreditCard),
                                    expiration: nil))
             

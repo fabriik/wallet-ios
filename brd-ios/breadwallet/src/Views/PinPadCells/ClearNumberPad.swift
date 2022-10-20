@@ -15,7 +15,7 @@ class ClearNumberPad: GenericPinPadCell {
         set {}
     }
 
-    override var label: UILabel {
+    override var label: UILabel {   
         get { return cutoutLabel }
         set {}
     }

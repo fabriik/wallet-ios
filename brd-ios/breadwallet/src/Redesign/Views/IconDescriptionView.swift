@@ -11,7 +11,7 @@
 import UIKit
 
 struct IconDescriptionConfiguration: Configurable {
-    var image: BackgroundConfiguration = .init(tintColor: LightColors.Icons.two)
+    var image: BackgroundConfiguration = .init(tintColor: LightColors.Text.two)
     var description: LabelConfiguration = .init(font: Fonts.Body.two,
                                                 textColor: LightColors.Text.two,
                                                 numberOfLines: 0)

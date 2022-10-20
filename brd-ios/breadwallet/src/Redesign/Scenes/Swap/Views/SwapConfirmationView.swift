@@ -80,32 +80,32 @@ class SwapConfirmationView: FEView<SwapConfimationConfiguration, SwapConfirmatio
         
         mainStack.addArrangedSubview(fromView)
         fromView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.common.rawValue)
+            make.height.equalTo(ViewSizes.Common.field.rawValue)
         }
         
         mainStack.addArrangedSubview(toView)
         toView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.common.rawValue)
+            make.height.equalTo(ViewSizes.Common.field.rawValue)
         }
         
         mainStack.addArrangedSubview(rateView)
         rateView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(sendingFeeView)
         sendingFeeView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.common.rawValue)
+            make.height.equalTo(ViewSizes.Common.field.rawValue)
         }
         
         mainStack.addArrangedSubview(receivingFeeView)
         receivingFeeView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.common.rawValue)
+            make.height.equalTo(ViewSizes.Common.field.rawValue)
         }
         
         mainStack.addArrangedSubview(costView)
         costView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
     }
     

@@ -174,12 +174,9 @@
 	</array>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Roboto-Bold.otf</string>
 		<string>Roboto-Regular.otf</string>
 		<string>Roboto-Medium.otf</string>
-		<string>Degular-Bold.otf</string>
-		<string>Degular-Regular.otf</string>
-		<string>Degular-Semibold.otf</string>
+		<string>SofiaPro-Bold.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

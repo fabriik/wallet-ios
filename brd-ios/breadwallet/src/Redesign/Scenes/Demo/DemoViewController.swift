@@ -82,7 +82,7 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
         cell.setup { view in
             view.configure(with: .init(background: Presets.Background.Primary.normal,
                                        buttons: [
-                                        Presets.Button.icon
+                                        Presets.Button.blackIcon
                                        ]
                                       ))
             view.setup(with: model)

@@ -19,7 +19,6 @@ struct ItemViewModel: ViewModel {
 }
 
 class ItemView: FEView<ItemViewConfiguration, ItemViewModel> {
-    
     private lazy var imageView: FEImageView = {
         let view = FEImageView()
         return view
@@ -57,7 +56,7 @@ class ItemView: FEView<ItemViewConfiguration, ItemViewModel> {
         
         titleLabel.setup(with: .text(viewModel.title))
 
-        let image = viewModel.image ?? .imageName("LogoBlue")
+        let image = viewModel.image ?? .imageName("logo_icon")
         imageView.setup(with: image)
     }
 }

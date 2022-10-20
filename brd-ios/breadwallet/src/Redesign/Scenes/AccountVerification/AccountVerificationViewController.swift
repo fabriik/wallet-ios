@@ -57,7 +57,7 @@ class AccountVerificationViewController: BaseTableViewController<KYCCoordinator,
             let configs = [
                 Presets.VerificationView.verified,
                 Presets.VerificationView.pending,
-                Presets.VerificationView.resubmit
+                Presets.VerificationView.resubmitAndDeclined
             ]
             
             let config: VerificationConfiguration

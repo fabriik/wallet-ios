@@ -11,7 +11,7 @@
 import UIKit
 
 struct BuyOrderConfiguration: Configurable {
-    var title: LabelConfiguration = .init(font: Fonts.Body.two, textColor: LightColors.Icons.one)
+    var title: LabelConfiguration = .init(font: Fonts.Body.two, textColor: LightColors.Text.one)
     var currencyAmountName: LabelConfiguration = .init(font: Fonts.Title.five, textColor: LightColors.Text.one)
     var rate: LabelConfiguration = .init(font: Fonts.Title.five, textColor: LightColors.Text.one)
     var rateValue: TitleValueConfiguration = Presets.TitleValue.horizontal
@@ -79,7 +79,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
     private lazy var topLineView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 1.0
-        view.layer.borderColor = LightColors.Outline.three.cgColor
+        view.layer.borderColor = LightColors.Outline.two.cgColor
         return view
     }()
     
@@ -106,7 +106,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
     private lazy var bottomLineView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 1.0
-        view.layer.borderColor = LightColors.Outline.three.cgColor
+        view.layer.borderColor = LightColors.Outline.two.cgColor
         return view
     }()
     
@@ -134,7 +134,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         
         mainStack.addArrangedSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(currencyStackView)
@@ -151,7 +151,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         
         mainStack.addArrangedSubview(rateView)
         rateView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(topLineView)
@@ -161,22 +161,22 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         
         mainStack.addArrangedSubview(rateValueView)
         rateValueView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(amountView)
         amountView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(cardFeeView)
         cardFeeView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(networkFeeView)
         networkFeeView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(bottomLineView)
@@ -186,7 +186,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         
         mainStack.addArrangedSubview(totalCostView)
         totalCostView.snp.makeConstraints { make in
-            make.height.equalTo(FieldHeights.small.rawValue)
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
         }
         
         mainStack.addArrangedSubview(paymentMethodView)

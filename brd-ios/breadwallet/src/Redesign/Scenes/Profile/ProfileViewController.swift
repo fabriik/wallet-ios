@@ -14,15 +14,15 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
                              ProfileStore>,
                              ProfileResponseDisplays {
     typealias Models = ProfileModels
+    
     private var isPaymentsPressed = false
     
     // MARK: - Overrides
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    override func prepareData() {
         guard dataStore?.profile?.status != UserManager.shared.profile?.status else { return }
-        interactor?.getData(viewAction: .init())
+        
+        super.prepareData()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -35,15 +35,14 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
             
         case .verification:
             cell = self.tableView(tableView, infoViewCellForRowAt: indexPath)
+            cell.setupCustomMargins(vertical: .large, horizontal: .extraHuge)
             
         case .navigation:
             cell = self.tableView(tableView, navigationCellForRowAt: indexPath)
-
+            
         default:
             cell = super.tableView(tableView, cellForRowAt: indexPath)
         }
-        
-        cell.setupCustomMargins(vertical: .huge, horizontal: .large)
         
         return cell
     }
@@ -58,30 +57,29 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
         
         cell.setup { view in
             view.setup { view in
-                view.setup(with: model)
+                var config = Presets.InfoView.verification
                 
-                let config: InfoViewConfiguration
                 switch (model.kyc, model.status) {
-                    
                 case (.levelOne, .levelOne),
                     (.levelTwo, .levelTwo(.levelTwo)):
-                    config = Presets.InfoView.verified
+                    config.status = Presets.VerificationView.verified.status
                     
                 case (.levelTwo, .levelTwo(.submitted)):
-                    config = Presets.InfoView.pending
+                    config.status = Presets.VerificationView.pending.status
                     
                 case (.levelTwo, .levelTwo(.resubmit)),
                     (.levelTwo, .levelTwo(.declined)),
                     (.levelTwo, .levelTwo(.expired)):
-                    config = Presets.InfoView.declined
+                    config.status = Presets.VerificationView.resubmitAndDeclined.status
                     
                 default:
-                    config = Presets.InfoView.verification
+                    config.status = Presets.VerificationView.resubmitAndDeclined.status
                 }
                 
+                view.setupCustomMargins(all: .small)
                 view.configure(with: config)
+                view.setup(with: model)
                 
-                view.setupCustomMargins(all: .large)
                 view.headerButtonCallback = { [weak self] in
                     self?.interactor?.showVerificationInfo(viewAction: .init())
                 }
@@ -90,9 +88,8 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
                     self?.coordinator?.showVerificationScreen(for: self?.dataStore?.profile)
                 }
             }
-            view.setupCustomMargins(all: .large)
-            
         }
+        
         return cell
     }
     
@@ -101,6 +98,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
         case .navigation:
             let indexPath = dataStore?.profile?.status == .levelTwo(.levelTwo) ? indexPath.row : indexPath.row + 1
             interactor?.navigate(viewAction: .init(index: indexPath))
+            
         default:
             return
         }
@@ -109,6 +107,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
     // MARK: - User Interaction
     
     // MARK: - ProfileResponseDisplay
+    
     func displayVerificationInfo(responseDisplay: ProfileModels.VerificationInfo.ResponseDisplay) {
         coordinator?.showPopup(with: responseDisplay.model)
     }
@@ -124,6 +123,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
             
         case .security:
             coordinator?.showSecuirtySettings()
+            
         }
     }
     

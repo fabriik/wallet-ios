@@ -65,14 +65,13 @@ class ProfileView: FEView<ProfileConfiguration, ProfileViewModel> {
         stack.addArrangedSubview(imageContentView)
         stack.addArrangedSubview(nameLabel)
         imageContentView.snp.makeConstraints { make in
-            // TODO: add to enum
-            make.height.equalTo(60)
+            make.height.equalTo(64)
         }
         imageContentView.addSubview(imageView)
         imageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.top.equalToSuperview()
-            make.height.equalTo(60)
+            make.height.equalTo(imageContentView.snp.height)
             make.width.equalTo(imageView.snp.height)
         }
         imageView.content.setupClearMargins()
@@ -101,8 +100,8 @@ class ProfileView: FEView<ProfileConfiguration, ProfileViewModel> {
         let zeroBorder = BorderConfiguration(borderWidth: 0, cornerRadius: .fullRadius)
         imageView.wrappedView.configure(with: .init(backgroundColor: .red, tintColor: LightColors.primary, border: zeroBorder))
         editImageView.wrappedView.configure(with: Presets.Background.Primary.normal.withBorder(border: zeroBorder))
-        nameLabel.configure(with: .init(font: Fonts.Title.four,
-                                        textColor: LightColors.Text.one,
+        nameLabel.configure(with: .init(font: Fonts.Title.five,
+                                        textColor: LightColors.Text.three,
                                         textAlignment: .center,
                                         numberOfLines: 1))
         nameLabel.adjustsFontSizeToFitWidth = true
@@ -117,6 +116,7 @@ class ProfileView: FEView<ProfileConfiguration, ProfileViewModel> {
     }
     
     // MARK: - User interaction
+    
     @objc private func changeImageTapped() {
         editImageCallback?()
     }

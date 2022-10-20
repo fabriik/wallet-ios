@@ -18,7 +18,7 @@ struct CodeInputConfiguration: Configurable {
                                                                        textColor: LightColors.Text.one,
                                                                        textAlignment: .center,
                                                                        numberOfLines: 1))
-    var errorLabel: LabelConfiguration = .init(font: Fonts.caption, textColor: LightColors.error)
+    var errorLabel: LabelConfiguration = .init(font: Fonts.Body.three, textColor: LightColors.Error.one)
 }
 
 struct CodeInputViewModel: ViewModel {}

@@ -27,14 +27,13 @@ struct NavigationViewModel: ViewModel {
 }
 
 class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
-    
     private lazy var verticalStack: UIStackView = {
         let view = UIStackView()
-        view.spacing = Margins.extraSmall.rawValue
+        view.spacing = Margins.medium.rawValue
         return view
     }()
     
-    private lazy var leading: FEImageView = {
+    private lazy var leadingImageView: FEImageView = {
         let view = FEImageView()
         return view
     }()
@@ -44,9 +43,9 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
         return view
     }()
     
-    private lazy var topLineView: UIView = {
+    private lazy var separatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = LightColors.Outline.two
+        view.backgroundColor = LightColors.Background.two
         return view
     }()
     
@@ -64,29 +63,36 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
     
     override func setupSubviews() {
         super.setupSubviews()
-        setupCustomMargins(all: .extraSmall)
         
         content.addSubview(verticalStack)
         verticalStack.snp.makeConstraints { make in
+            make.height.equalTo(ViewSizes.extraSmall.rawValue)
             make.top.leading.trailing.equalToSuperview()
         }
-        verticalStack.addArrangedSubview(leading)
-        leading.snp.makeConstraints { make in
-            make.width.equalTo(FieldHeights.common.rawValue)
+        
+        verticalStack.addArrangedSubview(leadingImageView)
+        leadingImageView.snp.makeConstraints { make in
+            make.width.equalTo(ViewSizes.medium.rawValue)
         }
-        leading.setupClearMargins()
+        
+        leadingImageView.setupClearMargins()
         verticalStack.addArrangedSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.width.equalToSuperview().priority(.low)
         }
+        
         verticalStack.addArrangedSubview(trailing)
         trailing.snp.makeConstraints { make in
             make.width.equalTo(Margins.huge.rawValue)
         }
-        content.addSubview(topLineView)
-        topLineView.snp.makeConstraints { make in
-            make.top.equalTo(verticalStack.snp.bottom).offset(Margins.extraLarge.rawValue)
-            make.bottom.leading.trailing.equalToSuperview()
+        
+        addSubview(separatorView)
+        separatorView.snp.makeConstraints { make in
+            make.top.equalTo(verticalStack.snp.bottom).offset(Margins.large.rawValue)
+            make.bottom.equalToSuperview()
+            
+            make.leading.equalToSuperview().inset(-Margins.extraExtraHuge.rawValue)
+            make.trailing.equalToSuperview().offset(Margins.extraExtraHuge.rawValue)
             make.height.equalTo(ViewSizes.minimum.rawValue)
         }
     }
@@ -94,7 +100,8 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
     override func configure(with config: NavigationConfiguration?) {
         guard let config = config else { return }
         super.configure(with: config)
-        leading.configure(with: config.image)
+        
+        leadingImageView.configure(with: config.image)
         titleLabel.configure(with: config.label)
         trailing.configure(with: config.button)
         
@@ -104,10 +111,10 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
     
     override func setup(with viewModel: NavigationViewModel?) {
         guard let viewModel = viewModel else { return }
-
         super.setup(with: viewModel)
-        leading.setup(with: viewModel.image)
-        leading.isHidden = viewModel.image == nil
+        
+        leadingImageView.setup(with: viewModel.image)
+        leadingImageView.isHidden = viewModel.image == nil
         titleLabel.setup(with: viewModel.label)
         titleLabel.isHidden = viewModel.label == nil
         trailing.setup(with: viewModel.button)

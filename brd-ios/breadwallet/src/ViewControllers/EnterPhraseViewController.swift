@@ -35,8 +35,8 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
     private let reason: PhraseEntryReason
     private let showBackButton: Bool
     private let enterPhrase: EnterPhraseCollectionViewController
-    private let heading = UILabel.wrapping(font: Theme.h2Title, color: Theme.primaryText)
-    private let subheading = UILabel.wrapping(font: Theme.body1, color: Theme.secondaryText)
+    private let heading = UILabel.wrapping(font: Fonts.Title.six, color: LightColors.Text.three)
+    private let subheading = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.two)
     private let faq: UIButton
     private let scrollView = UIScrollView()
     private let container = UIView()
@@ -49,7 +49,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
         let attributes: [NSAttributedString.Key: Any] = [
         NSAttributedString.Key.underlineStyle: 1,
         NSAttributedString.Key.font: Fonts.Body.two,
-        NSAttributedString.Key.foregroundColor: LightColors.Link.one]
+        NSAttributedString.Key.foregroundColor: LightColors.Text.three]
 
         let attributedString = NSMutableAttributedString(string: L10n.UpdatePin.contactSupport, attributes: attributes)
         button.setAttributedTitle(attributedString, for: .normal)
@@ -77,8 +77,6 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationController?.navigationBar.tintColor = Theme.blueBackground
         
         setUpHeadings()
         addSubviews()
@@ -109,7 +107,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
                                    style: .plain,
                                    target: self,
                                    action: #selector(onBackButton))
-        back.tintColor = Theme.blueBackground
+        back.tintColor = LightColors.Text.three
         navigationItem.leftBarButtonItem = back
     }
     
@@ -177,9 +175,9 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
         
         nextButton.constrain([
             nextButton.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -ButtonHeights.common.rawValue),
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -ViewSizes.Common.field.rawValue),
             nextButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margins.large.rawValue),
-            nextButton.heightAnchor.constraint(equalToConstant: ButtonHeights.common.rawValue)
+            nextButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.largeButton.rawValue)
         ])
         nextButton.configure(with: Presets.Button.primary)
         nextButton.addTarget(self, action: #selector(nextTapped(_:)), for: .touchUpInside)
@@ -187,7 +185,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
 
     private func setInitialData() {
         scrollView.delegate = self
-        view.backgroundColor = .darkBackground
+        view.backgroundColor = LightColors.Background.one
         nextButton.setup(with: .init(title: L10n.RecoverWallet.next))
         
         enterPhrase.didFinishPhraseEntry = { [weak self] phrase in

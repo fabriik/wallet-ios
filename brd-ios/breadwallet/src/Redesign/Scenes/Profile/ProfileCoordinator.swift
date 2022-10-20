@@ -59,11 +59,13 @@ extension BaseCoordinator {
         let popup = FEPopupView()
         view.addSubview(popup)
         view.bringSubviewToFront(popup)
+        
         popup.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.top.greaterThanOrEqualTo(view.snp.topMargin)
-            make.leading.greaterThanOrEqualTo(view.snp.leadingMargin)
+            make.leading.equalToSuperview().inset(Margins.large.rawValue)
         }
+        
         popup.alpha = 0.0
         popup.layoutIfNeeded()
         popup.configure(with: config)

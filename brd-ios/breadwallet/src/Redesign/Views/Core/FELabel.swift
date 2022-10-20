@@ -11,7 +11,7 @@
 import UIKit
 
 struct LabelConfiguration: TextConfigurable {
-    var font: UIFont = Fonts.caption
+    var font: UIFont = Fonts.Body.three
     var textColor: UIColor? = LightColors.primary
     var textAlignment: NSTextAlignment = .left
     var numberOfLines: Int = 0

@@ -126,9 +126,9 @@ extension KYCCoordinator: ImagePickable {
         controller.navigationItem.setHidesBackButton(backButtonVisibility, animated: false)
         controller.defaultVideoDevice = device
         controller.configure(with: .init(instructions: .init(font: Fonts.Body.one,
-                                                             textColor: LightInversedColors.Text.one,
+                                                             textColor: LightColors.Text.one,
                                                              textAlignment: .center),
-                                         background: .init(backgroundColor: LightInversedColors.Background.one)))
+                                         background: .init(backgroundColor: LightColors.Background.one)))
         controller.setup(with: model)
         controller.photoSelected = completion
         controller.setBarButtonItem(from: navigationController, to: .right, target: self, action: #selector(popFlow(sender:)))

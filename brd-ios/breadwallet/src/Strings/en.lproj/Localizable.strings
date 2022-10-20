@@ -32,7 +32,7 @@
 "AccessibilityLabels.faq" = "Support Center";
 
 /* Account limits title in profile view */
-"Account.AccountLimits" = "ACCOUNT LIMITS";
+"Account.AccountLimits" = "Account limits";
 
 /* Account Verification screen title */
 "Account.AccountVerification" = "Account Verification";
@@ -105,6 +105,8 @@
 
 /* Retake photo button on create account */
 "Account.RetakePhoto" = "Retake photo";
+
+"Account.SelectCountry" = "Select country";
 
 /* Submit your photo for document id title */
 "Account.SubmitPhoto" = "Submit your photo";

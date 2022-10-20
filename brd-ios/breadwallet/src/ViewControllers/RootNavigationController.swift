@@ -25,39 +25,43 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController is AccountViewController ||
             viewController is HomeScreenViewController ||
-            viewController is KYCCameraViewController {
-            setNormalNavigationBar(normalBackgroundColor: .clear, scrollBackgroundColor: .clear, tintColor: LightColors.Contrast.two)
+            viewController is KYCCameraViewController ||
+            viewController is OnboardingViewController {
+            setNormalNavigationBar(tintColor: LightColors.Contrast.two)
         } else {
-            setNormalNavigationBar()
+            setNormalNavigationBar(normalBackgroundColor: LightColors.Contrast.two, tintColor: LightColors.Text.three)
         }
         
         let item = SimpleBackBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         viewController.navigationItem.backBarButtonItem = item
     }
     
-    func setNormalNavigationBar(normalBackgroundColor: UIColor = LightColors.Contrast.two,
+    func setNormalNavigationBar(normalBackgroundColor: UIColor = .clear,
                                 scrollBackgroundColor: UIColor = .clear,
-                                tintColor: UIColor = LightColors.Icons.one) {
+                                tintColor: UIColor = LightColors.Text.one) {
+        navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: Fonts.Title.six, NSAttributedString.Key.foregroundColor: tintColor
+        ]
+        
         let normalAppearance = UINavigationBarAppearance()
+        normalAppearance.titleTextAttributes = navigationBar.titleTextAttributes ?? [:]
         normalAppearance.configureWithOpaqueBackground()
         normalAppearance.backgroundColor = normalBackgroundColor
         normalAppearance.shadowColor = nil
-        navigationBar.standardAppearance = normalAppearance
-        navigationBar.compactAppearance = normalAppearance
         
         let scrollAppearance = UINavigationBarAppearance()
+        scrollAppearance.titleTextAttributes = navigationBar.titleTextAttributes ?? [:]
         scrollAppearance.configureWithTransparentBackground()
-        scrollAppearance.backgroundColor = scrollBackgroundColor
+        scrollAppearance.backgroundColor = normalBackgroundColor
         scrollAppearance.shadowColor = nil
-        navigationBar.scrollEdgeAppearance = scrollAppearance
+        
+        navigationBar.scrollEdgeAppearance = normalAppearance
+        navigationBar.standardAppearance = scrollAppearance
+        navigationBar.compactAppearance = scrollAppearance
         
         navigationBar.tintColor = tintColor
         navigationBar.prefersLargeTitles = false
         
-        navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: Fonts.Title.seven
-        ]
-        
-        view.backgroundColor = LightColors.Contrast.two
+        view.backgroundColor = .clear
     }
 }

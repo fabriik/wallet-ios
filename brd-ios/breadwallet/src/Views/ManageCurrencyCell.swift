@@ -24,15 +24,13 @@ enum EditWalletType {
 class ManageCurrencyCell: UITableViewCell {
     
     static let cellIdentifier = "ManageCurrencyCell"
-    
-    private let addColor = UIColor.navigationTint
-    private let removeColor = UIColor.orangeButton
 
-    private let header = UILabel(font: Theme.h3Title, color: .almostBlack)
-    private let subheader = UILabel(font: .customBody(size: 14.0), color: .gray2)
+    private let header = UILabel(font: Fonts.Body.one, color: LightColors.Text.one)
     private let icon = UIImageView()
-    private let balanceLabel = UILabel(font: Theme.body3, color: Theme.secondaryText)
-    private let button = ToggleButton(normalTitle: L10n.TokenList.add, normalColor: .navigationTint, selectedTitle: L10n.TokenList.hide, selectedColor: .orangeButton)
+    private let button = ToggleButton(normalTitle: L10n.TokenList.add,
+                                      normalColor: LightColors.primary,
+                                      selectedTitle: L10n.TokenList.hide,
+                                      selectedColor: LightColors.Error.one)
     private var identifier: CurrencyId = ""
     private var listType: EditWalletType = .add
     private var isCurrencyHidden = false
@@ -48,16 +46,10 @@ class ManageCurrencyCell: UITableViewCell {
 
     func set(currency: CurrencyMetaData, balance: Amount?, listType: EditWalletType, isHidden: Bool, isRemovable: Bool) {
         header.text = currency.name
-        subheader.text = currency.code
         icon.image = currency.imageSquareBackground
-        if let balance = balance, !balance.isZero {
-            balanceLabel.text = balance.tokenDescription
-        } else {
-            balanceLabel.text = ""
-        }
-        self.isCurrencyHidden = isHidden
-        self.isCurrencyRemovable = isRemovable
-        self.identifier = currency.uid
+        isCurrencyHidden = isHidden
+        isCurrencyRemovable = isRemovable
+        identifier = currency.uid
         self.listType = listType
         setState()
     }
@@ -72,9 +64,7 @@ class ManageCurrencyCell: UITableViewCell {
 
     private func addSubviews() {
         contentView.addSubview(header)
-        contentView.addSubview(subheader)
         contentView.addSubview(icon)
-        contentView.addSubview(balanceLabel)
         contentView.addSubview(button)
     }
 
@@ -86,20 +76,13 @@ class ManageCurrencyCell: UITableViewCell {
             icon.widthAnchor.constraint(equalToConstant: 36.0)])
         header.constrain([
             header.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: C.padding[1]),
-            header.bottomAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 1.0)])
-        subheader.constrain([
-            subheader.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: C.padding[1]),
-            subheader.topAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -1.0)])
+            header.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)])
         button.constrain([
             button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -C.padding[2]),
             button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             button.heightAnchor.constraint(equalToConstant: 36.0),
             button.widthAnchor.constraint(equalToConstant: 70.0),
             button.leadingAnchor.constraint(greaterThanOrEqualTo: header.trailingAnchor, constant: C.padding[1])])
-        balanceLabel.constrain([
-            balanceLabel.trailingAnchor.constraint(equalTo: button.leadingAnchor, constant: -C.padding[1]),
-            balanceLabel.centerYAnchor.constraint(equalTo: subheader.centerYAnchor)
-            ])
     }
 
     private func setInitialData() {

@@ -89,6 +89,53 @@ enum VerificationStatus: Equatable {
             return false
         }
     }
+    
+    var viewModel: InfoViewModel? {
+        switch self {
+        case .none, .email:
+            return InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.none,
+                                 description: .text(L10n.Account.fullAccess),
+                                 button: .init(title: L10n.Account.accountVerify.uppercased()),
+                                 dismissType: .persistent)
+            
+        case .emailPending, .levelTwo(.submitted):
+            return InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.emailPending,
+                                 description: .text(L10n.Account.verifiedAccountMessage),
+                                 dismissType: .persistent)
+            
+        case .levelOne, .levelTwo(.notStarted):
+            return InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.levelOne,
+                                 description: .text(L10n.Account.currentLimit),
+                                 button: .init(title: L10n.Account.upgradeLimits.uppercased()),
+                                 dismissType: .persistent)
+        case .levelTwo(.levelTwo):
+            return InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.levelTwo(.levelTwo),
+                                 description: .text(L10n.Account.swapAndBuyLimit),
+                                 dismissType: .persistent)
+        case .levelTwo(.expired), .levelTwo(.resubmit):
+            return InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.levelTwo(.resubmit),
+                                 description: .text(L10n.Account.dataIssues),
+                                 button: .init(title: L10n.Account.verificationDeclined.uppercased()),
+                                 dismissType: .persistent)
+        case .levelTwo(.declined):
+            return InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
+                                 headerTrailing: .init(image: "help"),
+                                 status: VerificationStatus.levelTwo(.declined),
+                                 description: .text(L10n.Account.dataIssues),
+                                 button: .init(title: L10n.Account.verificationDeclined.uppercased()),
+                                 dismissType: .persistent)
+        }
+    }
 }
 
 struct StatusViewConfiguration: Configurable {
@@ -179,7 +226,7 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
     private lazy var arrowImageView: WrapperView<FEImageView> = {
         let view = WrapperView<FEImageView>()
         view.wrappedView.setup(with: .init(.imageName("forward")))
-        view.tintColor = LightColors.Icons.two
+        view.tintColor = LightColors.Text.two
         return view
     }()
     
@@ -296,7 +343,7 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
             backgroundConfiguration = Presets.Background.Primary.normal.withBorder(border: Presets.Border.accountVerification)
         } else {
             backgroundConfiguration = Presets.Background.Primary.disabled.withBorder(border: Presets.Border.accountVerification)
-            statusImageView.tintColor = LightColors.InteractionPrimary.disabled
+            statusImageView.tintColor = LightColors.Disabled.one
         }
         benefitsLabel.configure(background: backgroundConfiguration)
         buyBenefitsLabel.configure(background: backgroundConfiguration)
@@ -318,7 +365,7 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
         
         if viewModel.status == .email {
             statusView.isHidden = true
-            statusImageView.tintColor = LightColors.InteractionPrimary.disabled
+            statusImageView.tintColor = LightColors.Disabled.one
         }
         statusImageView.backgroundColor = .clear
         statusImageView.wrappedView.backgroundColor = .clear

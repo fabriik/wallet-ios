@@ -27,6 +27,8 @@ enum Margins: CGFloat {
     case huge = 24
     /// 32
     case extraHuge = 32
+    /// 36
+    case extraExtraHuge = 36
 }
 
 enum BorderWidth: CGFloat {
@@ -49,8 +51,14 @@ enum Opacity: Float {
     case highest = 0.8
 }
 
-// TODO: consolidate the bottom enums!
 enum ViewSizes: CGFloat {
+    enum Common: CGFloat {
+        /// 48
+        case field = 48.0
+        /// 56
+        case largeButton = 56.0
+    }
+    
     /// 1
     case minimum = 1.0
     /// 20
@@ -63,24 +71,4 @@ enum ViewSizes: CGFloat {
     case large = 80.0
     /// 100
     case extraLarge = 100.0
-    /// 130
-    case huge = 130.0
-    /// 150
-    case extraHuge = 150.0
-}
-
-enum FieldHeights: CGFloat {
-    /// 20
-    case small = 20.0
-    /// 28
-    case medium = 28.0
-    /// 48
-    case common = 48.0
-    /// 65
-    case large = 65.0   
-}
-
-enum ButtonHeights: CGFloat {
-    /// 48
-    case common = 48.0
 }

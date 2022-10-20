@@ -63,12 +63,12 @@ class EnterPhraseCell: UICollectionViewCell {
     var didPasteWords: (([String]) -> Bool)?
 
     func disablePreviousButton() {
-        previousField.tintColor = .secondaryShadow
+        previousField.tintColor = LightColors.Disabled.one
         previousField.isEnabled = false
     }
 
     func disableNextButton() {
-        nextField.tintColor = .secondaryShadow
+        nextField.tintColor = LightColors.Disabled.one
         nextField.isEnabled = false
     }
 
@@ -77,17 +77,14 @@ class EnterPhraseCell: UICollectionViewCell {
     private let nextField = UIButton.icon(image: #imageLiteral(resourceName: "RightArrow"), accessibilityLabel: L10n.RecoverWallet.rightArrow, position: .middle)
     private let previousField = UIButton.icon(image: #imageLiteral(resourceName: "LeftArrow"), accessibilityLabel: L10n.RecoverWallet.leftArrow, position: .middle)
     private let done = UIButton(type: .system)
-    fileprivate let focusBar = UIView(color: Theme.accent)
+    fileprivate let focusBar = UIView(color: LightColors.primary)
     fileprivate var hasDisplayedInvalidState = false
 
     private func setup() {
-        
-        backgroundColor = Theme.primaryBackground
-        contentView.backgroundColor = Theme.primaryBackground
-        contentView.layer.borderColor = UIColor.almostBlack.cgColor
+        contentView.layer.borderColor = LightColors.Text.two.cgColor
         contentView.layer.borderWidth = 1
         
-        contentView.layer.cornerRadius = 10.0
+        contentView.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         contentView.layer.masksToBounds = true
         
         contentView.addSubview(textField)
@@ -120,18 +117,19 @@ class EnterPhraseCell: UICollectionViewCell {
     }
 
     private func setData() {
-        textField.textColor = .black
+        textField.textColor = LightColors.Text.one
         textField.inputAccessoryView = accessoryView
         textField.autocorrectionType = .no
         textField.textAlignment = .center
         textField.autocapitalizationType = .none
-        textField.font = E.isSmallScreen ? Theme.body2 : Theme.body1
+        textField.font = Fonts.Body.two
         textField.delegate = self
         textField.addTarget(self, action: #selector(EnterPhraseCell.textChanged(textField:)), for: .editingChanged)
 
-        previousField.tintColor = .secondaryGrayText
-        nextField.tintColor = .secondaryGrayText
+        previousField.tintColor = LightColors.Text.one
+        nextField.tintColor = LightColors.Text.one
         done.setTitle(L10n.RecoverWallet.done, for: .normal)
+        done.setTitleColor(LightColors.primary, for: .normal)
     }
 
     private var accessoryView: UIView {
@@ -216,11 +214,11 @@ extension EnterPhraseCell: UITextFieldDelegate {
         guard let isWordValid = isWordValid else { return }
         guard let word = textField.text else { return }
         if isWordValid(word) || word.isEmpty {
-            textField.textColor = Theme.primaryText
-            focusBar.backgroundColor = Theme.accent
-            contentView.layer.borderColor = UIColor.almostBlack.cgColor
+            textField.textColor = LightColors.Text.one
+            focusBar.backgroundColor = LightColors.primary
+            contentView.layer.borderColor = LightColors.Text.two.cgColor
         } else {
-            contentView.layer.borderColor = Theme.error.cgColor
+            contentView.layer.borderColor = LightColors.Error.one.cgColor
             hasDisplayedInvalidState = true
         }
     }

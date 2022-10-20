@@ -22,7 +22,7 @@ class ProfileInteractor: NSObject, Interactor, ProfileViewActions {
             case .success(let data):
                 self?.dataStore?.profile = data
                 self?.presenter?.presentData(actionResponse: .init(item: Models.Item(title: data?.email,
-                                                                                     image: "earth",
+                                                                                     image: "avatar",
                                                                                      status: data?.status)))
                 
             case .failure(let error):
