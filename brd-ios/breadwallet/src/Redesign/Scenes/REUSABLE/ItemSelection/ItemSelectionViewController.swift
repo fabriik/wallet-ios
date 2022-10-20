@@ -20,7 +20,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     /// Show search on item selection
     var isSearchEnabled: Bool { return true }
     
-    override var sceneTitle: String? { return L10n.Account.country }
+    override var sceneTitle: String? { return L10n.Account.selectCountry }
 
     var itemSelected: ((Any?) -> Void)?
     var searchController = UISearchController()
@@ -34,6 +34,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
         
         tableView.separatorInset = .zero
         tableView.separatorStyle = .singleLine
+        tableView.separatorColor = LightColors.Outline.one
         tableView.register(WrapperTableViewCell<ItemView>.self)
         
         guard isSearchEnabled else { return }
@@ -73,7 +74,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
             cell = UITableViewCell()
         }
         
-        cell.contentView.setupCustomMargins(vertical: .small, horizontal: .zero)
+        cell.contentView.setupCustomMargins(vertical: .medium, horizontal: .zero)
         
         return cell
     }
@@ -125,6 +126,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     }
     
     // MARK: - Search View Delegate
+    
     func updateSearchResults(for searchController: UISearchController) {}
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
