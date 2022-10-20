@@ -14,6 +14,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
                              ProfileStore>,
                              ProfileResponseDisplays {
     typealias Models = ProfileModels
+    private var isPaymentsPressed = false
     
     // MARK: - Overrides
     
@@ -119,6 +120,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
         switch responseDisplay.item {
         case .paymentMethods:
             interactor?.getPaymentCards(viewAction: .init())
+            isPaymentsPressed = true
             
         case .preferences:
             coordinator?.showPreferences()
@@ -129,9 +131,12 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
     }
     
     func displayPaymentCards(responseDisplay: ProfileModels.PaymentCards.ResponseDisplay) {
+        guard isPaymentsPressed else { return }
+        
         coordinator?.showCardSelector(cards: responseDisplay.allPaymentCards,
                                       selected: nil,
                                       fromBuy: false)
+        isPaymentsPressed = false
     }
     
     // MARK: - Additional Helpers
