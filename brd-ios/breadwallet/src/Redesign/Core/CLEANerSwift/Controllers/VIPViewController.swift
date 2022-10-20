@@ -32,10 +32,10 @@ class VIPViewController<C: CoordinatableRoutes,
     
     lazy var leftAlignedTitleLabel: UILabel = {
         let view = UILabel()
-        view.font = Fonts.Title.four
+        view.font = Fonts.Title.five
         view.textAlignment = .left
         view.numberOfLines = 0
-        view.textColor = LightColors.Text.one
+        view.textColor = LightColors.Text.three
         return view
     }()
     

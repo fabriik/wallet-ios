@@ -16,15 +16,15 @@ struct Presets {
         struct Primary {
             static var normal = BackgroundConfiguration(backgroundColor: LightColors.primary,
                                                         tintColor: LightColors.Contrast.two,
-                                                        border: Presets.Border.normal)
+                                                        border: Presets.Border.normalButtonFullRadius)
             
             static var selected = BackgroundConfiguration(backgroundColor: LightColors.secondary,
                                                           tintColor: LightColors.Contrast.two,
-                                                          border: Presets.Border.selected)
+                                                          border: Presets.Border.selectedButtonFullRadius)
             
             static var disabled = BackgroundConfiguration(backgroundColor: LightColors.Disabled.one,
                                                           tintColor: LightColors.Contrast.two,
-                                                          border: Presets.Border.disabled)
+                                                          border: Presets.Border.disabledButtonFullRadius)
             
             static var error = BackgroundConfiguration(backgroundColor: LightColors.primary,
                                                        tintColor: .red,
@@ -57,6 +57,10 @@ struct Presets {
         static var normalButton = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
         static var selectedButton = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
         static var disabledButton = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
+        
+        static var normalButtonFullRadius = BorderConfiguration(borderWidth: 0, cornerRadius: .fullRadius)
+        static var selectedButtonFullRadius = BorderConfiguration(borderWidth: 0, cornerRadius: .fullRadius)
+        static var disabledButtonFullRadius = BorderConfiguration(borderWidth: 0, cornerRadius: .fullRadius)
         
         static var normalTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
         static var selectedTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
@@ -100,9 +104,6 @@ extension Presets {
                                                    selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalButton),
                                                    disabledConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledButton))
         
-        static var blue = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.blue.withBorder(border: Presets.Border.selectedButton),
-                                              selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalButton))
-        
         static var popupActionButton = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.two),
                                                            selectedConfiguration: .init(tintColor: LightColors.Text.one),
                                                            disabledConfiguration: .init(tintColor: LightColors.Disabled.one))
@@ -110,10 +111,6 @@ extension Presets {
         static var verificationActionButton = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Text.three),
                                                                   selectedConfiguration: .init(tintColor: LightColors.Text.two),
                                                                   disabledConfiguration: .init(tintColor: LightColors.Disabled.two))
-        
-        static var link = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Text.one),
-                                              selectedConfiguration: .init(tintColor: LightColors.Text.two),
-                                              disabledConfiguration: .init(tintColor: LightColors.Disabled.one))
         
         static var blackIcon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.one),
                                                    selectedConfiguration: .init(tintColor: LightColors.Text.one),
@@ -220,7 +217,6 @@ extension Presets {
 
 extension Presets {
     struct Alert {
-        // TODO: not styled yet
         static var one = AlertConfiguration(titleConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one),
                                             descriptionConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                             imageConfiguration: Presets.Image.primary,
