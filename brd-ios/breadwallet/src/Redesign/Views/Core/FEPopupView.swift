@@ -125,7 +125,8 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         scrollView.addSubview(scrollingStack)
         scrollingStack.snp.makeConstraints { make in
             make.leading.trailing.equalTo(mainStack).inset(Margins.small.rawValue)
-            make.top.bottom.equalToSuperview().inset(Margins.extraSmall.rawValue)
+            make.top.equalToSuperview().inset(Margins.medium.rawValue)
+            make.bottom.equalToSuperview()
         }
         
         scrollingStack.addArrangedSubview(textView)
@@ -164,9 +165,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         textView.sizeToFit()
         
         layoutIfNeeded()
-        // if this happens.. its a human mistake :D
         
-        // remove previous ones, if exist
         buttons.forEach { $0.removeFromSuperview() }
         buttons = []
         
@@ -190,9 +189,9 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
             }
         }
         
-        let count = Double(buttons.count)
+        let count = Double(buttons.count + 1)
         var newHeight = textView.contentSize.height
-        newHeight += count * (buttonHeight + scrollingStack.spacing)
+        newHeight += (scrollingStack.bounds.height) + (Margins.medium.rawValue * count)
         
         scrollView.snp.makeConstraints { make in
             make.height.equalTo(newHeight)
