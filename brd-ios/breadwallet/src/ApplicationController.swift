@@ -435,8 +435,6 @@ class ApplicationController: Subscriber {
                     coordinator?.showRegistration(shouldShowProfile: true)
                 } else if UserManager.shared.profile?.status.canBuy == false {
                     coordinator?.showVerificationsModally()
-                } else {
-                    return
                 }
 
             case .failure(let error):

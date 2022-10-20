@@ -98,7 +98,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
     
     @objc func reload() {
         setupSubscriptions()
-        
+        UserManager.shared.refresh()
         coreSystem.refreshWallet { [weak self] in
             self?.assetListTableView.reload()
             

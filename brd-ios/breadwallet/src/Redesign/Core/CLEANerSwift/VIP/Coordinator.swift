@@ -100,7 +100,7 @@ class BaseCoordinator: NSObject,
     
     func showSwap(currencies: [Currency], coreSystem: CoreSystem, keyStore: KeyStore) {
         ExchangeCurrencyHelper.setUSDifNeeded { [weak self] in
-            upgradeAccountOrShowPopup(checkForCustomerRole: .kyc1) { showPopup in
+            upgradeAccountOrShowPopup(role: .kyc1) { showPopup in
                 guard showPopup else { return }
                 
                 self?.openModally(coordinator: SwapCoordinator.self, scene: Scenes.Swap) { vc in
@@ -115,7 +115,7 @@ class BaseCoordinator: NSObject,
     
     func showBuy(coreSystem: CoreSystem?, keyStore: KeyStore?) {
         ExchangeCurrencyHelper.setUSDifNeeded { [weak self] in
-            upgradeAccountOrShowPopup(checkForCustomerRole: .kyc2) { showPopup in
+            upgradeAccountOrShowPopup(role: .kyc2) { showPopup in
                 guard showPopup else { return }
                 
                 self?.openModally(coordinator: BuyCoordinator.self, scene: Scenes.Buy) { vc in
@@ -249,7 +249,7 @@ class BaseCoordinator: NSObject,
     
     // It prepares the next KYC coordinator OR returns true.
     // In which case we show 3rd party popup or continue to Buy/Swap.
-    func upgradeAccountOrShowPopup(checkForCustomerRole: CustomerRole? = nil, completion: ((Bool) -> Void)?) {
+    func upgradeAccountOrShowPopup(role: CustomerRole? = nil, completion: ((Bool) -> Void)?) {
         let nvc = RootNavigationController()
         var coordinator: Coordinatable?
         
@@ -267,13 +267,25 @@ class BaseCoordinator: NSObject,
                 || status == .none {
                 coordinator = RegistrationCoordinator(navigationController: nvc)
                 
-            } else if let kycLevel = checkForCustomerRole,
+            } else if let kycLevel = role,
                       roles.contains(kycLevel) {
                 completion?(true)
-            } else if checkForCustomerRole == nil {
+            } else if role == nil {
                 completion?(true)
-            } else {
-                coordinator = KYCCoordinator(navigationController: nvc)
+            } else if let role = role {
+                checkProfileforRole(role: role) { [weak self] hasRole in
+                    guard hasRole == false else {
+                        completion?(true)
+                        return
+                    }
+                    let coordinator = KYCCoordinator(navigationController: nvc)
+                    coordinator.start()
+                    coordinator.parentCoordinator = self
+                    self?.childCoordinators.append(coordinator)
+                    self?.navigationController.show(coordinator.navigationController, sender: nil)
+                    
+                    completion?(false)
+                }
             }
             
         case .failure(let error):
@@ -287,13 +299,11 @@ class BaseCoordinator: NSObject,
             
         default:
             completion?(true)
-            
             return
         }
         
         guard let coordinator = coordinator else {
             completion?(false)
-            
             return
         }
         
@@ -303,6 +313,18 @@ class BaseCoordinator: NSObject,
         navigationController.show(coordinator.navigationController, sender: nil)
         
         completion?(false)
+    }
+    
+    private func checkProfileforRole(role: CustomerRole = .kyc1, completion: ((Bool) -> Void)?) {
+        UserManager.shared.refresh { result in
+            guard case let .success(profile) = result,
+                  profile?.roles.contains(role) == true
+            else {
+                completion?(false)
+                return
+            }
+            completion?(true)
+        }
     }
     
     func showMessage(with error: Error? = nil, model: InfoViewModel? = nil, configuration: InfoViewConfiguration? = nil) {
