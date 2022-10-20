@@ -32,6 +32,34 @@ final class ItemSelectionPresenter: NSObject, Presenter, ItemSelectionActionResp
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
+    
+    func presentActionSheetRemovePayment(actionResponse: ItemSelectionModels.ActionSheet.ActionResponse) {
+        viewController?.displayActionSheetRemovePayment(responseDisplay: .init(instrumentId: actionResponse.instrumentId,
+                                                                               last4: actionResponse.last4,
+                                                                               actionSheetOkButton: L10n.Buy.removePaymentMethod,
+                                                                               actionSheetCancelButton: L10n.Button.cancel))
+    }
+    
+    func presentRemovePaymentPopup(actionResponse: ItemSelectionModels.RemovePaymenetPopup.ActionResponse) {
+        let popupViewModel = PopupViewModel(title: .text("\(L10n.Buy.removeCard) \(actionResponse.last4)?"),
+                                            buttons: [.init(title: L10n.Staking.remove),
+                                                      .init(title: L10n.Button.cancel)],
+                                            closeButton: .init(image: "close"))
+        
+        viewController?.displayRemovePaymentPopup(responseDisplay: .init(popupViewModel: popupViewModel,
+                                                                    popupConfig: Presets.Popup.whiteDimmed))
+    }
+    
+    func presentRemovePaymentMessage(actionResponse: ItemSelectionModels.RemovePayment.ActionResponse) {
+        let model = InfoViewModel(description: .text(L10n.Buy.cardRemoved), dismissType: .auto)
+        let config = Presets.InfoView.verification
+        
+        viewController?.displayMessage(responseDisplay: .init(model: model,
+                                                              config: config))
+        
+        viewController?.displayRemovePaymentSuccess(responseDisplay: .init())
+    }
+    
     // MARK: - Additional Helpers
 
 }

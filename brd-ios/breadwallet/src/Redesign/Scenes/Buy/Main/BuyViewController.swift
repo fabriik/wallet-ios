@@ -238,6 +238,8 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             LoadingView.hide()
         }
         
+        guard !isAccessDenied(responseDisplay: responseDisplay) else { return }
+        
         guard responseDisplay.error != nil else {
             coordinator?.hideMessage()
             return
@@ -248,6 +250,4 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
                                  model: responseDisplay.model,
                                  configuration: responseDisplay.config)
     }
-    
-    // MARK: - Additional Helpers
 }

@@ -323,10 +323,14 @@ class ModalPresenter: Subscriber {
             root.view.isFrameChangeBlocked = true
             root.present(vc, animated: true, completion: nil)
         }
+
         sendVC.onPublishSuccess = { [weak self] in
             self?.alertPresenter?.presentAlert(.sendSuccess, completion: {})
         }
-        return root
+        
+        topViewController?.present(root, animated: true, completion: nil)
+        
+        return nil
     }
 
     private func makeReceiveView(currency: Currency, isRequestAmountVisible: Bool, isBTCLegacy: Bool = false) -> UIViewController? {
@@ -537,7 +541,7 @@ class ModalPresenter: Subscriber {
             MenuItem(title: L10n.MenuButton.feedback, icon: MenuItem.Icon.feedback) { [weak self] in
                 guard let topVc = self?.topViewController else { return }
                 
-                let feedback = EmailFeedbackManager.Feedback(recipients: "feedback@fabriik.com", subject: "Fabriik - Feedback", body: "")
+                let feedback = EmailFeedbackManager.Feedback(recipients: C.feedbackEmail, subject: "Fabriik - Feedback", body: "")
                 if let feedbackManager = EmailFeedbackManager(feedback: feedback, on: topVc) {
                     self?.feedbackManager = feedbackManager
                     

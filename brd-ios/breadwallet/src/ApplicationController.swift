@@ -186,7 +186,6 @@ class ApplicationController: Subscriber {
                 guard let self = self else { return }
                 self.setWalletInfo(account: account)
                 self.coreSystem.create(account: account,
-                                       authToken: E.apiToken,
                                        btcWalletCreationCallback: self.handleDeferedLaunchURL) {
                     self.modalPresenter = ModalPresenter(keyStore: self.keyStore,
                                                          system: self.coreSystem,
@@ -355,7 +354,7 @@ class ApplicationController: Subscriber {
         UserManager.shared.refresh { [weak self] result in
             switch result {
             case .success(let profile):
-                self?.homeScreenViewController?.canShowPrompts = profile?.status.canBuyTrade == false
+                self?.homeScreenViewController?.canShowPrompts = profile?.status.canBuy == false
                 
                 guard profile?.status == VerificationStatus.none || profile?.status == .emailPending || profile?.roles.contains(.unverified) == true else { return }
                 
@@ -434,7 +433,7 @@ class ApplicationController: Subscriber {
             case .success(let profile):
                 if profile?.email == nil {
                     coordinator?.showRegistration(shouldShowProfile: true)
-                } else if UserManager.shared.profile?.status.canBuyTrade == false {
+                } else if UserManager.shared.profile?.status.canBuy == false {
                     coordinator?.showVerificationsModally()
                 }
 

@@ -189,12 +189,53 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
         didTapToAssetsSelection?()
     }
     
+    func setToggleSwitchPlacesButtonState(_ value: Bool) {
+        swapButton.isEnabled = value
+    }
+    
     @objc private func switchPlacesButtonTapped(_ sender: UIButton?) {
-        didFinish?(true)
-        contentSizeChanged?()
+        if !baseSwapCurrencyView.isFeeAndAmountsStackViewHidden || !termSwapCurrencyView.isFeeAndAmountsStackViewHidden {
+            UIView.animate(withDuration: Presets.Animation.duration) { [weak self] in
+                self?.baseSwapCurrencyView.hideFeeAndAmountsStackView(noFee: true)
+                self?.termSwapCurrencyView.hideFeeAndAmountsStackView(noFee: true)
+            } completion: { [weak self] _ in
+                self?.contentSizeChanged?()
+                self?.animateSwitchPlaces()
+            }
+        } else {
+            contentSizeChanged?()
+            animateSwitchPlaces()
+        }
+    }
+
+    func animateSwitchPlaces() {
+        setToggleSwitchPlacesButtonState(false)
         
-        SwapCurrencyView.animateSwitchPlaces(sender: sender,
-                                             baseSwapCurrencyView: baseSwapCurrencyView,
-                                             termSwapCurrencyView: termSwapCurrencyView)
+        let isNormal = swapButton.transform == .identity
+        let topFrame = isNormal ? baseSwapCurrencyView.selectorStackView : termSwapCurrencyView.selectorStackView
+        let bottomFrame = isNormal ? termSwapCurrencyView.selectorStackView : baseSwapCurrencyView.selectorStackView
+        
+        let verticalDistance = (topFrame.bounds.minY - bottomFrame.bounds.maxY - topFrame.frame.height - 2) * 2
+        
+        UIView.animate(withDuration: Presets.Animation.duration,
+                       delay: 0.0,
+                       options: .curveLinear) { [weak self] in
+            topFrame.transform = CGAffineTransform(translationX: 0, y: isNormal ?  -verticalDistance : verticalDistance)
+            bottomFrame.transform = CGAffineTransform(translationX: 0, y: isNormal ? verticalDistance : -verticalDistance)
+            self?.swapButton.transform = isNormal ? CGAffineTransform(rotationAngle: .pi) : .identity
+            
+            self?.baseSwapCurrencyView.setAlphaToLabels(alpha: 0.2)
+            self?.termSwapCurrencyView.setAlphaToLabels(alpha: 0.2)
+            self?.baseSwapCurrencyView.resetTextFieldValues()
+            self?.termSwapCurrencyView.resetTextFieldValues()
+        }
+        
+        UIView.animate(withDuration: Presets.Animation.duration,
+                       delay: Presets.Animation.duration) { [weak self] in
+            self?.baseSwapCurrencyView.setAlphaToLabels(alpha: 1.0)
+            self?.termSwapCurrencyView.setAlphaToLabels(alpha: 1.0)
+        } completion: { [weak self] _ in
+            self?.didFinish?(true)
+        }
     }
 }

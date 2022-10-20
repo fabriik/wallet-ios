@@ -28,6 +28,7 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         open(scene: Scenes.BillingAddress) { vc in
             vc.interactor?.dataStore?.checkoutToken = checkoutToken
             vc.prepareData()
+            LoadingView.hide()
         }
     }
     
@@ -116,25 +117,24 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
         }
     }
     
-    func showCardSelector(cards: [PaymentCard], selected: ((PaymentCard?) -> Void)?) {
-        if cards.isEmpty == true {
-            open(scene: Scenes.AddCard)
-        } else {
-            open(scene: Scenes.CardSelection) { [weak self] vc in
-                vc.dataStore?.isAddingEnabled = true
-                vc.dataStore?.items = cards
-                let backButtonVisible = self?.navigationController.children.last is BillingAddressViewController
-                vc.navigationItem.hidesBackButton = backButtonVisible
-                vc.prepareData()
-                
-                vc.itemSelected = { item in
-                    selected?(item as? PaymentCard)
-                    self?.popToRoot()
-                }
-                
-                vc.addItemTapped = { [weak self] in
-                    self?.open(scene: Scenes.AddCard)
-                }
+    func showCardSelector(cards: [PaymentCard], selected: ((PaymentCard?) -> Void)?, fromBuy: Bool = true) {
+        guard !cards.isEmpty else {
+            openModally(coordinator: ItemSelectionCoordinator.self,
+                        scene: Scenes.AddCard)
+            return
+        }
+        openModally(coordinator: ItemSelectionCoordinator.self,
+                    scene: Scenes.CardSelection) { vc in
+            vc?.dataStore?.isAddingEnabled = true
+            vc?.dataStore?.isSelectingEnabled = fromBuy
+            vc?.dataStore?.items = cards
+            let backButtonVisible = self.navigationController.children.last is BillingAddressViewController
+            vc?.navigationItem.hidesBackButton = backButtonVisible
+            vc?.prepareData()
+            
+            vc?.itemSelected = { item in
+                selected?(item as? PaymentCard)
+                self.popToRoot()
             }
         }
     }

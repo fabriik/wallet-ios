@@ -98,7 +98,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
     
     @objc func reload() {
         setupSubscriptions()
-        
+        UserManager.shared.refresh()
         coreSystem.refreshWallet { [weak self] in
             self?.assetListTableView.reload()
             
@@ -212,7 +212,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         view.backgroundColor = .homeBackground
         navigationItem.titleView = UIView()
         
-        if E.isTestnet && !E.isScreenshots {
+        if E.isTestnet {
             debugLabel.text = "(Testnet)"
             debugLabel.isHidden = false
         } else if (E.isTestFlight || E.isDebug), let debugHost = UserDefaults.debugBackendHost {
@@ -409,7 +409,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         
         switch profileResult {
         case .success(let profile):
-            if profile?.status.canBuyTrade == false {
+            if profile?.status.canBuy == false {
                 setupKYCPrompt(result: profileResult)
             } else {
                 attemptShowGeneralPrompt()

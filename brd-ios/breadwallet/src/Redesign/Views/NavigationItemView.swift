@@ -44,6 +44,12 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
         return view
     }()
     
+    private lazy var topLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = LightColors.Outline.two
+        return view
+    }()
+    
     private lazy var trailing: FEButton = {
         let view = FEButton()
         return view
@@ -62,11 +68,11 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
         
         content.addSubview(verticalStack)
         verticalStack.snp.makeConstraints { make in
-            make.edges.equalTo(content.snp.margins)
+            make.top.leading.trailing.equalToSuperview()
         }
         verticalStack.addArrangedSubview(leading)
         leading.snp.makeConstraints { make in
-            make.width.equalTo(Margins.huge.rawValue)
+            make.width.equalTo(FieldHeights.common.rawValue)
         }
         leading.setupClearMargins()
         verticalStack.addArrangedSubview(titleLabel)
@@ -76,6 +82,12 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
         verticalStack.addArrangedSubview(trailing)
         trailing.snp.makeConstraints { make in
             make.width.equalTo(Margins.huge.rawValue)
+        }
+        content.addSubview(topLineView)
+        topLineView.snp.makeConstraints { make in
+            make.top.equalTo(verticalStack.snp.bottom).offset(Margins.extraLarge.rawValue)
+            make.bottom.leading.trailing.equalToSuperview()
+            make.height.equalTo(ViewSizes.minimum.rawValue)
         }
     }
     

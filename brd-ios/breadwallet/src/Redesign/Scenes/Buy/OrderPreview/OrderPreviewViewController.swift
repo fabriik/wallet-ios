@@ -173,6 +173,9 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     
     override func displayMessage(responseDisplay: MessageModels.ResponseDisplays) {
         LoadingView.hide()
+        
+        guard !isAccessDenied(responseDisplay: responseDisplay) else { return }
+        
         coordinator?.showFailure()
     }
     

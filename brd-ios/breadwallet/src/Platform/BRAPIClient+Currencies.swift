@@ -18,63 +18,28 @@ public struct HTTPError: Error {
     let code: Int
 }
 
-struct FiatCurrency: Decodable {
-    var name: String
-    var code: String
-    
-    static var availableCurrencies: [FiatCurrency] = {
-        guard let path = Bundle.main.path(forResource: "fiatcurrencies", ofType: "json") else {
-            print("unable to locate currencies file")
-            return []
-        }
-        
-        var currencies: [FiatCurrency]?
-        
-        do {
-            let data = try Data(contentsOf: URL(fileURLWithPath: path))
-            let decoder = JSONDecoder()
-            currencies = try decoder.decode([FiatCurrency].self, from: data)
-        } catch let e {
-            print("error parsing fiat currency data: \(e)")
-        }
-        
-        return currencies ?? []
-    }()
-    
-    // case of code doesn't matter
-    static func isCodeAvailable(_ code: String) -> Bool {
-        let available = FiatCurrency.availableCurrencies.map { $0.code.lowercased() }
-        return available.contains(code.lowercased())
-    }
-
-}
-
 extension BRAPIClient {
     /// Get the list of supported currencies and their metadata from the backend or local cache
-    func getCurrencyMetaData(completion: @escaping ([CurrencyId: CurrencyMetaData]) -> Void) {
-        guard let cachedFilePath = CurrencyFileManager.sharedCurrenciesFilePath else { return }
+    func getCurrencyMetaData(type: CurrencyFileManager.DownloadedCurrencyType, completion: @escaping ([CurrencyId: CurrencyMetaData]) -> Void) {
+        guard let cachedFilePath = CurrencyFileManager.sharedFilePath(type: type) else {
+            CurrencyFileManager.getCurrencyMetaDataFromCache(type: type, completion: completion)
+            return
+        }
         
-        var req = URLRequest(url: url("/currencies"))
+        var req = URLRequest(url: url("/\(type.rawValue)"))
         req.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         send(request: req, handler: { (result: APIResult<[CurrencyMetaData]>) in
             switch result {
             case .success(let currencies):
-                // update cache
-                do {
-                    let data = try JSONEncoder().encode(currencies)
-                    try data.write(to: URL(fileURLWithPath: cachedFilePath))
-                } catch let e {
-                    print("[CurrencyList] Failed to write to cache: \(e.localizedDescription)")
-                }
-                
-                CurrencyFileManager.processCurrencies(currencies, completion: completion)
+                CurrencyFileManager.updateCache(type: type, currencies, cachedFilePath: cachedFilePath)
+                CurrencyFileManager.processCurrencies(type: type, currencies, completion: completion)
                 
             case .error(let error):
-                print("[CurrencyList] Error fetching tokens: \(error)")
-                CurrencyFileManager.copyEmbeddedCurrencies(path: cachedFilePath)
+                print("[\(type.rawValue.uppercased())] Error fetching tokens: \(error)")
+                CurrencyFileManager.copyEmbeddedCurrencies(type: type, path: cachedFilePath)
                 
-                let result = CurrencyFileManager.processCurrenciesCache(path: cachedFilePath, completion: completion)
-                assert(result, "[CurrencyList] Failed to get currency list from backend or cache")
+                let result = CurrencyFileManager.processCurrenciesCache(type: type, path: cachedFilePath, completion: completion)
+                assert(result, "[\(type.rawValue.uppercased())] Failed to get currency list from backend or cache")
             }
         })
     }

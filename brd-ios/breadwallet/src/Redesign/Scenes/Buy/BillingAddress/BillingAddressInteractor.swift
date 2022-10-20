@@ -24,12 +24,17 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
             return
         }
         
-        getPaymentStatus(reference: reference) { [weak self] result in
+        let requestData = PaymentStatusRequestData(reference: reference)
+        PaymentStatusWorker().execute(requestData: requestData) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.dataStore?.paymentstatus = data?.status
                 
-                self?.handlePresentSubmit()
+                guard self?.dataStore?.paymentstatus?.isSuccesful == true else {
+                    self?.presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Buy.paymentFailed)))
+                    return
+                }
+                self?.presenter?.presentSubmit(actionResponse: .init())
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
@@ -43,7 +48,7 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
             
             switch result {
             case .success(let data):
-                self.presenter?.presentPaymentCards(actionResponse: .init(allPaymentCards: data?.reversed()))
+                self.presenter?.presentPaymentCards(actionResponse: .init(allPaymentCards: data))
                 
             case .failure(let error):
                 self.presenter?.presentError(actionResponse: .init(error: error))
@@ -126,24 +131,15 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
         AddCardWorker().execute(requestData: data) { [weak self] result in
             switch result {
             case .success(let exchangeData):
-                self?.getPaymentStatus(reference: exchangeData?.paymentReference ?? "", completion: { result in
-                    switch result {
-                    case .success(let paymentStatusData):
-                        self?.dataStore?.paymentReference = exchangeData?.paymentReference
-                        self?.dataStore?.paymentstatus = paymentStatusData?.status
-                        
-                        if let redirectUrlString = exchangeData?.redirectUrl, let redirectUrl = URL(string: redirectUrlString) {
-                            ExchangeManager.shared.reload()
-                            
-                            self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
-                        } else {
-                            self?.handlePresentSubmit()
-                        }
-                        
-                    case .failure(let error):
-                        self?.presenter?.presentError(actionResponse: .init(error: error))
-                    }
-                })
+                self?.dataStore?.paymentReference = exchangeData?.paymentReference
+                guard let redirectUrlString = exchangeData?.redirectUrl, let
+                        redirectUrl = URL(string: redirectUrlString) else {
+                    self?.getData(viewAction: .init())
+                    return
+                }
+                
+                ExchangeManager.shared.reload()
+                self?.presenter?.presentThreeDSecure(actionResponse: .init(url: redirectUrl))
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
@@ -152,18 +148,4 @@ class BillingAddressInteractor: NSObject, Interactor, BillingAddressViewActions 
     }
     
     // MARK: - Aditional helpers
-    
-    private func getPaymentStatus(reference: String, completion: @escaping (Result<AddCard?, Error>) -> Void) {
-        PaymentStatusWorker().execute(requestData: PaymentStatusRequestData(reference: reference)) { result in
-            completion(result)
-        }
-    }
-    
-    private func handlePresentSubmit() {
-        if C.successfullPayment.contains(where: { $0 == dataStore?.paymentstatus }) {
-            presenter?.presentSubmit(actionResponse: .init())
-        } else {
-            presenter?.presentError(actionResponse: .init(error: GeneralError(errorMessage: L10n.Buy.paymentFailed)))
-        }
-    }
 }

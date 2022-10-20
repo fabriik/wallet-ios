@@ -111,6 +111,8 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
         return view
     }()
     
+    var didFinish: (() -> Void)?
+    
     // MARK: Overrides
     override func setupSubviews() {
         super.setupSubviews()
@@ -234,13 +236,13 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
         switch viewModel.dismissType {
         case .auto:
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
-                self?.viewTapped(nil)
+                self?.viewTapped()
             }
             
-            addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:))))
+            addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTapped)))
             
         case .tapToDismiss:
-            addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:))))
+            addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTapped)))
             
         default:
             break
@@ -267,12 +269,8 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
         trailingButtonCallback?()
     }
     
-    @objc private func viewTapped(_ sender: Any?) {
-        Self.animate(withDuration: Presets.Animation.duration) { [weak self] in
-            self?.alpha = 0
-        } completion: { [weak self] _ in
-            self?.removeFromSuperview()
-        }
+    @objc private func viewTapped() {
+        didFinish?()
     }
     
     private func toggleVisibility(isShown: Bool) {

@@ -132,7 +132,11 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             }
             
             view.didFinish = { [weak self] didSwitchPlaces in
-                if didSwitchPlaces {
+                if didSwitchPlaces, let cell = self?.getRateAndTimerCell() {
+                    cell.setup { view in
+                        view.invalidate()
+                    }
+                    
                     self?.interactor?.switchPlaces(viewAction: .init())
                 } else {
                     self?.interactor?.getFees(viewAction: .init())
@@ -175,6 +179,8 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         if responseDisplay.error != nil {
             LoadingView.hide()
         }
+        
+        guard !isAccessDenied(responseDisplay: responseDisplay) else { return }
         
         guard let error = responseDisplay.error as? SwapErrors else {
             coordinator?.hideMessage()
@@ -224,10 +230,16 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
         
         if let section = sections.firstIndex(of: Models.Sections.accountLimits),
            let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FELabel> {
-            
             cell.setup { view in
                 let model = responseDisplay.limits
                 view.setup(with: model)
+            }
+        }
+        
+        if let section = sections.firstIndex(of: Models.Sections.swapCard),
+           let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<MainSwapView> {
+            cell.setup { view in
+                view.setToggleSwitchPlacesButtonState(true)
             }
         }
         

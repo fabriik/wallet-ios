@@ -10,7 +10,7 @@
 
 import UIKit
 
-class AddCardViewController: BaseTableViewController<BuyCoordinator,
+class AddCardViewController: BaseTableViewController<ItemSelectionCoordinator,
                              AddCardInteractor,
                              AddCardPresenter,
                              AddCardStore>,

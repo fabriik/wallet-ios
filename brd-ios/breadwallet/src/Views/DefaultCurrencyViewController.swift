@@ -17,7 +17,7 @@ class DefaultCurrencyViewController: UITableViewController, Subscriber {
     }
 
     private let cellIdentifier = "CellIdentifier"
-    private let fiatCurrencies = FiatCurrency.availableCurrencies
+    private let fiatCurrencies = CurrencyFileManager.getCurrencyMetaDataFromCache(type: .fiatCurrencies)
     
     private var selectedCurrencyCode: String {
         didSet {

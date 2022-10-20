@@ -9,7 +9,6 @@
 import WalletKit
 import UIKit
 
-// swiftlint:disable type_body_length
 class CoreSystem: Subscriber {
     
     private var system: System?
@@ -71,7 +70,7 @@ class CoreSystem: Subscriber {
     }
     
     /// Creates and configures the System with the Account and BDB authentication token.
-    func create(account: Account, authToken: String?, btcWalletCreationCallback: @escaping () -> Void, completion: @escaping () -> Void) {
+    func create(account: Account, btcWalletCreationCallback: @escaping () -> Void, completion: @escaping () -> Void) {
         self.btcWalletCreationCallback = btcWalletCreationCallback
         guard let kvStore = Backend.kvStore else { return assertionFailure() }
         print("[SYS] create | account timestamp: \(account.timestamp)")
@@ -81,9 +80,7 @@ class CoreSystem: Subscriber {
                                             bdbDataTaskFunc: { session, request, completion -> URLSessionDataTask in
             var req = request
             req.decorate()
-            if let authToken = authToken {
-                req.authorize(withToken: authToken)
-            }
+            req.authorize(withToken: UserDefaults.sessionToken)
             
             //TODO:CRYPTO does not handle 401, other headers, redirects
             return session.dataTask(with: req, completionHandler: completion)
@@ -101,7 +98,8 @@ class CoreSystem: Subscriber {
     }
     
     private func getCurrencyMetaData(kvStore: BRReplicatedKVStore, client: SystemClient? = nil, account: Account, completion: @escaping () -> Void) {
-        Backend.apiClient.getCurrencyMetaData { currencyMetaData in
+        Backend.apiClient.getCurrencyMetaData(type: .fiatCurrencies) { _ in }
+        Backend.apiClient.getCurrencyMetaData(type: .currencies) { currencyMetaData in
             self.queue.async {
                 self.assetCollection = AssetCollection(kvStore: kvStore,
                                                        allTokens: currencyMetaData,

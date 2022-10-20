@@ -86,15 +86,16 @@ class HomeScreenCell: UITableViewCell, Subscriber {
         container.setNeedsDisplay()
         Store.subscribe(self, selector: { $0[viewModel.currency]?.syncState != $1[viewModel.currency]?.syncState },
                         callback: { state in
-                            if viewModel.currency.isHBAR && (Store.state.requiresCreation(viewModel.currency)) {
+                            guard !(viewModel.currency.isHBAR && Store.state.requiresCreation(viewModel.currency)),
+                               let syncState = state[viewModel.currency]?.syncState else {
                                 self.isSyncIndicatorVisible = false
                                 return
                             }
-                            guard let syncState = state[viewModel.currency]?.syncState else { return }
+            
                             self.syncIndicator.syncState = syncState
                             switch syncState {
                             case .connecting, .failed, .syncing:
-                                self.isSyncIndicatorVisible = true
+                                self.isSyncIndicatorVisible = false
                             case .success:
                                 self.isSyncIndicatorVisible = false
                             }
@@ -102,9 +103,10 @@ class HomeScreenCell: UITableViewCell, Subscriber {
         
         Store.subscribe(self, selector: { $0[viewModel.currency]?.syncProgress != $1[viewModel.currency]?.syncProgress },
                         callback: { state in
-                            if let progress = state[viewModel.currency]?.syncProgress {
-                                self.syncIndicator.progress = progress
-                            }
+            guard let progress = state[viewModel.currency]?.syncProgress else {
+                return
+            }
+            self.syncIndicator.progress = progress
         })
     }
     
@@ -127,7 +129,6 @@ class HomeScreenCell: UITableViewCell, Subscriber {
         cardView.addSubview(tokenBalance)
         cardView.addSubview(syncIndicator)
         cardView.addSubview(priceChangeView)
-        syncIndicator.isHidden = true
     }
 
     private func addConstraints() {
