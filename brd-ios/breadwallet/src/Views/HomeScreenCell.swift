@@ -95,7 +95,7 @@ class HomeScreenCell: UITableViewCell, Subscriber {
                             self.syncIndicator.syncState = syncState
                             switch syncState {
                             case .connecting, .failed, .syncing:
-                                self.isSyncIndicatorVisible = true
+                                self.isSyncIndicatorVisible = false
                             case .success:
                                 self.isSyncIndicatorVisible = false
                             }

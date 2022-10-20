@@ -97,7 +97,7 @@ enum VerificationStatus: Equatable {
                                  headerTrailing: .init(image: "help"),
                                  status: VerificationStatus.none,
                                  description: .text(L10n.Account.fullAccess),
-                                 button: .init(title: L10n.Account.accountVerify),
+                                 button: .init(title: L10n.Account.accountVerify.uppercased()),
                                  dismissType: .persistent)
             
         case .emailPending, .levelTwo(.submitted):
@@ -112,7 +112,7 @@ enum VerificationStatus: Equatable {
                                  headerTrailing: .init(image: "help"),
                                  status: VerificationStatus.levelOne,
                                  description: .text(L10n.Account.currentLimit),
-                                 button: .init(title: L10n.Account.upgradeLimits),
+                                 button: .init(title: L10n.Account.upgradeLimits.uppercased()),
                                  dismissType: .persistent)
         case .levelTwo(.levelTwo):
             return InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
@@ -125,14 +125,14 @@ enum VerificationStatus: Equatable {
                                  headerTrailing: .init(image: "help"),
                                  status: VerificationStatus.levelTwo(.resubmit),
                                  description: .text(L10n.Account.dataIssues),
-                                 button: .init(title: L10n.Account.verificationDeclined),
+                                 button: .init(title: L10n.Account.verificationDeclined.uppercased()),
                                  dismissType: .persistent)
         case .levelTwo(.declined):
             return InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
                                  headerTrailing: .init(image: "help"),
                                  status: VerificationStatus.levelTwo(.declined),
                                  description: .text(L10n.Account.dataIssues),
-                                 button: .init(title: L10n.Account.verificationDeclined),
+                                 button: .init(title: L10n.Account.verificationDeclined.uppercased()),
                                  dismissType: .persistent)
         }
     }
