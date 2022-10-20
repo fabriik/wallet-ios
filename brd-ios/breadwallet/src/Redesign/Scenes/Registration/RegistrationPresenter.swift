@@ -49,7 +49,7 @@ final class RegistrationPresenter: NSObject, Presenter, RegistrationActionRespon
                 TickboxItemViewModel(title: .text(L10n.Account.promotion))
             ],
             .confirm: [
-                ButtonViewModel(title: L10n.RecoverWallet.next, enabled: false)
+                ButtonViewModel(title: L10n.RecoverWallet.next.uppercased(), enabled: false)
             ]
         ]
         
