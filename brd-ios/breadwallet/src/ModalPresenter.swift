@@ -318,18 +318,19 @@ class ModalPresenter: Subscriber {
                                              pinAuthenticationType: .transactions,
                                              success: success)
             vc.transitioningDelegate = self.verifyPinTransitionDelegate
-            
-            let navigation = UINavigationController(rootViewController: vc)
-            navigation.modalPresentationStyle = .overFullScreen
-            navigation.modalPresentationCapturesStatusBarAppearance = true
-            
+            vc.modalPresentationStyle = .overFullScreen
+            vc.modalPresentationCapturesStatusBarAppearance = true
             root.view.isFrameChangeBlocked = true
-            root.present(navigation, animated: true, completion: nil)
+            root.present(vc, animated: true, completion: nil)
         }
+
         sendVC.onPublishSuccess = { [weak self] in
             self?.alertPresenter?.presentAlert(.sendSuccess, completion: {})
         }
-        return root
+        
+        topViewController?.present(root, animated: true, completion: nil)
+        
+        return nil
     }
 
     private func makeReceiveView(currency: Currency, isRequestAmountVisible: Bool, isBTCLegacy: Bool = false) -> UIViewController? {
