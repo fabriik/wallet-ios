@@ -10,9 +10,12 @@ import UIKit
 
 class ItemSelectionStore: NSObject, BaseDataStore, ItemSelectionDataStore {
     // MARK: - ItemSelectionDataStore
+    
     var itemId: String?
     var items: [ItemSelectable]?
     var instrumentID: String?
+    
+    var sceneTitle: String = ""
     
     /// Enable adding entries
     var isAddingEnabled: Bool? = false

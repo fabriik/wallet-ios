@@ -118,6 +118,10 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
         viewController?.displayOrderPreview(responseDisplay: .init())
     }
     
+    func presentNavigateAssetSelector(actionResponse: BuyModels.AssetSelector.ActionResponse) {
+        viewController?.displayNavigateAssetSelector(responseDisplay: .init(title: L10n.Swap.iWant))
+    }
+    
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {
         guard !isAccessDenied(error: actionResponse.error) else { return }
         

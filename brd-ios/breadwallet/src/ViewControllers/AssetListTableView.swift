@@ -15,7 +15,7 @@ class AssetListTableView: UITableViewController, Subscriber {
     var didReload: (() -> Void)?
     
     private let loadingSpinner = UIActivityIndicatorView(style: .medium)
-    private let assetHeight: CGFloat = ViewSizes.large.rawValue
+    private let assetHeight: CGFloat = ViewSizes.extralarge.rawValue
     
     private lazy var manageAssetsButton: ManageAssetsButton = {
         let manageAssetsButton = ManageAssetsButton()

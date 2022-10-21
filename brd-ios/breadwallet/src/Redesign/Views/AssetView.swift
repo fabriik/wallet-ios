@@ -39,12 +39,8 @@ struct AssetViewModel: ViewModel, ItemSelectable {
 }
 
 class AssetView: FEView<AssetConfiguration, AssetViewModel> {
-    
     private lazy var iconView: WrapperView<FEImageView> = {
         let view = WrapperView<FEImageView>()
-        // TODO: Configs for corner radius on FEImageViews are not working because radius is being set to "content" view instead of image.
-        view.layer.cornerRadius = CornerRadius.extraSmall.rawValue
-        view.layer.masksToBounds = true
         return view
     }()
     
@@ -84,23 +80,23 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         super.setupSubviews()
         
         content.addSubview(iconView)
-        content.setupCustomMargins(all: .large)
+        content.setupCustomMargins(vertical: .zero, horizontal: .large)
         
         iconView.snp.makeConstraints { make in
             make.leading.equalTo(content.snp.leadingMargin)
             make.top.equalTo(content.snp.topMargin).priority(.low)
             make.centerY.equalToSuperview()
             
-            make.height.equalTo(ViewSizes.medium.rawValue)
-            make.width.equalTo(ViewSizes.medium.rawValue)
+            make.height.equalTo(ViewSizes.large.rawValue)
+            make.width.equalTo(ViewSizes.large.rawValue)
         }
         
         content.addSubview(titleStack)
         titleStack.snp.makeConstraints { make in
-            make.leading.equalTo(iconView.snp.trailing).offset(Margins.small.rawValue)
+            make.leading.equalTo(iconView.snp.trailing).offset(Margins.medium.rawValue)
             make.centerY.equalToSuperview()
             make.top.equalTo(content.snp.topMargin)
-            make.width.greaterThanOrEqualTo(ViewSizes.large.rawValue)
+            make.width.greaterThanOrEqualTo(ViewSizes.extralarge.rawValue)
         }
         titleStack.addArrangedSubview(titleLabel)
         titleStack.addArrangedSubview(subtitleLabel)

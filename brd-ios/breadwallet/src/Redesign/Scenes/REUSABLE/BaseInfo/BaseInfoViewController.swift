@@ -45,7 +45,7 @@ class BaseInfoViewController: BaseTableViewController<BaseCoordinator,
         view.addSubview(buttonStack)
         tableView.snp.removeConstraints()
         tableView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(ViewSizes.extraLarge.rawValue * 2)
+            make.top.equalToSuperview().inset(ViewSizes.extraExtraHuge.rawValue * 2)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(buttonStack.snp.top)
         }
