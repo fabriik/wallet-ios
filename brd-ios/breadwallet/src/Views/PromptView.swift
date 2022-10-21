@@ -131,7 +131,13 @@ class PromptView: UIView {
         continueButton.setTitleColor(LightColors.Text.two, for: .highlighted)
         continueButton.titleLabel?.font = Fonts.Subtitle.two
         
-        continueButton.setTitle(L10n.Button.continueAction, for: .normal)
+        let attributeString = NSMutableAttributedString(
+            string: L10n.Button.continueAction,
+            attributes: [
+                NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+        continueButton.setAttributedTitle(attributeString, for: .normal)
     }
     
     private func setupStyle() {
