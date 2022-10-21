@@ -106,7 +106,6 @@ class HomeScreenViewController: UIViewController, Subscriber {
         
         coreSystem.refreshWallet { [weak self] in
             self?.assetListTableView.reload()
-            
         }
     }
     
