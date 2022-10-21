@@ -57,13 +57,13 @@ final class KYCBasicPresenter: NSObject, Presenter, KYCBasicActionResponses {
             .country: [
                 TextFieldModel(title: L10n.Account.country,
                                value: item.countryFullName,
-                               trailing: .imageName("chevrondown"))
+                               trailing: .imageName("chevron-down"))
             ],
             .birthdate: [
                 dateViewModel
             ],
             .confirm: [
-                ButtonViewModel(title: L10n.Button.confirm)
+                ButtonViewModel(title: L10n.Button.confirm.uppercased())
             ]
         ]
         
