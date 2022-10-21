@@ -65,7 +65,7 @@ class BaseRecoveryKeyViewController: UIViewController {
                                         style: .plain,
                                         target: self,
                                         action: #selector(onCloseButton))
-            close.tintColor = Theme.blueBackground
+            close.tintColor = LightColors.Text.three
             navigationItem.rightBarButtonItem = close
 
         case .skip:
@@ -73,7 +73,7 @@ class BaseRecoveryKeyViewController: UIViewController {
                                        style: .plain,
                                        target: self,
                                        action: #selector(onCloseButton))
-            skip.tintColor = Theme.tertiaryText
+            skip.tintColor = LightColors.Text.three
             let fontAttributes = [NSAttributedString.Key.font: Theme.body2]
             skip.setTitleTextAttributes(fontAttributes, for: .normal)
             skip.setTitleTextAttributes(fontAttributes, for: .highlighted)
@@ -86,7 +86,7 @@ class BaseRecoveryKeyViewController: UIViewController {
                                    style: .plain,
                                    target: self,
                                    action: #selector(onBackButton))
-        back.tintColor = Theme.blueBackground
+        back.tintColor = LightColors.Text.three
         navigationItem.leftBarButtonItem = back
     }
     

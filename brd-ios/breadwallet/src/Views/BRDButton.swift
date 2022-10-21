@@ -174,12 +174,12 @@ class BRDButton: UIControl {
     private func setColors() {
         switch type {
         case .primary:
-            let bgColor = isEnabled ? UIColor.primaryButton : UIColor.primaryButton.withAlphaComponent(0.5)
-            container.backgroundColor = bgColor
-            label.textColor = isEnabled ? Theme.primaryButtonText : Theme.primaryButtonText.withAlphaComponent(0.5)
-            container.layer.borderColor = nil
-            container.layer.borderWidth = 0.0
-            imageView?.tintColor = .white
+            container.backgroundColor = .clear
+            label.textColor = LightColors.primary
+            imageView?.tintColor = LightColors.primary
+            container.layer.borderColor = LightColors.primary.cgColor
+            container.layer.borderWidth = 1.0
+            cornerRadius = .fullRadius
         case .secondary:
             // redesigned
             container.backgroundColor = LightColors.primary
