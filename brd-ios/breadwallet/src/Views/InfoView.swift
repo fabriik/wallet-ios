@@ -21,9 +21,9 @@ class InfoView: UIView {
         }
     }
     
-    var imageName: String = "ExclamationMarkCircle" {
+    var imageName: String = "warning" {
         didSet {
-            infoImageView.image = UIImage(named: imageName)
+            infoImageView.image = UIImage(named: imageName)?.withTintColor(LightColors.Error.one)
         }
     }
     
@@ -37,12 +37,12 @@ class InfoView: UIView {
     }
     
     private func setUp() {
-        backgroundColor = Theme.transparentBlue
+        backgroundColor = LightColors.Background.three
         layer.cornerRadius = CornerRadius.common.rawValue
         
         infoLabel.numberOfLines = 0
-        infoLabel.textColor = Theme.secondaryText
-        infoLabel.font = Theme.caption
+        infoLabel.textColor = LightColors.Text.one
+        infoLabel.font = Fonts.Body.two
         infoLabel.adjustsFontSizeToFitWidth = true
         infoLabel.minimumScaleFactor = 0.5
         

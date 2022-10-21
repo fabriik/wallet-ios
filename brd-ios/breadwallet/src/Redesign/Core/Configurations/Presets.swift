@@ -49,7 +49,7 @@ struct Presets {
         static var commonPlain = BorderConfiguration(borderWidth: 0, cornerRadius: .common)
         static var error = BorderConfiguration(tintColor: LightColors.Error.one, borderWidth: 1, cornerRadius: .medium)
         static var accountVerification = BorderConfiguration(tintColor: LightColors.Outline.one, borderWidth: 1, cornerRadius: .small)
-        static var secondaryButton = BorderConfiguration(tintColor: LightColors.primary, borderWidth: 1, cornerRadius: .medium)
+        static var secondaryButton = BorderConfiguration(tintColor: LightColors.primary, borderWidth: 1, cornerRadius: .fullRadius)
         
         static var normal = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
         static var selected = BorderConfiguration(borderWidth: 0, cornerRadius: .medium)
@@ -102,8 +102,8 @@ extension Presets {
                                                  disabledConfiguration: Presets.Background.Primary.disabled)
         
         static var secondary = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.secondaryButton),
-                                                   selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalButtonMediumRadius),
-                                                   disabledConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledButtonMediumRadius))
+                                                   selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalButtonFullRadius),
+                                                   disabledConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledButtonFullRadius))
         
         static var popupActionButton = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.two),
                                                            selectedConfiguration: .init(tintColor: LightColors.Text.one),
@@ -233,8 +233,8 @@ extension Presets {
         static var normal = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.cards,
                                                                  tintColor: LightColors.Contrast.two,
                                                                  border: Presets.Border.zero),
-                                               title: .init(font: Fonts.Title.six, textColor: LightColors.Text.three, textAlignment: .center),
-                                               body: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center),
+                                               title: .init(font: Fonts.Title.six, textColor: LightColors.Text.three),
+                                               body: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
                                                                                             selected: Presets.Border.selectedButtonMediumRadius,
                                                                                             disabled: Presets.Border.disabledButtonMediumRadius),
@@ -255,13 +255,13 @@ extension Presets {
         static var whiteDimmed = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
                                                                       tintColor: LightColors.Contrast.two,
                                                                       border: Presets.Border.zero),
-                                                    title: .init(font: Fonts.Title.six, textColor: LightColors.Text.one),
+                                                    title: .init(font: Fonts.Title.six, textColor: LightColors.Text.one, textAlignment: .center),
                                                     body: .init(font: Fonts.Body.one, textColor: LightColors.Text.one, textAlignment: .center),
                                                     
-                                                    buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
-                                                                                                 selected: Presets.Border.selectedButtonMediumRadius,
-                                                                                                 disabled: Presets.Border.disabledButtonMediumRadius),
-                                                               Presets.Button.secondary ],
+                                                    buttons: [Presets.Button.primary.withBorder(normal: Presets.Border.normalButtonFullRadius,
+                                                                                                 selected: Presets.Border.selectedButtonFullRadius,
+                                                                                                 disabled: Presets.Border.disabledButtonFullRadius),
+                                                               Presets.Button.secondary],
                                                     closeButton: Presets.Button.blackIcon)
     }
 }

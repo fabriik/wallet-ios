@@ -32,7 +32,7 @@ struct RecoveryKeyIntroPage {
          imageName: String,
          stepHint: String = "",
          continueButtonText: String = L10n.Button.continueAction,
-         isLandingPage: Bool = false) {
+         isLandingPage: Bool = true) {
         
         self.title = title
         self.subTitle = subTitle
@@ -51,8 +51,8 @@ class RecoveryKeyPageCell: UICollectionViewCell {
     
     var page: RecoveryKeyIntroPage?
     var imageView = UIImageView()
-    var titleLabel = UILabel.wrapping(font: Theme.h2Title, color: Theme.primaryText)
-    var subTitleLabel = UILabel.wrapping(font: Theme.body1, color: Theme.secondaryText)
+    var titleLabel = UILabel.wrapping(font: Fonts.Title.six, color: LightColors.Text.three)
+    var subTitleLabel = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.two)
     
     let headingLeftRightMargin: CGFloat = Margins.extraHuge.rawValue
 
@@ -89,7 +89,7 @@ class RecoveryKeyPageCell: UICollectionViewCell {
 //
 class RecoveryKeyLandingPageCell: RecoveryKeyPageCell {
     
-    static let lockImageName = "RecoveryKeyLockImageDefault"
+    static let lockImageName = "il_shield"
     private let lockImageDefaultSize: (CGFloat, CGFloat) = (100, 144)
     private var lockImageScale: CGFloat = 1.0
     private var lockIconTopConstraintPercent: CGFloat = 0.29
@@ -156,8 +156,8 @@ class RecoveryKeyIntroCell: RecoveryKeyPageCell {
     override func setUpSubviews() {
         super.setUpSubviews()
         
-        introStepLabel.font = Theme.body2
-        introStepLabel.textColor = Theme.blueBackground
+        introStepLabel.font = Fonts.Body.two
+        introStepLabel.textColor = LightColors.Text.two
         introStepLabel.textAlignment = .center
         introStepLabel.numberOfLines = 0
         
@@ -220,18 +220,18 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
         case .generateKey:
             return RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.generateKeyTitle,
                                         subTitle: L10n.RecoveryKeyFlow.generateKeyExplanation,
-                                        imageName: RecoveryKeyLandingPageCell.lockImageName,
-                                        continueButtonText: L10n.Button.continueAction, isLandingPage: true)
+                                        imageName: "il_shield",
+                                        continueButtonText: L10n.Button.continueAction)
         case .writeKey:
             return RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.writeKeyAgain,
                                         subTitle: UserDefaults.writePaperPhraseDateString,
-                                        imageName: RecoveryKeyLandingPageCell.lockImageName,
-                                        continueButtonText: L10n.Button.continueAction, isLandingPage: true)
+                                        imageName: "il_setup",
+                                        continueButtonText: L10n.Button.continueAction)
         case .unlinkWallet:
             return RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.unlinkWallet,
                                         subTitle: L10n.RecoveryKeyFlow.unlinkWalletSubtext,
-                                        imageName: RecoveryKeyLandingPageCell.lockImageName,
-                                        continueButtonText: L10n.Button.continueAction, isLandingPage: true)
+                                        imageName: "il_security",
+                                        continueButtonText: L10n.Button.continueAction)
         }
     }
     
@@ -291,8 +291,7 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
     private var exitButtonType: RecoveryKeyIntroExitButtonType = .closeButton
     
     private var shouldHideInfoView: Bool {
-        guard mode == .generateKey else { return true }
-        return !self.onLastPage
+        return true
     }
     
     private var infoViewText: String {
@@ -403,26 +402,25 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
     
     private func setUpPages() {
         
-        pages.append(landingPage)
+//        pages.append(landingPage)
         
         // If the key is being generated for the first time, add the intro pages and allow paging.
         if mode == .generateKey {
             pages.append(RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.writeItDown,
                                               subTitle: L10n.RecoveryKeyFlow.noScreenshotsRecommendation,
-                                              imageName: "RecoveryKeyPaper",
+                                              imageName: "il_shield",
                                               stepHint: L10n.RecoveryKeyFlow.howItWorksStep("1")))
-
+            
             pages.append(RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.keepSecure,
                                               subTitle: L10n.RecoveryKeyFlow.storeSecurelyRecommendation,
-                                              imageName: "RecoveryKeyPrivateEye",
+                                              imageName: "il_setup",
                                               stepHint: L10n.RecoveryKeyFlow.howItWorksStep("2")))
             
             pages.append(RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.relaxBuyTrade,
                                               subTitle: L10n.RecoveryKeyFlow.securityAssurance,
-                                              imageName: "RecoveryKeyShield",
+                                              imageName: "il_security",
                                               stepHint: L10n.RecoveryKeyFlow.howItWorksStep("3"),
-                                              continueButtonText: L10n.RecoveryKeyFlow.generateKeyButton,
-                                              isLandingPage: false))
+                                              continueButtonText: L10n.RecoveryKeyFlow.generateKeyButton))
         }
     }
     
