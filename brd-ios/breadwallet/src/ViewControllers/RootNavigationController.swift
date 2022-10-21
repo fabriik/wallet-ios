@@ -29,7 +29,7 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             viewController is OnboardingViewController {
             setNormalNavigationBar(tintColor: LightColors.Contrast.two)
         } else {
-            setNormalNavigationBar(normalBackgroundColor: LightColors.Contrast.two)
+            setNormalNavigationBar(normalBackgroundColor: LightColors.Contrast.two, tintColor: LightColors.Text.three)
         }
         
         let item = SimpleBackBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -39,12 +39,18 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
     func setNormalNavigationBar(normalBackgroundColor: UIColor = .clear,
                                 scrollBackgroundColor: UIColor = .clear,
                                 tintColor: UIColor = LightColors.Text.one) {
+        navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: Fonts.Title.six, NSAttributedString.Key.foregroundColor: tintColor
+        ]
+        
         let normalAppearance = UINavigationBarAppearance()
+        normalAppearance.titleTextAttributes = navigationBar.titleTextAttributes ?? [:]
         normalAppearance.configureWithOpaqueBackground()
         normalAppearance.backgroundColor = normalBackgroundColor
         normalAppearance.shadowColor = nil
         
         let scrollAppearance = UINavigationBarAppearance()
+        scrollAppearance.titleTextAttributes = navigationBar.titleTextAttributes ?? [:]
         scrollAppearance.configureWithTransparentBackground()
         scrollAppearance.backgroundColor = normalBackgroundColor
         scrollAppearance.shadowColor = nil
@@ -55,10 +61,6 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         
         navigationBar.tintColor = tintColor
         navigationBar.prefersLargeTitles = false
-        
-        navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: Fonts.Title.six
-        ]
         
         view.backgroundColor = .clear
     }

@@ -19,7 +19,6 @@ struct ItemViewModel: ViewModel {
 }
 
 class ItemView: FEView<ItemViewConfiguration, ItemViewModel> {
-    
     private lazy var imageView: FEImageView = {
         let view = FEImageView()
         return view

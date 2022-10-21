@@ -189,9 +189,10 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
             }
         }
         
-        let count = Double(buttons.count + 1)
+        scrollingStack.layoutIfNeeded()
+        
         var newHeight = textView.contentSize.height
-        newHeight += (scrollingStack.bounds.height) + (Margins.medium.rawValue * count)
+        newHeight += (CGFloat(viewModel.buttons.count) * buttonHeight) + Margins.huge.rawValue
         
         scrollView.snp.makeConstraints { make in
             make.height.equalTo(newHeight)
