@@ -11,12 +11,12 @@
 import Foundation
 
 protocol AssetSelectionDisplayable {
-    func showAssetSelector(currencies: [Currency]?, supportedCurrencies: [SupportedCurrency]?, selected: ((Any?) -> Void)?)
+    func showAssetSelector(title: String, currencies: [Currency]?, supportedCurrencies: [SupportedCurrency]?, selected: ((Any?) -> Void)?)
     func isDisabledAsset(code: String?, supportedCurrencies: [SupportedCurrency]?) -> Bool?
 }
 
 extension AssetSelectionDisplayable where Self: BaseCoordinator {
-    func showAssetSelector(currencies: [Currency]?, supportedCurrencies: [SupportedCurrency]?, selected: ((Any?) -> Void)?) {
+    func showAssetSelector(title: String, currencies: [Currency]?, supportedCurrencies: [SupportedCurrency]?, selected: ((Any?) -> Void)?) {
         let allCurrencies = Currencies.shared.currencies
         
         let supportedAssets = allCurrencies.filter { item in supportedCurrencies?.contains(where: { $0.name.lowercased() == item.code}) ?? false }
@@ -54,6 +54,7 @@ extension AssetSelectionDisplayable where Self: BaseCoordinator {
                     scene: Scenes.AssetSelection,
                     presentationStyle: .formSheet) { vc in
             vc?.dataStore?.items = sortedCurrencies ?? []
+            vc?.dataStore?.sceneTitle = title
             vc?.itemSelected = selected
             vc?.prepareData()
         }

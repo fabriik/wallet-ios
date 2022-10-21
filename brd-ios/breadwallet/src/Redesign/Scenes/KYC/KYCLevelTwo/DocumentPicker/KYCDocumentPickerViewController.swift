@@ -45,7 +45,7 @@ class KYCDocumentPickerViewController: BaseTableViewController<KYCCoordinator,
                                                              border: Presets.Border.zero)))
                 view.setupClearMargins()
                 view.snp.makeConstraints { make in
-                    make.height.equalTo(ViewSizes.large.rawValue)
+                    make.height.equalTo(ViewSizes.extralarge.rawValue)
                 }
             })
             

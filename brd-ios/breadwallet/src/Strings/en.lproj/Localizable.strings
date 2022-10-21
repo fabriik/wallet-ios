@@ -2340,6 +2340,10 @@
 
 "Swap.transactionTo" = "To %1$s";
 
+"Swap.youReceive" = "You receive";
+
+"Swap.youSend" = "You send";
+
 "Symbols.lock" = "\u{1F512}";
 
 "Symbols.narrowSpace" = "\u{2009}";
@@ -2376,6 +2380,9 @@
 
 /* 6 s (6 seconds) */
 "TimeSince.seconds" = "%1$@ s";
+
+/* Search assets */
+"Title.searchAssets" = "Search assets";
 
 /* Add [this item to the list] */
 "TokenList.add" = "Add";

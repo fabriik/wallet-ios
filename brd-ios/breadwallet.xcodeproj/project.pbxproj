@@ -3063,15 +3063,15 @@
 		7EF45F7F284768C100D1F7B0 /* ItemSelection */ = {
 			isa = PBXGroup;
 			children = (
-				7E383B4728AE1AE900A5339F /* Protocols */,
-				C4BD1C67284A16BE00AFA2A6 /* Workers */,
-				7EF45F80284768C100D1F7B0 /* ItemSelectionVIP.swift */,
-				7EF45F81284768C100D1F7B0 /* ItemSelectionInteractor.swift */,
 				7EF45F82284768C100D1F7B0 /* ItemSelectionPresenter.swift */,
 				7EF45F83284768C100D1F7B0 /* ItemSelectionStore.swift */,
-				7EF45F84284768C100D1F7B0 /* ItemSelectionViewController.swift */,
+				7EF45F80284768C100D1F7B0 /* ItemSelectionVIP.swift */,
 				7EF45F85284768C100D1F7B0 /* ItemSelectionModels.swift */,
+				7EF45F84284768C100D1F7B0 /* ItemSelectionViewController.swift */,
+				7EF45F81284768C100D1F7B0 /* ItemSelectionInteractor.swift */,
 				7EF45F86284768C100D1F7B0 /* ItemSelectionCoordinator.swift */,
+				7E383B4728AE1AE900A5339F /* Protocols */,
+				C4BD1C67284A16BE00AFA2A6 /* Workers */,
 			);
 			path = ItemSelection;
 			sourceTree = "<group>";

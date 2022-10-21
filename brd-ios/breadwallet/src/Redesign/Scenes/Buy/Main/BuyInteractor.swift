@@ -147,6 +147,10 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         presenter?.presentOrderPreview(actionResponse: .init())
     }
     
+    func navigateAssetSelector(viewAction: BuyModels.AssetSelector.ViewAction) {
+        presenter?.presentNavigateAssetSelector(actionResponse: .init())
+    }
+    
     // MARK: - Aditional helpers
     
     private func fetchCards(completion: ((Result<[PaymentCard]?, Error>) -> Void)?) {

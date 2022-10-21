@@ -266,7 +266,7 @@ class LoginViewController: UIViewController, Subscriber {
         resetPinButton.constrain([
             resetPinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             resetPinButton.heightAnchor.constraint(equalToConstant: Margins.extraLarge.rawValue),
-            resetPinButton.topAnchor.constraint(equalTo: pinPadBackground.topAnchor, constant: -ViewSizes.large.rawValue)])
+            resetPinButton.topAnchor.constraint(equalTo: pinPadBackground.topAnchor, constant: -ViewSizes.extralarge.rawValue)])
         
         addChild(pinPad)
         pinPadBackground.addSubview(pinPad.view)
