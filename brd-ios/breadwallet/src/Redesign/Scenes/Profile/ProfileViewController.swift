@@ -59,15 +59,6 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
             view.setup { view in
                 var config = Presets.InfoView.verification
                 
-                let model = InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
-                                          headerTrailing: .init(image: "help"),
-                                          status: VerificationStatus.levelTwo(.resubmit),
-                                          description: .text(L10n.Account.dataIssues),
-                                          button: .init(title: "UPGRADE YOUR LIMITS"),
-                                          //                                          button: .init(title: L10n.Account.verificationDeclined.uppercased()),
-                                          //                                          button: .init(title: "L10n.Account.verificationDeclinedL10n.Account.verificationDeclined"),
-                                          dismissType: .persistent)
-                
                 switch (model.kyc, model.status) {
                 case (.levelOne, .levelOne),
                     (.levelTwo, .levelTwo(.levelTwo)):

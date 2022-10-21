@@ -244,12 +244,12 @@ extension Presets {
         static var white = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
                                                                 tintColor: LightColors.Contrast.two,
                                                                 border: Presets.Border.zero),
-                                              title: .init(font: Fonts.Title.five, textColor: LightColors.Text.one),
-                                              body: .init(font: Fonts.Body.one, textColor: LightColors.Text.one, textAlignment: .left),
-                                              buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
-                                                                                           selected: Presets.Border.selectedButtonMediumRadius,
-                                                                                           disabled: Presets.Border.disabledButtonMediumRadius),
-                                                         Presets.Button.secondary ],
+                                              title: .init(font: Fonts.Title.five, textColor: LightColors.Text.three),
+                                              body: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .left),
+                                              buttons: [Presets.Button.primary.withBorder(normal: Presets.Border.normalButtonFullRadius,
+                                                                                          selected: Presets.Border.selectedButtonFullRadius,
+                                                                                          disabled: Presets.Border.disabledButtonFullRadius),
+                                                        Presets.Button.secondary],
                                               closeButton: Presets.Button.blackIcon)
         
         static var whiteDimmed = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
