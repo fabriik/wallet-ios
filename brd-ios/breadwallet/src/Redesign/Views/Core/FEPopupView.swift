@@ -50,7 +50,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
     private lazy var scrollingStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
-        view.spacing = Margins.extraSmall.rawValue
+        view.spacing = Margins.small.rawValue
         return view
     }()
     
@@ -78,6 +78,8 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         view.isSelectable = false
         view.isScrollEnabled = false
         view.backgroundColor = .clear
+        view.textContainerInset = .zero
+        view.textContainer.lineFragmentPadding = 0
         return view
     }()
     
