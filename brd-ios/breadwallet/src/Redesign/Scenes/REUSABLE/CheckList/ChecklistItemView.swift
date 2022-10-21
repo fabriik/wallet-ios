@@ -11,7 +11,7 @@
 import UIKit
 
 struct ChecklistItemConfiguration: Configurable {
-    var title: LabelConfiguration? = .init(font: Fonts.Body.one, textColor: LightColors.Text.one)
+    var title: LabelConfiguration? = .init(font: Fonts.Body.one, textColor: LightColors.Text.two)
     var image: BackgroundConfiguration? = .init(backgroundColor: .clear, tintColor: LightColors.primary)
 }
 

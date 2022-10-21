@@ -63,7 +63,7 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
         ]
         
         // TODO: add multi button support
-        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm))
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm.uppercased()))
         tableView.reloadData()
     }
     
