@@ -403,8 +403,6 @@ class HomeScreenViewController: UIViewController, Subscriber {
         case .success(let profile):
             if profile?.status.hasKYC == true {
                 hidePrompt(kycStatusPromptView)
-                
-                break
             }
             
             if profile?.status.hasKYC == false {
