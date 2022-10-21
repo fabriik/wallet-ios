@@ -306,7 +306,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     func presentAssetInfoPopup(actionResponse: SwapModels.AssetInfoPopup.ActionResponse) {
         let popupViewModel = PopupViewModel(title: .text(L10n.Swap.checkAssets),
                                             body: L10n.Swap.checkAssetsBody,
-                                            buttons: [.init(title: L10n.Swap.gotItButton)])
+                                            buttons: [.init(title: L10n.Swap.gotItButton.uppercased())])
         
         viewController?.displayAssetInfoPopup(responseDisplay: .init(popupViewModel: popupViewModel,
                                                                      popupConfig: Presets.Popup.white))
