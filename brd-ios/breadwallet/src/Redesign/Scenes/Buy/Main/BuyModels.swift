@@ -109,4 +109,14 @@ enum BuyModels {
         
         struct ResponseDisplay {}
     }
+    
+    struct AssetSelector {
+        struct ViewAction {}
+        
+        struct ActionResponse {}
+        
+        struct ResponseDisplay {
+            let title: String
+        }
+    }
 }

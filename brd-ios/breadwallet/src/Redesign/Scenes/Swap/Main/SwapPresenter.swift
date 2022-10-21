@@ -214,7 +214,9 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
     }
     
     func presentSelectAsset(actionResponse: SwapModels.Assets.ActionResponse) {
-        viewController?.displaySelectAsset(responseDisplay: .init(from: actionResponse.from, to: actionResponse.to))
+        let title = actionResponse.from == nil ? L10n.Swap.youReceive : L10n.Swap.youSend
+        
+        viewController?.displaySelectAsset(responseDisplay: .init(title: title, from: actionResponse.from, to: actionResponse.to))
     }
     
     func presentError(actionResponse: MessageModels.Errors.ActionResponse) {

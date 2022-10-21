@@ -80,6 +80,7 @@ enum SwapModels {
         }
         
         struct ResponseDisplay {
+            var title: String
             var from: [Currency]?
             var to: [Currency]?
         }

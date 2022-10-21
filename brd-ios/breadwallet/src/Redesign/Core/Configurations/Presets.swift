@@ -369,10 +369,10 @@ extension Presets {
                                                                                 cornerRadius: .medium)),
                                                imageSize: .small)
         
-        static var enabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one),
+        static var enabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.three),
                                                 bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two),
-                                                topRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .right),
-                                                bottomRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right))
+                                                topRightConfiguration: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.three, textAlignment: .right),
+                                                bottomRightConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two, textAlignment: .right), imageSize: .large)
         
         static var disabled = AssetConfiguration(topConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one.withAlphaComponent(0.5)),
                                                  bottomConfiguration: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two.withAlphaComponent(0.5)),
@@ -382,6 +382,7 @@ extension Presets {
                                                  bottomRightConfiguration: .init(font: Fonts.Subtitle.two,
                                                                                  textColor: LightColors.Text.two.withAlphaComponent(0.5),
                                                                                  textAlignment: .right),
+                                                 imageSize: .large,
                                                  imageAlpha: 0.5)
     }
 }

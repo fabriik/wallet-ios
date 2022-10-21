@@ -67,8 +67,10 @@ enum ViewSizes: CGFloat {
     case small = 24.0
     /// 32
     case medium = 32.0
+    /// 40
+    case large = 40.0
     /// 80
-    case large = 80.0
+    case extralarge = 80.0
     /// 100
-    case extraLarge = 100.0
+    case extraExtraHuge = 100.0
 }

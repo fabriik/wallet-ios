@@ -20,7 +20,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
     /// Show search on item selection
     var isSearchEnabled: Bool { return true }
     
-    override var sceneTitle: String? { return L10n.Account.selectCountry }
+    override var sceneTitle: String? { return dataStore?.sceneTitle ?? "" }
 
     var itemSelected: ((Any?) -> Void)?
     var searchController = UISearchController()
