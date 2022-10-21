@@ -286,8 +286,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                                 totalCost: .init(title: .text(L10n.Confirmation.totalLabel), value: .text(totalCostText)))
         
         let viewModel: WrapperPopupViewModel<SwapConfirmationViewModel> = .init(title: .text(L10n.Confirmation.title),
-                                                                                confirm: .init(title: L10n.Button.confirm),
-                                                                                cancel: .init(title: L10n.Button.cancel),
+                                                                                confirm: .init(title: L10n.Button.confirm.uppercased()),
+                                                                                cancel: .init(title: L10n.Button.cancel.uppercased()),
                                                                                 wrappedView: wrappedViewModel)
         
         viewController?.displayConfirmation(responseDisplay: .init(config: config, viewModel: viewModel))
