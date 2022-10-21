@@ -172,7 +172,7 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = Theme.primaryBackground
+        view.backgroundColor = LightColors.Background.one
         view.clipsToBounds = true
         
         showBackButton()        
@@ -244,20 +244,20 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
     }
     
     private func setUpLabels() {
-        headingLabel.textColor = Theme.primaryText
-        headingLabel.font = Theme.h2Title
+        headingLabel.textColor = LightColors.Text.three
+        headingLabel.font = Fonts.Title.six
         headingLabel.text = L10n.RecoveryKeyFlow.writeKeyScreenTitle
         headingLabel.textAlignment = .center
         headingLabel.numberOfLines = 0
         
-        subheadingLabel.textColor = Theme.secondaryText
-        subheadingLabel.font = Theme.body1
+        subheadingLabel.textColor = LightColors.Text.two
+        subheadingLabel.font = Fonts.Body.two
         subheadingLabel.text = L10n.RecoveryKeyFlow.writeKeyScreenSubtitle
         subheadingLabel.textAlignment = .center
         subheadingLabel.numberOfLines = 0
         
-        stepLabel.textColor = Theme.tertiaryText
-        stepLabel.font = Theme.caption
+        stepLabel.textColor = LightColors.Text.one
+        stepLabel.font = Fonts.Subtitle.three
         stepLabel.textAlignment = .center
     }
     
@@ -277,7 +277,7 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
 
         let wordPaging = WordPagingCollectionView(frame: .zero, collectionViewLayout: wordPagingLayout)
         
-        wordPaging.backgroundColor = Theme.primaryBackground
+        wordPaging.backgroundColor = LightColors.Background.one
         wordPaging.delegate = self
         wordPaging.dataSource = self
         wordPaging.isScrollEnabled = true
@@ -528,8 +528,8 @@ class RecoveryWordCell: UICollectionViewCell {
     }
     
     private func setUp() {
-        wordLabel.textColor = Theme.primaryText
-        wordLabel.font = E.isIPhone6OrSmaller ? UIFont.customBody(size: 32) : Theme.h0Title
+        wordLabel.textColor = LightColors.Text.one
+        wordLabel.font = Fonts.Title.two
         wordLabel.textAlignment = .center
         wordLabel.adjustsFontSizeToFitWidth = true
         
