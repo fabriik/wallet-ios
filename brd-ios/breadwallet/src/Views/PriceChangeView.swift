@@ -82,7 +82,7 @@ class PriceChangeView: UIView, Subscriber {
             prefixLabel.centerYAnchor.constraint(equalTo: centerYAnchor)])
         percentLabel.constrain([
             percentLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            percentLabel.leadingAnchor.constraint(equalTo: prefixLabel.trailingAnchor, constant: 3.0)])
+            percentLabel.leadingAnchor.constraint(equalTo: prefixLabel.trailingAnchor)])
         absoluteLabel.constrain([
             absoluteLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             absoluteLabel.leadingAnchor.constraint(equalTo: percentLabel.trailingAnchor, constant: C.padding[1]/2.0),

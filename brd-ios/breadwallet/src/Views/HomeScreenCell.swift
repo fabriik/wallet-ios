@@ -27,8 +27,8 @@ class Background: UIView, GradientDrawable {
         let maskLayer = CAShapeLayer()
         let corners: UIRectCorner = .allCorners
         maskLayer.path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners,
-                                      cornerRadii: CGSize(width: C.Sizes.homeCellCornerRadius,
-                                                          height: C.Sizes.homeCellCornerRadius)).cgPath
+                                      cornerRadii: CGSize(width: CornerRadius.common.rawValue,
+                                                          height: CornerRadius.common.rawValue)).cgPath
         layer.mask = maskLayer
     }
 
@@ -132,7 +132,7 @@ class HomeScreenCell: UITableViewCell, Subscriber {
     }
 
     private func addConstraints() {
-        let containerPadding = C.padding[1]
+        let containerPadding = Margins.large.rawValue
         container.constrain(toSuperviewEdges: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         
         cardView.constrain([
@@ -144,34 +144,33 @@ class HomeScreenCell: UITableViewCell, Subscriber {
         iconContainer.constrain([
             iconContainer.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: containerPadding),
             iconContainer.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
-            iconContainer.heightAnchor.constraint(equalToConstant: 40),
+            iconContainer.topAnchor.constraint(equalTo: cardView.topAnchor, constant: containerPadding),
             iconContainer.widthAnchor.constraint(equalTo: iconContainer.heightAnchor)])
         icon.constrain(toSuperviewEdges: .zero)
         currencyName.constrain([
             currencyName.leadingAnchor.constraint(equalTo: iconContainer.trailingAnchor, constant: containerPadding),
-            currencyName.bottomAnchor.constraint(equalTo: icon.centerYAnchor, constant: 0.0)])
+            currencyName.topAnchor.constraint(equalTo: cardView.topAnchor, constant: Margins.special.rawValue)])
         price.constrain([
             price.leadingAnchor.constraint(equalTo: currencyName.leadingAnchor),
-            price.topAnchor.constraint(equalTo: currencyName.bottomAnchor)])
+            price.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -Margins.special.rawValue)])
         priceChangeView.constrain([
-            priceChangeView.leadingAnchor.constraint(equalTo: price.trailingAnchor),
-            priceChangeView.centerYAnchor.constraint(equalTo: price.centerYAnchor),
-            priceChangeView.heightAnchor.constraint(equalToConstant: 24)])
+            priceChangeView.leadingAnchor.constraint(equalTo: price.trailingAnchor, constant: Margins.small.rawValue),
+            priceChangeView.centerYAnchor.constraint(equalTo: price.centerYAnchor)])
         fiatBalance.constrain([
             fiatBalance.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -containerPadding),
-            fiatBalance.leadingAnchor.constraint(greaterThanOrEqualTo: currencyName.trailingAnchor, constant: C.padding[1]),
-            fiatBalance.topAnchor.constraint(equalTo: currencyName.topAnchor)])
+            fiatBalance.leadingAnchor.constraint(greaterThanOrEqualTo: priceChangeView.trailingAnchor, constant: containerPadding),
+            fiatBalance.bottomAnchor.constraint(equalTo: price.bottomAnchor)])
         tokenBalance.constrain([
             tokenBalance.trailingAnchor.constraint(equalTo: fiatBalance.trailingAnchor),
-            tokenBalance.leadingAnchor.constraint(greaterThanOrEqualTo: priceChangeView.trailingAnchor, constant: C.padding[1]),
-            tokenBalance.bottomAnchor.constraint(equalTo: price.bottomAnchor)])
+            tokenBalance.leadingAnchor.constraint(greaterThanOrEqualTo: currencyName.trailingAnchor, constant: containerPadding),
+            tokenBalance.topAnchor.constraint(equalTo: currencyName.topAnchor)])
         tokenBalance.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         fiatBalance.setContentCompressionResistancePriority(.required, for: .vertical)
         fiatBalance.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         syncIndicator.constrain([
             syncIndicator.trailingAnchor.constraint(equalTo: fiatBalance.trailingAnchor),
-            syncIndicator.leadingAnchor.constraint(greaterThanOrEqualTo: priceChangeView.trailingAnchor, constant: C.padding[1]),
+            syncIndicator.leadingAnchor.constraint(greaterThanOrEqualTo: priceChangeView.trailingAnchor, constant: containerPadding),
             syncIndicator.bottomAnchor.constraint(equalTo: tokenBalance.bottomAnchor, constant: 0.0)])
         syncIndicator.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         layoutIfNeeded()
