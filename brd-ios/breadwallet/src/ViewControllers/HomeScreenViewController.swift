@@ -98,7 +98,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
     
     @objc func reload() {
         UserManager.shared.refresh { [weak self] _ in
-            attemptShowKYCPrompt()
+            self?.attemptShowKYCPrompt()
         }
         
         setupSubscriptions()
