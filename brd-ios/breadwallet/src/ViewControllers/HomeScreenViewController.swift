@@ -97,12 +97,16 @@ class HomeScreenViewController: UIViewController, Subscriber {
     }
     
     @objc func reload() {
+        UserManager.shared.refresh { [weak self] _ in
+            attemptShowKYCPrompt()
+        }
+        
         setupSubscriptions()
-        UserManager.shared.refresh()
+        Currencies.shared.reloadCurrencies()
+        
         coreSystem.refreshWallet { [weak self] in
             self?.assetListTableView.reload()
             
-            Currencies.shared.reloadCurrencies()
         }
     }
     
