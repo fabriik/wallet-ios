@@ -1,11 +1,11 @@
 /* App name */
-"About.appName.android" = "Fabriik";
+"About.appName.android" = "RockWallet";
 
 /* About screen blog label */
 "About.blog" = "Blog";
 
 /* About screen footer */
-"About.footer" = "Made by the global Fabriik team.\nVersion %1$s Build %2$s";
+"About.footer" = "Made by the global Fabriik team.\nVersion %1$@ Build %2$@";
 
 /* Privay Policy button label */
 "About.privacy" = "Privacy Policy";
@@ -23,7 +23,7 @@
 "About.twitter" = "Twitter";
 
 /* About screen wallet ID label */
-"About.walletID" = "Fabriik Rewards ID";
+"About.walletID" = "RockWallet Rewards ID";
 
 /* Close modal button accessibility label */
 "AccessibilityLabels.close" = "Close";
@@ -79,7 +79,7 @@
 "Account.exchangeRate" = "%1$@ per %2$@";
 
 /* Get full access for the Fabriik wallet label on profile screen */
-"Account.FullAccess" = "Get full access to your Fabriik wallet";
+"Account.FullAccess" = "Get full access to your RockWallet!";
 
 /* ID Verification title on account screen */
 "Account.IDVerification" = "ID Verification";
@@ -193,7 +193,7 @@
 /* Popup text when the account is deleted */
 "AccountDelete.AccountDeletedPopup" = "Your account has been deleted.\nWe are sorry to see you go.";
 
-/* Delete account title  */
+/* Delete account title */
 "AccountDelete.DeleteAccountTitle" = "You are about to delete your Fabriik account.";
 
 /* Delete account explanation title */
@@ -212,7 +212,7 @@
 "AccountDelete.RecoverWallet" = "I understand that the only way to recover my wallet is by entering my recovery phrase";
 
 /* Default wallet name */
-"AccountHeader.defaultWalletName" = "My Fabriik";
+"AccountHeader.defaultWalletName" = "My RockWallet";
 
 /* Level one title on account screen */
 "AccountKYCLevelOne.LevelOne" = "Level 1";
@@ -223,7 +223,7 @@
 /* Back page of the document text instructions for KYC2 */
 "AccountKYCLevelTwo.BackPageInstructions" = "You have captured the entire back page of the document";
 
-/* Before start label  */
+/* Before start label */
 "AccountKYCLevelTwo.BeforeStart" = "Before you start, please:";
 
 /* Buy limits on KYC2 account */
@@ -322,7 +322,7 @@
 /* Verifying label on KYC2 */
 "AccountKYCLevelTwo.Verifying" = "Verifying you";
 
-/* Account backed up with iCloud Keychain message in alert view,   */
+/* Account backed up with iCloud Keychain message in alert view, */
 "Alert.AccountBackedUpiCloud" = "Account backed up with iCloud Keychain";
 
 /* Account succesfully restored from Cloud backup message in alert view */
@@ -401,10 +401,10 @@
 /* Error label on XRP send amount screen */
 "Amount.MinXRPAmount" = "The minimum required ammount is 10 XRP.";
 
-/* Ripple balance title  */
+/* Ripple balance title */
 "Amount.RippleBalance" = "XRP Balance";
 
-/* Ripple balance popup text  */
+/* Ripple balance popup text */
 "Amount.RippleBalanceText" = "Ripple requires each wallet to have a minimum balance of 10 XRP, so the balance displayed here is always 10 XRP less than your actual balance.";
 
 /* Tell the user where they can enable permissions to access device storage. */
@@ -638,13 +638,15 @@
 
 "Buy.ExpirationDate" = "Expiration date";
 
-/* Failure transaction message on buy  */
+/* Failure transaction message on buy */
 "Buy.FailureTransactionMessage" = "Please contact your card issuer/bank or try again with a different payment method.";
 
 /* First Name label in billing address view on buy flow */
 "Buy.FirstName" = "First Name";
 
 "Buy.InvalidExpirationDate" = "Entered expiration date is not valid!";
+
+"Buy.iWant" = "I want";
 
 /* Last Name label in billing address view on buy flow */
 "Buy.LastName" = "Last Name";
@@ -672,7 +674,7 @@
 
 "Buy.ProcessingPayment" = "Processing payment";
 
-/* Purchase success text in purchase details screen  */
+/* Purchase success text in purchase details screen */
 "Buy.PurchaseSuccessText" = "This purchase will appear as ‘Fabriik Wallet’ on your bank statement.";
 
 /* Your assets are on the way message in purchase details screen */
@@ -681,9 +683,9 @@
 /* Are you sure you want to remove this card title dialog */
 "Buy.RemoveCard" = "Are you sure you want to remove card ending in";
 
-"Buy.RemoveCard.android" = "Are you sure you want to remove card ending in %s?";
+"Buy.RemoveCard.android" = "Are you sure you want to remove card ending in %@?";
 
-/* You will no longer be able to use it to buy assets description on removing card dialog  */
+/* You will no longer be able to use it to buy assets description on removing card dialog */
 "Buy.RemoveCardOption" = "You will no longer be able to use it to buy assets.";
 
 /* Remove payment method action sheet option on profile screen */
@@ -707,12 +709,12 @@
 /* By placing this order you agree to our terms message when ordering */
 "Buy.Terms" = "By placing this order you agree to our";
 
-"Buy.Terms.android" = "By placing this order you agree to our %s";
+"Buy.Terms.android" = "By placing this order you agree to our %@";
 
 /* Try a different payment method button title in failure buy screen */
 "Buy.TryAnotherPayment" = "Try a different payment method";
 
-"Buy.txHashHeader" = "%s Transaction ID";
+"Buy.txHashHeader" = "%@ Transaction ID";
 
 /* Your order label in buy flow */
 "Buy.YourOrder" = "Your order:";
@@ -894,7 +896,7 @@
 "Disabled.title" = "Wallet disabled";
 
 /* Share address by e-mail subject */
-"Email.address_subject" = "%1$s Address";
+"Email.address_subject" = "%1$@ Address";
 
 /* Service capabilities description */
 "EME.permissions.accountRequest" = "Request %1$@ account information";
@@ -908,15 +910,15 @@
 "ErrorMessages.accessDenied" = "You cannot purchase assets without completing Level 2 account verification. Upgrade your limits on the Profile screen.";
 
 /* The currency amount is to high for exchange. Accepts 2 parameters:, - maxiumum amount, - currency code */
-"ErrorMessages.AmountTooHigh" = "The amount is higher than your daily limit of %s %s. Please enter a lower amount.";
+"ErrorMessages.AmountTooHigh" = "The amount is higher than your daily limit of %@ %@. Please enter a lower amount.";
 
 /* The currency amount is to low for exchange. Accepts 2 parameters:, - minimum amount, - currency code */
-"ErrorMessages.amountTooLow" = "The amount is lower than the minimum of %s %s. Please enter a higher amount.";
+"ErrorMessages.amountTooLow" = "The amount is lower than the minimum of %@ %@. Please enter a higher amount.";
 
 "ErrorMessages.authorizationFailed" = "Card authorization failed. Please contact your credit card issuer/bank or try another card.";
 
 /* Accepts 3 parameters:, - currency code, - current balance, - (same) currency code */
-"ErrorMessages.balanceTooLow" = "You need %s %s in your wallet to cover network fees. Please add more %s to your wallet. ";
+"ErrorMessages.balanceTooLow" = "You need %@ %@ in your wallet to cover network fees. Please add more %@ to your wallet.";
 
 /* Check your internet connection message */
 "ErrorMessages.CheckInternet" = "Please, check your internet connection and try again later.";
@@ -930,7 +932,7 @@
 /* Not enough ETH for transaction fee */
 "ErrorMessages.ethBalanceLow" = "Insufficient Ethereum balance in your wallet to transfer this type of token.";
 
-"ErrorMessages.exchangeFailed" = "Swap failed. Reason: %s.";
+"ErrorMessages.exchangeFailed" = "Swap failed. Reason: %@.";
 
 "ErrorMessages.ExchangeQuoteFailed" = "We are currently having issues making a swap between this pair of coins. Please try again later.";
 
@@ -956,17 +958,17 @@
 "ErrorMessages.noFees" = "Failed to fetch network fees. Please try again later.";
 
 /* Accepts 2 parameters:, - first currency code, - second currency code */
-"ErrorMessages.noQuoteForPair" = "No quote for currency pair %s-%s.";
+"ErrorMessages.noQuoteForPair" = "No quote for currency pair %@-%@.";
 
-"ErrorMessages.notEnoughEthForFee" = "%s is an ERC-20 token on the Ethereum blockchain and requires ETH network fees. Please add ETH to your wallet.";
+"ErrorMessages.notEnoughEthForFee" = "%@ is an ERC-20 token on the Ethereum blockchain and requires ETH network fees. Please add ETH to your wallet.";
 
-"ErrorMessages.overDailyLimit" = "The amount is higher than your daily limit of %s USD. Please upgrade your account or enter a lower amount.";
+"ErrorMessages.overDailyLimit" = "The amount is higher than your daily limit of %@ USD. Please upgrade your account or enter a lower amount.";
 
 "ErrorMessages.overExchangeLimit" = "Over exchange limit.";
 
-"ErrorMessages.overLifetimeLimit" = "The amount is higher than your lifetime limit of %s USD. Please upgrade your account or enter a lower amount.";
+"ErrorMessages.overLifetimeLimit" = "The amount is higher than your lifetime limit of %@ USD. Please upgrade your account or enter a lower amount.";
 
-"ErrorMessages.overLifetimeLimitLevel2" = "The amount is higher than your daily limit of %s USD. Please enter a lower amount.";
+"ErrorMessages.overLifetimeLimitLevel2" = "The amount is higher than your daily limit of %@ USD. Please enter a lower amount.";
 
 "ErrorMessages.pendingExchange" = "A maximum of one swap can be active for a currency at a time.";
 
@@ -978,7 +980,7 @@
 "ErrorMessages.SomethingWentWrong" = "Oops! Something went wrong, please try again later.";
 
 /* Two parameters:, - maximum amount, - currency code */
-"ErrorMessages.swapAmountTooHigh" = "The amount is higher than the swap maximum of %s %s.";
+"ErrorMessages.swapAmountTooHigh" = "The amount is higher than the swap maximum of %@ %@.";
 
 "ErrorMessages.temporaryNetworkIssues" = "We are having temporary issues connecting to our network. Please try again later.";
 
@@ -1109,7 +1111,7 @@
 /* This section lists the users wallets */
 "HomeScreen.portfolio" = "Wallets";
 
-/* Pull to refresh control on Home Screen  */
+/* Pull to refresh control on Home Screen */
 "HomeScreen.PullToRefresh" = "Pull to refresh";
 
 /* Label for the total balance of all the user's assets (style is all lower case if your language permits) */
@@ -1450,7 +1452,7 @@
 "Prompts.Email.title" = "Get in the loop";
 
 /* Body text for a prompt that asks the user to subscribe to email updates to find out product updates., Placeholder text for an email address text field., Body text that is shown when the user successfully subscribes to email updates., Text that is displayed as a footnote when the user successfully subscribes to email updates., Title that is shown when the user successfully subscribes to email updates., Title for a prompt that asks the user to subscribe to email updates to find out product updates., Enable face ID prompt body */
-"Prompts.FaceId.body" = "Tap Continue to enable Face ID";
+"Prompts.FaceId.body" = "Tap continue to enable Face ID";
 
 /* Enable face ID prompt title */
 "Prompts.FaceId.title" = "Enable Face ID";
@@ -1468,7 +1470,7 @@
 "Prompts.NoScreenLock.title.android" = "Screen lock disabled";
 
 /* Warning about recovery phrase (formerly paper key). */
-"Prompts.PaperKey.body" = "Please write down your recovery phrase and store it somewhere that is safe and secure.";
+"Prompts.PaperKey.body" = "Set up your recovery phrase in case you ever lose or replace your phone. This is also required if you change your phone's security settings.";
 
 /* Warning about paper key (Android-version) */
 "Prompts.PaperKey.Body.Android" = "Set up your recovery phrase in case you ever lose or replace your phone. Your key is also required if you change your phone's security settings.";
@@ -1478,9 +1480,9 @@
 
 "Prompts.RateApp.dontShow" = "Don't ask again";
 
-"Prompts.RateApp.enjoyingBrd" = "Enjoying Fabriik?";
+"Prompts.RateApp.enjoyingBrd" = "Enjoying RockWallet?";
 
-"Prompts.RateApp.enjoyingFabriik" = "Enjoying Fabriik?";
+"Prompts.RateApp.enjoyingFabriik" = "Enjoying RockWallet?";
 
 "Prompts.RateApp.googlePlayReview" = "Your review helps grow the Fabriik community.";
 
@@ -1489,7 +1491,7 @@
 "Prompts.RateApp.rateUs" = "Review us";
 
 /* Transaction rejected prompt body */
-"Prompts.RecommendRescan.body" = "Your wallet may be out of sync. This can often be fixed by rescanning the blockchain.";
+"Prompts.RecommendRescan.body" = "Your wallet may be out of sync. This can often be fixed by pulling down this screen to refresh. ";
 
 /* Transaction rejected prompt title */
 "Prompts.RecommendRescan.title" = "Transaction Rejected";
@@ -1501,7 +1503,7 @@
 "Prompts.ShareData.title" = "Share Anonymous Data";
 
 /* Enable touch ID prompt body */
-"Prompts.TouchId.body" = "Tap Continue to enable Touch ID";
+"Prompts.TouchId.body" = "Tap continue to enable Fingerprint authentication.";
 
 /* Enable Fingerprint prompt body */
 "Prompts.TouchId.body.android" = "Tap here to enable fingerprint authentication";
@@ -1558,10 +1560,10 @@
 "RateAppPrompt.Button.Dismiss.Android" = "No Thanks";
 
 /* Google play review prompt, dismiss button */
-"RateAppPrompt.Button.RateApp.Android" = "Rate Fabriik";
+"RateAppPrompt.Button.RateApp.Android" = "Rate RockWallet";
 
 /* Google play review prompt title */
-"RateAppPrompt.Title.Android" = "Rate Fabriik";
+"RateAppPrompt.Title.Android" = "Rate RockWallet";
 
 /* Address copied message. */
 "Receive.copied" = "Copied to clipboard.";
@@ -1848,6 +1850,8 @@
 /* Segwit button label that takes the user back to the home screen once SegWit is enabled. */
 "Segwit.HomeButton" = "Proceed";
 
+"Send_fio_toLabel" = "FIO";
+
 /* Send money amount label */
 "Send.amountLabel" = "Amount";
 
@@ -1881,9 +1885,6 @@
 /* Destination tag is too long error message in send view */
 "Send.DestinationTag" = "Destination tag is too long.";
 
-/* Destination Tag text explanation popup in send view */
-"Send.DestinationTagText" = "Some receiving addresses (exchanges usually) require additional identifying information provided with a Destination Tag.\n\nIf the recipient's address is accompanied by a destination tag, make sure to include it.\nAlso, we strongly suggest you send a small amount of cryptocurrency as a test before attempting to send a significant amount.";
-
 /* Optional Destination Tag label */
 "Send.destinationTag_optional" = "Destination Tag";
 
@@ -1891,6 +1892,9 @@
 "Send.destinationTag_required" = "Destination Tag (Required)";
 
 "Send.destinationTag_required_error" = "A valid Destination Tag is required for the target address.";
+
+/* Destination Tag text explanation popup in send view */
+"Send.DestinationTagText" = "Some receiving addresses (exchanges usually) require additional identifying information provided with a Destination Tag.\n\nIf the recipient's address is accompanied by a destination tag, make sure to include it.\nAlso, we strongly suggest you send a small amount of cryptocurrency as a test before attempting to send a significant amount.";
 
 /* Emtpy pasteboard error message */
 "Send.emptyPasteboard" = "Pasteboard is empty";
@@ -1909,7 +1913,7 @@
 
 "Send.fio_invalid" = "Invalid FIO address.";
 
-"Send.fio_noAddress" = "There is no %1$s address associated with this FIO address.";
+"Send.fio_noAddress" = "There is no %1$@ address associated with this FIO address.";
 
 "Send.fio_retrievalError" = "There was an error retrieving the address for this FIO address. Please try again later.";
 
@@ -1968,7 +1972,7 @@
 "Send.payId_invalid" = "Invalid PayString.";
 
 /* Error message for no address associated with a PayID for a given currency */
-"Send.payId_noAddress" = "There is no %1$s address associated with this PayString.";
+"Send.payId_noAddress" = "There is no %1$@ address associated with this PayString.";
 
 /* Error message for error in retrieving the address from the PayID endpoint */
 "Send.payId_retrievalError" = "There was an error retrieving the address for this PayString. Please try again later.";
@@ -2017,8 +2021,6 @@
 
 /* What is a destination tag title in popup in send view */
 "Send.WhatIsDestinationTag" = "What is a destination tag?";
-
-"Send_fio_toLabel" = "FIO";
 
 /* Section header for "other settings". */
 "Settings.other" = "Other";
@@ -2180,7 +2182,7 @@
 /* Staking banner title */
 "Staking.stakingTitle" = "Staking";
 
-"Staking.stakingTo" = "staking to %1$s";
+"Staking.stakingTo" = "staking to %1$@";
 
 "Staking.statusPending" = "Pending";
 
@@ -2197,7 +2199,7 @@
 /* Tezos XTZ baker asset type */
 "Staking.tezosOnly" = "Tezos-only";
 
-"Staking.title" = "Stake %1$s";
+"Staking.title" = "Stake %1$@";
 
 "Staking.unstake" = "Unstake";
 
@@ -2263,6 +2265,8 @@
 /* Swap details title */
 "Swap.Details" = "Swap details";
 
+"Swap.enableAssetFirst" = "Asset needs to be enabled first. You can do that by selecting ‘Manage assets’ on the home screen.";
+
 /* There was an error while processing your transaction title in failure swap screen */
 "Swap.ErrorProcessingTransaction" = "There was an error while processing your transaction";
 
@@ -2300,6 +2304,8 @@
 
 "Swap.RequestTimedOut" = "Your swap request timed out. Please try again.";
 
+"Swap.retry" = "Retry";
+
 /* Select assets title in swap flow */
 "Swap.SelectAssets" = "Select assets";
 
@@ -2316,12 +2322,12 @@
 "Swap.SwapAgain" = "Swap again";
 
 /* Swap min and max limit text */
-"Swap.SwapLimits" = "Currently, minimum limit for swap is $%s USD and maximum limit is $%s USD/day.";
+"Swap.SwapLimits" = "Currently, minimum limit for swap is $%@ USD and maximum limit is $%@ USD/day.";
 
-"Swap.Swapping" = "Swapping %1$s/%2$s";
+"Swap.Swapping" = "Swapping %1$@/%2$@";
 
 /* Swap status message on swap flow */
-"Swap.SwapStatus" = "Your %s is estimated to arrive in 30 minutes. You can continue to use your wallet. We'll let you know when your swap has finished.";
+"Swap.SwapStatus" = "Your %@ is estimated to arrive in 30 minutes. You can continue to use your wallet. We'll let you know when your swap has finished.";
 
 "Swap.temporarilyUnavailable" = "Swap is temporarily unavailable";
 
@@ -2331,14 +2337,14 @@
 /* Total label in swap details screen */
 "Swap.Total" = "Total:";
 
-"Swap.transactionFrom" = "From %1$s";
+"Swap.transactionFrom" = "From %1$@";
 
 /* Transaction ID label in swap details screen */
 "Swap.TransactionID" = "Fabriik Transaction ID";
 
 "Swap.transactionInEthereumNetwork" = "It seems that your transaction takes place in the Ethereum network, please keep in mind that network fees will be charged in ETH";
 
-"Swap.transactionTo" = "To %1$s";
+"Swap.transactionTo" = "To %1$@";
 
 "Swap.youReceive" = "You receive";
 
@@ -2526,30 +2532,30 @@
 /* sent to <address> */
 "Transaction.sentTo" = "sent to %1$@";
 
-"Transaction.stakingTo" = "staking to %1$s";
+"Transaction.stakingTo" = "staking to %1$@";
 
 /* eg. Starting balance: $50.00 */
 "Transaction.starting" = "Starting balance: %1$@";
 
-"Transaction.swapFromFailed" = "Swap from %s failed";
+"Transaction.swapFromFailed" = "Swap from %@ failed";
 
 /* Swapped transaction label */
 "Transaction.Swapped" = "Swapped";
 
-"Transaction.swappedFrom" = "Swapped from %s";
+"Transaction.swappedFrom" = "Swapped from %@";
 
-"Transaction.swappedTo" = "Swapped to %s";
+"Transaction.swappedTo" = "Swapped to %@";
 
-"Transaction.swappingFrom" = "Swapping from %s";
+"Transaction.swappingFrom" = "Swapping from %@";
 
-"Transaction.swappingTo" = "Swapping to %s";
+"Transaction.swappingTo" = "Swapping to %@";
 
-"Transaction.swapToFailed" = "Swap to %s failed";
+"Transaction.swapToFailed" = "Swap to %@ failed";
 
 /* e.g. "[The money you paid was a] Fee for token transfer: BRD" (BRD is the token that was transfered) */
 "Transaction.tokenTransfer" = "Fee for token transfer: %1$@";
 
-"Transaction.toRecipient" = "to %1$s";
+"Transaction.toRecipient" = "to %1$@";
 
 /* Waiting to be confirmed string */
 "Transaction.waiting" = "Waiting to be confirmed. Some merchants require confirmation to complete a transaction. Estimated time: 1-2 hours.";
@@ -2617,7 +2623,7 @@
 
 "TransactionDetails.gift" = "Gift";
 
-"TransactionDetails.giftedTo" = "Gifted to %1$s";
+"TransactionDetails.giftedTo" = "Gifted to %1$@";
 
 /* Label for Hedera Memo field on transaction details screen */
 "TransactionDetails.hederaMemo" = "Hedera Memo";
