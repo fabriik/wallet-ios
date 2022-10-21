@@ -139,7 +139,7 @@ class AddCardViewController: BaseTableViewController<ItemSelectionCoordinator,
     }
     
     func displayCvvInfoPopup(responseDisplay: AddCardModels.CvvInfoPopup.ResponseDisplay) {
-        coordinator?.showPopup(with: responseDisplay.model)
+        coordinator?.showPopup(with: responseDisplay.model, config: Presets.Popup.whiteDimmed)
     }
     
     // MARK: - Additional Helpers
