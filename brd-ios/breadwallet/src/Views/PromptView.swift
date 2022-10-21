@@ -31,8 +31,8 @@ class PromptView: UIView {
     let prompt: Prompt?
     
     let imageView = UIImageView()
-    let title = UILabel(font: Theme.body1, color: Theme.primaryText)
-    let body = UILabel.wrapping(font: Theme.body2, color: Theme.secondaryText)
+    let title = UILabel(font: Fonts.Subtitle.two, color: LightColors.Text.three)
+    let body = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.one)
     let container = UIView()
     
     private let imageViewSize: CGFloat = 32.0
@@ -61,7 +61,7 @@ class PromptView: UIView {
     }
     
     var containerBackgroundColor: UIColor {
-        return .whiteBackground
+        return LightColors.Background.one
     }
     
     func addSubviews() {
@@ -76,77 +76,80 @@ class PromptView: UIView {
     }
     
     func setupConstraints() {
-        container.constrain(toSuperviewEdges: UIEdgeInsets(top: C.padding[1],
+        container.constrain(toSuperviewEdges: UIEdgeInsets(top: Margins.large.rawValue,
                                                            left: 0,
-                                                           bottom: -C.padding[1],
+                                                           bottom: -Margins.large.rawValue,
                                                            right: 0))
         
         imageView.constrain([
             imageView.heightAnchor.constraint(equalToConstant: imageViewSize),
             imageView.widthAnchor.constraint(equalToConstant: imageViewSize),
-            imageView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: C.padding[2]),
-            imageView.topAnchor.constraint(equalTo: container.topAnchor, constant: C.padding[2])
+            imageView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margins.large.rawValue),
+            imageView.centerYAnchor.constraint(equalTo: container.centerYAnchor)
             ])
 
         dismissButton.constrain([
-            dismissButton.topAnchor.constraint(equalTo: container.topAnchor, constant: C.padding[2]),
-            dismissButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -C.padding[2]),
-            dismissButton.heightAnchor.constraint(equalToConstant: 24.0),
-            dismissButton.widthAnchor.constraint(equalToConstant: 24.0)
+            dismissButton.topAnchor.constraint(equalTo: container.topAnchor, constant: Margins.large.rawValue),
+            dismissButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -Margins.large.rawValue),
+            dismissButton.heightAnchor.constraint(equalToConstant: ViewSizes.extraSmall.rawValue),
+            dismissButton.widthAnchor.constraint(equalToConstant: ViewSizes.extraSmall.rawValue)
             ])
-
-        let titleLeading: CGFloat = E.isSmallScreen ? 12.0 : 20.0
-        let titleTrailing: CGFloat = E.isSmallScreen ? 8.0 : 12.0
         
         title.constrain([
-            title.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: titleLeading),
-            title.trailingAnchor.constraint(equalTo: dismissButton.leadingAnchor, constant: titleTrailing),
+            title.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: Margins.medium.rawValue),
+            title.trailingAnchor.constraint(equalTo: dismissButton.leadingAnchor, constant: Margins.small.rawValue),
             title.centerYAnchor.constraint(equalTo: dismissButton.centerYAnchor)
             ])
 
         body.constrain([
             body.leadingAnchor.constraint(equalTo: title.leadingAnchor),
-            body.topAnchor.constraint(equalTo: title.bottomAnchor, constant: C.padding[1]),
-            body.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -C.padding[2])
-            ])
+            body.topAnchor.constraint(equalTo: title.bottomAnchor, constant: Margins.small.rawValue),
+            body.trailingAnchor.constraint(equalTo: title.trailingAnchor)
+        ])
 
         if shouldAddContinueButton {
             continueButton.constrain([
-                continueButton.heightAnchor.constraint(equalToConstant: 48),
-                continueButton.topAnchor.constraint(equalTo: body.bottomAnchor, constant: 0),
+                continueButton.topAnchor.constraint(equalTo: body.bottomAnchor, constant: Margins.small.rawValue),
                 continueButton.leadingAnchor.constraint(equalTo: body.leadingAnchor),
-                continueButton.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: 0)
+                continueButton.heightAnchor.constraint(equalToConstant: ViewSizes.extraSmall.rawValue),
+                continueButton.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -Margins.large.rawValue)
                 ])
         }
     }
     
     func styleDismissButton() {
-        let normalImg = UIImage(named: "CloseModern")?.tinted(with: Theme.tertiaryText)
-        let highlightedImg = UIImage(named: "CloseModern")?.tinted(with: Theme.tertiaryText.withAlphaComponent(0.5))
+        let normalImg = UIImage(named: "close")?.tinted(with: LightColors.Text.three)
+        let highlightedImg = UIImage(named: "close")?.tinted(with: LightColors.Text.three.withAlphaComponent(0.5))
         
         dismissButton.setImage(normalImg, for: .normal)
         dismissButton.setImage(highlightedImg, for: .highlighted)
     }
     
     func styleContinueButton() {
-        continueButton.setTitleColor(Theme.accent, for: .normal)
-        continueButton.setTitleColor(Theme.accent.withAlphaComponent(0.5), for: .disabled)
-        continueButton.setTitleColor(Theme.accentHighlighted, for: .highlighted)
-        continueButton.titleLabel?.font = Theme.primaryButton
+        continueButton.setTitleColor(LightColors.Text.three, for: .normal)
+        continueButton.setTitleColor(LightColors.Text.three.withAlphaComponent(0.5), for: .disabled)
+        continueButton.setTitleColor(LightColors.Text.two, for: .highlighted)
+        continueButton.titleLabel?.font = Fonts.Subtitle.two
         
-        continueButton.setTitle(L10n.Button.continueAction, for: .normal)
+        let attributeString = NSMutableAttributedString(
+            string: L10n.Button.continueAction,
+            attributes: [
+                NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+        continueButton.setAttributedTitle(attributeString, for: .normal)
     }
     
     private func setupStyle() {
         styleDismissButton()
         styleContinueButton()
         
-        imageView.backgroundColor = Theme.tertiaryBackground
+        imageView.backgroundColor = LightColors.Background.cards
         imageView.layer.cornerRadius = imageViewSize / 2.0
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "ExclamationStandalone")
+        imageView.contentMode = .center
+        imageView.image = UIImage(named: "alert")?.tinted(with: LightColors.primary)
         
-        container.backgroundColor = Theme.transparentBlue
-        container.layer.cornerRadius = C.Sizes.homeCellCornerRadius
+        container.backgroundColor = LightColors.Background.three
+        container.layer.cornerRadius = CornerRadius.common.rawValue
     }
 }

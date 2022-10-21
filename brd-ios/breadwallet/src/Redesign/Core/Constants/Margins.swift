@@ -19,6 +19,8 @@ enum Margins: CGFloat {
     case small = 8
     /// 12
     case medium = 12
+    /// special case for special days
+    case special = 14
     /// 16
     case large = 16
     /// 20

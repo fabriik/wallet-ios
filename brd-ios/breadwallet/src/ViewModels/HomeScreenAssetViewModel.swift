@@ -16,18 +16,18 @@ struct HomeScreenAssetViewModel {
     }
     
     var fiatBalance: String {
-        guard let rate = currency.state?.currentRate else { return "" }
-        return balanceString(inFiatWithRate: rate)
+        guard let balance = currency.state?.balance,
+            let rate = currency.state?.currentRate
+            else { return "" }
+        
+        return Amount(amount: balance, rate: rate).description
     }
     
     var tokenBalance: String {
-        return balanceString()
-    }
-    
-    /// Returns balance string in fiat if rate specified or token amount otherwise
-    private func balanceString(inFiatWithRate rate: Rate? = nil) -> String {
-        guard let balance = currency.state?.balance else { return "" }
-        return Amount(amount: balance,
-                      rate: rate).description
+        guard let balance = currency.state?.balance,
+              let text = ExchangeFormatter.crypto.string(for: balance.tokenValue)
+        else { return "" }
+        
+        return text
     }
 }
