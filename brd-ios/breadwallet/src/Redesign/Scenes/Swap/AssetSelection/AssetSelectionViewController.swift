@@ -13,11 +13,12 @@ extension Scenes {
 }
 
 class AssetSelectionViewController: ItemSelectionViewController {
-    
-    override var sceneTitle: String? { return L10n.Swap.selectAssets }
+    override var sceneTitle: String? { return dataStore?.sceneTitle ?? "" }
     
     override func setupSubviews() {
         super.setupSubviews()
+        
+        searchController.searchBar.placeholder = L10n.Title.searchAssets
         
         tableView.register(WrapperTableViewCell<AssetView>.self)
     }

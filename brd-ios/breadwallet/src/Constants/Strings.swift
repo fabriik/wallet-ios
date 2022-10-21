@@ -2050,6 +2050,10 @@ internal enum L10n {
     internal static func transactionTo(_ p1: UnsafePointer<CChar>) -> String {
       return L10n.tr("Localizable", "Swap.transactionTo", p1, fallback: "To %1$s")
     }
+    /// You receive
+    internal static let youReceive = L10n.tr("Localizable", "Swap.youReceive", fallback: "You receive")
+    /// You send
+    internal static let youSend = L10n.tr("Localizable", "Swap.youSend", fallback: "You send")
     internal enum AmountPurchased {
       /// Amount purchased:
       internal static let android = L10n.tr("Localizable", "Swap.AmountPurchased.android", fallback: "Amount purchased:")
@@ -2104,6 +2108,10 @@ internal enum L10n {
     internal static func seconds(_ p1: Any) -> String {
       return L10n.tr("Localizable", "TimeSince.seconds", String(describing: p1), fallback: "%1$@ s")
     }
+  }
+  internal enum Title {
+    /// Search assets
+    internal static let searchAssets = L10n.tr("Localizable", "Title.searchAssets", fallback: "Search assets")
   }
   internal enum TokenList {
     /// Add [this item to the list]

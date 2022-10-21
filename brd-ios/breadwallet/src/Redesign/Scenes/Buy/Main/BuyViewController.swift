@@ -120,10 +120,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             view.didTapSelectAsset = { [weak self] in
                 guard let dataStore = self?.dataStore else { return }
                 
-                self?.coordinator?.showAssetSelector(currencies: dataStore.currencies, supportedCurrencies: dataStore.supportedCurrencies) { item in
-                    guard let item = item as? AssetViewModel else { return }
-                    self?.interactor?.setAssets(viewAction: .init(currency: item.subtitle))
-                }
+                self?.interactor?.navigateAssetSelector(viewAction: .init())
             }
             
             view.setupCustomMargins(top: .zero, leading: .zero, bottom: .medium, trailing: .zero)
@@ -174,6 +171,15 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
     }
     
     // MARK: - BuyResponseDisplay
+    
+    func displayNavigateAssetSelector(responseDisplay: BuyModels.AssetSelector.ResponseDisplay) {
+        coordinator?.showAssetSelector(title: responseDisplay.title,
+                                       currencies: dataStore?.currencies,
+                                       supportedCurrencies: dataStore?.supportedCurrencies) { [weak self] item in
+            guard let item = item as? AssetViewModel else { return }
+            self?.interactor?.setAssets(viewAction: .init(currency: item.subtitle))
+        }
+    }
     
     func displayPaymentCards(responseDisplay: BuyModels.PaymentCards.ResponseDisplay) {
         view.endEditing(true)

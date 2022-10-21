@@ -84,7 +84,7 @@ class TransparentView: FEView<TransparentViewConfiguration, TransparentViewModel
         stack.addArrangedSubview(imageView)
         imageView.snp.makeConstraints { make in
             make.width.equalTo(imageView.snp.height)
-            make.height.equalTo(ViewSizes.large.rawValue)
+            make.height.equalTo(ViewSizes.extralarge.rawValue)
         }
         
         stack.addArrangedSubview(titleLabel)
