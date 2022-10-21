@@ -403,21 +403,13 @@ class HomeScreenViewController: UIViewController, Subscriber {
         case .success(let profile):
             if profile?.status.hasKYC == true {
                 hidePrompt(kycStatusPromptView)
-                
-                break
-            }
-            
-            if profile?.status.hasKYC == false {
-                setupKYCPrompt(result: profileResult)
-            } else {
                 attemptShowGeneralPrompt()
+            } else {
+                setupKYCPrompt(result: profileResult)
             }
-            
-        case .failure:
-            attemptShowGeneralPrompt()
             
         default:
-            return
+            attemptShowGeneralPrompt()
         }
     }
     

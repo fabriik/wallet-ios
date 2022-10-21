@@ -29,7 +29,7 @@ enum VerificationStatus: Equatable {
     
     var hasKYC: Bool {
         switch self {
-        case .levelOne:
+        case .levelOne, .levelTwo:
             return true
             
         default:
