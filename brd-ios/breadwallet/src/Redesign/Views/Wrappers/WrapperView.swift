@@ -99,6 +99,8 @@ class WrapperView<T: UIView>: UIView,
         
         self.background = background
         
+        tintColor = background.tintColor
+        
         layoutIfNeeded()
         
         content.setBackground(with: background)

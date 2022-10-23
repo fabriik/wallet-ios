@@ -239,6 +239,8 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
     func configure(background: BackgroundConfiguration?) {
         guard let background = background else { return }
         
+        tintColor = background.tintColor
+        
         layoutIfNeeded()
         
         content.setBackground(with: background)

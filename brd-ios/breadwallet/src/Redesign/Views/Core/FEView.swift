@@ -61,6 +61,7 @@ class FEView<C: Configurable, M: ViewModel>: UIView,
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        configure(with: config)
         configure(background: background)
         configure(shadow: shadow)
     }
@@ -77,6 +78,8 @@ class FEView<C: Configurable, M: ViewModel>: UIView,
         }
         
         setupClearMargins()
+        shadowView.setupClearMargins()
+        content.setupClearMargins()
     }
     
     func setup(with viewModel: M?) {
