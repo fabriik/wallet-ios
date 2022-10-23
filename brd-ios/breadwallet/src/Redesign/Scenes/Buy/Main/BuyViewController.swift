@@ -118,8 +118,6 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             }
             
             view.didTapSelectAsset = { [weak self] in
-                guard let dataStore = self?.dataStore else { return }
-                
                 self?.interactor?.navigateAssetSelector(viewAction: .init())
             }
             

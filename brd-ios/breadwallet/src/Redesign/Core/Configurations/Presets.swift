@@ -34,8 +34,17 @@ struct Presets {
         struct Secondary {
             static var normal = BackgroundConfiguration(tintColor: LightColors.primary)
             static var selected = BackgroundConfiguration(tintColor: LightColors.Text.one)
-            static var blue = BackgroundConfiguration(tintColor: LightColors.Text.two)
             static var disabled = BackgroundConfiguration(tintColor: LightColors.Disabled.two)
+            static var error = BackgroundConfiguration(tintColor: .red)
+        }
+        
+        struct TextField {
+            static var normal = BackgroundConfiguration(backgroundColor: LightColors.Background.one, tintColor: LightColors.primary,
+                                                        border: .init(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall))
+            static var selected = BackgroundConfiguration(backgroundColor: LightColors.Background.one, tintColor: LightColors.Text.one,
+                                                          border: .init(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall))
+            static var disabled = BackgroundConfiguration(backgroundColor: LightColors.Background.one, tintColor: LightColors.Disabled.two,
+                                                          border: .init(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall))
             static var error = BackgroundConfiguration(tintColor: .red)
         }
         
@@ -127,9 +136,9 @@ extension Presets {
                                                     textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                     placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                     hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
-                                                    backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalTextField),
-                                                    selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selectedTextField),
-                                                    disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledTextField),
+                                                    backgroundConfiguration: Presets.Background.TextField.normal,
+                                                    selectedBackgroundConfiguration: Presets.Background.TextField.selected,
+                                                    disabledBackgroundConfiguration: Presets.Background.TextField.disabled,
                                                     errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error))
         
         static var two = TextFieldConfiguration(titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
@@ -138,10 +147,10 @@ extension Presets {
                                                 placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                 hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
                                                 trailingImageConfiguration: .init(tintColor: LightColors.Text.two),
-                                                backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalTextField),
-                                                selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selectedTextField),
-                                                disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledTextField),
-                                                errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error))
+                                                backgroundConfiguration: Presets.Background.TextField.normal,
+                                                selectedBackgroundConfiguration: Presets.Background.TextField.selected,
+                                                disabledBackgroundConfiguration: Presets.Background.TextField.disabled,
+                                                errorBackgroundConfiguration: Presets.Background.TextField.error)
         
         static var email = TextFieldConfiguration(leadingImageConfiguration: .init(backgroundColor: .clear, tintColor: LightColors.Text.two),
                                                   titleConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
@@ -149,10 +158,10 @@ extension Presets {
                                                   textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                   placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                   hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
-                                                  backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalTextField),
-                                                  selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selectedTextField),
-                                                  disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledTextField),
-                                                  errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error),
+                                                  backgroundConfiguration: Presets.Background.TextField.normal,
+                                                  selectedBackgroundConfiguration: Presets.Background.TextField.selected,
+                                                  disabledBackgroundConfiguration: Presets.Background.TextField.disabled,
+                                                  errorBackgroundConfiguration: Presets.Background.TextField.error,
                                                   autocapitalizationType: UITextAutocapitalizationType.none,
                                                   autocorrectionType: .no,
                                                   keyboardType: .emailAddress)
@@ -163,10 +172,10 @@ extension Presets {
                                                    textConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                    placeholderConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                    hintConfiguration: .init(font: Fonts.Body.three, textColor: LightColors.Text.two),
-                                                   backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalTextField),
-                                                   selectedBackgroundConfiguration: Presets.Background.Secondary.selected.withBorder(border: Presets.Border.selectedTextField),
-                                                   disabledBackgroundConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledTextField),
-                                                   errorBackgroundConfiguration: Presets.Background.Secondary.error.withBorder(border: Presets.Border.error),
+                                                   backgroundConfiguration: Presets.Background.TextField.normal,
+                                                   selectedBackgroundConfiguration: Presets.Background.TextField.selected,
+                                                   disabledBackgroundConfiguration: Presets.Background.TextField.disabled,
+                                                   errorBackgroundConfiguration: Presets.Background.TextField.error,
                                                    keyboardType: .numberPad)
     }
 }

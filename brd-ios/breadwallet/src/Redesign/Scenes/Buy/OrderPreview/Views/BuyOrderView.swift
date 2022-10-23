@@ -23,6 +23,7 @@ struct BuyOrderConfiguration: Configurable {
     var background: BackgroundConfiguration? = .init(backgroundColor: LightColors.Background.one,
                                                      tintColor: LightColors.Text.one,
                                                      border: Presets.Border.zero)
+    var currencyIconImage = BackgroundConfiguration(border: BorderConfiguration(borderWidth: 0, cornerRadius: .fullRadius))
 }
 
 struct BuyOrderViewModel: ViewModel {
@@ -58,11 +59,8 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         return view
     }()
     
-    private lazy var currencyIconImageView: FEImageView = {
-        let view = FEImageView()
-        // TODO: Configs for corner radius on FEImageViews are not working because radius is being set to "content" view instead of image.
-        view.layer.cornerRadius = CornerRadius.small.rawValue
-        view.layer.masksToBounds = true
+    private lazy var currencyIconImageView: WrapperView<FEImageView> = {
+        let view = WrapperView<FEImageView>()
         return view
     }()
     
@@ -211,6 +209,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         super.configure(with: config)
         
         titleLabel.configure(with: config?.title)
+        currencyIconImageView.wrappedView.configure(background: config?.currencyIconImage)
         currencyNameLabel.configure(with: config?.currencyAmountName)
         rateView.configure(with: .init())
         rateValueView.configure(with: config?.rateValue)
@@ -232,7 +231,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
         super.setup(with: viewModel)
         
         titleLabel.setup(with: viewModel?.title)
-        currencyIconImageView.setup(with: viewModel?.currencyIcon)
+        currencyIconImageView.wrappedView.setup(with: viewModel?.currencyIcon)
         currencyNameLabel.setup(with: viewModel?.currencyAmountName)
         
         rateView.setup(with: viewModel?.rate)

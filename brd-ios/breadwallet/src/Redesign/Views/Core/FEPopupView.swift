@@ -15,6 +15,7 @@ import SnapKit
 
 struct PopupConfiguration: Configurable {
     var background: BackgroundConfiguration?
+    var shadow: ShadowConfiguration?
     var title: LabelConfiguration?
     var body: LabelConfiguration?
     var buttons: [ButtonConfiguration] = []
@@ -201,22 +202,11 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         }
     }
     
-    override func configure(background: BackgroundConfiguration? = nil) {
-        guard let border = background?.border else { return }
-        let content = content
-        
-        content.backgroundColor = background?.backgroundColor
-        content.layer.masksToBounds = true
-        content.layer.cornerRadius = border.cornerRadius.rawValue
-        content.layer.borderWidth = border.borderWidth
-        content.layer.borderColor = border.tintColor.cgColor
-    }
-    
     @objc private func closeTapped() {
         closeCallback?()
     }
     
-    @objc private func buttonTapped(sender: FEButton) {
+    @objc private func buttonTapped(sender: UIButton) {
         guard let index = buttons.firstIndex(where: { $0 == sender }),
               index < buttonCallbacks.count
         else { return }
