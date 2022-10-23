@@ -104,7 +104,7 @@ enum VerificationStatus: Equatable {
         switch self {
         case .none, .email:
             return InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
-                                 headerTrailing: .init(image: "help"),
+                                 headerTrailing: .init(image: "info"),
                                  status: VerificationStatus.none,
                                  description: .text(L10n.Account.fullAccess),
                                  button: .init(title: L10n.Account.accountVerify.uppercased()),
@@ -112,34 +112,34 @@ enum VerificationStatus: Equatable {
             
         case .emailPending, .levelTwo(.submitted):
             return InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
-                                 headerTrailing: .init(image: "help"),
+                                 headerTrailing: .init(image: "info"),
                                  status: VerificationStatus.emailPending,
                                  description: .text(L10n.Account.verifiedAccountMessage),
                                  dismissType: .persistent)
             
         case .levelOne, .levelTwo(.notStarted):
             return InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
-                                 headerTrailing: .init(image: "help"),
+                                 headerTrailing: .init(image: "info"),
                                  status: VerificationStatus.levelOne,
                                  description: .text(L10n.Account.currentLimit),
                                  button: .init(title: L10n.Account.upgradeLimits.uppercased()),
                                  dismissType: .persistent)
         case .levelTwo(.levelTwo):
             return InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
-                                 headerTrailing: .init(image: "help"),
+                                 headerTrailing: .init(image: "info"),
                                  status: VerificationStatus.levelTwo(.levelTwo),
                                  description: .text(L10n.Account.swapAndBuyLimit),
                                  dismissType: .persistent)
         case .levelTwo(.expired), .levelTwo(.resubmit):
             return InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
-                                 headerTrailing: .init(image: "help"),
+                                 headerTrailing: .init(image: "info"),
                                  status: VerificationStatus.levelTwo(.resubmit),
                                  description: .text(L10n.Account.dataIssues),
                                  button: .init(title: L10n.Account.verificationDeclined.uppercased()),
                                  dismissType: .persistent)
         case .levelTwo(.declined):
             return InfoViewModel(kyc: .levelTwo, headerTitle: .text(L10n.Account.accountLimits),
-                                 headerTrailing: .init(image: "help"),
+                                 headerTrailing: .init(image: "info"),
                                  status: VerificationStatus.levelTwo(.declined),
                                  description: .text(L10n.Account.dataIssues),
                                  button: .init(title: L10n.Account.verificationDeclined.uppercased()),
@@ -236,7 +236,6 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
     private lazy var arrowImageView: WrapperView<FEImageView> = {
         let view = WrapperView<FEImageView>()
         view.wrappedView.setup(with: .init(.imageName("forward")))
-        view.tintColor = LightColors.Text.two
         return view
     }()
     
@@ -347,21 +346,15 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
         buyBenefitsLabel.wrappedView.setup(with: viewModel.buyBenefits)
         buyBenefitsLabel.isHidden = viewModel.buyBenefits == nil
         
-        let backgroundConfiguration: BackgroundConfiguration?
-        
-        if viewModel.isActive ?? true {
-            backgroundConfiguration = Presets.Background.Primary.normal.withBorder(border: Presets.Border.accountVerification)
-        } else {
-            backgroundConfiguration = Presets.Background.Primary.disabled.withBorder(border: Presets.Border.accountVerification)
-            statusImageView.tintColor = LightColors.Disabled.one
-        }
+        let backgroundConfiguration: BackgroundConfiguration? = Presets.Background.Primary.tertiary.withBorder(border: Presets.Border.accountVerification)
         benefitsLabel.configure(background: backgroundConfiguration)
         buyBenefitsLabel.configure(background: backgroundConfiguration)
         
         let image: String
         switch viewModel.status {
-        case .none:
+        case .none, .email:
             image = "selected_gray"
+            statusView.isHidden = true
             
         case .levelTwo(.declined),
                 .levelTwo(.resubmit):
@@ -372,12 +365,10 @@ class VerificationView: FEView<VerificationConfiguration, VerificationViewModel>
         }
         
         statusImageView.wrappedView.setup(with: .init(.imageName(image)))
-        
-        if viewModel.status == .email {
-            statusView.isHidden = true
-            statusImageView.tintColor = LightColors.Disabled.one
-        }
         statusImageView.backgroundColor = .clear
         statusImageView.wrappedView.backgroundColor = .clear
+        
+        guard let isActive = viewModel.isActive else { return }
+        arrowImageView.tintColor = isActive ? LightColors.Text.two : LightColors.Disabled.one
     }
 }

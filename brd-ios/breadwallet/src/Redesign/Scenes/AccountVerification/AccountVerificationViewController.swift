@@ -16,7 +16,7 @@ class AccountVerificationViewController: BaseTableViewController<KYCCoordinator,
     }
     
     override var infoIcon: UIImage? {
-        return UIImage(named: "help")
+        return UIImage(named: "info")
     }
     
     // MARK: - Overrides

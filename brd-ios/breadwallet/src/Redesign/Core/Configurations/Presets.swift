@@ -29,6 +29,10 @@ struct Presets {
             static var error = BackgroundConfiguration(backgroundColor: LightColors.primary,
                                                        tintColor: .red,
                                                        border: Presets.Border.error)
+            
+            static var tertiary = BackgroundConfiguration(backgroundColor: LightColors.Background.three,
+                                                        tintColor: LightColors.Contrast.two,
+                                                        border: Presets.Border.normalButtonFullRadius)
         }
         
         struct Secondary {
@@ -183,7 +187,7 @@ extension Presets {
 extension Presets {
     struct InfoView {
         static var verification = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
-                                                        headerTitle: .init(font: Fonts.Subtitle.three, textColor: LightColors.Text.three),
+                                                        headerTitle: .init(font: Fonts.Subtitle.three, textColor: LightColors.Contrast.one),
                                                         headerTrailing: Presets.Button.verificationActionButton,
                                                         title: .init(font: Fonts.Subtitle.three, textColor: LightColors.Text.one),
                                                         description: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
@@ -298,7 +302,7 @@ extension Presets {
                                                                                      selectedConfiguration: Presets.Background.Secondary.selected,
                                                                                      disabledConfiguration: Presets.Background.Secondary.disabled),
                                                                    description: .init(font: Fonts.Body.two, textColor: LightColors.Text.two),
-                                                                   benefits: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two, textAlignment: .center))
+                                                                   benefits: .init(font: Fonts.Body.two, textColor: LightColors.Text.three, textAlignment: .center))
         
         static var pending = VerificationConfiguration(shadow: Presets.Shadow.zero,
                                                        background: .init(backgroundColor: LightColors.Background.one,
@@ -308,14 +312,14 @@ extension Presets {
                                                        status: .init(title: .init(font: Fonts.Body.two,
                                                                                   textColor: LightColors.Contrast.one,
                                                                                   textAlignment: .center),
-                                                                     background: .init(backgroundColor: LightColors.Pending.one,
+                                                                     background: .init(backgroundColor: LightColors.Contrast.one,
                                                                                        tintColor: LightColors.Contrast.one,
                                                                                        border: Presets.Border.extraSmallPlain)),
                                                        infoButton: .init(backgroundConfiguration: Presets.Background.Secondary.normal,
                                                                          selectedConfiguration: Presets.Background.Secondary.selected,
                                                                          disabledConfiguration: Presets.Background.Secondary.disabled),
                                                        description: .init(font: Fonts.Body.two, textColor: LightColors.Text.two),
-                                                       benefits: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two, textAlignment: .center))
+                                                       benefits: .init(font: Fonts.Body.two, textColor: LightColors.Text.three, textAlignment: .center))
         
         static var verified = VerificationConfiguration(shadow: Presets.Shadow.zero,
                                                         background: .init(backgroundColor: LightColors.Background.one,
@@ -323,7 +327,7 @@ extension Presets {
                                                                           border: Presets.Border.zero),
                                                         title: .init(font: Fonts.Title.five, textColor: LightColors.Text.one),
                                                         status: .init(title: .init(font: Fonts.Body.two,
-                                                                                   textColor: LightColors.Contrast.two,
+                                                                                   textColor: LightColors.Contrast.one,
                                                                                    textAlignment: .center),
                                                                       background: .init(backgroundColor: LightColors.Success.one,
                                                                                         tintColor: LightColors.Contrast.two,
@@ -332,7 +336,7 @@ extension Presets {
                                                                           selectedConfiguration: Presets.Background.Secondary.selected,
                                                                           disabledConfiguration: Presets.Background.Secondary.disabled),
                                                         description: .init(font: Fonts.Body.two, textColor: LightColors.Text.two),
-                                                        benefits: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two, textAlignment: .center))
+                                                        benefits: .init(font: Fonts.Body.two, textColor: LightColors.Text.three, textAlignment: .center))
     }
 }
 
