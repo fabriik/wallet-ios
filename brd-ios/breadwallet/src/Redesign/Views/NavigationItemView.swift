@@ -88,7 +88,7 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
         
         addSubview(separatorView)
         separatorView.snp.makeConstraints { make in
-            make.top.equalTo(verticalStack.snp.bottom).offset(Margins.large.rawValue)
+            make.top.equalTo(verticalStack.snp.bottom).offset(Margins.extraLarge.rawValue)
             make.bottom.equalToSuperview()
             
             make.leading.equalToSuperview().inset(-Margins.extraExtraHuge.rawValue)
