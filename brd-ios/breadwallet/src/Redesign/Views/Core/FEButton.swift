@@ -181,6 +181,7 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
         
         layoutIfNeeded()
         
+        tintColor = background.tintColor
         titleLabel?.textColor = background.tintColor
         titleLabel?.font = Fonts.button
         

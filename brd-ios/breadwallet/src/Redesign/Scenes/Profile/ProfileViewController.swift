@@ -76,7 +76,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
                     config.status = Presets.VerificationView.resubmitAndDeclined.status
                 }
                 
-                view.setupCustomMargins(all: .small)
+                view.setupCustomMargins(all: .extraLarge)
                 view.configure(with: config)
                 view.setup(with: model)
                 
