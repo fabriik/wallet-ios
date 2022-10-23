@@ -170,6 +170,7 @@
 		7B54E5BB27F4A2B1002DD1E4 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54E59527F4A2B0002DD1E4 /* LoadingView.swift */; };
 		7B62ACF928B381BE00CE81E7 /* TimeoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B62ACF828B381BE00CE81E7 /* TimeoutViewController.swift */; };
 		7B62ACFB28B3BDA000CE81E7 /* String+Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B62ACFA28B3BDA000CE81E7 /* String+Chunk.swift */; };
+		7B67708E29053CDF006FB72A /* Shadow+Background+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B67708D29053CDF006FB72A /* Shadow+Background+Extensions.swift */; };
 		7B68CB2228FFC93A008B3DFA /* SofiaPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7B68CB2128FFC93A008B3DFA /* SofiaPro-Bold.otf */; };
 		7B78631A2874266A0092F35B /* SwapCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7863192874266A0092F35B /* SwapCoordinator.swift */; };
 		7B78631C287427680092F35B /* MainSwapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B78631B287427680092F35B /* MainSwapView.swift */; };
@@ -1150,6 +1151,7 @@
 		7B662C0C28F545D3007D663C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7B662C1328F5527D007D663C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/BreadwalletWidget.strings; sourceTree = "<group>"; };
 		7B662C1528F5527F007D663C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/BreadwalletWidget.strings; sourceTree = "<group>"; };
+		7B67708D29053CDF006FB72A /* Shadow+Background+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shadow+Background+Extensions.swift"; sourceTree = "<group>"; };
 		7B68CB2128FFC93A008B3DFA /* SofiaPro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SofiaPro-Bold.otf"; sourceTree = "<group>"; };
 		7B7863192874266A0092F35B /* SwapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapCoordinator.swift; sourceTree = "<group>"; };
 		7B78631B287427680092F35B /* MainSwapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSwapView.swift; sourceTree = "<group>"; };
@@ -2665,6 +2667,7 @@
 			children = (
 				7E5CB3482835090D00EC787E /* UIColor+init.swift */,
 				7E5CB3492835090D00EC787E /* NSLayoutConstraint+priority.swift */,
+				7B67708D29053CDF006FB72A /* Shadow+Background+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4986,6 +4989,7 @@
 				7B88C4852837B8710089CFBE /* Currency+Shared.swift in Sources */,
 				7BDB4A072806F4720031F015 /* LinkStatusCircle.swift in Sources */,
 				CE9057181DFF0FA8006BA848 /* String+Additions.swift in Sources */,
+				7B67708E29053CDF006FB72A /* Shadow+Background+Extensions.swift in Sources */,
 				7BDB4A032806F4290031F015 /* CsvExporter.swift in Sources */,
 				713CD8872240117A004657D4 /* RecoveryKeyFlowController.swift in Sources */,
 				CED341331EF5A5C00014912A /* InAppAlert.swift in Sources */,

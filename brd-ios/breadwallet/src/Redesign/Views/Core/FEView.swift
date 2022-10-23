@@ -110,31 +110,3 @@ class FEView<C: Configurable, M: ViewModel>: UIView,
         (backgroundView ?? content).setBackground(with: background)
     }
 }
-
-extension CALayer {
-    func setShadow(with config: ShadowConfiguration) {
-        shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
-        shadowRadius = config.shadowRadius.rawValue
-        shadowOpacity = config.opacity.rawValue
-        shadowOffset = config.offset
-        shadowColor = config.color.cgColor
-        masksToBounds = false
-        shouldRasterize = true
-        rasterizationScale = UIScreen.main.scale
-    }
-}
-
-extension UIView {
-    func setBackground(with config: BackgroundConfiguration) {
-        backgroundColor = config.backgroundColor
-        
-        guard let border = config.border else { return }
-        let radius = border.cornerRadius == .fullRadius ? bounds.height / 2 : border.cornerRadius.rawValue
-        
-        layer.masksToBounds = true
-        layer.cornerRadius = radius
-        layer.cornerCurve = .continuous
-        layer.borderWidth = border.borderWidth
-        layer.borderColor = border.tintColor.cgColor
-    }
-}
