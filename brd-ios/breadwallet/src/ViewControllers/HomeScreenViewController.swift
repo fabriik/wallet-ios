@@ -189,8 +189,8 @@ class HomeScreenViewController: UIViewController, Subscriber {
             debugLabel.bottomAnchor.constraint(equalTo: logoImageView.topAnchor, constant: -4.0)])
         
         promptContainerStack.constrain([
-            promptContainerStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[1]),
-            promptContainerStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[1]),
+            promptContainerStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            promptContainerStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
             promptContainerStack.topAnchor.constraint(equalTo: subHeaderView.bottomAnchor),
                 promptContainerStack.heightAnchor.constraint(equalToConstant: 0).priority(.defaultLow)])
         
