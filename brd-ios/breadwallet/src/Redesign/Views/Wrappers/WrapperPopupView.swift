@@ -51,8 +51,6 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
     
     lazy var wrappedView = T()
     
-    private var background: BackgroundConfiguration?
-    
     private lazy var blurView: UIView = {
         let blur = UIBlurEffect(style: .dark)
         let view = UIVisualEffectView(effect: blur)
@@ -240,8 +238,6 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
     
     func configure(background: BackgroundConfiguration?) {
         guard let background = background else { return }
-        
-        self.background = background
         
         layoutIfNeeded()
         
