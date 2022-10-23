@@ -14,7 +14,7 @@ protocol HighlightableCell {
 }
 
 enum HomeScreenCellIds: String {
-    case regularCell        = "CurrencyCell"
+    case regularCell = "CurrencyCell"
     case highlightableCell  = "HighlightableCurrencyCell"
 }
 
