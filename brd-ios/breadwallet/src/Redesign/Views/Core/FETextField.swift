@@ -218,7 +218,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         trailingView.configure(with: config.trailingImageConfiguration)
         
         shadowView = mainStack
-        content = textFieldContent
+        backgroundView = textFieldContent
         
         switch displayState {
         case .normal, .filled:

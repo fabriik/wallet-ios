@@ -197,7 +197,8 @@ class FEInfoView: FEView<InfoViewConfiguration, InfoViewModel> {
         bottomButton.configure(with: config.button)
         
         shadowView = self
-        content = self
+        backgroundView = self
+        
         configure(background: config.background)
         configure(shadow: config.shadow)
     }

@@ -26,6 +26,8 @@ class FEView<C: Configurable, M: ViewModel>: UIView,
     
     // MARK: Lazy UI
     
+    var backgroundView: UIView?
+    
     lazy var content: UIView = {
         let view = UIView()
         return view
@@ -105,7 +107,7 @@ class FEView<C: Configurable, M: ViewModel>: UIView,
         
         layoutIfNeeded()
         
-        content.setBackground(with: background)
+        (backgroundView ?? content).setBackground(with: background)
     }
 }
 
