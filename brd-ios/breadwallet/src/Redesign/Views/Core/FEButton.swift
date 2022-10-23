@@ -41,9 +41,6 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
     var config: ButtonConfiguration?
     var viewModel: ButtonViewModel?
     
-    private var shadow: ShadowConfiguration?
-    private var background: BackgroundConfiguration?
-    
     override var isSelected: Bool {
         didSet {
             guard isEnabled else { return }
@@ -111,6 +108,7 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
         guard let viewModel = viewModel else { return }
 
         self.viewModel = viewModel
+        
         if let title = viewModel.title {
             if viewModel.isUnderlined {
                 let attributeString = NSMutableAttributedString(
@@ -171,19 +169,15 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
     func configure(shadow: ShadowConfiguration?) {
         guard let shadow = shadow else { return }
         
-        self.shadow = shadow
-        
         shadowLayer.frame = bounds
         shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
-        shadowLayer.fillColor = background?.backgroundColor.cgColor ?? UIColor.clear.cgColor
+        shadowLayer.fillColor = backgroundColor?.cgColor ?? UIColor.clear.cgColor
         shadowLayer.backgroundColor = UIColor.clear.cgColor
         shadowLayer.setShadow(with: shadow)
     }
     
     func configure(background: BackgroundConfiguration?) {
         guard let background = background else { return }
-        
-        self.background = background
         
         layoutIfNeeded()
         
