@@ -54,7 +54,6 @@ struct TextFieldModel: ViewModel {
 }
 
 class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDelegate, StateDisplayable {
-    
     var displayState: DisplayState = .normal
     
     var contentSizeChanged: (() -> Void)?
