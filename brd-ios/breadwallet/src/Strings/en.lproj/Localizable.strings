@@ -752,7 +752,7 @@
 
 "CloudBackup.backupMenuTitle" = "iCloud Backup";
 
-"CloudBackup.createButton" = "Create new wallet";
+"CloudBackup.createButton" = "CREATE NEW WALLET";
 
 "CloudBackup.createWarning" = "A previously backed up wallet has been detected. Using this backup is recomended. Are you sure you want to proceeed with creating a new wallet?";
 
@@ -776,13 +776,13 @@
 
 "CloudBackup.pinAttempts" = "Attempts remaining before erasing backup: %1$@";
 
-"CloudBackup.recoverButton" = "Restore from Recovery Phrase";
+"CloudBackup.recoverButton" = "Restore with Recovery Phrase";
 
 "CloudBackup.recoverHeader" = "Enter PIN to unlock iCloud backup";
 
 "CloudBackup.recoverWarning" = "A previously backed up wallet has been detected. Using this backup is recommended. Are you sure you want to proceeed with restoring from a recovery phrase?";
 
-"CloudBackup.restoreButton" = "Restore from iCloud Backup";
+"CloudBackup.restoreButton" = "Restore with iCloud Backup";
 
 "CloudBackup.selectTitle" = "Choose Backup";
 
@@ -1375,7 +1375,7 @@
 "OnboardingPageFour.title" = "Start investing today with as little as $50!";
 
 /* Onboarding screen Page 1 title */
-"OnboardingPageOne.title" = "Welcome to your new digital asset wallet!";
+"OnboardingPageOne.title" = "Empowering you in the emerging digital asset economy";
 
 /* Onboarding screen Page 3 subtitle */
 "OnboardingPageThree.subtitle" = "Invest and diversify with Fabriik, easily and securely.";
