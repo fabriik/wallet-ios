@@ -14,7 +14,7 @@ protocol HighlightableCell {
 }
 
 enum HomeScreenCellIds: String {
-    case regularCell        = "CurrencyCell"
+    case regularCell = "CurrencyCell"
     case highlightableCell  = "HighlightableCurrencyCell"
 }
 
@@ -40,18 +40,33 @@ class Background: UIView, GradientDrawable {
 }
 
 class HomeScreenCell: UITableViewCell, Subscriber {
+    private lazy var iconImageView: WrapperView<FEImageView> = {
+        let view = WrapperView<FEImageView>()
+        view.setupClearMargins()
+        return view
+    }()
     
-    private let iconContainer = UIView(color: .transparentIconBackground)
-    private let icon = UIImageView()
+    private lazy var cardView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = CornerRadius.common.rawValue
+        view.layer.borderColor = UIColor.shadowColor.cgColor
+        view.layer.borderWidth = 0.5
+        view.layer.shadowRadius = view.layer.cornerRadius
+        view.layer.shadowColor = view.layer.borderColor
+        view.layer.shadowOpacity = 2
+        view.layer.shadowOffset = .zero
+        view.backgroundColor = .whiteBackground
+        return view
+    }()
+    
     private let currencyName = UILabel(font: Fonts.Subtitle.one, color: LightColors.Text.three)
     private let price = UILabel(font: Fonts.Subtitle.two, color: LightColors.Text.two)
     private let fiatBalance = UILabel(font: Fonts.Subtitle.two, color: LightColors.Text.two)
     private let tokenBalance = UILabel(font: Fonts.Subtitle.one, color: LightColors.Text.three)
     private let syncIndicator = SyncingIndicator(style: .home)
     private let priceChangeView = PriceChangeView(style: .percentOnly)
-    private let cardView = UIView()
     
-    let container = Background()    // not private for inheritance
+    let container = Background()
         
     private var isSyncIndicatorVisible: Bool = false {
         didSet {
@@ -72,9 +87,10 @@ class HomeScreenCell: UITableViewCell, Subscriber {
     func set(viewModel: HomeScreenAssetViewModel) {
         accessibilityIdentifier = viewModel.currency.name
         container.currency = viewModel.currency
-        icon.image = viewModel.currency.imageSquareBackground
-        icon.tintColor = viewModel.currency.isSupported ? .white : .disabledBackground
-        iconContainer.layer.cornerRadius = C.Sizes.homeCellCornerRadius
+        iconImageView.wrappedView.setup(with: .image(viewModel.currency.imageSquareBackground))
+        iconImageView.configure(background: BackgroundConfiguration(tintColor: viewModel.currency.isSupported ? .white : .disabledBackground,
+                                                                    border: .init(borderWidth: 0,
+                                                                                  cornerRadius: .fullRadius)))
         currencyName.text = viewModel.currency.name
         currencyName.textColor = viewModel.currency.isSupported ? .black : .transparentBlack
         price.text = viewModel.exchangeRate
@@ -113,16 +129,15 @@ class HomeScreenCell: UITableViewCell, Subscriber {
     func setupViews() {
         addSubviews()
         addConstraints()
-        setupStyle()
     }
 
     private func addSubviews() {
         backgroundColor = .homeBackground
+        selectionStyle = .none
         
         contentView.addSubview(container)
         container.addSubview(cardView)
-        cardView.addSubview(iconContainer)
-        iconContainer.addSubview(icon)
+        cardView.addSubview(iconImageView)
         cardView.addSubview(currencyName)
         cardView.addSubview(price)
         cardView.addSubview(fiatBalance)
@@ -140,16 +155,14 @@ class HomeScreenCell: UITableViewCell, Subscriber {
             cardView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -4),
             cardView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: containerPadding),
             cardView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -containerPadding)])
-            
-        iconContainer.constrain([
-            iconContainer.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: containerPadding),
-            iconContainer.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
-            iconContainer.topAnchor.constraint(equalTo: cardView.topAnchor, constant: containerPadding),
-            iconContainer.widthAnchor.constraint(equalTo: iconContainer.heightAnchor)])
-        icon.constrain(toSuperviewEdges: .zero)
+        iconImageView.constrain([
+            iconImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: containerPadding),
+            iconImageView.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
+            iconImageView.heightAnchor.constraint(equalToConstant: ViewSizes.large.rawValue),
+            iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor)])
         currencyName.constrain([
-            currencyName.leadingAnchor.constraint(equalTo: iconContainer.trailingAnchor, constant: containerPadding),
-            currencyName.topAnchor.constraint(equalTo: cardView.topAnchor, constant: Margins.special.rawValue)])
+            currencyName.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: containerPadding),
+            currencyName.bottomAnchor.constraint(equalTo: iconImageView.centerYAnchor, constant: 0.0)])
         price.constrain([
             price.leadingAnchor.constraint(equalTo: currencyName.leadingAnchor),
             price.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -Margins.special.rawValue)])
@@ -173,25 +186,8 @@ class HomeScreenCell: UITableViewCell, Subscriber {
             syncIndicator.leadingAnchor.constraint(greaterThanOrEqualTo: priceChangeView.trailingAnchor, constant: containerPadding),
             syncIndicator.bottomAnchor.constraint(equalTo: tokenBalance.bottomAnchor, constant: 0.0)])
         syncIndicator.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
         layoutIfNeeded()
-    }
-
-    private func setupStyle() {
-        selectionStyle = .none
-        
-        cardView.layer.cornerRadius = C.Sizes.homeCellCornerRadius
-        cardView.layer.borderColor = UIColor.shadowColor.cgColor
-        cardView.layer.borderWidth = 0.5
-        
-        cardView.layer.shadowRadius = C.Sizes.homeCellCornerRadius
-        cardView.layer.shadowColor = UIColor.shadowColor.cgColor
-        cardView.layer.shadowOpacity = 2
-        cardView.layer.shadowOffset = .zero
-        cardView.backgroundColor = .whiteBackground
-        
-        iconContainer.layer.cornerRadius = C.Sizes.homeCellCornerRadius
-        iconContainer.clipsToBounds = true
-        icon.tintColor = .white
     }
     
     override func prepareForReuse() {

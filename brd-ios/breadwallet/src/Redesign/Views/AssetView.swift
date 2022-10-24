@@ -19,6 +19,7 @@ struct AssetConfiguration: Configurable {
     var imageConfig: BackgroundConfiguration?
     var imageSize: ViewSizes = .medium
     var imageAlpha: CGFloat = 1.0
+    var imageBackground = BackgroundConfiguration(border: BorderConfiguration(borderWidth: 0, cornerRadius: .fullRadius))
 }
 
 struct AssetViewModel: ViewModel, ItemSelectable {
@@ -86,7 +87,6 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
             make.leading.equalTo(content.snp.leadingMargin)
             make.top.equalTo(content.snp.topMargin).priority(.low)
             make.centerY.equalToSuperview()
-            
             make.height.equalTo(ViewSizes.large.rawValue)
             make.width.equalTo(ViewSizes.large.rawValue)
         }
@@ -120,16 +120,17 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         
         titleLabel.configure(with: config.topConfiguration)
         topRightLabel.configure(with: config.topRightConfiguration)
-
+        
         subtitleLabel.configure(with: config.bottomConfiguration)
         bottomRightLabel.configure(with: config.bottomRightConfiguration)
         
+        iconView.wrappedView.configure(background: config.imageBackground)
+        iconView.content.alpha = config.imageAlpha
         iconView.snp.updateConstraints { make in
             make.height.equalTo(config.imageSize.rawValue)
             make.width.equalTo(config.imageSize.rawValue)
         }
         
-        iconView.content.alpha = config.imageAlpha
         configure(background: config.backgroundConfiguration)
     }
     

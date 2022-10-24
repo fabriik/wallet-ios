@@ -93,18 +93,17 @@ class CodeInputView: FEView<CodeInputConfiguration, CodeInputViewModel>, StateDi
         hiddenTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
-    override func setup(with viewModel: CodeInputViewModel?) {
-        super.setup(with: viewModel)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        configure(with: config)
     }
     
     override func configure(background: BackgroundConfiguration? = nil) {
-        guard let border = background?.border else { return }
+        guard let background = background else { return }
         
         inputStack.arrangedSubviews.forEach { textField in
-            textField.layer.masksToBounds = true
-            textField.layer.cornerRadius = border.cornerRadius.rawValue
-            textField.layer.borderWidth = border.borderWidth
-            textField.layer.borderColor = border.tintColor.cgColor
+            textField.setBackground(with: background)
         }
     }
     

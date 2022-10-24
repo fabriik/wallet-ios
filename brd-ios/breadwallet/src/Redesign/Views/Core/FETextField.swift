@@ -25,7 +25,8 @@ struct TextFieldConfiguration: Configurable {
     var disabledBackgroundConfiguration: BackgroundConfiguration?
     var errorBackgroundConfiguration: BackgroundConfiguration?
     
-    var shadowConfiguration: ShadowConfiguration?
+    var shadow: ShadowConfiguration?
+    var background: BackgroundConfiguration?
     
     var autocapitalizationType: UITextAutocapitalizationType = .sentences
     var autocorrectionType: UITextAutocorrectionType = .default
@@ -53,7 +54,6 @@ struct TextFieldModel: ViewModel {
 }
 
 class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDelegate, StateDisplayable {
-    
     var displayState: DisplayState = .normal
     
     var contentSizeChanged: (() -> Void)?
@@ -196,33 +196,8 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         textField.becomeFirstResponder()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        var background: BackgroundConfiguration?
-        switch displayState {
-        case .normal, .filled:
-            background = config?.backgroundConfiguration
-            
-            // TODO: any need to split?
-        case .highlighted, .selected:
-            background = config?.selectedBackgroundConfiguration
-            
-        case .disabled:
-            background = config?.disabledBackgroundConfiguration
-            
-        case .error:
-            background = config?.errorBackgroundConfiguration
-        }
-        
-        // Border
-        configure(background: background)
-        // Shadow
-        configure(shadow: config?.shadowConfiguration)
-    }
-    
     override func configure(with config: TextFieldConfiguration?) {
-        guard let config = config else { return }
+        guard var config = config else { return }
         super.configure(with: config)
         
         titleLabel.configure(with: config.titleConfiguration)
@@ -241,6 +216,26 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         
         leadingView.configure(with: config.leadingImageConfiguration)
         trailingView.configure(with: config.trailingImageConfiguration)
+        
+        shadowView = mainStack
+        backgroundView = textFieldContent
+        
+        switch displayState {
+        case .normal, .filled:
+            config.background = config.backgroundConfiguration
+            
+        case .highlighted, .selected:
+            config.background = config.selectedBackgroundConfiguration
+            
+        case .disabled:
+            config.background = config.disabledBackgroundConfiguration
+            
+        case .error:
+            config.background = config.errorBackgroundConfiguration
+        }
+        
+        configure(background: config.background)
+        configure(shadow: config.shadow)
     }
     
     override func setup(with viewModel: TextFieldModel?) {
@@ -351,7 +346,6 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         titleLabel.configure(with: titleConfig)
         hintLabel.configure(with: .init(textColor: background?.tintColor))
         configure(background: background)
-        configure(shadow: config?.shadowConfiguration)
         
         if withAnimation {
             Self.animate(withDuration: Presets.Animation.duration) { [weak self] in
@@ -367,31 +361,5 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
     private func updateLayout() {
         layoutIfNeeded()
         contentSizeChanged?()
-    }
-    
-    override func configure(shadow: ShadowConfiguration?) {
-        guard let shadow = shadow else { return }
-        
-        let content = textFieldContent
-        
-        content.layer.masksToBounds = false
-        content.layer.shadowColor = shadow.color.cgColor
-        content.layer.shadowOpacity = shadow.opacity.rawValue
-        content.layer.shadowOffset = shadow.offset
-        content.layer.shadowRadius = 1
-        content.layer.shadowPath = UIBezierPath(roundedRect: content.bounds, cornerRadius: shadow.shadowRadius.rawValue).cgPath
-        content.layer.shouldRasterize = true
-        content.layer.rasterizationScale = UIScreen.main.scale
-    }
-    
-    override func configure(background: BackgroundConfiguration? = nil) {
-        guard let border = background?.border else { return }
-        
-        let content = textFieldContent
-        
-        content.layer.masksToBounds = true
-        content.layer.cornerRadius = border.cornerRadius.rawValue
-        content.layer.borderWidth = border.borderWidth
-        content.layer.borderColor = border.tintColor.cgColor
     }
 }

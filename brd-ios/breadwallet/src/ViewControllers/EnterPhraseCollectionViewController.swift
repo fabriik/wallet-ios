@@ -52,7 +52,7 @@ class EnterPhraseCollectionViewController: UICollectionViewController, UICollect
     }
     
     override func viewDidLoad() {
-        collectionView = NonScrollingCollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout)
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout)
         collectionView?.register(EnterPhraseCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView?.delegate = self
         collectionView?.dataSource = self
@@ -136,6 +136,8 @@ class EnterPhraseCollectionViewController: UICollectionViewController, UICollect
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return interItemSpacing
     }
+    
+    func setContentOffset(_ contentOffset: CGPoint, animated: Bool) {}
     
     // MARK: - Extras
     private func becomeFirstResponder(atIndex: Int) {
