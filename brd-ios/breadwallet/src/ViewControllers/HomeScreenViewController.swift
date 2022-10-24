@@ -321,7 +321,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         let localeComponents = [NSLocale.Key.currencyCode.rawValue: UserDefaults.defaultCurrencyCode]
         let localeIdentifier = Locale.identifier(fromComponents: localeComponents)
         totalAssetsNumberFormatter.locale = Locale(identifier: localeIdentifier)
-        totalAssetsNumberFormatter.currencySymbol = Store.state.orderedWallets.first?.currentRate?.currencySymbol ?? ""
+        totalAssetsNumberFormatter.currencySymbol = Store.state.orderedWallets.first?.currentRate?.code ?? ""
         
         totalAssetsAmountLabel.text = totalAssetsNumberFormatter.string(from: fiatTotal as NSDecimalNumber)
     }
