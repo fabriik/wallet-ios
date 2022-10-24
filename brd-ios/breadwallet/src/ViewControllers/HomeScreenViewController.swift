@@ -228,6 +228,8 @@ class HomeScreenViewController: UIViewController, Subscriber {
     }
     
     private func setupToolbar() {
+        toolbar.isTranslucent = false
+        
         let buttons = [
             (L10n.Button.home, #imageLiteral(resourceName: "home"), #selector(showHome)),
             (L10n.HomeScreen.trade, #imageLiteral(resourceName: "trade"), #selector(trade)),
@@ -260,12 +262,6 @@ class HomeScreenViewController: UIViewController, Subscriber {
                 self.toolbarButtons.append(button)
             }
         }
-        buttons.first?.customView?.tintColor = LightColors.primary
-        
-        toolbar.isTranslucent = false
-        toolbar.layer.borderWidth = 1
-        toolbar.layer.borderColor = UIColor.gray1.cgColor
-        toolbar.barTintColor = .homeBackground
     }
     
     private func setupSubscriptions() {
