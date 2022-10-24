@@ -11,7 +11,7 @@
 import UIKit
 
 struct CardSelectionConfiguration: Configurable {
-    var title: LabelConfiguration? = .init(font: Fonts.Body.three, textColor: LightColors.Text.one)
+    var title: LabelConfiguration? = .init(font: Fonts.Body.three, textColor: LightColors.Text.two)
     var subtitle: LabelConfiguration? =  .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one)
     var arrow: BackgroundConfiguration?
     var shadow: ShadowConfiguration? = Presets.Shadow.light
@@ -26,7 +26,7 @@ struct CardSelectionViewModel: ViewModel {
     var logo: ImageViewModel?
     var cardNumber: LabelViewModel?
     var expiration: LabelViewModel?
-    var arrow: ImageViewModel? = .imageName("arrowRight")
+    var arrow: ImageViewModel? = .imageName("chevron-right")
     var userInteractionEnabled = false
 }
 
