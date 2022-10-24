@@ -352,10 +352,10 @@ class ApplicationController: Subscriber {
     
     private func afterLoginFlow() {
         UserManager.shared.refresh { [weak self] result in
+            self?.homeScreenViewController?.showPrompts?()
+            
             switch result {
             case .success(let profile):
-                self?.homeScreenViewController?.canShowPrompts = profile?.status.canBuy == false
-                
                 guard profile?.status == VerificationStatus.none || profile?.status == .emailPending || profile?.roles.contains(.unverified) == true else { return }
                 
                 self?.coordinator?.showRegistration()
@@ -376,8 +376,6 @@ class ApplicationController: Subscriber {
                             
                             self?.coordinator?.showMessage(with: error)
                         }
-                        
-                        self?.homeScreenViewController?.canShowPrompts = true
                     }
                 }
                 
