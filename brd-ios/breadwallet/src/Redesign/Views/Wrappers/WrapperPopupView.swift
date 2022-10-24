@@ -235,25 +235,15 @@ class WrapperPopupView<T: ViewProtocol & UIView>: UIView,
     func prepareForReuse() {
         (wrappedView as? Reusable)?.prepareForReuse()
     }
-
+    
     func configure(background: BackgroundConfiguration?) {
-        guard let border = background?.border else { return }
-        content.backgroundColor = background?.backgroundColor
-        tintColor = background?.tintColor
+        guard let background = background else { return }
         
-        let radius = border.cornerRadius == .fullRadius ? content.bounds.width / 2 : border.cornerRadius.rawValue
-        content.layer.cornerRadius = radius
-        content.layer.borderWidth = border.borderWidth
-        content.layer.borderColor = border.tintColor.cgColor
+        tintColor = background.tintColor
         
-        content.layer.masksToBounds = false
-        content.layer.shadowColor = UIColor.clear.cgColor
-        content.layer.shadowOpacity = 0
-        content.layer.shadowOffset = .zero
-        content.layer.shadowRadius = 0
-        content.layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: radius).cgPath
-        content.layer.shouldRasterize = true
-        content.layer.rasterizationScale = UIScreen.main.scale
+        layoutIfNeeded()
+        
+        content.setBackground(with: background)
     }
     
     @objc private func headerButtonTapped(sender: Any?) {

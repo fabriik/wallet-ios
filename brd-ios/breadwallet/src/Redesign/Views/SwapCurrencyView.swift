@@ -15,6 +15,7 @@ import UIKit
 struct SwapCurrencyConfiguration: Configurable {
     var shadow: ShadowConfiguration?
     var background: BackgroundConfiguration?
+    var currencyIconBackground = BackgroundConfiguration(border: BorderConfiguration(borderWidth: 0, cornerRadius: .fullRadius))
 }
 
 struct SwapCurrencyViewModel: ViewModel {
@@ -123,11 +124,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         return view
     }()
     
-    private lazy var currencyIconImageView: FEImageView = {
-        let view = FEImageView()
-        // TODO: Configs for corner radius on FEImageViews are not working because radius is being set to "content" view instead of image.
-        view.layer.cornerRadius = CornerRadius.small.rawValue
-        view.layer.masksToBounds = true
+    private lazy var currencyIconImageView: WrapperView<FEImageView> = {
+        let view = WrapperView<FEImageView>()
         return view
     }()
     
@@ -306,6 +304,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         
         configure(background: config?.background)
         configure(shadow: config?.shadow)
+        
+        currencyIconImageView.wrappedView.configure(background: config?.currencyIconBackground)
     }
     
     override func setup(with viewModel: SwapCurrencyViewModel?) {
@@ -325,7 +325,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         codeLabel.text = viewModel.amount?.currency.code
         codeLabel.sizeToFit()
         
-        currencyIconImageView.setup(with: .image(viewModel.amount?.currency.imageSquareBackground))
+        currencyIconImageView.wrappedView.setup(with: .image(viewModel.amount?.currency.imageSquareBackground))
         
         if let tokenFee = viewModel.formattedTokenFeeString, let fiatFee = viewModel.formattedFiatFeeString {
             feeAmountLabel.text = "\(tokenFee) \n\(fiatFee)"

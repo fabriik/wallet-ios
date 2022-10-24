@@ -22,11 +22,15 @@ enum EditWalletType {
 }
 
 class ManageCurrencyCell: UITableViewCell {
-    
     static let cellIdentifier = "ManageCurrencyCell"
 
+    private lazy var iconImageView: WrapperView<FEImageView> = {
+        let view = WrapperView<FEImageView>()
+        view.setupClearMargins()
+        return view
+    }()
+    
     private let header = UILabel(font: Fonts.Body.one, color: LightColors.Text.one)
-    private let icon = UIImageView()
     private let button = ToggleButton(normalTitle: L10n.TokenList.add,
                                       normalColor: LightColors.primary,
                                       selectedTitle: L10n.TokenList.hide,
@@ -43,10 +47,13 @@ class ManageCurrencyCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
     }
-
+    
     func set(currency: CurrencyMetaData, balance: Amount?, listType: EditWalletType, isHidden: Bool, isRemovable: Bool) {
         header.text = currency.name
-        icon.image = currency.imageSquareBackground
+        iconImageView.wrappedView.setup(with: .image(currency.imageSquareBackground))
+        iconImageView.configure(background: BackgroundConfiguration(tintColor: currency.isSupported ? .white : .disabledBackground,
+                                                                    border: .init(borderWidth: 0,
+                                                                                  cornerRadius: .fullRadius)))
         isCurrencyHidden = isHidden
         isCurrencyRemovable = isRemovable
         identifier = currency.uid
@@ -56,38 +63,33 @@ class ManageCurrencyCell: UITableViewCell {
 
     private func setupViews() {
         header.adjustsFontSizeToFitWidth = true
+        selectionStyle = .none
         
         addSubviews()
         addConstraints()
-        setInitialData()
     }
 
     private func addSubviews() {
         contentView.addSubview(header)
-        contentView.addSubview(icon)
+        contentView.addSubview(iconImageView)
         contentView.addSubview(button)
     }
 
     private func addConstraints() {
-        icon.constrain([
-            icon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2]),
-            icon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            icon.heightAnchor.constraint(equalToConstant: 36.0),
-            icon.widthAnchor.constraint(equalToConstant: 36.0)])
+        iconImageView.constrain([
+            iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2]),
+            iconImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            iconImageView.heightAnchor.constraint(equalToConstant: ViewSizes.large.rawValue),
+            iconImageView.widthAnchor.constraint(equalToConstant: ViewSizes.large.rawValue)])
         header.constrain([
-            header.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: C.padding[1]),
+            header.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: C.padding[1]),
             header.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)])
         button.constrain([
             button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -C.padding[2]),
             button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            button.heightAnchor.constraint(equalToConstant: 36.0),
+            button.heightAnchor.constraint(equalToConstant: ViewSizes.large.rawValue),
             button.widthAnchor.constraint(equalToConstant: 70.0),
             button.leadingAnchor.constraint(greaterThanOrEqualTo: header.trailingAnchor, constant: C.padding[1])])
-    }
-
-    private func setInitialData() {
-        selectionStyle = .none
-        icon.contentMode = .scaleAspectFill
     }
     
     private func setState() {

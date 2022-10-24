@@ -101,7 +101,7 @@ class ScrollableButtonsView: FEView<ScrollableButtonsConfiguration, ScrollableBu
     }
     
     // MARK: - User interaction
-    @objc private  func buttonTapped(_ sender: FEButton) {
+    @objc private  func buttonTapped(_ sender: UIButton) {
         guard let index = buttons.firstIndex(where: { $0 == sender }) else { return }
         
         if index >= callbacks.count {

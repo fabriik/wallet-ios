@@ -17,14 +17,6 @@ struct ButtonConfiguration: Configurable {
     var disabledConfiguration: BackgroundConfiguration?
     var shadowConfiguration: ShadowConfiguration?
     
-    func with(border: BorderConfiguration) -> Self {
-        var copy = self
-        copy.backgroundConfiguration?.border = border
-        copy.selectedConfiguration?.border = border
-        copy.disabledConfiguration?.border = border
-        return copy
-    }
-    
     func withBorder(normal: BorderConfiguration? = nil,
                     selected: BorderConfiguration? = nil,
                     disabled: BorderConfiguration? = nil) -> ButtonConfiguration {
@@ -44,8 +36,8 @@ struct ButtonViewModel: ViewModel {
 }
 
 class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
-    
     var displayState: DisplayState = .normal
+    
     var config: ButtonConfiguration?
     var viewModel: ButtonViewModel?
     
@@ -69,6 +61,25 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
         }
     }
     
+    lazy var shadowLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        return layer
+    }()
+    
+    required override init(frame: CGRect = .zero) {
+        super.init(frame: frame)
+        setupSubviews()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupSubviews()
+    }
+    
+    func setupSubviews() {
+        layer.insertSublayer(shadowLayer, below: layer)
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -84,10 +95,12 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
                                   right: Margins.huge.rawValue)
 
         self.config = config
+        
         setTitleColor(config.backgroundConfiguration?.tintColor, for: .normal)
         setTitleColor(config.disabledConfiguration?.tintColor, for: .disabled)
         setTitleColor(config.selectedConfiguration?.tintColor, for: .selected)
         setTitleColor(config.selectedConfiguration?.tintColor, for: .highlighted)
+        
         layoutIfNeeded()
     }
     
@@ -95,6 +108,7 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
         guard let viewModel = viewModel else { return }
 
         self.viewModel = viewModel
+        
         if let title = viewModel.title {
             if viewModel.isUnderlined {
                 let attributeString = NSMutableAttributedString(
@@ -118,6 +132,7 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
     
     func animateTo(state: DisplayState, withAnimation: Bool = true) {
         let background: BackgroundConfiguration?
+        let shadow = config?.shadowConfiguration
         
         switch state {
         case .normal:
@@ -130,15 +145,10 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
             background = config?.disabledConfiguration
 
         case .error, .filled:
-            // TODO: handle?
             return
         }
-        displayState = state
-        let shadow = config?.shadowConfiguration
         
-        tintColor = background?.tintColor
-        titleLabel?.textColor = background?.tintColor
-        titleLabel?.font = Fonts.button
+        displayState = state
         
         if withAnimation {
             Self.animate(withDuration: Presets.Animation.duration) { [weak self] in
@@ -159,32 +169,24 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
     func configure(shadow: ShadowConfiguration?) {
         guard let shadow = shadow else { return }
         
-        layer.masksToBounds = false
-        layer.shadowColor = shadow.color.cgColor
-        layer.shadowOpacity = shadow.opacity.rawValue
-        layer.shadowOffset = shadow.offset
-        layer.shadowRadius = 1
-        layer.shadowPath = UIBezierPath(roundedRect: marginableView.bounds, cornerRadius: shadow.shadowRadius.rawValue).cgPath
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
+        shadowLayer.frame = bounds
+        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
+        shadowLayer.fillColor = backgroundColor?.cgColor ?? UIColor.clear.cgColor
+        shadowLayer.backgroundColor = UIColor.clear.cgColor
+        shadowLayer.setShadow(with: shadow)
     }
     
-    func configure(background: BackgroundConfiguration? = nil) {
-        backgroundColor = background?.backgroundColor
+    func configure(background: BackgroundConfiguration?) {
+        guard let background = background else { return }
         
-        guard let border = background?.border else { return }
-        let radius = border.cornerRadius == .fullRadius ? bounds.height / 2 : border.cornerRadius.rawValue
-        layer.cornerRadius = radius
-        layer.borderWidth = border.borderWidth
-        layer.borderColor = border.tintColor.cgColor
+        layoutIfNeeded()
+        
+        tintColor = background.tintColor
+        titleLabel?.textColor = background.tintColor
+        titleLabel?.font = Fonts.button
+        
+        setBackground(with: background)
         
         layer.masksToBounds = false
-        layer.shadowColor = UIColor.clear.cgColor
-        layer.shadowOpacity = 0
-        layer.shadowOffset = .zero
-        layer.shadowRadius = 0
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: radius).cgPath
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
     }
 }
