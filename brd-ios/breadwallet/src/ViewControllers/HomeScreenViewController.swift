@@ -49,7 +49,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         let logoImageView = UIImageView()
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.contentMode = .scaleAspectFit
-        logoImageView.image = E.isIPhone6OrSmaller ? UIImage(named: "logo_icon") : UIImage(named: "logo")
+        logoImageView.image = UIImage(named: "logo_icon")
         
         return logoImageView
     }()
@@ -173,6 +173,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
 
         totalAssetsAmountLabel.constrain([
             totalAssetsAmountLabel.trailingAnchor.constraint(equalTo: subHeaderView.trailingAnchor, constant: -C.padding[2]),
+            totalAssetsAmountLabel.topAnchor.constraint(equalTo: totalAssetsTitleLabel.bottomAnchor, constant: Margins.extraSmall.rawValue),
             totalAssetsAmountLabel.centerYAnchor.constraint(equalTo: subHeaderView.topAnchor, constant: C.padding[1])])
 
         totalAssetsTitleLabel.constrain([
@@ -180,11 +181,9 @@ class HomeScreenViewController: UIViewController, Subscriber {
             totalAssetsTitleLabel.bottomAnchor.constraint(equalTo: totalAssetsAmountLabel.topAnchor)])
         
         logoImageView.constrain([
-            logoImageView.leadingAnchor.constraint(equalTo: subHeaderView.leadingAnchor, constant: C.padding[2]),
-            logoImageView.trailingAnchor.constraint(equalTo: totalAssetsAmountLabel.leadingAnchor, constant: -C.padding[1]),
-            logoImageView.heightAnchor.constraint(equalToConstant: 40),
-            logoImageView.widthAnchor.constraint(equalToConstant: E.isIPhone6OrSmaller ? 40 : 158),
-            logoImageView.centerYAnchor.constraint(equalTo: totalAssetsAmountLabel.centerYAnchor, constant: -4)])
+            logoImageView.leadingAnchor.constraint(equalTo: subHeaderView.leadingAnchor, constant: Margins.large.rawValue),
+            logoImageView.topAnchor.constraint(equalTo: totalAssetsTitleLabel.topAnchor, constant: Margins.extraSmall.rawValue),
+            logoImageView.bottomAnchor.constraint(equalTo: totalAssetsAmountLabel.bottomAnchor, constant: -Margins.extraSmall.rawValue)])
 
         debugLabel.constrain([
             debugLabel.leadingAnchor.constraint(equalTo: logoImageView.leadingAnchor),
