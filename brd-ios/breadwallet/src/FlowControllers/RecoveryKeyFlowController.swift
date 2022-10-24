@@ -225,7 +225,9 @@ class RecoveryKeyFlowController {
         let navController = RecoveryKeyFlowController.makeNavigationController()
         
         let enterPhraseVC = EnterPhraseViewController(keyMaster: keyMaster, reason: .validateForResettingPin({ (phrase) in
-            callback(phrase, navController)
+            Store.perform(action: Alert.Show(.walletRestored(callback: {
+                callback(phrase, navController)
+            })))
         }))
 
         navController.viewControllers = [enterPhraseVC]

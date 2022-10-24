@@ -231,7 +231,6 @@ class StartFlowPresenter: Subscriber {
             pinCreationView.present(activity, animated: true)
             group.leave()
         }
-        navigationController?.pushViewController(pinCreationView, animated: true)
 
         group.notify(queue: DispatchQueue.main) {
             self.onboardingCompletionHandler?(account)
@@ -239,6 +238,10 @@ class StartFlowPresenter: Subscriber {
                 self.dismissStartFlow()
             }
         }
+        
+        Store.perform(action: Alert.Show(.walletRestored(callback: {
+            self.navigationController?.pushViewController(pinCreationView, animated: true)
+        })))
     }
     
     // MARK: Create Wallet

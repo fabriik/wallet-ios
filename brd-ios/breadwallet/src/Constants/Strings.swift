@@ -338,6 +338,8 @@ internal enum L10n {
     internal static let sendSuccess = L10n.tr("Localizable", "Alerts.sendSuccess", fallback: "Send Confirmation")
     /// Send success alert subheader label (e.g. the money was sent)
     internal static let sendSuccessSubheader = L10n.tr("Localizable", "Alerts.sendSuccessSubheader", fallback: "Money Sent!")
+    /// Restore your wallet
+    internal static let walletRestored = L10n.tr("Localizable", "Alerts.walletRestored", fallback: "Restore your wallet")
     internal enum TouchIdSucceeded {
       /// Fingerprint was recognized by the scanner
       internal static let android = L10n.tr("Localizable", "Alerts.touchIdSucceeded.android", fallback: "Fingerprint recognized")
@@ -1533,7 +1535,7 @@ internal enum L10n {
     /// Title displayed when the user starts the process of recovering a wallet
     internal static let recoveryYourWallet = L10n.tr("Localizable", "RecoveryKeyFlow.recoveryYourWallet", fallback: "Recover Your Wallet")
     /// Subtitle displayed when the user starts the process of recovering a wallet
-    internal static let recoveryYourWalletSubtitle = L10n.tr("Localizable", "RecoveryKeyFlow.recoveryYourWalletSubtitle", fallback: "Please enter the recovery phrase of the wallet you want to recover.")
+    internal static let recoveryYourWalletSubtitle = L10n.tr("Localizable", "RecoveryKeyFlow.recoveryYourWalletSubtitle", fallback: "Please enter the Recovery Phrase of the wallet you want to restore")
     /// Title for recovery key intro page
     internal static let relaxBuyTrade = L10n.tr("Localizable", "RecoveryKeyFlow.relaxBuyTrade", fallback: "Relax, buy, and swap")
     /// Reminds the user to write down the recovery key words.
