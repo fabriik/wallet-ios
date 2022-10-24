@@ -44,7 +44,7 @@ class VIPTableViewController<C: CoordinatableRoutes,
     
     lazy var contentShadowView: UIView = {
         var contentShadowView = UIView()
-        contentShadowView.backgroundColor = .white
+        contentShadowView.backgroundColor = LightColors.Background.two
         contentShadowView.clipsToBounds = true
         contentShadowView.layer.cornerRadius = CornerRadius.common.rawValue
         contentShadowView.layer.shadowRadius = contentShadowView.layer.cornerRadius * 3
