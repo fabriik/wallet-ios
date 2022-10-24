@@ -1683,7 +1683,7 @@
 "RecoveryKeyFlow.recoveryYourWallet" = "Recover Your Wallet";
 
 /* Subtitle displayed when the user starts the process of recovering a wallet */
-"RecoveryKeyFlow.recoveryYourWalletSubtitle" = "Please enter the recovery phrase of the wallet you want to recover.";
+"RecoveryKeyFlow.recoveryYourWalletSubtitle" = "Please enter the Recovery Phrase of the wallet you want to restore";
 
 /* Title for recovery key intro page */
 "RecoveryKeyFlow.relaxBuyTrade" = "Relax, buy, and swap";
