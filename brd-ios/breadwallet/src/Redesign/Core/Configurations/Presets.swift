@@ -254,10 +254,10 @@ extension Presets {
                                                                  border: Presets.Border.zero),
                                                title: .init(font: Fonts.Title.six, textColor: LightColors.Text.three),
                                                body: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                               buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
-                                                                                            selected: Presets.Border.selectedButtonMediumRadius,
-                                                                                            disabled: Presets.Border.disabledButtonMediumRadius),
-                                                          Presets.Button.secondary ],
+                                               buttons: [Presets.Button.primary.withBorder(normal: Presets.Border.normalButtonFullRadius,
+                                                                                            selected: Presets.Border.selectedButtonFullRadius,
+                                                                                            disabled: Presets.Border.disabledButtonFullRadius),
+                                                          Presets.Button.secondary],
                                                closeButton: Presets.Button.blackIcon)
         
         static var white = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,

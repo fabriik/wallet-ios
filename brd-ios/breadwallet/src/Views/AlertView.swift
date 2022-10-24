@@ -17,6 +17,7 @@ enum AlertType {
     case accountCreation
     case cloudBackupRestoreSuccess(callback: () -> Void)
     case cloudBackupSuccess
+    case walletRestored(callback: () -> Void)
     case none
 
     var header: String {
@@ -33,6 +34,8 @@ enum AlertType {
             return L10n.Import.success
         case .accountCreation, .cloudBackupRestoreSuccess, .cloudBackupSuccess:
             return L10n.Import.success
+        case .walletRestored:
+            return L10n.Alerts.walletRestored
         case .none:
             return "none"
         }
@@ -56,6 +59,8 @@ enum AlertType {
             return L10n.Alert.accountRestorediCloud
         case .cloudBackupSuccess:
             return L10n.Alert.accountBackedUpiCloud
+        case .walletRestored:
+            return ""
         case .none:
             return "none"
         }

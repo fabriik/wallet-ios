@@ -81,7 +81,7 @@ class SharedCurrency: CurrencyUID {
     var isEthereum: Bool { return uid == Currencies.shared.getUID(from: AssetCodes.eth.value) }
     var isXRP: Bool { return uid == Currencies.shared.getUID(from: AssetCodes.xrp.value) }
     var isERC20Token: Bool { return tokenType == .erc20 }
-    var isBitcoinCompatible: Bool { return isBitcoin || isBitcoinCash }
+    var isBitcoinCompatible: Bool { return isBitcoin || isBitcoinCash || isBitcoinSV }
     var isEthereumCompatible: Bool { return isEthereum || isERC20Token }
     
     // Unused

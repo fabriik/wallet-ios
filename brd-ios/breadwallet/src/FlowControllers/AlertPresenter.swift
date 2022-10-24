@@ -91,18 +91,16 @@ class AlertPresenter: Subscriber {
                 window.layoutIfNeeded()
             }, completion: { _ in
                 
-                //TODO: clean up these callbacks
-                if case .paperKeySet(let callback) = type {
+                switch type {
+                case .paperKeySet(let callback),
+                        .pinSet(let callback),
+                        .sweepSuccess(let callback),
+                        .cloudBackupRestoreSuccess(let callback),
+                        .walletRestored(let callback):
                     callback()
-                }
-                if case .pinSet(let callback) = type {
-                    callback()
-                }
-                if case .sweepSuccess(let callback) = type {
-                    callback()
-                }
-                if case .cloudBackupRestoreSuccess(let callback) = type {
-                    callback()
+                    
+                default:
+                    break
                 }
                 completion()
                 alertView.removeFromSuperview()

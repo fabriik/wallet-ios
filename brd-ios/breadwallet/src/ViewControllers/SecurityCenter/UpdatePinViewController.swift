@@ -132,14 +132,14 @@ class UpdatePinViewController: UIViewController, Subscriber {
     }
 
     private func addConstraints() {
-        let leftRightMargin: CGFloat = E.isSmallScreen ? Margins.extraLarge.rawValue * 2 : Margins.extraLarge.rawValue * 3
+        let leftRightMargin: CGFloat = Margins.extraLarge.rawValue * 3
         header.constrain([
             header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.extraHuge.rawValue),
             header.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leftRightMargin),
             header.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -leftRightMargin) ])
         instruction.constrain([
             instruction.leadingAnchor.constraint(equalTo: header.leadingAnchor),
-            instruction.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2]),
+            instruction.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue),
             instruction.trailingAnchor.constraint(equalTo: header.trailingAnchor) ])
         pinView.constrain([
             pinView.centerYAnchor.constraint(equalTo: spacer.centerYAnchor),
@@ -151,9 +151,9 @@ class UpdatePinViewController: UIViewController, Subscriber {
             spacer.topAnchor.constraint(equalTo: instruction.bottomAnchor),
             spacer.bottomAnchor.constraint(equalTo: caption.topAnchor) ])
         caption.constrain([
-            caption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            caption.bottomAnchor.constraint(equalTo: pinPad.view.topAnchor, constant: -C.padding[2]),
-            caption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]) ])
+            caption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leftRightMargin),
+            caption.bottomAnchor.constraint(equalTo: pinPad.view.topAnchor, constant: -Margins.extraExtraHuge.rawValue),
+            caption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -leftRightMargin) ])
         warning.constrain([
             warning.topAnchor.constraint(equalTo: pinView.bottomAnchor, constant: C.padding[2]),
             warning.centerXAnchor.constraint(equalTo: view.centerXAnchor)])

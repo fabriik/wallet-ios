@@ -15,6 +15,7 @@ struct CardDetailsConfiguration: Configurable {
     var title: LabelConfiguration? = .init(font: Fonts.Title.six, textColor: LightColors.secondary, numberOfLines: 1)
     var cardNumber: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1)
     var expiration: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Text.one)
+    var moreButton: BackgroundConfiguration? = Presets.Background.Secondary.selected
 }
 
 struct CardDetailsViewModel: ViewModel {
@@ -127,6 +128,7 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         titleLabel.configure(with: config?.title)
         cardNumberLabel.configure(with: config?.cardNumber)
         expirationLabel.configure(with: config?.expiration)
+        moreButton.configure(background: config?.moreButton)
     }
     
     override func setup(with viewModel: CardDetailsViewModel?) {

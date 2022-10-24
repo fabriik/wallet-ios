@@ -28,7 +28,7 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
         
         var navigationModel = Models.NavigationItems.allCases
         if status != .levelTwo(.levelTwo) {
-            navigationModel = navigationModel.filter { $0 == .paymentMethods }
+            navigationModel = navigationModel.filter { $0 != .paymentMethods }
         }
         
         let sectionRows: [Models.Section: [Any]] = [
