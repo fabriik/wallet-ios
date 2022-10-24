@@ -65,14 +65,7 @@ class OnboardingViewController: UIViewController {
     let headingSubheadingMargin: CGFloat = 22
     private var iconImageViews = [UIImageView]()
     
-    var headingInset: CGFloat {
-        if E.isIPhone6OrSmaller {
-            return 32
-        } else {
-            return 64
-        }
-    }
-    
+    var headingInset: CGFloat = Margins.extraExtraHuge.rawValue
     var subheadingInset: CGFloat {
         return headingInset - 10
     }
@@ -198,8 +191,8 @@ class OnboardingViewController: UIViewController {
         let offset = (screenHeight / 4.0) + 20
         
         logoImageView.constrain([
-            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -(offset))
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 160)
             ])
     }
     
@@ -303,10 +296,12 @@ class OnboardingViewController: UIViewController {
                                                                             constant: offset)
             var leading = headingLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, 
                                                                 constant: headingInset)
-            var trailing = headingLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, 
+            var trailing = headingLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                                                   constant: -(headingInset))
+            let top = headingLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor,
+                                                        constant: Margins.huge.rawValue * 2)
             
-            headingLabel.constrain([animationConstraint, leading, trailing])
+            headingLabel.constrain([leading, trailing, top])
             
             headingConstraints.append(animationConstraint)
             headingLabels.append(headingLabel)
@@ -404,7 +399,7 @@ class OnboardingViewController: UIViewController {
         bottomButtonAnimationConstraint = restoreButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                                             constant: buttonsHiddenYOffset)
         createWalletButton.constrain([
-            createWalletButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            createWalletButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             createWalletButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
             createWalletButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin),                
             createWalletButton.heightAnchor.constraint(equalToConstant: buttonHeight),
