@@ -43,7 +43,6 @@ enum RegistrationModels {
         case instructions
         case email
         case tickbox
-        case confirm
         
         var header: AccessoryType? { return nil }
         var footer: AccessoryType? { return nil }

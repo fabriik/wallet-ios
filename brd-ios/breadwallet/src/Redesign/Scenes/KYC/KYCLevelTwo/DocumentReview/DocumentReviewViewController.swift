@@ -55,12 +55,14 @@ class DocumentReviewViewController: BaseTableViewController<KYCCoordinator,
             return cell
         }
         
-        cell.wrappedView.configure(with: .init(buttons: [Presets.Button.primary]))
-        
-        cell.wrappedView.callbacks = [
-            retakePhotoTapped,
-            confirmPhotoTapped
-        ]
+        cell.setup { view in
+            view.configure(with: .init(buttons: [Presets.Button.underlinedNoBorders]))
+            
+            view.callbacks = [
+                retakePhotoTapped,
+                confirmPhotoTapped
+            ]
+        }
         
         return cell
     }

@@ -398,6 +398,8 @@
 /* Fingerprint was recognized by the scanner */
 "Alerts.touchIdSucceeded.android" = "Fingerprint recognized";
 
+"Alerts.walletRestored" = "Restore your wallet";
+
 /* Error label on XRP send amount screen */
 "Amount.MinXRPAmount" = "The minimum required ammount is 10 XRP.";
 
@@ -752,7 +754,7 @@
 
 "CloudBackup.backupMenuTitle" = "iCloud Backup";
 
-"CloudBackup.createButton" = "Create new wallet";
+"CloudBackup.createButton" = "CREATE NEW WALLET";
 
 "CloudBackup.createWarning" = "A previously backed up wallet has been detected. Using this backup is recomended. Are you sure you want to proceeed with creating a new wallet?";
 
@@ -776,13 +778,13 @@
 
 "CloudBackup.pinAttempts" = "Attempts remaining before erasing backup: %1$@";
 
-"CloudBackup.recoverButton" = "Restore from Recovery Phrase";
+"CloudBackup.recoverButton" = "Restore with Recovery Phrase";
 
 "CloudBackup.recoverHeader" = "Enter PIN to unlock iCloud backup";
 
 "CloudBackup.recoverWarning" = "A previously backed up wallet has been detected. Using this backup is recommended. Are you sure you want to proceeed with restoring from a recovery phrase?";
 
-"CloudBackup.restoreButton" = "Restore from iCloud Backup";
+"CloudBackup.restoreButton" = "Restore with iCloud Backup";
 
 "CloudBackup.selectTitle" = "Choose Backup";
 
@@ -1375,7 +1377,7 @@
 "OnboardingPageFour.title" = "Start investing today with as little as $50!";
 
 /* Onboarding screen Page 1 title */
-"OnboardingPageOne.title" = "Welcome to your new digital asset wallet!";
+"OnboardingPageOne.title" = "Empowering you in the emerging digital asset economy";
 
 /* Onboarding screen Page 3 subtitle */
 "OnboardingPageThree.subtitle" = "Invest and diversify with Fabriik, easily and securely.";
@@ -1653,7 +1655,7 @@
 "RecoveryKeyFlow.generateKeyButton" = "Generate Recovery Phrase";
 
 /* Subtext for the recovery key landing page. */
-"RecoveryKeyFlow.generateKeyExplanation" = "This key is required to recover your money if you upgrade or lose your phone.";
+"RecoveryKeyFlow.generateKeyExplanation" = "This is required to restore your wallet if you upgrade or lose your phone.";
 
 /* Default title for the recovery phrase landing page */
 "RecoveryKeyFlow.generateKeyTitle" = "Generate your private recovery phrase";
@@ -1683,7 +1685,7 @@
 "RecoveryKeyFlow.recoveryYourWallet" = "Recover Your Wallet";
 
 /* Subtitle displayed when the user starts the process of recovering a wallet */
-"RecoveryKeyFlow.recoveryYourWalletSubtitle" = "Please enter the recovery phrase of the wallet you want to recover.";
+"RecoveryKeyFlow.recoveryYourWalletSubtitle" = "Please enter the Recovery Phrase of the wallet you want to restore";
 
 /* Title for recovery key intro page */
 "RecoveryKeyFlow.relaxBuyTrade" = "Relax, buy, and swap";
@@ -2767,7 +2769,7 @@
 "UpdatePin.ContactSupport" = "Contact Support";
 
 /* PIN creation info. */
-"UpdatePin.createInstruction" = "Your PIN will be used to unlock your Fabriik Wallet and send money";
+"UpdatePin.createInstruction" = "Your PIN will be used to unlock your wallet";
 
 /* Update PIN title */
 "UpdatePin.createTitle" = "Set PIN";
@@ -2809,7 +2811,7 @@
 "UpdatePin.securedWallet" = "Secured wallet";
 
 /* Update PIN title */
-"UpdatePin.setNewPinTitle" = "Set your new PIN";
+"UpdatePin.setNewPinTitle" = "Set your PIN";
 
 /* Update PIN failure error message. */
 "UpdatePin.setPinError" = "Sorry, could not update PIN.";

@@ -16,7 +16,6 @@ enum RegistrationConfirmationModels {
         case title
         case instructions
         case input
-        case confirm
         case help
         
         var header: AccessoryType? { return nil }

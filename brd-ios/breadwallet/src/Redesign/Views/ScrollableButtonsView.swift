@@ -10,7 +10,6 @@
 
 import UIKit
 import SnapKit
-import CoreMedia
 
 struct ScrollableButtonsConfiguration: Configurable {
     var background: BackgroundConfiguration?
@@ -22,9 +21,8 @@ struct ScrollableButtonsViewModel: ViewModel {
 }
 
 class ScrollableButtonsView: FEView<ScrollableButtonsConfiguration, ScrollableButtonsViewModel> {
-    
     var callbacks: [(() -> Void)] = []
-    // MARK: callbacks:
+    
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         return view
@@ -32,8 +30,9 @@ class ScrollableButtonsView: FEView<ScrollableButtonsConfiguration, ScrollableBu
     
     private lazy var stack: UIStackView = {
         let view = UIStackView()
-        view.spacing = Margins.small.rawValue
-        view.distribution = .fillEqually
+        view.spacing = Margins.huge.rawValue
+        view.axis = .horizontal
+        view.distribution = .fill
         return view
     }()
     
@@ -42,12 +41,13 @@ class ScrollableButtonsView: FEView<ScrollableButtonsConfiguration, ScrollableBu
     override func setupSubviews() {
         super.setupSubviews()
         
+        content.setupClearMargins()
+        
         content.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
             make.height.equalTo(ViewSizes.Common.largeButton.rawValue)
         }
-        content.setupClearMargins()
         
         scrollView.addSubview(stack)
         stack.snp.makeConstraints { make in
@@ -57,28 +57,18 @@ class ScrollableButtonsView: FEView<ScrollableButtonsConfiguration, ScrollableBu
     }
     
     override func configure(with config: ScrollableButtonsConfiguration?) {
-        buttons.forEach { $0.removeFromSuperview() }
-        buttons = []
-        
         super.configure(with: config)
         
-        setupButtons()
-        
-        guard let config = config else { return }
-        configure(background: config.background)
-    }
-    
-    override func setup(with viewModel: ScrollableButtonsViewModel?) {
-        buttons.forEach { $0.removeFromSuperview() }
-        buttons = []
-        
-        super.setup(with: viewModel)
+        configure(background: config?.background)
         
         setupButtons()
     }
     
     private func setupButtons() {
         guard let viewModel = viewModel, let config = config else { return }
+        
+        buttons = []
+        stack.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         for (index, model) in viewModel.buttons.enumerated() {
             let button = FEButton()
@@ -92,9 +82,19 @@ class ScrollableButtonsView: FEView<ScrollableButtonsConfiguration, ScrollableBu
             
             button.configure(with: buttonConfig)
             button.setup(with: model)
+            
+            button.contentHorizontalAlignment = .left
+            
             buttons.append(button)
             stack.addArrangedSubview(button)
             button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        }
+        
+        let spacer = UIView()
+        stack.addArrangedSubview(spacer)
+        
+        spacer.snp.makeConstraints { make in
+            make.width.greaterThanOrEqualToSuperview().priority(.low)
         }
         
         stack.layoutIfNeeded()
