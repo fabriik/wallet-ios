@@ -81,7 +81,6 @@ class AssetView: FEView<AssetConfiguration, AssetViewModel> {
         super.setupSubviews()
         
         content.addSubview(iconView)
-        content.setupCustomMargins(vertical: .zero, horizontal: .large)
         
         iconView.snp.makeConstraints { make in
             make.leading.equalTo(content.snp.leadingMargin)
