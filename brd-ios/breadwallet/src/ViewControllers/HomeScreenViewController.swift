@@ -232,7 +232,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         toolbar.clipsToBounds = true
         toolbar.layer.cornerRadius = CornerRadius.large.rawValue
         toolbar.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        toolbar.backgroundColor = .green
+        
         let buttons = [
             (L10n.Button.home, #imageLiteral(resourceName: "home"), #selector(showHome)),
             (L10n.HomeScreen.trade, #imageLiteral(resourceName: "trade"), #selector(trade)),
