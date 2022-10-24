@@ -34,7 +34,7 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
         return phraseString.components(separatedBy: " ")
     }
 
-    private let stepLabelTopMargin: CGFloat = E.isSmallScreen ? 36 : 24
+    private let stepLabelTopMargin: CGFloat = 24
     private let headingTopMargin: CGFloat = 28
     private let headingLeftRightMargin: CGFloat = 50
     private let subheadingLeftRightMargin: CGFloat = 70
@@ -45,7 +45,7 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
     private let headingLabel = UILabel()
     private let subheadingLabel = UILabel()
     private let stepLabel = UILabel()
-    private let doneButton = BRDButton(title: L10n.Button.done, type: .primary)
+    private let doneButton = BRDButton(title: L10n.Button.done, type: .secondary)
     private let infoView = InfoView()
     
     var pageIndex: Int = 0 {
@@ -363,7 +363,7 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
         
         stepLabel.constrain([
             stepLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stepLabel.topAnchor.constraint(equalTo: view.centerYAnchor, constant: stepLabelTopMargin)
+            stepLabel.bottomAnchor.constraint(equalTo: infoView.topAnchor, constant: -61)
             ])
         
         constrainContinueButton(doneButton)
@@ -383,7 +383,7 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
     
     private func updateInfoView() {
         infoView.text = (pageIndex == 0) ? L10n.RecoveryKeyFlow.noScreenshotsOrEmailWarning : L10n.RecoveryKeyFlow.rememberToWriteDownReminder
-        infoView.imageName = (pageIndex == 0) ? "ExclamationMarkCircle" : "Document"
+        infoView.imageName = "warning"
     }
     
     private func updateWordCellAppearances(pageScrollPercent: CGFloat) {

@@ -10,7 +10,7 @@ import UIKit
 
 class InfoView: UIView {
     
-    private let imageSize: CGFloat = ViewSizes.small.rawValue
+    private let imageSize: CGFloat = 32
     
     private let infoLabel = UILabel()
     private let infoImageView = UIImageView()
@@ -23,7 +23,7 @@ class InfoView: UIView {
     
     var imageName: String = "warning" {
         didSet {
-            infoImageView.image = UIImage(named: imageName)?.withTintColor(LightColors.Error.one)
+            infoImageView.image = UIImage(named: imageName)?.tinted(with: LightColors.Error.one)
         }
     }
     
@@ -34,6 +34,12 @@ class InfoView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        infoImageView.layer.cornerRadius = infoImageView.frame.height * CornerRadius.fullRadius.rawValue
     }
     
     private func setUp() {
@@ -47,11 +53,13 @@ class InfoView: UIView {
         infoLabel.minimumScaleFactor = 0.5
         
         infoImageView.contentMode = .center
+        infoImageView.tintColor = LightColors.Error.one
+        infoImageView.backgroundColor = LightColors.Background.one
 
         addSubview(infoLabel)
         addSubview(infoImageView)
         
-        self.heightAnchor.constraint(equalToConstant: 56).isActive = true
+        self.heightAnchor.constraint(equalToConstant: ViewSizes.extralarge.rawValue).isActive = true
         
         infoImageView.constrain([
             infoImageView.heightAnchor.constraint(equalToConstant: imageSize),
@@ -60,7 +68,7 @@ class InfoView: UIView {
             infoImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: C.padding[2])
             ])
         
-        let textPadding: CGFloat = Margins.medium.rawValue
+        let textPadding: CGFloat = 20
         
         infoLabel.constrain([
             infoLabel.leftAnchor.constraint(equalTo: infoImageView.rightAnchor, constant: C.padding[2]),

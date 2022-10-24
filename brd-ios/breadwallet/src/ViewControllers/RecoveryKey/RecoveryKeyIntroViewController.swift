@@ -54,7 +54,7 @@ class RecoveryKeyPageCell: UICollectionViewCell {
     var titleLabel = UILabel.wrapping(font: Fonts.Title.six, color: LightColors.Text.three)
     var subTitleLabel = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.two)
     
-    let headingLeftRightMargin: CGFloat = Margins.extraHuge.rawValue
+    let headingLeftRightMargin: CGFloat = Margins.extraExtraHuge.rawValue
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -69,6 +69,7 @@ class RecoveryKeyPageCell: UICollectionViewCell {
     func setUpSubviews() {
         [titleLabel, subTitleLabel, imageView].forEach({ contentView.addSubview($0) })
         titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 2
         subTitleLabel.textAlignment = .center
         imageView.contentMode = .scaleAspectFit
     }
@@ -93,24 +94,9 @@ class RecoveryKeyLandingPageCell: RecoveryKeyPageCell {
     private let lockImageDefaultSize: (CGFloat, CGFloat) = (100, 144)
     private var lockImageScale: CGFloat = 1.0
     private var lockIconTopConstraintPercent: CGFloat = 0.29
-    private let headingTopMargin: CGFloat = 38
-    private let subheadingTopMargin: CGFloat = 18
-
-    override func setUpSubviews() {
-        super.setUpSubviews()
-        
-        // The lock image is a bit too large at scale for small screens such as the iPhone 5 SE.
-        // Here we shrink the image and move it up. See setUpConstraints().
-        if E.isIPhone6OrSmaller {
-            lockImageScale = 0.8
-            lockIconTopConstraintPercent = 0.2
-        }
-    }
     
     override func setUpConstraints() {
-        let screenHeight = UIScreen.main.bounds.height
-        let statusBarHeight = self.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
-        let lockImageTop = (screenHeight * lockIconTopConstraintPercent) - statusBarHeight
+        let lockImageTop = 120.0
         
         imageView.constrain([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: lockImageTop),
@@ -128,13 +114,13 @@ class RecoveryKeyLandingPageCell: RecoveryKeyPageCell {
         }
         
         titleLabel.constrain([
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: headingTopMargin),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: headingLeftRightMargin),
             titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: headingLeftRightMargin),
             titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -headingLeftRightMargin)
             ])
         
         subTitleLabel.constrain([
-            subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: subheadingTopMargin),
+            subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.large.rawValue),
             subTitleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: headingLeftRightMargin),
             subTitleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -headingLeftRightMargin)
             ])
@@ -162,10 +148,6 @@ class RecoveryKeyIntroCell: RecoveryKeyPageCell {
         introStepLabel.numberOfLines = 0
         
         contentView.addSubview(introStepLabel)
-        
-        if E.isSmallScreen {
-            contentTopConstraintPercent = 0.22
-        }
     }
     
     override func setUpConstraints() {
@@ -221,7 +203,7 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
             return RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.generateKeyTitle,
                                         subTitle: L10n.RecoveryKeyFlow.generateKeyExplanation,
                                         imageName: "il_shield",
-                                        continueButtonText: L10n.Button.continueAction)
+                                        continueButtonText: L10n.Onboarding.next)
         case .writeKey:
             return RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.writeKeyAgain,
                                         subTitle: UserDefaults.writePaperPhraseDateString,
@@ -240,7 +222,7 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
     // wallet access.
     private let keyUseInfoView = InfoView()
     
-    private let continueButton = BRDButton(title: L10n.Button.continueAction, type: .primary)
+    private let continueButton = BRDButton(title: L10n.Onboarding.next, type: .primary)
     private var pagingView: UICollectionView?
     private var pagingViewContainer: UIView = UIView()
     
@@ -251,6 +233,12 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
             if newValue == 0 {
                 self.hideBackButton()
             }
+            
+            guard newValue == pages.count - 1 else {
+                continueButton.type = .primary
+                return
+            }
+            continueButton.type = .secondary
         }
         
         didSet {
@@ -402,25 +390,21 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
     
     private func setUpPages() {
         
-//        pages.append(landingPage)
+        pages.append(landingPage)
         
         // If the key is being generated for the first time, add the intro pages and allow paging.
         if mode == .generateKey {
-            pages.append(RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.writeItDown,
-                                              subTitle: L10n.RecoveryKeyFlow.noScreenshotsRecommendation,
-                                              imageName: "il_shield",
-                                              stepHint: L10n.RecoveryKeyFlow.howItWorksStep("1")))
-            
             pages.append(RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.keepSecure,
                                               subTitle: L10n.RecoveryKeyFlow.storeSecurelyRecommendation,
                                               imageName: "il_setup",
-                                              stepHint: L10n.RecoveryKeyFlow.howItWorksStep("2")))
+                                              stepHint: L10n.RecoveryKeyFlow.howItWorksStep("2"),
+                                              continueButtonText: L10n.Onboarding.next))
             
             pages.append(RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.relaxBuyTrade,
                                               subTitle: L10n.RecoveryKeyFlow.securityAssurance,
                                               imageName: "il_security",
                                               stepHint: L10n.RecoveryKeyFlow.howItWorksStep("3"),
-                                              continueButtonText: L10n.RecoveryKeyFlow.generateKeyButton))
+                                              continueButtonText: L10n.Swap.gotItButton))
         }
     }
     

@@ -59,7 +59,11 @@ class BRDButton: UIControl {
             imageView?.image = image
         }
     }
-    private let type: ButtonType
+    var type: ButtonType {
+        didSet {
+            setColors()
+        }
+    }
     private let container = UIView()
     private let label = UILabel()
     private var cornerRadius = CornerRadius.common
@@ -182,7 +186,7 @@ class BRDButton: UIControl {
             cornerRadius = .fullRadius
         case .secondary:
             // redesigned
-            container.backgroundColor = LightColors.primary
+            container.backgroundColor = isEnabled ? LightColors.primary : LightColors.Disabled.one
             label.textColor = LightColors.Contrast.two
             imageView?.tintColor = LightColors.Contrast.two
             cornerRadius = .fullRadius

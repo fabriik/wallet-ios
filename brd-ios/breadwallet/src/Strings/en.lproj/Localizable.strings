@@ -398,6 +398,8 @@
 /* Fingerprint was recognized by the scanner */
 "Alerts.touchIdSucceeded.android" = "Fingerprint recognized";
 
+"Alerts.walletRestored" = "Restore your wallet";
+
 /* Error label on XRP send amount screen */
 "Amount.MinXRPAmount" = "The minimum required ammount is 10 XRP.";
 
@@ -1653,7 +1655,7 @@
 "RecoveryKeyFlow.generateKeyButton" = "Generate Recovery Phrase";
 
 /* Subtext for the recovery key landing page. */
-"RecoveryKeyFlow.generateKeyExplanation" = "This key is required to recover your money if you upgrade or lose your phone.";
+"RecoveryKeyFlow.generateKeyExplanation" = "This is required to restore your wallet if you upgrade or lose your phone.";
 
 /* Default title for the recovery phrase landing page */
 "RecoveryKeyFlow.generateKeyTitle" = "Generate your private recovery phrase";
@@ -1668,7 +1670,7 @@
 "RecoveryKeyFlow.invalidPhrase" = "Some of the words you entered do not match your recovery phrase. Please try again.";
 
 /* Title for recovery key intro page */
-"RecoveryKeyFlow.keepSecure" = "Keep it secure";
+"RecoveryKeyFlow.keepSecure" = "Write down your Recovery Phrase";
 
 /* Informs the user that the recovery is only required for recovering a wallet. */
 "RecoveryKeyFlow.keyUseHint" = "Your key is only needed for recovery, not for everyday wallet access.";
@@ -1683,10 +1685,10 @@
 "RecoveryKeyFlow.recoveryYourWallet" = "Recover Your Wallet";
 
 /* Subtitle displayed when the user starts the process of recovering a wallet */
-"RecoveryKeyFlow.recoveryYourWalletSubtitle" = "Please enter the recovery phrase of the wallet you want to recover.";
+"RecoveryKeyFlow.recoveryYourWalletSubtitle" = "Please enter the Recovery Phrase of the wallet you want to restore";
 
 /* Title for recovery key intro page */
-"RecoveryKeyFlow.relaxBuyTrade" = "Relax, buy, and swap";
+"RecoveryKeyFlow.relaxBuyTrade" = "Keep your Recovery Phrase in a secure location";
 
 /* Reminds the user to write down the recovery key words. */
 "RecoveryKeyFlow.rememberToWriteDownReminder" = "Remember to write these words down. Swipe back if you forgot.";
@@ -1695,10 +1697,10 @@
 "RecoveryKeyFlow.resetPINInstruction" = "Please enter your recovery phrase to reset your PIN.";
 
 /* Assures the user that BRD will keep the user's funds secure. */
-"RecoveryKeyFlow.securityAssurance" = "Buy and swap knowing that your funds are protected by the best security and privacy in the business.";
+"RecoveryKeyFlow.securityAssurance" = "Remember that this is the only way to restore your wallet. RockWallet does not keep a copy.";
 
 /* Recommends that the user stores the recovery key in a secure location */
-"RecoveryKeyFlow.storeSecurelyRecommendation" = "Store your key in a secure location. This is the only way to recover your wallet. Fabriik does not keep a copy.";
+"RecoveryKeyFlow.storeSecurelyRecommendation" = "For security reasons, screenshots are not recommended, as anyone with your Recovery Phrase can access your funds.";
 
 /* Title for the success page after the recovery phrase has been set up */
 "RecoveryKeyFlow.successHeading" = "Congratulations! You completed your recovery phrase setup.";
@@ -2767,7 +2769,7 @@
 "UpdatePin.ContactSupport" = "Contact Support";
 
 /* PIN creation info. */
-"UpdatePin.createInstruction" = "Your PIN will be used to unlock your Fabriik Wallet and send money";
+"UpdatePin.createInstruction" = "Your PIN will be used to unlock your wallet";
 
 /* Update PIN title */
 "UpdatePin.createTitle" = "Set PIN";
@@ -2809,7 +2811,7 @@
 "UpdatePin.securedWallet" = "Secured wallet";
 
 /* Update PIN title */
-"UpdatePin.setNewPinTitle" = "Set your new PIN";
+"UpdatePin.setNewPinTitle" = "Set your PIN";
 
 /* Update PIN failure error message. */
 "UpdatePin.setPinError" = "Sorry, could not update PIN.";

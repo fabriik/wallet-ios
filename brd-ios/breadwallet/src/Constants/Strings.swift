@@ -338,6 +338,8 @@ internal enum L10n {
     internal static let sendSuccess = L10n.tr("Localizable", "Alerts.sendSuccess", fallback: "Send Confirmation")
     /// Send success alert subheader label (e.g. the money was sent)
     internal static let sendSuccessSubheader = L10n.tr("Localizable", "Alerts.sendSuccessSubheader", fallback: "Money Sent!")
+    /// Restore your wallet
+    internal static let walletRestored = L10n.tr("Localizable", "Alerts.walletRestored", fallback: "Restore your wallet")
     internal enum TouchIdSucceeded {
       /// Fingerprint was recognized by the scanner
       internal static let android = L10n.tr("Localizable", "Alerts.touchIdSucceeded.android", fallback: "Fingerprint recognized")
@@ -1511,7 +1513,7 @@ internal enum L10n {
     /// Button text for the 'Generate Recovery Phrase' button
     internal static let generateKeyButton = L10n.tr("Localizable", "RecoveryKeyFlow.generateKeyButton", fallback: "Generate Recovery Phrase")
     /// Subtext for the recovery key landing page.
-    internal static let generateKeyExplanation = L10n.tr("Localizable", "RecoveryKeyFlow.generateKeyExplanation", fallback: "This key is required to recover your money if you upgrade or lose your phone.")
+    internal static let generateKeyExplanation = L10n.tr("Localizable", "RecoveryKeyFlow.generateKeyExplanation", fallback: "This is required to restore your wallet if you upgrade or lose your phone.")
     /// Default title for the recovery phrase landing page
     internal static let generateKeyTitle = L10n.tr("Localizable", "RecoveryKeyFlow.generateKeyTitle", fallback: "Generate your private recovery phrase")
     /// Title for a button that takes the user to the wallet after setting up the recovery key.
@@ -1523,7 +1525,7 @@ internal enum L10n {
     /// Error text displayed when the user enters an incorrect recovery phrase
     internal static let invalidPhrase = L10n.tr("Localizable", "RecoveryKeyFlow.invalidPhrase", fallback: "Some of the words you entered do not match your recovery phrase. Please try again.")
     /// Title for recovery key intro page
-    internal static let keepSecure = L10n.tr("Localizable", "RecoveryKeyFlow.keepSecure", fallback: "Keep it secure")
+    internal static let keepSecure = L10n.tr("Localizable", "RecoveryKeyFlow.keepSecure", fallback: "Write down your Recovery Phrase")
     /// Informs the user that the recovery is only required for recovering a wallet.
     internal static let keyUseHint = L10n.tr("Localizable", "RecoveryKeyFlow.keyUseHint", fallback: "Your key is only needed for recovery, not for everyday wallet access.")
     /// Reminds the user not to take screenshots or email the recovery key words
@@ -1533,17 +1535,17 @@ internal enum L10n {
     /// Title displayed when the user starts the process of recovering a wallet
     internal static let recoveryYourWallet = L10n.tr("Localizable", "RecoveryKeyFlow.recoveryYourWallet", fallback: "Recover Your Wallet")
     /// Subtitle displayed when the user starts the process of recovering a wallet
-    internal static let recoveryYourWalletSubtitle = L10n.tr("Localizable", "RecoveryKeyFlow.recoveryYourWalletSubtitle", fallback: "Please enter the recovery phrase of the wallet you want to recover.")
+    internal static let recoveryYourWalletSubtitle = L10n.tr("Localizable", "RecoveryKeyFlow.recoveryYourWalletSubtitle", fallback: "Please enter the Recovery Phrase of the wallet you want to restore")
     /// Title for recovery key intro page
-    internal static let relaxBuyTrade = L10n.tr("Localizable", "RecoveryKeyFlow.relaxBuyTrade", fallback: "Relax, buy, and swap")
+    internal static let relaxBuyTrade = L10n.tr("Localizable", "RecoveryKeyFlow.relaxBuyTrade", fallback: "Keep your Recovery Phrase in a secure location")
     /// Reminds the user to write down the recovery key words.
     internal static let rememberToWriteDownReminder = L10n.tr("Localizable", "RecoveryKeyFlow.rememberToWriteDownReminder", fallback: "Remember to write these words down. Swipe back if you forgot.")
     /// Instruction displayed when the user is resetting the PIN, which requires the recovery phrase to be entered
     internal static let resetPINInstruction = L10n.tr("Localizable", "RecoveryKeyFlow.resetPINInstruction", fallback: "Please enter your recovery phrase to reset your PIN.")
     /// Assures the user that BRD will keep the user's funds secure.
-    internal static let securityAssurance = L10n.tr("Localizable", "RecoveryKeyFlow.securityAssurance", fallback: "Buy and swap knowing that your funds are protected by the best security and privacy in the business.")
+    internal static let securityAssurance = L10n.tr("Localizable", "RecoveryKeyFlow.securityAssurance", fallback: "Remember that this is the only way to restore your wallet. RockWallet does not keep a copy.")
     /// Recommends that the user stores the recovery key in a secure location
-    internal static let storeSecurelyRecommendation = L10n.tr("Localizable", "RecoveryKeyFlow.storeSecurelyRecommendation", fallback: "Store your key in a secure location. This is the only way to recover your wallet. Fabriik does not keep a copy.")
+    internal static let storeSecurelyRecommendation = L10n.tr("Localizable", "RecoveryKeyFlow.storeSecurelyRecommendation", fallback: "For security reasons, screenshots are not recommended, as anyone with your Recovery Phrase can access your funds.")
     /// Title for the success page after the recovery phrase has been set up
     internal static let successHeading = L10n.tr("Localizable", "RecoveryKeyFlow.successHeading", fallback: "Congratulations! You completed your recovery phrase setup.")
     /// Subtitle for the success page after the recovery key has been set up
@@ -2495,7 +2497,7 @@ internal enum L10n {
     /// Contact Support button on update pin view
     internal static let contactSupport = L10n.tr("Localizable", "UpdatePin.ContactSupport", fallback: "Contact Support")
     /// PIN creation info.
-    internal static let createInstruction = L10n.tr("Localizable", "UpdatePin.createInstruction", fallback: "Your PIN will be used to unlock your Fabriik Wallet and send money")
+    internal static let createInstruction = L10n.tr("Localizable", "UpdatePin.createInstruction", fallback: "Your PIN will be used to unlock your wallet")
     /// Update PIN title
     internal static let createTitle = L10n.tr("Localizable", "UpdatePin.createTitle", fallback: "Set PIN")
     /// Update PIN title
@@ -2523,7 +2525,7 @@ internal enum L10n {
     /// Enter PIN header
     internal static let securedWallet = L10n.tr("Localizable", "UpdatePin.securedWallet", fallback: "Secured wallet")
     /// Update PIN title
-    internal static let setNewPinTitle = L10n.tr("Localizable", "UpdatePin.setNewPinTitle", fallback: "Set your new PIN")
+    internal static let setNewPinTitle = L10n.tr("Localizable", "UpdatePin.setNewPinTitle", fallback: "Set your PIN")
     /// Update PIN failure error message.
     internal static let setPinError = L10n.tr("Localizable", "UpdatePin.setPinError", fallback: "Sorry, could not update PIN.")
     /// Update PIN failure alert view title
