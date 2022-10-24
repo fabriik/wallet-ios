@@ -5406,7 +5406,7 @@
 		};
 		75A2A7E41DA5934400A983D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7EF514B528EB5B6D004A31C5 /* staging.xcconfig */;
+			baseConfigurationReference = 7EF514B428EB5B6D004A31C5 /* debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${APP_ICON}";
@@ -5875,7 +5875,7 @@
 		};
 		9F29A9A425D5C605000FEB40 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7EF514B528EB5B6D004A31C5 /* staging.xcconfig */;
+			baseConfigurationReference = 7EF514B428EB5B6D004A31C5 /* debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -5939,7 +5939,7 @@
 		};
 		9FB0CA1F25D5AD190057DD11 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7EF514B528EB5B6D004A31C5 /* staging.xcconfig */;
+			baseConfigurationReference = 7EF514B428EB5B6D004A31C5 /* debug.xcconfig */;
 			buildSettings = {
 				APP_GROUPS_ID = com.fabriik.one.breadwallet;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
