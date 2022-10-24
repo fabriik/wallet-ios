@@ -20,7 +20,7 @@ struct HomeScreenAssetViewModel {
             let rate = currency.state?.currentRate
             else { return "" }
         
-        return Amount(amount: balance, rate: rate).description
+        return Amount(amount: balance, rate: rate).fiatDescription
     }
     
     var tokenBalance: String {

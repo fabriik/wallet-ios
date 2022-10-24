@@ -49,7 +49,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         let logoImageView = UIImageView()
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.contentMode = .scaleAspectFit
-        logoImageView.image = E.isIPhone6OrSmaller ? UIImage(named: "logo_icon") : UIImage(named: "logo")
+        logoImageView.image = UIImage(named: "logo_icon")
         
         return logoImageView
     }()
@@ -160,29 +160,28 @@ class HomeScreenViewController: UIViewController, Subscriber {
     }
 
     private func addConstraints() {
-        let headerHeight: CGFloat = 30.0
+        let headerHeight: CGFloat = 64
         let toolbarHeight: CGFloat = 74.0
 
         subHeaderView.constrain([
             subHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            subHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0.0),
+            subHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             subHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             subHeaderView.heightAnchor.constraint(equalToConstant: headerHeight) ])
-
-        totalAssetsAmountLabel.constrain([
-            totalAssetsAmountLabel.trailingAnchor.constraint(equalTo: subHeaderView.trailingAnchor, constant: -C.padding[2]),
-            totalAssetsAmountLabel.centerYAnchor.constraint(equalTo: subHeaderView.topAnchor, constant: C.padding[1])])
-
+        
         totalAssetsTitleLabel.constrain([
-            totalAssetsTitleLabel.trailingAnchor.constraint(equalTo: totalAssetsAmountLabel.trailingAnchor),
-            totalAssetsTitleLabel.bottomAnchor.constraint(equalTo: totalAssetsAmountLabel.topAnchor)])
+            totalAssetsTitleLabel.topAnchor.constraint(equalTo: subHeaderView.topAnchor),
+            totalAssetsTitleLabel.trailingAnchor.constraint(equalTo: subHeaderView.trailingAnchor, constant: -Margins.large.rawValue)])
+        
+        totalAssetsAmountLabel.constrain([
+            totalAssetsAmountLabel.trailingAnchor.constraint(equalTo: totalAssetsTitleLabel.trailingAnchor),
+            totalAssetsAmountLabel.topAnchor.constraint(equalTo: totalAssetsTitleLabel.bottomAnchor, constant: Margins.extraSmall.rawValue),
+            totalAssetsAmountLabel.bottomAnchor.constraint(equalTo: subHeaderView.bottomAnchor)])
         
         logoImageView.constrain([
-            logoImageView.leadingAnchor.constraint(equalTo: subHeaderView.leadingAnchor, constant: C.padding[2]),
-            logoImageView.trailingAnchor.constraint(equalTo: totalAssetsAmountLabel.leadingAnchor, constant: -C.padding[1]),
-            logoImageView.heightAnchor.constraint(equalToConstant: 40),
-            logoImageView.widthAnchor.constraint(equalToConstant: E.isIPhone6OrSmaller ? 40 : 158),
-            logoImageView.centerYAnchor.constraint(equalTo: totalAssetsAmountLabel.centerYAnchor, constant: -4)])
+            logoImageView.leadingAnchor.constraint(equalTo: subHeaderView.leadingAnchor, constant: Margins.large.rawValue),
+            logoImageView.topAnchor.constraint(equalTo: totalAssetsTitleLabel.topAnchor, constant: Margins.extraSmall.rawValue),
+            logoImageView.bottomAnchor.constraint(equalTo: totalAssetsAmountLabel.bottomAnchor, constant: -Margins.extraSmall.rawValue)])
 
         debugLabel.constrain([
             debugLabel.leadingAnchor.constraint(equalTo: logoImageView.leadingAnchor),
@@ -322,7 +321,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         let localeComponents = [NSLocale.Key.currencyCode.rawValue: UserDefaults.defaultCurrencyCode]
         let localeIdentifier = Locale.identifier(fromComponents: localeComponents)
         totalAssetsNumberFormatter.locale = Locale(identifier: localeIdentifier)
-        totalAssetsNumberFormatter.currencySymbol = Store.state.orderedWallets.first?.currentRate?.currencySymbol ?? ""
+        totalAssetsNumberFormatter.currencySymbol = Store.state.orderedWallets.first?.currentRate?.code ?? ""
         
         totalAssetsAmountLabel.text = totalAssetsNumberFormatter.string(from: fiatTotal as NSDecimalNumber)
     }
