@@ -47,7 +47,7 @@ final class ItemSelectionPresenter: NSObject, Presenter, ItemSelectionActionResp
                                             closeButton: .init(image: "Close"))
         
         viewController?.displayRemovePaymentPopup(responseDisplay: .init(popupViewModel: popupViewModel,
-                                                                    popupConfig: Presets.Popup.whiteDimmed))
+                                                                    popupConfig: Presets.Popup.normal))
     }
     
     func presentRemovePaymentMessage(actionResponse: ItemSelectionModels.RemovePayment.ActionResponse) {
