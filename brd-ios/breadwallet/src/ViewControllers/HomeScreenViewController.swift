@@ -161,7 +161,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
 
     private func addConstraints() {
         let headerHeight: CGFloat = 64
-        let toolbarHeight: CGFloat = 74.0
+        let toolbarHeight: CGFloat = 84.0
 
         subHeaderView.constrain([
             subHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -202,15 +202,15 @@ class HomeScreenViewController: UIViewController, Subscriber {
         })
         
         toolbar.constrain([
-            toolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            toolbar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: -C.padding[1]),
-            toolbar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: C.padding[1]),
+            toolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            toolbar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            toolbar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             toolbar.heightAnchor.constraint(equalToConstant: toolbarHeight) ])
     }
 
     private func setInitialData() {
         title = ""
-        view.backgroundColor = .homeBackground
+        view.backgroundColor = LightColors.Background.two
         navigationItem.titleView = UIView()
         
         if E.isTestnet {
@@ -229,7 +229,10 @@ class HomeScreenViewController: UIViewController, Subscriber {
     
     private func setupToolbar() {
         toolbar.isTranslucent = false
-        
+        toolbar.clipsToBounds = true
+        toolbar.layer.cornerRadius = CornerRadius.large.rawValue
+        toolbar.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        toolbar.backgroundColor = .green
         let buttons = [
             (L10n.Button.home, #imageLiteral(resourceName: "home"), #selector(showHome)),
             (L10n.HomeScreen.trade, #imageLiteral(resourceName: "trade"), #selector(trade)),
