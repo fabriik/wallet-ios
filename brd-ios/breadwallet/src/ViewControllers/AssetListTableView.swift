@@ -32,7 +32,7 @@ class AssetListTableView: UITableViewController, Subscriber {
     
     private lazy var footerView: UIView = {
         let footerView = UIView()
-        footerView.backgroundColor = .homeBackground
+        footerView.backgroundColor = LightColors.Background.cards
         
         return footerView
     }()
@@ -62,7 +62,7 @@ class AssetListTableView: UITableViewController, Subscriber {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.backgroundColor = .homeBackground
+        tableView.backgroundColor = LightColors.Background.two
         tableView.register(HomeScreenCell.self, forCellReuseIdentifier: HomeScreenCellIds.regularCell.rawValue)
         tableView.register(HomeScreenHiglightableCell.self, forCellReuseIdentifier: HomeScreenCellIds.highlightableCell.rawValue)
         tableView.separatorStyle = .none
