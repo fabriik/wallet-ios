@@ -97,12 +97,15 @@ class HomeScreenViewController: UIViewController, Subscriber {
     }
     
     @objc func reload() {
+        UserManager.shared.refresh { [weak self] _ in
+            self?.attemptShowKYCPrompt()
+        }
+        
         setupSubscriptions()
-        UserManager.shared.refresh()
+        Currencies.shared.reloadCurrencies()
+        
         coreSystem.refreshWallet { [weak self] in
             self?.assetListTableView.reload()
-            
-            Currencies.shared.reloadCurrencies()
         }
     }
     
@@ -116,8 +119,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        guard canShowPrompts else { return }
-        showPrompts?()
+        attemptShowKYCPrompt()
     }
     
     override func viewDidLoad() {
@@ -371,13 +373,6 @@ class HomeScreenViewController: UIViewController, Subscriber {
     
     private var kycStatusPromptView = FEInfoView()
     private var generalPromptView = PromptView()
-    private var profileResult: Result<Profile?, Error>?
-    var canShowPrompts = false {
-        didSet {
-            guard canShowPrompts else { return }
-            showPrompts?()
-        }
-    }
     
     private func attemptShowGeneralPrompt() {
         guard promptContainerStack.arrangedSubviews.isEmpty == true,
@@ -405,21 +400,19 @@ class HomeScreenViewController: UIViewController, Subscriber {
     }
     
     func attemptShowKYCPrompt() {
-        profileResult = UserManager.shared.profileResult
+        let profileResult = UserManager.shared.profileResult
         
         switch profileResult {
         case .success(let profile):
-            if profile?.status.canBuy == false {
-                setupKYCPrompt(result: profileResult)
-            } else {
+            if profile?.status.hasKYC == true {
+                hidePrompt(kycStatusPromptView)
                 attemptShowGeneralPrompt()
+            } else {
+                setupKYCPrompt(result: profileResult)
             }
             
-        case .failure:
-            attemptShowGeneralPrompt()
-            
         default:
-            return
+            attemptShowGeneralPrompt()
         }
     }
     
@@ -439,7 +432,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         }
         
         kycStatusPromptView.trailingButtonCallback = { [weak self] in
-            self?.didTapProfileFromPrompt?(self?.profileResult)
+            self?.didTapProfileFromPrompt?(UserManager.shared.profileResult)
         }
         
         layoutPrompts(kycStatusPromptView)
