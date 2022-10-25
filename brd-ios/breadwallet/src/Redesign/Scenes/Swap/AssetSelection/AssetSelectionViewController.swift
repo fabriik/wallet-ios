@@ -43,13 +43,16 @@ class AssetSelectionViewController: ItemSelectionViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = sections[indexPath.section]
-        guard let model = sectionRows[section]?[indexPath.row] as? AssetViewModel,
-              model.isDisabled == false
-        else { return }
+        guard let model = sectionRows[section]?[indexPath.row] as? AssetViewModel else { return }
         
-        itemSelected?(model)
-        
-        coordinator?.dismissFlow()
+        if model.isDisabled {
+            coordinator?.showMessage(model: InfoViewModel(description: .text(L10n.Swap.details), dismissType: .auto),
+                                     configuration: Presets.InfoView.warning)
+        } else {
+            itemSelected?(model)
+            
+            coordinator?.dismissFlow()
+        }
     }
 
     // MARK: - User Interaction

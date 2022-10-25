@@ -350,8 +350,9 @@ class BaseCoordinator: NSObject,
             break
         }
         
-        guard let superview = navigationController.topViewController?.view,
-              let model = model, let configuration = configuration  else { return }
+        guard let superview = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
+              let model = model,
+              let configuration = configuration else { return }
         
         let notification: FEInfoView = (superview.subviews.first(where: { $0 is FEInfoView }) as? FEInfoView) ?? FEInfoView()
         
@@ -366,22 +367,22 @@ class BaseCoordinator: NSObject,
             notification.alpha = 0
             
             notification.snp.makeConstraints { make in
-                make.top.equalToSuperview().offset(ViewSizes.extraExtraHuge.rawValue)
+                make.top.equalTo(superview.safeAreaLayoutGuide.snp.top)
                 make.leading.equalToSuperview().offset(Margins.medium.rawValue)
                 make.centerX.equalToSuperview()
             }
         }
-        superview.bringSubviewToFront(notification)
+        
         notification.setup(with: model)
         notification.layoutIfNeeded()
-            
+        
         UIView.animate(withDuration: Presets.Animation.duration) {
             notification.alpha = 1
         }
     }
     
     func hideMessage() {
-        guard let superview = navigationController.topViewController?.view,
+        guard let superview = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
               let view = superview.subviews.first(where: { $0 is FEInfoView }) else { return }
         
         UIView.animate(withDuration: Presets.Animation.duration) {
