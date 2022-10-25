@@ -7,7 +7,7 @@ import UIKit
 class VerifyAccountInteractor: NSObject, Interactor, VerifyAccountViewActions {
     
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        presenter?.presentData(actionResponse: .init(item: nil))
+        presenter?.presentData(actionResponse: .init(item: dataStore?.coverImageName))
     }
     
     typealias Models = VerifyAccountModels

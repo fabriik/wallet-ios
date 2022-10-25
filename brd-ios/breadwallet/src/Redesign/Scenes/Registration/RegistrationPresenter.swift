@@ -26,8 +26,6 @@ final class RegistrationPresenter: NSObject, Presenter, RegistrationActionRespon
                 sections.append(.tickbox)
             }
             
-            sections.append(.confirm)
-            
             return sections
         }
         
@@ -47,9 +45,6 @@ final class RegistrationPresenter: NSObject, Presenter, RegistrationActionRespon
             ],
             .tickbox: [
                 TickboxItemViewModel(title: .text(L10n.Account.promotion))
-            ],
-            .confirm: [
-                ButtonViewModel(title: L10n.RecoverWallet.next.uppercased(), enabled: false)
             ]
         ]
         

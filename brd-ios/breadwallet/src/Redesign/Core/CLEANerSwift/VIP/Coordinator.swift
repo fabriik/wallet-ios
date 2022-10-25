@@ -278,7 +278,9 @@ class BaseCoordinator: NSObject,
                         completion?(true)
                         return
                     }
+                    
                     let coordinator = KYCCoordinator(navigationController: nvc)
+                    coordinator.role = role
                     coordinator.start()
                     coordinator.parentCoordinator = self
                     self?.childCoordinators.append(coordinator)
@@ -338,7 +340,9 @@ class BaseCoordinator: NSObject,
             UserManager.shared.refresh()
             
         case .sessionExpired:
-            openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.Registration)
+            openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.Registration) { vc in
+                vc?.navigationItem.hidesBackButton = true
+            }
             
             return
             
@@ -394,8 +398,7 @@ class BaseCoordinator: NSObject,
     }
     
     func showOverlay(with viewModel: TransparentViewModel, completion: (() -> Void)? = nil) {
-        guard let parent = navigationController.view
-        else { return }
+        guard let parent = navigationController.view else { return }
         
         let view = TransparentView()
         view.configure(with: .init())

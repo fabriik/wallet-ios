@@ -18,6 +18,7 @@ protocol VerifyAccountResponseDisplays: AnyObject, BaseResponseDisplays, FetchRe
 }
 
 protocol VerifyAccountDataStore: BaseDataStore, FetchDataStore {
+    var coverImageName: String? { get set }
 }
 
 protocol VerifyAccountDataPassing {
