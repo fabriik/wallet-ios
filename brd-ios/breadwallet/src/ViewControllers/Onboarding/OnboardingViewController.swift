@@ -187,8 +187,8 @@ class OnboardingViewController: UIViewController {
         logoImageView.alpha = 0
         view.addSubview(logoImageView)
         
-        let screenHeight = UIScreen.main.bounds.height
-        let offset = (screenHeight / 4.0) + 20
+//        let screenHeight = UIScreen.main.bounds.height
+//        let offset = (screenHeight / 4.0) + 20
         
         logoImageView.constrain([
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
