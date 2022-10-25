@@ -37,10 +37,10 @@ class KYCDocumentPickerViewController: BaseTableViewController<KYCCoordinator,
             cell = self.tableView(tableView, navigationCellForRowAt: indexPath)
             (cell as? WrapperTableViewCell<NavigationItemView>)?.setup({ view in
                 view.configure(with: .init(image: Presets.Image.primary,
-                                           label: .init(font: Fonts.Title.six,
+                                           label: .init(font: Fonts.Body.one,
                                                         textColor: LightColors.Contrast.one),
                                            shadow: Presets.Shadow.light,
-                                           background: .init(backgroundColor: LightColors.Background.three,
+                                           background: .init(backgroundColor: LightColors.Background.cards,
                                                              tintColor: LightColors.Text.one,
                                                              border: Presets.Border.zero)))
                 view.setupClearMargins()
@@ -49,12 +49,13 @@ class KYCDocumentPickerViewController: BaseTableViewController<KYCCoordinator,
                 }
             })
             
-            cell.setBackground(with: Presets.Background.transparent)
             cell.setupCustomMargins(vertical: .extraHuge, horizontal: .large)
             
         default:
             cell = UITableViewCell()
         }
+        
+        cell.setBackground(with: Presets.Background.transparent)
         
         return cell
     }

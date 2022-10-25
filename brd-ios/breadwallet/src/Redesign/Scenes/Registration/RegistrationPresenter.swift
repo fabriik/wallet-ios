@@ -31,7 +31,7 @@ final class RegistrationPresenter: NSObject, Presenter, RegistrationActionRespon
         
         let sectionRows: [Models.Section: [Any]] = [
             .image: [
-                ImageViewModel.imageName("registration")
+                ImageViewModel.imageName("setup-2")
             ],
             .title: [
                 LabelViewModel.text(item.type?.title)
