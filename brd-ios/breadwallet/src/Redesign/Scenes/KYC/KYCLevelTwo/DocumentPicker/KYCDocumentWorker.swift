@@ -35,14 +35,11 @@ enum Document: String, Model {
     
     var imageName: String {
         switch self {
-        case .idCard:
+        case .idCard, .residencePermit:
             return "id_card"
             
         case .driversLicense:
             return "drivers_license"
-            
-        case .residencePermit:
-            return "id_card"
             
         default:
             return "passport"
