@@ -131,12 +131,13 @@ class ImportKeyViewController: UIViewController, Subscriber {
         warning.text = L10n.Import.warning
 
         // Set up the tap handler for the "Scan Private Key" button.
-        button.tap = strongify(self) { myself in
+        button.tap = { [weak self] in
+            guard let self = self else { return }
             let scan = ScanViewController(forScanningPrivateKeysOnly: true) { result in
                 guard let result = result else { return }
-                myself.handleScanResult(result)
+                self.handleScanResult(result)
             }
-            myself.parent?.present(scan, animated: true, completion: nil)
+            self.parent?.present(scan, animated: true, completion: nil)
         }
     }
     
@@ -331,8 +332,8 @@ class ImportKeyViewController: UIViewController, Subscriber {
 
     private func showSuccess() {
         Store.perform(action: Alert.Show(.sweepSuccess(callback: { [weak self] in
-            guard let myself = self else { return }
-            myself.dismiss(animated: true)
+            guard let self = self else { return }
+            self.dismiss(animated: true)
         })))
     }
 

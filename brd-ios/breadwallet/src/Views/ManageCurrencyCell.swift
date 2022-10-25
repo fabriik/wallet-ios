@@ -101,17 +101,19 @@ class ManageCurrencyCell: UITableViewCell {
             button.setTitle(L10n.TokenList.remove, for: .selected)
         }
         
-        button.tap = strongify(self) { myself in
+        button.tap = { [weak self] in
+            guard let self = self else { return }
+            
             if self.listType == .manage {
-                myself.didRemoveIdentifier?(myself.identifier)
+                self.didRemoveIdentifier?(self.identifier)
             } else if self.listType == .add {
-                let isRemoveButton = myself.button.isSelected
+                let isRemoveButton = self.button.isSelected
                 if isRemoveButton {
-                    myself.didRemoveIdentifier?(myself.identifier)
+                    self.didRemoveIdentifier?(self.identifier)
                 } else {
-                    myself.didAddIdentifier?(myself.identifier)
+                    self.didAddIdentifier?(self.identifier)
                 }
-                myself.button.isSelected = !isRemoveButton
+                self.button.isSelected = !isRemoveButton
             }
         }
         if listType == .add {

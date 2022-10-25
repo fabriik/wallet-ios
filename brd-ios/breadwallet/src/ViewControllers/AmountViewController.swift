@@ -220,8 +220,8 @@ class AmountViewController: UIViewController {
         pinPad.ouputDidUpdate = { [weak self] output in
             self?.handlePinPadUpdate(output: output)
         }
-        currencyToggle.tap = strongify(self) { myself in
-            myself.toggleCurrency()
+        currencyToggle.tap = { [weak self] in
+            self?.toggleCurrency()
         }
         let gr = UITapGestureRecognizer(target: self, action: #selector(didTap))
         tapView.addGestureRecognizer(gr)

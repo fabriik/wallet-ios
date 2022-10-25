@@ -67,11 +67,11 @@ class NodeSelectorViewController: UIViewController {
         titleLabel.text = L10n.NodeSelector.title
         nodeLabel.text = L10n.NodeSelector.nodeLabel
         statusLabel.text = L10n.NodeSelector.statusLabel
-        button.tap = strongify(self) { myself in
+        button.tap = { [weak self] in
             if UserDefaults.customNodeIP == nil {
-                myself.switchToManual()
+                self?.switchToManual()
             } else {
-                myself.switchToAuto()
+                self?.switchToAuto()
             }
         }
         setStatusText()

@@ -114,11 +114,12 @@ class AttributeCell: UIView {
         label.textColor = .grayTextTint
         contentLabel.lineBreakMode = .byTruncatingMiddle
 
-        textField.editingChanged = strongify(self) { myself in
-            myself.contentLabel.text = myself.textField.text
+        textField.editingChanged = { [weak self] in
+            guard let self = self else { return }
+            self.contentLabel.text = self.textField.text
         }
 
-        //GR to start editing label
+        // GR to start editing label
         gr.addTarget(self, action: #selector(didTap))
         tapView.addGestureRecognizer(gr)
     }

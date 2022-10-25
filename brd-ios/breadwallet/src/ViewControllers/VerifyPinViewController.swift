@@ -123,17 +123,17 @@ class VerifyPinViewController: UIViewController, ContentBoxPresenter {
         body.textAlignment = .center
         
         pinPad.ouputDidUpdate = { [weak self] output in
-            guard let myself = self else { return }
+            guard let self = self else { return }
             let attemptLength = output.utf8.count
-            myself.pinView.fill(attemptLength)
-            myself.pinPad.isAppendingDisabled = attemptLength < myself.pinLength ? false : true
-            if attemptLength == myself.pinLength {
-                if myself.walletAuthenticator.authenticate(withPin: output) {
-                    myself.dismiss(animated: true, completion: {
-                        myself.success(output)
+            self.pinView.fill(attemptLength)
+            self.pinPad.isAppendingDisabled = attemptLength < self.pinLength ? false : true
+            if attemptLength == self.pinLength {
+                if self.walletAuthenticator.authenticate(withPin: output) {
+                    self.dismiss(animated: true, completion: {
+                        self.success(output)
                     })
                 } else {
-                    myself.authenticationFailed()
+                    self.authenticationFailed()
                 }
             }
         }

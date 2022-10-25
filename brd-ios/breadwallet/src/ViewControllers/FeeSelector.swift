@@ -90,11 +90,14 @@ class FeeSelector: UIView {
             control.leadingAnchor.constraint(equalTo: warning.leadingAnchor),
             control.topAnchor.constraint(equalTo: subheader.bottomAnchor, constant: 4.0),
             control.widthAnchor.constraint(equalTo: widthAnchor, constant: -C.padding[4]) ])
-        control.valueChanged = strongify(self) { myself in
+        control.valueChanged = { [weak self] in
+            guard let self = self else { return }
+            
             let fee: FeeLevel
             let subheader: String
             let warning: String
-            switch myself.control.selectedSegmentIndex {
+            
+            switch self.control.selectedSegmentIndex {
             case 1:
                 fee = .regular
                 subheader = self.currency.feeText(forIndex: 1)
@@ -109,9 +112,9 @@ class FeeSelector: UIView {
                 warning = L10n.FeeSelector.economyWarning
                 
             }
-            myself.didUpdateFee?(fee)
-            myself.subheader.text = subheader
-            myself.warning.text = warning
+            self.didUpdateFee?(fee)
+            self.subheader.text = subheader
+            self.warning.text = warning
         }
 
         control.selectedSegmentIndex = 1

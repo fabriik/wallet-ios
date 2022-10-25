@@ -41,10 +41,11 @@ class TxAddressCell: TxDetailRowCell {
         addressButton.titleLabel?.textAlignment = .right
         addressButton.tintColor = .darkGray
         
-        addressButton.tap = strongify(self) { myself in
-            myself.addressButton.tempDisable()
+        addressButton.tap = { [weak self] in
+            guard let self = self else { return }
+            self.addressButton.tempDisable()
             Store.trigger(name: .lightWeightAlert(L10n.Receive.copied))
-            UIPasteboard.general.string = myself.addressButton.titleLabel?.text
+            UIPasteboard.general.string = self.addressButton.titleLabel?.text
         }
     }
     

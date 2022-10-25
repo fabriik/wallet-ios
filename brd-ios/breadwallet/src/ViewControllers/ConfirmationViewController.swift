@@ -83,13 +83,28 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
     
     private lazy var address: FELabel = {
         let view = FELabel()
-        view.configure(with: .init(font: Fonts.Body.one, textColor: LightColors.Text.two, lineBreakMode: .byTruncatingMiddle))
+        view.configure(with: .init(font: Fonts.Body.one, textColor: LightColors.Text.two, numberOfLines: 1, lineBreakMode: .byTruncatingMiddle))
         return view
     }()
     
-    private let processingTime = UILabel.wrapping(font: .customBody(size: 14.0), color: .grayTextTint)
-    private let sendLabel = UILabel(font: .customBody(size: 14.0), color: .darkText)
-    private let feeLabel = UILabel(font: .customBody(size: 14.0), color: .darkText)
+    private lazy var processingTime: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Body.three, textColor: LightColors.Text.one))
+        return view
+    }()
+    
+    private lazy var sendLabel: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one))
+        view.setup(with: .text(L10n.Confirmation.amountLabel))
+        return view
+    }()
+    
+    private lazy var feeLabel: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one))
+        return view
+    }()
     
     private lazy var totalLabel: FELabel = {
         let view = FELabel()
@@ -98,16 +113,31 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
         return view
     }()
     
-    private let send = UILabel(font: .customBody(size: 14.0), color: .darkText)
-    private let fee = UILabel(font: .customBody(size: 14.0), color: .darkText)
+    private lazy var send: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two))
+        return view
+    }()
+    
+    private lazy var fee: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two))
+        return view
+    }()
+    
     private lazy var total: FELabel = {
         let view = FELabel()
         view.configure(with: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one))
         return view
     }()
     
+    private lazy var resolvedAddressLabel: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Body.one, textColor: LightColors.Text.two))
+        return view
+    }()
+    
     private let resolvedAddressTitle = ResolvedAddressLabel()
-    private let resolvedAddressLabel = UILabel(font: .customBody(size: 16.0), color: .darkText)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,7 +172,7 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
             contentBox.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             contentBox.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             contentBox.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -C.padding[6] ) ])
-        header.constrainTopCorners(height: 49.0)
+        header.constrainTopCorners(height: ViewSizes.Common.field.rawValue)
         payLabel.constrain([
             payLabel.leadingAnchor.constraint(equalTo: contentBox.leadingAnchor, constant: C.padding[2]),
             payLabel.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2]) ])
@@ -203,14 +233,6 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
             sendButton.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -C.padding[2]) ])
     }
     
-    private func confirmationFeeLabel() -> String {
-        if amount.currency != feeAmount.currency && feeAmount.currency.isEthereum {
-            return L10n.Confirmation.feeLabelETH
-        } else {
-            return L10n.Confirmation.feeLabel
-        }
-    }
-    
     private func setInitialData() {
         view.backgroundColor = .clear
         
@@ -240,13 +262,18 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
         
         address.setup(with: .text(addressText))
         
-        processingTime.text = currency.feeText(forIndex: displayFeeLevel.rawValue)
+        processingTime.setup(with: .text(currency.feeText(forIndex: displayFeeLevel.rawValue)))
         
-        sendLabel.text = L10n.Confirmation.amountLabel
-        sendLabel.adjustsFontSizeToFitWidth = true
-        send.text = amount.description
-        feeLabel.text = confirmationFeeLabel()
-        fee.text = feeAmount.description
+        send.setup(with: .text(amount.description))
+        
+        var feeLabelTitle = ""
+        if amount.currency != feeAmount.currency && feeAmount.currency.isEthereum {
+            feeLabelTitle = L10n.Confirmation.feeLabelETH
+        } else {
+            feeLabelTitle = L10n.Confirmation.feeLabel
+        }
+        
+        feeLabel.setup(with: .text(feeLabelTitle))
         
         total.setup(with: .text(displayTotal.description))
         
@@ -255,26 +282,29 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
             total.isHidden = true
         }
         
-        cancel.tap = strongify(self) { myself in
-            myself.dismiss(animated: true, completion: myself.cancelCallback)
+        cancel.tap = { [weak self] in
+            guard let self = self else { return }
+            self.dismiss(animated: true, completion: self.cancelCallback)
         }
-        header.closeCallback = strongify(self) { myself in
-            myself.dismiss(animated: true, completion: myself.cancelCallback)
+        header.closeCallback = { [weak self] in
+            guard let self = self else { return }
+            self.dismiss(animated: true, completion: self.cancelCallback)
         }
-        sendButton.tap = strongify(self) { myself in
-            myself.dismiss(animated: true, completion: myself.successCallback)
+        sendButton.tap = { [weak self] in
+            guard let self = self else { return }
+            self.dismiss(animated: true, completion: self.successCallback)
         }
         
         contentBox.layer.cornerRadius = CornerRadius.common.rawValue
         contentBox.layer.masksToBounds = true
         
         if resolvedAddress == nil {
+            resolvedAddressLabel.setup(with: .text(nil))
             resolvedAddressTitle.type = nil
-            resolvedAddressLabel.text = nil
             resolvedAddressTitle.isHidden = true
             resolvedAddressLabel.isHidden = true
         } else {
-            resolvedAddressLabel.text = resolvedAddress?.humanReadableAddress
+            resolvedAddressLabel.setup(with: .text(resolvedAddress?.humanReadableAddress))
             resolvedAddressTitle.type = resolvedAddress?.type
         }
         
