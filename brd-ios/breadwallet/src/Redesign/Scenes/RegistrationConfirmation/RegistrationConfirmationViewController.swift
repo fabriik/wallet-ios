@@ -63,7 +63,7 @@ class RegistrationConfirmationViewController: BaseTableViewController<Registrati
         case .image:
             cell = self.tableView(tableView, coverCellForRowAt: indexPath)
             (cell as? WrapperTableViewCell<FEImageView>)?.wrappedView.setupCustomMargins(vertical: .extraExtraHuge, horizontal: .large)
-
+            
         case .title:
             cell = self.tableView(tableView, titleLabelCellForRowAt: indexPath)
             
