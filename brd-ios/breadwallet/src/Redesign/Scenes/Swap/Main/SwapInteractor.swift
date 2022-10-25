@@ -155,7 +155,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         let exchangeRate = dataStore?.quote?.exchangeRate ?? 1
         
         let toFeeRate = dataStore?.quote?.toFee?.feeRate ?? 1
-        let toFee = (dataStore?.quote?.toFee?.fee ?? 0) / toFeeRate
+        let toFee = (dataStore?.quote?.toFee?.fee ?? 0)
         
         let from: Amount
         let to: Amount
@@ -163,22 +163,22 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
         if let fromCryptoAmount = viewAction.fromCryptoAmount,
            let fromCrypto = ExchangeFormatter.current.number(from: fromCryptoAmount)?.decimalValue {
             from = .init(decimalAmount: fromCrypto, isFiat: false, currency: fromCurrency, exchangeRate: fromRate)
-            to = .init(decimalAmount: fromCrypto * exchangeRate - toFee, isFiat: false, currency: toCurrency, exchangeRate: toRate)
+            to = .init(decimalAmount: (fromCrypto - toFee / toFeeRate) * exchangeRate, isFiat: false, currency: toCurrency, exchangeRate: toRate)
             
         } else if let fromFiatAmount = viewAction.fromFiatAmount,
                   let fromFiat = ExchangeFormatter.current.number(from: fromFiatAmount)?.decimalValue {
             from = .init(decimalAmount: fromFiat, isFiat: true, currency: fromCurrency, exchangeRate: fromRate)
-            to = .init(decimalAmount: from.tokenValue * exchangeRate - toFee, isFiat: false, currency: toCurrency, exchangeRate: toRate)
+            to = .init(decimalAmount: (from.tokenValue - toFee / toFeeRate) * exchangeRate, isFiat: false, currency: toCurrency, exchangeRate: toRate)
             
         } else if let toCryptoAmount = viewAction.toCryptoAmount,
                   let toCrypto = ExchangeFormatter.current.number(from: toCryptoAmount)?.decimalValue {
-            from = .init(decimalAmount: (toCrypto + toFee * toFeeRate) / exchangeRate, isFiat: false, currency: fromCurrency, exchangeRate: fromRate)
+            from = .init(decimalAmount: toCrypto / exchangeRate + toFee / toFeeRate, isFiat: false, currency: fromCurrency, exchangeRate: fromRate)
             to = .init(decimalAmount: toCrypto, isFiat: false, currency: toCurrency, exchangeRate: toRate)
             
         } else if let toFiatAmount = viewAction.toFiatAmount,
                   let toFiat = ExchangeFormatter.current.number(from: toFiatAmount)?.decimalValue {
             to = .init(decimalAmount: toFiat, isFiat: true, currency: toCurrency, exchangeRate: toRate)
-            from = .init(decimalAmount: (to.tokenValue + toFee) / exchangeRate, isFiat: false, currency: fromCurrency, exchangeRate: fromRate)
+            from = .init(decimalAmount: to.tokenValue / exchangeRate + toFee / toFeeRate, isFiat: false, currency: fromCurrency, exchangeRate: fromRate)
             
         } else {
             presenter?.presentAmount(actionResponse: .init(from: dataStore?.from,
@@ -190,6 +190,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                                                            handleErrors: viewAction.handleErrors))
             return
         }
+        
         dataStore?.values = viewAction
         dataStore?.values.handleErrors = false
         dataStore?.from = from
@@ -222,16 +223,15 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
                self?.dataStore?.quote != nil {
                 // All good
                 self?.setAmountSuccess()
-                
             } else if self?.dataStore?.quote?.fromFee?.fee != nil,
                       from.currency.isEthereum {
                 // Not enough ETH for Swap + Fee
-                let balance = from.currency.state?.balance?.tokenValue ?? 0
-                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.balanceTooLow(balance: balance,
-                                                                                                    currency: from.currency.code)))
+                let value = self?.dataStore?.fromFeeAmount?.tokenValue ?? self?.dataStore?.quote?.fromFee?.fee ?? 0
+                let error = SwapErrors.balanceTooLow(balance: value, currency: from.currency.code)
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             } else if self?.dataStore?.quote?.fromFee?.fee != nil {
                 // Not enough ETH for fee
-                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee))
+                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.notEnouthEthForFee(currency: from.currency.code)))
             } else {
                 // No quote and no WK fee
                 self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.noFees))
@@ -421,7 +421,7 @@ class SwapInteractor: NSObject, Interactor, SwapViewActions {
             error = GeneralError(errorMessage: "Own address")
             
         case .insufficientFunds:
-            error = SwapErrors.balanceTooLow(balance: currency.state?.balance?.tokenValue ?? 0, currency: currency.code)
+            error = SwapErrors.balanceTooLow(balance: dataStore.fromFeeAmount?.tokenValue ?? dataStore.quote?.fromFee?.fee ?? 0, currency: currency.code)
             
         case .noExchangeRate:
             error = SwapErrors.noQuote(from: dataStore.from?.currency.code, to: dataStore.to?.currency.code)

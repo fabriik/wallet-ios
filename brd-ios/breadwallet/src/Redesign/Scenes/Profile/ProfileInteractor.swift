@@ -17,7 +17,7 @@ class ProfileInteractor: NSObject, Interactor, ProfileViewActions {
 
     // MARK: - ProfileViewActions
     func getData(viewAction: FetchModels.Get.ViewAction) {
-        ProfileWorker().execute { [weak self] result in
+        UserManager.shared.refresh { [weak self] result in
             switch result {
             case .success(let data):
                 self?.dataStore?.profile = data
@@ -27,6 +27,23 @@ class ProfileInteractor: NSObject, Interactor, ProfileViewActions {
                 
             case .failure(let error):
                 self?.presenter?.presentError(actionResponse: .init(error: error))
+                
+            default:
+                return
+            }
+        }
+    }
+    
+    func getPaymentCards(viewAction: ProfileModels.PaymentCards.ViewAction) {
+        fetchCards { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                self.presenter?.presentPaymentCards(actionResponse: .init(allPaymentCards: self.dataStore?.allPaymentCards ?? []))
+                
+            case .failure(let error):
+                self.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
     }
@@ -40,4 +57,23 @@ class ProfileInteractor: NSObject, Interactor, ProfileViewActions {
     }
     
     // MARK: - Aditional helpers
+    private func fetchCards(completion: ((Result<[PaymentCard]?, Error>) -> Void)?) {
+        PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.dataStore?.allPaymentCards = data
+                
+                if self?.dataStore?.autoSelectDefaultPaymentMethod == true {
+                    self?.dataStore?.paymentCard = self?.dataStore?.allPaymentCards?.first
+                }
+                
+                self?.dataStore?.autoSelectDefaultPaymentMethod = true
+                
+            default:
+                break
+            }
+            
+            completion?(result)
+        }
+    }
 }

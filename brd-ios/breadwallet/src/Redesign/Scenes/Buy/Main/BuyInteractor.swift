@@ -120,8 +120,14 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
                 let model = self?.dataStore?.values ?? .init()
                 self?.setAmount(viewAction: model)
                 
-            case .failure:
-                self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.quoteFail))
+            case .failure(let error):
+                guard let error = error as? NetworkingError,
+                      error == .accessDenied else {
+                    self?.presenter?.presentError(actionResponse: .init(error: SwapErrors.quoteFail))
+                    return
+                }
+                
+                self?.presenter?.presentError(actionResponse: .init(error: error))
             }
         }
     }
@@ -147,7 +153,7 @@ class BuyInteractor: NSObject, Interactor, BuyViewActions {
         PaymentCardsWorker().execute(requestData: PaymentCardsRequestData()) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.dataStore?.allPaymentCards = data?.reversed()
+                self?.dataStore?.allPaymentCards = data
                 
                 if self?.dataStore?.autoSelectDefaultPaymentMethod == true {
                     self?.dataStore?.paymentCard = self?.dataStore?.allPaymentCards?.first

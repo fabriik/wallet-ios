@@ -16,7 +16,7 @@ extension Scenes {
 
 class CardSelectionViewController: ItemSelectionViewController {
     
-    override var sceneTitle: String? { return L10n.Buy.selectPayment }
+    override var sceneTitle: String? { return L10n.Buy.paymentMethod }
     override var isSearchEnabled: Bool { return false }
     
     override func setupSubviews() {
@@ -42,6 +42,11 @@ class CardSelectionViewController: ItemSelectionViewController {
                                    cardNumber: .text(model.displayName),
                                    expiration: .text(CardDetailsFormatter.formatExpirationDate(month: model.expiryMonth, year: model.expiryYear))))
             
+            view.moreButtonCallback = { [weak self] in
+                self?.interactor?.showActionSheetRemovePayment(viewAction: .init(instrumentId: model.id,
+                                                                                 last4: model.last4))
+            }
+            
             view.setupCustomMargins(top: .zero, leading: .large, bottom: .zero, trailing: .large)
         }
         
@@ -66,4 +71,6 @@ class CardSelectionViewController: ItemSelectionViewController {
         
         return cell
     }
+    
+    // MARK: - Additional Helpers
 }

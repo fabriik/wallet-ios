@@ -36,15 +36,15 @@ class SyncingIndicator: UIView {
                 case .account:
                     self.text = ""
                 }
-                setNeedsLayout()
             case .syncing:
                 self.text = L10n.SyncingView.syncing
-                setNeedsLayout()
             case .success:
                 self.text = ""
             case .failed:
                 self.text = L10n.SyncingView.failed
             }
+            
+            setNeedsLayout()
         }
     }
 
@@ -89,16 +89,17 @@ class SyncingIndicator: UIView {
     }
 
     private func updateTextLabel() {
-        guard progress > 0.0 else {
-            label.text = text
-            return
+        let syncText: String
+        if progress <= 0.0 {
+            syncText = text
+        } else if syncState == .syncing,
+            let percent = syncProgressNumberFormatter.string(from: NSNumber(value: progress)) {
+            syncText = "\(text) \(percent)"
+        } else {
+            syncText = text
         }
         
-        if syncState == .syncing, let percent = syncProgressNumberFormatter.string(from: NSNumber(value: progress)) {
-            label.text = "\(text) \(percent)"
-        } else {
-            label.text = text
-        }
+        label.text = syncText
     }
     
     required init?(coder aDecoder: NSCoder) {

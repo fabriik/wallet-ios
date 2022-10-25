@@ -169,14 +169,14 @@ class KYCCameraViewController: UIViewController, ViewProtocol {
             case .notAuthorized:
                 DispatchQueue.main.async {
                     let alertController = UIAlertController(title: nil,
-                                                            message: "KYCCamera doesn't have permission to use the camera, please change privacy settings",
+                                                            message: L10n.Alert.permissionCamera,
                                                             preferredStyle: .alert)
                     
-                    alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
+                    alertController.addAction(UIAlertAction(title: NSLocalizedString(L10n.Button.ok, comment: ""),
                                                             style: .cancel,
                                                             handler: nil))
                     
-                    alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: ""),
+                    alertController.addAction(UIAlertAction(title: NSLocalizedString(L10n.Button.settings, comment: ""),
                                                             style: .`default`,
                                                             handler: { _ in
                                                                 UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!,
@@ -189,9 +189,9 @@ class KYCCameraViewController: UIViewController, ViewProtocol {
                 
             case .configurationFailed:
                 DispatchQueue.main.async {
-                    let alertController = UIAlertController(title: nil, message: "Unable to capture media", preferredStyle: .alert)
+                    let alertController = UIAlertController(title: nil, message: L10n.Alert.unableCapture, preferredStyle: .alert)
                     
-                    alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
+                    alertController.addAction(UIAlertAction(title: NSLocalizedString(L10n.Button.ok, comment: ""),
                                                             style: .cancel,
                                                             handler: nil))
                     
@@ -463,9 +463,11 @@ class KYCCameraViewController: UIViewController, ViewProtocol {
                                                object: session)
     }
     
-    private func removeObservers() {
+    deinit {
         NotificationCenter.default.removeObserver(self)
-        
+    }
+    
+    private func removeObservers() {
         for keyValueObservation in keyValueObservations {
             keyValueObservation.invalidate()
         }

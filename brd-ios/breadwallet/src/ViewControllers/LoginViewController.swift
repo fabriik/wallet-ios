@@ -48,11 +48,13 @@ class LoginViewController: UIViewController, Subscriber {
         instruction.text = L10n.UpdatePin.enterPin
     }
 
-    deinit {
-        Store.unsubscribe(self)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         notificationObservers.values.forEach { observer in
             NotificationCenter.default.removeObserver(observer)
         }
+        Store.unsubscribe(self)
     }
 
     // MARK: - Private
@@ -318,7 +320,6 @@ class LoginViewController: UIViewController, Subscriber {
     }
 
     private func authenticate(withPin pin: String) {
-        guard !E.isScreenshots else { return authenticationSucceded(pin: pin) }
         if case .initialLaunch = context {
             guard let account = keyMaster.createAccount(withPin: pin) else { return authenticationFailed() }
             authenticationSucceded(forLoginWithAccount: account, pin: pin)

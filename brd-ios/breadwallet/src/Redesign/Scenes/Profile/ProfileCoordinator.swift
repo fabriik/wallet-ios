@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileCoordinator: BaseCoordinator, ProfileRoutes {
+class ProfileCoordinator: BuyCoordinator, ProfileRoutes {
     // MARK: - ProfileRoutes
     
     override func start() {
@@ -35,11 +35,6 @@ class ProfileCoordinator: BaseCoordinator, ProfileRoutes {
     }
     
     func showExport() {}
-
-    // MARK: - Aditional helpers
-    override func goBack() {
-        navigationController.popViewController(animated: true)
-    }
 }
 
 extension BaseCoordinator {
@@ -83,7 +78,7 @@ extension BaseCoordinator {
         
         UIView.animate(withDuration: Presets.Animation.duration) {
             popup.alpha = 1.0
-            blurView.alpha = blurred ? 1.0 : 0.7
+            blurView.alpha = blurred ? 0.88 : 0.70
         }
     }
     

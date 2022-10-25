@@ -40,7 +40,6 @@ struct Padding {
     }
 }
 
-// swiftlint:disable type_name
 /// Constants
 typealias Constant = C
 struct C {
@@ -68,7 +67,7 @@ struct C {
     static let fabriikURL = "fabriik.com"
     static let privacyPolicy = "https://\(fabriikURL)/privacy-policy/"
     static let termsAndConditions = "https://\(fabriikURL)/terms-and-conditions/"
-    static let feedbackEmail = "feedback@\(fabriikURL)"
+    static let feedbackEmail = "hello@\(fabriikURL)"
     static let iosEmail = "ios@\(fabriikURL)"
     static let reviewLink = "https://apps.apple.com/us/app/fabriik/id1595167194?action=write-review"
     static let supportLink = "https://app-support.\(fabriikURL)/"
@@ -76,7 +75,6 @@ struct C {
         return E.isTestnet ? 18333 : 8333
     }
     static let bip39CreationTime = TimeInterval(1388534400) - NSTimeIntervalSince1970
-    static let successfullPayment: [AddCard.Status] = [.captured, .cardVerified]
     
     /// Path where core library stores its persistent data
     static var coreDataDirURL: URL {

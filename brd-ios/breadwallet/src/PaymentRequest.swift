@@ -101,8 +101,13 @@ struct PaymentRequest {
             for param in queryParams {
                 guard let value = param.value else { break }
                 switch param.name {
-                case "amount":
-                    amount = Amount(tokenString: value, currency: currency, locale: Locale(identifier: C.usLocaleCode))
+                case "amount", "value":
+                    // remove whitespaces and replace decimal separators
+                    var newValue = value.trimmingCharacters(in: .whitespaces)
+                    if newValue.components(separatedBy: CharacterSet.decimalDigits).joined().last == "," {
+                        newValue = newValue.replacingOccurrences(of: ",", with: ".")
+                    }
+                    amount = Amount(tokenString: newValue, currency: currency, locale: Locale(identifier: C.usLocaleCode))
                 case "label", "memo":
                     label = value
                 case "message":

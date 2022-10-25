@@ -35,7 +35,7 @@ class Dot: UIView {
     func addTo(_ view: UIView) {
         let startX = CGFloat.random(in: 0.0...view.bounds.width)
         let startY = CGFloat.random(in: (view.bounds.height - 25.0)...view.bounds.height)
-        let endY = CGFloat.random(in: (startY - 40.0)...(startY - 80.0))
+        let endY = CGFloat.random(in: (startY - 80.0)...(startY - 40.0))
         frame = CGRect(x: startX, y: startY, width: size, height: size)
         startFrame = frame
         endFrame = CGRect(x: startX, y: endY, width: size, height: size)

@@ -10,7 +10,7 @@
 
 import UIKit
 
-class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
+class BillingAddressViewController: BaseTableViewController<ItemSelectionCoordinator,
                                     BillingAddressInteractor,
                                     BillingAddressPresenter,
                                     BillingAddressStore>,
@@ -21,6 +21,7 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
         return L10n.Buy.billingAddress
     }
     private var isValid = false
+    private var isPickCountryPressed = false
 
     // MARK: - Overrides
     
@@ -156,6 +157,7 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
         switch sections[indexPath.section] as? Models.Section {
         case .country:
             interactor?.pickCountry(viewAction: .init())
+            isPickCountryPressed = true
             
         default:
             return
@@ -174,9 +176,13 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     // MARK: - BillingAddressResponseDisplay
     
     func displayCountry(responseDisplay: BillingAddressModels.SelectCountry.ResponseDisplay) {
+        guard isPickCountryPressed else { return }
+        
         coordinator?.showCountrySelector(countries: responseDisplay.countries) { [weak self] model in
             self?.interactor?.pickCountry(viewAction: .init(code: model?.code, countryFullName: model?.name))
         }
+        
+        isPickCountryPressed = false
     }
     
     func displayValidate(responseDisplay: BillingAddressModels.Validate.ResponseDisplay) {
@@ -189,7 +195,7 @@ class BillingAddressViewController: BaseTableViewController<BuyCoordinator,
     
     func displaySubmit(responseDisplay: BillingAddressModels.Submit.ResponseDisplay) {
         LoadingView.hide()
-        
+        coordinator?.dismissFlow()
         coordinator?.showOverlay(with: .success) { [weak self] in
             self?.interactor?.getPaymentCards(viewAction: .init())
         }

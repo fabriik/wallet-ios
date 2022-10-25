@@ -8,16 +8,23 @@
 
 import UIKit
 
-class ItemSelectionCoordinator: BaseCoordinator, ItemSelectionRoutes {
+class ItemSelectionCoordinator: BuyCoordinator, ItemSelectionRoutes {
     // MARK: - ItemSelectionRoutes
     override func start() {
         open(scene: Scenes.ItemSelection)
     }
     
-    // MARK: - Aditional helpers
-    
-    func dismissFlow() {
-        navigationController.dismiss(animated: true)
-        parentCoordinator?.childDidFinish(child: self)
+    func showPaymentsActionSheet(okButtonTitle: String,
+                           cancelButtonTitle: String,
+                           handler: @escaping () -> Void) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: okButtonTitle, style: .destructive, handler: { _ in
+            handler()
+        }))
+        alert.addAction(UIAlertAction(title: cancelButtonTitle, style: .cancel, handler: nil))
+        
+        navigationController.present(alert, animated: true, completion: nil)
     }
+    
+    // MARK: - Aditional helpers
 }

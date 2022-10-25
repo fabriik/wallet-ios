@@ -5,7 +5,7 @@
 "About.blog" = "Blog";
 
 /* About screen footer */
-"About.footer" = "Made by the global Fabriik team.\nVersion %1$@ Build %2$@";
+"About.footer" = "Made by the global Fabriik team.\nVersion %1$s Build %2$s";
 
 /* Privay Policy button label */
 "About.privacy" = "Privacy Policy";
@@ -13,7 +13,7 @@
 /* About screen reddit label */
 "About.reddit" = "Reddit";
 
-/* Terms And Conditions button label */
+/* Terms of Use button label */
 "About.terms" = "Terms And Conditions";
 
 /* About screen title */
@@ -64,6 +64,8 @@
 /* Date of birth label in create account */
 "Account.DateOfBirth" = "Date of birth";
 
+"Account.Declined" = "Declined";
+
 /* Delete account option in menu */
 "Account.DeleteAccount" = "Delete account";
 
@@ -88,6 +90,8 @@
 /* Verify your account to get full access to the wallet message */
 "Account.MessageVerifyAccount" = "Verify your account to get full access to your Fabriik wallet!";
 
+"Account.Pending" = "Pending";
+
 /* Account Personal Information title */
 "Account.PersonalInformation" = "Personal Information";
 
@@ -96,6 +100,8 @@
 
 /* Proof of Identity title in add document for kyc2 */
 "Account.ProofOfIdentity" = "Proof of Identity";
+
+"Account.Resubmit" = "Resubmit";
 
 /* Retake photo button on create account */
 "Account.RetakePhoto" = "Retake photo";
@@ -115,11 +121,13 @@
 /* Why is the verification declined label in profile screen */
 "Account.VerificationDeclined" = "Why is my verification declined?";
 
+"Account.Verified" = "Verified";
+
 /* Verified account message on profile screen */
 "Account.VerifiedAccountMessage" = "We’ll let you know when your account is verified.";
 
 /* Verify account text in popup */
-"Account.VerifyAccountText" = "If you verify your account, you are given access to:\n  - Unlimited deposits/withdrawals\n  - Enhanced security\n  - Full asset support\n  - Buy assets with credit card\n  - 24/7/365 live customer support";
+"Account.VerifyAccountText" = "If you verify your account, you are given access to:\n・Unlimited deposits/withdrawals\n・Enhanced security\n・Full asset support\n・Buy assets with credit card\n・24/7/365 live customer support";
 
 /* Enter and verify your email address for your account label in registration flow */
 "Account.VerifyEmail" = "Enter and verify your new email address for your Fabriik account.";
@@ -228,6 +236,8 @@
 /* Checking for errors label on KYC2 */
 "AccountKYCLevelTwo.CheckingErrors" = "Checking for errors";
 
+"AccountKYCLevelTwo.CompleteLevelOneFirst" = "Please complete Level 1 verification first.";
+
 /* Confirm ID label in KYC2 flow */
 "AccountKYCLevelTwo.ConfirmID" = "We need to confirm your ID";
 
@@ -236,6 +246,8 @@
 
 /* Documents review label in KYC2 */
 "AccountKYCLevelTwo.DocumentsReview" = "We are reviewing your documents and will let you know when your account has been verified.";
+
+"AccountKYCLevelTwo.DrivingLicence" = "Driver’s license";
 
 /* Face capture instructions text on documents for KYC2 */
 "AccountKYCLevelTwo.FaceCaptureInstructions" = "You have captured your entire face in the frame.";
@@ -264,8 +276,14 @@
 /* Make sure before photo label in KYC2 */
 "AccountKYCLevelTwo.MakeSure" = "Make sure you are in a well-lit room";
 
+"AccountKYCLevelTwo.NationalIdCard" = "National ID card";
+
+"AccountKYCLevelTwo.Passport" = "Passport";
+
 /* Prepare documents label in KYC2 */
 "AccountKYCLevelTwo.PrepareDocument" = "Prepare a valid government-issued identity document (Passport, National ID card or Drivers license)";
+
+"AccountKYCLevelTwo.ResidencePermit" = "Residence permit";
 
 /* Select documents  options text label in KYC2 */
 "AccountKYCLevelTwo.SelectOptions" = "Select one of the following options:";
@@ -273,11 +291,31 @@
 /* Sending your data label for verification on KYC2 */
 "AccountKYCLevelTwo.SendingData" = "Sending your data for verification";
 
+"AccountKYCLevelTwo.TakeIdBackPhotoContent" = "Make sure your ID is clear and readable and fits fully in the frame";
+
+"AccountKYCLevelTwo.TakeIdBackPhotoTitle" = "Please take a photo of your ID’s back page";
+
+"AccountKYCLevelTwo.TakeIdFrontPhotoContent" = "Make sure your ID is clear and readable and fits fully in the frame";
+
+"AccountKYCLevelTwo.TakeIdFrontPhotoTitle" = "Please take a photo of your ID’s front page";
+
+"AccountKYCLevelTwo.TakePhotoPassportContent" = "Make sure your passport is clear and readable and fits fully in the frame.";
+
+"AccountKYCLevelTwo.TakePhotoPassportTitle" = "Please take a photo of your passport.";
+
 /* Take photos label in KYC2 */
 "AccountKYCLevelTwo.TakePhotos" = "Be prepared to take a selfie and photos of your ID";
 
+"AccountKYCLevelTwo.TakeSelfieContent" = "Make sure your face is in the frame and it’s clearly visible.";
+
+"AccountKYCLevelTwo.TakeSelfieTitle" = "Please take a selfie";
+
+"AccountKYCLevelTwo.updateLevelOne" = "If your personal information has changed, please first update Level 1 KYC and then continue with\nLevel 2 KYC.";
+
 /* Uploading your photos label in KYC2 flow */
 "AccountKYCLevelTwo.UploadingPhoto" = "Uploading your photos";
+
+"AccountKYCLevelTwo.VerificationPending" = "Unavailable while KYC verification is pending.";
 
 /* Verifying label on KYC2 */
 "AccountKYCLevelTwo.Verifying" = "Verifying you";
@@ -318,11 +356,15 @@
 /* No internet alert message */
 "Alert.noInternet" = "No internet connection found. Check your connection and try again.";
 
+"Alert.PermissionCamera" = "KYCCamera doesn't have permission to use the camera, please change privacy settings";
+
 /* General error message */
 "Alert.somethingWentWrong" = "Something went wrong. Please try again.";
 
 /* Request timed out error message */
 "Alert.timedOut" = "Request timed out. Check your connection and try again.";
+
+"Alert.UnableCapture" = "Unable to capture media";
 
 /* Warning alert title */
 "Alert.warning" = "Warning";
@@ -501,6 +543,8 @@
 /* receive button */
 "Button.receive" = "Receive";
 
+"Button.remove" = "Remove";
+
 /* Search button */
 "Button.search" = "Search";
 
@@ -552,6 +596,8 @@
 /* Buy min and max limit text */
 "Buy.BuyLimits" = "Currently, minimum limit for buy is $%@ USD and maximum limit is $%@ USD/day.";
 
+"Buy.BuyLimits.android" = "Currently, minimum limit for buy is $30.00 USD and maximum limit is $500.00 USD per day.";
+
 /* Card label on add card flow */
 "Buy.Card" = "Card";
 
@@ -564,11 +610,23 @@
 /* Card number label in add card flow */
 "Buy.CardNumber" = "Card number";
 
+"Buy.CardNumberHint" = "XXXX XXXX XXXX XXXX";
+
+/* Card removal failed error message on delete card flow */
+"Buy.CardRemovalFailed" = "Card removal failed. Please try again.";
+
+/* Card removed message on delete card flow */
+"Buy.CardRemoved" = "Card removed";
+
 /* City label in billing address view on buy flow */
 "Buy.City" = "City";
 
 /* Please confirm your CVV label in payment view */
 "Buy.ConfirmCVV" = "Please confirm your CVV";
+
+"Buy.Country" = "Country";
+
+"Buy.CvvHint" = "XXX";
 
 /* Buy details title */
 "Buy.Details" = "Purchase details";
@@ -576,11 +634,15 @@
 /* There was an error while processing your payment title in buy failure screen */
 "Buy.ErrorProcessingPayment" = "There was an error while processing your payment";
 
+"Buy.ExpirationDate" = "Expiration date";
+
 /* Failure transaction message on buy  */
 "Buy.FailureTransactionMessage" = "Please contact your card issuer/bank or try again with a different payment method.";
 
 /* First Name label in billing address view on buy flow */
 "Buy.FirstName" = "First Name";
+
+"Buy.InvalidExpirationDate" = "Entered expiration date is not valid!";
 
 /* Last Name label in billing address view on buy flow */
 "Buy.LastName" = "Last Name";
@@ -606,11 +668,24 @@
 /* Pay with label in buy flow */
 "Buy.PayWith" = "Pay with";
 
+"Buy.ProcessingPayment" = "Processing payment";
+
 /* Purchase success text in purchase details screen  */
 "Buy.PurchaseSuccessText" = "This purchase will appear as ‘Fabriik Wallet’ on your bank statement.";
 
 /* Your assets are on the way message in purchase details screen */
 "Buy.PurchaseSuccessTitle" = "Your assets are on the way!";
+
+/* Are you sure you want to remove this card title dialog */
+"Buy.RemoveCard" = "Are you sure you want to remove card ending in";
+
+"Buy.RemoveCard.android" = "Are you sure you want to remove card ending in %s?";
+
+/* You will no longer be able to use it to buy assets description on removing card dialog  */
+"Buy.RemoveCardOption" = "You will no longer be able to use it to buy assets.";
+
+/* Remove payment method action sheet option on profile screen */
+"Buy.RemovePaymentMethod" = "Remove payment method";
 
 /* Security code (CVV) label in add card flow */
 "Buy.SecurityCode" = "Security code (CVV)";
@@ -621,14 +696,21 @@
 /* Select payment method title in buy flow */
 "Buy.SelectPayment" = "Select payment method";
 
+/* Select a payment method button title in buy flow */
+"Buy.SelectPaymentMethod" = "Select a payment method";
+
 /* State/Province label in billing address view on buy flow */
 "Buy.StateProvince" = "State/Province";
 
 /* By placing this order you agree to our terms message when ordering */
 "Buy.Terms" = "By placing this order you agree to our";
 
+"Buy.Terms.android" = "By placing this order you agree to our %s";
+
 /* Try a different payment method button title in failure buy screen */
 "Buy.TryAnotherPayment" = "Try a different payment method";
+
+"Buy.txHashHeader" = "%s Transaction ID";
 
 /* Your order label in buy flow */
 "Buy.YourOrder" = "Your order:";
@@ -821,6 +903,8 @@
 /* Service capabilities description */
 "EME.permissions.paymentRequest" = "Request %1$@ payment";
 
+"ErrorMessages.accessDenied" = "You cannot purchase assets without completing Level 2 account verification. Upgrade your limits on the Profile screen.";
+
 /* The currency amount is to high for exchange. Accepts 2 parameters:, - maxiumum amount, - currency code */
 "ErrorMessages.AmountTooHigh" = "The amount is higher than your daily limit of %s %s. Please enter a lower amount.";
 
@@ -830,7 +914,7 @@
 "ErrorMessages.authorizationFailed" = "Card authorization failed. Please contact your credit card issuer/bank or try another card.";
 
 /* Accepts 3 parameters:, - currency code, - current balance, - (same) currency code */
-"ErrorMessages.balanceTooLow" = "You don't have enough %s to complete this swap. Your current %s balance is %s.";
+"ErrorMessages.balanceTooLow" = "You need %s %s in your wallet to cover network fees. Please add more %s to your wallet. ";
 
 /* Check your internet connection message */
 "ErrorMessages.CheckInternet" = "Please, check your internet connection and try again later.";
@@ -847,6 +931,8 @@
 "ErrorMessages.exchangeFailed" = "Swap failed. Reason: %s.";
 
 "ErrorMessages.ExchangeQuoteFailed" = "We are currently having issues making a swap between this pair of coins. Please try again later.";
+
+"ErrorMessages.Kyc.Underage" = "You must be at least 18 years old to complete Level 1 and 2 verification.";
 
 /* Message that gets shown when we've detected the user has encountered the looping lock-screen bug. (preserve [ ] characters) */
 "ErrorMessages.loopingLockScreen.android" = "Fabriik can not be authenticated due to a bug in your version of Android. [Please tap here for more information.]";
@@ -870,7 +956,7 @@
 /* Accepts 2 parameters:, - first currency code, - second currency code */
 "ErrorMessages.noQuoteForPair" = "No quote for currency pair %s-%s.";
 
-"ErrorMessages.notEnoughEthForFee" = "Please make sure you have enough ETH to cover for the network fees while swapping within Ethereum-based assets.";
+"ErrorMessages.notEnoughEthForFee" = "%s is an ERC-20 token on the Ethereum blockchain and requires ETH network fees. Please add ETH to your wallet.";
 
 "ErrorMessages.overDailyLimit" = "The amount is higher than your daily limit of %s USD. Please upgrade your account or enter a lower amount.";
 
@@ -891,6 +977,8 @@
 
 /* Two parameters:, - maximum amount, - currency code */
 "ErrorMessages.swapAmountTooHigh" = "The amount is higher than the swap maximum of %s %s.";
+
+"ErrorMessages.temporaryNetworkIssues" = "We are having temporary issues connecting to our network. Please try again later.";
 
 /* Fingerprint was not recognized by the scanner, please try scanning again */
 "ErrorMessages.touchIdFailed.android" = "Fingerprint not recognized. Please try again.";
@@ -1025,7 +1113,7 @@
 /* Label for the total balance of all the user's assets (style is all lower case if your language permits) */
 "HomeScreen.totalAssets" = "Total Assets";
 
-/* (Tap here to) swap (your assets for other assets) */
+/* (Tap here to) trade (your assets for other assets) */
 "HomeScreen.trade" = "Swap";
 
 /* Checking private key balance progress view text */
@@ -1359,7 +1447,7 @@
 /* Title for a prompt that asks the user to subscribe to email updates to find out product updates. */
 "Prompts.Email.title" = "Get in the loop";
 
-/* Enable face ID prompt body */
+/* Body text for a prompt that asks the user to subscribe to email updates to find out product updates., Placeholder text for an email address text field., Body text that is shown when the user successfully subscribes to email updates., Text that is displayed as a footnote when the user successfully subscribes to email updates., Title that is shown when the user successfully subscribes to email updates., Title for a prompt that asks the user to subscribe to email updates to find out product updates., Enable face ID prompt body */
 "Prompts.FaceId.body" = "Tap Continue to enable Face ID";
 
 /* Enable face ID prompt title */
@@ -1722,7 +1810,7 @@
 /* Paper Key button description */
 "SecurityCenter.paperKeyDescription" = "The only way to access your assets if you lose or upgrade your phone.";
 
-/* Recovery Phrase button title. This used to be called 'paper key', so leaving the string key as `paperKeyTitle` in order,  * to not break existing client code. */
+/* Recovery Phrase button title. This used to be called 'paper key', so leaving the string key as `paperKeyTitle` in order, * to not break existing client code. */
 "SecurityCenter.paperKeyTitle" = "Recovery Phrase";
 
 /* Paper Key button title */
@@ -2151,6 +2239,8 @@
 /* Amount purchased label in detail swap screen */
 "Swap.AmountPurchased" = "Amount purchased";
 
+"Swap.AmountPurchased.android" = "Amount purchased:";
+
 /* Back to Home button */
 "Swap.BackToHome" = "Back to Home";
 
@@ -2160,11 +2250,13 @@
 /* Card fee label in swap details screen */
 "Swap.CardFee" = "Card fee";
 
+"Swap.CardFee.android" = "Card fee:";
+
 /* Title on check your assets popup */
 "Swap.CheckAssets" = "Check your assets!";
 
 /* Text body in check your assets popup */
-"Swap.CheckAssetsBody" = "In order to succesfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet.";
+"Swap.CheckAssetsBody" = "In order to successfully perform a swap, make sure you have two or more of our supported swap assets (BSV, BTC, ETH, BCH, SHIB, USDT) activated and funded within your wallet.";
 
 /* Swap details title */
 "Swap.Details" = "Swap details";
@@ -2184,6 +2276,8 @@
 /* Mining network fee label in swap details screen */
 "Swap.MiningNetworkFee" = "Mining network fee";
 
+"Swap.MiningNetworkFee.android" = "Mining network fee:";
+
 /* Not a valid pair */
 "Swap.NotValidPair" = "Not a valid pair";
 
@@ -2202,6 +2296,8 @@
 /* Receiving fee label on Swap screen */
 "Swap.ReceivingFee" = "Receiving fee\n";
 
+"Swap.RequestTimedOut" = "Your swap request timed out. Please try again.";
+
 /* Select assets title in swap flow */
 "Swap.SelectAssets" = "Select assets";
 
@@ -2218,10 +2314,14 @@
 "Swap.SwapAgain" = "Swap again";
 
 /* Swap min and max limit text */
-"Swap.SwapLimits" = "Currently, minimum limit for swap is $%@ USD and maximum limit is $%@ USD/day.";
+"Swap.SwapLimits" = "Currently, minimum limit for swap is $%s USD and maximum limit is $%s USD/day.";
+
+"Swap.Swapping" = "Swapping %1$s/%2$s";
 
 /* Swap status message on swap flow */
-"Swap.SwapStatus" = "Your %@ is estimated to arrive in 30 minutes. You can continue to use your wallet. We'll let you know when your swap has finished.";
+"Swap.SwapStatus" = "Your %s is estimated to arrive in 30 minutes. You can continue to use your wallet. We'll let you know when your swap has finished.";
+
+"Swap.temporarilyUnavailable" = "Swap is temporarily unavailable";
 
 /* Timestamp label in swap details screen */
 "Swap.Timestamp" = "Timestamp";
@@ -2229,8 +2329,14 @@
 /* Total label in swap details screen */
 "Swap.Total" = "Total:";
 
+"Swap.transactionFrom" = "From %1$s";
+
 /* Transaction ID label in swap details screen */
 "Swap.TransactionID" = "Fabriik Transaction ID";
+
+"Swap.transactionInEthereumNetwork" = "It seems that your transaction takes place in the Ethereum network, please keep in mind that network fees will be charged in ETH";
+
+"Swap.transactionTo" = "To %1$s";
 
 "Symbols.lock" = "\u{1F512}";
 
@@ -2416,8 +2522,20 @@
 /* eg. Starting balance: $50.00 */
 "Transaction.starting" = "Starting balance: %1$@";
 
+"Transaction.swapFromFailed" = "Swap from %s failed";
+
 /* Swapped transaction label */
 "Transaction.Swapped" = "Swapped";
+
+"Transaction.swappedFrom" = "Swapped from %s";
+
+"Transaction.swappedTo" = "Swapped to %s";
+
+"Transaction.swappingFrom" = "Swapping from %s";
+
+"Transaction.swappingTo" = "Swapping to %s";
+
+"Transaction.swapToFailed" = "Swap to %s failed";
 
 /* e.g. "[The money you paid was a] Fee for token transfer: BRD" (BRD is the token that was transfered) */
 "Transaction.tokenTransfer" = "Fee for token transfer: %1$@";

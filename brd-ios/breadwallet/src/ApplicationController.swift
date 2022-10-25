@@ -186,7 +186,6 @@ class ApplicationController: Subscriber {
                 guard let self = self else { return }
                 self.setWalletInfo(account: account)
                 self.coreSystem.create(account: account,
-                                       authToken: E.apiToken,
                                        btcWalletCreationCallback: self.handleDeferedLaunchURL) {
                     self.modalPresenter = ModalPresenter(keyStore: self.keyStore,
                                                          system: self.coreSystem,
@@ -353,10 +352,10 @@ class ApplicationController: Subscriber {
     
     private func afterLoginFlow() {
         UserManager.shared.refresh { [weak self] result in
+            self?.homeScreenViewController?.showPrompts?()
+            
             switch result {
             case .success(let profile):
-                self?.homeScreenViewController?.canShowPrompts = profile?.status.canBuyTrade == false
-                
                 guard profile?.status == VerificationStatus.none || profile?.status == .emailPending || profile?.roles.contains(.unverified) == true else { return }
                 
                 self?.coordinator?.showRegistration()
@@ -377,8 +376,6 @@ class ApplicationController: Subscriber {
                             
                             self?.coordinator?.showMessage(with: error)
                         }
-                        
-                        self?.homeScreenViewController?.canShowPrompts = true
                     }
                 }
                 
@@ -434,7 +431,7 @@ class ApplicationController: Subscriber {
             case .success(let profile):
                 if profile?.email == nil {
                     coordinator?.showRegistration(shouldShowProfile: true)
-                } else if UserManager.shared.profile?.status.canBuyTrade == false {
+                } else if UserManager.shared.profile?.status.canBuy == false {
                     coordinator?.showVerificationsModally()
                 }
 

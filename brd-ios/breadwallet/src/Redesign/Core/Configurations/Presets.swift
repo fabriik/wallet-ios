@@ -254,12 +254,12 @@ extension Presets {
                                                                    border: Presets.Border.zero),
                                                  shadow: Presets.Shadow.normal)
         
-        static var swapError = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
-                                                     description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
-                                                     background: .init(backgroundColor: LightColors.error,
-                                                                       tintColor: LightColors.Contrast.two,
-                                                                       border: Presets.Border.zero),
-                                                     shadow: Presets.Shadow.zero)
+        static var redAlert = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
+                                                    description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
+                                                    background: .init(backgroundColor: LightColors.error,
+                                                                      tintColor: LightColors.Contrast.two,
+                                                                      border: Presets.Border.zero),
+                                                    shadow: Presets.Shadow.zero)
     }
 }
 
@@ -281,7 +281,7 @@ extension Presets {
         static var normal = PopupConfiguration(background: .init(backgroundColor: LightColors.secondary,
                                                                  tintColor: LightColors.Contrast.two,
                                                                  border: Presets.Border.zero),
-                                               title: .init(font: Fonts.Title.seven, textColor: LightColors.Contrast.two),
+                                               title: .init(font: Fonts.Title.four, textColor: LightColors.Contrast.two),
                                                body: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
                                                buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
                                                                                             selected: Presets.Border.selected,
@@ -303,8 +303,8 @@ extension Presets {
         static var whiteDimmed = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
                                                                       tintColor: LightColors.Contrast.two,
                                                                       border: Presets.Border.zero),
-                                                    title: .init(font: Fonts.Title.five, textColor: LightColors.Icons.one),
-                                                    body: .init(font: Fonts.Title.five, textColor: LightColors.Text.one, textAlignment: .center),
+                                                    title: .init(font: Fonts.Title.five, textColor: LightColors.Text.one),
+                                                    body: .init(font: Fonts.Body.one, textColor: LightColors.Text.one, textAlignment: .center),
                                                     
                                                     buttons: [ Presets.Button.primary.withBorder(normal: Presets.Border.zero,
                                                                                                  selected: Presets.Border.selected,
@@ -387,6 +387,7 @@ extension Presets {
 }
 
 extension Presets {
+    // TODO: presets are for configurations, not viewModels
     struct VerificationInfoView {
         static var none = InfoViewModel(kyc: .levelOne, headerTitle: .text(L10n.Account.accountLimits),
                                         headerTrailing: .init(image: "help"),
@@ -495,6 +496,7 @@ extension Presets {
                                                  imageAlpha: 0.5)
     }
     
+    // TODO: presets are for configurations, not viewModels
     struct StatusView {
         static var pending = AssetViewModel(icon: UIImage(named: "pendingIcon"), title: L10n.Staking.statusPending)
         static var complete = AssetViewModel(icon: UIImage(named: "completeIcon"), title: L10n.Transaction.complete)

@@ -35,6 +35,8 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
     var didChangeContent: (() -> Void)?
     var didFinish: ((_ didSwitchPlaces: Bool) -> Void)?
     
+    var isFeeAndAmountsStackViewHidden = true
+    
     private lazy var mainStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -158,7 +160,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         return view
     }()
     
-    lazy var feeLabel: FELabel = {
+    private lazy var feeLabel: FELabel = {
         let view = FELabel()
         view.font = Fonts.caption
         view.textColor = LightColors.Text.two
@@ -167,7 +169,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         return view
     }()
     
-    lazy var feeAmountLabel: FELabel = {
+    private lazy var feeAmountLabel: FELabel = {
         let view = FELabel()
         view.font = Fonts.caption
         view.textColor = LightColors.Text.two
@@ -249,8 +251,7 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         feeAndAmountsStackView.addArrangedSubview(feeLabel)
         feeAndAmountsStackView.addArrangedSubview(feeAmountLabel)
         
-        feeAndAmountsStackView.alpha = 0
-        feeAndAmountsStackView.isHidden = true
+        hideFeeAndAmountsStackView(noFee: true)
         
         decidePlaceholder()
     }
@@ -333,11 +334,16 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
         feeLabel.setup(with: viewModel.feeDescription)
         
         let noFee = viewModel.fee == nil || viewModel.fee?.tokenValue == 0 || viewModel.amount?.tokenValue == 0
-        
-        feeAndAmountsStackView.alpha = noFee ? 0 : 1
-        feeAndAmountsStackView.isHidden = noFee
+        hideFeeAndAmountsStackView(noFee: noFee)
         
         decidePlaceholder()
+    }
+    
+    func hideFeeAndAmountsStackView(noFee: Bool) {
+        isFeeAndAmountsStackViewHidden = noFee
+        
+        feeAndAmountsStackView.alpha = isFeeAndAmountsStackViewHidden ? 0 : 1
+        feeAndAmountsStackView.isHidden = isFeeAndAmountsStackViewHidden
     }
     
     func resetTextFieldValues() {
@@ -367,55 +373,13 @@ class SwapCurrencyView: FEView<SwapCurrencyConfiguration, SwapCurrencyViewModel>
             setPlaceholder(for: field, isActive: field.text?.isEmpty == true && field.isFirstResponder)
         }
     }
-}
-
-extension SwapCurrencyView {
-    static func animateSwitchPlaces(sender: UIButton?,
-                                    baseSwapCurrencyView: SwapCurrencyView,
-                                    termSwapCurrencyView: SwapCurrencyView) {
-        let topFrame = sender?.transform != .identity ? baseSwapCurrencyView.selectorStackView : termSwapCurrencyView.selectorStackView
-        let bottomFrame = sender?.transform == .identity ? baseSwapCurrencyView.selectorStackView : termSwapCurrencyView.selectorStackView
-        let frame = topFrame.convert(topFrame.bounds, from: bottomFrame)
-        let verticalDistance = frame.minY - topFrame.bounds.maxY + topFrame.frame.height
-        
-        UIView.animate(withDuration: Presets.Animation.duration * 2,
-                       delay: 0,
-                       usingSpringWithDamping: 0.8,
-                       initialSpringVelocity: 3.0,
-                       options: .curveEaseIn) {
-            sender?.isEnabled = false
-            
-            baseSwapCurrencyView.selectorStackView.transform = .init(translationX: 0, y: sender?.transform == .identity ? -verticalDistance : verticalDistance)
-            termSwapCurrencyView.selectorStackView.transform = .init(translationX: 0, y: sender?.transform == .identity ? verticalDistance : -verticalDistance)
-            
-            sender?.transform = sender?.transform == .identity ? CGAffineTransform(rotationAngle: .pi) : .identity
-        }
-        
-        UIView.animate(withDuration: Presets.Animation.duration) {
-            baseSwapCurrencyView.feeAndAmountsStackView.alpha = 0
-            termSwapCurrencyView.feeAndAmountsStackView.alpha = 0
-            baseSwapCurrencyView.resetTextFieldValues()
-            termSwapCurrencyView.resetTextFieldValues()
-            
-            SwapCurrencyView.updateAlpha(baseSwapCurrencyView: baseSwapCurrencyView, termSwapCurrencyView: termSwapCurrencyView, value: 0.2)
-        } completion: { _ in
-            UIView.animate(withDuration: Presets.Animation.duration) {
-                SwapCurrencyView.updateAlpha(baseSwapCurrencyView: baseSwapCurrencyView, termSwapCurrencyView: termSwapCurrencyView, value: 1.0)
-            } completion: { _ in
-                sender?.isEnabled = true
-            }
-        }
-    }
     
-    private static func updateAlpha(baseSwapCurrencyView: SwapCurrencyView,
-                                    termSwapCurrencyView: SwapCurrencyView,
-                                    value: CGFloat) {
-        [baseSwapCurrencyView, termSwapCurrencyView].forEach { view in
-            view.titleLabel.alpha = value
-            view.fiatStack.alpha = value
-            view.fiatAmountField.alpha = value
-            view.fiatCurrencyLabel.alpha = value
-            view.cryptoAmountField.alpha = value
-        }
+    func setAlphaToLabels(alpha value: Double) {
+        titleLabel.alpha = value
+        fiatStack.alpha = value
+        fiatAmountField.alpha = value
+        fiatCurrencyLabel.alpha = value
+        cryptoAmountField.alpha = value
+        feeAndAmountsStackView.alpha = value
     }
 }

@@ -16,7 +16,12 @@ class TxListCell: UITableViewCell, Identifiable {
     private let iconImageView = UIImageView()
     private let timestamp = UILabel(font: .customBody(size: 16.0), color: .darkGray)
     private let descriptionLabel = UILabel(font: .customBody(size: 14.0), color: .lightGray)
-    private let amount = UILabel(font: .customBold(size: 18.0))
+    private  let amount: UILabel = {
+        let label = UILabel(font: .customBold(size: 18.0))
+        label.lineBreakMode = .byTruncatingMiddle
+        return label
+    }()
+    
     private let separator = UIView(color: .separatorGray)
     
     // MARK: Vars
@@ -150,6 +155,7 @@ class TxListCell: UITableViewCell, Identifiable {
             descriptionLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor)
         ])
         amount.constrain([
+            amount.leadingAnchor.constraint(equalTo: timestamp.trailingAnchor, constant: C.padding[2]),
             amount.topAnchor.constraint(equalTo: contentView.topAnchor),
             amount.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             amount.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -C.padding[2])])

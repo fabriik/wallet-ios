@@ -8,23 +8,6 @@
 
 import UIKit
 
-extension ProfileModels.NavigationItems {
-    
-    var model: NavigationViewModel {
-        switch self {
-        case .security:
-            return .init(image: .imageName("lock_closed"),
-                         label: .text(L10n.MenuButton.security),
-                         button: .init(image: "arrowRight"))
-            
-        case .preferences:
-            return .init(image: .imageName("settings"),
-                         label: .text(L10n.Settings.preferences),
-                         button: .init(image: "arrowRight"))
-        }
-    }
-}
-
 final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
     
     typealias Models = ProfileModels
@@ -34,8 +17,7 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
     // MARK: - ProfileActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let item = actionResponse.item as? Models.Item,
-              let status = item.status
-        else { return }
+              let status = item.status else { return }
         
         var infoView: InfoViewModel
         switch status {
@@ -59,23 +41,32 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
             .navigation
         ]
         
+        var navigationModel = Models.NavigationItems.allCases
+        if status != .levelTwo(.levelTwo) {
+            navigationModel = [Models.NavigationItems.security,
+                               Models.NavigationItems.preferences]
+        }
+        
         let sectionRows: [Models.Section: [Any]] = [
             .profile: [
-                ProfileViewModel(name: item.title ?? "<unknown", image: item.image ?? "")
+                ProfileViewModel(name: item.title ?? "", image: item.image ?? "")
             ],
             .verification: [
                 infoView
             ],
-            .navigation: Models.NavigationItems.allCases.compactMap { $0.model }
+            .navigation: navigationModel.compactMap { $0.model }
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))
     }
     
+    func presentPaymentCards(actionResponse: ProfileModels.PaymentCards.ActionResponse) {
+        viewController?.displayPaymentCards(responseDisplay: .init(allPaymentCards: actionResponse.allPaymentCards))
+    }
+    
     func presentVerificationInfo(actionResponse: ProfileModels.VerificationInfo.ActionResponse) {
-        let text = L10n.Account.verifyAccountText
         let model = PopupViewModel(title: .text(L10n.Account.whyVerify),
-                                   body: text)
+                                   body: L10n.Account.verifyAccountText)
         
         viewController?.displayVerificationInfo(responseDisplay: .init(model: model))
     }
@@ -84,6 +75,7 @@ final class ProfilePresenter: NSObject, Presenter, ProfileActionResponses {
         let item = Models.NavigationItems.allCases[actionResponse.index]
         viewController?.displayNavigation(responseDisplay: .init(item: item))
     }
+    
     // MARK: - Additional Helpers
-
+    
 }
