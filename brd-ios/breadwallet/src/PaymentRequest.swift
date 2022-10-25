@@ -101,7 +101,7 @@ struct PaymentRequest {
             for param in queryParams {
                 guard let value = param.value else { break }
                 switch param.name {
-                case "amount":
+                case "amount", "value":
                     // remove whitespaces and replace decimal separators
                     var newValue = value.trimmingCharacters(in: .whitespaces)
                     if newValue.components(separatedBy: CharacterSet.decimalDigits).joined().last == "," {
