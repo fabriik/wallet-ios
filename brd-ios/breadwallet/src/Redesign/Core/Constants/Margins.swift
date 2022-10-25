@@ -56,7 +56,7 @@ enum Opacity: Float {
 enum ViewSizes: CGFloat {
     enum Common: CGFloat {
         /// 48
-        case field = 48.0
+        case defaultCommon = 48.0
         /// 56
         case largeButton = 56.0
     }

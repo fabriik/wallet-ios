@@ -176,7 +176,7 @@ class InAppNotificationViewController: UIViewController {
             ctaButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: C.padding[2]),
             ctaButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -C.padding[2]),
             ctaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[2]),
-            ctaButton.heightAnchor.constraint(equalToConstant: C.Sizes.buttonHeight)
+            ctaButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue)
         ])
     }
 }

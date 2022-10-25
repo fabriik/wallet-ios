@@ -79,7 +79,7 @@ class AmountViewController: UIViewController {
     private let currencyToggle: BRDButton
     private let border = UIView(color: .secondaryShadow)
     private let bottomBorder = UIView(color: .secondaryShadow)
-    private let cursor = BlinkingView(blinkColor: C.defaultTintColor)
+    private let cursor = BlinkingView(blinkColor: UIView().tintColor)
     private let feeLabel = UILabel()
     private let tapView = UIView()
     private let feeSelector: FeeSelector

@@ -100,7 +100,7 @@ class PushNotificationsViewController: UIViewController {
             ])
         
         openSettingsButton.constrain([
-            openSettingsButton.heightAnchor.constraint(equalToConstant: C.Sizes.buttonHeight),
+            openSettingsButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue),
             openSettingsButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: C.padding[2]),
             openSettingsButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -C.padding[2]),
             openSettingsButton.topAnchor.constraint(equalTo: body.bottomAnchor, constant: C.padding[3])

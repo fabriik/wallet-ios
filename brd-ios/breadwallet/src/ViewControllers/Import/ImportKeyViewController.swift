@@ -117,7 +117,7 @@ class ImportKeyViewController: UIViewController, Subscriber {
             button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[3]),
             button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -C.padding[4]),
             button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[3]),
-            button.constraint(.height, constant: C.Sizes.buttonHeight) ])
+            button.constraint(.height, constant: ViewSizes.Common.defaultCommon.rawValue) ])
     }
 
     private func setInitialData() {

@@ -74,10 +74,10 @@ class SelectBakerCell: UITableViewCell {
         container.addSubview(bakerIconLoadingView)
         bakerIconLoadingView.addSubview(iconLoadingSpinner)
         
-        bakerIcon.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIcon.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIcon.layer.masksToBounds = true
         
-        bakerIconLoadingView.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIconLoadingView.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIconLoadingView.layer.masksToBounds = true
         bakerIconLoadingView.backgroundColor = .lightGray
         

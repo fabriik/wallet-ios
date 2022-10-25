@@ -241,7 +241,7 @@ class LoginViewController: UIViewController, Subscriber {
             debugLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2])
         ])
         topControlTop = logo.topAnchor.constraint(equalTo: view.topAnchor,
-                                                  constant: C.Sizes.brdLogoHeight * 2 + C.Sizes.brdLogoTopMargin)
+                                                  constant: ViewSizes.medium.rawValue * 2 + C.brdLogoTopMargin)
         logo.constrain([
             topControlTop,
             logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),

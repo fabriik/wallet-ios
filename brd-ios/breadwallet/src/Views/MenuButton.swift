@@ -64,7 +64,7 @@ class MenuButton: UIControl {
     }
 
     private func setupStyle() {
-        container.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        container.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         container.clipsToBounds = true
         iconView.tintColor = .darkGray
         arrow.tintColor = .darkGray

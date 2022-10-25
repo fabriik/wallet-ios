@@ -77,7 +77,7 @@ class GiftCurrencyCell: UIView {
          layer.cornerRadius = 8.0
          
          icon.image = currency.imageNoBackground
-         iconContainer.layer.cornerRadius = C.Sizes.homeCellCornerRadius
+         iconContainer.layer.cornerRadius = CornerRadius.common.rawValue
          iconContainer.clipsToBounds = true
          icon.tintColor = .white
          

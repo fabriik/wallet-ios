@@ -38,7 +38,7 @@ class RecoverWalletIntroViewController: UIViewController {
 
     private func addConstraints() {
         header.constrainTopCorners(sidePadding: 0.0, topPadding: 0.0)
-        header.constrain([header.heightAnchor.constraint(equalToConstant: C.Sizes.largeHeaderHeight)])
+        header.constrain([header.heightAnchor.constraint(equalToConstant: 220.0)])
         illustration.constrain([
             illustration.centerXAnchor.constraint(equalTo: header.centerXAnchor),
             illustration.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: C.padding[2]) ])
@@ -50,7 +50,7 @@ class RecoverWalletIntroViewController: UIViewController {
             nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
             nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -C.padding[3]),
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
-            nextButton.heightAnchor.constraint(equalToConstant: C.Sizes.buttonHeight) ])
+            nextButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue) ])
     }
 
     private func setData() {

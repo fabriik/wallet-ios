@@ -52,14 +52,14 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
     private lazy var cancel: FEButton = {
         let view = FEButton()
         view.configure(with: Presets.Button.secondary)
-        view.setup(with: .init(title: L10n.Button.cancel))
+        view.setup(with: .init(title: L10n.Button.cancel.uppercased()))
         return view
     }()
     
     private lazy var sendButton: FEButton = {
         let view = FEButton()
         view.configure(with: Presets.Button.primary)
-        view.setup(with: .init(title: L10n.Confirmation.send))
+        view.setup(with: .init(title: L10n.Confirmation.send.uppercased()))
         return view
     }()
     
@@ -172,7 +172,7 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
             contentBox.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             contentBox.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             contentBox.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -C.padding[6] ) ])
-        header.constrainTopCorners(height: ViewSizes.Common.field.rawValue)
+        header.constrainTopCorners(height: ViewSizes.Common.defaultCommon.rawValue)
         payLabel.constrain([
             payLabel.leadingAnchor.constraint(equalTo: contentBox.leadingAnchor, constant: C.padding[2]),
             payLabel.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2]) ])
@@ -222,11 +222,13 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
             total.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]),
             total.firstBaselineAnchor.constraint(equalTo: totalLabel.firstBaselineAnchor) ])
         cancel.constrain([
+            cancel.heightAnchor.constraint(equalToConstant: ViewSizes.Common.largeButton.rawValue),
             cancel.leadingAnchor.constraint(equalTo: contentBox.leadingAnchor, constant: C.padding[2]),
             cancel.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: C.padding[2]),
             cancel.trailingAnchor.constraint(equalTo: contentBox.centerXAnchor, constant: -C.padding[1]),
             cancel.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -C.padding[2]) ])
         sendButton.constrain([
+            sendButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.largeButton.rawValue),
             sendButton.leadingAnchor.constraint(equalTo: contentBox.centerXAnchor, constant: C.padding[1]),
             sendButton.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: C.padding[2]),
             sendButton.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]),

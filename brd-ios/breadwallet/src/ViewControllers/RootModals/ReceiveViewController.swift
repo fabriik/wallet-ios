@@ -118,7 +118,7 @@ class ReceiveViewController: UIViewController, Subscriber {
             requestTop,
             request.constraint(.leading, toView: view, constant: C.padding[2]),
             request.constraint(.trailing, toView: view, constant: -C.padding[2]),
-            request.constraint(.height, constant: C.Sizes.buttonHeight),
+            request.constraint(.height, constant: ViewSizes.Common.defaultCommon.rawValue),
             requestBottom ])
         addressButton.constrain([
             addressButton.leadingAnchor.constraint(equalTo: address.leadingAnchor, constant: -C.padding[1]),

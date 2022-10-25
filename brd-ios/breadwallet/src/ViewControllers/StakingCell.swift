@@ -71,10 +71,10 @@ class StakingCell: UIView, Subscriber {
     private func setInitialData() {
         icon.image = currency.imageNoBackground
         icon.tintColor = .white
-        iconContainer.layer.cornerRadius = C.Sizes.homeCellCornerRadius
+        iconContainer.layer.cornerRadius = CornerRadius.common.rawValue
         iconContainer.backgroundColor = currency.colors.0
         title.text = L10n.Staking.stakingTitle
-        statusFlag.layer.cornerRadius = C.Sizes.homeCellCornerRadius
+        statusFlag.layer.cornerRadius = CornerRadius.common.rawValue
         statusFlag.clipsToBounds = true
         indicatorView.image = UIImage(named: "RightArrow")
         

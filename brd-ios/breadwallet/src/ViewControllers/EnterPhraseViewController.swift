@@ -175,7 +175,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
         
         nextButton.constrain([
             nextButton.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -ViewSizes.Common.field.rawValue),
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -ViewSizes.Common.defaultCommon.rawValue),
             nextButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margins.large.rawValue),
             nextButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.largeButton.rawValue)
         ])

@@ -99,7 +99,7 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
             stakeButton.constraint(.leading, toView: view, constant: C.padding[2]),
             stakeButton.constraint(.trailing, toView: view, constant: -C.padding[2]),
             stakeButton.constraint(toBottom: bakerInfoView, constant: C.padding[4]),
-            stakeButton.constraint(.height, constant: C.Sizes.buttonHeight),
+            stakeButton.constraint(.height, constant: ViewSizes.Common.defaultCommon.rawValue),
             stakeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -C.padding[5]) ])
         
         Store.subscribe(self, name: .didSelectBaker(nil), callback: { [weak self] in
@@ -291,7 +291,7 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
     
     private func buildChangeBakerButton(with baker: Baker?) {
         changeBakerButton.subviews.forEach { $0.removeFromSuperview() }
-        changeBakerButton.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        changeBakerButton.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         changeBakerButton.layer.masksToBounds = true
         changeBakerButton.backgroundColor = currency.colors.0
         let bakerName = UILabel(font: .customBold(size: 18.0), color: .white)
@@ -314,11 +314,11 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
         bakerName.adjustsFontSizeToFitWidth = true
         bakerName.text = baker?.name
         
-        bakerIcon.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIcon.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIcon.layer.masksToBounds = true
         bakerIcon.backgroundColor = .white
         
-        bakerIconLoadingView.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIconLoadingView.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIconLoadingView.layer.masksToBounds = true
         bakerIconLoadingView.backgroundColor = .white
         
@@ -380,13 +380,13 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
     }
     
     private func buildSelectBakerButton() {
-        selectBakerButton.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        selectBakerButton.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         selectBakerButton.layer.masksToBounds = true
         selectBakerButton.backgroundColor = currency.colors.0
         let currencyIcon = UIImageView()
         currencyIcon.image = currency.imageNoBackground
         currencyIcon.backgroundColor = UIColor.white.withAlphaComponent(0.2)
-        currencyIcon.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        currencyIcon.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         currencyIcon.layer.masksToBounds = true
         currencyIcon.tintColor = .white
         let selectBakerLabel = UILabel(font: .customBold(size: 16.0))
@@ -432,10 +432,10 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
         bakerROI.text = baker?.roiString
         bakerROIHeader.text = L10n.Staking.roiHeader
         
-        bakerIcon.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIcon.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIcon.layer.masksToBounds = true
         
-        bakerIconLoadingView.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIconLoadingView.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIconLoadingView.layer.masksToBounds = true
         bakerIconLoadingView.backgroundColor = .lightGray
         

@@ -380,7 +380,7 @@ private class StartupScreen: UIViewController {
         
         logoBackground.constrain([
             logoBackground.topAnchor.constraint(equalTo: view.topAnchor,
-                                                constant: C.Sizes.brdLogoHeight + C.Sizes.brdLogoTopMargin),
+                                                constant: ViewSizes.medium.rawValue + C.brdLogoTopMargin),
             logoBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoBackground.heightAnchor.constraint(equalTo: logoBackground.widthAnchor,
                                                    multiplier: logo.image!.size.height/logo.image!.size.width),

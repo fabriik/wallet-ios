@@ -24,7 +24,7 @@ class DrawableCircle: UIView {
         let path = UIBezierPath(arcCenter: bounds.center, radius: bounds.width/2.0, startAngle: .pi/2.0, endAngle: (.pi/2.0) - .pi * 2.0, clockwise: false)
         circleLayer.path = path.cgPath
         circleLayer.fillColor = UIColor.clear.cgColor
-        circleLayer.strokeColor = C.defaultTintColor.cgColor
+        circleLayer.strokeColor = UIView().tintColor.cgColor
         circleLayer.lineWidth = 1.0
         circleLayer.opacity = 0
         layer.addSublayer(circleLayer)
@@ -38,7 +38,7 @@ class DrawableCircle: UIView {
         checkLayer.path = check.cgPath
         checkLayer.lineWidth = 2.0
         checkLayer.strokeColor = UIColor.white.cgColor
-        checkLayer.strokeColor = C.defaultTintColor.cgColor
+        checkLayer.strokeColor = UIView().tintColor.cgColor
         checkLayer.fillColor = UIColor.clear.cgColor
         checkLayer.strokeEnd = 0.0
         checkLayer.lineCap = CAShapeLayerLineCap.round
