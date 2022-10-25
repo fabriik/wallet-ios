@@ -10,77 +10,113 @@ import UIKit
 import LocalAuthentication
 
 class ConfirmationViewController: UIViewController, ContentBoxPresenter {
-
-    init(amount: Amount,
-         fee: Amount,
-         displayFeeLevel: FeeLevel,
-         address: String,
-         isUsingBiometrics: Bool,
-         currency: Currency,
-         resolvedAddress: ResolvedAddress? = nil,
-         shouldShowMaskView: Bool,
-         isStake: Bool = false) {
-            self.amount = amount
-            self.feeAmount = fee
-            self.displayFeeLevel = displayFeeLevel
-            self.addressText = address
-            self.isUsingBiometrics = isUsingBiometrics
-            self.currency = currency
-            self.resolvedAddress = resolvedAddress
-            self.isStake = isStake
-            super.init(nibName: nil, bundle: nil)
-            
-            transitionDelegate.shouldShowMaskView = shouldShowMaskView
-            transitioningDelegate = transitionDelegate
-            modalPresentationStyle = .overFullScreen
-            modalPresentationCapturesStatusBarAppearance = true
+    init(amount: Amount, fee: Amount, displayFeeLevel: FeeLevel, address: String, currency: Currency,
+         resolvedAddress: ResolvedAddress? = nil, shouldShowMaskView: Bool, isStake: Bool = false) {
+        self.amount = amount
+        self.feeAmount = fee
+        self.displayFeeLevel = displayFeeLevel
+        self.addressText = address
+        self.currency = currency
+        self.resolvedAddress = resolvedAddress
+        self.isStake = isStake
+        
+        super.init(nibName: nil, bundle: nil)
+        
+        transitionDelegate.shouldShowMaskView = shouldShowMaskView
+        transitioningDelegate = transitionDelegate
+        modalPresentationStyle = .overFullScreen
+        modalPresentationCapturesStatusBarAppearance = true
     }
-
+    
     private let transitionDelegate = PinTransitioningDelegate()
     private let amount: Amount
     private let feeAmount: Amount
     private let displayFeeLevel: FeeLevel
     private let addressText: String
-    private let isUsingBiometrics: Bool
     private let currency: Currency
     private let resolvedAddress: ResolvedAddress?
     private var isStake: Bool
     
-    //ContentBoxPresenter
     let contentBox = UIView(color: .white)
     let blurView = UIVisualEffectView()
     let effect = UIBlurEffect(style: .dark)
-
+    
     var successCallback: (() -> Void)?
     var cancelCallback: (() -> Void)?
-
-    private let header = ModalHeaderView(title: L10n.Confirmation.title, style: .dark)
-    private let cancel = BRDButton(title: L10n.Button.cancel, type: .secondary)
-    private let sendButton = BRDButton(title: L10n.Confirmation.send, type: .primary, image: (LAContext.biometricType() == .face ? #imageLiteral(resourceName: "FaceId") : #imageLiteral(resourceName: "TouchId")))
-
-    private let payLabel = UILabel(font: .customBody(size: 14.0), color: .grayTextTint)
-    private let toLabel = UILabel(font: .customBody(size: 14.0), color: .grayTextTint)
-    private let amountLabel = UILabel(font: .customBody(size: 16.0), color: .darkText)
-    private let address = UILabel(font: .customBody(size: 16.0), color: .darkText)
-
+    
+    private lazy var header: ModalHeaderView = {
+        let view = ModalHeaderView(title: L10n.Confirmation.title)
+        return view
+    }()
+    
+    private lazy var cancel: FEButton = {
+        let view = FEButton()
+        view.configure(with: Presets.Button.secondary)
+        view.setup(with: .init(title: L10n.Button.cancel))
+        return view
+    }()
+    
+    private lazy var sendButton: FEButton = {
+        let view = FEButton()
+        view.configure(with: Presets.Button.primary)
+        view.setup(with: .init(title: L10n.Confirmation.send))
+        return view
+    }()
+    
+    private lazy var payLabel: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one))
+        return view
+    }()
+    
+    private lazy var toLabel: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one))
+        return view
+    }()
+    
+    private lazy var amountLabel: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Body.one, textColor: LightColors.Text.two))
+        return view
+    }()
+    
+    private lazy var address: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Body.one, textColor: LightColors.Text.two, lineBreakMode: .byTruncatingMiddle))
+        return view
+    }()
+    
     private let processingTime = UILabel.wrapping(font: .customBody(size: 14.0), color: .grayTextTint)
     private let sendLabel = UILabel(font: .customBody(size: 14.0), color: .darkText)
     private let feeLabel = UILabel(font: .customBody(size: 14.0), color: .darkText)
-    private let totalLabel = UILabel(font: .customMedium(size: 14.0), color: .darkText)
-
+    
+    private lazy var totalLabel: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one))
+        view.setup(with: .text(L10n.Confirmation.totalLabel))
+        return view
+    }()
+    
     private let send = UILabel(font: .customBody(size: 14.0), color: .darkText)
     private let fee = UILabel(font: .customBody(size: 14.0), color: .darkText)
-    private let total = UILabel(font: .customMedium(size: 14.0), color: .darkText)
+    private lazy var total: FELabel = {
+        let view = FELabel()
+        view.configure(with: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one))
+        return view
+    }()
     
     private let resolvedAddressTitle = ResolvedAddressLabel()
     private let resolvedAddressLabel = UILabel(font: .customBody(size: 16.0), color: .darkText)
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         addSubviews()
         addConstraints()
         setInitialData()
     }
-
+    
     private func addSubviews() {
         view.addSubview(contentBox)
         contentBox.addSubview(header)
@@ -100,7 +136,7 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
         contentBox.addSubview(cancel)
         contentBox.addSubview(sendButton)
     }
-
+    
     private func addConstraints() {
         contentBox.constrain([
             contentBox.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -122,13 +158,13 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
             address.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]) ])
         
         if resolvedAddress != nil {
-           resolvedAddressTitle.constrain([
-               resolvedAddressTitle.leadingAnchor.constraint(equalTo: toLabel.leadingAnchor),
-               resolvedAddressTitle.topAnchor.constraint(equalTo: address.bottomAnchor, constant: C.padding[2]) ])
-           resolvedAddressLabel.constrain([
-               resolvedAddressLabel.leadingAnchor.constraint(equalTo: resolvedAddressTitle.leadingAnchor),
-               resolvedAddressLabel.topAnchor.constraint(equalTo: resolvedAddressTitle.bottomAnchor),
-               resolvedAddressLabel.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]) ])
+            resolvedAddressTitle.constrain([
+                resolvedAddressTitle.leadingAnchor.constraint(equalTo: toLabel.leadingAnchor),
+                resolvedAddressTitle.topAnchor.constraint(equalTo: address.bottomAnchor, constant: C.padding[2]) ])
+            resolvedAddressLabel.constrain([
+                resolvedAddressLabel.leadingAnchor.constraint(equalTo: resolvedAddressTitle.leadingAnchor),
+                resolvedAddressLabel.topAnchor.constraint(equalTo: resolvedAddressTitle.bottomAnchor),
+                resolvedAddressLabel.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]) ])
         }
         
         let processingTimeAnchor = resolvedAddress == nil ? address.bottomAnchor : resolvedAddressLabel.bottomAnchor
@@ -166,7 +202,7 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
             sendButton.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]),
             sendButton.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -C.padding[2]) ])
     }
-
+    
     private func confirmationFeeLabel() -> String {
         if amount.currency != feeAmount.currency && feeAmount.currency.isEthereum {
             return L10n.Confirmation.feeLabelETH
@@ -177,47 +213,48 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
     
     private func setInitialData() {
         view.backgroundColor = .clear
+        
+        var payLabelTitle = ""
         if isStake {
             if addressText == currency.wallet?.receiveAddress {
-                payLabel.text = L10n.Staking.unstake
+                payLabelTitle = L10n.Staking.unstake
             } else {
-                payLabel.text = L10n.Staking.stake
+                payLabelTitle = L10n.Staking.stake
             }
         } else {
-            payLabel.text = L10n.Confirmation.send
+            payLabelTitle = L10n.Confirmation.send
         }
-
+        
+        payLabel.setup(with: .text(payLabelTitle))
+        
+        let toLabelTitle = isStake ? L10n.Confirmation.validatorAddress : L10n.Confirmation.to
+        toLabel.setup(with: .text(toLabelTitle))
+        
         let totalAmount = (amount.currency == feeAmount.currency) ? amount + feeAmount : amount
         let displayTotal = Amount(amount: totalAmount,
                                   rate: amount.rate,
                                   minimumFractionDigits: amount.minimumFractionDigits)
-
-        if isStake {
-            amountLabel.text = currency.wallet?.balance.tokenDescription ?? ""
-        } else {
-            amountLabel.text = amount.combinedDescription
-        }
-
-        toLabel.text = isStake ? L10n.Confirmation.validatorAddress : L10n.Confirmation.to
-        address.text = addressText
-        address.lineBreakMode = .byTruncatingMiddle
-
+        
+        let amountLabelTitle = isStake ? currency.wallet?.balance.tokenDescription ?? "" : amount.combinedDescription
+        amountLabel.setup(with: .text(amountLabelTitle))
+        
+        address.setup(with: .text(addressText))
+        
         processingTime.text = currency.feeText(forIndex: displayFeeLevel.rawValue)
-
+        
         sendLabel.text = L10n.Confirmation.amountLabel
         sendLabel.adjustsFontSizeToFitWidth = true
         send.text = amount.description
         feeLabel.text = confirmationFeeLabel()
         fee.text = feeAmount.description
-
-        totalLabel.text = L10n.Confirmation.totalLabel
-        total.text = displayTotal.description
-
+        
+        total.setup(with: .text(displayTotal.description))
+        
         if currency.isERC20Token {
             totalLabel.isHidden = true
             total.isHidden = true
         }
-
+        
         cancel.tap = strongify(self) { myself in
             myself.dismiss(animated: true, completion: myself.cancelCallback)
         }
@@ -227,13 +264,9 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
         sendButton.tap = strongify(self) { myself in
             myself.dismiss(animated: true, completion: myself.successCallback)
         }
-
-        contentBox.layer.cornerRadius = 6.0
+        
+        contentBox.layer.cornerRadius = CornerRadius.common.rawValue
         contentBox.layer.masksToBounds = true
-
-        if !isUsingBiometrics {
-            sendButton.image = nil
-        }
         
         if resolvedAddress == nil {
             resolvedAddressTitle.type = nil
@@ -256,11 +289,11 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
             send.isHidden = true
         }
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }

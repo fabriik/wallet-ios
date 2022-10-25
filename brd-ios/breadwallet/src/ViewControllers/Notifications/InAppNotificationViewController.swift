@@ -63,11 +63,11 @@ class InAppNotificationViewController: UIViewController {
     }
     
     private func addCloseButton() {
-        let close = UIBarButtonItem(image: UIImage(named: "CloseModern"),
+        let close = UIBarButtonItem(image: UIImage(named: "close")?.withRenderingMode(.alwaysOriginal),
                                     style: .plain,
                                     target: self,
                                     action: #selector(onCloseButton))
-        close.tintColor = Theme.blueBackground
+        close.tintColor = LightColors.Text.three
         navigationItem.rightBarButtonItem = close
     }
     

@@ -335,7 +335,6 @@ class GiftViewController: UIViewController {
                                                              fee: feeAmount,
                                                              displayFeeLevel: .regular,
                                                              address: "Gift to \(self.recipientName!)",
-                                                             isUsingBiometrics: self.sender.canUseBiometrics,
                                                              currency: self.currency,
                                                              resolvedAddress: nil,
                                                              shouldShowMaskView: false)

@@ -210,7 +210,6 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
                                                       fee: Amount.zero(currency),
                                                       displayFeeLevel: FeeLevel.regular,
                                                       address: address,
-                                                      isUsingBiometrics: true,
                                                       currency: currency,
                                                       shouldShowMaskView: true,
                                                       isStake: true)

@@ -61,7 +61,7 @@ class BaseRecoveryKeyViewController: UIViewController {
     func showCloseButton() {
         switch closeButtonStyle {
         case .close:
-            let close = UIBarButtonItem(image: UIImage(named: "CloseModern"),
+            let close = UIBarButtonItem(image: UIImage(named: "close"),
                                         style: .plain,
                                         target: self,
                                         action: #selector(onCloseButton))
@@ -73,7 +73,6 @@ class BaseRecoveryKeyViewController: UIViewController {
                                        style: .plain,
                                        target: self,
                                        action: #selector(onCloseButton))
-            skip.tintColor = LightColors.Text.three
             let fontAttributes = [NSAttributedString.Key.font: Theme.body2]
             skip.setTitleTextAttributes(fontAttributes, for: .normal)
             skip.setTitleTextAttributes(fontAttributes, for: .highlighted)

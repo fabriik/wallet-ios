@@ -556,7 +556,6 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
                                                  fee: feeAmount,
                                                  displayFeeLevel: feeLevel,
                                                  address: address,
-                                                 isUsingBiometrics: sender.canUseBiometrics,
                                                  currency: currency,
                                                  resolvedAddress: resolvedAddress,
                                                  shouldShowMaskView: false)

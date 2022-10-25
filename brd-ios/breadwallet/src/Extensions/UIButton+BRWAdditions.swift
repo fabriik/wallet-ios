@@ -51,9 +51,10 @@ extension UIButton {
     }
     
     static func buildModernCloseButton(position: NavBarButtonPosition) -> UIButton {
-        let button = UIButton.icon(image: #imageLiteral(resourceName: "CloseModern"), accessibilityLabel: L10n.AccessibilityLabels.close, position: position)
-        button.tintColor = LightColors.Contrast.one
-        
+        let button = UIButton.icon(image: UIImage(named: "close"),
+                                   accessibilityLabel: L10n.AccessibilityLabels.close,
+                                   position: position)
+        button.tintColor = LightColors.Text.three
         return button
     }
 
@@ -69,7 +70,9 @@ extension UIButton {
         return button
     }
     
-    static func icon(image: UIImage, accessibilityLabel: String, position: NavBarButtonPosition) -> UIButton {
+    static func icon(image: UIImage?, accessibilityLabel: String, position: NavBarButtonPosition) -> UIButton {
+        guard let image = image else { return UIButton() }
+        
         let button = UIButton(type: .system)
         button.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         button.setImage(image, for: .normal)

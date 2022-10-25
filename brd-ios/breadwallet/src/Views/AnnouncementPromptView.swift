@@ -70,8 +70,7 @@ class AnnouncementPromptView: PromptView {
     }
     
     override func styleDismissButton() {
-        let closeButtonImage = UIImage(named: "Close-X-small")
-        dismissButton.setImage(closeButtonImage, for: .normal)
+        dismissButton.setImage(UIImage(named: "close"), for: .normal)
         dismissButton.backgroundColor = .clear
         dismissButton.tintColor = .white
     }
