@@ -226,7 +226,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
             presentAssetInfoPopup(actionResponse: .init())
         } else if let error = actionResponse.error as? FEError {
             let model = InfoViewModel(description: .text(error.errorMessage), dismissType: .auto)
-            let config = Presets.InfoView.redAlert
+            let config = Presets.InfoView.error
             
             switch error.errorMessage {
             case SwapErrors.quoteFail.errorMessage:

@@ -204,34 +204,19 @@ extension Presets {
                                                                           border: Presets.Border.commonPlain),
                                                         shadow: Presets.Shadow.zero)
         
-        static var primary = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
-                                                   headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
-                                                   headerTrailing: Presets.Button.verificationActionButton,
-                                                   title: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
-                                                   description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
-                                                   button: Presets.Button.primary,
-                                                   background: .init(backgroundColor: LightColors.secondary,
+        static var warning = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Text.three),
+                                                   description: .init(font: Fonts.Body.two, textColor: LightColors.Text.three),
+                                                   background: .init(backgroundColor: LightColors.Background.three,
                                                                      tintColor: LightColors.Contrast.two,
                                                                      border: Presets.Border.zero),
-                                                   shadow: Presets.Shadow.normal)
+                                                   shadow: Presets.Shadow.zero)
         
-        static var error = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
-                                                 headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
-                                                 headerTrailing: Presets.Button.verificationActionButton,
-                                                 title: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
+        static var error = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
                                                  description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
-                                                 button: Presets.Button.primary,
-                                                 background: .init(backgroundColor: LightColors.secondary,
+                                                 background: .init(backgroundColor: LightColors.Error.one,
                                                                    tintColor: LightColors.Contrast.two,
                                                                    border: Presets.Border.zero),
-                                                 shadow: Presets.Shadow.normal)
-        
-        static var redAlert = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
-                                                    description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
-                                                    background: .init(backgroundColor: LightColors.Error.one,
-                                                                      tintColor: LightColors.Contrast.two,
-                                                                      border: Presets.Border.zero),
-                                                    shadow: Presets.Shadow.zero)
+                                                 shadow: Presets.Shadow.zero)
     }
 }
 
