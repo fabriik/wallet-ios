@@ -79,6 +79,8 @@ class DeleteProfileInfoViewController: BaseTableViewController<DeleteProfileInfo
             cell = UITableViewCell()
         }
         
+        cell.setBackground(with: Presets.Background.transparent)
+        
         return cell
     }
     

@@ -37,15 +37,15 @@ class MenuViewController: UITableViewController, Subscriber {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = Theme.primaryBackground
+        view.backgroundColor = LightColors.Background.two
         
         tableView.register(MenuCell.self, forCellReuseIdentifier: MenuCell.cellIdentifier)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .singleLine
         tableView.separatorColor = .gray3
-        tableView.backgroundColor = Theme.primaryBackground
+        tableView.backgroundColor = LightColors.Background.two
         
-        navigationController?.navigationBar.backgroundColor = Theme.primaryBackground
+        navigationController?.navigationBar.backgroundColor = LightColors.Background.two
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         if let button = faqButton {
@@ -75,6 +75,8 @@ class MenuViewController: UITableViewController, Subscriber {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MenuCell.cellIdentifier, for: indexPath) as? MenuCell else { return UITableViewCell() }
         cell.set(item: visibleItems[indexPath.row])
+        cell.setBackground(with: Presets.Background.transparent)
+        
         return cell
     }
 

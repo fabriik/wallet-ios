@@ -49,6 +49,7 @@ class KYCDocumentPickerViewController: BaseTableViewController<KYCCoordinator,
                 }
             })
             
+            cell.setBackground(with: Presets.Background.transparent)
             cell.setupCustomMargins(vertical: .extraHuge, horizontal: .large)
             
         default:

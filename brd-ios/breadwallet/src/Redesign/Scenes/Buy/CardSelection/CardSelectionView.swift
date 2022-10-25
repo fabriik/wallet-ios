@@ -13,7 +13,7 @@ import UIKit
 struct CardSelectionConfiguration: Configurable {
     var title: LabelConfiguration? = .init(font: Fonts.Body.three, textColor: LightColors.Text.two)
     var subtitle: LabelConfiguration? =  .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one)
-    var arrow: BackgroundConfiguration?
+    var arrow: BackgroundConfiguration? = Presets.Background.Secondary.selected
     var shadow: ShadowConfiguration? = Presets.Shadow.light
     var background: BackgroundConfiguration? = .init(backgroundColor: LightColors.Background.one,
                                                      tintColor: LightColors.Text.one,

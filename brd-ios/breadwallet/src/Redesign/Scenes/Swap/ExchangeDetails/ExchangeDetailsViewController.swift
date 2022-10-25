@@ -62,6 +62,7 @@ class ExchangeDetailsViewController: BaseTableViewController<BaseCoordinator,
             cell = UITableViewCell()
         }
         
+        cell.setBackground(with: Presets.Background.transparent)
         cell.setupCustomMargins(vertical: .small, horizontal: .large)
         
         return cell

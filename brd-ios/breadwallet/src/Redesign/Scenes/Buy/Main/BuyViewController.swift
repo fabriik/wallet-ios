@@ -85,6 +85,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             cell = UITableViewCell()
         }
         
+        cell.setBackground(with: Presets.Background.transparent)
         cell.setupCustomMargins(all: .large)
         
         return cell

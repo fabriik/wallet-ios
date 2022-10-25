@@ -56,6 +56,7 @@ class BillingAddressViewController: BaseTableViewController<ItemSelectionCoordin
             cell = UITableViewCell()
         }
         
+        cell.setBackground(with: Presets.Background.transparent)
         cell.contentView.setupCustomMargins(vertical: .small, horizontal: .zero)
         
         return cell

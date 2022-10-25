@@ -27,9 +27,9 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             viewController is HomeScreenViewController ||
             viewController is KYCCameraViewController ||
             viewController is OnboardingViewController {
-            setNormalNavigationBar(tintColor: LightColors.Contrast.two)
+            setNormalNavigationBar(tintColor: LightColors.Background.two)
         } else {
-            setNormalNavigationBar(normalBackgroundColor: LightColors.Contrast.two, tintColor: LightColors.Text.three)
+            setNormalNavigationBar(normalBackgroundColor: LightColors.Background.two, tintColor: LightColors.Text.three)
         }
         
         let item = SimpleBackBarButtonItem(title: "", style: .plain, target: nil, action: nil)

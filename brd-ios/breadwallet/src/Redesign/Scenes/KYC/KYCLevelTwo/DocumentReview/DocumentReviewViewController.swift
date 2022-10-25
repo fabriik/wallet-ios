@@ -43,6 +43,8 @@ class DocumentReviewViewController: BaseTableViewController<KYCCoordinator,
         default:
             cell = UITableViewCell()
         }
+        
+        cell.setBackground(with: Presets.Background.transparent)
         cell.setupCustomMargins(vertical: .huge, horizontal: .medium)
         
         return cell

@@ -44,6 +44,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
             cell = super.tableView(tableView, cellForRowAt: indexPath)
         }
         
+        cell.setBackground(with: Presets.Background.transparent)
         return cell
     }
     

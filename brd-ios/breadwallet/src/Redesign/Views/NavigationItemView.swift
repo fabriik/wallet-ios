@@ -45,7 +45,7 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
     
     private lazy var separatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = LightColors.Background.two
+        view.backgroundColor = LightColors.Outline.one
         return view
     }()
     
