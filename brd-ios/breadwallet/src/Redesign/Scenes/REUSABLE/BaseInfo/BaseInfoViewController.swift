@@ -23,7 +23,7 @@ class BaseInfoViewController: BaseTableViewController<BaseCoordinator,
     var buttonConfigs: [ButtonConfiguration] {
         return [
             Presets.Button.primary,
-            Presets.Button.secondary
+            Presets.Button.noBorders
         ]
     }
     var buttonCallbacks: [(() -> Void)] { return [] }
@@ -140,7 +140,7 @@ class BaseInfoViewController: BaseTableViewController<BaseCoordinator,
         }
         
         cell.setup { view in
-            view.configure(with: .init(font: Fonts.Title.five, textColor: LightColors.Text.one, textAlignment: .center))
+            view.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.three, textAlignment: .center))
             view.setup(with: .text(value))
         }
         
@@ -155,7 +155,7 @@ class BaseInfoViewController: BaseTableViewController<BaseCoordinator,
         }
         
         cell.setup { view in
-            view.configure(with: .init(font: Fonts.Body.one, textColor: LightColors.Text.two, textAlignment: .center))
+            view.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center))
             view.setup(with: .text(value))
             view.setupCustomMargins(vertical: .extraHuge, horizontal: .extraHuge)
             view.snp.makeConstraints { make in
