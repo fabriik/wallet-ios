@@ -21,10 +21,11 @@ final class RegistrationConfirmationPresenter: NSObject, Presenter, Registration
             .title,
             .instructions,
             .input,
-            .confirm,
             .help
         ]
+        
         var help: [ButtonViewModel] = [ButtonViewModel(title: L10n.AccountCreation.resendCode, isUnderlined: true)]
+        help.append(ButtonViewModel(title: L10n.AccountCreation.changeEmail, isUnderlined: true))
         
         if UserManager.shared.profile?.status == .emailPending {
             help.append(ButtonViewModel(title: L10n.AccountCreation.changeEmail, isUnderlined: true))
@@ -38,14 +39,10 @@ final class RegistrationConfirmationPresenter: NSObject, Presenter, Registration
                 LabelViewModel.text(L10n.AccountCreation.verifyEmail)
             ],
             .instructions: [
-                LabelViewModel.text("\(L10n.AccountCreation.enterCode) \(email ?? "")")
+                LabelViewModel.text("\(L10n.AccountCreation.enterCode)\(": \n")\(email ?? "")")
             ],
             .input: [
-                // TODO: validator?
                 TextFieldModel(title: L10n.Receive.emailButton, value: email)
-            ],
-            .confirm: [
-                ButtonViewModel(title: L10n.Button.confirm, enabled: false)
             ],
             .help: [
                 ScrollableButtonsViewModel(buttons: help)

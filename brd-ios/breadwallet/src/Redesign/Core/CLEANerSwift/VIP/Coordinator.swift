@@ -278,7 +278,9 @@ class BaseCoordinator: NSObject,
                         completion?(true)
                         return
                     }
+                    
                     let coordinator = KYCCoordinator(navigationController: nvc)
+                    coordinator.role = role
                     coordinator.start()
                     coordinator.parentCoordinator = self
                     self?.childCoordinators.append(coordinator)
@@ -338,7 +340,9 @@ class BaseCoordinator: NSObject,
             UserManager.shared.refresh()
             
         case .sessionExpired:
-            openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.Registration)
+            openModally(coordinator: RegistrationCoordinator.self, scene: Scenes.Registration) { vc in
+                vc?.navigationItem.hidesBackButton = true
+            }
             
             return
             
@@ -346,8 +350,9 @@ class BaseCoordinator: NSObject,
             break
         }
         
-        guard let superview = navigationController.topViewController?.view,
-              let model = model, let configuration = configuration  else { return }
+        guard let superview = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
+              let model = model,
+              let configuration = configuration else { return }
         
         let notification: FEInfoView = (superview.subviews.first(where: { $0 is FEInfoView }) as? FEInfoView) ?? FEInfoView()
         
@@ -362,22 +367,22 @@ class BaseCoordinator: NSObject,
             notification.alpha = 0
             
             notification.snp.makeConstraints { make in
-                make.top.equalToSuperview().offset(ViewSizes.extraExtraHuge.rawValue)
+                make.top.equalTo(superview.safeAreaLayoutGuide.snp.top)
                 make.leading.equalToSuperview().offset(Margins.medium.rawValue)
                 make.centerX.equalToSuperview()
             }
         }
-        superview.bringSubviewToFront(notification)
+        
         notification.setup(with: model)
         notification.layoutIfNeeded()
-            
+        
         UIView.animate(withDuration: Presets.Animation.duration) {
             notification.alpha = 1
         }
     }
     
     func hideMessage() {
-        guard let superview = navigationController.topViewController?.view,
+        guard let superview = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
               let view = superview.subviews.first(where: { $0 is FEInfoView }) else { return }
         
         UIView.animate(withDuration: Presets.Animation.duration) {
@@ -394,8 +399,7 @@ class BaseCoordinator: NSObject,
     }
     
     func showOverlay(with viewModel: TransparentViewModel, completion: (() -> Void)? = nil) {
-        guard let parent = navigationController.view
-        else { return }
+        guard let parent = navigationController.view else { return }
         
         let view = TransparentView()
         view.configure(with: .init())

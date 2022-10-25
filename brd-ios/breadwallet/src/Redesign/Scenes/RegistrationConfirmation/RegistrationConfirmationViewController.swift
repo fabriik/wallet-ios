@@ -18,12 +18,37 @@ class RegistrationConfirmationViewController: BaseTableViewController<Registrati
     
     override var isModalDismissableEnabled: Bool { return true }
 
+    lazy var confirmButton: WrapperView<FEButton> = {
+        let button = WrapperView<FEButton>()
+        return button
+    }()
+    
     // MARK: - Overrides
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.setHidesBackButton(true, animated: false)
+        view.addSubview(confirmButton)
+        confirmButton.snp.makeConstraints { make in
+            make.centerX.leading.equalToSuperview()
+            make.bottom.equalTo(view.snp.bottomMargin)
+        }
+        
+        confirmButton.wrappedView.snp.makeConstraints { make in
+            make.height.equalTo(ViewSizes.Common.largeButton.rawValue)
+            make.edges.equalTo(confirmButton.snp.margins)
+        }
+        confirmButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)
+        
+        tableView.snp.remakeConstraints { make in
+            make.leading.trailing.top.equalToSuperview()
+            make.bottom.equalTo(confirmButton.snp.top)
+        }
+        
+        confirmButton.wrappedView.configure(with: Presets.Button.primary)
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm.uppercased(), enabled: false))
+        
+        confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
     override func setupSubviews() {
@@ -37,6 +62,7 @@ class RegistrationConfirmationViewController: BaseTableViewController<Registrati
         switch sections[indexPath.section] as? Models.Section {
         case .image:
             cell = self.tableView(tableView, coverCellForRowAt: indexPath)
+            (cell as? WrapperTableViewCell<FEImageView>)?.wrappedView.setupCustomMargins(vertical: .extraExtraHuge, horizontal: .large)
             
         case .title:
             cell = self.tableView(tableView, titleLabelCellForRowAt: indexPath)
@@ -46,9 +72,6 @@ class RegistrationConfirmationViewController: BaseTableViewController<Registrati
             
         case .input:
             cell = self.tableView(tableView, codeInputCellForRowAt: indexPath)
-            
-        case .confirm:
-            cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
             
         case .help:
             cell = self.tableView(tableView, buttonsCellForRowAt: indexPath)
@@ -76,11 +99,6 @@ class RegistrationConfirmationViewController: BaseTableViewController<Registrati
             view.valueChanged = { [weak self] text in
                 self?.textFieldDidFinish(for: indexPath, with: text)
             }
-            
-            view.contentSizeChanged = {
-                tableView.beginUpdates()
-                tableView.endUpdates()
-            }
         }
         
         return cell
@@ -93,10 +111,14 @@ class RegistrationConfirmationViewController: BaseTableViewController<Registrati
             return cell
         }
         
-        cell.wrappedView.callbacks = [
-            resendCodeTapped,
-            changeEmailTapped
-        ]
+        cell.setup { view in
+            view.configure(with: .init(buttons: [Presets.Button.noBorders]))
+            
+            view.callbacks = [
+                resendCodeTapped,
+                changeEmailTapped
+            ]
+        }
         
         return cell
     }
@@ -121,12 +143,9 @@ class RegistrationConfirmationViewController: BaseTableViewController<Registrati
     }
 
     // MARK: - RegistrationConfirmationResponseDisplay
+    
     func displayValidate(responseDisplay: RegistrationConfirmationModels.Validate.ResponseDisplay) {
-        guard let section = sections.firstIndex(of: Models.Section.confirm),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton>
-        else { return }
-        
-        cell.wrappedView.isEnabled = responseDisplay.isValid
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm.uppercased(), enabled: responseDisplay.isValid))
     }
     
     func displayConfirm(responseDisplay: RegistrationConfirmationModels.Confirm.ResponseDisplay) {

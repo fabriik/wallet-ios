@@ -11,6 +11,8 @@ final class VerifyAccountPresenter: NSObject, Presenter, VerifyAccountActionResp
     weak var viewController: VerifyAccountViewController?
     
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
+        guard let item = actionResponse.item as? Models.Item,
+              let coverImageName = item else { return }
         
         let sections: [Models.Section] = [
             .image,
@@ -18,11 +20,10 @@ final class VerifyAccountPresenter: NSObject, Presenter, VerifyAccountActionResp
             .description
         ]
         
-        let sectionRows: [Models.Section: [Any]] =
-        [
-            .image: [ImageViewModel.imageName("VerifyAccount")],
+        let sectionRows: [Models.Section: [Any]] = [
+            .image: [ImageViewModel.imageName(coverImageName)],
             .title: [LabelViewModel.text(L10n.Account.messageVerifyAccount)],
-            .description: [ LabelViewModel.text(L10n.Account.verifyIdentity) ]
+            .description: [LabelViewModel.text(L10n.Account.verifyIdentity)]
         ]
         
         viewController?.displayData(responseDisplay: .init(sections: sections, sectionRows: sectionRows))

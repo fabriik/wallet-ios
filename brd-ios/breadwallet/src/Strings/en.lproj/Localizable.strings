@@ -38,7 +38,7 @@
 "Account.AccountVerification" = "Account Verification";
 
 /* Verify your account label on profile screen */
-"Account.AccountVerify" = "Verify your account";
+"Account.AccountVerify" = "Verify";
 
 /* Account balance */
 "Account.balance" = "Balance";
@@ -88,7 +88,7 @@
 "Account.loadingMessage" = "Loading Wallet";
 
 /* Verify your account to get full access to the wallet message */
-"Account.MessageVerifyAccount" = "Verify your account to get full access to your Fabriik wallet!";
+"Account.MessageVerifyAccount" = "Verify your account to get full access to your RockWallet!";
 
 "Account.Pending" = "Pending";
 
@@ -134,7 +134,7 @@
 /* Enter and verify your email address for your account label in registration flow */
 "Account.VerifyEmail" = "Enter and verify your new email address for your Fabriik account.";
 
-"Account.VerifyIdentity" = "We need to verify your identity in order to buy/sell and swap crypto.";
+"Account.VerifyIdentity" = "We need to verify your identity before you can buy or swap assets.";
 
 /* Verify personal information text explanation */
 "Account.VerifyPersonalInformation" = "We need to verify your personal information for compliance purposes. This information won’t be shared with outside sources unless required by law.";
@@ -524,7 +524,7 @@
 "Button.map" = "Map";
 
 /* Maybe Later button label */
-"Button.maybeLater" = "Maybe Later";
+"Button.maybeLater" = "Maybe later";
 
 /* menu button */
 "Button.menu" = "Menu";
@@ -1655,7 +1655,7 @@
 "RecoveryKeyFlow.generateKeyButton" = "Generate Recovery Phrase";
 
 /* Subtext for the recovery key landing page. */
-"RecoveryKeyFlow.generateKeyExplanation" = "This key is required to recover your money if you upgrade or lose your phone.";
+"RecoveryKeyFlow.generateKeyExplanation" = "This is required to restore your wallet if you upgrade or lose your phone.";
 
 /* Default title for the recovery phrase landing page */
 "RecoveryKeyFlow.generateKeyTitle" = "Generate your private recovery phrase";
@@ -1670,7 +1670,7 @@
 "RecoveryKeyFlow.invalidPhrase" = "Some of the words you entered do not match your recovery phrase. Please try again.";
 
 /* Title for recovery key intro page */
-"RecoveryKeyFlow.keepSecure" = "Keep it secure";
+"RecoveryKeyFlow.keepSecure" = "Write down your Recovery Phrase";
 
 /* Informs the user that the recovery is only required for recovering a wallet. */
 "RecoveryKeyFlow.keyUseHint" = "Your key is only needed for recovery, not for everyday wallet access.";
@@ -1688,7 +1688,7 @@
 "RecoveryKeyFlow.recoveryYourWalletSubtitle" = "Please enter the Recovery Phrase of the wallet you want to restore";
 
 /* Title for recovery key intro page */
-"RecoveryKeyFlow.relaxBuyTrade" = "Relax, buy, and swap";
+"RecoveryKeyFlow.relaxBuyTrade" = "Keep your Recovery Phrase in a secure location";
 
 /* Reminds the user to write down the recovery key words. */
 "RecoveryKeyFlow.rememberToWriteDownReminder" = "Remember to write these words down. Swipe back if you forgot.";
@@ -1697,10 +1697,10 @@
 "RecoveryKeyFlow.resetPINInstruction" = "Please enter your recovery phrase to reset your PIN.";
 
 /* Assures the user that BRD will keep the user's funds secure. */
-"RecoveryKeyFlow.securityAssurance" = "Buy and swap knowing that your funds are protected by the best security and privacy in the business.";
+"RecoveryKeyFlow.securityAssurance" = "Remember that this is the only way to restore your wallet. RockWallet does not keep a copy.";
 
 /* Recommends that the user stores the recovery key in a secure location */
-"RecoveryKeyFlow.storeSecurelyRecommendation" = "Store your key in a secure location. This is the only way to recover your wallet. Fabriik does not keep a copy.";
+"RecoveryKeyFlow.storeSecurelyRecommendation" = "For security reasons, screenshots are not recommended, as anyone with your Recovery Phrase can access your funds.";
 
 /* Title for the success page after the recovery phrase has been set up */
 "RecoveryKeyFlow.successHeading" = "Congratulations! You completed your recovery phrase setup.";
@@ -1733,7 +1733,7 @@
 "RecoveryKeyFlow.writeKeyScreenSubtitle" = "Write down the following words in order.";
 
 /* Title for the write recovery phrase screen */
-"RecoveryKeyFlow.writeKeyScreenTitle" = "Your Recovery Phrase";
+"RecoveryKeyFlow.writeKeyScreenTitle" = "Recovery Phrase";
 
 /* Title for the step number when the user pages through the recovery words */
 "RecoveryKeyFlow.writeKeyStepTitle" = "%1$@ of %2$@";
@@ -2769,7 +2769,7 @@
 "UpdatePin.ContactSupport" = "Contact Support";
 
 /* PIN creation info. */
-"UpdatePin.createInstruction" = "Your PIN will be used to unlock your Fabriik Wallet and send money";
+"UpdatePin.createInstruction" = "Your PIN will be used to unlock your wallet";
 
 /* Update PIN title */
 "UpdatePin.createTitle" = "Set PIN";
@@ -2811,7 +2811,7 @@
 "UpdatePin.securedWallet" = "Secured wallet";
 
 /* Update PIN title */
-"UpdatePin.setNewPinTitle" = "Set your new PIN";
+"UpdatePin.setNewPinTitle" = "Set your PIN";
 
 /* Update PIN failure error message. */
 "UpdatePin.setPinError" = "Sorry, could not update PIN.";

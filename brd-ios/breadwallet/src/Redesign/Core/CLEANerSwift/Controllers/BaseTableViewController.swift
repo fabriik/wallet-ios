@@ -232,7 +232,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
         }
         
         cell.setup { view in
-            view.configure(with: .init(font: Fonts.Title.four, textColor: LightColors.Text.one))
+            view.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.three))
             view.setup(with: model)
         }
         
@@ -248,7 +248,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
         }
         
         cell.setup { view in
-            view.configure(with: .init(font: Fonts.Body.one, textColor: LightColors.Text.two))
+            view.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two))
             view.setup(with: model)
         }
         

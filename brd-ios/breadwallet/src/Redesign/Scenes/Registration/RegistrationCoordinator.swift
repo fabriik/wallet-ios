@@ -13,7 +13,9 @@ class RegistrationCoordinator: BaseCoordinator, RegistrationRoutes {
     
     override func start() {
         guard UserDefaults.email != nil else {
-            return open(scene: Scenes.Registration)
+            return open(scene: Scenes.Registration) { vc in
+                vc.navigationItem.hidesBackButton = true
+            }
         }
         
         let vc = navigationController.children.first(where: { $0 is RegistrationViewController }) as? RegistrationViewController
@@ -23,6 +25,7 @@ class RegistrationCoordinator: BaseCoordinator, RegistrationRoutes {
     
     func showRegistrationConfirmation(shouldShowProfile: Bool = false) {
         open(scene: Scenes.RegistrationConfirmation) { vc in
+            vc.navigationItem.hidesBackButton = true
             vc.dataStore?.shouldShowProfile = shouldShowProfile
             vc.prepareData()
         }

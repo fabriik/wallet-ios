@@ -16,9 +16,36 @@ class RegistrationViewController: BaseTableViewController<RegistrationCoordinato
     typealias Models = RegistrationModels
 
     // MARK: - Overrides
+    
+    lazy var confirmButton: WrapperView<FEButton> = {
+        let button = WrapperView<FEButton>()
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.setHidesBackButton(true, animated: false)
+        
+        view.addSubview(confirmButton)
+        confirmButton.snp.makeConstraints { make in
+            make.centerX.leading.equalToSuperview()
+            make.bottom.equalTo(view.snp.bottomMargin)
+        }
+        
+        confirmButton.wrappedView.snp.makeConstraints { make in
+            make.height.equalTo(ViewSizes.Common.largeButton.rawValue)
+            make.edges.equalTo(confirmButton.snp.margins)
+        }
+        confirmButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)
+        
+        tableView.snp.remakeConstraints { make in
+            make.leading.trailing.top.equalToSuperview()
+            make.bottom.equalTo(confirmButton.snp.top)
+        }
+        
+        confirmButton.wrappedView.configure(with: Presets.Button.primary)
+        confirmButton.wrappedView.setup(with: .init(title: L10n.RecoverWallet.next.uppercased(), enabled: false))
+        
+        confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -43,9 +70,6 @@ class RegistrationViewController: BaseTableViewController<RegistrationCoordinato
             
         case .tickbox:
             cell = self.tableView(tableView, tickboxCellForRowAt: indexPath)
-            
-        case .confirm:
-            cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
             
         default:
             cell = super.tableView(tableView, cellForRowAt: indexPath)
@@ -92,11 +116,7 @@ class RegistrationViewController: BaseTableViewController<RegistrationCoordinato
 
     // MARK: - RegistrationResponseDisplay
     func displayValidate(responseDisplay: RegistrationModels.Validate.ResponseDisplay) {
-        guard let section = sections.firstIndex(of: Models.Section.confirm),
-              let cell = tableView.cellForRow(at: .init(row: 0, section: section)) as? WrapperTableViewCell<FEButton>
-        else { return }
-        
-        cell.wrappedView.isEnabled = responseDisplay.isValid
+        confirmButton.wrappedView.setup(with: .init(title: L10n.RecoverWallet.next.uppercased(), enabled: responseDisplay.isValid))
     }
     
     func displayNext(responseDisplay: RegistrationModels.Next.ResponseDisplay) {

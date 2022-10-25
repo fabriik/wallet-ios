@@ -11,9 +11,9 @@
 import UIKit
 
 struct CodeInputConfiguration: Configurable {
-    var normal: BackgroundConfiguration? = Presets.Background.Primary.normal
-    var selected: BackgroundConfiguration? = Presets.Background.Primary.selected
-    var error: BackgroundConfiguration? = Presets.Background.Primary.error
+    var normal: BackgroundConfiguration? = Presets.Background.TextField.normal
+    var selected: BackgroundConfiguration? = Presets.Background.TextField.selected
+    var error: BackgroundConfiguration? = Presets.Background.TextField.error
     var input: TextFieldConfiguration = .init(textConfiguration: .init(font: Fonts.Subtitle.one,
                                                                        textColor: LightColors.Text.one,
                                                                        textAlignment: .center,

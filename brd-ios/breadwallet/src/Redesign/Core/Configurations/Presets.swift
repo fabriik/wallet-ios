@@ -31,8 +31,8 @@ struct Presets {
                                                        border: Presets.Border.error)
             
             static var tertiary = BackgroundConfiguration(backgroundColor: LightColors.Background.three,
-                                                        tintColor: LightColors.Contrast.two,
-                                                        border: Presets.Border.normalButtonFullRadius)
+                                                          tintColor: LightColors.Contrast.two,
+                                                          border: Presets.Border.normalButtonFullRadius)
         }
         
         struct Secondary {
@@ -49,7 +49,8 @@ struct Presets {
                                                           border: .init(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall))
             static var disabled = BackgroundConfiguration(backgroundColor: LightColors.Background.one, tintColor: LightColors.Disabled.two,
                                                           border: .init(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall))
-            static var error = BackgroundConfiguration(tintColor: .red)
+            static var error = BackgroundConfiguration(backgroundColor: LightColors.Background.one, tintColor: LightColors.Error.one,
+                                                       border: .init(tintColor: LightColors.Error.one, borderWidth: 1, cornerRadius: .extraSmall))
         }
         
         static var transparent = BackgroundConfiguration(backgroundColor: .clear,
@@ -110,23 +111,28 @@ struct Presets {
 
 extension Presets {
     struct Button {
-        static var primary = ButtonConfiguration(backgroundConfiguration: Presets.Background.Primary.normal,
+        static var primary = ButtonConfiguration(normalConfiguration: Presets.Background.Primary.normal,
                                                  selectedConfiguration: Presets.Background.Primary.selected,
                                                  disabledConfiguration: Presets.Background.Primary.disabled)
         
-        static var secondary = ButtonConfiguration(backgroundConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.secondaryButton),
+        static var secondary = ButtonConfiguration(normalConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.secondaryButton),
                                                    selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalButtonFullRadius),
                                                    disabledConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledButtonFullRadius))
         
-        static var popupActionButton = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Contrast.two),
+        static var noBorders = ButtonConfiguration(normalConfiguration: BackgroundConfiguration(tintColor: LightColors.secondary),
+                                                   selectedConfiguration: Presets.Background.Secondary.selected,
+                                                   disabledConfiguration: Presets.Background.Secondary.disabled,
+                                                   buttonContentEdgeInsets: .zero)
+        
+        static var popupActionButton = ButtonConfiguration(normalConfiguration: .init(tintColor: LightColors.Contrast.two),
                                                            selectedConfiguration: .init(tintColor: LightColors.Text.one),
                                                            disabledConfiguration: .init(tintColor: LightColors.Disabled.one))
         
-        static var verificationActionButton = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Text.three),
+        static var verificationActionButton = ButtonConfiguration(normalConfiguration: .init(tintColor: LightColors.Text.three),
                                                                   selectedConfiguration: .init(tintColor: LightColors.Text.two),
                                                                   disabledConfiguration: .init(tintColor: LightColors.Disabled.two))
         
-        static var blackIcon = ButtonConfiguration(backgroundConfiguration: .init(tintColor: LightColors.Text.three),
+        static var blackIcon = ButtonConfiguration(normalConfiguration: .init(tintColor: LightColors.Text.three),
                                                    selectedConfiguration: .init(tintColor: LightColors.Text.one),
                                                    disabledConfiguration: .init(tintColor: LightColors.Disabled.one))
     }
@@ -198,34 +204,19 @@ extension Presets {
                                                                           border: Presets.Border.commonPlain),
                                                         shadow: Presets.Shadow.zero)
         
-        static var primary = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
-                                                   headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
-                                                   headerTrailing: Presets.Button.verificationActionButton,
-                                                   title: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
-                                                   description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
-                                                   button: Presets.Button.primary,
-                                                   background: .init(backgroundColor: LightColors.secondary,
+        static var warning = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Text.three),
+                                                   description: .init(font: Fonts.Body.two, textColor: LightColors.Text.three),
+                                                   background: .init(backgroundColor: LightColors.Background.three,
                                                                      tintColor: LightColors.Contrast.two,
                                                                      border: Presets.Border.zero),
-                                                   shadow: Presets.Shadow.normal)
+                                                   shadow: Presets.Shadow.zero)
         
-        static var error = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
-                                                 headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
-                                                 headerTrailing: Presets.Button.verificationActionButton,
-                                                 title: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
+        static var error = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
                                                  description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
-                                                 button: Presets.Button.primary,
-                                                 background: .init(backgroundColor: LightColors.secondary,
+                                                 background: .init(backgroundColor: LightColors.Error.one,
                                                                    tintColor: LightColors.Contrast.two,
                                                                    border: Presets.Border.zero),
-                                                 shadow: Presets.Shadow.normal)
-        
-        static var redAlert = InfoViewConfiguration(headerTitle: .init(font: Fonts.Title.six, textColor: LightColors.Contrast.two),
-                                                    description: .init(font: Fonts.Body.two, textColor: LightColors.Contrast.two),
-                                                    background: .init(backgroundColor: LightColors.Error.one,
-                                                                      tintColor: LightColors.Contrast.two,
-                                                                      border: Presets.Border.zero),
-                                                    shadow: Presets.Shadow.zero)
+                                                 shadow: Presets.Shadow.zero)
     }
 }
 
@@ -272,9 +263,9 @@ extension Presets {
                                                     body: .init(font: Fonts.Body.one, textColor: LightColors.Text.one, textAlignment: .center),
                                                     
                                                     buttons: [Presets.Button.primary.withBorder(normal: Presets.Border.normalButtonFullRadius,
-                                                                                                 selected: Presets.Border.selectedButtonFullRadius,
-                                                                                                 disabled: Presets.Border.disabledButtonFullRadius),
-                                                               Presets.Button.secondary],
+                                                                                                selected: Presets.Border.selectedButtonFullRadius,
+                                                                                                disabled: Presets.Border.disabledButtonFullRadius),
+                                                              Presets.Button.secondary],
                                                     closeButton: Presets.Button.blackIcon)
     }
 }
@@ -298,7 +289,7 @@ extension Presets {
                                                                                  background: .init(backgroundColor: LightColors.Error.one,
                                                                                                    tintColor: LightColors.Contrast.two,
                                                                                                    border: Presets.Border.extraSmallPlain)),
-                                                                   infoButton: .init(backgroundConfiguration: Presets.Background.Secondary.normal,
+                                                                   infoButton: .init(normalConfiguration: Presets.Background.Secondary.normal,
                                                                                      selectedConfiguration: Presets.Background.Secondary.selected,
                                                                                      disabledConfiguration: Presets.Background.Secondary.disabled),
                                                                    description: .init(font: Fonts.Body.two, textColor: LightColors.Text.two),
@@ -315,7 +306,7 @@ extension Presets {
                                                                      background: .init(backgroundColor: LightColors.Contrast.one,
                                                                                        tintColor: LightColors.Contrast.one,
                                                                                        border: Presets.Border.extraSmallPlain)),
-                                                       infoButton: .init(backgroundConfiguration: Presets.Background.Secondary.normal,
+                                                       infoButton: .init(normalConfiguration: Presets.Background.Secondary.normal,
                                                                          selectedConfiguration: Presets.Background.Secondary.selected,
                                                                          disabledConfiguration: Presets.Background.Secondary.disabled),
                                                        description: .init(font: Fonts.Body.two, textColor: LightColors.Text.two),
@@ -332,7 +323,7 @@ extension Presets {
                                                                       background: .init(backgroundColor: LightColors.Success.one,
                                                                                         tintColor: LightColors.Contrast.two,
                                                                                         border: Presets.Border.extraSmallPlain)),
-                                                        infoButton: .init(backgroundConfiguration: Presets.Background.Secondary.normal,
+                                                        infoButton: .init(normalConfiguration: Presets.Background.Secondary.normal,
                                                                           selectedConfiguration: Presets.Background.Secondary.selected,
                                                                           disabledConfiguration: Presets.Background.Secondary.disabled),
                                                         description: .init(font: Fonts.Body.two, textColor: LightColors.Text.two),

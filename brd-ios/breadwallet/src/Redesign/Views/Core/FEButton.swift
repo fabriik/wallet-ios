@@ -11,17 +11,20 @@
 import UIKit
 
 struct ButtonConfiguration: Configurable {
-    var titleConfiguration: LabelConfiguration?
-    var backgroundConfiguration: BackgroundConfiguration?
+    var normalConfiguration: BackgroundConfiguration?
     var selectedConfiguration: BackgroundConfiguration?
     var disabledConfiguration: BackgroundConfiguration?
     var shadowConfiguration: ShadowConfiguration?
+    var buttonContentEdgeInsets = UIEdgeInsets(top: Margins.medium.rawValue,
+                                               left: Margins.huge.rawValue,
+                                               bottom: Margins.medium.rawValue,
+                                               right: Margins.huge.rawValue)
     
     func withBorder(normal: BorderConfiguration? = nil,
                     selected: BorderConfiguration? = nil,
                     disabled: BorderConfiguration? = nil) -> ButtonConfiguration {
         var copy = self
-        copy.backgroundConfiguration?.border = normal
+        copy.normalConfiguration?.border = normal
         copy.selectedConfiguration?.border = selected
         copy.disabledConfiguration?.border = disabled
         return copy
@@ -89,14 +92,11 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
     func configure(with config: ButtonConfiguration?) {
         guard let config = config else { return }
         
-        contentEdgeInsets = .init(top: Margins.medium.rawValue,
-                                  left: Margins.huge.rawValue,
-                                  bottom: Margins.medium.rawValue,
-                                  right: Margins.huge.rawValue)
-
         self.config = config
         
-        setTitleColor(config.backgroundConfiguration?.tintColor, for: .normal)
+        contentEdgeInsets = config.buttonContentEdgeInsets
+        
+        setTitleColor(config.normalConfiguration?.tintColor, for: .normal)
         setTitleColor(config.disabledConfiguration?.tintColor, for: .disabled)
         setTitleColor(config.selectedConfiguration?.tintColor, for: .selected)
         setTitleColor(config.selectedConfiguration?.tintColor, for: .highlighted)
@@ -136,7 +136,7 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
         
         switch state {
         case .normal:
-            background = config?.backgroundConfiguration
+            background = config?.normalConfiguration
 
         case .highlighted, .selected:
             background = config?.selectedConfiguration
