@@ -53,7 +53,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
             cell = UITableViewCell()
         }
         
-        cell.backgroundColor = .clear
+        cell.setBackground(with: Presets.Background.transparent)
         cell.setupCustomMargins(all: .large)
         
         return cell

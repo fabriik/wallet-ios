@@ -75,7 +75,7 @@ class RegistrationViewController: BaseTableViewController<RegistrationCoordinato
             cell = super.tableView(tableView, cellForRowAt: indexPath)
         }
         
-        cell.backgroundColor = .clear
+        cell.setBackground(with: Presets.Background.transparent)
         cell.setupCustomMargins(vertical: .huge, horizontal: .large)
         
         return cell

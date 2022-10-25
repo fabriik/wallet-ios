@@ -87,7 +87,7 @@ class SwapViewController: BaseTableViewController<SwapCoordinator,
             cell = UITableViewCell()
         }
         
-        cell.backgroundColor = .clear
+        cell.setBackground(with: Presets.Background.transparent)
         cell.setupCustomMargins(all: .large)
         
         return cell
