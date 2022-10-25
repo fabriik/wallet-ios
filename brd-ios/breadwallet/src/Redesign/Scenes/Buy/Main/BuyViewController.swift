@@ -85,6 +85,7 @@ class BuyViewController: BaseTableViewController<BuyCoordinator, BuyInteractor, 
             cell = UITableViewCell()
         }
         
+        cell.backgroundColor = .clear
         cell.setupCustomMargins(all: .large)
         
         return cell

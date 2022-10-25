@@ -74,6 +74,7 @@ class ItemSelectionViewController: BaseTableViewController<ItemSelectionCoordina
             cell = UITableViewCell()
         }
         
+        cell.backgroundColor = .clear
         cell.contentView.setupCustomMargins(vertical: .medium, horizontal: .zero)
         
         return cell

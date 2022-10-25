@@ -81,6 +81,7 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
             cell = UITableViewCell()
         }
         
+        cell.backgroundColor = .clear
         cell.setupCustomMargins(vertical: .huge, horizontal: .extraHuge)
         
         return cell

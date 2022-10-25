@@ -44,6 +44,7 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
             cell = super.tableView(tableView, cellForRowAt: indexPath)
         }
         
+        cell.backgroundColor = .clear
         return cell
     }
     

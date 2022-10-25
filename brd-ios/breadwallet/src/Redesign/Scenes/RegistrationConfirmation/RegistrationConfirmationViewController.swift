@@ -56,6 +56,8 @@ class RegistrationConfirmationViewController: BaseTableViewController<Registrati
         default:
             cell = super.tableView(tableView, cellForRowAt: indexPath)
         }
+        
+        cell.backgroundColor = .clear
         cell.setupCustomMargins(vertical: .huge, horizontal: .large)
         
         return cell

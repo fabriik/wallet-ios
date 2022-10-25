@@ -75,6 +75,7 @@ class MenuViewController: UITableViewController, Subscriber {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MenuCell.cellIdentifier, for: indexPath) as? MenuCell else { return UITableViewCell() }
         cell.set(item: visibleItems[indexPath.row])
+        cell.backgroundColor = .clear
         return cell
     }
 

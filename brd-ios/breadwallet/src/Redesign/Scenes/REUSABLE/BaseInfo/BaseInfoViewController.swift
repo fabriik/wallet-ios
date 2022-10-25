@@ -113,6 +113,7 @@ class BaseInfoViewController: BaseTableViewController<BaseCoordinator,
             cell = super.tableView(tableView, cellForRowAt: indexPath)
         }
         
+        cell.backgroundColor = .clear
         cell.setupCustomMargins(all: .extraHuge)
         
         return cell

@@ -55,6 +55,7 @@ class KYCBasicViewController: BaseTableViewController<KYCCoordinator,
             cell = UITableViewCell()
         }
         
+        cell.backgroundColor = .clear
         cell.contentView.setupCustomMargins(vertical: .small, horizontal: .zero)
         
         return cell

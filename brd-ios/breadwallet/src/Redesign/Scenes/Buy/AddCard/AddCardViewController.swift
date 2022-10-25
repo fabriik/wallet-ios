@@ -45,6 +45,7 @@ class AddCardViewController: BaseTableViewController<ItemSelectionCoordinator,
             cell = UITableViewCell()
         }
         
+        cell.backgroundColor = .clear
         cell.contentView.setupCustomMargins(vertical: .small, horizontal: .zero)
         
         return cell
