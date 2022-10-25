@@ -16,6 +16,7 @@ class KYCCoordinator: BaseCoordinator,
                       KYCDocumentPickerRoutes,
                       DocumentReviewRoutes,
                       VerifyAccountRoutes {
+    var role: CustomerRole?
     
     override func start() {
         switch UserManager.shared.profile?.status {
@@ -26,7 +27,24 @@ class KYCCoordinator: BaseCoordinator,
             childCoordinators.append(coordinator)
             
         default:
-            open(scene: Scenes.VerifyAccount)
+            open(scene: Scenes.VerifyAccount) { [weak self] vc in
+                guard let role = self?.role else { return }
+                
+                let coverImageName: String
+                
+                switch role {
+                case .kyc1:
+                    coverImageName = "il_setup"
+                    
+                case .kyc2:
+                    coverImageName = "verification"
+                    
+                default:
+                    coverImageName = ""
+                }
+                
+                vc.dataStore?.coverImageName = coverImageName
+            }
         }
     }
     

@@ -54,7 +54,7 @@ internal enum L10n {
     /// Account Verification screen title
     internal static let accountVerification = L10n.tr("Localizable", "Account.AccountVerification", fallback: "Account Verification")
     /// Verify your account label on profile screen
-    internal static let accountVerify = L10n.tr("Localizable", "Account.AccountVerify", fallback: "Verify your account")
+    internal static let accountVerify = L10n.tr("Localizable", "Account.AccountVerify", fallback: "Verify")
     /// Account balance
     internal static let balance = L10n.tr("Localizable", "Account.balance", fallback: "Balance")
     /// Before confirm photo label in create account screen
@@ -90,7 +90,7 @@ internal enum L10n {
     /// Loading Wallet Message
     internal static let loadingMessage = L10n.tr("Localizable", "Account.loadingMessage", fallback: "Loading Wallet")
     /// Verify your account to get full access to the wallet message
-    internal static let messageVerifyAccount = L10n.tr("Localizable", "Account.MessageVerifyAccount", fallback: "Verify your account to get full access to your Fabriik wallet!")
+    internal static let messageVerifyAccount = L10n.tr("Localizable", "Account.MessageVerifyAccount", fallback: "Verify your account to get full access to your RockWallet!")
     /// Pending
     internal static let pending = L10n.tr("Localizable", "Account.Pending", fallback: "Pending")
     /// Account Personal Information title
@@ -123,8 +123,8 @@ internal enum L10n {
     internal static let verifyAccountText = L10n.tr("Localizable", "Account.VerifyAccountText", fallback: "If you verify your account, you are given access to:\n・Unlimited deposits/withdrawals\n・Enhanced security\n・Full asset support\n・Buy assets with credit card\n・24/7/365 live customer support")
     /// Enter and verify your email address for your account label in registration flow
     internal static let verifyEmail = L10n.tr("Localizable", "Account.VerifyEmail", fallback: "Enter and verify your new email address for your Fabriik account.")
-    /// We need to verify your identity in order to buy/sell and swap crypto.
-    internal static let verifyIdentity = L10n.tr("Localizable", "Account.VerifyIdentity", fallback: "We need to verify your identity in order to buy/sell and swap crypto.")
+    /// We need to verify your identity before you can buy or swap assets.
+    internal static let verifyIdentity = L10n.tr("Localizable", "Account.VerifyIdentity", fallback: "We need to verify your identity before you can buy or swap assets.")
     /// Verify personal information text explanation
     internal static let verifyPersonalInformation = L10n.tr("Localizable", "Account.VerifyPersonalInformation", fallback: "We need to verify your personal information for compliance purposes. This information won’t be shared with outside sources unless required by law.")
     /// Welcome title on registration screen
@@ -445,7 +445,7 @@ internal enum L10n {
     /// Map button
     internal static let map = L10n.tr("Localizable", "Button.map", fallback: "Map")
     /// Maybe Later button label
-    internal static let maybeLater = L10n.tr("Localizable", "Button.maybeLater", fallback: "Maybe Later")
+    internal static let maybeLater = L10n.tr("Localizable", "Button.maybeLater", fallback: "Maybe later")
     /// menu button
     internal static let menu = L10n.tr("Localizable", "Button.menu", fallback: "Menu")
     /// More information button
@@ -1525,7 +1525,7 @@ internal enum L10n {
     /// Error text displayed when the user enters an incorrect recovery phrase
     internal static let invalidPhrase = L10n.tr("Localizable", "RecoveryKeyFlow.invalidPhrase", fallback: "Some of the words you entered do not match your recovery phrase. Please try again.")
     /// Title for recovery key intro page
-    internal static let keepSecure = L10n.tr("Localizable", "RecoveryKeyFlow.keepSecure", fallback: "Keep it secure")
+    internal static let keepSecure = L10n.tr("Localizable", "RecoveryKeyFlow.keepSecure", fallback: "Write down your Recovery Phrase")
     /// Informs the user that the recovery is only required for recovering a wallet.
     internal static let keyUseHint = L10n.tr("Localizable", "RecoveryKeyFlow.keyUseHint", fallback: "Your key is only needed for recovery, not for everyday wallet access.")
     /// Reminds the user not to take screenshots or email the recovery key words
@@ -1537,15 +1537,15 @@ internal enum L10n {
     /// Subtitle displayed when the user starts the process of recovering a wallet
     internal static let recoveryYourWalletSubtitle = L10n.tr("Localizable", "RecoveryKeyFlow.recoveryYourWalletSubtitle", fallback: "Please enter the Recovery Phrase of the wallet you want to restore")
     /// Title for recovery key intro page
-    internal static let relaxBuyTrade = L10n.tr("Localizable", "RecoveryKeyFlow.relaxBuyTrade", fallback: "Relax, buy, and swap")
+    internal static let relaxBuyTrade = L10n.tr("Localizable", "RecoveryKeyFlow.relaxBuyTrade", fallback: "Keep your Recovery Phrase in a secure location")
     /// Reminds the user to write down the recovery key words.
     internal static let rememberToWriteDownReminder = L10n.tr("Localizable", "RecoveryKeyFlow.rememberToWriteDownReminder", fallback: "Remember to write these words down. Swipe back if you forgot.")
     /// Instruction displayed when the user is resetting the PIN, which requires the recovery phrase to be entered
     internal static let resetPINInstruction = L10n.tr("Localizable", "RecoveryKeyFlow.resetPINInstruction", fallback: "Please enter your recovery phrase to reset your PIN.")
     /// Assures the user that BRD will keep the user's funds secure.
-    internal static let securityAssurance = L10n.tr("Localizable", "RecoveryKeyFlow.securityAssurance", fallback: "Buy and swap knowing that your funds are protected by the best security and privacy in the business.")
+    internal static let securityAssurance = L10n.tr("Localizable", "RecoveryKeyFlow.securityAssurance", fallback: "Remember that this is the only way to restore your wallet. RockWallet does not keep a copy.")
     /// Recommends that the user stores the recovery key in a secure location
-    internal static let storeSecurelyRecommendation = L10n.tr("Localizable", "RecoveryKeyFlow.storeSecurelyRecommendation", fallback: "Store your key in a secure location. This is the only way to recover your wallet. Fabriik does not keep a copy.")
+    internal static let storeSecurelyRecommendation = L10n.tr("Localizable", "RecoveryKeyFlow.storeSecurelyRecommendation", fallback: "For security reasons, screenshots are not recommended, as anyone with your Recovery Phrase can access your funds.")
     /// Title for the success page after the recovery phrase has been set up
     internal static let successHeading = L10n.tr("Localizable", "RecoveryKeyFlow.successHeading", fallback: "Congratulations! You completed your recovery phrase setup.")
     /// Subtitle for the success page after the recovery key has been set up
@@ -1567,7 +1567,7 @@ internal enum L10n {
     /// Subtitle for the write recovery key screen
     internal static let writeKeyScreenSubtitle = L10n.tr("Localizable", "RecoveryKeyFlow.writeKeyScreenSubtitle", fallback: "Write down the following words in order.")
     /// Title for the write recovery phrase screen
-    internal static let writeKeyScreenTitle = L10n.tr("Localizable", "RecoveryKeyFlow.writeKeyScreenTitle", fallback: "Your Recovery Phrase")
+    internal static let writeKeyScreenTitle = L10n.tr("Localizable", "RecoveryKeyFlow.writeKeyScreenTitle", fallback: "Recovery Phrase")
     /// Title for the step number when the user pages through the recovery words
     internal static func writeKeyStepTitle(_ p1: Any, _ p2: Any) -> String {
       return L10n.tr("Localizable", "RecoveryKeyFlow.writeKeyStepTitle", String(describing: p1), String(describing: p2), fallback: "%1$@ of %2$@")

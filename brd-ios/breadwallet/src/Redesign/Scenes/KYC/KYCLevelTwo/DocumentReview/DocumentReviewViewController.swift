@@ -56,7 +56,7 @@ class DocumentReviewViewController: BaseTableViewController<KYCCoordinator,
         }
         
         cell.setup { view in
-            view.configure(with: .init(buttons: [Presets.Button.underlinedNoBorders]))
+            view.configure(with: .init(buttons: [Presets.Button.noBorders]))
             
             view.callbacks = [
                 retakePhotoTapped,

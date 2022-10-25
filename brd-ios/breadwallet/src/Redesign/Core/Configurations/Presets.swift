@@ -119,10 +119,10 @@ extension Presets {
                                                    selectedConfiguration: Presets.Background.Secondary.normal.withBorder(border: Presets.Border.normalButtonFullRadius),
                                                    disabledConfiguration: Presets.Background.Secondary.disabled.withBorder(border: Presets.Border.disabledButtonFullRadius))
         
-        static var underlinedNoBorders = ButtonConfiguration(normalConfiguration: BackgroundConfiguration(tintColor: LightColors.secondary),
-                                                             selectedConfiguration: Presets.Background.Secondary.selected,
-                                                             disabledConfiguration: Presets.Background.Secondary.disabled,
-                                                             buttonContentEdgeInsets: .zero)
+        static var noBorders = ButtonConfiguration(normalConfiguration: BackgroundConfiguration(tintColor: LightColors.secondary),
+                                                   selectedConfiguration: Presets.Background.Secondary.selected,
+                                                   disabledConfiguration: Presets.Background.Secondary.disabled,
+                                                   buttonContentEdgeInsets: .zero)
         
         static var popupActionButton = ButtonConfiguration(normalConfiguration: .init(tintColor: LightColors.Contrast.two),
                                                            selectedConfiguration: .init(tintColor: LightColors.Text.one),

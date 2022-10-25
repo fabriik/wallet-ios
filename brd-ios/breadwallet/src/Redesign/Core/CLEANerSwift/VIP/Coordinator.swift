@@ -278,7 +278,9 @@ class BaseCoordinator: NSObject,
                         completion?(true)
                         return
                     }
+                    
                     let coordinator = KYCCoordinator(navigationController: nvc)
+                    coordinator.role = role
                     coordinator.start()
                     coordinator.parentCoordinator = self
                     self?.childCoordinators.append(coordinator)

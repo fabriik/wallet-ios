@@ -111,7 +111,7 @@ class RegistrationConfirmationViewController: BaseTableViewController<Registrati
         }
         
         cell.setup { view in
-            view.configure(with: .init(buttons: [Presets.Button.underlinedNoBorders]))
+            view.configure(with: .init(buttons: [Presets.Button.noBorders]))
             
             view.callbacks = [
                 resendCodeTapped,
