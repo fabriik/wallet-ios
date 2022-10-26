@@ -32,7 +32,7 @@ class TxMemoCell: TxDetailRowCell {
         super.addConstraints()
         
         textView.constrain([
-            textView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: C.padding[2]),
+            textView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: Margins.large.rawValue),
             textView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
             textView.topAnchor.constraint(equalTo: container.topAnchor),
             textView.bottomAnchor.constraint(equalTo: container.bottomAnchor)

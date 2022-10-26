@@ -63,7 +63,7 @@ class FESegmentControl: UISegmentedControl, ViewProtocol {
         guard let config = config else { return }
         
         snp.makeConstraints { make in
-            make.height.equalTo(ViewSizes.Common.field.rawValue)
+            make.height.equalTo(ViewSizes.Common.defaultCommon.rawValue)
         }
         
         backgroundColor = config.normal.backgroundColor

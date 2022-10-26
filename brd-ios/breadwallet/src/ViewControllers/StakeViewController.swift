@@ -69,38 +69,38 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
             loadingSpinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingSpinner.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
         titleLabel.constrain([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: C.padding[2]),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Margins.large.rawValue),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
         caption.constrain([
-            caption.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: C.padding[3]),
-            caption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            caption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[3])])
+            caption.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.huge.rawValue),
+            caption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            caption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.huge.rawValue)])
         selectBakerButton.constrain([
-            selectBakerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            selectBakerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
-            selectBakerButton.topAnchor.constraint(equalTo: caption.bottomAnchor, constant: C.padding[4]),
+            selectBakerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            selectBakerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
+            selectBakerButton.topAnchor.constraint(equalTo: caption.bottomAnchor, constant: Margins.extraHuge.rawValue),
             selectBakerButton.constraint(.height, constant: selectBakerButtonHeight) ])
         changeBakerButton.constrain([
-            changeBakerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            changeBakerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
-            changeBakerButton.topAnchor.constraint(equalTo: caption.bottomAnchor, constant: C.padding[4]),
+            changeBakerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            changeBakerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
+            changeBakerButton.topAnchor.constraint(equalTo: caption.bottomAnchor, constant: Margins.extraHuge.rawValue),
             changeBakerButton.constraint(.height, constant: selectBakerButtonHeight) ])
         txPendingView.constrain([
-            txPendingView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            txPendingView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
-            txPendingView.topAnchor.constraint(equalTo: caption.bottomAnchor, constant: C.padding[7]),
+            txPendingView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            txPendingView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
+            txPendingView.topAnchor.constraint(equalTo: caption.bottomAnchor, constant: Margins.custom(7)),
             txPendingView.constraint(.height, constant: midContentHeight) ])
         bakerInfoView.constrain([
-            bakerInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            bakerInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
-            bakerInfoView.topAnchor.constraint(equalTo: caption.bottomAnchor, constant: C.padding[2]),
+            bakerInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            bakerInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
+            bakerInfoView.topAnchor.constraint(equalTo: caption.bottomAnchor, constant: Margins.large.rawValue),
             bakerInfoView.constraint(.height, constant: midContentHeight) ])
         stakeButton.constrain([
-            stakeButton.constraint(.leading, toView: view, constant: C.padding[2]),
-            stakeButton.constraint(.trailing, toView: view, constant: -C.padding[2]),
-            stakeButton.constraint(toBottom: bakerInfoView, constant: C.padding[4]),
-            stakeButton.constraint(.height, constant: C.Sizes.buttonHeight),
-            stakeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -C.padding[5]) ])
+            stakeButton.constraint(.leading, toView: view, constant: Margins.large.rawValue),
+            stakeButton.constraint(.trailing, toView: view, constant: -Margins.large.rawValue),
+            stakeButton.constraint(toBottom: bakerInfoView, constant: Margins.extraHuge.rawValue),
+            stakeButton.constraint(.height, constant: ViewSizes.Common.defaultCommon.rawValue),
+            stakeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Margins.custom(5)) ])
         
         Store.subscribe(self, name: .didSelectBaker(nil), callback: { [weak self] in
             guard let trigger = $0 else { return }
@@ -210,7 +210,6 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
                                                       fee: Amount.zero(currency),
                                                       displayFeeLevel: FeeLevel.regular,
                                                       address: address,
-                                                      isUsingBiometrics: true,
                                                       currency: currency,
                                                       shouldShowMaskView: true,
                                                       isStake: true)
@@ -292,7 +291,7 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
     
     private func buildChangeBakerButton(with baker: Baker?) {
         changeBakerButton.subviews.forEach { $0.removeFromSuperview() }
-        changeBakerButton.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        changeBakerButton.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         changeBakerButton.layer.masksToBounds = true
         changeBakerButton.backgroundColor = currency.colors.0
         let bakerName = UILabel(font: .customBold(size: 18.0), color: .white)
@@ -315,11 +314,11 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
         bakerName.adjustsFontSizeToFitWidth = true
         bakerName.text = baker?.name
         
-        bakerIcon.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIcon.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIcon.layer.masksToBounds = true
         bakerIcon.backgroundColor = .white
         
-        bakerIconLoadingView.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIconLoadingView.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIconLoadingView.layer.masksToBounds = true
         bakerIconLoadingView.backgroundColor = .white
         
@@ -336,34 +335,34 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
         changeBakerButton.addSubview(arrow)
         
         bakerIcon.constrain([
-            bakerIcon.topAnchor.constraint(equalTo: changeBakerButton.topAnchor, constant: C.padding[2]),
-            bakerIcon.leadingAnchor.constraint(equalTo: changeBakerButton.leadingAnchor, constant: C.padding[2]),
+            bakerIcon.topAnchor.constraint(equalTo: changeBakerButton.topAnchor, constant: Margins.large.rawValue),
+            bakerIcon.leadingAnchor.constraint(equalTo: changeBakerButton.leadingAnchor, constant: Margins.large.rawValue),
             bakerIcon.heightAnchor.constraint(equalToConstant: bakerContentHeight),
             bakerIcon.widthAnchor.constraint(equalToConstant: bakerContentHeight) ])
         bakerIconLoadingView.constrain([
-            bakerIconLoadingView.topAnchor.constraint(equalTo: changeBakerButton.topAnchor, constant: C.padding[2]),
-            bakerIconLoadingView.leadingAnchor.constraint(equalTo: changeBakerButton.leadingAnchor, constant: C.padding[2]),
+            bakerIconLoadingView.topAnchor.constraint(equalTo: changeBakerButton.topAnchor, constant: Margins.large.rawValue),
+            bakerIconLoadingView.leadingAnchor.constraint(equalTo: changeBakerButton.leadingAnchor, constant: Margins.large.rawValue),
             bakerIconLoadingView.heightAnchor.constraint(equalToConstant: bakerContentHeight),
             bakerIconLoadingView.widthAnchor.constraint(equalToConstant: bakerContentHeight) ])
         iconLoadingSpinner.constrain([
             iconLoadingSpinner.centerXAnchor.constraint(equalTo: bakerIconLoadingView.centerXAnchor),
             iconLoadingSpinner.centerYAnchor.constraint(equalTo: bakerIconLoadingView.centerYAnchor)])
         bakerName.constrain([
-            bakerName.topAnchor.constraint(equalTo: changeBakerButton.topAnchor, constant: C.padding[2]),
-            bakerName.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: C.padding[2]),
-            bakerName.trailingAnchor.constraint(equalTo: bakerROI.leadingAnchor, constant: -C.padding[2]) ])
+            bakerName.topAnchor.constraint(equalTo: changeBakerButton.topAnchor, constant: Margins.large.rawValue),
+            bakerName.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: Margins.large.rawValue),
+            bakerName.trailingAnchor.constraint(equalTo: bakerROI.leadingAnchor, constant: -Margins.large.rawValue) ])
         bakerFee.constrain([
             bakerFee.topAnchor.constraint(equalTo: bakerName.bottomAnchor),
-            bakerFee.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: C.padding[2]) ])
+            bakerFee.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: Margins.large.rawValue) ])
         bakerROI.constrain([
             bakerROI.topAnchor.constraint(equalTo: bakerName.topAnchor),
-            bakerROI.trailingAnchor.constraint(equalTo: arrow.leadingAnchor, constant: -C.padding[2]) ])
+            bakerROI.trailingAnchor.constraint(equalTo: arrow.leadingAnchor, constant: -Margins.large.rawValue) ])
         bakerROIHeader.constrain([
             bakerROIHeader.topAnchor.constraint(equalTo: bakerROI.bottomAnchor),
-            bakerROIHeader.trailingAnchor.constraint(equalTo: arrow.leadingAnchor, constant: -C.padding[2]) ])
+            bakerROIHeader.trailingAnchor.constraint(equalTo: arrow.leadingAnchor, constant: -Margins.large.rawValue) ])
         arrow.constrain([
             arrow.centerYAnchor.constraint(equalTo: changeBakerButton.centerYAnchor),
-            arrow.trailingAnchor.constraint(equalTo: changeBakerButton.trailingAnchor, constant: -C.padding[2]),
+            arrow.trailingAnchor.constraint(equalTo: changeBakerButton.trailingAnchor, constant: -Margins.large.rawValue),
             arrow.heightAnchor.constraint(equalToConstant: 10),
             arrow.widthAnchor.constraint(equalToConstant: 7) ])
         
@@ -381,13 +380,13 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
     }
     
     private func buildSelectBakerButton() {
-        selectBakerButton.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        selectBakerButton.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         selectBakerButton.layer.masksToBounds = true
         selectBakerButton.backgroundColor = currency.colors.0
         let currencyIcon = UIImageView()
         currencyIcon.image = currency.imageNoBackground
         currencyIcon.backgroundColor = UIColor.white.withAlphaComponent(0.2)
-        currencyIcon.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        currencyIcon.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         currencyIcon.layer.masksToBounds = true
         currencyIcon.tintColor = .white
         let selectBakerLabel = UILabel(font: .customBold(size: 16.0))
@@ -403,16 +402,16 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
         
         currencyIcon.constrain([
             currencyIcon.centerYAnchor.constraint(equalTo: selectBakerButton.centerYAnchor),
-            currencyIcon.leadingAnchor.constraint(equalTo: selectBakerButton.leadingAnchor, constant: C.padding[2]),
+            currencyIcon.leadingAnchor.constraint(equalTo: selectBakerButton.leadingAnchor, constant: Margins.large.rawValue),
             currencyIcon.heightAnchor.constraint(equalToConstant: bakerContentHeight),
             currencyIcon.widthAnchor.constraint(equalToConstant: bakerContentHeight) ])
         selectBakerLabel.constrain([
             selectBakerLabel.topAnchor.constraint(equalTo: currencyIcon.topAnchor),
-            selectBakerLabel.leadingAnchor.constraint(equalTo: currencyIcon.trailingAnchor, constant: C.padding[2]),
+            selectBakerLabel.leadingAnchor.constraint(equalTo: currencyIcon.trailingAnchor, constant: Margins.large.rawValue),
             selectBakerLabel.heightAnchor.constraint(equalToConstant: bakerContentHeight) ])
         arrow.constrain([
             arrow.centerYAnchor.constraint(equalTo: selectBakerButton.centerYAnchor),
-            arrow.trailingAnchor.constraint(equalTo: selectBakerButton.trailingAnchor, constant: -C.padding[2]),
+            arrow.trailingAnchor.constraint(equalTo: selectBakerButton.trailingAnchor, constant: -Margins.large.rawValue),
             arrow.heightAnchor.constraint(equalToConstant: 10),
             arrow.widthAnchor.constraint(equalToConstant: 7) ])
     }
@@ -433,10 +432,10 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
         bakerROI.text = baker?.roiString
         bakerROIHeader.text = L10n.Staking.roiHeader
         
-        bakerIcon.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIcon.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIcon.layer.masksToBounds = true
         
-        bakerIconLoadingView.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIconLoadingView.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIconLoadingView.layer.masksToBounds = true
         bakerIconLoadingView.backgroundColor = .lightGray
         
@@ -455,27 +454,27 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
         bakerInfoView.addSubview(bakerIconLoadingView)
         
         bakerIcon.constrain([
-            bakerIcon.topAnchor.constraint(equalTo: bakerInfoView.topAnchor, constant: C.padding[2]),
-            bakerIcon.leadingAnchor.constraint(equalTo: bakerInfoView.leadingAnchor, constant: C.padding[2]),
+            bakerIcon.topAnchor.constraint(equalTo: bakerInfoView.topAnchor, constant: Margins.large.rawValue),
+            bakerIcon.leadingAnchor.constraint(equalTo: bakerInfoView.leadingAnchor, constant: Margins.large.rawValue),
             bakerIcon.heightAnchor.constraint(equalToConstant: bakerContentHeight),
             bakerIcon.widthAnchor.constraint(equalToConstant: bakerContentHeight) ])
         bakerIconLoadingView.constrain([
-            bakerIconLoadingView.topAnchor.constraint(equalTo: bakerInfoView.topAnchor, constant: C.padding[2]),
-            bakerIconLoadingView.leadingAnchor.constraint(equalTo: bakerInfoView.leadingAnchor, constant: C.padding[2]),
+            bakerIconLoadingView.topAnchor.constraint(equalTo: bakerInfoView.topAnchor, constant: Margins.large.rawValue),
+            bakerIconLoadingView.leadingAnchor.constraint(equalTo: bakerInfoView.leadingAnchor, constant: Margins.large.rawValue),
             bakerIconLoadingView.heightAnchor.constraint(equalToConstant: bakerContentHeight),
             bakerIconLoadingView.widthAnchor.constraint(equalToConstant: bakerContentHeight) ])
         bakerName.constrain([
-            bakerName.topAnchor.constraint(equalTo: bakerInfoView.topAnchor, constant: C.padding[2]),
-            bakerName.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: C.padding[2]) ])
+            bakerName.topAnchor.constraint(equalTo: bakerInfoView.topAnchor, constant: Margins.large.rawValue),
+            bakerName.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: Margins.large.rawValue) ])
         bakerFee.constrain([
             bakerFee.topAnchor.constraint(equalTo: bakerName.bottomAnchor),
-            bakerFee.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: C.padding[2]) ])
+            bakerFee.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: Margins.large.rawValue) ])
         bakerROI.constrain([
             bakerROI.topAnchor.constraint(equalTo: bakerName.topAnchor),
-            bakerROI.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[4]) ])
+            bakerROI.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.extraHuge.rawValue) ])
         bakerROIHeader.constrain([
             bakerROIHeader.topAnchor.constraint(equalTo: bakerROI.bottomAnchor),
-            bakerROIHeader.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[4]) ])
+            bakerROIHeader.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.extraHuge.rawValue) ])
         
         if let imageUrl = baker?.logo, !imageUrl.isEmpty {
             UIImage.fetchAsync(from: imageUrl) { [weak bakerIcon] (image, url) in
@@ -503,11 +502,11 @@ class StakeViewController: UIViewController, Subscriber, ModalPresentable {
         bakerInfoView.addSubview(pendingLabel)
         
         pendingSpinner.constrain([
-            pendingSpinner.leadingAnchor.constraint(equalTo: bakerInfoView.leadingAnchor, constant: C.padding[5]),
+            pendingSpinner.leadingAnchor.constraint(equalTo: bakerInfoView.leadingAnchor, constant: Margins.custom(5)),
             pendingSpinner.centerYAnchor.constraint(equalTo: bakerInfoView.centerYAnchor)])
         pendingLabel.constrain([
             pendingLabel.centerYAnchor.constraint(equalTo: pendingSpinner.centerYAnchor),
-            pendingLabel.leadingAnchor.constraint(equalTo: pendingSpinner.trailingAnchor, constant: C.padding[2]) ])
+            pendingLabel.leadingAnchor.constraint(equalTo: pendingSpinner.trailingAnchor, constant: Margins.large.rawValue) ])
     }
 }
 

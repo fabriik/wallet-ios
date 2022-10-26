@@ -162,13 +162,13 @@ class BRDButton: UIControl {
         iconImageView.constrainLeadingCorners()
         label.constrainTrailingCorners()
         iconImageView.constrain([
-            iconImageView.constraint(toLeading: label, constant: -C.padding[1]) ])
+            iconImageView.constraint(toLeading: label, constant: -Margins.small.rawValue) ])
         imageView = iconImageView
     }
 
     private func setupLabelOnly() {
         container.addSubview(label)
-        label.constrain(toSuperviewEdges: UIEdgeInsets(top: C.padding[1], left: C.padding[1], bottom: -C.padding[1], right: -C.padding[1]))
+        label.constrain(toSuperviewEdges: UIEdgeInsets(top: Margins.small.rawValue, left: Margins.small.rawValue, bottom: -Margins.small.rawValue, right: -Margins.small.rawValue))
     }
 
     private func setColors() {

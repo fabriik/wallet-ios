@@ -26,11 +26,11 @@ class EnterPhraseCollectionViewController: UICollectionViewController, UICollect
     private let cellHeight: CGFloat = 32
     
     var interItemSpacing: CGFloat {
-        return E.isSmallScreen ? 6 : C.padding[1]
+        return E.isSmallScreen ? 6 : Margins.small.rawValue
     }
     
     var sectionInsets: CGFloat {
-        return E.isSmallScreen ? 0 : C.padding[2]
+        return E.isSmallScreen ? 0 : Margins.large.rawValue
     }
     
     private lazy var cellSize: CGSize = {
@@ -95,8 +95,8 @@ class EnterPhraseCollectionViewController: UICollectionViewController, UICollect
             self?.didFinishPhraseEntry?(phrase)
         }
         enterPhraseCell.isWordValid = { [weak self] word in
-            guard let myself = self else { return false }
-            return myself.keyMaster.isSeedWordValid(word.lowercased())
+            guard let self = self else { return false }
+            return self.keyMaster.isSeedWordValid(word.lowercased())
         }
         enterPhraseCell.didEnterSpace = {
             enterPhraseCell.didTapNext?()

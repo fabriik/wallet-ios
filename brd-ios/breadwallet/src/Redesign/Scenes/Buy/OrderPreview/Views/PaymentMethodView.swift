@@ -112,7 +112,7 @@ class PaymentMethodView: FEView<PaymentMethodConfiguration, PaymentMethodViewMod
         mainStack.addArrangedSubview(cvvTitle)
         mainStack.addArrangedSubview(cvvTextField)
         cvvTextField.snp.makeConstraints { make in
-            make.height.equalTo(ViewSizes.Common.field.rawValue)
+            make.height.equalTo(ViewSizes.Common.defaultCommon.rawValue)
         }
         
         cvvTitle.didTapInfoButton = { [weak self] in

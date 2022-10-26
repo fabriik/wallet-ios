@@ -83,10 +83,10 @@ class ReceiveViewController: UIViewController, Subscriber {
         qrCode.constrain([
             qrCode.constraint(.width, constant: qrSize),
             qrCode.constraint(.height, constant: qrSize),
-            qrCode.constraint(.top, toView: view, constant: C.padding[4]),
+            qrCode.constraint(.top, toView: view, constant: Margins.extraHuge.rawValue),
             qrCode.constraint(.centerX, toView: view) ])
         address.constrain([
-            address.constraint(toBottom: qrCode, constant: C.padding[1]),
+            address.constraint(toBottom: qrCode, constant: Margins.small.rawValue),
             address.constraint(.leading, toView: view),
             address.constraint(.trailing, toView: view) ])
         addressPopout.heightConstraint = addressPopout.constraint(.height, constant: 0.0)
@@ -96,7 +96,7 @@ class ReceiveViewController: UIViewController, Subscriber {
             addressPopout.constraint(.width, toView: view),
             addressPopout.heightConstraint ])
         share.constrain([
-            share.constraint(toBottom: addressPopout, constant: C.padding[2]),
+            share.constraint(toBottom: addressPopout, constant: Margins.large.rawValue),
             share.constraint(.centerX, toView: view),
             share.constraint(.width, constant: qrSize),
             share.constraint(.height, constant: smallButtonHeight) ])
@@ -112,19 +112,19 @@ class ReceiveViewController: UIViewController, Subscriber {
             border.constraint(toBottom: sharePopout, constant: 0.0),
             border.constraint(.centerX, toView: view),
             border.constraint(.height, constant: 1.0) ])
-        requestTop = request.constraint(toBottom: border, constant: C.padding[3])
-        requestBottom = request.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: E.isIPhoneX ? -C.padding[5] : -C.padding[2])
+        requestTop = request.constraint(toBottom: border, constant: Margins.huge.rawValue)
+        requestBottom = request.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: E.isIPhoneX ? -Margins.custom(5) : -Margins.large.rawValue)
         request.constrain([
             requestTop,
-            request.constraint(.leading, toView: view, constant: C.padding[2]),
-            request.constraint(.trailing, toView: view, constant: -C.padding[2]),
-            request.constraint(.height, constant: C.Sizes.buttonHeight),
+            request.constraint(.leading, toView: view, constant: Margins.large.rawValue),
+            request.constraint(.trailing, toView: view, constant: -Margins.large.rawValue),
+            request.constraint(.height, constant: ViewSizes.Common.defaultCommon.rawValue),
             requestBottom ])
         addressButton.constrain([
-            addressButton.leadingAnchor.constraint(equalTo: address.leadingAnchor, constant: -C.padding[1]),
+            addressButton.leadingAnchor.constraint(equalTo: address.leadingAnchor, constant: -Margins.small.rawValue),
             addressButton.topAnchor.constraint(equalTo: qrCode.topAnchor),
-            addressButton.trailingAnchor.constraint(equalTo: address.trailingAnchor, constant: C.padding[1]),
-            addressButton.bottomAnchor.constraint(equalTo: address.bottomAnchor, constant: C.padding[1]) ])
+            addressButton.trailingAnchor.constraint(equalTo: address.trailingAnchor, constant: Margins.small.rawValue),
+            addressButton.bottomAnchor.constraint(equalTo: address.bottomAnchor, constant: Margins.small.rawValue) ])
     }
 
     private func setStyle() {

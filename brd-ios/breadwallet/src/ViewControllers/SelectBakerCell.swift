@@ -11,7 +11,7 @@
 import UIKit
 
 enum SelectBakerCellIds: String {
-    case selectBakerCell        = "SelectBakerCell"
+    case selectBakerCell = "SelectBakerCell"
 }
 
 class SelectBakerCell: UITableViewCell {
@@ -74,10 +74,10 @@ class SelectBakerCell: UITableViewCell {
         container.addSubview(bakerIconLoadingView)
         bakerIconLoadingView.addSubview(iconLoadingSpinner)
         
-        bakerIcon.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIcon.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIcon.layer.masksToBounds = true
         
-        bakerIconLoadingView.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        bakerIconLoadingView.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         bakerIconLoadingView.layer.masksToBounds = true
         bakerIconLoadingView.backgroundColor = .lightGray
         
@@ -86,32 +86,32 @@ class SelectBakerCell: UITableViewCell {
 
     private func addConstraints() {
         container.constrain(toSuperviewEdges:
-            UIEdgeInsets(top: 0, left: 0, bottom: -C.padding[1], right: -C.padding[1]))
+            UIEdgeInsets(top: 0, left: 0, bottom: -Margins.small.rawValue, right: -Margins.small.rawValue))
         bakerIcon.constrain([
-            bakerIcon.topAnchor.constraint(equalTo: container.topAnchor, constant: C.padding[2]),
-            bakerIcon.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: C.padding[2]),
+            bakerIcon.topAnchor.constraint(equalTo: container.topAnchor, constant: Margins.large.rawValue),
+            bakerIcon.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margins.large.rawValue),
             bakerIcon.heightAnchor.constraint(equalToConstant: iconSize),
             bakerIcon.widthAnchor.constraint(equalToConstant: iconSize) ])
         bakerIconLoadingView.constrain([
-            bakerIconLoadingView.topAnchor.constraint(equalTo: container.topAnchor, constant: C.padding[2]),
-            bakerIconLoadingView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: C.padding[2]),
+            bakerIconLoadingView.topAnchor.constraint(equalTo: container.topAnchor, constant: Margins.large.rawValue),
+            bakerIconLoadingView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margins.large.rawValue),
             bakerIconLoadingView.heightAnchor.constraint(equalToConstant: iconSize),
             bakerIconLoadingView.widthAnchor.constraint(equalToConstant: iconSize) ])
         iconLoadingSpinner.constrain([
             iconLoadingSpinner.centerXAnchor.constraint(equalTo: bakerIconLoadingView.centerXAnchor),
             iconLoadingSpinner.centerYAnchor.constraint(equalTo: bakerIconLoadingView.centerYAnchor)])
         bakerName.constrain([
-            bakerName.topAnchor.constraint(equalTo: container.topAnchor, constant: C.padding[2]),
-            bakerName.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: C.padding[2]) ])
+            bakerName.topAnchor.constraint(equalTo: container.topAnchor, constant: Margins.large.rawValue),
+            bakerName.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: Margins.large.rawValue) ])
         fee.constrain([
             fee.topAnchor.constraint(equalTo: bakerName.bottomAnchor, constant: 0.0),
-            fee.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: C.padding[2]) ])
+            fee.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: Margins.large.rawValue) ])
         roi.constrain([
             roi.topAnchor.constraint(equalTo: bakerName.topAnchor, constant: 0.0),
-            roi.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -C.padding[2]) ])
+            roi.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -Margins.large.rawValue) ])
         roiHeader.constrain([
             roiHeader.topAnchor.constraint(equalTo: roi.bottomAnchor, constant: 0.0),
-            roiHeader.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -C.padding[2]) ])
+            roiHeader.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -Margins.large.rawValue) ])
         
         layoutIfNeeded()
     }

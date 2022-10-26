@@ -85,8 +85,8 @@ class AddressCell: UIView {
         label.isHidden = true
         addSubview(activityIndicator)
         activityIndicator.constrain([
-            activityIndicator.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[1]),
-            activityIndicator.constraint(.leading, toView: self, constant: C.padding[2]) ])
+            activityIndicator.topAnchor.constraint(equalTo: topAnchor, constant: Margins.small.rawValue),
+            activityIndicator.constraint(.leading, toView: self, constant: Margins.large.rawValue) ])
         activityIndicator.startAnimating()
     }
     
@@ -111,33 +111,33 @@ class AddressCell: UIView {
 
     private func addConstraints() {
         label.constrain([
-            label.constraint(.leading, toView: self, constant: C.padding[2]),
-            label.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[1])])
+            label.constraint(.leading, toView: self, constant: Margins.large.rawValue),
+            label.topAnchor.constraint(equalTo: topAnchor, constant: Margins.small.rawValue)])
         resolvedAddressLabel.constrain([
-            resolvedAddressLabel.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[1]),
-            resolvedAddressLabel.constraint(.leading, toView: self, constant: C.padding[2]) ])
+            resolvedAddressLabel.topAnchor.constraint(equalTo: topAnchor, constant: Margins.small.rawValue),
+            resolvedAddressLabel.constraint(.leading, toView: self, constant: Margins.large.rawValue) ])
         resolvedAddressLabel.isHidden = true
         
         contentLabel.constrain([
             contentLabel.constraint(.leading, toView: label),
             contentLabel.constraint(toBottom: label, constant: 0.0),
-            contentLabel.trailingAnchor.constraint(equalTo: paste.leadingAnchor, constant: -C.padding[1]) ])
+            contentLabel.trailingAnchor.constraint(equalTo: paste.leadingAnchor, constant: -Margins.small.rawValue) ])
         textField.constrain([
             textField.constraint(.leading, toView: label),
             textField.constraint(toBottom: label, constant: 0.0),
-            textField.trailingAnchor.constraint(equalTo: paste.leadingAnchor, constant: -C.padding[1]) ])
+            textField.trailingAnchor.constraint(equalTo: paste.leadingAnchor, constant: -Margins.small.rawValue) ])
         tapView.constrain([
             tapView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tapView.topAnchor.constraint(equalTo: topAnchor),
             tapView.bottomAnchor.constraint(equalTo: bottomAnchor),
             tapView.trailingAnchor.constraint(equalTo: paste.leadingAnchor) ])
         scan.constrain([
-            scan.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
+            scan.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
             scan.centerYAnchor.constraint(equalTo: centerYAnchor),
             scan.heightAnchor.constraint(equalToConstant: 32.0)])
         paste.constrain([
             paste.centerYAnchor.constraint(equalTo: centerYAnchor),
-            paste.trailingAnchor.constraint(equalTo: scan.leadingAnchor, constant: -C.padding[1]),
+            paste.trailingAnchor.constraint(equalTo: scan.leadingAnchor, constant: -Margins.small.rawValue),
             paste.heightAnchor.constraint(equalToConstant: 33.0)
         ])
         border.constrain([
@@ -162,8 +162,9 @@ class AddressCell: UIView {
         label.textColor = .grayTextTint
         contentLabel.lineBreakMode = .byTruncatingMiddle
 
-        textField.editingChanged = strongify(self) { myself in
-            myself.contentLabel.text = myself.textField.text
+        textField.editingChanged = { [weak self] in
+            guard let self = self else { return }
+            self.contentLabel.text = self.textField.text
         }
 
         //GR to start editing label

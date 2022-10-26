@@ -28,41 +28,13 @@ public enum Screen: String {
     var name: String { return rawValue }
 }
 
-struct Padding {
-    var increment: CGFloat
-    
-    subscript(multiplier: Int) -> CGFloat {
-        return CGFloat(multiplier) * increment
-    }
-    
-    static var half: CGFloat {
-        return C.padding[1]/2.0
-    }
-}
-
 /// Constants
 typealias Constant = C
 struct C {
-    static let padding = Padding(increment: 8.0)
-    struct Sizes {
-        static let buttonHeight: CGFloat = 48.0
-        static let headerHeight: CGFloat = 48.0
-        static let largeHeaderHeight: CGFloat = 220.0
-        static let logoAspectRatio: CGFloat = 125.0/417.0
-        static let cutoutLogoAspectRatio: CGFloat = 342.0/553.0
-        static let roundedCornerRadius: CGFloat = 6.0
-        static let homeCellCornerRadius: CGFloat = 12.0
-        static let brdLogoHeight: CGFloat = 32.0
-        static let brdLogoTopMargin: CGFloat = E.isIPhoneX ? C.padding[9] + 35.0 : C.padding[9] + 20.0
-    }
-    static var defaultTintColor: UIColor = {
-        return UIView().tintColor
-    }()
-    
+    static let brdLogoTopMargin: CGFloat = E.isIPhoneX ? Margins.custom(9) + 35.0 : Margins.custom(9) + 20.0
     static let secondsInDay: TimeInterval = 86400
     static let secondsInMinute: TimeInterval = 60
     static let walletQueue = "com.fabriik.one.walletqueue"
-    static let null = "(null)"
     static let maxMemoLength = 250
     static let fabriikURL = "fabriik.com"
     static let privacyPolicy = "https://\(fabriikURL)/privacy-policy/"
@@ -127,13 +99,13 @@ struct C {
 }
 
 enum Words {
-    //Returns the wordlist of the current localization
+    /// Returns the wordlist of the current localization
     static var wordList: [NSString]? {
         guard let path = Bundle.main.path(forResource: "BIP39Words", ofType: "plist") else { return nil }
         return NSArray(contentsOfFile: path) as? [NSString]
     }
     
-    //Returns the wordlist that matches to localization of the phrase
+    /// Returns the wordlist that matches to localization of the phrase
     static func wordList(forPhrase phrase: String) -> [NSString]? {
         var result = [NSString]()
         Bundle.main.localizations.forEach { lang in

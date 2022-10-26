@@ -40,10 +40,10 @@ class TxStatusCell: UITableViewCell, Subscriber {
     }
     
     private func addConstraints() {
-        container.constrain(toSuperviewEdges: UIEdgeInsets(top: C.padding[1],
-                                                           left: C.padding[1],
-                                                           bottom: -C.padding[2],
-                                                           right: -C.padding[1]))
+        container.constrain(toSuperviewEdges: UIEdgeInsets(top: Margins.small.rawValue,
+                                                           left: Margins.small.rawValue,
+                                                           bottom: -Margins.large.rawValue,
+                                                           right: -Margins.small.rawValue))
         statusIndicator.constrain([
             statusIndicator.topAnchor.constraint(equalTo: container.topAnchor),
             statusIndicator.centerXAnchor.constraint(equalTo: container.centerXAnchor),

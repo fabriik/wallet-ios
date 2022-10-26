@@ -67,7 +67,7 @@ class AssetListTableView: UITableViewController, Subscriber {
         tableView.register(HomeScreenHiglightableCell.self, forCellReuseIdentifier: HomeScreenCellIds.highlightableCell.rawValue)
         tableView.separatorStyle = .none
         tableView.rowHeight = assetHeight
-        tableView.contentInset = UIEdgeInsets(top: C.padding[1], left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: Margins.small.rawValue, left: 0, bottom: 0, right: 0)
         
         setupSubscriptions()
         reload()
@@ -78,7 +78,7 @@ class AssetListTableView: UITableViewController, Subscriber {
         
         let manageAssetsButtonHeight: CGFloat = 56.0
         let topBottomInset: CGFloat = Margins.extraLarge.rawValue
-        let leftRightInset: CGFloat = C.padding[2]
+        let leftRightInset: CGFloat = Margins.large.rawValue
         let tableViewWidth = tableView.frame.width - tableView.contentInset.left - tableView.contentInset.right
         
         let footerView = UIView(frame: CGRect(x: 0,

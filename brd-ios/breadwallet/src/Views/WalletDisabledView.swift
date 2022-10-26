@@ -112,33 +112,33 @@ class WalletDisabledView: UIView {
         
         faq.constrain([
             faq.topAnchor.constraint(equalTo: blur.topAnchor, constant: 70),
-            faq.trailingAnchor.constraint(equalTo: blur.trailingAnchor, constant: -C.padding[2])])
+            faq.trailingAnchor.constraint(equalTo: blur.trailingAnchor, constant: -Margins.large.rawValue)])
         
         header.constrain([
             header.topAnchor.constraint(equalTo: blur.topAnchor, constant: 170),
             header.centerXAnchor.constraint(equalTo: blur.centerXAnchor),
-            header.heightAnchor.constraint(equalToConstant: C.padding[3])])
+            header.heightAnchor.constraint(equalToConstant: Margins.huge.rawValue)])
         
         label.constrain([
-            header.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2]),
+            header.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue),
             label.centerXAnchor.constraint(equalTo: blur.centerXAnchor),
-            label.heightAnchor.constraint(equalToConstant: C.padding[3])])
+            label.heightAnchor.constraint(equalToConstant: Margins.huge.rawValue)])
         
         unlockWalletImage.constrain([
-            unlockWalletImage.topAnchor.constraint(equalTo: label.bottomAnchor, constant: C.padding[8]),
+            unlockWalletImage.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Margins.custom(8)),
             unlockWalletImage.centerXAnchor.constraint(equalTo: blur.centerXAnchor),
             unlockWalletImage.centerYAnchor.constraint(equalTo: blur.centerYAnchor),
             unlockWalletImage.widthAnchor.constraint(equalToConstant: 190),
             unlockWalletImage.heightAnchor.constraint(equalToConstant: 240)])
         
         reset.constrain([
-            reset.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
-            reset.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[2]),
-            reset.heightAnchor.constraint(equalToConstant: C.Sizes.buttonHeight)])
+            reset.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
+            reset.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
+            reset.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue)])
         
         descriptionLabel.constrain([
-            descriptionLabel.topAnchor.constraint(equalTo: reset.bottomAnchor, constant: C.padding[1]),
-            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[4]),
+            descriptionLabel.topAnchor.constraint(equalTo: reset.bottomAnchor, constant: Margins.small.rawValue),
+            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.extraHuge.rawValue),
             descriptionLabel.centerXAnchor.constraint(equalTo: blur.centerXAnchor)])
     }
 

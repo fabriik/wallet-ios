@@ -156,7 +156,7 @@ class AlertView: UIView {
         //of the view because the bottom actually extends off the bottom of the screen a bit.
         //It extends so that it still covers up the underlying view when it bounces on screen.
 
-        header.constrainTopCorners(sidePadding: C.padding[2], topPadding: C.padding[2])
+        header.constrainTopCorners(sidePadding: Margins.large.rawValue, topPadding: Margins.large.rawValue)
         separator.constrain([
             separator.constraint(.height, constant: 1.0),
             separator.constraint(.width, toView: self, constant: 0.0),
@@ -168,9 +168,9 @@ class AlertView: UIView {
             icon.constraint(.width, constant: iconSize),
             icon.constraint(.height, constant: iconSize) ])
         subheader.constrain([
-            subheader.constraint(.leading, toView: self, constant: C.padding[2]),
-            subheader.constraint(.trailing, toView: self, constant: -C.padding[2]),
-            subheader.constraint(toBottom: icon, constant: C.padding[3]) ])
+            subheader.constraint(.leading, toView: self, constant: Margins.large.rawValue),
+            subheader.constraint(.trailing, toView: self, constant: -Margins.large.rawValue),
+            subheader.constraint(toBottom: icon, constant: Margins.huge.rawValue) ])
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

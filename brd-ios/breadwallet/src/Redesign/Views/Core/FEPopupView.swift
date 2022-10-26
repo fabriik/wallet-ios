@@ -24,7 +24,7 @@ struct PopupViewModel: ViewModel {
     var imageName: String?
     var body: String?
     var buttons: [ButtonViewModel] = []
-    var closeButton: ButtonViewModel? = .init(image: "Close")
+    var closeButton: ButtonViewModel? = .init(image: "close")
 }
 
 class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {

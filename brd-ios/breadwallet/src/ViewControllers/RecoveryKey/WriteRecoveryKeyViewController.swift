@@ -358,7 +358,7 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
             subheadingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             subheadingLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: headingLeftRightMargin),
             subheadingLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -headingLeftRightMargin),
-            subheadingLabel.topAnchor.constraint(equalTo: headingLabel.bottomAnchor, constant: C.padding[2])
+            subheadingLabel.topAnchor.constraint(equalTo: headingLabel.bottomAnchor, constant: Margins.large.rawValue)
             ])
         
         stepLabel.constrain([
@@ -370,9 +370,9 @@ class WriteRecoveryKeyViewController: BaseRecoveryKeyViewController {
         
         // The info view sits just above the Done button.
         infoView.constrain([
-            infoView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: C.padding[2]),
-            infoView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -C.padding[2]),
-            infoView.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: -C.padding[2])
+            infoView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Margins.large.rawValue),
+            infoView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Margins.large.rawValue),
+            infoView.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: -Margins.large.rawValue)
             ])
     }
     
@@ -539,8 +539,8 @@ class RecoveryWordCell: UICollectionViewCell {
         
         wordLabel.constrain([
             wordLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: wordTopConstraintConstant),
-            wordLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: C.padding[1]),
-            wordLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -C.padding[1])
+            wordLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Margins.small.rawValue),
+            wordLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Margins.small.rawValue)
             ])
         
         wordLabel.alpha = offScreenScale

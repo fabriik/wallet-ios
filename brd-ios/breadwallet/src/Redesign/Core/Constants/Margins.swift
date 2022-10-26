@@ -31,6 +31,11 @@ enum Margins: CGFloat {
     case extraHuge = 32
     /// 36
     case extraExtraHuge = 36
+    
+    static func custom(_ increment: Int) -> CGFloat {
+        return CGFloat(increment) * Margins.small.rawValue
+    }
+    
 }
 
 enum BorderWidth: CGFloat {
@@ -56,7 +61,7 @@ enum Opacity: Float {
 enum ViewSizes: CGFloat {
     enum Common: CGFloat {
         /// 48
-        case field = 48.0
+        case defaultCommon = 48.0
         /// 56
         case largeButton = 56.0
     }

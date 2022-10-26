@@ -36,7 +36,7 @@ class TxLabelCell: TxDetailRowCell {
         super.addConstraints()
         
         valueLabel.constrain([
-            valueLabel.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: C.padding[1]),
+            valueLabel.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: Margins.small.rawValue),
             valueLabel.constraint(.trailing, toView: container),
             valueLabel.constraint(.top, toView: container),
             valueLabel.constraint(.bottom, toView: container)

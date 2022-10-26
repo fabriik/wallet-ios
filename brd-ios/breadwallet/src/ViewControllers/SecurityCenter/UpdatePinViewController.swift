@@ -155,7 +155,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
             caption.bottomAnchor.constraint(equalTo: pinPad.view.topAnchor, constant: -Margins.extraExtraHuge.rawValue),
             caption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -leftRightMargin) ])
         warning.constrain([
-            warning.topAnchor.constraint(equalTo: pinView.bottomAnchor, constant: C.padding[2]),
+            warning.topAnchor.constraint(equalTo: pinView.bottomAnchor, constant: Margins.large.rawValue),
             warning.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
     }
 
@@ -178,7 +178,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
         hosting.view.backgroundColor = .clear
         hosting.view.constrain([
             hosting.view.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            hosting.view.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[3])
+            hosting.view.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.huge.rawValue)
         ])
     }
 

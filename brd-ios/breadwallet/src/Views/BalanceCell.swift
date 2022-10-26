@@ -108,7 +108,7 @@ class BalanceCell: UIView, Subscriber {
     
     private func addConstraints() {
         balanceLabel.constrain([
-            balanceLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[2]),
+            balanceLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
             balanceLabel.centerYAnchor.constraint(equalTo: centerYAnchor)])
         primaryBalance.constrain([
             primaryBalance.firstBaselineAnchor.constraint(equalTo: balanceLabel.firstBaselineAnchor)])
@@ -124,14 +124,14 @@ class BalanceCell: UIView, Subscriber {
             currencyTapView.bottomAnchor.constraint(equalTo: bottomAnchor),
             currencyTapView.widthAnchor.constraint(equalToConstant: 150.0)])
         regularConstraints = [
-            primaryBalance.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
-            primaryBalance.leadingAnchor.constraint(equalTo: conversionSymbol.trailingAnchor, constant: C.padding[1]),
-            conversionSymbol.leadingAnchor.constraint(equalTo: secondaryBalance.trailingAnchor, constant: C.padding[1])
+            primaryBalance.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
+            primaryBalance.leadingAnchor.constraint(equalTo: conversionSymbol.trailingAnchor, constant: Margins.small.rawValue),
+            conversionSymbol.leadingAnchor.constraint(equalTo: secondaryBalance.trailingAnchor, constant: Margins.small.rawValue)
         ]
         swappedConstraints = [
-            secondaryBalance.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
-            secondaryBalance.leadingAnchor.constraint(equalTo: conversionSymbol.trailingAnchor, constant: C.padding[1]),
-            conversionSymbol.leadingAnchor.constraint(equalTo: primaryBalance.trailingAnchor, constant: C.padding[1])
+            secondaryBalance.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
+            secondaryBalance.leadingAnchor.constraint(equalTo: conversionSymbol.trailingAnchor, constant: Margins.small.rawValue),
+            conversionSymbol.leadingAnchor.constraint(equalTo: primaryBalance.trailingAnchor, constant: Margins.small.rawValue)
         ]
         NSLayoutConstraint.activate(showFiatAmounts ? self.swappedConstraints : self.regularConstraints)
     }

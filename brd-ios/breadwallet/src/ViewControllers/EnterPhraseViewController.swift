@@ -149,21 +149,21 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
         container.constrain([
             container.widthAnchor.constraint(equalTo: view.widthAnchor) ])
         heading.constrain([
-            heading.topAnchor.constraint(equalTo: container.topAnchor, constant: C.padding[3]),
+            heading.topAnchor.constraint(equalTo: container.topAnchor, constant: Margins.huge.rawValue),
             heading.leftAnchor.constraint(equalTo: container.leftAnchor, constant: headingLeftRightMargins),
             heading.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -headingLeftRightMargins)
             ])
         subheading.constrain([
-            subheading.topAnchor.constraint(equalTo: heading.bottomAnchor, constant: C.padding[2]),
+            subheading.topAnchor.constraint(equalTo: heading.bottomAnchor, constant: Margins.large.rawValue),
             subheading.leftAnchor.constraint(equalTo: container.leftAnchor, constant: headingLeftRightMargins),
             subheading.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -headingLeftRightMargins)
             ])
         
-        let enterPhraseMargin: CGFloat = E.isSmallScreen ? (C.padding[2] * 0.75) : C.padding[2]
+        let enterPhraseMargin: CGFloat = E.isSmallScreen ? (Margins.large.rawValue * 0.75) : Margins.large.rawValue
         
         enterPhrase.view.constrain([
             enterPhrase.view.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: enterPhraseMargin),
-            enterPhrase.view.topAnchor.constraint(equalTo: subheading.bottomAnchor, constant: C.padding[4]),
+            enterPhrase.view.topAnchor.constraint(equalTo: subheading.bottomAnchor, constant: Margins.extraHuge.rawValue),
             enterPhrase.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -enterPhraseMargin),
             enterPhrase.view.heightAnchor.constraint(equalToConstant: enterPhrase.height)])
         
@@ -175,7 +175,7 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
         
         nextButton.constrain([
             nextButton.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -ViewSizes.Common.field.rawValue),
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -ViewSizes.Common.defaultCommon.rawValue),
             nextButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margins.large.rawValue),
             nextButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.largeButton.rawValue)
         ])

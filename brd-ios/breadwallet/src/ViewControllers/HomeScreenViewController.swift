@@ -165,7 +165,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
 
         subHeaderView.constrain([
             subHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            subHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            subHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             subHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             subHeaderView.heightAnchor.constraint(equalToConstant: headerHeight) ])
         
@@ -245,7 +245,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
                 return UIBarButtonItem(customView: button)
             }
         
-        let paddingWidth = C.padding[2]
+        let paddingWidth = Margins.large.rawValue
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolbarButtons = []
         toolbar.items = [flexibleSpace, buttons[0],
