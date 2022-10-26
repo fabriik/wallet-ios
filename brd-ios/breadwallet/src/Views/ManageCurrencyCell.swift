@@ -79,16 +79,16 @@ class ManageCurrencyCell: UITableViewCell {
         iconImageView.constrain([
             iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.large.rawValue),
             iconImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            iconImageView.heightAnchor.constraint(equalToConstant: ViewSizes.large.rawValue),
-            iconImageView.widthAnchor.constraint(equalToConstant: ViewSizes.large.rawValue)])
+            iconImageView.heightAnchor.constraint(equalToConstant: ViewSizes.medium.rawValue),
+            iconImageView.widthAnchor.constraint(equalToConstant: ViewSizes.medium.rawValue)])
         header.constrain([
-            header.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: Margins.small.rawValue),
+            header.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: Margins.medium.rawValue),
             header.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)])
         button.constrain([
-            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.large.rawValue),
+            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.huge.rawValue),
             button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            button.heightAnchor.constraint(equalToConstant: ViewSizes.large.rawValue),
-            button.widthAnchor.constraint(equalToConstant: 70.0),
+            button.heightAnchor.constraint(equalToConstant: ViewSizes.medium.rawValue),
+            button.widthAnchor.constraint(equalToConstant: 105),
             button.leadingAnchor.constraint(greaterThanOrEqualTo: header.trailingAnchor, constant: Margins.small.rawValue)])
     }
     
@@ -96,9 +96,17 @@ class ManageCurrencyCell: UITableViewCell {
         if listType == .add {
             button.setTitle(L10n.TokenList.add, for: .normal)
             button.setTitle(L10n.TokenList.remove, for: .selected)
+            button.setTitleColor(LightColors.primary, for: .normal)
+            button.setTitleColor(LightColors.primary.withAlphaComponent(0.2), for: .selected)
+            button.setTitleColor(LightColors.primary.withAlphaComponent(0.4), for: .disabled)
+            button.layer.borderColor = LightColors.primary.cgColor
         } else {
             button.setTitle(L10n.TokenList.remove, for: .normal)
             button.setTitle(L10n.TokenList.remove, for: .selected)
+            button.setTitleColor(LightColors.Error.one, for: .normal)
+            button.setTitleColor(LightColors.Error.one.withAlphaComponent(0.2), for: .selected)
+            button.setTitleColor(LightColors.Error.one.withAlphaComponent(0.4), for: .disabled)
+            button.layer.borderColor = LightColors.Error.one.cgColor
         }
         
         button.tap = { [weak self] in

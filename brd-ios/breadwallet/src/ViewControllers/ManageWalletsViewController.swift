@@ -46,7 +46,7 @@ class ManageWalletsViewController: UITableViewController {
         tableView.backgroundColor = .darkBackground
         tableView.rowHeight = 66.0
         tableView.separatorStyle = .singleLine
-        tableView.separatorColor = .gray3
+        tableView.separatorColor = LightColors.Outline.one
         title = L10n.TokenList.manageTitle
         tableView.register(ManageCurrencyCell.self, forCellReuseIdentifier: ManageCurrencyCell.cellIdentifier)
         tableView.setEditing(true, animated: true)
@@ -55,7 +55,7 @@ class ManageWalletsViewController: UITableViewController {
         //If we are first in the nav controller stack, we need a close button
         if navigationController?.viewControllers.first == self {
             let button = UIButton.buildModernCloseButton(position: .left)
-            button.tintColor = .almostBlack
+            button.tintColor = LightColors.Text.three
             button.tap = {
                 self.dismiss(animated: true, completion: nil)
             }
