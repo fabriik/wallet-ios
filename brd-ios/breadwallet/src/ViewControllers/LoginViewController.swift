@@ -237,11 +237,11 @@ class LoginViewController: UIViewController, Subscriber {
         backgroundView.backgroundColor = LightColors.Background.one
         pinViewContainer.constrain(toSuperviewEdges: nil)
         debugLabel.constrain([
-            debugLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: C.padding[3]),
-            debugLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2])
+            debugLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.huge.rawValue),
+            debugLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue)
         ])
         topControlTop = logo.topAnchor.constraint(equalTo: view.topAnchor,
-                                                  constant: C.Sizes.brdLogoHeight * 2 + C.Sizes.brdLogoTopMargin)
+                                                  constant: ViewSizes.medium.rawValue * 2 + C.brdLogoTopMargin)
         logo.constrain([
             topControlTop,
             logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -250,11 +250,11 @@ class LoginViewController: UIViewController, Subscriber {
         
         header.constrain([
             header.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            header.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: C.padding[3])])
+            header.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: Margins.huge.rawValue)])
         
         instruction.constrain([
             instruction.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            instruction.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2])])
+            instruction.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue)])
         
         pinPadPottom = pinPadBackground.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         pinPadBackground.constrain([
@@ -343,10 +343,10 @@ class LoginViewController: UIViewController, Subscriber {
         view.addSubview(lock)
 
         label.constrain([
-            label.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -C.padding[1]),
+            label.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -Margins.small.rawValue),
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor) ])
         lock.constrain([
-            lock.topAnchor.constraint(equalTo: label.bottomAnchor, constant: C.padding[1]),
+            lock.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Margins.small.rawValue),
             lock.centerXAnchor.constraint(equalTo: label.centerXAnchor) ])
         view.layoutIfNeeded()
 

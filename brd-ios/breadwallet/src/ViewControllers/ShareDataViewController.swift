@@ -32,21 +32,21 @@ class ShareDataViewController: UIViewController {
 
     private func addConstraints() {
         titleLabel.constrain([
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: C.padding[2]) ])
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.large.rawValue) ])
         body.constrain([
             body.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            body.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: C.padding[1]),
-            body.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]) ])
+            body.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.small.rawValue),
+            body.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue) ])
         label.constrain([
             label.leadingAnchor.constraint(equalTo: body.leadingAnchor),
-            label.topAnchor.constraint(equalTo: body.bottomAnchor, constant: C.padding[3]) ])
+            label.topAnchor.constraint(equalTo: body.bottomAnchor, constant: Margins.huge.rawValue) ])
         toggle.constrain([
-            toggle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
+            toggle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
             toggle.centerYAnchor.constraint(equalTo: label.centerYAnchor) ])
         separator.constrain([
             separator.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            separator.topAnchor.constraint(equalTo: toggle.bottomAnchor, constant: C.padding[2]),
+            separator.topAnchor.constraint(equalTo: toggle.bottomAnchor, constant: Margins.large.rawValue),
             separator.trailingAnchor.constraint(equalTo: toggle.trailingAnchor),
             separator.heightAnchor.constraint(equalToConstant: 1.0) ])
     }

@@ -165,7 +165,7 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
         
         footerView.addSubview(infoButton)
         infoButton.constrain([
-            infoButton.leadingAnchor.constraint(equalTo: infoLabel.trailingAnchor, constant: C.padding[1])
+            infoButton.leadingAnchor.constraint(equalTo: infoLabel.trailingAnchor, constant: Margins.small.rawValue)
         ])
     }
     

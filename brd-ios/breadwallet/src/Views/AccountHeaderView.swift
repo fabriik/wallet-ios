@@ -31,15 +31,15 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
         let stackView = UIStackView()
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
-        stackView.spacing = C.padding[1]
-        stackView.layoutMargins = UIEdgeInsets(top: 4.0, left: C.padding[2], bottom: 4.0, right: C.padding[2])
+        stackView.spacing = Margins.small.rawValue
+        stackView.layoutMargins = UIEdgeInsets(top: 4.0, left: Margins.large.rawValue, bottom: 4.0, right: Margins.large.rawValue)
         stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
     private let priceInfoStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = C.padding[2]
+        stackView.spacing = Margins.large.rawValue
         return stackView
     }()
     
@@ -138,7 +138,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
             chartView.leadingAnchor.constraint(equalTo: leadingAnchor),
             chartView.trailingAnchor.constraint(equalTo: trailingAnchor),
             chartView.heightAnchor.constraint(equalToConstant: 100.0),
-            chartView.bottomAnchor.constraint(equalTo: graphButtonStackView.topAnchor, constant: -C.padding[1])])
+            chartView.bottomAnchor.constraint(equalTo: graphButtonStackView.topAnchor, constant: -Margins.small.rawValue)])
         currencyName.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(RootNavigationController().navigationBar.frame.height)
@@ -153,7 +153,7 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
         if let delistedTokenView = delistedTokenView {
             delistedTokenView.constrain([
                 delistedTokenView.topAnchor.constraint(equalTo: priceInfoStackView.topAnchor),
-                delistedTokenView.bottomAnchor.constraint(equalTo: balanceCell.topAnchor, constant: -C.padding[1]),
+                delistedTokenView.bottomAnchor.constraint(equalTo: balanceCell.topAnchor, constant: -Margins.small.rawValue),
                 delistedTokenView.widthAnchor.constraint(equalTo: widthAnchor),
                 delistedTokenView.leadingAnchor.constraint(equalTo: leadingAnchor)])
         }
@@ -164,17 +164,17 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
             graphButtonStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 52.0),
             graphButtonStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -52.0),
             graphButtonStackView.topAnchor.constraint(equalTo: chartView.bottomAnchor, constant: 0),
-            graphButtonStackView.bottomAnchor.constraint(equalTo: graphBottom, constant: -C.padding[1]),
+            graphButtonStackView.bottomAnchor.constraint(equalTo: graphBottom, constant: -Margins.small.rawValue),
             graphButtonStackView.heightAnchor.constraint(equalToConstant: 30.0)])
         graphButtonStackView.clipsToBounds = true
         graphButtonStackView.layer.masksToBounds = true
         
         if let marketView = marketDataView {
             marketView.constrain([
-                marketView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[2]),
-                marketView.bottomAnchor.constraint(equalTo: balanceCell.topAnchor, constant: -C.padding[1]),
+                marketView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
+                marketView.bottomAnchor.constraint(equalTo: balanceCell.topAnchor, constant: -Margins.small.rawValue),
                 marketView.heightAnchor.constraint(equalToConstant: AccountHeaderView.marketDataHeight),
-                marketView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]) ])
+                marketView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue) ])
         }
         
         balanceSeparator.constrain([

@@ -37,9 +37,9 @@ class DescriptionSendCell: SendCell {
         addSubview(textView)
         textView.constrain([
             textView.constraint(.leading, toView: self, constant: 11.0),
-            textView.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[2]),
+            textView.topAnchor.constraint(equalTo: topAnchor, constant: Margins.large.rawValue),
             textView.heightAnchor.constraint(greaterThanOrEqualToConstant: 30.0),
-            textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]) ])
+            textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue) ])
 
         textView.addSubview(placeholder)
         placeholder.constrain([

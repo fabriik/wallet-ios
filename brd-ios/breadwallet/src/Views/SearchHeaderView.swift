@@ -145,7 +145,7 @@ class SearchHeaderView: UIView {
 
     private func addConstraints() {
         cancel.constrain([
-            cancel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[1]),
+            cancel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.small.rawValue),
             cancel.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor) ])
         searchBar.constrain([
             searchBar.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -172,41 +172,41 @@ class SearchHeaderView: UIView {
         complete.isToggleable = true
 
         sent.tap = { [weak self] in
-            guard let myself = self else { return }
-            if myself.toggleFilterType(.sent) {
-                if myself.received.isSelected {
-                    myself.received.isSelected = false
-                    myself.toggleFilterType(.received)
+            guard let self = self else { return }
+            if self.toggleFilterType(.sent) {
+                if self.received.isSelected {
+                    self.received.isSelected = false
+                    self.toggleFilterType(.received)
                 }
             }
         }
 
         received.tap = { [weak self] in
-            guard let myself = self else { return }
-            if myself.toggleFilterType(.received) {
-                if myself.sent.isSelected {
-                    myself.sent.isSelected = false
-                    myself.toggleFilterType(.sent)
+            guard let self = self else { return }
+            if self.toggleFilterType(.received) {
+                if self.sent.isSelected {
+                    self.sent.isSelected = false
+                    self.toggleFilterType(.sent)
                 }
             }
         }
 
         pending.tap = { [weak self] in
-            guard let myself = self else { return }
-            if myself.toggleFilterType(.pending) {
-                if myself.complete.isSelected {
-                    myself.complete.isSelected = false
-                    myself.toggleFilterType(.complete)
+            guard let self = self else { return }
+            if self.toggleFilterType(.pending) {
+                if self.complete.isSelected {
+                    self.complete.isSelected = false
+                    self.toggleFilterType(.complete)
                 }
             }
         }
 
         complete.tap = { [weak self] in
-            guard let myself = self else { return }
-            if myself.toggleFilterType(.complete) {
-                if myself.pending.isSelected {
-                    myself.pending.isSelected = false
-                    myself.toggleFilterType(.pending)
+            guard let self = self else { return }
+            if self.toggleFilterType(.complete) {
+                if self.pending.isSelected {
+                    self.pending.isSelected = false
+                    self.toggleFilterType(.pending)
                 }
             }
         }
@@ -226,12 +226,12 @@ class SearchHeaderView: UIView {
         let stackView = UIStackView()
         addSubview(stackView)
         stackView.distribution = .fillProportionally
-        stackView.spacing = C.padding[1]
+        stackView.spacing = Margins.small.rawValue
         stackView.constrain([
-            stackView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor, constant: C.padding[1]),
-            stackView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: C.padding[1]),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[1]),
-            stackView.trailingAnchor.constraint(equalTo: cancel.trailingAnchor, constant: -C.padding[1]) ])
+            stackView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor, constant: Margins.small.rawValue),
+            stackView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: Margins.small.rawValue),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.small.rawValue),
+            stackView.trailingAnchor.constraint(equalTo: cancel.trailingAnchor, constant: -Margins.small.rawValue) ])
         stackView.addArrangedSubview(sent)
         stackView.addArrangedSubview(received)
         stackView.addArrangedSubview(pending)

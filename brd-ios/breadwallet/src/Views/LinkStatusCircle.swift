@@ -19,7 +19,7 @@ class LinkStatusCircle: UIView {
     private let animationDuration: TimeInterval = 2.0
     private let animationDurationOffset: TimeInterval = 0.5
 
-    init(colour: UIColor = C.defaultTintColor) {
+    init(colour: UIColor = UIView().tintColor) {
         self.colour = colour
         super.init(frame: .zero)
     }

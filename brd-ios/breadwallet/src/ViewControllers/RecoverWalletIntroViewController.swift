@@ -38,19 +38,19 @@ class RecoverWalletIntroViewController: UIViewController {
 
     private func addConstraints() {
         header.constrainTopCorners(sidePadding: 0.0, topPadding: 0.0)
-        header.constrain([header.heightAnchor.constraint(equalToConstant: C.Sizes.largeHeaderHeight)])
+        header.constrain([header.heightAnchor.constraint(equalToConstant: 220.0)])
         illustration.constrain([
             illustration.centerXAnchor.constraint(equalTo: header.centerXAnchor),
-            illustration.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: C.padding[2]) ])
+            illustration.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: Margins.large.rawValue) ])
         label.constrain([
-            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            label.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2]),
-            label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]) ])
+            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            label.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue),
+            label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue) ])
         nextButton.constrain([
-            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -C.padding[3]),
-            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
-            nextButton.heightAnchor.constraint(equalToConstant: C.Sizes.buttonHeight) ])
+            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Margins.huge.rawValue),
+            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
+            nextButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue) ])
     }
 
     private func setData() {

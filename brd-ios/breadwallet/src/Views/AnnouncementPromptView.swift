@@ -9,14 +9,14 @@
 import UIKit
 
 class AnnouncementPromptView: PromptView {
-
+    
     private let announcement: Announcement
     private let footnoteLabel: UILabel = UILabel()
     
     override var containerBackgroundColor: UIColor {
         return .darkPromptBackground
     }
-
+    
     init(prompt: AnnouncementBasedPrompt) {
         self.announcement = prompt.announcement
         super.init(prompt: prompt)
@@ -25,7 +25,7 @@ class AnnouncementPromptView: PromptView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func setup() {
         super.setup()
         
@@ -57,7 +57,7 @@ class AnnouncementPromptView: PromptView {
         }
         
         dismissButton.setTitle("", for: .normal)
-
+        
         footnoteLabel.numberOfLines = 0
         footnoteLabel.textColor = body.textColor
         footnoteLabel.font = UIFont.customBody(size: 9)
@@ -70,12 +70,11 @@ class AnnouncementPromptView: PromptView {
     }
     
     override func styleDismissButton() {
-        let closeButtonImage = UIImage(named: "Close-X-small")
-        dismissButton.setImage(closeButtonImage, for: .normal)
+        dismissButton.setImage(UIImage(named: "close"), for: .normal)
         dismissButton.backgroundColor = .clear
         dismissButton.tintColor = .white
     }
-
+    
     override func styleContinueButton() {
         continueButton.backgroundColor = .clear
         continueButton.setBackgroundImage(UIImage(), for: .disabled)
@@ -84,7 +83,7 @@ class AnnouncementPromptView: PromptView {
         continueButton.layer.cornerRadius = 2
         continueButton.titleLabel?.font = UIFont.customMedium(size: 14)
     }
-
+    
     override func addSubviews() {
         super.addSubviews()
         addSubview(imageView)
@@ -95,48 +94,48 @@ class AnnouncementPromptView: PromptView {
         let verticalMargin: CGFloat = 22
         let leftMargin: CGFloat = 22
         
-        container.constrain(toSuperviewEdges: UIEdgeInsets(top: C.padding[1],
+        container.constrain(toSuperviewEdges: UIEdgeInsets(top: Margins.small.rawValue,
                                                            left: 10.0,
-                                                           bottom: -C.padding[1],
+                                                           bottom: -Margins.small.rawValue,
                                                            right: -10.0))
         
         dismissButton.constrain([
             dismissButton.topAnchor.constraint(equalTo: container.topAnchor, constant: 12),
-            dismissButton.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -C.padding[1]),
+            dismissButton.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -Margins.small.rawValue),
             dismissButton.widthAnchor.constraint(equalToConstant: 24),
             dismissButton.heightAnchor.constraint(equalToConstant: 24)
-            ])
+        ])
         
         imageView.constrain([
             imageView.widthAnchor.constraint(equalToConstant: 34),
             imageView.heightAnchor.constraint(equalToConstant: 34),
             imageView.topAnchor.constraint(equalTo: container.topAnchor, constant: verticalMargin),
             imageView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: leftMargin)
-            ])
+        ])
         
         title.constrain([
-            title.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: C.padding[2]),
+            title.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: Margins.large.rawValue),
             title.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -34),
             title.topAnchor.constraint(equalTo: container.topAnchor, constant: 28)
-            ])
+        ])
         
         body.constrain([
             body.leadingAnchor.constraint(equalTo: title.leadingAnchor),
-            body.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -C.padding[2]),
-            body.topAnchor.constraint(equalTo: title.bottomAnchor, constant: C.padding[1])])
+            body.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -Margins.large.rawValue),
+            body.topAnchor.constraint(equalTo: title.bottomAnchor, constant: Margins.small.rawValue)])
         
         continueButton.constrain([
             continueButton.topAnchor.constraint(equalTo: body.bottomAnchor, constant: 12),
             continueButton.leadingAnchor.constraint(equalTo: body.leadingAnchor),
             continueButton.heightAnchor.constraint(equalToConstant: 40)
-            ])
+        ])
         
         footnoteLabel.constrain([
-            footnoteLabel.topAnchor.constraint(equalTo: continueButton.bottomAnchor, constant: (C.padding[1] / 2)),
+            footnoteLabel.topAnchor.constraint(equalTo: continueButton.bottomAnchor, constant: Margins.extraSmall.rawValue),
             footnoteLabel.leadingAnchor.constraint(equalTo: body.leadingAnchor),
-            footnoteLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -C.padding[2]),
+            footnoteLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -Margins.large.rawValue),
             footnoteLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -(verticalMargin))
-            ])
+        ])
     }
     
 }

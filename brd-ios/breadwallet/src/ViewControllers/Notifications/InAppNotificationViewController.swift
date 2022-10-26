@@ -63,11 +63,11 @@ class InAppNotificationViewController: UIViewController {
     }
     
     private func addCloseButton() {
-        let close = UIBarButtonItem(image: UIImage(named: "CloseModern"),
+        let close = UIBarButtonItem(image: UIImage(named: "close")?.withRenderingMode(.alwaysOriginal),
                                     style: .plain,
                                     target: self,
                                     action: #selector(onCloseButton))
-        close.tintColor = Theme.blueBackground
+        close.tintColor = LightColors.Text.three
         navigationItem.rightBarButtonItem = close
     }
     
@@ -167,16 +167,16 @@ class InAppNotificationViewController: UIViewController {
             ])
         
         bodyLabel.constrain([
-            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: C.padding[2]),
+            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.large.rawValue),
             bodyLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: textLeftRightMargin),
             bodyLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -textLeftRightMargin)
             ])
         
         ctaButton.constrain([
-            ctaButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: C.padding[2]),
-            ctaButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -C.padding[2]),
-            ctaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[2]),
-            ctaButton.heightAnchor.constraint(equalToConstant: C.Sizes.buttonHeight)
+            ctaButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Margins.large.rawValue),
+            ctaButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Margins.large.rawValue),
+            ctaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Margins.large.rawValue),
+            ctaButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue)
         ])
     }
 }

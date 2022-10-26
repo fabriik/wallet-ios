@@ -40,19 +40,19 @@ class EnableSegwitView: UIView {
     
     private func addConstraints() {
         label.constrain([
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[2]),
-            label.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[2]),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]) ])
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
+            label.topAnchor.constraint(equalTo: topAnchor, constant: Margins.large.rawValue),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue) ])
         cancel.constrain([
-            cancel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: C.padding[2]),
-            cancel.trailingAnchor.constraint(equalTo: centerXAnchor, constant: -C.padding[1]),
-            cancel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[2]),
+            cancel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Margins.large.rawValue),
+            cancel.trailingAnchor.constraint(equalTo: centerXAnchor, constant: -Margins.small.rawValue),
+            cancel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
             cancel.heightAnchor.constraint(equalToConstant: 48.0),
-            cancel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[2])])
+            cancel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.large.rawValue)])
         continueButton.constrain([
-            continueButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: C.padding[2]),
-            continueButton.leadingAnchor.constraint(equalTo: centerXAnchor, constant: C.padding[1]),
-            continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
+            continueButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Margins.large.rawValue),
+            continueButton.leadingAnchor.constraint(equalTo: centerXAnchor, constant: Margins.small.rawValue),
+            continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
             continueButton.heightAnchor.constraint(equalToConstant: 48.0)])
     }
     

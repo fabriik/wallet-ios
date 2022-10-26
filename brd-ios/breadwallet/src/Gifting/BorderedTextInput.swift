@@ -49,18 +49,18 @@ class BorderedTextInput: UIView {
     
     private func setupConstraints() {
         placeholder.constrain([
-            placeholder.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[1]),
-            placeholder.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[1])])
+            placeholder.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.small.rawValue),
+            placeholder.topAnchor.constraint(equalTo: topAnchor, constant: Margins.small.rawValue)])
         unit.constrain([
             unit.leadingAnchor.constraint(equalTo: placeholder.leadingAnchor),
             unit.centerYAnchor.constraint(equalTo: textField.centerYAnchor)
         ])
         textField.constrain([
-                                textField.leadingAnchor.constraint(equalTo: placeholder.leadingAnchor, constant: C.padding[2]),
-            textField.topAnchor.constraint(equalTo: placeholder.bottomAnchor, constant: C.padding[1]),
-            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
+            textField.leadingAnchor.constraint(equalTo: placeholder.leadingAnchor, constant: Margins.large.rawValue),
+            textField.topAnchor.constraint(equalTo: placeholder.bottomAnchor, constant: Margins.small.rawValue),
+            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
             textField.heightAnchor.constraint(equalToConstant: 44.0),
-            textField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[1])])
+            textField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.small.rawValue)])
         if keyboardType == .decimalPad {
             unit.text = "$"
         }

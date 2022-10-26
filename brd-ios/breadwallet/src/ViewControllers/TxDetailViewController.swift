@@ -50,7 +50,7 @@ class TxDetailViewController: UIViewController, Subscriber {
     }
     
     private var expandedContainerHeight: CGFloat {
-        let maxHeight = view.frame.height - C.padding[4]
+        let maxHeight = view.frame.height - Margins.extraHuge.rawValue
         let contentHeight = header.frame.height + tableView.contentSize.height + footer.frame.height + separator.frame.height
         tableView.isScrollEnabled = contentHeight > maxHeight
         return min(maxHeight, contentHeight)
@@ -62,7 +62,7 @@ class TxDetailViewController: UIViewController, Subscriber {
         self.transaction = transaction
         self.viewModel = TxDetailViewModel(tx: transaction)
         self.dataSource = TxDetailDataSource(viewModel: viewModel)
-        self.header = ModalHeaderView(title: "", style: .transaction, faqInfo: ArticleIds.transactionDetails, currency: transaction.currency)
+        self.header = ModalHeaderView(title: "", faqInfo: ArticleIds.transactionDetails, currency: transaction.currency)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -119,15 +119,15 @@ class TxDetailViewController: UIViewController, Subscriber {
     private func addConstraints() {
         tapView.constrain(toSuperviewEdges: nil)
         container.constrain([
-            container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            container.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
+            container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            container.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
             container.centerYAnchor.constraint(equalTo: view.centerYAnchor)
             ])
         
         containerHeightConstraint = container.heightAnchor.constraint(equalToConstant: compactContainerHeight)
         containerHeightConstraint.isActive = true
         
-        header.constrainTopCorners(height: C.Sizes.headerHeight)
+        header.constrainTopCorners(height: 48.0)
         tableView.constrain([
             tableView.topAnchor.constraint(equalTo: header.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
@@ -152,7 +152,7 @@ class TxDetailViewController: UIViewController, Subscriber {
     }
     
     private func setInitialData() {
-        container.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        container.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         container.layer.masksToBounds = true
         
         footer.backgroundColor = .white

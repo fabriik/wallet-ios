@@ -38,7 +38,7 @@ class TxGiftCell: TxDetailRowCell {
             share.constraint(.top, toView: container),
             share.constraint(.bottom, toView: container)])
         reclaim.constrain([
-            reclaim.trailingAnchor.constraint(equalTo: share.leadingAnchor, constant: -C.padding[1]),
+            reclaim.trailingAnchor.constraint(equalTo: share.leadingAnchor, constant: -Margins.small.rawValue),
             reclaim.constraint(.top, toView: container),
             reclaim.constraint(.bottom, toView: container)])
     }

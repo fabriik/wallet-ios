@@ -154,7 +154,7 @@ class FETextField: FEView<TextFieldConfiguration, TextFieldModel>, UITextFieldDe
         textFieldContent.addSubview(trailingView)
         
         textFieldStack.snp.makeConstraints { make in
-            make.height.equalTo(ViewSizes.Common.field.rawValue)
+            make.height.equalTo(ViewSizes.Common.defaultCommon.rawValue)
             make.leading.equalTo(Margins.large.rawValue)
             make.trailing.equalTo(trailingView.snp.leading).offset(-Margins.minimum.rawValue)
             make.top.equalToSuperview()

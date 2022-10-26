@@ -43,9 +43,9 @@ class BaseRecoveryKeyViewController: UIViewController {
     
     func constrainContinueButton(_ button: BRDButton) {
         button.constrain([
-            button.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: C.padding[2]),
-            button.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -C.padding[2]),
-            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[2]),
+            button.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Margins.large.rawValue),
+            button.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Margins.large.rawValue),
+            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Margins.large.rawValue),
             button.heightAnchor.constraint(equalToConstant: continueButtonHeight)
             ])
     }
@@ -61,7 +61,7 @@ class BaseRecoveryKeyViewController: UIViewController {
     func showCloseButton() {
         switch closeButtonStyle {
         case .close:
-            let close = UIBarButtonItem(image: UIImage(named: "CloseModern"),
+            let close = UIBarButtonItem(image: UIImage(named: "close"),
                                         style: .plain,
                                         target: self,
                                         action: #selector(onCloseButton))
@@ -73,7 +73,6 @@ class BaseRecoveryKeyViewController: UIViewController {
                                        style: .plain,
                                        target: self,
                                        action: #selector(onCloseButton))
-            skip.tintColor = LightColors.Text.three
             let fontAttributes = [NSAttributedString.Key.font: Theme.body2]
             skip.setTitleTextAttributes(fontAttributes, for: .normal)
             skip.setTitleTextAttributes(fontAttributes, for: .highlighted)

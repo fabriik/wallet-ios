@@ -23,7 +23,7 @@ class PinView: UIView {
     }
     
     var width: CGFloat {
-        return (itemSize + C.padding[1]) * CGFloat(length)
+        return (itemSize + Margins.small.rawValue) * CGFloat(length)
     }
     
     let shakeDuration: CFTimeInterval = 0.6

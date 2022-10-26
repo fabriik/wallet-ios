@@ -53,16 +53,16 @@ class AboutHeaderView: UIView {
         
         mainLogoView.constrain([
             mainLogoView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            mainLogoView.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[2]),
+            mainLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Margins.large.rawValue),
             mainLogoView.widthAnchor.constraint(equalToConstant: 50),
             mainLogoView.heightAnchor.constraint(equalToConstant: 50) ])
         mainLogoTextView.constrain([
-            mainLogoTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[2]),
-            mainLogoTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
-            mainLogoTextView.topAnchor.constraint(equalTo: mainLogoView.bottomAnchor, constant: C.padding[2]),
+            mainLogoTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
+            mainLogoTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
+            mainLogoTextView.topAnchor.constraint(equalTo: mainLogoView.bottomAnchor, constant: Margins.large.rawValue),
             mainLogoTextView.heightAnchor.constraint(equalTo: mainLogoView.heightAnchor) ])
         separator.constrain([
-            separator.topAnchor.constraint(equalTo: mainLogoTextView.bottomAnchor, constant: C.padding[3]),
+            separator.topAnchor.constraint(equalTo: mainLogoTextView.bottomAnchor, constant: Margins.huge.rawValue),
             separator.leadingAnchor.constraint(equalTo: mainLogoTextView.leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: mainLogoTextView.trailingAnchor),
             separator.bottomAnchor.constraint(equalTo: bottomAnchor),

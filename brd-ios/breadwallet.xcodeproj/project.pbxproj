@@ -772,7 +772,7 @@
 		CE3840E81FD590BD00437C31 /* AssetListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3840E71FD590BD00437C31 /* AssetListTableView.swift */; };
 		CE3CDB9720D443CE007059F6 /* CutoutLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3CDB9620D443CE007059F6 /* CutoutLabel.swift */; };
 		CE3D4C571EF5D5740016B1C8 /* ReachabilityMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3D4C561EF5D5740016B1C8 /* ReachabilityMonitor.swift */; };
-		CE3D4C591EF743EF0016B1C8 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3D4C581EF743EF0016B1C8 /* Functions.swift */; };
+		CE3D4C591EF743EF0016B1C8 /* GuardProtected.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3D4C581EF743EF0016B1C8 /* GuardProtected.swift */; };
 		CE41327622CACA05002391E6 /* BalanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41327522CACA05002391E6 /* BalanceCell.swift */; };
 		CE44BA1B1F33BFC500392A1A /* NodeSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44BA1A1F33BFC500392A1A /* NodeSelectorViewController.swift */; };
 		CE45C1FB1E74F89C002C3847 /* WalletInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE45C1FA1E74F89C002C3847 /* WalletInfo.swift */; };
@@ -1712,7 +1712,7 @@
 		CE3840E71FD590BD00437C31 /* AssetListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AssetListTableView.swift; path = src/ViewControllers/AssetListTableView.swift; sourceTree = "<group>"; };
 		CE3CDB9620D443CE007059F6 /* CutoutLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CutoutLabel.swift; path = src/Views/CutoutLabel.swift; sourceTree = "<group>"; };
 		CE3D4C561EF5D5740016B1C8 /* ReachabilityMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReachabilityMonitor.swift; path = src/ReachabilityMonitor.swift; sourceTree = "<group>"; };
-		CE3D4C581EF743EF0016B1C8 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Functions.swift; path = src/Constants/Functions.swift; sourceTree = "<group>"; };
+		CE3D4C581EF743EF0016B1C8 /* GuardProtected.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GuardProtected.swift; path = src/Constants/GuardProtected.swift; sourceTree = "<group>"; };
 		CE41327522CACA05002391E6 /* BalanceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BalanceCell.swift; path = src/Views/BalanceCell.swift; sourceTree = "<group>"; };
 		CE44BA1A1F33BFC500392A1A /* NodeSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NodeSelectorViewController.swift; path = src/ViewControllers/NodeSelectorViewController.swift; sourceTree = "<group>"; };
 		CE45C1FA1E74F89C002C3847 /* WalletInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletInfo.swift; path = src/Platform/WalletInfo.swift; sourceTree = "<group>"; };
@@ -3800,7 +3800,7 @@
 				CEBF292F1EF9D76F005C330A /* Environment.swift */,
 				CEE20C331EA5B4550086F724 /* ArticleIds.swift */,
 				CEE20C371EA5B4680086F724 /* Strings.swift */,
-				CE3D4C581EF743EF0016B1C8 /* Functions.swift */,
+				CE3D4C581EF743EF0016B1C8 /* GuardProtected.swift */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -4736,7 +4736,7 @@
 				7B9434322886A7FA00638703 /* DeleteProfileInfoModels.swift in Sources */,
 				CEE20C2D1EA288FA0086F724 /* UpdatingLabel.swift in Sources */,
 				7B05888728A2698A00D7C971 /* PaymentCardsWorker.swift in Sources */,
-				CE3D4C591EF743EF0016B1C8 /* Functions.swift in Sources */,
+				CE3D4C591EF743EF0016B1C8 /* GuardProtected.swift in Sources */,
 				7E8E979B283F4830008606B0 /* ProfileVIP.swift in Sources */,
 				7EC0F8AA2886D9B90037145C /* SwapErrors.swift in Sources */,
 				C45E0BAA2845F4C40083F028 /* AccountVerificationVIP.swift in Sources */,

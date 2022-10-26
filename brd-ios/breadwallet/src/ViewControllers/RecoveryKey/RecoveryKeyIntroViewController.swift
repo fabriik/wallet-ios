@@ -177,12 +177,12 @@ class RecoveryKeyIntroCell: RecoveryKeyPageCell {
         
         introStepLabel.constrain([
             introStepLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: contentTop),
-            introStepLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: C.padding[2]),
-            introStepLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -C.padding[2])
+            introStepLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Margins.large.rawValue),
+            introStepLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Margins.large.rawValue)
             ])
         
         titleLabel.constrain([
-            titleLabel.topAnchor.constraint(equalTo: introStepLabel.bottomAnchor, constant: C.padding[1]),
+            titleLabel.topAnchor.constraint(equalTo: introStepLabel.bottomAnchor, constant: Margins.small.rawValue),
             titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: headingLeftRightMargin),
             titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -headingLeftRightMargin)
             ])
@@ -486,9 +486,9 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
         
         // The key use info view sits just above the Continue button.
         keyUseInfoView.constrain([
-            keyUseInfoView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: C.padding[2]),
-            keyUseInfoView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -C.padding[2]),
-            keyUseInfoView.bottomAnchor.constraint(equalTo: continueButton.topAnchor, constant: -C.padding[2])
+            keyUseInfoView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Margins.large.rawValue),
+            keyUseInfoView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Margins.large.rawValue),
+            keyUseInfoView.bottomAnchor.constraint(equalTo: continueButton.topAnchor, constant: -Margins.large.rawValue)
             ])
     }
 }

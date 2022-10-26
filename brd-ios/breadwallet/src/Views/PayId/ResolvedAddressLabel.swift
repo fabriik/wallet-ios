@@ -66,8 +66,8 @@ class ResolvedAddressLabel: UIView {
         image.contentMode = .scaleAspectFit
         addressLabel.constrain([
             addressLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            addressLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: C.padding[2]),
-            addressLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[10])
+            addressLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: Margins.large.rawValue),
+            addressLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.custom(10))
         ])
     }
     

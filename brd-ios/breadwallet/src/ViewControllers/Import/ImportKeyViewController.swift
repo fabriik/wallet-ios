@@ -91,33 +91,33 @@ class ImportKeyViewController: UIViewController, Subscriber {
             illustration.constraint(.width, constant: 64.0),
             illustration.constraint(.height, constant: 84.0),
             illustration.constraint(.centerX, toView: header, constant: 0.0),
-            illustration.constraint(.centerY, toView: header, constant: E.isIPhoneX ? 4.0 : -C.padding[1]) ])
+            illustration.constraint(.centerY, toView: header, constant: E.isIPhoneX ? 4.0 : -Margins.small.rawValue) ])
         leftCaption.constrain([
-            leftCaption.topAnchor.constraint(equalTo: illustration.bottomAnchor, constant: C.padding[1]),
-            leftCaption.trailingAnchor.constraint(equalTo: header.centerXAnchor, constant: -C.padding[2]),
+            leftCaption.topAnchor.constraint(equalTo: illustration.bottomAnchor, constant: Margins.small.rawValue),
+            leftCaption.trailingAnchor.constraint(equalTo: header.centerXAnchor, constant: -Margins.large.rawValue),
             leftCaption.widthAnchor.constraint(equalToConstant: 80.0)])
         rightCaption.constrain([
-            rightCaption.topAnchor.constraint(equalTo: illustration.bottomAnchor, constant: C.padding[1]),
-            rightCaption.leadingAnchor.constraint(equalTo: header.centerXAnchor, constant: C.padding[2]),
+            rightCaption.topAnchor.constraint(equalTo: illustration.bottomAnchor, constant: Margins.small.rawValue),
+            rightCaption.leadingAnchor.constraint(equalTo: header.centerXAnchor, constant: Margins.large.rawValue),
             rightCaption.widthAnchor.constraint(equalToConstant: 80.0)])
         message.constrain([
-            message.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            message.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2]),
-            message.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]) ])
+            message.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            message.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue),
+            message.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue) ])
         bullet.constrain([
             bullet.leadingAnchor.constraint(equalTo: message.leadingAnchor),
-            bullet.topAnchor.constraint(equalTo: message.bottomAnchor, constant: C.padding[4]),
+            bullet.topAnchor.constraint(equalTo: message.bottomAnchor, constant: Margins.extraHuge.rawValue),
             bullet.widthAnchor.constraint(equalToConstant: 16.0),
             bullet.heightAnchor.constraint(equalToConstant: 16.0) ])
         warning.constrain([
-            warning.leadingAnchor.constraint(equalTo: bullet.trailingAnchor, constant: C.padding[2]),
+            warning.leadingAnchor.constraint(equalTo: bullet.trailingAnchor, constant: Margins.large.rawValue),
             warning.topAnchor.constraint(equalTo: bullet.topAnchor, constant: 0.0),
             warning.trailingAnchor.constraint(equalTo: message.trailingAnchor) ])
         button.constrain([
-            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[3]),
-            button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -C.padding[4]),
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[3]),
-            button.constraint(.height, constant: C.Sizes.buttonHeight) ])
+            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.huge.rawValue),
+            button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Margins.extraHuge.rawValue),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.huge.rawValue),
+            button.constraint(.height, constant: ViewSizes.Common.defaultCommon.rawValue) ])
     }
 
     private func setInitialData() {
@@ -131,12 +131,13 @@ class ImportKeyViewController: UIViewController, Subscriber {
         warning.text = L10n.Import.warning
 
         // Set up the tap handler for the "Scan Private Key" button.
-        button.tap = strongify(self) { myself in
+        button.tap = { [weak self] in
+            guard let self = self else { return }
             let scan = ScanViewController(forScanningPrivateKeysOnly: true) { result in
                 guard let result = result else { return }
-                myself.handleScanResult(result)
+                self.handleScanResult(result)
             }
-            myself.parent?.present(scan, animated: true, completion: nil)
+            self.parent?.present(scan, animated: true, completion: nil)
         }
     }
     
@@ -331,8 +332,8 @@ class ImportKeyViewController: UIViewController, Subscriber {
 
     private func showSuccess() {
         Store.perform(action: Alert.Show(.sweepSuccess(callback: { [weak self] in
-            guard let myself = self else { return }
-            myself.dismiss(animated: true)
+            guard let self = self else { return }
+            self.dismiss(animated: true)
         })))
     }
 

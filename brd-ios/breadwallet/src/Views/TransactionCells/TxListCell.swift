@@ -136,29 +136,29 @@ class TxListCell: UITableViewCell, Identifiable {
     
     private func addConstraints() {
         iconImageView.constrain([
-            iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2]),
-            iconImageView.widthAnchor.constraint(equalToConstant: ViewSizes.Common.field.rawValue),
-            iconImageView.heightAnchor.constraint(equalToConstant: ViewSizes.Common.field.rawValue),
+            iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.large.rawValue),
+            iconImageView.widthAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue),
+            iconImageView.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue),
             iconImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         
         timestamp.constrain([
-            timestamp.topAnchor.constraint(equalTo: contentView.topAnchor, constant: C.padding[2]),
-            timestamp.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: C.padding[2])])
+            timestamp.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.large.rawValue),
+            timestamp.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: Margins.large.rawValue)])
         descriptionLabel.constrain([
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -C.padding[2]),
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Margins.large.rawValue),
             descriptionLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor),
-            descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: amount.leadingAnchor, constant: -C.padding[2])
+            descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: amount.leadingAnchor, constant: -Margins.large.rawValue)
         ])
         descriptionLabel.constrain([
             descriptionLabel.topAnchor.constraint(equalTo: timestamp.bottomAnchor),
             descriptionLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor)
         ])
         amount.constrain([
-            amount.leadingAnchor.constraint(equalTo: timestamp.trailingAnchor, constant: C.padding[2]),
+            amount.leadingAnchor.constraint(equalTo: timestamp.trailingAnchor, constant: Margins.large.rawValue),
             amount.topAnchor.constraint(equalTo: contentView.topAnchor),
             amount.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            amount.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -C.padding[2])])
+            amount.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.large.rawValue)])
         separator.constrainBottomCorners(height: 0.5)
     }
     

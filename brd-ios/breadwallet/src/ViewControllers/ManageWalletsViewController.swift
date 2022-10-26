@@ -94,7 +94,7 @@ class ManageWalletsViewController: UITableViewController {
         
         let manageAssetsButtonHeight: CGFloat = 56.0
         let topBottomInset: CGFloat = 20
-        let leftRightInset: CGFloat = C.padding[2]
+        let leftRightInset: CGFloat = Margins.large.rawValue
         let tableViewWidth = tableView.frame.width - tableView.contentInset.left - tableView.contentInset.right
         
         let footerView = UIView(frame: CGRect(x: 0,

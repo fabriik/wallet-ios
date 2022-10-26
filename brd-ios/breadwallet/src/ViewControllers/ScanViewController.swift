@@ -74,8 +74,8 @@ class ScanViewController: UIViewController {
         toolbar.constrain([toolbarHeightConstraint])
 
         guide.constrain([
-            guide.constraint(.leading, toView: view, constant: C.padding[6]),
-            guide.constraint(.trailing, toView: view, constant: -C.padding[6]),
+            guide.constraint(.leading, toView: view, constant: Margins.custom(6)),
+            guide.constraint(.trailing, toView: view, constant: -Margins.custom(6)),
             guide.constraint(.centerY, toView: view),
             NSLayoutConstraint(item: guide, attribute: .width, relatedBy: .equal, toItem: guide, attribute: .height, multiplier: 1.0, constant: 0.0) ])
         guide.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)

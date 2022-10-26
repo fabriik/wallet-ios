@@ -35,16 +35,16 @@ class GiftHeaderView: UIView {
     
     private func addConstraints() {
         close.constrain([
-            close.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[1]),
+            close.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.small.rawValue),
             close.centerYAnchor.constraint(equalTo: centerYAnchor),
             close.heightAnchor.constraint(equalToConstant: 44.0),
             close.widthAnchor.constraint(equalToConstant: 44.0)])
         titleLabel.constrain([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[2]),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Margins.large.rawValue),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor) ])
         border.constrain([
             border.leadingAnchor.constraint(equalTo: leadingAnchor),
-            border.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: C.padding[2]),
+            border.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.large.rawValue),
             border.trailingAnchor.constraint(equalTo: trailingAnchor),
             border.heightAnchor.constraint(equalToConstant: 1.0),
                             border.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0)])

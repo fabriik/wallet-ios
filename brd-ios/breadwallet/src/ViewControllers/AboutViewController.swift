@@ -75,10 +75,10 @@ class AboutViewController: UIViewController {
 
     private func addConstraints() {
         titleLabel.constrain([
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: C.padding[2]) ])
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.large.rawValue) ])
         
-        let verticalMargin = (E.isIPhone6OrSmaller) ? C.padding[1] : C.padding[2]
+        let verticalMargin = (E.isIPhone6OrSmaller) ? Margins.small.rawValue : Margins.large.rawValue
         
         aboutHeaderView.constrain([
             aboutHeaderView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: verticalMargin),
@@ -91,8 +91,8 @@ class AboutViewController: UIViewController {
             privacy.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             privacy.topAnchor.constraint(equalTo: terms.bottomAnchor)])
         aboutFooterView.constrain([
-            aboutFooterView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[3]),
-            aboutFooterView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[3]),
+            aboutFooterView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.huge.rawValue),
+            aboutFooterView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.huge.rawValue),
             aboutFooterView.topAnchor.constraint(equalTo: privacy.bottomAnchor, constant: verticalMargin)])
     }
     

@@ -78,15 +78,15 @@ class PriceChangeView: UIView, Subscriber {
     
     private func setupConstraints() {
         prefixLabel.constrain([
-            prefixLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Padding.half),
+            prefixLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.extraSmall.rawValue),
             prefixLabel.centerYAnchor.constraint(equalTo: centerYAnchor)])
         percentLabel.constrain([
             percentLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             percentLabel.leadingAnchor.constraint(equalTo: prefixLabel.trailingAnchor)])
         absoluteLabel.constrain([
             absoluteLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            absoluteLabel.leadingAnchor.constraint(equalTo: percentLabel.trailingAnchor, constant: C.padding[1]/2.0),
-            absoluteLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[1])])
+            absoluteLabel.leadingAnchor.constraint(equalTo: percentLabel.trailingAnchor, constant: Margins.small.rawValue/2.0),
+            absoluteLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.small.rawValue)])
         if style == .percentOnly {
             percentLabel.constrain([
                 percentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4.0)])

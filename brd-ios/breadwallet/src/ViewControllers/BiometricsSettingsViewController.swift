@@ -98,7 +98,7 @@ class BiometricsSettingsViewController: UIViewController, Subscriber {
         explanationLabel.constrain([
             explanationLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: leftRightMargin),
             explanationLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -leftRightMargin),
-            explanationLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: C.padding[2])
+            explanationLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Margins.large.rawValue)
             ])
         
         //
@@ -106,18 +106,18 @@ class BiometricsSettingsViewController: UIViewController, Subscriber {
         //
         
         unlockTitleLabel.constrain([
-            unlockTitleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: C.padding[2]),
-            unlockTitleLabel.rightAnchor.constraint(equalTo: unlockToggle.leftAnchor, constant: -C.padding[2]),
-            unlockTitleLabel.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor, constant: C.padding[5])
+            unlockTitleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Margins.large.rawValue),
+            unlockTitleLabel.rightAnchor.constraint(equalTo: unlockToggle.leftAnchor, constant: -Margins.large.rawValue),
+            unlockTitleLabel.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor, constant: Margins.custom(5))
             ])
         
         unlockToggle.constrain([
             unlockToggle.centerYAnchor.constraint(equalTo: unlockTitleLabel.centerYAnchor),
-            unlockToggle.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -C.padding[2])
+            unlockToggle.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Margins.large.rawValue)
             ])
         
         unlockToggleSeparator.constrain([
-            unlockToggleSeparator.topAnchor.constraint(equalTo: unlockTitleLabel.bottomAnchor, constant: C.padding[1]),
+            unlockToggleSeparator.topAnchor.constraint(equalTo: unlockTitleLabel.bottomAnchor, constant: Margins.small.rawValue),
             unlockToggleSeparator.leftAnchor.constraint(equalTo: view.leftAnchor),
             unlockToggleSeparator.rightAnchor.constraint(equalTo: view.rightAnchor),
             unlockToggleSeparator.heightAnchor.constraint(equalToConstant: 1.0)
@@ -128,21 +128,21 @@ class BiometricsSettingsViewController: UIViewController, Subscriber {
         //
 
         transactionsTitleLabel.constrain([
-            transactionsTitleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: C.padding[2]),
-            transactionsTitleLabel.rightAnchor.constraint(equalTo: transactionsToggle.leftAnchor, constant: -C.padding[2]),
-            transactionsTitleLabel.topAnchor.constraint(equalTo: unlockTitleLabel.bottomAnchor, constant: C.padding[5])
+            transactionsTitleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Margins.large.rawValue),
+            transactionsTitleLabel.rightAnchor.constraint(equalTo: transactionsToggle.leftAnchor, constant: -Margins.large.rawValue),
+            transactionsTitleLabel.topAnchor.constraint(equalTo: unlockTitleLabel.bottomAnchor, constant: Margins.custom(5))
             ])
         
         transactionsToggle.constrain([
             transactionsToggle.centerYAnchor.constraint(equalTo: transactionsTitleLabel.centerYAnchor),
-            transactionsToggle.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -C.padding[2])
+            transactionsToggle.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Margins.large.rawValue)
             ])
 
         unlockToggle.setContentCompressionResistancePriority(.required, for: .horizontal)
         transactionsToggle.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         transactionsToggleSeparator.constrain([
-            transactionsToggleSeparator.topAnchor.constraint(equalTo: transactionsTitleLabel.bottomAnchor, constant: C.padding[1]),
+            transactionsToggleSeparator.topAnchor.constraint(equalTo: transactionsTitleLabel.bottomAnchor, constant: Margins.small.rawValue),
             transactionsToggleSeparator.leftAnchor.constraint(equalTo: view.leftAnchor),
             transactionsToggleSeparator.rightAnchor.constraint(equalTo: view.rightAnchor),
             transactionsToggleSeparator.heightAnchor.constraint(equalToConstant: 1.0)

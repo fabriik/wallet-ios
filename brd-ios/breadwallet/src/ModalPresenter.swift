@@ -1011,7 +1011,6 @@ class ModalPresenter: Subscriber {
                                                  fee: fee,
                                                  displayFeeLevel: displayFeeLevel,
                                                  address: address,
-                                                 isUsingBiometrics: false,
                                                  currency: currency,
                                                  shouldShowMaskView: true)
         confirm.successCallback = {

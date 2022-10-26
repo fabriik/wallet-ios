@@ -38,25 +38,25 @@ class MenuButton: UIControl {
     }
 
     private func addConstraints() {
-        container.constrain(toSuperviewEdges: UIEdgeInsets(top: C.padding[1],
-                                                           left: C.padding[2],
+        container.constrain(toSuperviewEdges: UIEdgeInsets(top: Margins.small.rawValue,
+                                                           left: Margins.large.rawValue,
                                                            bottom: 0.0,
-                                                           right: -C.padding[2]))
+                                                           right: -Margins.large.rawValue))
         iconView.constrain([
             iconView.heightAnchor.constraint(equalToConstant: 16.0),
             iconView.heightAnchor.constraint(equalTo: iconView.widthAnchor),
-            iconView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: C.padding[2]),
+            iconView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margins.large.rawValue),
             iconView.centerYAnchor.constraint(equalTo: container.centerYAnchor)
             ])
 
         label.constrain([
-            label.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: C.padding[1]),
-            label.trailingAnchor.constraint(equalTo: arrow.leadingAnchor, constant: C.padding[1]),
+            label.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Margins.small.rawValue),
+            label.trailingAnchor.constraint(equalTo: arrow.leadingAnchor, constant: Margins.small.rawValue),
             label.centerYAnchor.constraint(equalTo: container.centerYAnchor)
             ])
 
         arrow.constrain([
-            arrow.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -C.padding[2]),
+            arrow.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -Margins.large.rawValue),
             arrow.widthAnchor.constraint(equalToConstant: 3.5),
             arrow.heightAnchor.constraint(equalToConstant: 6.0),
             arrow.centerYAnchor.constraint(equalTo: container.centerYAnchor)
@@ -64,7 +64,7 @@ class MenuButton: UIControl {
     }
 
     private func setupStyle() {
-        container.layer.cornerRadius = C.Sizes.roundedCornerRadius
+        container.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         container.clipsToBounds = true
         iconView.tintColor = .darkGray
         arrow.tintColor = .darkGray
