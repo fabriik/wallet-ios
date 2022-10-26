@@ -29,6 +29,8 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         switch viewController {
         case is ManageWalletsViewController,
             is AddWalletsViewController,
+            is RecoveryKeyIntroViewController,
+            is EnterPhraseViewController,
             is LoginViewController:
             backgroundColor = LightColors.Background.cards
             tintColor = LightColors.Text.three
