@@ -48,9 +48,9 @@ class WalletDisabledView: UIView {
     
     var didCompleteWipeGesture: (() -> Void)?
 
-    private let label = UILabel(font: Fonts.Title.five, color: Theme.primaryText)
+    private let label = UILabel(font: Fonts.Body.two, color: LightColors.Text.two)
     private let blur: UIVisualEffectView
-    private let reset = BRDButton(title: L10n.UnlockScreen.resetPin, type: .primary)
+    private let reset = BRDButton(title: L10n.UnlockScreen.resetPin.uppercased(), type: .secondary)
     private let effect = UIBlurEffect(style: .regular)
     private let gr = UITapGestureRecognizer()
     private var tapCount = 0
@@ -66,8 +66,8 @@ class WalletDisabledView: UIView {
     
     private lazy var header: UILabel = {
         let header = UILabel()
-        header.textColor = Theme.primaryText
-        header.font = Fonts.Title.four
+        header.textColor = LightColors.Text.three
+        header.font = Fonts.Title.six
         header.textAlignment = .center
         header.text = L10n.UnlockScreen.walletDisabled
         
@@ -83,8 +83,8 @@ class WalletDisabledView: UIView {
     
     private lazy var descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
-        descriptionLabel.textColor = Theme.secondaryText
-        descriptionLabel.font = Fonts.Body.three
+        descriptionLabel.textColor = LightColors.Text.two
+        descriptionLabel.font = Fonts.Body.two
         descriptionLabel.textAlignment = .center
         descriptionLabel.text = L10n.UnlockScreen.walletDisabledDescription
         
@@ -111,35 +111,35 @@ class WalletDisabledView: UIView {
         blur.constrain(toSuperviewEdges: nil)
         
         faq.constrain([
-            faq.topAnchor.constraint(equalTo: blur.topAnchor, constant: 70),
-            faq.trailingAnchor.constraint(equalTo: blur.trailingAnchor, constant: -Margins.large.rawValue)])
-        
-        header.constrain([
-            header.topAnchor.constraint(equalTo: blur.topAnchor, constant: 170),
-            header.centerXAnchor.constraint(equalTo: blur.centerXAnchor),
-            header.heightAnchor.constraint(equalToConstant: Margins.huge.rawValue)])
-        
-        label.constrain([
-            header.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue),
-            label.centerXAnchor.constraint(equalTo: blur.centerXAnchor),
-            label.heightAnchor.constraint(equalToConstant: Margins.huge.rawValue)])
+            faq.topAnchor.constraint(equalTo: blur.topAnchor, constant: Margins.extraExtraHuge.rawValue * 2),
+            faq.trailingAnchor.constraint(equalTo: blur.trailingAnchor, constant: -Margins.extraLarge.rawValue),
+            faq.widthAnchor.constraint(equalToConstant: ViewSizes.extraSmall.rawValue),
+            faq.heightAnchor.constraint(equalToConstant: ViewSizes.extraSmall.rawValue)])
         
         unlockWalletImage.constrain([
-            unlockWalletImage.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Margins.custom(8)),
             unlockWalletImage.centerXAnchor.constraint(equalTo: blur.centerXAnchor),
-            unlockWalletImage.centerYAnchor.constraint(equalTo: blur.centerYAnchor),
-            unlockWalletImage.widthAnchor.constraint(equalToConstant: 190),
-            unlockWalletImage.heightAnchor.constraint(equalToConstant: 240)])
+            unlockWalletImage.widthAnchor.constraint(equalToConstant: ViewSizes.extralarge.rawValue * 2),
+            unlockWalletImage.heightAnchor.constraint(equalToConstant: ViewSizes.extralarge.rawValue * 2)])
         
-        reset.constrain([
-            reset.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
-            reset.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
-            reset.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue)])
+        header.constrain([
+            header.topAnchor.constraint(equalTo: unlockWalletImage.bottomAnchor, constant: Margins.extraExtraHuge.rawValue),
+            header.centerYAnchor.constraint(equalTo: blur.centerYAnchor),
+            header.centerXAnchor.constraint(equalTo: blur.centerXAnchor)])
+        
+        label.constrain([
+            label.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.huge.rawValue),
+            label.centerXAnchor.constraint(equalTo: blur.centerXAnchor)])
         
         descriptionLabel.constrain([
-            descriptionLabel.topAnchor.constraint(equalTo: reset.bottomAnchor, constant: Margins.small.rawValue),
-            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.extraHuge.rawValue),
+            descriptionLabel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Margins.huge.rawValue),
             descriptionLabel.centerXAnchor.constraint(equalTo: blur.centerXAnchor)])
+        
+        reset.constrain([
+            reset.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.extraHuge.rawValue),
+            reset.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
+            reset.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
+            reset.heightAnchor.constraint(equalToConstant: ViewSizes.Common.largeButton.rawValue)])
+        
     }
 
     private func setData() {
