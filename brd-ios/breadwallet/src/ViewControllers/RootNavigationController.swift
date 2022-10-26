@@ -27,17 +27,11 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         let tintColor: UIColor
         
         switch viewController {
-        case is AccountViewController,
-            is HomeScreenViewController,
-            is KYCCameraViewController,
-            is OnboardingViewController:
-            backgroundColor = LightColors.Background.two
-            tintColor = LightColors.Background.two
-            
         case is ManageWalletsViewController,
             is AddWalletsViewController,
             is RecoveryKeyIntroViewController,
-            is EnterPhraseViewController:
+            is EnterPhraseViewController,
+            is LoginViewController:
             backgroundColor = LightColors.Background.cards
             tintColor = LightColors.Text.three
             
