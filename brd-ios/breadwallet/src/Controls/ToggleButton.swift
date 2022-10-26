@@ -50,10 +50,10 @@ class ToggleButton: UIButton {
     private func updateColors() {
         if listType == .manage {
             guard let color = isHighlighted ? titleColor(for: .selected) : titleColor(for: .normal) else { return }
-            self.layer.borderColor = color.withAlphaComponent(0.5).cgColor
+            self.layer.borderColor = color.cgColor
         } else {
             guard let color = isSelected ? titleColor(for: .selected) : titleColor(for: .normal) else { return }
-            self.layer.borderColor = color.withAlphaComponent(0.5).cgColor
+            self.layer.borderColor = color.cgColor
         }
     }
 }
