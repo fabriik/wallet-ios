@@ -77,7 +77,7 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
     
     private lazy var amountLabel: FELabel = {
         let view = FELabel()
-        view.configure(with: .init(font: Fonts.Body.one, textColor: LightColors.Text.two))
+        view.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two))
         return view
     }()
     
@@ -89,20 +89,20 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
     
     private lazy var processingTime: FELabel = {
         let view = FELabel()
-        view.configure(with: .init(font: Fonts.Body.three, textColor: LightColors.Text.one))
+        view.configure(with: .init(font: Fonts.Body.three, textColor: LightColors.Text.two))
         return view
     }()
     
     private lazy var sendLabel: FELabel = {
         let view = FELabel()
-        view.configure(with: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one))
+        view.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two))
         view.setup(with: .text(L10n.Confirmation.amountLabel))
         return view
     }()
     
     private lazy var feeLabel: FELabel = {
         let view = FELabel()
-        view.configure(with: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one))
+        view.configure(with: .init(font: Fonts.Body.two, textColor: LightColors.Text.two))
         return view
     }()
     
@@ -172,19 +172,22 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
             contentBox.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             contentBox.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             contentBox.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -Margins.custom(6) ) ])
+        
         header.constrainTopCorners(height: ViewSizes.Common.defaultCommon.rawValue)
+        
         payLabel.constrain([
             payLabel.leadingAnchor.constraint(equalTo: contentBox.leadingAnchor, constant: Margins.large.rawValue),
-            payLabel.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue) ])
+            payLabel.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.small.rawValue) ])
         amountLabel.constrain([
             amountLabel.leadingAnchor.constraint(equalTo: payLabel.leadingAnchor),
-            amountLabel.topAnchor.constraint(equalTo: payLabel.bottomAnchor)])
+            amountLabel.topAnchor.constraint(equalTo: payLabel.bottomAnchor, constant: Margins.extraSmall.rawValue)])
+        
         toLabel.constrain([
             toLabel.leadingAnchor.constraint(equalTo: amountLabel.leadingAnchor),
             toLabel.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: Margins.large.rawValue) ])
         address.constrain([
             address.leadingAnchor.constraint(equalTo: toLabel.leadingAnchor),
-            address.topAnchor.constraint(equalTo: toLabel.bottomAnchor),
+            address.topAnchor.constraint(equalTo: toLabel.bottomAnchor, constant: Margins.extraSmall.rawValue),
             address.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue) ])
         
         if resolvedAddress != nil {
@@ -193,14 +196,14 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
                 resolvedAddressTitle.topAnchor.constraint(equalTo: address.bottomAnchor, constant: Margins.large.rawValue) ])
             resolvedAddressLabel.constrain([
                 resolvedAddressLabel.leadingAnchor.constraint(equalTo: resolvedAddressTitle.leadingAnchor),
-                resolvedAddressLabel.topAnchor.constraint(equalTo: resolvedAddressTitle.bottomAnchor),
+                resolvedAddressLabel.topAnchor.constraint(equalTo: resolvedAddressTitle.bottomAnchor, constant: Margins.extraSmall.rawValue),
                 resolvedAddressLabel.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue) ])
         }
         
         let processingTimeAnchor = resolvedAddress == nil ? address.bottomAnchor : resolvedAddressLabel.bottomAnchor
         processingTime.constrain([
             processingTime.leadingAnchor.constraint(equalTo: address.leadingAnchor),
-            processingTime.topAnchor.constraint(equalTo: processingTimeAnchor, constant: Margins.large.rawValue),
+            processingTime.topAnchor.constraint(equalTo: processingTimeAnchor, constant: Margins.extraSmall.rawValue),
             processingTime.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue) ])
         sendLabel.constrain([
             sendLabel.leadingAnchor.constraint(equalTo: processingTime.leadingAnchor),
@@ -211,26 +214,26 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
             sendLabel.firstBaselineAnchor.constraint(equalTo: send.firstBaselineAnchor) ])
         feeLabel.constrain([
             feeLabel.leadingAnchor.constraint(equalTo: sendLabel.leadingAnchor),
-            feeLabel.topAnchor.constraint(equalTo: sendLabel.bottomAnchor) ])
+            feeLabel.topAnchor.constraint(equalTo: sendLabel.bottomAnchor, constant: Margins.small.rawValue) ])
         fee.constrain([
             fee.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue),
             fee.firstBaselineAnchor.constraint(equalTo: feeLabel.firstBaselineAnchor) ])
         totalLabel.constrain([
             totalLabel.leadingAnchor.constraint(equalTo: feeLabel.leadingAnchor),
-            totalLabel.topAnchor.constraint(equalTo: feeLabel.bottomAnchor) ])
+            totalLabel.topAnchor.constraint(equalTo: feeLabel.bottomAnchor, constant: Margins.small.rawValue) ])
         total.constrain([
             total.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue),
             total.firstBaselineAnchor.constraint(equalTo: totalLabel.firstBaselineAnchor) ])
         cancel.constrain([
             cancel.heightAnchor.constraint(equalToConstant: ViewSizes.Common.largeButton.rawValue),
             cancel.leadingAnchor.constraint(equalTo: contentBox.leadingAnchor, constant: Margins.large.rawValue),
-            cancel.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: Margins.large.rawValue),
+            cancel.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: Margins.huge.rawValue),
             cancel.trailingAnchor.constraint(equalTo: contentBox.centerXAnchor, constant: -Margins.small.rawValue),
             cancel.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -Margins.large.rawValue) ])
         sendButton.constrain([
             sendButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.largeButton.rawValue),
             sendButton.leadingAnchor.constraint(equalTo: contentBox.centerXAnchor, constant: Margins.small.rawValue),
-            sendButton.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: Margins.large.rawValue),
+            sendButton.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: Margins.huge.rawValue),
             sendButton.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue),
             sendButton.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -Margins.large.rawValue) ])
     }
@@ -276,6 +279,7 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
         }
         
         feeLabel.setup(with: .text(feeLabelTitle))
+        fee.setup(with: .text(feeAmount.description))
         
         total.setup(with: .text(displayTotal.description))
         
