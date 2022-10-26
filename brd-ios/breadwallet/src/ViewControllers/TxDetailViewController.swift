@@ -50,7 +50,7 @@ class TxDetailViewController: UIViewController, Subscriber {
     }
     
     private var expandedContainerHeight: CGFloat {
-        let maxHeight = view.frame.height - C.padding[4]
+        let maxHeight = view.frame.height - Margins.extraHuge.rawValue
         let contentHeight = header.frame.height + tableView.contentSize.height + footer.frame.height + separator.frame.height
         tableView.isScrollEnabled = contentHeight > maxHeight
         return min(maxHeight, contentHeight)
@@ -119,8 +119,8 @@ class TxDetailViewController: UIViewController, Subscriber {
     private func addConstraints() {
         tapView.constrain(toSuperviewEdges: nil)
         container.constrain([
-            container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            container.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
+            container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            container.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
             container.centerYAnchor.constraint(equalTo: view.centerYAnchor)
             ])
         

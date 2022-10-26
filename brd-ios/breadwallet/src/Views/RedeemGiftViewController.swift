@@ -89,39 +89,39 @@ class RedeemGiftViewController: UIViewController, Subscriber {
     private func addConstraints() {
         blurView.constrain(toSuperviewEdges: nil)
         container.constrain([
-            container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[4]),
+            container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.extraHuge.rawValue),
             container.heightAnchor.constraint(equalToConstant: 265.0),
-            container.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -C.padding[4]),
+            container.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -Margins.extraHuge.rawValue),
             container.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             container.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
         close.constrain([
-            close.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: C.padding[1]/2.0),
-            close.topAnchor.constraint(equalTo: container.topAnchor, constant: C.padding[1]/2.0),
+            close.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margins.extraSmall.rawValue),
+            close.topAnchor.constraint(equalTo: container.topAnchor, constant: Margins.small.rawValue),
             close.widthAnchor.constraint(equalToConstant: 44.0),
             close.heightAnchor.constraint(equalToConstant: 44.0)])
         titleLabel.constrain([
-            titleLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: C.padding[2]),
+            titleLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: Margins.large.rawValue),
             titleLabel.centerXAnchor.constraint(equalTo: container.centerXAnchor)])
         separator.constrain([
             separator.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            separator.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: C.padding[2]),
+            separator.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.large.rawValue),
             separator.trailingAnchor.constraint(equalTo: container.trailingAnchor),
             separator.heightAnchor.constraint(equalToConstant: 1.0)])
         icon.constrain([
-            icon.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: C.padding[2]),
+            icon.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: Margins.large.rawValue),
             icon.centerXAnchor.constraint(equalTo: container.centerXAnchor),
             icon.widthAnchor.constraint(equalToConstant: 44.0),
             icon.heightAnchor.constraint(equalToConstant: 44.0)])
         body.constrain([
-            body.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: C.padding[4]),
-            body.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -C.padding[4]),
-            body.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: C.padding[2])])
+            body.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margins.extraHuge.rawValue),
+            body.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -Margins.extraHuge.rawValue),
+            body.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: Margins.large.rawValue)])
         redeem.constrain([
-            redeem.leadingAnchor.constraint(equalTo: body.leadingAnchor, constant: C.padding[2]),
-            redeem.trailingAnchor.constraint(equalTo: body.trailingAnchor, constant: -C.padding[2]),
-            redeem.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -C.padding[2])])
+            redeem.leadingAnchor.constraint(equalTo: body.leadingAnchor, constant: Margins.large.rawValue),
+            redeem.trailingAnchor.constraint(equalTo: body.trailingAnchor, constant: -Margins.large.rawValue),
+            redeem.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -Margins.large.rawValue)])
         statusCircle.constrain([
-            statusCircle.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: C.padding[2]),
+            statusCircle.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: Margins.large.rawValue),
             statusCircle.centerXAnchor.constraint(equalTo: container.centerXAnchor),
             statusCircle.heightAnchor.constraint(equalToConstant: 44.0),
             statusCircle.widthAnchor.constraint(equalToConstant: 44.0) ])

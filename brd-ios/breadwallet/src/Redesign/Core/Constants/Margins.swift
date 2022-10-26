@@ -31,6 +31,11 @@ enum Margins: CGFloat {
     case extraHuge = 32
     /// 36
     case extraExtraHuge = 36
+    
+    static func custom(_ increment: Int) -> CGFloat {
+        return CGFloat(increment) * Margins.small.rawValue
+    }
+    
 }
 
 enum BorderWidth: CGFloat {

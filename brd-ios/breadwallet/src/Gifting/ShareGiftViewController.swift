@@ -76,7 +76,7 @@ class ShareGiftView: UIView {
     private func addConstraints() {
         blurView.constrain(toSuperviewEdges: nil)
         let top = scrollView.topAnchor.constraint(lessThanOrEqualTo: topAnchor)
-        let padding = showButton ? C.padding[2] : 0
+        let padding = showButton ? Margins.large.rawValue : 0
         if !showButton {
             blurView.isHidden = true
             backgroundColor = Theme.primaryBackground
@@ -100,7 +100,7 @@ class ShareGiftView: UIView {
             ])
         }
         
-        let contentViewPadding = showButton ? -C.padding[4] : 0
+        let contentViewPadding = showButton ? -Margins.extraHuge.rawValue : 0
         contentView.constrain([
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.topAnchor.constraint(lessThanOrEqualTo: scrollView.topAnchor),
@@ -109,53 +109,53 @@ class ShareGiftView: UIView {
             contentView.widthAnchor.constraint(equalTo: widthAnchor, constant: contentViewPadding)
         ])
         qr.constrain([
-            qr.topAnchor.constraint(equalTo: contentView.topAnchor, constant: C.padding[6]),
+            qr.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.custom(6)),
             qr.centerXAnchor.constraint(equalTo: centerXAnchor),
             qr.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
             qr.heightAnchor.constraint(equalTo: qr.widthAnchor)])
         name.constrain([
-            name.topAnchor.constraint(equalTo: qr.bottomAnchor, constant: C.padding[2]),
+            name.topAnchor.constraint(equalTo: qr.bottomAnchor, constant: Margins.large.rawValue),
             name.centerXAnchor.constraint(equalTo: centerXAnchor),
             name.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9)])
         subHeader.constrain([
-            subHeader.topAnchor.constraint(equalTo: name.bottomAnchor, constant: C.padding[1]),
+            subHeader.topAnchor.constraint(equalTo: name.bottomAnchor, constant: Margins.small.rawValue),
             subHeader.centerXAnchor.constraint(equalTo: centerXAnchor)])
         separator.constrain([
-            separator.topAnchor.constraint(equalTo: subHeader.bottomAnchor, constant: C.padding[1]),
-                                separator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2]),
-                                separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -C.padding[2]),
+            separator.topAnchor.constraint(equalTo: subHeader.bottomAnchor, constant: Margins.small.rawValue),
+                                separator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.large.rawValue),
+                                separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.large.rawValue),
             separator.heightAnchor.constraint(equalToConstant: 1.0)])
         logo.constrain([
-            logo.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: C.padding[6]),
-                        logo.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2])])
+            logo.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: Margins.custom(6)),
+                        logo.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.large.rawValue)])
         total.constrain([
             total.firstBaselineAnchor.constraint(equalTo: logo.bottomAnchor),
-                            total.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -C.padding[2])])
+                            total.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.large.rawValue)])
         totalLabel.constrain([
             totalLabel.trailingAnchor.constraint(equalTo: total.trailingAnchor),
             totalLabel.bottomAnchor.constraint(equalTo: total.topAnchor)])
         cell.constrain([
-            cell.topAnchor.constraint(equalTo: total.bottomAnchor, constant: C.padding[1]),
+            cell.topAnchor.constraint(equalTo: total.bottomAnchor, constant: Margins.small.rawValue),
             cell.leadingAnchor.constraint(equalTo: logo.leadingAnchor),
             cell.trailingAnchor.constraint(equalTo: total.trailingAnchor),
             cell.heightAnchor.constraint(equalToConstant: 80.0)])
         
         disclaimer.constrain([
             disclaimer.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
-            disclaimer.topAnchor.constraint(equalTo: cell.bottomAnchor, constant: C.padding[1]),
+            disclaimer.topAnchor.constraint(equalTo: cell.bottomAnchor, constant: Margins.small.rawValue),
             disclaimer.trailingAnchor.constraint(equalTo: cell.trailingAnchor)])
         disclaimer2.constrain([
             disclaimer2.leadingAnchor.constraint(equalTo: disclaimer.leadingAnchor),
-            disclaimer2.topAnchor.constraint(equalTo: disclaimer.bottomAnchor, constant: C.padding[1]),
+            disclaimer2.topAnchor.constraint(equalTo: disclaimer.bottomAnchor, constant: Margins.small.rawValue),
             disclaimer2.trailingAnchor.constraint(equalTo: disclaimer.trailingAnchor),
-            disclaimer2.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -C.padding[2])
+            disclaimer2.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Margins.large.rawValue)
         ])
         
         share.constrain([
             share.heightAnchor.constraint(equalToConstant: 44.0),
-            share.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[2]),
-            share.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
-            share.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[4])])
+            share.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
+            share.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
+            share.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.extraHuge.rawValue)])
         
         if !showButton {
             share.constrain([share.heightAnchor.constraint(equalToConstant: 0.0)])

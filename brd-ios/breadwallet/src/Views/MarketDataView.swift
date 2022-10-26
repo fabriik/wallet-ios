@@ -26,7 +26,7 @@ struct MarketDataView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .center, spacing: C.padding[1]) {
+            VStack(alignment: .center, spacing: Margins.small.rawValue) {
                 text(marketData.viewModel.marketCap)
                 subText(L10n.MarketData.marketCap)
                 text(marketData.viewModel.totalVolume)
@@ -38,7 +38,7 @@ struct MarketDataView: View {
                 .frame(width: 1.0)
                 .cornerRadius(0.5)
                 .padding([.top, .bottom], 4.0)
-            VStack(alignment: .center, spacing: C.padding[1]) {
+            VStack(alignment: .center, spacing: Margins.small.rawValue) {
                 text(marketData.viewModel.high24h)
                 subText(L10n.MarketData.high24h)
                 text(marketData.viewModel.low24h)

@@ -57,13 +57,13 @@ class InfoView: UIView {
             infoImageView.heightAnchor.constraint(equalToConstant: imageSize),
             infoImageView.widthAnchor.constraint(equalToConstant: imageSize),
             infoImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            infoImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: C.padding[2])
+            infoImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: Margins.large.rawValue)
             ])
         
         let textPadding: CGFloat = Margins.medium.rawValue
         
         infoLabel.constrain([
-            infoLabel.leftAnchor.constraint(equalTo: infoImageView.rightAnchor, constant: C.padding[2]),
+            infoLabel.leftAnchor.constraint(equalTo: infoImageView.rightAnchor, constant: Margins.large.rawValue),
             infoLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: textPadding),
             infoLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -textPadding),
             infoLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -(textPadding * 2))

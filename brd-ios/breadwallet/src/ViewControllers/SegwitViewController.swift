@@ -44,34 +44,34 @@ class SegwitViewController: UIViewController {
             logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logo.widthAnchor.constraint(equalToConstant: 160.0),
             logo.heightAnchor.constraint(equalToConstant: 40.0),
-            logo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: C.padding[2])])
+            logo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.large.rawValue)])
         label.constrain([
-            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[3]),
-            label.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: C.padding[3]),
-            label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[3])])
+            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.huge.rawValue),
+            label.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: Margins.huge.rawValue),
+            label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.huge.rawValue)])
         
         buttonXConstraintStart = button.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        buttonXConstraintEnd = button.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -C.padding[2])
+        buttonXConstraintEnd = button.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -Margins.large.rawValue)
         button.constrain([
             buttonXConstraintStart,
-            button.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -C.padding[6]),
-            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[3]),
+            button.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -Margins.custom(6)),
+            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Margins.huge.rawValue),
             button.heightAnchor.constraint(equalToConstant: 48.0)])
         
-        confirmXConstraintStart = confirmView.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: C.padding[2])
+        confirmXConstraintStart = confirmView.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: Margins.large.rawValue)
         confirmXConstraintEnd = confirmView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        confirmXConstraintFinal = confirmView.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -C.padding[2])
+        confirmXConstraintFinal = confirmView.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -Margins.large.rawValue)
         confirmView.constrain([
-            confirmView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[3]),
+            confirmView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Margins.huge.rawValue),
             confirmXConstraintStart,
-            confirmView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -C.padding[6])])
+            confirmView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -Margins.custom(6))])
         
         enabledYConstraintStart = enabled.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 50.0)
-        enabledYConstraintEnd = enabled.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[2])
+        enabledYConstraintEnd = enabled.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Margins.large.rawValue)
         enabled.constrain([
             enabledYConstraintStart,
             enabled.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            enabled.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -C.padding[6])])
+            enabled.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -Margins.custom(6))])
     }
     
     private func setInitialData() {

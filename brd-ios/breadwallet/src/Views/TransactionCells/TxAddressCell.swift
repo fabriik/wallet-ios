@@ -25,7 +25,7 @@ class TxAddressCell: TxDetailRowCell {
         super.addConstraints()
         
         addressButton.constrain([
-            addressButton.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: C.padding[1]),
+            addressButton.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: Margins.small.rawValue),
             addressButton.constraint(.trailing, toView: container),
             addressButton.constraint(.top, toView: container),
             addressButton.constraint(.bottom, toView: container)

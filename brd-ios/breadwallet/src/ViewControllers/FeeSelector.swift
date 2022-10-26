@@ -73,8 +73,8 @@ class FeeSelector: UIView {
 
         topBorder.constrainTopCorners(height: 1.0)
         header.constrain([
-            header.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[2]),
-            header.topAnchor.constraint(equalTo: topBorder.bottomAnchor, constant: C.padding[1]) ])
+            header.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
+            header.topAnchor.constraint(equalTo: topBorder.bottomAnchor, constant: Margins.small.rawValue) ])
         subheader.constrain([
             subheader.leadingAnchor.constraint(equalTo: header.leadingAnchor),
             subheader.topAnchor.constraint(equalTo: header.bottomAnchor) ])
@@ -82,14 +82,14 @@ class FeeSelector: UIView {
         warning.constrain([
             warning.leadingAnchor.constraint(equalTo: subheader.leadingAnchor),
             warning.topAnchor.constraint(equalTo: control.bottomAnchor, constant: 4.0),
-            warning.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
-            warning.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[1])])
+            warning.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
+            warning.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.small.rawValue)])
         header.text = L10n.FeeSelector.title
         subheader.text = currency.feeText(forIndex: 1)
         control.constrain([
             control.leadingAnchor.constraint(equalTo: warning.leadingAnchor),
             control.topAnchor.constraint(equalTo: subheader.bottomAnchor, constant: 4.0),
-            control.widthAnchor.constraint(equalTo: widthAnchor, constant: -C.padding[4]) ])
+            control.widthAnchor.constraint(equalTo: widthAnchor, constant: -Margins.extraHuge.rawValue) ])
         control.valueChanged = { [weak self] in
             guard let self = self else { return }
             

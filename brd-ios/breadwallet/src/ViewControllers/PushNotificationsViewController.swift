@@ -75,35 +75,35 @@ class PushNotificationsViewController: UIViewController {
         
         toggle.constrain([
             toggle.centerYAnchor.constraint(equalTo: toggleLabel.centerYAnchor),
-            toggle.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -C.padding[2])
+            toggle.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Margins.large.rawValue)
             ])
         
         toggle.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         toggleLabel.constrain([
-            toggleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: C.padding[2]),
-            toggleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: C.padding[2]),
-            toggleLabel.rightAnchor.constraint(equalTo: toggle.leftAnchor, constant: -C.padding[2])
+            toggleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.large.rawValue),
+            toggleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Margins.large.rawValue),
+            toggleLabel.rightAnchor.constraint(equalTo: toggle.leftAnchor, constant: -Margins.large.rawValue)
             ])
         
         separator.constrain([
             separator.heightAnchor.constraint(equalToConstant: 1),
-            separator.topAnchor.constraint(equalTo: toggle.bottomAnchor, constant: C.padding[2]),
+            separator.topAnchor.constraint(equalTo: toggle.bottomAnchor, constant: Margins.large.rawValue),
             separator.leftAnchor.constraint(equalTo: view.leftAnchor),
             separator.rightAnchor.constraint(equalTo: view.rightAnchor)
             ])
         
         body.constrain([
-            body.leftAnchor.constraint(equalTo: view.leftAnchor, constant: C.padding[2]),
-            body.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: C.padding[1]),
-            body.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2])
+            body.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Margins.large.rawValue),
+            body.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: Margins.small.rawValue),
+            body.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue)
             ])
         
         openSettingsButton.constrain([
             openSettingsButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue),
-            openSettingsButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: C.padding[2]),
-            openSettingsButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -C.padding[2]),
-            openSettingsButton.topAnchor.constraint(equalTo: body.bottomAnchor, constant: C.padding[3])
+            openSettingsButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Margins.large.rawValue),
+            openSettingsButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Margins.large.rawValue),
+            openSettingsButton.topAnchor.constraint(equalTo: body.bottomAnchor, constant: Margins.huge.rawValue)
             ])
     }
     

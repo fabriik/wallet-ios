@@ -42,14 +42,14 @@ class DelistedTokenView: UIView {
     
     private func addConstraints() {
         label.constrain([
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[3]),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[3]),
-            label.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[3])])
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.huge.rawValue),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.huge.rawValue),
+            label.topAnchor.constraint(equalTo: topAnchor, constant: Margins.huge.rawValue)])
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         button.constrain([
             button.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: C.padding[3]),
-            button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[3]),
+            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Margins.huge.rawValue),
+            button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.huge.rawValue),
             button.heightAnchor.constraint(equalToConstant: 28),
             button.widthAnchor.constraint(equalToConstant: 111)])
     }

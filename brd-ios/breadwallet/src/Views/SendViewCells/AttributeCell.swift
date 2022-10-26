@@ -73,15 +73,15 @@ class AttributeCell: UIView {
     private func addConstraints() {
         label.constrain([
             label.constraint(.centerY, toView: self),
-            label.constraint(.leading, toView: self, constant: C.padding[2]) ])
+            label.constraint(.leading, toView: self, constant: Margins.large.rawValue) ])
         contentLabel.constrain([
             contentLabel.constraint(.leading, toView: label),
             contentLabel.constraint(toBottom: label, constant: 0.0),
-            contentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[1]) ])
+            contentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.small.rawValue) ])
         textField.constrain([
             textField.constraint(.leading, toView: label),
             textField.constraint(toBottom: label, constant: 0.0),
-            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[1]) ])
+            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.small.rawValue) ])
         tapView.constrain([
             tapView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tapView.topAnchor.constraint(equalTo: topAnchor),
@@ -89,7 +89,7 @@ class AttributeCell: UIView {
             tapView.trailingAnchor.constraint(equalTo: trailingAnchor) ])
         infoButton.constrain([
             infoButton.constraint(.centerY, toView: self),
-            infoButton.constraint(.trailing, toView: self, constant: -C.padding[1])])
+            infoButton.constraint(.trailing, toView: self, constant: -Margins.small.rawValue)])
         border.constrain([
             border.leadingAnchor.constraint(equalTo: leadingAnchor),
             border.bottomAnchor.constraint(equalTo: bottomAnchor),

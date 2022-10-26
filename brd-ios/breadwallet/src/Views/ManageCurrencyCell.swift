@@ -77,19 +77,19 @@ class ManageCurrencyCell: UITableViewCell {
 
     private func addConstraints() {
         iconImageView.constrain([
-            iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: C.padding[2]),
+            iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.large.rawValue),
             iconImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             iconImageView.heightAnchor.constraint(equalToConstant: ViewSizes.large.rawValue),
             iconImageView.widthAnchor.constraint(equalToConstant: ViewSizes.large.rawValue)])
         header.constrain([
-            header.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: C.padding[1]),
+            header.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: Margins.small.rawValue),
             header.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)])
         button.constrain([
-            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -C.padding[2]),
+            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.large.rawValue),
             button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             button.heightAnchor.constraint(equalToConstant: ViewSizes.large.rawValue),
             button.widthAnchor.constraint(equalToConstant: 70.0),
-            button.leadingAnchor.constraint(greaterThanOrEqualTo: header.trailingAnchor, constant: C.padding[1])])
+            button.leadingAnchor.constraint(greaterThanOrEqualTo: header.trailingAnchor, constant: Margins.small.rawValue)])
     }
     
     private func setState() {

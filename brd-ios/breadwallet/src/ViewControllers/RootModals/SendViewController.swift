@@ -166,17 +166,17 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
             memoCell.widthAnchor.constraint(equalTo: amountView.view.widthAnchor),
             memoCell.topAnchor.constraint(equalTo: amountView.view.bottomAnchor),
             memoCell.leadingAnchor.constraint(equalTo: amountView.view.leadingAnchor),
-            memoCell.heightAnchor.constraint(equalTo: memoCell.textView.heightAnchor, constant: C.padding[4]) ])
+            memoCell.heightAnchor.constraint(equalTo: memoCell.textView.heightAnchor, constant: Margins.extraHuge.rawValue) ])
 
         memoCell.accessoryView.constrain([
                 memoCell.accessoryView.constraint(.width, constant: 0.0) ])
 
         sendButton.constrain([
-            sendButton.constraint(.leading, toView: view, constant: C.padding[2]),
-            sendButton.constraint(.trailing, toView: view, constant: -C.padding[2]),
+            sendButton.constraint(.leading, toView: view, constant: Margins.large.rawValue),
+            sendButton.constraint(.trailing, toView: view, constant: -Margins.large.rawValue),
             sendButton.constraint(toBottom: memoCell, constant: verticalButtonPadding),
             sendButton.constraint(.height, constant: ViewSizes.Common.defaultCommon.rawValue),
-            sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: E.isIPhoneX ? -C.padding[5] : -C.padding[2]) ])
+            sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: E.isIPhoneX ? -Margins.custom(5) : -Margins.large.rawValue) ])
         addButtonActions()
         Store.subscribe(self,
                         selector: { [weak self] oldState, newState in

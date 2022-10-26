@@ -171,68 +171,68 @@ class ConfirmationViewController: UIViewController, ContentBoxPresenter {
         contentBox.constrain([
             contentBox.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             contentBox.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            contentBox.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -C.padding[6] ) ])
+            contentBox.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -Margins.custom(6) ) ])
         header.constrainTopCorners(height: ViewSizes.Common.defaultCommon.rawValue)
         payLabel.constrain([
-            payLabel.leadingAnchor.constraint(equalTo: contentBox.leadingAnchor, constant: C.padding[2]),
-            payLabel.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2]) ])
+            payLabel.leadingAnchor.constraint(equalTo: contentBox.leadingAnchor, constant: Margins.large.rawValue),
+            payLabel.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue) ])
         amountLabel.constrain([
             amountLabel.leadingAnchor.constraint(equalTo: payLabel.leadingAnchor),
             amountLabel.topAnchor.constraint(equalTo: payLabel.bottomAnchor)])
         toLabel.constrain([
             toLabel.leadingAnchor.constraint(equalTo: amountLabel.leadingAnchor),
-            toLabel.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: C.padding[2]) ])
+            toLabel.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: Margins.large.rawValue) ])
         address.constrain([
             address.leadingAnchor.constraint(equalTo: toLabel.leadingAnchor),
             address.topAnchor.constraint(equalTo: toLabel.bottomAnchor),
-            address.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]) ])
+            address.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue) ])
         
         if resolvedAddress != nil {
             resolvedAddressTitle.constrain([
                 resolvedAddressTitle.leadingAnchor.constraint(equalTo: toLabel.leadingAnchor),
-                resolvedAddressTitle.topAnchor.constraint(equalTo: address.bottomAnchor, constant: C.padding[2]) ])
+                resolvedAddressTitle.topAnchor.constraint(equalTo: address.bottomAnchor, constant: Margins.large.rawValue) ])
             resolvedAddressLabel.constrain([
                 resolvedAddressLabel.leadingAnchor.constraint(equalTo: resolvedAddressTitle.leadingAnchor),
                 resolvedAddressLabel.topAnchor.constraint(equalTo: resolvedAddressTitle.bottomAnchor),
-                resolvedAddressLabel.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]) ])
+                resolvedAddressLabel.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue) ])
         }
         
         let processingTimeAnchor = resolvedAddress == nil ? address.bottomAnchor : resolvedAddressLabel.bottomAnchor
         processingTime.constrain([
             processingTime.leadingAnchor.constraint(equalTo: address.leadingAnchor),
-            processingTime.topAnchor.constraint(equalTo: processingTimeAnchor, constant: C.padding[2]),
-            processingTime.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]) ])
+            processingTime.topAnchor.constraint(equalTo: processingTimeAnchor, constant: Margins.large.rawValue),
+            processingTime.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue) ])
         sendLabel.constrain([
             sendLabel.leadingAnchor.constraint(equalTo: processingTime.leadingAnchor),
-            sendLabel.topAnchor.constraint(equalTo: processingTime.bottomAnchor, constant: C.padding[2]),
+            sendLabel.topAnchor.constraint(equalTo: processingTime.bottomAnchor, constant: Margins.large.rawValue),
             sendLabel.trailingAnchor.constraint(lessThanOrEqualTo: send.leadingAnchor) ])
         send.constrain([
-            send.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]),
+            send.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue),
             sendLabel.firstBaselineAnchor.constraint(equalTo: send.firstBaselineAnchor) ])
         feeLabel.constrain([
             feeLabel.leadingAnchor.constraint(equalTo: sendLabel.leadingAnchor),
             feeLabel.topAnchor.constraint(equalTo: sendLabel.bottomAnchor) ])
         fee.constrain([
-            fee.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]),
+            fee.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue),
             fee.firstBaselineAnchor.constraint(equalTo: feeLabel.firstBaselineAnchor) ])
         totalLabel.constrain([
             totalLabel.leadingAnchor.constraint(equalTo: feeLabel.leadingAnchor),
             totalLabel.topAnchor.constraint(equalTo: feeLabel.bottomAnchor) ])
         total.constrain([
-            total.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]),
+            total.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue),
             total.firstBaselineAnchor.constraint(equalTo: totalLabel.firstBaselineAnchor) ])
         cancel.constrain([
             cancel.heightAnchor.constraint(equalToConstant: ViewSizes.Common.largeButton.rawValue),
-            cancel.leadingAnchor.constraint(equalTo: contentBox.leadingAnchor, constant: C.padding[2]),
-            cancel.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: C.padding[2]),
-            cancel.trailingAnchor.constraint(equalTo: contentBox.centerXAnchor, constant: -C.padding[1]),
-            cancel.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -C.padding[2]) ])
+            cancel.leadingAnchor.constraint(equalTo: contentBox.leadingAnchor, constant: Margins.large.rawValue),
+            cancel.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: Margins.large.rawValue),
+            cancel.trailingAnchor.constraint(equalTo: contentBox.centerXAnchor, constant: -Margins.small.rawValue),
+            cancel.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -Margins.large.rawValue) ])
         sendButton.constrain([
             sendButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.largeButton.rawValue),
-            sendButton.leadingAnchor.constraint(equalTo: contentBox.centerXAnchor, constant: C.padding[1]),
-            sendButton.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: C.padding[2]),
-            sendButton.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -C.padding[2]),
-            sendButton.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -C.padding[2]) ])
+            sendButton.leadingAnchor.constraint(equalTo: contentBox.centerXAnchor, constant: Margins.small.rawValue),
+            sendButton.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: Margins.large.rawValue),
+            sendButton.trailingAnchor.constraint(equalTo: contentBox.trailingAnchor, constant: -Margins.large.rawValue),
+            sendButton.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -Margins.large.rawValue) ])
     }
     
     private func setInitialData() {

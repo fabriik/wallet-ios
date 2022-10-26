@@ -46,7 +46,7 @@ class StakingCell: UIView, Subscriber {
     }
     
     private func setupConstraints() {
-        let containerPadding = C.padding[2]
+        let containerPadding = Margins.large.rawValue
         topPadding.constrainTopCorners(height: containerPadding)
         bottomPadding.constrainBottomCorners(height: containerPadding)
         iconContainer.constrain([
@@ -56,12 +56,12 @@ class StakingCell: UIView, Subscriber {
             iconContainer.widthAnchor.constraint(equalTo: iconContainer.heightAnchor)])
         icon.constrain(toSuperviewEdges: .zero)
         title.constrain([
-            title.leadingAnchor.constraint(equalTo: iconContainer.trailingAnchor, constant: C.padding[1]),
+            title.leadingAnchor.constraint(equalTo: iconContainer.trailingAnchor, constant: Margins.small.rawValue),
             title.centerYAnchor.constraint(equalTo: iconContainer.centerYAnchor)
         ])
         statusFlag.constrain([
             statusFlag.centerYAnchor.constraint(equalTo: iconContainer.centerYAnchor),
-            statusFlag.trailingAnchor.constraint(equalTo: indicatorView.leadingAnchor, constant: -C.padding[2]),
+            statusFlag.trailingAnchor.constraint(equalTo: indicatorView.leadingAnchor, constant: -Margins.large.rawValue),
             statusFlag.heightAnchor.constraint(equalToConstant: 20) ])
         indicatorView.constrain([
             indicatorView.centerYAnchor.constraint(equalTo: centerYAnchor),

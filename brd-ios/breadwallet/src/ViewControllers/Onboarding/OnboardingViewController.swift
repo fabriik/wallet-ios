@@ -454,7 +454,7 @@ class OnboardingViewController: UIViewController {
 
         backButton.constrain([
             backButton.topAnchor.constraint(equalTo: topAnchor!, constant: 30),
-            backButton.leadingAnchor.constraint(equalTo: leadingAnchor!, constant: C.padding[2]),
+            backButton.leadingAnchor.constraint(equalTo: leadingAnchor!, constant: Margins.large.rawValue),
             backButton.heightAnchor.constraint(equalToConstant: 13),
             backButton.widthAnchor.constraint(equalToConstant: 20)
             ])

@@ -26,11 +26,11 @@ class EnterPhraseCollectionViewController: UICollectionViewController, UICollect
     private let cellHeight: CGFloat = 32
     
     var interItemSpacing: CGFloat {
-        return E.isSmallScreen ? 6 : C.padding[1]
+        return E.isSmallScreen ? 6 : Margins.small.rawValue
     }
     
     var sectionInsets: CGFloat {
-        return E.isSmallScreen ? 0 : C.padding[2]
+        return E.isSmallScreen ? 0 : Margins.large.rawValue
     }
     
     private lazy var cellSize: CGSize = {

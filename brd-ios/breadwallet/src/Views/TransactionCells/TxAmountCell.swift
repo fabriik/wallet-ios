@@ -46,10 +46,10 @@ class TxAmountCell: UITableViewCell, Subscriber {
     }
     
     private func addConstraints() {
-        container.constrain(toSuperviewEdges: UIEdgeInsets(top: C.padding[1],
-                                                           left: C.padding[2],
-                                                           bottom: -C.padding[2],
-                                                           right: -C.padding[2]))
+        container.constrain(toSuperviewEdges: UIEdgeInsets(top: Margins.small.rawValue,
+                                                           left: Margins.large.rawValue,
+                                                           bottom: -Margins.large.rawValue,
+                                                           right: -Margins.large.rawValue))
         
         tokenAmountLabel.constrain([
             tokenAmountLabel.constraint(.top, toView: container),

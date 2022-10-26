@@ -126,48 +126,48 @@ class GiftViewController: UIViewController {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor)])
         qr.constrain([
-            qr.topAnchor.constraint(equalTo: contentView.topAnchor, constant: C.padding[4]),
+            qr.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.extraHuge.rawValue),
             qr.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
         header.constrain([
-            header.topAnchor.constraint(equalTo: qr.bottomAnchor, constant: C.padding[2]),
-            header.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[6]),
-            header.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[6])])
+            header.topAnchor.constraint(equalTo: qr.bottomAnchor, constant: Margins.large.rawValue),
+            header.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.custom(6)),
+            header.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.custom(6))])
         subHeader.constrain([
-            subHeader.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2]),
-            subHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            subHeader.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2])])
+            subHeader.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue),
+            subHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            subHeader.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue)])
         amountHeader.constrain([
-            amountHeader.topAnchor.constraint(equalTo: subHeader.bottomAnchor, constant: C.padding[2]),
-            amountHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            amountHeader.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2])])
+            amountHeader.topAnchor.constraint(equalTo: subHeader.bottomAnchor, constant: Margins.large.rawValue),
+            amountHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            amountHeader.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue)])
         toolbar.constrain([
-            toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            toolbar.topAnchor.constraint(equalTo: amountHeader.bottomAnchor, constant: C.padding[2]),
-            toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
+            toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            toolbar.topAnchor.constraint(equalTo: amountHeader.bottomAnchor, constant: Margins.large.rawValue),
+            toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
             toolbar.heightAnchor.constraint(equalToConstant: 44.0)])
         name.constrain([
-            name.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            name.topAnchor.constraint(equalTo: toolbar.bottomAnchor, constant: C.padding[2]),
-            name.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2])])
+            name.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            name.topAnchor.constraint(equalTo: toolbar.bottomAnchor, constant: Margins.large.rawValue),
+            name.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue)])
         extraSwitch.constrain([
-            extraSwitch.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            extraSwitch.topAnchor.constraint(equalTo: name.bottomAnchor, constant: C.padding[2]),
+            extraSwitch.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            extraSwitch.topAnchor.constraint(equalTo: name.bottomAnchor, constant: Margins.large.rawValue),
             extraSwitch.widthAnchor.constraint(equalToConstant: 53.0) ])
         extraLabel.constrain([
-            extraLabel.leadingAnchor.constraint(equalTo: extraSwitch.trailingAnchor, constant: C.padding[1]),
+            extraLabel.leadingAnchor.constraint(equalTo: extraSwitch.trailingAnchor, constant: Margins.small.rawValue),
             extraLabel.centerYAnchor.constraint(equalTo: extraSwitch.centerYAnchor),
-            extraLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2])])
+            extraLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue)])
         bottomBorder.constrain([
             bottomBorder.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomBorder.topAnchor.constraint(equalTo: extraLabel.bottomAnchor, constant: C.padding[3]),
+            bottomBorder.topAnchor.constraint(equalTo: extraLabel.bottomAnchor, constant: Margins.huge.rawValue),
             bottomBorder.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomBorder.heightAnchor.constraint(equalToConstant: 1.0)])
         createButton.constrain([
-            createButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            createButton.topAnchor.constraint(equalTo: bottomBorder.bottomAnchor, constant: C.padding[3]),
-            createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
+            createButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            createButton.topAnchor.constraint(equalTo: bottomBorder.bottomAnchor, constant: Margins.huge.rawValue),
+            createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
             createButton.heightAnchor.constraint(equalToConstant: 44.0),
-            createButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -C.padding[4])])
+            createButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Margins.extraHuge.rawValue)])
     }
 
     private func subscribeToKeyboardNotifications() {
@@ -475,7 +475,7 @@ extension GiftViewController {
 
         let keyboardFrame = scrollView.convert(frame, from: scrollView.window)
         let offset = CGPoint(x: scrollView.contentOffset.y,
-                             y: createButton.frame.maxY - keyboardFrame.minY + C.padding[2])
+                             y: createButton.frame.maxY - keyboardFrame.minY + Margins.large.rawValue)
 
         scrollView.setContentOffset(offset, animated: true)
     }

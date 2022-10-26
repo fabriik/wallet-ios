@@ -139,19 +139,19 @@ class AmountViewController: UIViewController {
 
     private func addConstraints() {
         amountLabel.constrain([
-            amountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
+            amountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
             amountLabel.centerYAnchor.constraint(equalTo: currencyToggle.centerYAnchor) ])
         placeholder.constrain([
             placeholder.leadingAnchor.constraint(equalTo: amountLabel.leadingAnchor, constant: 2.0),
-            placeholder.topAnchor.constraint(equalTo: view.topAnchor, constant: C.padding[1]) ])
+            placeholder.topAnchor.constraint(equalTo: view.topAnchor, constant: Margins.small.rawValue) ])
         cursor.constrain([
             cursor.leadingAnchor.constraint(equalTo: amountLabel.trailingAnchor, constant: 2.0),
             cursor.heightAnchor.constraint(equalToConstant: 24.0),
             cursor.centerYAnchor.constraint(equalTo: amountLabel.centerYAnchor),
             cursor.widthAnchor.constraint(equalToConstant: 2.0) ])
         currencyToggle.constrain([
-            currencyToggle.topAnchor.constraint(equalTo: view.topAnchor, constant: C.padding[2]),
-            currencyToggle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
+            currencyToggle.topAnchor.constraint(equalTo: view.topAnchor, constant: Margins.large.rawValue),
+            currencyToggle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
             currencyToggle.heightAnchor.constraint(equalToConstant: 35.0)])
 
         feeSelector.constrain([
@@ -160,7 +160,7 @@ class AmountViewController: UIViewController {
             feeSelector.trailingAnchor.constraint(equalTo: view.trailingAnchor) ])
 
         let borderTop = isRequesting
-            ? border.topAnchor.constraint(equalTo: currencyToggle.bottomAnchor, constant: C.padding[2])
+            ? border.topAnchor.constraint(equalTo: currencyToggle.bottomAnchor, constant: Margins.large.rawValue)
             : border.topAnchor.constraint(equalTo: feeSelector.bottomAnchor)
         border.constrain([
             border.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -177,7 +177,7 @@ class AmountViewController: UIViewController {
         
         infoButton.constrain([
             infoButton.topAnchor.constraint(equalTo: cursor.bottomAnchor, constant: 2),
-            infoButton.leadingAnchor.constraint(equalTo: balanceLabel.trailingAnchor, constant: C.padding[1])])
+            infoButton.leadingAnchor.constraint(equalTo: balanceLabel.trailingAnchor, constant: Margins.small.rawValue)])
         
         feeLabel.constrain([
             feeLabel.leadingAnchor.constraint(equalTo: balanceLabel.leadingAnchor),
@@ -192,7 +192,7 @@ class AmountViewController: UIViewController {
                 pinPadHeight ])
         })
         bottomBorder.constrain([
-            bottomBorder.topAnchor.constraint(greaterThanOrEqualTo: currencyToggle.bottomAnchor, constant: C.padding[2]),
+            bottomBorder.topAnchor.constraint(greaterThanOrEqualTo: currencyToggle.bottomAnchor, constant: Margins.large.rawValue),
             bottomBorder.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomBorder.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             bottomBorder.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -277,7 +277,7 @@ class AmountViewController: UIViewController {
 
     private func preventAmountOverflow() {
         amountLabel.constrain([
-            amountLabel.trailingAnchor.constraint(lessThanOrEqualTo: currencyToggle.leadingAnchor, constant: -C.padding[2]) ])
+            amountLabel.trailingAnchor.constraint(lessThanOrEqualTo: currencyToggle.leadingAnchor, constant: -Margins.large.rawValue) ])
         amountLabel.minimumScaleFactor = 0.5
         amountLabel.adjustsFontSizeToFitWidth = true
         amountLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)

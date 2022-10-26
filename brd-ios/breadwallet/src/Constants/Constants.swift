@@ -28,25 +28,10 @@ public enum Screen: String {
     var name: String { return rawValue }
 }
 
-struct Padding {
-    var increment: CGFloat
-    
-    subscript(multiplier: Int) -> CGFloat {
-        return CGFloat(multiplier) * increment
-    }
-    
-    static var half: CGFloat {
-        return C.padding[1]/2.0
-    }
-}
-
 /// Constants
 typealias Constant = C
 struct C {
-    // TODO: Get rid of this
-    static let padding = Padding(increment: 8.0)
-    
-    static let brdLogoTopMargin: CGFloat = E.isIPhoneX ? C.padding[9] + 35.0 : C.padding[9] + 20.0
+    static let brdLogoTopMargin: CGFloat = E.isIPhoneX ? Margins.custom(9) + 35.0 : Margins.custom(9) + 20.0
     static let secondsInDay: TimeInterval = 86400
     static let secondsInMinute: TimeInterval = 60
     static let walletQueue = "com.fabriik.one.walletqueue"

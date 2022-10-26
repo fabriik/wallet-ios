@@ -35,18 +35,18 @@ class SegwitEnabledView: UIView {
     
     private func addConstraints() {
         checkView.constrain([
-            checkView.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[2]),
+            checkView.topAnchor.constraint(equalTo: topAnchor, constant: Margins.large.rawValue),
             checkView.centerXAnchor.constraint(equalTo: centerXAnchor),
             checkView.heightAnchor.constraint(equalToConstant: 96.0),
             checkView.widthAnchor.constraint(equalToConstant: 96.0) ])
         primaryLabel.constrain([
-            primaryLabel.topAnchor.constraint(equalTo: checkView.bottomAnchor, constant: C.padding[2]),
+            primaryLabel.topAnchor.constraint(equalTo: checkView.bottomAnchor, constant: Margins.large.rawValue),
             primaryLabel.centerXAnchor.constraint(equalTo: centerXAnchor)])
         secondaryLabel.constrain([
-            secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor, constant: C.padding[1]),
+            secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor, constant: Margins.small.rawValue),
             secondaryLabel.centerXAnchor.constraint(equalTo: centerXAnchor)])
         home.constrain([
-            home.topAnchor.constraint(equalTo: secondaryLabel.bottomAnchor, constant: C.padding[2]),
+            home.topAnchor.constraint(equalTo: secondaryLabel.bottomAnchor, constant: Margins.large.rawValue),
             home.leadingAnchor.constraint(equalTo: leadingAnchor),
             home.bottomAnchor.constraint(equalTo: bottomAnchor),
             home.trailingAnchor.constraint(equalTo: trailingAnchor),

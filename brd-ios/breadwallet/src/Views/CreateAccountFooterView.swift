@@ -45,7 +45,7 @@ class CreateAccountFooterView: UIView {
     
     private func addConstraints() {
         button.constrain([
-            button.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[1]),
+            button.topAnchor.constraint(equalTo: topAnchor, constant: Margins.small.rawValue),
             button.centerXAnchor.constraint(equalTo: centerXAnchor),
             button.heightAnchor.constraint(equalToConstant: 44.0),
             button.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.66)])

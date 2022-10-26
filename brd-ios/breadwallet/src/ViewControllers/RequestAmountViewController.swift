@@ -68,10 +68,10 @@ class RequestAmountViewController: UIViewController {
         qrCode.constrain([
             qrCode.constraint(.width, constant: qrSize.width),
             qrCode.constraint(.height, constant: qrSize.height),
-            qrCode.topAnchor.constraint(equalTo: amountView.view.bottomAnchor, constant: C.padding[2]),
+            qrCode.topAnchor.constraint(equalTo: amountView.view.bottomAnchor, constant: Margins.large.rawValue),
             qrCode.constraint(.centerX, toView: view) ])
         address.constrain([
-            address.constraint(toBottom: qrCode, constant: C.padding[1]),
+            address.constraint(toBottom: qrCode, constant: Margins.small.rawValue),
             address.constraint(.leading, toView: view),
             address.constraint(.trailing, toView: view) ])
         addressPopout.heightConstraint = addressPopout.constraint(.height, constant: 0.0)
@@ -81,7 +81,7 @@ class RequestAmountViewController: UIViewController {
             addressPopout.constraint(.width, toView: view),
             addressPopout.heightConstraint ])
         share.constrain([
-            share.constraint(toBottom: addressPopout, constant: C.padding[2]),
+            share.constraint(toBottom: addressPopout, constant: Margins.large.rawValue),
             share.constraint(.centerX, toView: view),
             share.constraint(.width, constant: qrSize.width),
             share.constraint(.height, constant: smallButtonHeight) ])
@@ -90,7 +90,7 @@ class RequestAmountViewController: UIViewController {
             border.constraint(toBottom: share, constant: 20.0),
             border.constraint(.centerX, toView: view),
             border.constraint(.height, constant: 1.0),
-            border.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -C.padding[2]) ])
+            border.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Margins.large.rawValue) ])
     }
 
     private func setData() {

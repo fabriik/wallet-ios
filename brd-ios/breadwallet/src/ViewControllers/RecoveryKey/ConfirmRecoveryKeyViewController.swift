@@ -151,7 +151,7 @@ class ConfirmRecoveryKeyViewController: BaseRecoveryKeyViewController {
         let topConstant: CGFloat = E.isSmallScreen ? 2 : 28
         titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
                                         constant: topConstant).isActive = true
-        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: C.padding[2]).isActive = true
+        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.large.rawValue).isActive = true
     }
     
     private func setUpInputFields() {
@@ -162,8 +162,8 @@ class ConfirmRecoveryKeyViewController: BaseRecoveryKeyViewController {
         
         let topMargin: CGFloat = E.isSmallScreen ? 18 : 42
         let containerHeight: CGFloat = E.isSmallScreen ? 64 : 70
-        let verticalSpacing: CGFloat = C.padding[2]
-        let leftRightMargin: CGFloat = C.padding[2]
+        let verticalSpacing: CGFloat = Margins.large.rawValue
+        let leftRightMargin: CGFloat = Margins.large.rawValue
 
         let topConstraints: [(NSLayoutYAxisAnchor, CGFloat)] = [(subtitleLabel.bottomAnchor, topMargin),
                                                                 (firstWordInputView.bottomAnchor, verticalSpacing)]
@@ -437,7 +437,7 @@ class RecoveryKeyWordInputView: UIView, UITextFieldDelegate {
         input.constrain([
             input.leftAnchor.constraint(equalTo: mainContainer.leftAnchor, constant: xInset),
             input.rightAnchor.constraint(equalTo: mainContainer.rightAnchor, constant: -xInset),
-            input.bottomAnchor.constraint(equalTo: mainContainer.bottomAnchor, constant: -C.padding[1]),
+            input.bottomAnchor.constraint(equalTo: mainContainer.bottomAnchor, constant: -Margins.small.rawValue),
             input.heightAnchor.constraint(equalToConstant: inputHeight)
             ])
         

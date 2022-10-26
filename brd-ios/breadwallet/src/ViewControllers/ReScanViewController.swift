@@ -63,26 +63,26 @@ class ReScanViewController: UIViewController, Subscriber {
 
     private func addConstraints() {
         header.constrain([
-            header.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: C.padding[2]),
-            header.trailingAnchor.constraint(equalTo: faq.leadingAnchor, constant: -C.padding[2])])
+            header.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.large.rawValue),
+            header.trailingAnchor.constraint(equalTo: faq.leadingAnchor, constant: -Margins.large.rawValue)])
         faq.constrain([
-            faq.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
+            faq.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
             faq.centerYAnchor.constraint(equalTo: header.centerYAnchor),
             faq.widthAnchor.constraint(equalToConstant: 44.0),
             faq.heightAnchor.constraint(equalToConstant: 44.0) ])
         body.constrain([
             body.leadingAnchor.constraint(equalTo: header.leadingAnchor),
-            body.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2]),
+            body.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue),
             body.trailingAnchor.constraint(equalTo: faq.trailingAnchor) ])
         footer.constrain([
             footer.leadingAnchor.constraint(equalTo: header.leadingAnchor),
             footer.trailingAnchor.constraint(equalTo: faq.trailingAnchor),
-            footer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[3]) ])
+            footer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Margins.huge.rawValue) ])
         button.constrain([
             button.leadingAnchor.constraint(equalTo: footer.leadingAnchor),
             button.trailingAnchor.constraint(equalTo: footer.trailingAnchor),
-            button.bottomAnchor.constraint(equalTo: footer.topAnchor, constant: -C.padding[2]),
+            button.bottomAnchor.constraint(equalTo: footer.topAnchor, constant: -Margins.large.rawValue),
             button.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue) ])
     }
 

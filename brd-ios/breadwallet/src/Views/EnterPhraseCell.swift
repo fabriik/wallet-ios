@@ -143,7 +143,7 @@ class EnterPhraseCell: UICollectionViewCell {
 
         topBorder.constrainTopCorners(height: 1.0)
         previousField.constrain([
-            previousField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
+            previousField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
             previousField.topAnchor.constraint(equalTo: view.topAnchor),
             previousField.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             previousField.widthAnchor.constraint(equalToConstant: 44.0) ])
@@ -155,7 +155,7 @@ class EnterPhraseCell: UICollectionViewCell {
             nextField.widthAnchor.constraint(equalToConstant: 44.0) ])
 
         done.constrain([
-            done.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
+            done.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
             done.topAnchor.constraint(equalTo: view.topAnchor),
             done.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
 

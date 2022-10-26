@@ -167,15 +167,15 @@ class InAppNotificationViewController: UIViewController {
             ])
         
         bodyLabel.constrain([
-            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: C.padding[2]),
+            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.large.rawValue),
             bodyLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: textLeftRightMargin),
             bodyLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -textLeftRightMargin)
             ])
         
         ctaButton.constrain([
-            ctaButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: C.padding[2]),
-            ctaButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -C.padding[2]),
-            ctaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -C.padding[2]),
+            ctaButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Margins.large.rawValue),
+            ctaButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Margins.large.rawValue),
+            ctaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Margins.large.rawValue),
             ctaButton.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue)
         ])
     }

@@ -70,14 +70,14 @@ class WalletConnectionSettingsViewController: UIViewController {
         let screenHeight: CGFloat = UIScreen.main.bounds.height
         let topMarginPercent: CGFloat = 0.08
         let imageTopMargin: CGFloat = E.isIPhone6 ? 8.0 : (screenHeight * topMarginPercent)
-        let containerTopMargin: CGFloat = E.isIPhone6 ? 0.0 : -C.padding[2]
+        let containerTopMargin: CGFloat = E.isIPhone6 ? 0.0 : -Margins.large.rawValue
         let leftRightMargin: CGFloat = 54.0
 
         mainBackground.constrain([
-            mainBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            mainBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
+            mainBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            mainBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
             mainBackground.topAnchor.constraint(equalTo: animatedBlockSetLogo.topAnchor, constant: containerTopMargin),
-            mainBackground.bottomAnchor.constraint(equalTo: toggleSwitch.bottomAnchor, constant: C.padding[4]) ])
+            mainBackground.bottomAnchor.constraint(equalTo: toggleSwitch.bottomAnchor, constant: Margins.extraHuge.rawValue) ])
         
         animatedBlockSetLogo.constrain([
             animatedBlockSetLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -86,21 +86,21 @@ class WalletConnectionSettingsViewController: UIViewController {
 
         header.constrain([
             header.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            header.topAnchor.constraint(equalTo: animatedBlockSetLogo.bottomAnchor, constant: E.isIPhone5 ? C.padding[2] : C.padding[4])])
+            header.topAnchor.constraint(equalTo: animatedBlockSetLogo.bottomAnchor, constant: E.isIPhone5 ? Margins.large.rawValue : Margins.extraHuge.rawValue)])
         
         explanationLabel.constrain([
             explanationLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: leftRightMargin),
             explanationLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -leftRightMargin),
-            explanationLabel.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2])
+            explanationLabel.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue)
             ])
 
         toggleSwitch.constrain([
             toggleSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            toggleSwitch.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor, constant: C.padding[3])
+            toggleSwitch.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor, constant: Margins.huge.rawValue)
             ])
         
         footerLabel.constrain([
-            footerLabel.bottomAnchor.constraint(equalTo: footerBackground.topAnchor, constant: -C.padding[1]),
+            footerLabel.bottomAnchor.constraint(equalTo: footerBackground.topAnchor, constant: -Margins.small.rawValue),
             footerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             ])
         
@@ -109,10 +109,10 @@ class WalletConnectionSettingsViewController: UIViewController {
             footerLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
         
         footerBackground.constrain([
-            footerBackground.topAnchor.constraint(equalTo: footerLogo.topAnchor, constant: -C.padding[2]),
-            footerBackground.leadingAnchor.constraint(equalTo: footerLogo.leadingAnchor, constant: -C.padding[2]),
-            footerBackground.trailingAnchor.constraint(equalTo: footerLogo.trailingAnchor, constant: C.padding[2]),
-            footerBackground.bottomAnchor.constraint(equalTo: footerLogo.bottomAnchor, constant: C.padding[2])
+            footerBackground.topAnchor.constraint(equalTo: footerLogo.topAnchor, constant: -Margins.large.rawValue),
+            footerBackground.leadingAnchor.constraint(equalTo: footerLogo.leadingAnchor, constant: -Margins.large.rawValue),
+            footerBackground.trailingAnchor.constraint(equalTo: footerLogo.trailingAnchor, constant: Margins.large.rawValue),
+            footerBackground.bottomAnchor.constraint(equalTo: footerLogo.bottomAnchor, constant: Margins.large.rawValue)
             ])
     }
 

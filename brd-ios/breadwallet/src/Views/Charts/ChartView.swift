@@ -29,7 +29,7 @@ class ChartView: UIView {
     
     private func setCoordinates() {
         endCircle.isHidden = true
-        let width = bounds.width - C.padding[2]
+        let width = bounds.width - Margins.large.rawValue
         let height = bounds.height
         guard let currentValues = values[historyPeriod] else { return }
         guard height > 0, !currentValues.isEmpty else { return }
@@ -131,7 +131,7 @@ class ChartView: UIView {
             touchView.trailingAnchor.constraint(equalTo: trailingAnchor),
             touchView.topAnchor.constraint(equalTo: topAnchor, constant: -40.0)])
         
-        bezierView.constrain(toSuperviewEdges: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -C.padding[2]))
+        bezierView.constrain(toSuperviewEdges: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Margins.large.rawValue))
         
         endCircle.pin(toSize: CGSize(width: endCircleSize, height: endCircleSize))
         endCircleX = endCircle.centerXAnchor.constraint(equalTo: leadingAnchor, constant: 0)

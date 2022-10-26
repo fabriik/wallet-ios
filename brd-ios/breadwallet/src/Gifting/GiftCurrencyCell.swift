@@ -51,20 +51,20 @@ class GiftCurrencyCell: UIView {
     
     private func addConstraints() {
         iconContainer.constrain([
-            iconContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[1]),
+            iconContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.small.rawValue),
             iconContainer.centerYAnchor.constraint(equalTo: centerYAnchor),
             iconContainer.heightAnchor.constraint(equalToConstant: 40),
             iconContainer.widthAnchor.constraint(equalTo: iconContainer.heightAnchor)])
         icon.constrain(toSuperviewEdges: .zero)
         price.constrain([
-            price.leadingAnchor.constraint(equalTo: iconContainer.trailingAnchor, constant: C.padding[1]),
+            price.leadingAnchor.constraint(equalTo: iconContainer.trailingAnchor, constant: Margins.small.rawValue),
             price.bottomAnchor.constraint(equalTo: iconContainer.bottomAnchor)])
         currencyName.constrain([
             currencyName.leadingAnchor.constraint(equalTo: price.leadingAnchor),
             currencyName.bottomAnchor.constraint(equalTo: price.topAnchor, constant: 0.0)])
         tokenBalance.constrain([
             tokenBalance.bottomAnchor.constraint(equalTo: price.bottomAnchor),
-            tokenBalance.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2])])
+            tokenBalance.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue)])
         fiatBalance.constrain([
             fiatBalance.trailingAnchor.constraint(equalTo: tokenBalance.trailingAnchor),
             fiatBalance.bottomAnchor.constraint(equalTo: tokenBalance.topAnchor)])

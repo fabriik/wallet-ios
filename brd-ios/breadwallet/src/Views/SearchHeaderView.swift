@@ -145,7 +145,7 @@ class SearchHeaderView: UIView {
 
     private func addConstraints() {
         cancel.constrain([
-            cancel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[1]),
+            cancel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.small.rawValue),
             cancel.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor) ])
         searchBar.constrain([
             searchBar.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -226,12 +226,12 @@ class SearchHeaderView: UIView {
         let stackView = UIStackView()
         addSubview(stackView)
         stackView.distribution = .fillProportionally
-        stackView.spacing = C.padding[1]
+        stackView.spacing = Margins.small.rawValue
         stackView.constrain([
-            stackView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor, constant: C.padding[1]),
-            stackView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: C.padding[1]),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[1]),
-            stackView.trailingAnchor.constraint(equalTo: cancel.trailingAnchor, constant: -C.padding[1]) ])
+            stackView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor, constant: Margins.small.rawValue),
+            stackView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: Margins.small.rawValue),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.small.rawValue),
+            stackView.trailingAnchor.constraint(equalTo: cancel.trailingAnchor, constant: -Margins.small.rawValue) ])
         stackView.addArrangedSubview(sent)
         stackView.addArrangedSubview(received)
         stackView.addArrangedSubview(pending)

@@ -87,7 +87,7 @@ class VerifyPinViewController: UIViewController, ContentBoxPresenter {
         addChildViewController(pinPad, layout: {
             pinPad.view.constrain([
                 pinPad.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                pinPad.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: LAContext.biometricType() == .face ? -C.padding[3] : 0.0),
+                pinPad.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: LAContext.biometricType() == .face ? -Margins.huge.rawValue : 0.0),
                 pinPad.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 pinPad.view.heightAnchor.constraint(equalToConstant: pinPad.height) ])
         })
@@ -95,20 +95,20 @@ class VerifyPinViewController: UIViewController, ContentBoxPresenter {
 
     private func addConstraints() {
         contentBox.constrain([
-            contentBox.topAnchor.constraint(equalTo: view.topAnchor, constant: C.padding[20]),
+            contentBox.topAnchor.constraint(equalTo: view.topAnchor, constant: Margins.custom(20)),
             contentBox.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             contentBox.widthAnchor.constraint(equalToConstant: 256.0) ])
-        titleLabel.constrainTopCorners(sidePadding: C.padding[2], topPadding: C.padding[2])
+        titleLabel.constrainTopCorners(sidePadding: Margins.large.rawValue, topPadding: Margins.large.rawValue)
         body.constrain([
             body.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            body.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: C.padding[2]),
+            body.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.large.rawValue),
             body.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor)])
         pinView.constrain([
-            pinView.topAnchor.constraint(equalTo: body.bottomAnchor, constant: C.padding[10]),
+            pinView.topAnchor.constraint(equalTo: body.bottomAnchor, constant: Margins.custom(10)),
             pinView.centerXAnchor.constraint(equalTo: body.centerXAnchor),
             pinView.widthAnchor.constraint(equalToConstant: pinView.width),
             pinView.heightAnchor.constraint(equalToConstant: pinView.itemSize),
-            pinView.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -C.padding[2])])
+            pinView.bottomAnchor.constraint(equalTo: contentBox.bottomAnchor, constant: -Margins.large.rawValue)])
     }
 
     private func setupSubviews() {

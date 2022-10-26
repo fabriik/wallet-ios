@@ -52,14 +52,14 @@ class SyncingHeaderView: UIView, Subscriber {
 
     private func addConstraints() {
         syncIndicator.constrain([
-            syncIndicator.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[1]),
+            syncIndicator.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.small.rawValue),
             syncIndicator.topAnchor.constraint(equalTo: topAnchor),
             syncIndicator.bottomAnchor.constraint(equalTo: bottomAnchor)])
         date.constrain([
-            date.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[1]),
-            date.topAnchor.constraint(equalTo: topAnchor, constant: C.padding[1]),
-            date.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[1]),
-            date.trailingAnchor.constraint(equalTo: syncIndicator.leadingAnchor, constant: -C.padding[1])])
+            date.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.small.rawValue),
+            date.topAnchor.constraint(equalTo: topAnchor, constant: Margins.small.rawValue),
+            date.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.small.rawValue),
+            date.trailingAnchor.constraint(equalTo: syncIndicator.leadingAnchor, constant: -Margins.small.rawValue)])
         separator.constrainBottomCorners(height: 1.0)
         lineLoadingView.constrain([
             lineLoadingView.heightAnchor.constraint(equalTo: separator.heightAnchor),

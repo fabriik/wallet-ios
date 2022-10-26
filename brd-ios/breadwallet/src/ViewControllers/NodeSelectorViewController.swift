@@ -48,17 +48,17 @@ class NodeSelectorViewController: UIViewController {
 
     private func addConstraints() {
         titleLabel.constrain([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: C.padding[6]),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]) ])
-        nodeLabel.pinTopLeft(toView: titleLabel, topPadding: C.padding[2])
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Margins.custom(6)),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue) ])
+        nodeLabel.pinTopLeft(toView: titleLabel, topPadding: Margins.large.rawValue)
         node.pinTopLeft(toView: nodeLabel, topPadding: 0)
-        statusLabel.pinTopLeft(toView: node, topPadding: C.padding[2])
+        statusLabel.pinTopLeft(toView: node, topPadding: Margins.large.rawValue)
         status.pinTopLeft(toView: statusLabel, topPadding: 0)
         button.constrain([
-            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
-            button.topAnchor.constraint(equalTo: status.bottomAnchor, constant: C.padding[2]),
+            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
+            button.topAnchor.constraint(equalTo: status.bottomAnchor, constant: Margins.large.rawValue),
             button.heightAnchor.constraint(equalToConstant: 44.0) ])
     }
 

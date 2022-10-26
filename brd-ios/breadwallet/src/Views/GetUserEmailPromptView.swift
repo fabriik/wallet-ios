@@ -133,7 +133,7 @@ class GetUserEmailPromptView: PromptView {
             footerView.addSubview(successFootnoteLabel)
             successFootnoteLabel.constrain([
                 successFootnoteLabel.leadingAnchor.constraint(equalTo: footerView.leadingAnchor),
-                successFootnoteLabel.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -(C.padding[1])),
+                successFootnoteLabel.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -(Margins.small.rawValue)),
                 successFootnoteLabel.centerYAnchor.constraint(equalTo: footerView.centerYAnchor)
                 ])
             successFootnoteLabel.text = footnote
@@ -188,7 +188,7 @@ class GetUserEmailPromptView: PromptView {
     }
     
     private func setUpContinueButton() {
-        continueButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: C.padding[2], bottom: 0, right: C.padding[2])
+        continueButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: Margins.large.rawValue, bottom: 0, right: Margins.large.rawValue)
     }
     
     override func setupConstraints() {
@@ -196,10 +196,10 @@ class GetUserEmailPromptView: PromptView {
 
         let constraints = [
             footerView.heightAnchor.constraint(equalToConstant: footerHeight),
-            footerView.topAnchor.constraint(equalTo: body.bottomAnchor, constant: C.padding[2]),
+            footerView.topAnchor.constraint(equalTo: body.bottomAnchor, constant: Margins.large.rawValue),
             footerView.leadingAnchor.constraint(equalTo: body.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            footerView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -(C.padding[2]))
+            footerView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -(Margins.large.rawValue))
         ]
         
         footerView.constrain(constraints)
