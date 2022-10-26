@@ -230,10 +230,10 @@
 "AccountKYCLevelTwo.BuyLimits" = "Buy limits: $500 USD/day, no lifetime limit";
 
 /* Capture back page of the document text */
-"AccountKYCLevelTwo.CaptureBackPage" = "Make sure to capture the entire back page of the document";
+"AccountKYCLevelTwo.CaptureBackPage" = "Make sure to capture the entire back page of the document.";
 
 /* Capture front page text label */
-"AccountKYCLevelTwo.CaptureFrontPage" = "Make sure to capture the entire front page of the document";
+"AccountKYCLevelTwo.CaptureFrontPage" = "Make sure to capture the entire front page of the document.";
 
 /* Checking for errors label on KYC2 */
 "AccountKYCLevelTwo.CheckingErrors" = "Checking for errors";
@@ -267,7 +267,7 @@
 "AccountKYCLevelTwo.InProgress" = "Your ID verification is in progress";
 
 /* Document instructions label for KYC2 */
-"AccountKYCLevelTwo.Instructions" = "Make sure to capture the entire document";
+"AccountKYCLevelTwo.Instructions" = "Make sure to capture the entire document.";
 
 /* Level two title in Account screen */
 "AccountKYCLevelTwo.LevelTwo" = "Level 2";
@@ -677,7 +677,7 @@
 "Buy.ProcessingPayment" = "Processing payment";
 
 /* Purchase success text in purchase details screen */
-"Buy.PurchaseSuccessText" = "This purchase will appear as ‘Fabriik Wallet’ on your bank statement.";
+"Buy.PurchaseSuccessText" = "This purchase will appear as ‘RockWallet’ on your bank statement.";
 
 /* Your assets are on the way message in purchase details screen */
 "Buy.PurchaseSuccessTitle" = "Your assets are on the way!";
@@ -3026,10 +3026,10 @@
 "Widget.portfolioTitle" = "Portfolio";
 
 /* Wipe wallet alert message */
-"WipeWallet.alertMessage" = "Are you sure you want to delete this wallet?";
+"WipeWallet.alertMessage" = "Are you sure you want to unlink this wallet from this device?";
 
 /* Wipe wallet alert title */
-"WipeWallet.alertTitle" = "Wipe Wallet?";
+"WipeWallet.alertTitle" = "Unlink Wallet?";
 
 /* Failed wipe wallet alert message */
 "WipeWallet.failedMessage" = "Failed to wipe wallet.";

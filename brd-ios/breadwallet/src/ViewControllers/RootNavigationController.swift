@@ -35,7 +35,9 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             tintColor = LightColors.Background.two
             
         case is ManageWalletsViewController,
-            is AddWalletsViewController:
+            is AddWalletsViewController,
+            is RecoveryKeyIntroViewController,
+            is EnterPhraseViewController:
             backgroundColor = LightColors.Background.cards
             tintColor = LightColors.Text.three
             
