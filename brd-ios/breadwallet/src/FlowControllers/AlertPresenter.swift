@@ -90,13 +90,13 @@ class AlertPresenter: Subscriber {
                 topConstraint?.constant = size.height
                 window.layoutIfNeeded()
             }, completion: { _ in
-                
                 switch type {
                 case .paperKeySet(let callback),
                         .pinSet(let callback),
                         .sweepSuccess(let callback),
                         .cloudBackupRestoreSuccess(let callback),
-                        .walletRestored(let callback):
+                        .walletRestored(let callback),
+                        .walletUnlinked(callback: let callback):
                     callback()
                     
                 default:

@@ -198,9 +198,9 @@ internal enum L10n {
     /// Buy limits on KYC2 account
     internal static let buyLimits = L10n.tr("Localizable", "AccountKYCLevelTwo.BuyLimits", fallback: "Buy limits: $500 USD/day, no lifetime limit")
     /// Capture back page of the document text
-    internal static let captureBackPage = L10n.tr("Localizable", "AccountKYCLevelTwo.CaptureBackPage", fallback: "Make sure to capture the entire back page of the document")
+    internal static let captureBackPage = L10n.tr("Localizable", "AccountKYCLevelTwo.CaptureBackPage", fallback: "Make sure to capture the entire back page of the document.")
     /// Capture front page text label
-    internal static let captureFrontPage = L10n.tr("Localizable", "AccountKYCLevelTwo.CaptureFrontPage", fallback: "Make sure to capture the entire front page of the document")
+    internal static let captureFrontPage = L10n.tr("Localizable", "AccountKYCLevelTwo.CaptureFrontPage", fallback: "Make sure to capture the entire front page of the document.")
     /// Checking for errors label on KYC2
     internal static let checkingErrors = L10n.tr("Localizable", "AccountKYCLevelTwo.CheckingErrors", fallback: "Checking for errors")
     /// Please complete Level 1 verification first.
@@ -224,7 +224,7 @@ internal enum L10n {
     /// KYC Level Two status
     internal static let inProgress = L10n.tr("Localizable", "AccountKYCLevelTwo.InProgress", fallback: "Your ID verification is in progress")
     /// Document instructions label for KYC2
-    internal static let instructions = L10n.tr("Localizable", "AccountKYCLevelTwo.Instructions", fallback: "Make sure to capture the entire document")
+    internal static let instructions = L10n.tr("Localizable", "AccountKYCLevelTwo.Instructions", fallback: "Make sure to capture the entire document.")
     /// Level two title in Account screen
     internal static let levelTwo = L10n.tr("Localizable", "AccountKYCLevelTwo.LevelTwo", fallback: "Level 2")
     /// Swap limits on KYC2 account
@@ -565,7 +565,7 @@ internal enum L10n {
     /// Processing payment
     internal static let processingPayment = L10n.tr("Localizable", "Buy.ProcessingPayment", fallback: "Processing payment")
     /// Purchase success text in purchase details screen
-    internal static let purchaseSuccessText = L10n.tr("Localizable", "Buy.PurchaseSuccessText", fallback: "This purchase will appear as ‘Fabriik Wallet’ on your bank statement.")
+    internal static let purchaseSuccessText = L10n.tr("Localizable", "Buy.PurchaseSuccessText", fallback: "This purchase will appear as ‘RockWallet’ on your bank statement.")
     /// Your assets are on the way message in purchase details screen
     internal static let purchaseSuccessTitle = L10n.tr("Localizable", "Buy.PurchaseSuccessTitle", fallback: "Your assets are on the way!")
     /// Are you sure you want to remove this card title dialog
@@ -2685,9 +2685,9 @@ internal enum L10n {
   }
   internal enum WipeWallet {
     /// Wipe wallet alert message
-    internal static let alertMessage = L10n.tr("Localizable", "WipeWallet.alertMessage", fallback: "Are you sure you want to delete this wallet?")
+    internal static let alertMessage = L10n.tr("Localizable", "WipeWallet.alertMessage", fallback: "Are you sure you want to unlink this wallet from this device?")
     /// Wipe wallet alert title
-    internal static let alertTitle = L10n.tr("Localizable", "WipeWallet.alertTitle", fallback: "Wipe Wallet?")
+    internal static let alertTitle = L10n.tr("Localizable", "WipeWallet.alertTitle", fallback: "Unlink Wallet?")
     /// Failed wipe wallet alert message
     internal static let failedMessage = L10n.tr("Localizable", "WipeWallet.failedMessage", fallback: "Failed to wipe wallet.")
     /// Failed wipe wallet alert title
