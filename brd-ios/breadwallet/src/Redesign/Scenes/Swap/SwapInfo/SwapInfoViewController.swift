@@ -18,7 +18,7 @@ class SwapInfoViewController: BaseInfoViewController {
     
     typealias Item = (from: String, to: String)
     
-    override var imageName: String? { return "swapInfo" }
+    override var imageName: String? { return "celebrate" }
     override var titleText: String? { return "Swapping \((dataStore?.item as? Item)?.from ?? "")/\((dataStore?.item as? Item)?.to ?? "")" }
     override var descriptionText: String? {
         let to = (dataStore?.item as? Item)?.to ?? ""
@@ -28,8 +28,8 @@ class SwapInfoViewController: BaseInfoViewController {
     
     override var buttonViewModels: [ButtonViewModel] {
         return [
-            .init(title: L10n.Swap.backToHome),
-            .init(title: L10n.Swap.details)
+            .init(title: L10n.Swap.backToHome.uppercased()),
+            .init(title: L10n.Swap.details, isUnderlined: true)
         ]
     }
     
