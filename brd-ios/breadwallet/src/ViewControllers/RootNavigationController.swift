@@ -37,7 +37,6 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             
         case is AccountViewController,
             is HomeScreenViewController,
-            is KYCCameraViewController,
             is OnboardingViewController:
             backgroundColor = .clear
             tintColor = LightColors.Background.two

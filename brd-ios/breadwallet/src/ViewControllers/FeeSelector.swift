@@ -123,7 +123,6 @@ class FeeSelector: UIView {
     
     private func setupSegmentControl() {
         control.selectedSegmentIndex = 1
-        control.tintColor = .yellow
         control.selectedSegmentTintColor = LightColors.Text.two
         var font: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.font: Fonts.Body.two,
