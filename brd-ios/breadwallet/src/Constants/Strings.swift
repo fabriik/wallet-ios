@@ -2685,9 +2685,9 @@ internal enum L10n {
   }
   internal enum WipeWallet {
     /// Wipe wallet alert message
-    internal static let alertMessage = L10n.tr("Localizable", "WipeWallet.alertMessage", fallback: "Are you sure you want to delete this wallet?")
+    internal static let alertMessage = L10n.tr("Localizable", "WipeWallet.alertMessage", fallback: "Are you sure you want to unlink this wallet from this device?")
     /// Wipe wallet alert title
-    internal static let alertTitle = L10n.tr("Localizable", "WipeWallet.alertTitle", fallback: "Wipe Wallet?")
+    internal static let alertTitle = L10n.tr("Localizable", "WipeWallet.alertTitle", fallback: "Unlink Wallet?")
     /// Failed wipe wallet alert message
     internal static let failedMessage = L10n.tr("Localizable", "WipeWallet.failedMessage", fallback: "Failed to wipe wallet.")
     /// Failed wipe wallet alert title

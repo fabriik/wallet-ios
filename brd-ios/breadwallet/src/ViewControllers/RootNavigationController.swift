@@ -23,15 +23,24 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
     }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if viewController is AccountViewController ||
-            viewController is HomeScreenViewController ||
-            viewController is KYCCameraViewController ||
-            viewController is OnboardingViewController {
-            setNormalNavigationBar(tintColor: LightColors.Background.two)
-        } else {
-            setNormalNavigationBar(normalBackgroundColor: LightColors.Background.two, tintColor: LightColors.Text.three)
+        let backgroundColor: UIColor
+        let tintColor: UIColor
+        
+        switch viewController {
+        case is ManageWalletsViewController,
+            is AddWalletsViewController,
+            is RecoveryKeyIntroViewController,
+            is EnterPhraseViewController,
+            is LoginViewController:
+            backgroundColor = LightColors.Background.cards
+            tintColor = LightColors.Text.three
+            
+        default:
+            backgroundColor = LightColors.Background.two
+            tintColor = LightColors.Text.three
         }
         
+        setNormalNavigationBar(normalBackgroundColor: backgroundColor, tintColor: tintColor)
         let item = SimpleBackBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         viewController.navigationItem.backBarButtonItem = item
     }

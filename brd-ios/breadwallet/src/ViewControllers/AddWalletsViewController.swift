@@ -43,16 +43,16 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
     lazy var infoLabel: UILabel = {
         let infoLabel = UILabel()
         infoLabel.text = L10n.Wallet.findAssets
-        infoLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)
-        infoLabel.textColor = .gray2
-        infoLabel.textAlignment = .right
+        infoLabel.font = Fonts.Body.two
+        infoLabel.textColor = LightColors.Text.two
+        infoLabel.textAlignment = .center
         
         return infoLabel
     }()
     
     lazy var infoButton: UIButton = {
         let infoButton = UIButton()
-        infoButton.setImage(UIImage(named: "infoIcon"), for: .normal)
+        infoButton.setImage(UIImage(named: "info")?.tinted(with: LightColors.Text.two), for: .normal)
         infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
         
         return infoButton
@@ -165,7 +165,8 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
         
         footerView.addSubview(infoButton)
         infoButton.constrain([
-            infoButton.leadingAnchor.constraint(equalTo: infoLabel.trailingAnchor, constant: Margins.small.rawValue)
+            infoButton.leadingAnchor.constraint(equalTo: infoLabel.trailingAnchor, constant: Margins.small.rawValue),
+            infoButton.centerYAnchor.constraint(equalTo: infoLabel.centerYAnchor)
         ])
     }
     

@@ -93,8 +93,8 @@ class RecoveryKeyLandingPageCell: RecoveryKeyPageCell {
     private let lockImageDefaultSize: (CGFloat, CGFloat) = (100, 144)
     private var lockImageScale: CGFloat = 1.0
     private var lockIconTopConstraintPercent: CGFloat = 0.29
-    private let headingTopMargin: CGFloat = 38
-    private let subheadingTopMargin: CGFloat = 18
+    private let headingTopMargin: CGFloat = 53
+    private let subheadingTopMargin: CGFloat = Margins.large.rawValue
 
     override func setUpSubviews() {
         super.setUpSubviews()
@@ -108,9 +108,7 @@ class RecoveryKeyLandingPageCell: RecoveryKeyPageCell {
     }
     
     override func setUpConstraints() {
-        let screenHeight = UIScreen.main.bounds.height
-        let statusBarHeight = self.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
-        let lockImageTop = (screenHeight * lockIconTopConstraintPercent) - statusBarHeight
+        let lockImageTop = 63.0
         
         imageView.constrain([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: lockImageTop),
@@ -231,7 +229,7 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
             return RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.unlinkWallet,
                                         subTitle: L10n.RecoveryKeyFlow.unlinkWalletSubtext,
                                         imageName: "il_security",
-                                        continueButtonText: L10n.Button.continueAction)
+                                        continueButtonText: L10n.Swap.gotItButton)
         }
     }
     
@@ -240,7 +238,7 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
     // wallet access.
     private let keyUseInfoView = InfoView()
     
-    private let continueButton = BRDButton(title: L10n.Button.continueAction, type: .primary)
+    private let continueButton = BRDButton(title: L10n.Button.continueAction, type: .secondary)
     private var pagingView: UICollectionView?
     private var pagingViewContainer: UIView = UIView()
     
@@ -401,9 +399,6 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
     }
     
     private func setUpPages() {
-        
-//        pages.append(landingPage)
-        
         // If the key is being generated for the first time, add the intro pages and allow paging.
         if mode == .generateKey {
             pages.append(RecoveryKeyIntroPage(title: L10n.RecoveryKeyFlow.writeItDown,
@@ -421,6 +416,9 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
                                               imageName: "il_security",
                                               stepHint: L10n.RecoveryKeyFlow.howItWorksStep("3"),
                                               continueButtonText: L10n.RecoveryKeyFlow.generateKeyButton))
+        } else {
+            continueButton.title = L10n.Swap.gotItButton
+            pages.append(landingPage)
         }
     }
     

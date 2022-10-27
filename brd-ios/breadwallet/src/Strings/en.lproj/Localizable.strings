@@ -3026,10 +3026,10 @@
 "Widget.portfolioTitle" = "Portfolio";
 
 /* Wipe wallet alert message */
-"WipeWallet.alertMessage" = "Are you sure you want to delete this wallet?";
+"WipeWallet.alertMessage" = "Are you sure you want to unlink this wallet from this device?";
 
 /* Wipe wallet alert title */
-"WipeWallet.alertTitle" = "Wipe Wallet?";
+"WipeWallet.alertTitle" = "Unlink Wallet?";
 
 /* Failed wipe wallet alert message */
 "WipeWallet.failedMessage" = "Failed to wipe wallet.";

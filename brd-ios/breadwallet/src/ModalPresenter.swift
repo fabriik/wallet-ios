@@ -793,12 +793,13 @@ class ModalPresenter: Subscriber {
     private func wipeWallet() {
         let alert = UIAlertController.confirmationAlert(title: L10n.WipeWallet.alertTitle,
                                                         message: L10n.WipeWallet.alertMessage,
-                                                        okButtonTitle: L10n.WipeWallet.wipe,
-                                                        cancelButtonTitle: L10n.Button.cancel,
-                                                        isDestructiveAction: true) {
-                                                            self.topViewController?.dismiss(animated: true, completion: {
-                                                                Store.trigger(name: .wipeWalletNoPrompt)
-                                                            })
+                                                        okButtonTitle: L10n.Button.yes,
+                                                        cancelButtonTitle: L10n.Button.cancel) {
+            Store.perform(action: Alert.Show(.walletUnlinked(callback: {
+                self.topViewController?.dismiss(animated: true, completion: {
+                    Store.trigger(name: .wipeWalletNoPrompt)
+                })
+            })))
         }
         topViewController?.present(alert, animated: true, completion: nil)
     }
