@@ -11,7 +11,7 @@ import UIKit
 class WalletDisabledView: UIView {
 
     func setTimeLabel(string: String) {
-        label.text = string
+        timeLabel.text = string
     }
 
     init() {
@@ -48,7 +48,7 @@ class WalletDisabledView: UIView {
     
     var didCompleteWipeGesture: (() -> Void)?
 
-    private let label = UILabel(font: Fonts.Body.two, color: LightColors.Text.two)
+    private let timeLabel = UILabel(font: Fonts.Body.two, color: LightColors.Text.two)
     private let blur: UIVisualEffectView
     private let reset = BRDButton(title: L10n.UnlockScreen.resetPin.uppercased(), type: .secondary)
     private let effect = UIBlurEffect(style: .regular)
@@ -64,7 +64,7 @@ class WalletDisabledView: UIView {
         return faq
     }()
     
-    private lazy var header: UILabel = {
+    private lazy var title: UILabel = {
         let header = UILabel()
         header.textColor = LightColors.Text.three
         header.font = Fonts.Title.six
@@ -100,8 +100,8 @@ class WalletDisabledView: UIView {
     private func addSubviews() {
         addSubview(blur)
         addSubview(faq)
-        addSubview(header)
-        addSubview(label)
+        addSubview(title)
+        addSubview(timeLabel)
         addSubview(unlockWalletImage)
         addSubview(reset)
         addSubview(descriptionLabel)
@@ -121,17 +121,17 @@ class WalletDisabledView: UIView {
             unlockWalletImage.widthAnchor.constraint(equalToConstant: ViewSizes.extralarge.rawValue * 2),
             unlockWalletImage.heightAnchor.constraint(equalToConstant: ViewSizes.extralarge.rawValue * 2)])
         
-        header.constrain([
-            header.topAnchor.constraint(equalTo: unlockWalletImage.bottomAnchor, constant: Margins.extraExtraHuge.rawValue),
-            header.centerYAnchor.constraint(equalTo: blur.centerYAnchor),
-            header.centerXAnchor.constraint(equalTo: blur.centerXAnchor)])
+        title.constrain([
+            title.topAnchor.constraint(equalTo: unlockWalletImage.bottomAnchor, constant: Margins.extraExtraHuge.rawValue),
+            title.centerYAnchor.constraint(equalTo: blur.centerYAnchor),
+            title.centerXAnchor.constraint(equalTo: blur.centerXAnchor)])
         
-        label.constrain([
-            label.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.huge.rawValue),
-            label.centerXAnchor.constraint(equalTo: blur.centerXAnchor)])
+        timeLabel.constrain([
+            timeLabel.topAnchor.constraint(equalTo: title.bottomAnchor, constant: Margins.huge.rawValue),
+            timeLabel.centerXAnchor.constraint(equalTo: blur.centerXAnchor)])
         
         descriptionLabel.constrain([
-            descriptionLabel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Margins.huge.rawValue),
+            descriptionLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: Margins.huge.rawValue),
             descriptionLabel.centerXAnchor.constraint(equalTo: blur.centerXAnchor)])
         
         reset.constrain([
@@ -143,9 +143,9 @@ class WalletDisabledView: UIView {
     }
 
     private func setData() {
-        label.textAlignment = .center
-        label.addGestureRecognizer(gr)
-        label.isUserInteractionEnabled = true
+        timeLabel.textAlignment = .center
+        timeLabel.addGestureRecognizer(gr)
+        timeLabel.isUserInteractionEnabled = true
         gr.addTarget(self, action: #selector(didTap))
         faq.tintColor = .black
     }
