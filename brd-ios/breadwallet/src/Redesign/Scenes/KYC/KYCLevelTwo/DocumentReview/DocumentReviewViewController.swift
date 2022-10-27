@@ -30,7 +30,7 @@ class DocumentReviewViewController: BaseTableViewController<KYCCoordinator,
         case .title:
             cell =  self.tableView(tableView, labelCellForRowAt: indexPath)
             (cell as? WrapperTableViewCell<FELabel>)?.wrappedView.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.three))
-            cell.setupCustomMargins(top: .large, leading: .huge, bottom: .extraExtraHuge, trailing: .large)
+            cell.setupCustomMargins(vertical: .large, horizontal: .large)
             
         case .checkmarks:
             cell = self.tableView(tableView, checkmarkCellForRowAt: indexPath)
@@ -38,11 +38,11 @@ class DocumentReviewViewController: BaseTableViewController<KYCCoordinator,
             
         case .image:
             cell = self.tableView(tableView, coverCellForRowAt: indexPath)
-            cell.setupCustomMargins(vertical: .large, horizontal: .huge)
+            cell.setupCustomMargins(vertical: .large, horizontal: .extraExtraHuge)
             
         case .buttons:
             cell = self.tableView(tableView, buttonsCellForRowAt: indexPath)
-            cell.setupCustomMargins(vertical: .zero, horizontal: .huge)
+            cell.setupCustomMargins(vertical: .zero, horizontal: .large)
             
         default:
             cell = UITableViewCell()

@@ -46,7 +46,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
     override func setupSubviews() {
         super.setupSubviews()
         view.backgroundColor = LightColors.Background.two
-        tableView.backgroundColor = .clear
+        tableView.backgroundColor = LightColors.Background.two
         
         // TODO: register proper accessoryViews
         tableView.registerAccessoryView(WrapperAccessoryView<FELabel>.self)
@@ -440,14 +440,14 @@ class BaseTableViewController<C: CoordinatableRoutes,
     
     // MARK: UserInteractions
     func textFieldDidFinish(for indexPath: IndexPath, with text: String?) {
-        // override in subclass
+        // Override in subclass
     }
 
     func textFieldDidUpdate(for indexPath: IndexPath, with text: String?, on section: AnyHashable) {
     }
     
     @objc func buttonTapped() {
-        // override in subclass
+        // Override in subclass
         view.endEditing(true)
     }
 
