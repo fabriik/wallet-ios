@@ -361,7 +361,7 @@ class BaseCoordinator: NSObject,
         }
         
         if notification.superview == nil {
-            notification.content.setupCustomMargins(all: .extraLarge)
+            notification.setupCustomMargins(all: .extraLarge)
             notification.configure(with: configuration)
             superview.addSubview(notification)
             notification.alpha = 0
