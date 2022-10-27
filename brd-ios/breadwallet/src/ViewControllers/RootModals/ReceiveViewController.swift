@@ -222,6 +222,7 @@ class ReceiveViewController: UIViewController, Subscriber {
                 self.topSharePopoutConstraint?.constant = newPadding
             }
             alertView.toggle()
+            self.view.layoutIfNeeded()
             self.parent?.view.layoutIfNeeded()
         }, completion: { _ in
             alertView.isExpanded = !alertView.isExpanded
