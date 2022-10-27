@@ -84,7 +84,6 @@ class EnterPhraseViewController: UIViewController, UIScrollViewDelegate {
         setInitialData()
         
         if showBackButton {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: faq)
             setBackButton()
         } else {
             let barButtonItem = UIBarButtonItem(title: "",

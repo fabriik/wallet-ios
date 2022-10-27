@@ -17,8 +17,8 @@ class WhiteDecimalPad: GenericPinPadCell {
 
     override func setAppearance() {
         if isHighlighted {
-            label.backgroundColor = .secondaryShadow
-            label.textColor = .darkText
+            label.backgroundColor = LightColors.Background.one
+            label.textColor = LightColors.Text.three
         } else {
             label.backgroundColor = .white
             label.textColor = .grayTextTint

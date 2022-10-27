@@ -55,7 +55,7 @@ class ModalHeaderView: UIView {
             border.constraint(.height, constant: ViewSizes.minimum.rawValue)])
         
         close.constrain([
-            close.constraint(.trailing, toView: self),
+            close.constraint(.leading, toView: self),
             close.constraint(.centerY, toView: self),
             close.constraint(.height, constant: ViewSizes.Common.largeButton.rawValue),
             close.constraint(.width, constant: ViewSizes.Common.largeButton.rawValue)])
@@ -71,7 +71,7 @@ class ModalHeaderView: UIView {
         addSubview(faq)
         
         faq.constrain([
-            faq.constraint(.leading, toView: self),
+            faq.constraint(.trailing, toView: self),
             faq.constraint(.centerY, toView: self),
             faq.constraint(.height, constant: ViewSizes.Common.largeButton.rawValue),
             faq.constraint(.width, constant: ViewSizes.Common.largeButton.rawValue) ])

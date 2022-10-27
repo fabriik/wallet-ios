@@ -18,7 +18,7 @@ enum CornerRadius: CGFloat {
     case common = 12
     /// 15 point radius
     case medium = 15
-    // 24 point radius
+    /// 24 point radius
     case large = 25
     /// Rounded view - half height radius (multiply with view height!)
     case fullRadius = 0.5

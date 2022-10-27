@@ -53,12 +53,12 @@ class AddressCell: UIView {
 
     let textField = UITextField()
     let paste = BRDButton(title: L10n.Send.pasteLabel, type: .tertiary)
-    let scan = BRDButton(title: L10n.Send.scanLabel, type: .tertiary)
-    fileprivate let contentLabel = UILabel(font: .customBody(size: 14.0), color: .darkText)
-    private let label = UILabel(font: .customBody(size: 16.0))
+    let scan = BRDButton(title: "", type: .tertiary, image: .init(named: "qr"))
+    fileprivate let contentLabel = UILabel(font: Fonts.Body.one, color: LightColors.Text.two)
+    private let label = UILabel(font: Fonts.Subtitle.two, color: LightColors.Text.two)
     fileprivate let gr = UITapGestureRecognizer()
     fileprivate let tapView = UIView()
-    private let border = UIView(color: .secondaryShadow)
+    private let border = UIView(color: LightColors.Outline.one)
     private let resolvedAddressLabel = ResolvedAddressLabel()
     private let activityIndicator = UIActivityIndicatorView(style: .medium)
     
@@ -134,6 +134,7 @@ class AddressCell: UIView {
         scan.constrain([
             scan.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
             scan.centerYAnchor.constraint(equalTo: centerYAnchor),
+            scan.widthAnchor.constraint(equalToConstant: 56.0),
             scan.heightAnchor.constraint(equalToConstant: 32.0)])
         paste.constrain([
             paste.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -159,7 +160,6 @@ class AddressCell: UIView {
         textField.autocapitalizationType = .none
         textField.keyboardType = .emailAddress
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        label.textColor = .grayTextTint
         contentLabel.lineBreakMode = .byTruncatingMiddle
 
         textField.editingChanged = { [weak self] in

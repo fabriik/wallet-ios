@@ -73,13 +73,13 @@ class AmountViewController: UIViewController {
     let balanceLabel = UIButton(type: .system)
     private var hasTrailingDecimal = false
     private var pinPadHeight: NSLayoutConstraint?
-    private let placeholder = UILabel(font: .customBody(size: 16.0), color: .grayTextTint)
-    private let amountLabel = UILabel(font: .customBody(size: 26.0), color: .darkText)
+    private let placeholder = UILabel(font: Fonts.Subtitle.two, color: LightColors.Text.two)
+    private let amountLabel = UILabel(font: Fonts.Body.one, color: LightColors.Text.two)
     private let pinPad: PinPadViewController
     private let currencyToggle: BRDButton
-    private let border = UIView(color: .secondaryShadow)
-    private let bottomBorder = UIView(color: .secondaryShadow)
-    private let cursor = BlinkingView(blinkColor: UIView().tintColor)
+    private let border = UIView(color: .clear)
+    private let bottomBorder = UIView(color: .clear)
+    private let cursor = BlinkingView(blinkColor: LightColors.Text.two)
     private let feeLabel = UILabel()
     private let tapView = UIView()
     private let feeSelector: FeeSelector
@@ -192,7 +192,7 @@ class AmountViewController: UIViewController {
                 pinPadHeight ])
         })
         bottomBorder.constrain([
-            bottomBorder.topAnchor.constraint(greaterThanOrEqualTo: currencyToggle.bottomAnchor, constant: Margins.large.rawValue),
+            bottomBorder.topAnchor.constraint(greaterThanOrEqualTo: balanceLabel.bottomAnchor, constant: Margins.extraSmall.rawValue),
             bottomBorder.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomBorder.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             bottomBorder.trailingAnchor.constraint(equalTo: view.trailingAnchor),

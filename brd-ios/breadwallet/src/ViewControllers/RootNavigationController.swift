@@ -31,7 +31,7 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             is HomeScreenViewController,
             is KYCCameraViewController,
             is OnboardingViewController:
-            backgroundColor = LightColors.Background.two
+            backgroundColor = .clear
             tintColor = LightColors.Background.two
             
         case is ManageWalletsViewController,

@@ -58,37 +58,37 @@ class FeeSelector: UIView {
     var didUpdateFee: ((FeeLevel) -> Void)?
 
     private let currency: Currency
-    private let topBorder = UIView(color: .secondaryShadow)
-    private let header = UILabel(font: .customMedium(size: 16.0), color: .darkText)
-    private let subheader = UILabel(font: .customBody(size: 14.0), color: .grayTextTint)
-    private let warning = UILabel.wrapping(font: .customBody(size: 14.0), color: .red)
+    private let topBorder = UIView(color: LightColors.Outline.one)
+    private let header = UILabel(font: Fonts.Subtitle.two, color: LightColors.Text.two)
+    private let footer = UILabel(font: Fonts.Body.three, color: LightColors.Text.two)
+    private let warning = UILabel.wrapping(font: Fonts.Body.three, color: LightColors.Error.one)
     private let control = UISegmentedControl(items: [L10n.FeeSelector.economy, L10n.FeeSelector.regular, L10n.FeeSelector.priority])
 
     private func setupViews() {
         addSubview(topBorder)
         addSubview(control)
         addSubview(header)
-        addSubview(subheader)
+        addSubview(footer)
         addSubview(warning)
 
         topBorder.constrainTopCorners(height: 1.0)
         header.constrain([
             header.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
             header.topAnchor.constraint(equalTo: topBorder.bottomAnchor, constant: Margins.small.rawValue) ])
-        subheader.constrain([
-            subheader.leadingAnchor.constraint(equalTo: header.leadingAnchor),
-            subheader.topAnchor.constraint(equalTo: header.bottomAnchor) ])
+        footer.constrain([
+            footer.leadingAnchor.constraint(equalTo: header.leadingAnchor),
+            footer.topAnchor.constraint(equalTo: control.bottomAnchor, constant: Margins.small.rawValue) ])
 
         warning.constrain([
-            warning.leadingAnchor.constraint(equalTo: subheader.leadingAnchor),
-            warning.topAnchor.constraint(equalTo: control.bottomAnchor, constant: 4.0),
+            warning.leadingAnchor.constraint(equalTo: header.leadingAnchor),
+            warning.topAnchor.constraint(equalTo: footer.bottomAnchor, constant: Margins.small.rawValue),
             warning.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
             warning.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.small.rawValue)])
         header.text = L10n.FeeSelector.title
-        subheader.text = currency.feeText(forIndex: 1)
+        footer.text = currency.feeText(forIndex: 1)
         control.constrain([
-            control.leadingAnchor.constraint(equalTo: warning.leadingAnchor),
-            control.topAnchor.constraint(equalTo: subheader.bottomAnchor, constant: 4.0),
+            control.leadingAnchor.constraint(equalTo: header.leadingAnchor),
+            control.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 4.0),
             control.widthAnchor.constraint(equalTo: widthAnchor, constant: -Margins.extraHuge.rawValue) ])
         control.valueChanged = { [weak self] in
             guard let self = self else { return }
@@ -113,13 +113,28 @@ class FeeSelector: UIView {
                 
             }
             self.didUpdateFee?(fee)
-            self.subheader.text = subheader
+            self.footer.text = subheader
             self.warning.text = warning
         }
 
-        control.selectedSegmentIndex = 1
-        control.tintColor = .primaryButton
         clipsToBounds = true
+        setupSegmentControl()
+    }
+    
+    private func setupSegmentControl() {
+        control.selectedSegmentIndex = 1
+        control.tintColor = .yellow
+        control.selectedSegmentTintColor = LightColors.Text.two
+        var font: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.font: Fonts.Body.two,
+            NSAttributedString.Key.foregroundColor: LightColors.Text.two
+        ]
+        control.setTitleTextAttributes(font, for: .normal)
+        font = [
+            NSAttributedString.Key.font: Fonts.Body.two,
+            NSAttributedString.Key.foregroundColor: LightColors.Contrast.two
+        ]
+        control.setTitleTextAttributes(font, for: .selected)
     }
 
     required init?(coder aDecoder: NSCoder) {
