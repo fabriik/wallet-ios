@@ -361,13 +361,13 @@ class BaseCoordinator: NSObject,
         }
         
         if notification.superview == nil {
-            notification.setupCustomMargins(all: .large)
+            notification.content.setupCustomMargins(all: .extraLarge)
             notification.configure(with: configuration)
             superview.addSubview(notification)
             notification.alpha = 0
             
             notification.snp.makeConstraints { make in
-                make.top.equalTo(superview.safeAreaLayoutGuide.snp.top)
+                make.top.equalTo(superview.safeAreaLayoutGuide.snp.top).inset(Margins.small.rawValue)
                 make.leading.equalToSuperview().offset(Margins.medium.rawValue)
                 make.centerX.equalToSuperview()
             }
