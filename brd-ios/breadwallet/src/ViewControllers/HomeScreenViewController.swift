@@ -11,7 +11,6 @@ import UIKit
 class HomeScreenViewController: UIViewController, Subscriber {
     private let walletAuthenticator: WalletAuthenticator
     private let assetListTableView = AssetListTableView()
-    private let debugLabel = UILabel(font: Fonts.Body.one, color: LightColors.Text.one) // debug info
     private let toolbar = UIToolbar()
     private var toolbarButtons = [UIButton]()
     private let notificationHandler = NotificationHandler()
@@ -151,7 +150,6 @@ class HomeScreenViewController: UIViewController, Subscriber {
         subHeaderView.addSubview(logoImageView)
         subHeaderView.addSubview(totalAssetsTitleLabel)
         subHeaderView.addSubview(totalAssetsAmountLabel)
-        subHeaderView.addSubview(debugLabel)
         view.addSubview(promptContainerStack)
         view.addSubview(toolbar)
         
@@ -165,7 +163,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
 
         subHeaderView.constrain([
             subHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            subHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            subHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -Margins.huge.rawValue),
             subHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             subHeaderView.heightAnchor.constraint(equalToConstant: headerHeight) ])
         
@@ -182,10 +180,6 @@ class HomeScreenViewController: UIViewController, Subscriber {
             logoImageView.leadingAnchor.constraint(equalTo: subHeaderView.leadingAnchor, constant: Margins.large.rawValue),
             logoImageView.topAnchor.constraint(equalTo: totalAssetsTitleLabel.topAnchor, constant: Margins.extraSmall.rawValue),
             logoImageView.bottomAnchor.constraint(equalTo: totalAssetsAmountLabel.bottomAnchor, constant: -Margins.extraSmall.rawValue)])
-
-        debugLabel.constrain([
-            debugLabel.leadingAnchor.constraint(equalTo: logoImageView.leadingAnchor),
-            debugLabel.bottomAnchor.constraint(equalTo: logoImageView.topAnchor, constant: -4.0)])
         
         promptContainerStack.constrain([
             promptContainerStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
@@ -212,16 +206,6 @@ class HomeScreenViewController: UIViewController, Subscriber {
         title = ""
         view.backgroundColor = LightColors.Background.two
         navigationItem.titleView = UIView()
-        
-        if E.isTestnet {
-            debugLabel.text = "(Testnet)"
-            debugLabel.isHidden = false
-        } else if (E.isTestFlight || E.isDebug), let debugHost = UserDefaults.debugBackendHost {
-            debugLabel.text = "[\(debugHost)]"
-            debugLabel.isHidden = false
-        } else {
-            debugLabel.isHidden = true
-        }
         
         setupToolbar()
         updateTotalAssets()

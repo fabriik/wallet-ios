@@ -160,6 +160,7 @@ class VIPViewController<C: CoordinatableRoutes,
     }
 
     func localize() {
+        view.backgroundColor = LightColors.Background.two
         tabBarItem.title = sceneTitle
         title = sceneTitle
         leftAlignedTitleLabel.text = sceneLeftAlignedTitle

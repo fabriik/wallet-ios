@@ -51,7 +51,7 @@ enum FailureReason: SimpleMessage {
             return L10n.Buy.tryAnotherPayment
             
         case .swap:
-            return L10n.Swap.swapAgain
+            return L10n.Swap.retry
         }
     }
     

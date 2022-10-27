@@ -11,13 +11,13 @@ import UIKit
 
 final class KYCDocumentPickerPresenter: NSObject, Presenter, KYCDocumentPickerActionResponses {
     typealias Models = KYCDocumentPickerModels
-
+    
     weak var viewController: KYCDocumentPickerViewController?
-
+    
     // MARK: - KYCDocumentPickerActionResponses
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         guard let documents = actionResponse.item as? Models.Item else { return }
-     
+        
         let sections: [Models.Sections] = [
             .title,
             .documents
@@ -78,7 +78,7 @@ final class KYCDocumentPickerPresenter: NSObject, Presenter, KYCDocumentPickerAc
     func presentFinish(actionResponse: KYCDocumentPickerModels.Finish.ActionResponse) {
         viewController?.displayFinish(responseDisplay: .init())
     }
-
+    
     // MARK: - Additional Helpers
-
+    
 }

@@ -58,13 +58,22 @@ extension UITableView {
                                                size: CGSize(width: 0,
                                                             height: CGFloat.leastNonzeroMagnitude)))
     }
-    
-    func setupDefault() {
-        separatorStyle = .none
-        delaysContentTouches = false
-        keyboardDismissMode = .interactive
-        estimatedRowHeight = UITableView.automaticDimension
-        rowHeight = UITableView.automaticDimension
-        backgroundColor = .clear
+}
+
+extension UITableViewCell {
+    func addSeparator() {
+        lazy var separatorView: UIView = {
+            let view = UIView()
+            view.backgroundColor = LightColors.Outline.one
+            return view
+        }()
+        
+        contentView.addSubview(separatorView)
+        separatorView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.leading.equalToSuperview().inset(-Margins.extraExtraHuge.rawValue)
+            make.height.equalTo(ViewSizes.minimum.rawValue)
+        }
     }
 }

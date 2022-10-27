@@ -18,6 +18,10 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         super.viewDidLoad()
         
         delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         setNormalNavigationBar()
     }
@@ -27,6 +31,10 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         let tintColor: UIColor
         
         switch viewController {
+        case is KYCCameraViewController:
+            backgroundColor = .black
+            tintColor = LightColors.Background.one
+            
         case is AccountViewController,
             is HomeScreenViewController,
             is KYCCameraViewController,
@@ -37,7 +45,8 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         case is ManageWalletsViewController,
             is AddWalletsViewController,
             is RecoveryKeyIntroViewController,
-            is EnterPhraseViewController:
+            is EnterPhraseViewController,
+            is LoginViewController:
             backgroundColor = LightColors.Background.cards
             tintColor = LightColors.Text.three
             
@@ -46,7 +55,7 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             tintColor = LightColors.Text.three
         }
         
-        setNormalNavigationBar(normalBackgroundColor: backgroundColor, tintColor: tintColor)
+        setNormalNavigationBar(normalBackgroundColor: backgroundColor, scrollBackgroundColor: backgroundColor, tintColor: tintColor)
         let item = SimpleBackBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         viewController.navigationItem.backBarButtonItem = item
     }
@@ -67,7 +76,7 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         let scrollAppearance = UINavigationBarAppearance()
         scrollAppearance.titleTextAttributes = navigationBar.titleTextAttributes ?? [:]
         scrollAppearance.configureWithTransparentBackground()
-        scrollAppearance.backgroundColor = normalBackgroundColor
+        scrollAppearance.backgroundColor = scrollBackgroundColor
         scrollAppearance.shadowColor = nil
         
         navigationBar.scrollEdgeAppearance = normalAppearance
@@ -76,7 +85,5 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         
         navigationBar.tintColor = tintColor
         navigationBar.prefersLargeTitles = false
-        
-        view.backgroundColor = .clear
     }
 }

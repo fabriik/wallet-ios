@@ -43,8 +43,8 @@ class LoginViewController: UIViewController, Subscriber {
         super.init(nibName: nil, bundle: nil)
         
         resetPinButton.isHidden = true
-        header.text = L10n.UpdatePin.enterYourPin
-        instruction.text = L10n.UpdatePin.enterPin
+        header.text = L10n.VerifyPin.title
+        instruction.text = L10n.VerifyPin.continueBody
     }
 
     override func viewWillDisappear(_ animated: Bool) {

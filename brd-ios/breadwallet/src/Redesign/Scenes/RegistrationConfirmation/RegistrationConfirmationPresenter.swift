@@ -25,7 +25,6 @@ final class RegistrationConfirmationPresenter: NSObject, Presenter, Registration
         ]
         
         var help: [ButtonViewModel] = [ButtonViewModel(title: L10n.AccountCreation.resendCode, isUnderlined: true)]
-        help.append(ButtonViewModel(title: L10n.AccountCreation.changeEmail, isUnderlined: true))
         
         if UserManager.shared.profile?.status == .emailPending {
             help.append(ButtonViewModel(title: L10n.AccountCreation.changeEmail, isUnderlined: true))

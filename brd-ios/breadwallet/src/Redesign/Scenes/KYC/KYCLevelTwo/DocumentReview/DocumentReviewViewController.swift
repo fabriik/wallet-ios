@@ -29,23 +29,26 @@ class DocumentReviewViewController: BaseTableViewController<KYCCoordinator,
         switch sections[indexPath.section] as? Models.Sections {
         case .title:
             cell =  self.tableView(tableView, labelCellForRowAt: indexPath)
-            (cell as? WrapperTableViewCell<FELabel>)?.wrappedView.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.one))
+            (cell as? WrapperTableViewCell<FELabel>)?.wrappedView.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.three))
+            cell.setupCustomMargins(vertical: .large, horizontal: .large)
             
         case .checkmarks:
             cell = self.tableView(tableView, checkmarkCellForRowAt: indexPath)
+            cell.setupCustomMargins(top: .extraExtraHuge, leading: .huge, bottom: .extraExtraHuge, trailing: .large)
             
         case .image:
             cell = self.tableView(tableView, coverCellForRowAt: indexPath)
+            cell.setupCustomMargins(vertical: .large, horizontal: .extraExtraHuge)
             
         case .buttons:
             cell = self.tableView(tableView, buttonsCellForRowAt: indexPath)
+            cell.setupCustomMargins(vertical: .zero, horizontal: .large)
             
         default:
             cell = UITableViewCell()
         }
         
         cell.setBackground(with: Presets.Background.transparent)
-        cell.setupCustomMargins(vertical: .huge, horizontal: .medium)
         
         return cell
     }
@@ -58,7 +61,7 @@ class DocumentReviewViewController: BaseTableViewController<KYCCoordinator,
         }
         
         cell.setup { view in
-            view.configure(with: .init(buttons: [Presets.Button.noBorders]))
+            view.configure(with: .init(buttons: [Presets.Button.secondary, Presets.Button.primary], isDoubleButtonStack: true))
             
             view.callbacks = [
                 retakePhotoTapped,

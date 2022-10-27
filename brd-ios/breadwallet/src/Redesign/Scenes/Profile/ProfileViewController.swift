@@ -19,12 +19,6 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
     
     // MARK: - Overrides
     
-    override func prepareData() {
-        guard dataStore?.profile?.status != UserManager.shared.profile?.status else { return }
-        
-        super.prepareData()
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section] as? Models.Section
         
@@ -35,16 +29,19 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
             
         case .verification:
             cell = self.tableView(tableView, infoViewCellForRowAt: indexPath)
-            cell.setupCustomMargins(vertical: .large, horizontal: .extraHuge)
+            cell.setupCustomMargins(vertical: .large, horizontal: .large)
             
         case .navigation:
             cell = self.tableView(tableView, navigationCellForRowAt: indexPath)
+            cell.addSeparator()
+            (cell as? WrapperTableViewCell<NavigationItemView>)?.wrappedView.setupCustomMargins(vertical: .minimum, horizontal: .extraLarge)
             
         default:
             cell = super.tableView(tableView, cellForRowAt: indexPath)
         }
         
         cell.setBackground(with: Presets.Background.transparent)
+        
         return cell
     }
     
