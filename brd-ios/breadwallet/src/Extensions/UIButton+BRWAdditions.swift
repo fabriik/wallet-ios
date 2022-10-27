@@ -60,7 +60,7 @@ extension UIButton {
 
     static func buildFaqButton(articleId: String, currency: Currency? = nil, position: NavBarButtonPosition, tapped: (() -> Void)? = nil) -> UIButton {
         let button = UIButton.icon(image: #imageLiteral(resourceName: "faqIcon"), accessibilityLabel: L10n.AccessibilityLabels.faq, position: position)
-        button.tintColor = LightColors.Contrast.one
+        button.tintColor = LightColors.Text.three
         
         button.tap = {
             Store.trigger(name: .presentFaq(articleId, currency))

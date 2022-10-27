@@ -30,8 +30,8 @@ class BRDButton: UIControl {
         setupViews()
     }
 
-    init(title: String, type: ButtonType, image: UIImage) {
-        self.title = title
+    init(title: String?, type: ButtonType, image: UIImage?) {
+        self.title = title ?? ""
         self.type = type
         self.image = image
         super.init(frame: .zero)
@@ -139,7 +139,7 @@ class BRDButton: UIControl {
         label.textColor = .white
         label.textAlignment = .center
         label.isUserInteractionEnabled = false
-        label.font = UIFont.customBody(size: 16.0)
+        label.font = Fonts.button
         configureContentType()
     }
 
@@ -162,7 +162,8 @@ class BRDButton: UIControl {
         iconImageView.constrainLeadingCorners()
         label.constrainTrailingCorners()
         iconImageView.constrain([
-            iconImageView.constraint(toLeading: label, constant: -Margins.small.rawValue) ])
+            iconImageView.centerXAnchor.constraint(equalTo: centerXAnchor)]
+        )
         imageView = iconImageView
     }
 
@@ -181,17 +182,16 @@ class BRDButton: UIControl {
             container.layer.borderWidth = 1.0
             cornerRadius = .fullRadius
         case .secondary:
-            // redesigned
             container.backgroundColor = LightColors.primary
             label.textColor = LightColors.Contrast.two
             imageView?.tintColor = LightColors.Contrast.two
             cornerRadius = .fullRadius
         case .tertiary:
-            container.backgroundColor = .secondaryButton
-            label.textColor = .grayTextTint
-            container.layer.borderColor = UIColor.secondaryBorder.cgColor
+            container.backgroundColor = LightColors.Background.one
+            label.textColor = LightColors.primary
+            container.layer.borderColor = LightColors.primary.cgColor
             container.layer.borderWidth = 1.0
-            imageView?.tintColor = .grayTextTint
+            imageView?.tintColor = LightColors.primary
         case .blackTransparent:
             container.backgroundColor = .clear
             label.textColor = LightColors.Contrast.two

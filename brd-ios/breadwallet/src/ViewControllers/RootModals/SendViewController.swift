@@ -47,8 +47,8 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
     private let addressCell: AddressCell
     private let attributeCell: AttributeCell?
     private let memoCell = DescriptionSendCell(placeholder: L10n.Send.descriptionLabel)
-    private let sendButton = BRDButton(title: L10n.Send.sendLabel, type: .primary)
-    private let currencyBorder = UIView(color: .secondaryShadow)
+    private let sendButton = BRDButton(title: L10n.Send.sendLabel, type: .secondary)
+    private let currencyBorder = UIView(color: LightColors.Outline.one)
     private var currencySwitcherHeightConstraint: NSLayoutConstraint?
     private var pinPadHeightConstraint: NSLayoutConstraint?
     private var attributeCellHeight: NSLayoutConstraint?
@@ -133,7 +133,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = LightColors.Background.one
         view.addSubview(addressCell)
         view.addSubview(memoCell)
         view.addSubview(sendButton)
@@ -158,7 +158,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
         addChildViewController(amountView, layout: {
             amountView.view.constrain([
                 amountView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                amountView.view.topAnchor.constraint(equalTo: addressGroupBottom),
+                amountView.view.topAnchor.constraint(equalTo: addressGroupBottom, constant: Margins.large.rawValue),
                 amountView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor) ])
         })
 
@@ -308,21 +308,21 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
         }
         
         let balanceLabelattributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.customBody(size: 14.0),
-            NSAttributedString.Key.foregroundColor: UIColor.grayTextTint
+            NSAttributedString.Key.font: Fonts.Body.two,
+            NSAttributedString.Key.foregroundColor: LightColors.Text.two
         ]
         
-        var balanceAttributes: [NSAttributedString.Key: Any] = [ NSAttributedString.Key.font: UIFont.customBody(size: 14.0) ]
+        var balanceAttributes: [NSAttributedString.Key: Any] = [ NSAttributedString.Key.font: Fonts.Subtitle.two ]
         if isSendingMax || maximum == nil {
-            balanceAttributes[NSAttributedString.Key.foregroundColor] = UIColor.grayTextTint
+            balanceAttributes[NSAttributedString.Key.foregroundColor] = LightColors.Text.two
         } else {
             balanceAttributes[NSAttributedString.Key.underlineStyle] = NSUnderlineStyle.single.rawValue
-            balanceAttributes[NSAttributedString.Key.foregroundColor] = Theme.accent
+            balanceAttributes[NSAttributedString.Key.foregroundColor] = LightColors.Text.two
         }
         
         let feeAttributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.customBody(size: 14.0),
-            NSAttributedString.Key.foregroundColor: UIColor.grayTextTint
+            NSAttributedString.Key.font: Fonts.Body.two,
+            NSAttributedString.Key.foregroundColor: LightColors.Text.two
         ]
         
         let balanceOutput = NSMutableAttributedString()
