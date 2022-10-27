@@ -31,7 +31,7 @@ class KYCDocumentPickerViewController: BaseTableViewController<KYCCoordinator,
         case .title:
             cell = self.tableView(tableView, labelCellForRowAt: indexPath)
             cell.setupCustomMargins(vertical: .large, horizontal: .large)
-            (cell as? WrapperTableViewCell<FELabel>)?.wrappedView.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.one))
+            (cell as? WrapperTableViewCell<FELabel>)?.wrappedView.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.three))
             
         case .documents:
             cell = self.tableView(tableView, navigationCellForRowAt: indexPath)
@@ -39,17 +39,19 @@ class KYCDocumentPickerViewController: BaseTableViewController<KYCCoordinator,
                 view.configure(with: .init(image: Presets.Image.primary,
                                            label: .init(font: Fonts.Body.one,
                                                         textColor: LightColors.Contrast.one),
-                                           shadow: Presets.Shadow.light,
-                                           background: .init(backgroundColor: LightColors.Background.cards,
-                                                             tintColor: LightColors.Text.one,
-                                                             border: Presets.Border.zero)))
-                view.setupClearMargins()
+                                           background: .init(backgroundColor: LightColors.Background.cards)))
+                
                 view.snp.makeConstraints { make in
                     make.height.equalTo(ViewSizes.extralarge.rawValue)
                 }
             })
             
-            cell.setupCustomMargins(vertical: .extraHuge, horizontal: .large)
+            cell.setupCustomMargins(vertical: .extraLarge, horizontal: .large)
+            (cell as? WrapperTableViewCell<NavigationItemView>)?.wrappedView.setupCustomMargins(vertical: .zero, horizontal: .large)
+            (cell as? WrapperTableViewCell<NavigationItemView>)?.wrappedView.setBackground(with: .init(backgroundColor: LightColors.Background.cards,
+                                           tintColor: LightColors.Text.one,
+                                           border: Presets.Border.zero))
+            (cell as? WrapperTableViewCell<NavigationItemView>)?.wrappedView.layer.setShadow(with: Presets.Shadow.light)
             
         default:
             cell = UITableViewCell()

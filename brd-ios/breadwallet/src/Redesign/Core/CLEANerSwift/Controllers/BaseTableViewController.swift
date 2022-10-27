@@ -349,8 +349,6 @@ class BaseTableViewController<C: CoordinatableRoutes,
             view.setup(with: model)
         }
         
-        cell.setupCustomMargins(vertical: .zero, horizontal: .extraExtraHuge)
-        
         return cell
     }
     

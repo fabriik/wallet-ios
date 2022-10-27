@@ -46,6 +46,8 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
             make.bottom.equalTo(confirmButton.snp.top)
         }
         
+        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm.uppercased()))
+        
         confirmButton.setupCustomMargins(top: .small, leading: .large, bottom: .large, trailing: .large)
         confirmButton.wrappedView.configure(with: Presets.Button.primary)
         confirmButton.wrappedView.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -62,9 +64,7 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
             Models.Sections.checkmarks: checkmarks
         ]
         
-        // TODO: add multi button support
-        confirmButton.wrappedView.setup(with: .init(title: L10n.Button.confirm.uppercased()))
-        tableView.reloadData()
+        super.prepareData()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,7 +72,7 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
         switch sections[indexPath.section] as? Models.Sections {
         case .title:
             cell =  self.tableView(tableView, labelCellForRowAt: indexPath)
-            (cell as? WrapperTableViewCell<FELabel>)?.wrappedView.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.one))
+            (cell as? WrapperTableViewCell<FELabel>)?.wrappedView.configure(with: .init(font: Fonts.Title.six, textColor: LightColors.Text.three))
             
         case .checkmarks:
             cell = self.tableView(tableView, checkmarkCellForRowAt: indexPath)
@@ -82,7 +82,7 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
         }
         
         cell.setBackground(with: Presets.Background.transparent)
-        cell.setupCustomMargins(vertical: .huge, horizontal: .extraHuge)
+        cell.setupCustomMargins(vertical: .huge, horizontal: .large)
         
         return cell
     }
@@ -90,8 +90,6 @@ class CheckListViewController: BaseTableViewController<BaseCoordinator,
     // MARK: - User Interaction
     override func buttonTapped() {
         super.buttonTapped()
-        
-        print("navigate in subclass!")
     }
     
     // MARK: - CheckListResponseDisplay

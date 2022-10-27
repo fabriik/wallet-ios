@@ -54,9 +54,7 @@ class BaseRecoveryKeyViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func onCloseButton() {
-        // Override in subclasses if appropriate.
-    }
+    @objc func onCloseButton() {}
 
     func showCloseButton() {
         switch closeButtonStyle {
@@ -73,10 +71,12 @@ class BaseRecoveryKeyViewController: UIViewController {
                                        style: .plain,
                                        target: self,
                                        action: #selector(onCloseButton))
+            skip.tintColor = LightColors.Text.three
             let fontAttributes = [NSAttributedString.Key.font: Theme.body2]
             skip.setTitleTextAttributes(fontAttributes, for: .normal)
             skip.setTitleTextAttributes(fontAttributes, for: .highlighted)
             navigationItem.rightBarButtonItem = skip
+            
         }
     }
     
