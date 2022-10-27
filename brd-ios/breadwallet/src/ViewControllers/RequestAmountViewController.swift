@@ -29,9 +29,9 @@ class RequestAmountViewController: UIViewController {
     private let currency: Currency
     private let amountView: AmountViewController
     private let qrCode = UIImageView()
-    private let address = UILabel(font: .customBody(size: 14.0))
+    private let address = UILabel(font: Fonts.Body.one, color: LightColors.Text.one)
     private let addressPopout = InViewAlert(type: .primary)
-    private let share = BRDButton(title: L10n.Receive.share, type: .tertiary, image: #imageLiteral(resourceName: "Share"))
+    private let share = BRDButton(title: L10n.Receive.share.uppercased(), type: .tertiary, image: #imageLiteral(resourceName: "Share"))
     private let border = UIView()
     private var topSharePopoutConstraint: NSLayoutConstraint?
     private let receiveAddress: String
@@ -72,8 +72,8 @@ class RequestAmountViewController: UIViewController {
             qrCode.constraint(.centerX, toView: view) ])
         address.constrain([
             address.constraint(toBottom: qrCode, constant: Margins.small.rawValue),
-            address.constraint(.leading, toView: view),
-            address.constraint(.trailing, toView: view) ])
+            address.constraint(.centerX, toView: view),
+            address.constraint(.leading, toView: view, constant: Margins.extraExtraHuge.rawValue) ])
         addressPopout.heightConstraint = addressPopout.constraint(.height, constant: 0.0)
         addressPopout.constrain([
             addressPopout.constraint(toBottom: address, constant: 0.0),
@@ -94,12 +94,11 @@ class RequestAmountViewController: UIViewController {
     }
 
     private func setData() {
-        view.backgroundColor = .white
+        view.backgroundColor = LightColors.Background.one
         address.textAlignment = .center
         address.adjustsFontSizeToFitWidth = true
         address.minimumScaleFactor = 0.7
-        address.textColor = .grayTextTint
-        border.backgroundColor = .secondaryBorder
+        border.backgroundColor = LightColors.Outline.one
 
         address.text = receiveAddress
         if let uri = currency.addressURI(receiveAddress),
@@ -128,6 +127,7 @@ class RequestAmountViewController: UIViewController {
     }
 
     private func setupCopiedMessage() {
+        // TODO: style
         let copiedMessage = UILabel(font: .customMedium(size: 14.0))
         copiedMessage.textColor = .black
         copiedMessage.text = L10n.Receive.copied

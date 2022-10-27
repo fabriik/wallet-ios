@@ -161,15 +161,22 @@ class BRDButton: UIControl {
         content.constrainToCenter()
         iconImageView.constrainLeadingCorners()
         label.constrainTrailingCorners()
-        iconImageView.constrain([
-            iconImageView.centerXAnchor.constraint(equalTo: centerXAnchor)]
-        )
+        
+        if label.text?.isEmpty == true {
+            iconImageView.constrain([
+                iconImageView.centerXAnchor.constraint(equalTo: centerXAnchor)
+            ])
+        } else {
+            iconImageView.constrain([
+                iconImageView.constraint(toLeading: label, constant: -Margins.small.rawValue)
+            ])
+        }
         imageView = iconImageView
     }
 
     private func setupLabelOnly() {
         container.addSubview(label)
-        label.constrain(toSuperviewEdges: UIEdgeInsets(top: Margins.small.rawValue, left: Margins.small.rawValue, bottom: -Margins.small.rawValue, right: -Margins.small.rawValue))
+        label.constrain(toSuperviewEdges: UIEdgeInsets(top: Margins.small.rawValue, left: Margins.large.rawValue, bottom: -Margins.small.rawValue, right: -Margins.large.rawValue))
     }
 
     private func setColors() {
@@ -192,6 +199,7 @@ class BRDButton: UIControl {
             container.layer.borderColor = LightColors.primary.cgColor
             container.layer.borderWidth = 1.0
             imageView?.tintColor = LightColors.primary
+            cornerRadius = .fullRadius
         case .blackTransparent:
             container.backgroundColor = .clear
             label.textColor = LightColors.Contrast.two

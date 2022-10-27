@@ -36,9 +36,9 @@ class ReceiveViewController: UIViewController, Subscriber {
     private let currency: Currency
     private let isBTCLegacy: Bool
     private let qrCode = UIImageView()
-    private let address = UILabel(font: .customBody(size: 14.0))
+    private let address = UILabel(font: Fonts.Body.one, color: LightColors.Text.one)
     private let addressPopout = InViewAlert(type: .primary)
-    private let share = BRDButton(title: L10n.Receive.share, type: .tertiary, image: #imageLiteral(resourceName: "Share"))
+    private let share = BRDButton(title: L10n.Receive.share.uppercased(), type: .tertiary, image: #imageLiteral(resourceName: "Share"))
     private let sharePopout = InViewAlert(type: .secondary)
     private let border = UIView()
     private let request = BRDButton(title: L10n.Receive.request, type: .secondary)
@@ -83,12 +83,12 @@ class ReceiveViewController: UIViewController, Subscriber {
         qrCode.constrain([
             qrCode.constraint(.width, constant: qrSize),
             qrCode.constraint(.height, constant: qrSize),
-            qrCode.constraint(.top, toView: view, constant: Margins.extraHuge.rawValue),
+            qrCode.constraint(.top, toView: view, constant: Margins.large.rawValue),
             qrCode.constraint(.centerX, toView: view) ])
         address.constrain([
-            address.constraint(toBottom: qrCode, constant: Margins.small.rawValue),
-            address.constraint(.leading, toView: view),
-            address.constraint(.trailing, toView: view) ])
+            address.constraint(toBottom: qrCode, constant: Margins.large.rawValue),
+            address.constraint(.centerX, toView: view),
+            address.constraint(.leading, toView: view, constant: Margins.extraExtraHuge.rawValue) ])
         addressPopout.heightConstraint = addressPopout.constraint(.height, constant: 0.0)
         addressPopout.constrain([
             addressPopout.constraint(toBottom: address, constant: 0.0),
@@ -98,7 +98,7 @@ class ReceiveViewController: UIViewController, Subscriber {
         share.constrain([
             share.constraint(toBottom: addressPopout, constant: Margins.large.rawValue),
             share.constraint(.centerX, toView: view),
-            share.constraint(.width, constant: qrSize),
+            share.constraint(.width, constant: ViewSizes.extraExtraHuge.rawValue),
             share.constraint(.height, constant: smallButtonHeight) ])
         sharePopout.heightConstraint = sharePopout.constraint(.height, constant: 0.0)
         topSharePopoutConstraint = sharePopout.constraint(toBottom: share, constant: largeSharePadding)
@@ -128,12 +128,11 @@ class ReceiveViewController: UIViewController, Subscriber {
     }
 
     private func setStyle() {
-        view.backgroundColor = .white
-        address.textColor = .grayTextTint
+        view.backgroundColor = LightColors.Background.one
         address.textAlignment = .center
         address.adjustsFontSizeToFitWidth = true
         address.minimumScaleFactor = 0.7
-        border.backgroundColor = .secondaryBorder
+        border.backgroundColor = LightColors.Outline.one
         
         if !isRequestAmountVisible {
             border.isHidden = true
@@ -178,6 +177,7 @@ class ReceiveViewController: UIViewController, Subscriber {
     }
 
     private func setupCopiedMessage() {
+        // TODO: style
         let copiedMessage = UILabel(font: .customMedium(size: 14.0))
         copiedMessage.textColor = .black
         copiedMessage.text = L10n.Receive.copied
