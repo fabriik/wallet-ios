@@ -104,7 +104,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         closeButtonContainer.addSubview(closeButton)
         closeButton.snp.makeConstraints { make in
             make.trailing.top.equalToSuperview().inset(Margins.huge.rawValue)
-            make.width.height.equalTo(Margins.medium.rawValue)
+            make.width.height.equalTo(ViewSizes.small.rawValue)
         }
         
         mainStack.addArrangedSubview(imageView)
