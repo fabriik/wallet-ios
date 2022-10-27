@@ -408,6 +408,6 @@ extension Presets {
 
 extension Presets {
     struct Timer {
-        static var one = TimerConfiguration(background: .init(tintColor: LightColors.primary), font: Fonts.Body.two)
+        static var one = TimerConfiguration(background: .init(tintColor: LightColors.secondary), font: Fonts.Body.two)
     }
 }
