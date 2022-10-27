@@ -23,7 +23,6 @@ struct ChecklistItemViewModel: ViewModel {
 class ChecklistItemView: FEView<ChecklistItemConfiguration, ChecklistItemViewModel> {
     private lazy var checkmarkImageView: FEImageView = {
         let view = FEImageView()
-        view.contentMode = .scaleAspectFit
         return view
     }()
     
