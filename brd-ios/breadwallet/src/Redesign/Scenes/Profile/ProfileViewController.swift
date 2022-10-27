@@ -29,12 +29,12 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
             
         case .verification:
             cell = self.tableView(tableView, infoViewCellForRowAt: indexPath)
-            cell.setupCustomMargins(vertical: .large, horizontal: .extraHuge)
+            cell.setupCustomMargins(vertical: .large, horizontal: .large)
             
         case .navigation:
             cell = self.tableView(tableView, navigationCellForRowAt: indexPath)
             cell.addSeparator()
-            (cell as? WrapperTableViewCell<NavigationItemView>)?.wrappedView.setupCustomMargins(vertical: .minimum, horizontal: .extraHuge)
+            (cell as? WrapperTableViewCell<NavigationItemView>)?.wrappedView.setupCustomMargins(vertical: .minimum, horizontal: .extraLarge)
             
         default:
             cell = super.tableView(tableView, cellForRowAt: indexPath)
