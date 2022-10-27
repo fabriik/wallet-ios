@@ -86,6 +86,8 @@ class VIPTableViewController<C: CoordinatableRoutes,
         }
         
         tableView.contentInset.top = topInsetValue
+        
+        view.backgroundColor = LightColors.Background.two
     }
     
     func setRoundedShadowBackground() {

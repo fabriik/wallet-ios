@@ -15,7 +15,6 @@ struct NavigationConfiguration: Configurable {
     var image: BackgroundConfiguration?
     var label: LabelConfiguration?
     var button: ButtonConfiguration?
-    
     var shadow: ShadowConfiguration?
     var background: BackgroundConfiguration?
 }
@@ -43,31 +42,17 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
         return view
     }()
     
-    private lazy var separatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = LightColors.Outline.one
-        return view
-    }()
-    
     private lazy var trailing: FEButton = {
         let view = FEButton()
         return view
     }()
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        configure(background: config?.background)
-        configure(shadow: config?.shadow)
-    }
     
     override func setupSubviews() {
         super.setupSubviews()
         
         content.addSubview(verticalStack)
         verticalStack.snp.makeConstraints { make in
-            make.height.equalTo(ViewSizes.extraSmall.rawValue)
-            make.top.leading.trailing.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
         verticalStack.addArrangedSubview(leadingImageView)
@@ -75,7 +60,6 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
             make.width.equalTo(ViewSizes.medium.rawValue)
         }
         
-        leadingImageView.setupClearMargins()
         verticalStack.addArrangedSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.width.equalToSuperview().priority(.low)
@@ -84,16 +68,6 @@ class NavigationItemView: FEView<NavigationConfiguration, NavigationViewModel> {
         verticalStack.addArrangedSubview(trailing)
         trailing.snp.makeConstraints { make in
             make.width.equalTo(Margins.huge.rawValue)
-        }
-        
-        addSubview(separatorView)
-        separatorView.snp.makeConstraints { make in
-            make.top.equalTo(verticalStack.snp.bottom).offset(Margins.extraLarge.rawValue)
-            make.bottom.equalToSuperview()
-            
-            make.leading.equalToSuperview().inset(-Margins.extraExtraHuge.rawValue)
-            make.trailing.equalToSuperview().offset(Margins.extraExtraHuge.rawValue)
-            make.height.equalTo(ViewSizes.minimum.rawValue)
         }
     }
     

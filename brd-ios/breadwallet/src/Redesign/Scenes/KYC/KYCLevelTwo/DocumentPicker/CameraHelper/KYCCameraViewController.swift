@@ -13,7 +13,7 @@ import AVFoundation
 
 struct KYCCameraImagePickerConfiguration: Configurable {
     var instructions: LabelConfiguration?
-    var background: BackgroundConfiguration?
+    var instructionsBackground: BackgroundConfiguration?
 }
 
 struct KYCCameraImagePickerModel: ViewModel {
@@ -41,7 +41,7 @@ class KYCCameraViewController: UIViewController, ViewProtocol {
         self.config = config
         
         instructionsLabel.wrappedView.configure(with: config?.instructions)
-        instructionsLabel.backgroundColor = config?.background?.backgroundColor
+        instructionsLabel.configure(background: config?.instructionsBackground)
     }
     
     func setup(with viewModel: KYCCameraImagePickerModel?) {
@@ -76,11 +76,10 @@ class KYCCameraViewController: UIViewController, ViewProtocol {
         
         previewView.addSubview(instructionsLabel)
         instructionsLabel.snp.makeConstraints { make in
+            make.height.greaterThanOrEqualTo(ViewSizes.medium.rawValue)
             make.leading.trailing.equalToSuperview().inset(Margins.extraHuge.rawValue)
             make.bottom.equalToSuperview().inset(Margins.medium.rawValue)
         }
-        
-        instructionsLabel.setupCustomMargins(all: .small)
         
         // Disable the UI. Enable the UI later, if and only if the session starts running.
         photoButton.isEnabled = false

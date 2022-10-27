@@ -85,15 +85,13 @@ class KYCCoordinator: BaseCoordinator,
     
     func showKYCFinal() {
         let controller = KYCLevelTwoPostValidationViewController()
-        controller.prepareData()
         controller.coordinator = self
-        controller.navigationItem.setHidesBackButton(true, animated: false)
+        controller.navigationItem.hidesBackButton = true
         navigationController.pushViewController(controller, animated: true)
     }
     
     func showKYCLevelOne() {
         let controller = KYCBasicViewController()
-        controller.prepareData()
         controller.coordinator = self
         controller.setBarButtonItem(from: navigationController, to: .right, target: self, action: #selector(popFlow(sender:)))
         navigationController.pushViewController(controller, animated: true)
@@ -101,7 +99,6 @@ class KYCCoordinator: BaseCoordinator,
     
     func showKYCLevelTwo() {
         let controller = KYCLevelTwoEntryViewController()
-        controller.prepareData()
         controller.coordinator = self
         controller.setBarButtonItem(from: navigationController, to: .right, target: self, action: #selector(popFlow(sender:)))
         navigationController.pushViewController(controller, animated: true)
@@ -109,9 +106,8 @@ class KYCCoordinator: BaseCoordinator,
     
     func showIdentitySelector() {
         let controller = KYCDocumentPickerViewController()
-        controller.prepareData()
         controller.coordinator = self
-        controller.setBarButtonItem(from: navigationController, to: .right)
+        controller.setBarButtonItem(from: navigationController, to: .right, target: self, action: #selector(popFlow(sender:)))
         navigationController.pushViewController(controller, animated: true)
     }
     
@@ -142,12 +138,12 @@ extension KYCCoordinator: ImagePickable {
         let controller = KYCCameraViewController()
         
         let backButtonVisibility = navigationController.children.last is KYCDocumentPickerViewController == false
-        controller.navigationItem.setHidesBackButton(backButtonVisibility, animated: false)
+        controller.navigationItem.hidesBackButton = backButtonVisibility
         controller.defaultVideoDevice = device
         controller.configure(with: .init(instructions: .init(font: Fonts.Body.one,
-                                                             textColor: LightColors.Text.one,
+                                                             textColor: LightColors.Background.one,
                                                              textAlignment: .center),
-                                         background: .init(backgroundColor: LightColors.Background.one)))
+                                         instructionsBackground: .init(backgroundColor: LightColors.Text.one)))
         controller.setup(with: model)
         controller.photoSelected = completion
         controller.setBarButtonItem(from: navigationController, to: .right, target: self, action: #selector(popFlow(sender:)))
