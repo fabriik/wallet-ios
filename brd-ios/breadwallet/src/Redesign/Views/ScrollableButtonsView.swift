@@ -14,6 +14,7 @@ import SnapKit
 struct ScrollableButtonsConfiguration: Configurable {
     var background: BackgroundConfiguration?
     var buttons: [ButtonConfiguration] = []
+    var isDoubleButtonStack = false
 }
 
 struct ScrollableButtonsViewModel: ViewModel {
@@ -30,9 +31,7 @@ class ScrollableButtonsView: FEView<ScrollableButtonsConfiguration, ScrollableBu
     
     private lazy var stack: UIStackView = {
         let view = UIStackView()
-        view.spacing = Margins.huge.rawValue
         view.axis = .horizontal
-        view.distribution = .fill
         return view
     }()
     
@@ -53,6 +52,7 @@ class ScrollableButtonsView: FEView<ScrollableButtonsConfiguration, ScrollableBu
         stack.snp.makeConstraints { make in
             make.edges.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
+            make.height.equalToSuperview()
         }
     }
     
@@ -83,18 +83,24 @@ class ScrollableButtonsView: FEView<ScrollableButtonsConfiguration, ScrollableBu
             button.configure(with: buttonConfig)
             button.setup(with: model)
             
-            button.contentHorizontalAlignment = .left
-            
             buttons.append(button)
             stack.addArrangedSubview(button)
             button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         }
         
-        let spacer = UIView()
-        stack.addArrangedSubview(spacer)
-        
-        spacer.snp.makeConstraints { make in
-            make.width.greaterThanOrEqualToSuperview().priority(.low)
+        if config.isDoubleButtonStack {
+            stack.distribution = .fillProportionally
+            stack.spacing = Margins.medium.rawValue
+        } else {
+            stack.distribution = .fill
+            stack.spacing = Margins.huge.rawValue
+            
+            let spacer = UIView()
+            stack.addArrangedSubview(spacer)
+            
+            spacer.snp.makeConstraints { make in
+                make.width.greaterThanOrEqualToSuperview().priority(.low)
+            }
         }
         
         stack.layoutIfNeeded()

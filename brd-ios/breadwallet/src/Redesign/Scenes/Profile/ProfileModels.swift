@@ -65,17 +65,17 @@ extension ProfileModels.NavigationItems {
         case .paymentMethods:
             return .init(image: .imageName("card"),
                          label: .text(L10n.Buy.paymentMethod),
-                         button: .init(image: "chevron-right"))
+                         button: .init(image: nil))
             
         case .security:
             return .init(image: .imageName("lock_closed"),
                          label: .text(L10n.MenuButton.security),
-                         button: .init(image: "chevron-right"))
-            
+                         button: .init(image: nil))
+
         case .preferences:
             return .init(image: .imageName("settings"),
                          label: .text(L10n.Settings.preferences),
-                         button: .init(image: "chevron-right"))
+                         button: .init(image: nil))
         }
     }
 }
