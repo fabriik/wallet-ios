@@ -236,6 +236,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
             self?.termSwapCurrencyView.setAlphaToLabels(alpha: 1.0)
         } completion: { [weak self] _ in
             self?.didFinish?(true)
+            self?.setToggleSwitchPlacesButtonState(true)
         }
     }
 }
