@@ -72,7 +72,7 @@ class BaseRecoveryKeyViewController: UIViewController {
                                        target: self,
                                        action: #selector(onCloseButton))
             skip.tintColor = LightColors.Text.three
-            let fontAttributes = [NSAttributedString.Key.font: Theme.body2]
+            let fontAttributes = [NSAttributedString.Key.font: Fonts.Body.two]
             skip.setTitleTextAttributes(fontAttributes, for: .normal)
             skip.setTitleTextAttributes(fontAttributes, for: .highlighted)
             navigationItem.rightBarButtonItem = skip

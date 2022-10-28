@@ -47,33 +47,33 @@ struct CloudBackupView: View {
     private func mainStack() -> some View {
         ZStack {
             Rectangle()
-                .fill(Color(Theme.primaryBackground))
+                .fill(Color(LightColors.Background.one))
             VStack {
                 CloudBackupViewBody()
                 Toggle(isOn: $isBackupOn) {
                     Text(L10n.CloudBackup.mainTitle)
-                        .font(Font(Theme.body1))
-                        .foregroundColor(Color(Theme.secondaryText))
+                        .font(Font(Fonts.Body.one))
+                        .foregroundColor(Color(LightColors.Text.three))
                 }
-                .toggleStyle(SwitchToggleStyle(tint: Color(Theme.blueBackground)))
+                .toggleStyle(SwitchToggleStyle(tint: Color(LightColors.primary)))
                 .onReceive(Just(isBackupOn), perform: self.onToggleChange)
                 .if(!E.isIPhone5, content: { $0.padding() })
                 .if(E.isIPhone5, content: { $0.padding([.leading, .trailing]) })
                 
                 HStack {
-                    Image(systemName: "exclamationmark.circle")
+                    Image("warning")
                         .resizable()
-                        .frame(width: 36.0, height: 36.0)
-                        .foregroundColor(Color(Theme.error))
+                        .frame(width: ViewSizes.medium.rawValue, height: ViewSizes.medium.rawValue)
+                        .foregroundColor(Color(LightColors.Error.one))
                         .padding(.leading)
                     BodyText(L10n.CloudBackup.mainWarning, style: .seconday)
-                        .foregroundColor(Color(Theme.secondaryText))
+                        .foregroundColor(Color(LightColors.Text.one))
                     .fixedSize(horizontal: false, vertical: true)
                     .lineLimit(nil)
                     .if(!E.isIPhone5, content: { $0.padding() })
                     .if(E.isIPhone5, content: { $0.padding(4.0) })
-                }.background(Color(Theme.transparentBlue))
-                .cornerRadius(4.0)
+                }.background(Color(LightColors.Background.three))
+                    .cornerRadius(CornerRadius.common.rawValue)
                 .padding()
                 if self.synchronizer.context == .onboarding {
                     Button(action: {
@@ -85,10 +85,10 @@ struct CloudBackupView: View {
                     }, label: {
                         ZStack {
                             RoundedRectangle(cornerRadius: 4.0)
-                                .fill(Color(Theme.blueBackground))
+                                .fill(Color(LightColors.primary))
                             Text(L10n.Button.continueAction)
-                                .font(Font(Theme.body1))
-                                .foregroundColor(Color(Theme.primaryBackground))
+                                .font(Font(Fonts.button))
+                                .foregroundColor(Color(LightColors.Contrast.two))
                         }
                     })
                     .frame(height: 44.0)
@@ -126,7 +126,7 @@ struct CloudBackupView: View {
             .navigationBarItems(trailing:
                 Button(action: { self.synchronizer.skipBackup() },
                        label: { BodyText(L10n.Button.skip, style: .primary)
-                            .foregroundColor(Color(Theme.primaryText))
+                    .foregroundColor(Color(LightColors.Contrast.two))
                         }))
     }
     
@@ -181,13 +181,14 @@ struct CloudBackupViewBody: View {
         Group {
             CloudBackupIcon(style: .up)
             Text(L10n.CloudBackup.mainTitle)
-                .font(Font(Theme.h1Title))
-                .foregroundColor(.black)
+                .font(Font(Fonts.Title.six))
+                .foregroundColor(Color(LightColors.Text.three))
             Text(L10n.CloudBackup.mainBody)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
-                .font(Font(Theme.body1))
-                .foregroundColor(Color(Theme.secondaryText))
+            // TODO: wrong font
+                .font(Font(Fonts.Body.one))
+                .foregroundColor(Color(LightColors.Text.two))
                 .padding()
         }
     }
@@ -212,7 +213,7 @@ struct CloudBackupIcon: View {
     }
     
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: [Color(Theme.blueBackground), Color(Theme.transparentBlue)]), startPoint: .topLeading, endPoint: .bottomTrailing)
+        LinearGradient(gradient: Gradient(colors: [Color(LightColors.primary), Color(LightColors.primary.withAlphaComponent(0.5))]), startPoint: .topLeading, endPoint: .bottomTrailing)
             .mask(Image(systemName: style.rawValue)
                 .resizable()
                 .scaledToFit()

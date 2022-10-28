@@ -22,12 +22,12 @@ class WalletConnectionSettingsViewController: UIViewController {
 
     // views
     private let animatedBlockSetLogo = AnimatedBlockSetLogo()
-    private let header = UILabel.wrapping(font: Theme.h3Accent, color: Theme.primaryText)
+    private let header = UILabel.wrapping(font: Fonts.Title.three, color: LightColors.Text.one)
     private let explanationLabel = UITextView()
-    private let footerLabel = UILabel.wrapping(font: Theme.caption, color: Theme.secondaryText)
+    private let footerLabel = UILabel.wrapping(font: Fonts.Body.three, color: LightColors.Text.two)
     private let toggleSwitch = UISwitch()
     private let footerLogo = UIImageView(image: UIImage(named: "BlocksetLogoWhite"))
-    private let mainBackground = UIView(color: Theme.transparentBlue)
+    private let mainBackground = UIView(color: LightColors.primary.withAlphaComponent(0.5))
     private let footerBackground = UIView(color: .clear)
     
     // MARK: - Lifecycle
@@ -48,7 +48,7 @@ class WalletConnectionSettingsViewController: UIViewController {
     }
 
     private func setUpAppearance() {
-        view.backgroundColor = Theme.primaryBackground
+        view.backgroundColor = LightColors.Background.one
         explanationLabel.textAlignment = .center
         mainBackground.layer.cornerRadius = 4.0
         footerBackground.layer.cornerRadius = 4.0
@@ -122,7 +122,7 @@ class WalletConnectionSettingsViewController: UIViewController {
         title = L10n.WalletConnectionSettings.viewTitle
         header.text = L10n.WalletConnectionSettings.header
         footerLabel.text = L10n.WalletConnectionSettings.footerTitle
-        footerLogo.tintColor = Theme.blueBackground
+        footerLogo.tintColor = LightColors.primary
         
         let selectedMode = walletConnectionSettings.mode(for: currency)
         toggleSwitch.isOn = selectedMode == WalletConnectionMode.api_only
@@ -183,8 +183,8 @@ class WalletConnectionSettingsViewController: UIViewController {
         
         explanationLabel.isEditable = false
         explanationLabel.backgroundColor = .clear
-        explanationLabel.font = Theme.body1
-        explanationLabel.textColor = Theme.secondaryText
+        explanationLabel.font = Fonts.Body.one
+        explanationLabel.textColor = LightColors.Text.two
         explanationLabel.textAlignment = .center
         
         //TODO:CYRPTO - is there a way to make this false but also

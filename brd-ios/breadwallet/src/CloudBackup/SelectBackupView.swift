@@ -25,12 +25,12 @@ struct SelectBackupView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color(Theme.primaryBackground))
+                .fill(Color(LightColors.Background.one))
             VStack {
                 Text(L10n.CloudBackup.selectTitle)
-                    .foregroundColor(Color(Theme.primaryText))
+                    .foregroundColor(Color(LightColors.Text.one))
                     .lineLimit(nil)
-                    .font(Font(Theme.h2Title))
+                    .font(Font(Fonts.Title.two))
                 ForEach(0..<backups.count, id: \.self) { i in
                     BackupCell(backup: self.backups[i],
                                isOn: self.binding(for: i))
@@ -51,8 +51,8 @@ struct SelectBackupView: View {
                     .fill(Color(UIColor.primaryButton))
                     .opacity(self.selectedBackup == nil ? 0.3 : 1.0)
                 Text(L10n.Button.continueAction)
-                    .foregroundColor(Color(Theme.primaryText))
-                    .font(Font(Theme.h3Title))
+                    .foregroundColor(Color(LightColors.Text.one))
+                    .font(Font(Fonts.Title.three))
             }
         })
         .frame(height: 44.0)
@@ -84,12 +84,12 @@ struct BackupCell: View {
                 .frame(width: 44.0, height: 44.0)
             VStack(alignment: .leading) {
                 Text(dateString)
-                    .foregroundColor(Color(Theme.primaryText))
-                    .font(Font(Theme.body1))
+                    .foregroundColor(Color(LightColors.Text.one))
+                    .font(Font(Fonts.Body.one))
                     .padding(EdgeInsets(top: 8.0, leading: 8.0, bottom: 0.0, trailing: 8.0))
                 Text("\(backup.deviceName)")
-                    .foregroundColor(Color(Theme.secondaryText))
-                    .font(Font(Theme.body1))
+                    .foregroundColor(Color(LightColors.Text.two))
+                    .font(Font(Fonts.Body.one))
                     .padding(EdgeInsets(top: 0.0, leading: 8.0, bottom: 8.0, trailing: 8.0))
             }
         }

@@ -12,10 +12,10 @@ import UIKit
 
 class BorderedTextInput: UIView {
     
-    private let placeholder = UILabel(font: Theme.caption, color: .white)
+    private let placeholder = UILabel(font: Fonts.Title.one, color: LightColors.Contrast.two)
     private let placeholderText: String
     private let keyboardType: UIKeyboardType
-    private let unit = UILabel(font: Theme.body1, color: .white)
+    private let unit = UILabel(font: Fonts.Body.one, color: LightColors.Contrast.two)
     var didUpdate: ((String?) -> Void)?
     let textField = UITextField()
     
@@ -78,15 +78,15 @@ class BorderedTextInput: UIView {
         }
         
         textField.keyboardType = keyboardType
-        textField.font = Theme.body1
-        textField.textColor = .black
+        textField.font = Fonts.Body.one
+        textField.textColor = LightColors.Text.one
         textField.returnKeyType = .done
         textField.delegate = self
         placeholder.text = placeholderText
-        backgroundColor = UIColor.white.withAlphaComponent(0.1)
+        backgroundColor = LightColors.Background.one.withAlphaComponent(0.1)
         layer.cornerRadius = 4
         layer.borderWidth = 0.5
-        layer.borderColor = UIColor.white.withAlphaComponent(0.85).cgColor
+        layer.borderColor = LightColors.Background.one.withAlphaComponent(0.85).cgColor
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
     

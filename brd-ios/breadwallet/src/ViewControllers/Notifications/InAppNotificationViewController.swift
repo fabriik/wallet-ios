@@ -13,8 +13,8 @@ class InAppNotificationViewController: UIViewController {
     private let notification: BRDMessage
     private var image: UIImage?
     
-    private let titleLabel = UILabel.wrapping(font: Theme.h2Title, color: Theme.primaryText)
-    private let bodyLabel = UILabel.wrapping(font: Theme.body1, color: Theme.secondaryText)
+    private let titleLabel = UILabel.wrapping(font: Fonts.Title.two, color: LightColors.Text.one)
+    private let bodyLabel = UILabel.wrapping(font: Fonts.Body.one, color: LightColors.Text.two)
     private let imageView = UIImageView()
     private let ctaButton = BRDButton(title: "", type: .primary)
     
@@ -47,7 +47,7 @@ class InAppNotificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = Theme.primaryBackground
+        self.view.backgroundColor = LightColors.Background.one
         
         calculateMarginsAndSizes()
         addCloseButton()
@@ -102,7 +102,7 @@ class InAppNotificationViewController: UIViewController {
         //
         
         imageView.contentMode = .center
-        imageView.backgroundColor = Theme.transparentBlue
+        imageView.backgroundColor = LightColors.primary.withAlphaComponent(0.5)
         imageView.clipsToBounds = true
         loadImage()
         

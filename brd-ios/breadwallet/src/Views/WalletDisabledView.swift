@@ -58,7 +58,7 @@ class WalletDisabledView: UIView {
     
     private lazy var faq: UIButton = {
         let faq = UIButton()
-        faq.tintColor = Theme.primaryText
+        faq.tintColor = LightColors.Text.one
         faq.setBackgroundImage(UIImage(named: "faqIcon"), for: .normal)
         
         return faq

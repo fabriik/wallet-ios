@@ -75,10 +75,10 @@ class SegwitViewController: UIViewController {
     }
     
     private func setInitialData() {
-        view.backgroundColor = Theme.primaryBackground
+        view.backgroundColor = LightColors.Background.one
         view.clipsToBounds = true //Some subviews are placed just offscreen so they can be animated into view
         label.text = L10n.Segwit.confirmationInstructionsInstructions
-        logo.tintColor = Theme.blueBackground
+        logo.tintColor = LightColors.Text.one
         
         button.tap = { [weak self] in
             self?.showConfirmView()

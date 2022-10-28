@@ -61,7 +61,7 @@ class ConfirmRecoveryKeyViewController: BaseRecoveryKeyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = Theme.primaryBackground
+        view.backgroundColor = LightColors.Background.one
         
         showBackButton()
         showCloseButton()

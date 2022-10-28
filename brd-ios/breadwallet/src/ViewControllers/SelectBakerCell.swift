@@ -21,10 +21,10 @@ class SelectBakerCell: UITableViewCell {
     private let bakerIcon = UIImageView(color: .transparentIconBackground)
     private let bakerIconLoadingView = UIView()
     private let iconLoadingSpinner = UIActivityIndicatorView(style: .medium)
-    private let bakerName = UILabel(font: Theme.h3Title, color: .darkGray)
-    private let roiHeader = UILabel(font: Theme.caption, color: .lightGray)
-    private let roi = UILabel(font: Theme.h3Title, color: .darkGray)
-    private let fee = UILabel(font: Theme.caption, color: .lightGray)
+    private let bakerName = UILabel(font: Fonts.Title.three, color: .darkGray)
+    private let roiHeader = UILabel(font: Fonts.Body.three, color: .lightGray)
+    private let roi = UILabel(font: Fonts.Title.three, color: .darkGray)
+    private let fee = UILabel(font: Fonts.Body.three, color: .lightGray)
     
     let container = Background()    // not private for inheritance
     

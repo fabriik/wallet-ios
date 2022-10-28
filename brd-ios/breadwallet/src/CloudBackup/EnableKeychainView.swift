@@ -51,10 +51,10 @@ struct EnableKeychainView: View {
             Button(action: self.completion, label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 4.0)
-                        .fill(Color(self.isKeychainToggleOn ? Theme.accent : UIColor.secondaryButton))
+                        .fill(Color(self.isKeychainToggleOn ? LightColors.primary : LightColors.Text.one))
                     Text(L10n.CloudBackup.enableButton)
-                        .font(Font(Theme.body1))
-                        .foregroundColor(Color(Theme.primaryText))
+                        .font(Font(Fonts.Body.one))
+                        .foregroundColor(Color(LightColors.Text.one))
                 }
             })
             .frame(height: 44.0)

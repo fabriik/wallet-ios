@@ -13,7 +13,7 @@ import SwiftUI
 struct RadioButton: View {
     @SwiftUI.Binding var isOn: Bool
     
-    private let color = Color(Theme.accent)
+    private let color = Color(LightColors.primary)
     
     var body: some View {
         Button(action: {

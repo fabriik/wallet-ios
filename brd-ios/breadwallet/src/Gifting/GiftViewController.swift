@@ -36,9 +36,9 @@ class GiftViewController: UIViewController {
     private let gradientView = GradientView()
     private let headerView = GiftHeaderView()
     private let qr = UIImageView(image: UIImage(named: "GiftQR"))
-    private let header = UILabel.wrapping(font: Theme.boldTitle, color: .white)
-    private let subHeader = UILabel.wrapping(font: Theme.body1, color: UIColor.white.withAlphaComponent(0.85))
-    private let amountHeader = UILabel(font: Theme.caption, color: .white)
+    private let header = UILabel.wrapping(font: Fonts.Title.one, color: LightColors.Contrast.two)
+    private let subHeader = UILabel.wrapping(font: Fonts.Body.one, color: LightColors.Contrast.two.withAlphaComponent(0.85))
+    private let amountHeader = UILabel(font: Fonts.Body.three, color: LightColors.Contrast.two)
     private let name = BorderedTextInput(placeholder: "Recipient's Name", keyboardType: .default)
     private let bottomBorder = UIView(color: .white)
     private let createButton: UIButton = {
@@ -66,7 +66,7 @@ class GiftViewController: UIViewController {
     private var selectedIndex: Int = -1
     private let sendingActivity = BRActivityViewController(message: L10n.TransactionDetails.titleSending)
     private let extraSwitch = UISwitch()
-    private let extraLabel = UILabel.wrapping(font: Theme.caption, color: .white)
+    private let extraLabel = UILabel.wrapping(font: Fonts.Body.three, color: .white)
     
     // State
     private var rate: SimplePrice?
@@ -505,7 +505,7 @@ private extension UIButton {
         layer.cornerRadius = 4
         layer.borderWidth = 0.5
         layer.borderColor = UIColor.white.cgColor
-        tintColor = UIColor.fromHex("FF7E47")
+        tintColor = UIColor(hex: "FF7E47")
     }
     
     func setUnSelected() {

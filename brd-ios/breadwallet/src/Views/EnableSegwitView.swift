@@ -57,7 +57,7 @@ class EnableSegwitView: UIView {
     }
     
     private func setInitialData() {
-        backgroundColor = Theme.transparentBlue
+        backgroundColor = LightColors.Background.three
         layer.masksToBounds = true
         layer.cornerRadius = 8.0
         label.text = L10n.Segwit.confirmChoiceLayout
