@@ -36,7 +36,6 @@ class ExchangeRateView: FEView<ExchangeRateConfiguration, ExchangeRateViewModel>
     
     private lazy var titleLabel: FELabel = {
         let view = FELabel()
-        view.setup(with: .text(L10n.Swap.rate))
         return view
     }()
     

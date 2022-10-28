@@ -31,8 +31,8 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
         
         let sections: [Models.Sections] = [
             .rateAndTimer,
-            .accountLimits,
-            .swapCard
+            .swapCard,
+            .accountLimits
         ]
         
         exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel())
@@ -55,7 +55,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                             fee: .zero(to),
                                             formattedFiatFeeString: nil,
                                             formattedTokenFeeString: nil,
-                                            title: .text(L10n.Swap.iWant),
+                                            title: .text(L10n.Swap.youReceive),
                                             feeDescription: .text(L10n.Swap.sendNetworkFee)))
             ]
         ]
@@ -134,7 +134,7 @@ final class SwapPresenter: NSObject, Presenter, SwapActionResponses {
                                                     fee: actionResponse.fromFee,
                                                     formattedFiatFeeString: formattedToFiatFeeString,
                                                     formattedTokenFeeString: formattedToTokenFeeString,
-                                                    title: .text(L10n.Swap.iWant),
+                                                    title: .text(L10n.Swap.youReceive),
                                                     feeDescription: .text(receivingFee)))
         
         guard actionResponse.handleErrors else {

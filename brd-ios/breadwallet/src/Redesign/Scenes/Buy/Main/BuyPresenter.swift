@@ -20,9 +20,9 @@ final class BuyPresenter: NSObject, Presenter, BuyActionResponses {
     func presentData(actionResponse: FetchModels.Get.ActionResponse) {
         let sections: [Models.Sections] = [
             .rateAndTimer,
-            .accountLimits,
             .from,
-            .to
+            .to,
+            .accountLimits
         ]
         
         exchangeRateViewModel = ExchangeRateViewModel(timer: TimerViewModel(), showTimer: false)
