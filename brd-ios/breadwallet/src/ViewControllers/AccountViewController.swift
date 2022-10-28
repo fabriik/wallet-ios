@@ -19,7 +19,6 @@ class AccountViewController: UIViewController, Subscriber {
         self.currency = currency
         self.headerView = AccountHeaderView(currency: currency)
         self.footerView = AccountFooterView(currency: currency)
-        self.createFooter = CreateAccountFooterView(currency: currency)
         self.searchHeaderview = SearchHeaderView()
         
         super.init(nibName: nil, bundle: nil)
@@ -44,9 +43,7 @@ class AccountViewController: UIViewController, Subscriber {
     
     private let headerView: AccountHeaderView
     private let footerView: AccountFooterView
-    private let createFooter: CreateAccountFooterView
     private var footerHeightConstraint: NSLayoutConstraint?
-    private var createFooterHeightConstraint: NSLayoutConstraint?
     private let transitionDelegate = ModalTransitionDelegate(type: .transactionDetail)
     private var transactionsTableView: TransactionsTableViewController?
     private let searchHeaderview: SearchHeaderView
@@ -109,7 +106,6 @@ class AccountViewController: UIViewController, Subscriber {
     
     override func viewSafeAreaInsetsDidChange() {
         footerHeightConstraint?.constant = AccountFooterView.height + view.safeAreaInsets.bottom
-        createFooterHeightConstraint?.constant = AccountFooterView.height + view.safeAreaInsets.bottom
     }
     
     // MARK: -
@@ -130,7 +126,6 @@ class AccountViewController: UIViewController, Subscriber {
         headerContainer.addSubview(headerView)
         headerContainer.addSubview(searchHeaderview)
         view.addSubview(footerView)
-        view.addSubview(createFooter)
     }
     
     private func addConstraints() {
@@ -149,13 +144,6 @@ class AccountViewController: UIViewController, Subscriber {
             footerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: -Margins.small.rawValue),
             footerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Margins.small.rawValue),
             footerHeightConstraint ])
-        
-        createFooterHeightConstraint = createFooter.heightAnchor.constraint(equalToConstant: AccountFooterView.height)
-        createFooter.constrain([
-            createFooter.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            createFooter.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: -Margins.small.rawValue),
-            createFooter.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Margins.small.rawValue),
-            createFooterHeightConstraint ])
     }
     
     private func addSubscriptions() {
@@ -180,23 +168,6 @@ class AccountViewController: UIViewController, Subscriber {
         headerView.setHostContentOffset = { [weak self] offset in
             self?.transactionsTableView?.tableView.contentOffset.y = offset
         }
-        
-        if currency.isHBAR && wallet == nil {
-            createFooter.isHidden = false
-        } else {
-            createFooter.isHidden = true
-        }
-        
-        createFooter.didTapCreate = { [weak self] in
-            let alert = UIAlertController(title: L10n.AccountCreation.title,
-                                          message: L10n.AccountCreation.body,
-                                          preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: L10n.AccountCreation.notNow, style: .default, handler: nil))
-            alert.addAction(UIAlertAction(title: L10n.AccountCreation.create, style: .default, handler: { [weak self] _ in
-                self?.createAccount()
-            }))
-            self?.present(alert, animated: true, completion: nil)
-        }
     }
     
     private func createAccount() {
@@ -211,9 +182,6 @@ class AccountViewController: UIViewController, Subscriber {
                     if wallet == nil {
                         self?.showErrorMessage(L10n.AccountCreation.error)
                     } else {
-                        UIView.animate(withDuration: 0.5, animations: {
-                            self?.createFooter.alpha = 0.0
-                        })
                         Store.perform(action: Alert.Show(.accountCreation))
                         self?.wallet = wallet
                     }

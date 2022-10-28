@@ -36,11 +36,11 @@ class AccountFooterView: UIView, Subscriber {
     }
     
     private func setup() {
-        let separator = UIView(color: .separatorGray)
+        let separator = UIView(color: LightColors.Outline.one)
         addSubview(toolbar)
         addSubview(separator)
         
-        backgroundColor = currency.colors.1
+        backgroundColor = LightColors.Background.one
         
         toolbar.clipsToBounds = true // to remove separator line
         toolbar.isOpaque = true
@@ -59,16 +59,15 @@ class AccountFooterView: UIView, Subscriber {
             (L10n.Button.send, #selector(AccountFooterView.send)),
             (L10n.Button.receive, #selector(AccountFooterView.receive))
         ].compactMap { (title, selector) -> UIBarButtonItem in
-            let button = UIButton.rounded(title: title)
-            button.tintColor = .white
-            button.backgroundColor = .transparentWhite
+            let button = UIButton.rounded(title: title.uppercased())
             button.addTarget(self, action: selector, for: .touchUpInside)
             return UIBarButtonItem(customView: button)
         }
         buttons.first?.isEnabled = currency.wallet?.balance.isZero != true
         
         let paddingWidth = Margins.large.rawValue
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        flexibleSpace.width = Margins.large.rawValue
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         fixedSpace.width = Margins.small.rawValue
         
@@ -80,7 +79,7 @@ class AccountFooterView: UIView, Subscriber {
             flexibleSpace
         ]
         
-        let buttonWidth = (self.bounds.width - (paddingWidth * CGFloat(buttons.count+1))) / CGFloat(buttons.count)
+        let buttonWidth = (self.bounds.width - (paddingWidth * CGFloat(buttons.count + 1))) / CGFloat(buttons.count)
         let buttonHeight = CGFloat(44.0)
         
         buttons.forEach {
