@@ -61,7 +61,6 @@ class ChartView: UIView {
     private let haptics = UIImpactFeedbackGenerator(style: .light)
     private var rawValues = [HistoryPeriod: [PriceDataPoint]]()
     private var coordinates = [CGPoint]()
-    private let circle = UIView(color: UIColor.white.withAlphaComponent(0.9))
     private let line = GradientView()
     private var circleY: NSLayoutConstraint?
     private var circleX: NSLayoutConstraint?
@@ -70,7 +69,9 @@ class ChartView: UIView {
     private var endCircleSize: CGFloat = 4.0
     private let bezierView = BezierView()
     private let touchView = UIView()
-    private let endCircle = UIView(color: .white)
+    private let circle = UIView()
+    private let endCircle = UIView()
+    
     private var endCircleX: NSLayoutConstraint?
     private var endCircleY: NSLayoutConstraint?
     
@@ -123,8 +124,8 @@ class ChartView: UIView {
         line.constrain([
             lineX,
             line.widthAnchor.constraint(equalToConstant: 1.0),
-            line.topAnchor.constraint(equalTo: topAnchor, constant: -25.0),
-            line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 20)])
+            line.topAnchor.constraint(equalTo: topAnchor, constant: -10),
+            line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 10)])
         
         touchView.constrain([
             touchView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -133,8 +134,7 @@ class ChartView: UIView {
             touchView.topAnchor.constraint(equalTo: topAnchor, constant: -40.0)])
         
         bezierView.snp.makeConstraints { make in
-            make.height.equalToSuperview().multipliedBy(0.6)
-            make.leading.bottom.equalToSuperview()
+            make.leading.top.bottom.equalToSuperview()
             make.trailing.equalTo(-Margins.large.rawValue)
         }
         
@@ -159,17 +159,21 @@ class ChartView: UIView {
             self.hideScrubber()
         }
         
-        circle.layer.cornerRadius = circleSize/2.0
+        circle.backgroundColor = currency.colors.0
+        circle.layer.cornerRadius = circleSize / 2.0
         circle.clipsToBounds = true
-
+        
+        endCircle.backgroundColor = currency.colors.1
+        endCircle.layer.cornerRadius = endCircleSize / 2.0
+        endCircle.clipsToBounds = true
+        endCircle.isHidden = true
+        
         line.backgroundColor = .clear
         
         hideScrubber()
         
         haptics.prepare()
         bezierView.backgroundColor = .clear
-        endCircle.isHidden = true
-        endCircle.layer.cornerRadius = endCircleSize/2.0
         
         addAnimationCompletion()
         
