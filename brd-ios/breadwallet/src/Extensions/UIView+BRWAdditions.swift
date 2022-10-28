@@ -78,7 +78,7 @@ extension UIView {
         return NSLayoutConstraint(item: self, attribute: attribute, relatedBy: .equal, toItem: toView, attribute: attribute, multiplier: 1.0, constant: 0.0)
     }
 
-    func constraint(_ dimension: Dimension, constant: CGFloat) -> NSLayoutConstraint? {
+    func constraint(_ dimension: Dimension, constant: CGFloat = 0) -> NSLayoutConstraint? {
         guard superview != nil else { assert(false, "Superview cannot be nil when adding contraints"); return nil }
         translatesAutoresizingMaskIntoConstraints = false
         return NSLayoutConstraint(item: self,
@@ -90,7 +90,7 @@ extension UIView {
                                   constant: constant)
     }
 
-    func constraint(toBottom: UIView, constant: CGFloat) -> NSLayoutConstraint? {
+    func constraint(toBottom: UIView, constant: CGFloat = 0) -> NSLayoutConstraint? {
         guard superview != nil else { assert(false, "Superview cannot be nil when adding contraints"); return nil }
         translatesAutoresizingMaskIntoConstraints = false
         return NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: toBottom, attribute: .bottom, multiplier: 1.0, constant: constant)
@@ -100,7 +100,7 @@ extension UIView {
         guard superview != nil else { assert(false, "Superview cannot be nil when adding contraints"); return }
         constrain([
                 constraint(.width, toView: to),
-                constraint(toBottom: to, constant: 0.0),
+                constraint(toBottom: to),
                 constraint(.height, constant: height)
             ])
     }

@@ -104,13 +104,13 @@ class SelectBakerCell: UITableViewCell {
             bakerName.topAnchor.constraint(equalTo: container.topAnchor, constant: Margins.large.rawValue),
             bakerName.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: Margins.large.rawValue) ])
         fee.constrain([
-            fee.topAnchor.constraint(equalTo: bakerName.bottomAnchor, constant: 0.0),
+            fee.topAnchor.constraint(equalTo: bakerName.bottomAnchor),
             fee.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: Margins.large.rawValue) ])
         roi.constrain([
-            roi.topAnchor.constraint(equalTo: bakerName.topAnchor, constant: 0.0),
+            roi.topAnchor.constraint(equalTo: bakerName.topAnchor),
             roi.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -Margins.large.rawValue) ])
         roiHeader.constrain([
-            roiHeader.topAnchor.constraint(equalTo: roi.bottomAnchor, constant: 0.0),
+            roiHeader.topAnchor.constraint(equalTo: roi.bottomAnchor),
             roiHeader.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -Margins.large.rawValue) ])
         
         layoutIfNeeded()

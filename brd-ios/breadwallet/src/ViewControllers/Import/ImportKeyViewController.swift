@@ -90,7 +90,7 @@ class ImportKeyViewController: UIViewController, Subscriber {
         illustration.constrain([
             illustration.constraint(.width, constant: 64.0),
             illustration.constraint(.height, constant: 84.0),
-            illustration.constraint(.centerX, toView: header, constant: 0.0),
+            illustration.constraint(.centerX, toView: header),
             illustration.constraint(.centerY, toView: header, constant: E.isIPhoneX ? 4.0 : -Margins.small.rawValue) ])
         leftCaption.constrain([
             leftCaption.topAnchor.constraint(equalTo: illustration.bottomAnchor, constant: Margins.small.rawValue),
@@ -111,7 +111,7 @@ class ImportKeyViewController: UIViewController, Subscriber {
             bullet.heightAnchor.constraint(equalToConstant: 16.0) ])
         warning.constrain([
             warning.leadingAnchor.constraint(equalTo: bullet.trailingAnchor, constant: Margins.large.rawValue),
-            warning.topAnchor.constraint(equalTo: bullet.topAnchor, constant: 0.0),
+            warning.topAnchor.constraint(equalTo: bullet.topAnchor),
             warning.trailingAnchor.constraint(equalTo: message.trailingAnchor) ])
         button.constrain([
             button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.huge.rawValue),

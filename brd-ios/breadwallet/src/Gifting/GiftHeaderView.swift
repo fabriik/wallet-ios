@@ -47,7 +47,7 @@ class GiftHeaderView: UIView {
             border.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.large.rawValue),
             border.trailingAnchor.constraint(equalTo: trailingAnchor),
             border.heightAnchor.constraint(equalToConstant: 1.0),
-                            border.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0)])
+                            border.bottomAnchor.constraint(equalTo: bottomAnchor)])
     }
     
     private func setInitialData() {

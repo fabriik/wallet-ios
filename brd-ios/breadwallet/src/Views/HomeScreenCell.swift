@@ -19,7 +19,6 @@ enum HomeScreenCellIds: String {
 }
 
 class Background: UIView, GradientDrawable {
-
     var currency: Currency?
 
     override func layoutSubviews() {
@@ -30,12 +29,6 @@ class Background: UIView, GradientDrawable {
                                       cornerRadii: CGSize(width: CornerRadius.common.rawValue,
                                                           height: CornerRadius.common.rawValue)).cgPath
         layer.mask = maskLayer
-    }
-
-    override func draw(_ rect: CGRect) {
-        guard let currency = currency else { return }
-        let colors = currency.isSupported ? (.white, .white) : (UIColor.disabledCellBackground, UIColor.disabledCellBackground)
-        drawGradient(start: colors.0, end: colors.1, rect)
     }
 }
 
@@ -162,7 +155,7 @@ class HomeScreenCell: UITableViewCell, Subscriber {
             iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor)])
         currencyName.constrain([
             currencyName.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: containerPadding),
-            currencyName.bottomAnchor.constraint(equalTo: iconImageView.centerYAnchor, constant: 0.0)])
+            currencyName.bottomAnchor.constraint(equalTo: iconImageView.centerYAnchor)])
         price.constrain([
             price.leadingAnchor.constraint(equalTo: currencyName.leadingAnchor),
             price.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -Margins.special.rawValue)])
@@ -184,7 +177,7 @@ class HomeScreenCell: UITableViewCell, Subscriber {
         syncIndicator.constrain([
             syncIndicator.trailingAnchor.constraint(equalTo: fiatBalance.trailingAnchor),
             syncIndicator.leadingAnchor.constraint(greaterThanOrEqualTo: priceChangeView.trailingAnchor, constant: containerPadding),
-            syncIndicator.bottomAnchor.constraint(equalTo: tokenBalance.bottomAnchor, constant: 0.0)])
+            syncIndicator.bottomAnchor.constraint(equalTo: tokenBalance.bottomAnchor)])
         syncIndicator.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         layoutIfNeeded()

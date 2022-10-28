@@ -23,7 +23,7 @@ internal enum L10n {
     internal static let blog = L10n.tr("Localizable", "About.blog", fallback: "Blog")
     /// About screen footer
     internal static func footer(_ p1: Any, _ p2: Any) -> String {
-      return L10n.tr("Localizable", "About.footer", String(describing: p1), String(describing: p2), fallback: "Made by the global Fabriik team.\nVersion %1$@ Build %2$@")
+      return L10n.tr("Localizable", "About.footer", String(describing: p1), String(describing: p2), fallback: "Made by the global RockWallet team.\nVersion %1$@ Build %2$@")
     }
     /// Privay Policy button label
     internal static let privacy = L10n.tr("Localizable", "About.privacy", fallback: "Privacy Policy")
@@ -56,7 +56,7 @@ internal enum L10n {
     /// Verify your account label on profile screen
     internal static let accountVerify = L10n.tr("Localizable", "Account.AccountVerify", fallback: "Verify")
     /// Account balance
-    internal static let balance = L10n.tr("Localizable", "Account.balance", fallback: "Balance")
+    internal static let balance = L10n.tr("Localizable", "Account.balance", fallback: "Your balance")
     /// Before confirm photo label in create account screen
     internal static let beforeConfirm = L10n.tr("Localizable", "Account.BeforeConfirm", fallback: "Before you confirm, please:")
     /// Change your email title on registration flow
@@ -2550,6 +2550,14 @@ internal enum L10n {
     internal static let label = L10n.tr("Localizable", "VerificationCode.label", fallback: "We Texted You a Confirmation Code")
     /// Verification Code Title
     internal static let title = L10n.tr("Localizable", "VerificationCode.title", fallback: "Confirmation Code")
+  }
+  internal enum VerifyAccount {
+    /// Verify
+    internal static let button = L10n.tr("Localizable", "VerifyAccount.Button", fallback: "Verify")
+    /// We need to verify your identity before you can buy or swap assets.
+    internal static let subtitle = L10n.tr("Localizable", "VerifyAccount.Subtitle", fallback: "We need to verify your identity before you can buy or swap assets.")
+    /// Verify your account to get full access to your RockWallet!
+    internal static let title = L10n.tr("Localizable", "VerifyAccount.Title", fallback: "Verify your account to get full access to your RockWallet!")
   }
   internal enum VerifyPin {
     /// Verify PIN for transaction view body

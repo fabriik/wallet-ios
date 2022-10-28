@@ -89,9 +89,9 @@ class ReceiveViewController: UIViewController, Subscriber {
             address.constraint(toBottom: qrCode, constant: Margins.large.rawValue),
             address.constraint(.centerX, toView: view),
             address.constraint(.leading, toView: view, constant: Margins.extraExtraHuge.rawValue) ])
-        addressPopout.heightConstraint = addressPopout.constraint(.height, constant: 0.0)
+        addressPopout.heightConstraint = addressPopout.constraint(.height)
         addressPopout.constrain([
-            addressPopout.constraint(toBottom: address, constant: 0.0),
+            addressPopout.constraint(toBottom: address),
             addressPopout.constraint(.centerX, toView: view),
             addressPopout.constraint(.width, toView: view),
             addressPopout.heightConstraint ])
@@ -100,7 +100,7 @@ class ReceiveViewController: UIViewController, Subscriber {
             share.constraint(.centerX, toView: view),
             share.constraint(.width, constant: ViewSizes.extraExtraHuge.rawValue),
             share.constraint(.height, constant: smallButtonHeight) ])
-        sharePopout.heightConstraint = sharePopout.constraint(.height, constant: 0.0)
+        sharePopout.heightConstraint = sharePopout.constraint(.height)
         topSharePopoutConstraint = sharePopout.constraint(toBottom: share, constant: largeSharePadding)
         sharePopout.constrain([
             topSharePopoutConstraint,
@@ -109,7 +109,7 @@ class ReceiveViewController: UIViewController, Subscriber {
             sharePopout.heightConstraint ])
         border.constrain([
             border.constraint(.width, toView: view),
-            border.constraint(toBottom: sharePopout, constant: 0.0),
+            border.constraint(toBottom: sharePopout),
             border.constraint(.centerX, toView: view),
             border.constraint(.height, constant: 1.0) ])
         requestTop = request.constraint(toBottom: border, constant: Margins.huge.rawValue)

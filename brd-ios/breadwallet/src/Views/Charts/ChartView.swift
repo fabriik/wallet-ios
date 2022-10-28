@@ -53,7 +53,8 @@ class ChartView: UIView {
         }
         
         DispatchQueue.main.async {
-            self.bezierView.drawBezierCurve()
+            self.bezierView.drawBezierCurve(bezierViewDataPoints: self.coordinates,
+                                            currencyColors: self.currency.colors)
         }
     }
     
@@ -61,7 +62,7 @@ class ChartView: UIView {
     private var rawValues = [HistoryPeriod: [PriceDataPoint]]()
     private var coordinates = [CGPoint]()
     private let circle = UIView(color: UIColor.white.withAlphaComponent(0.9))
-    private let line = DoubleGradientView()
+    private let line = GradientView()
     private var circleY: NSLayoutConstraint?
     private var circleX: NSLayoutConstraint?
     private var lineX: NSLayoutConstraint?
@@ -109,8 +110,8 @@ class ChartView: UIView {
     }
     
     private func addConstraints() {
-        circleX = circle.centerXAnchor.constraint(equalTo: leadingAnchor, constant: 0)
-        circleY = circle.centerYAnchor.constraint(equalTo: topAnchor, constant: 0)
+        circleX = circle.centerXAnchor.constraint(equalTo: leadingAnchor)
+        circleY = circle.centerYAnchor.constraint(equalTo: topAnchor)
         
         circle.constrain([
             circleY,
@@ -118,7 +119,7 @@ class ChartView: UIView {
             circle.widthAnchor.constraint(equalToConstant: circleSize),
             circle.heightAnchor.constraint(equalToConstant: circleSize)])
         
-        lineX = line.centerXAnchor.constraint(equalTo: leadingAnchor, constant: 0)
+        lineX = line.centerXAnchor.constraint(equalTo: leadingAnchor)
         line.constrain([
             lineX,
             line.widthAnchor.constraint(equalToConstant: 1.0),
@@ -131,11 +132,15 @@ class ChartView: UIView {
             touchView.trailingAnchor.constraint(equalTo: trailingAnchor),
             touchView.topAnchor.constraint(equalTo: topAnchor, constant: -40.0)])
         
-        bezierView.constrain(toSuperviewEdges: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Margins.large.rawValue))
+        bezierView.snp.makeConstraints { make in
+            make.height.equalToSuperview().multipliedBy(0.6)
+            make.leading.bottom.equalToSuperview()
+            make.trailing.equalTo(-Margins.large.rawValue)
+        }
         
         endCircle.pin(toSize: CGSize(width: endCircleSize, height: endCircleSize))
-        endCircleX = endCircle.centerXAnchor.constraint(equalTo: leadingAnchor, constant: 0)
-        endCircleY = endCircle.centerYAnchor.constraint(equalTo: topAnchor, constant: 0)
+        endCircleX = endCircle.centerXAnchor.constraint(equalTo: leadingAnchor)
+        endCircleY = endCircle.centerYAnchor.constraint(equalTo: topAnchor)
         endCircle.constrain([endCircleX, endCircleY])
     }
     
@@ -162,7 +167,6 @@ class ChartView: UIView {
         hideScrubber()
         
         haptics.prepare()
-        bezierView.dataSource = self
         bezierView.backgroundColor = .clear
         endCircle.isHidden = true
         endCircle.layer.cornerRadius = endCircleSize/2.0
@@ -284,14 +288,7 @@ class ChartView: UIView {
     
 }
 
-extension ChartView: BezierViewDataSource {
-    var bezierViewDataPoints: [CGPoint] {
-        return coordinates
-    }
-}
-
 class InitialPointPanGestureRecognizer: UIPanGestureRecognizer {
-    
     var didTapAtInitialPoint: ((CGPoint) -> Void)?
     var touchesDidEnd: (() -> Void)?
     
@@ -304,5 +301,4 @@ class InitialPointPanGestureRecognizer: UIPanGestureRecognizer {
         super.touchesEnded(touches, with: event)
         touchesDidEnd?()
     }
-    
 }

@@ -76,11 +76,11 @@ class AttributeCell: UIView {
             label.constraint(.leading, toView: self, constant: Margins.large.rawValue) ])
         contentLabel.constrain([
             contentLabel.constraint(.leading, toView: label),
-            contentLabel.constraint(toBottom: label, constant: 0.0),
+            contentLabel.constraint(toBottom: label),
             contentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.small.rawValue) ])
         textField.constrain([
             textField.constraint(.leading, toView: label),
-            textField.constraint(toBottom: label, constant: 0.0),
+            textField.constraint(toBottom: label),
             textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.small.rawValue) ])
         tapView.constrain([
             tapView.leadingAnchor.constraint(equalTo: leadingAnchor),

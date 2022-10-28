@@ -117,7 +117,7 @@ class AlertPresenter: Subscriber {
         
         let size = window.bounds.size
         window.addSubview(alert)
-        let bottomConstraint = alert.bottomAnchor.constraint(equalTo: window.topAnchor, constant: 0.0)
+        let bottomConstraint = alert.bottomAnchor.constraint(equalTo: window.topAnchor)
         alert.constrain([
             alert.constraint(.width, constant: size.width),
             alert.constraint(.height, constant: InAppAlert.height),

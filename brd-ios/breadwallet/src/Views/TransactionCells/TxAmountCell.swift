@@ -57,7 +57,7 @@ class TxAmountCell: UITableViewCell, Subscriber {
             tokenAmountLabel.constraint(.trailing, toView: container)
             ])
         fiatAmountLabel.constrain([
-            fiatAmountLabel.constraint(toBottom: tokenAmountLabel, constant: 0),
+            fiatAmountLabel.constraint(toBottom: tokenAmountLabel),
             fiatAmountLabel.constraint(.leading, toView: container),
             fiatAmountLabel.constraint(.trailing, toView: container),
             fiatAmountLabel.constraint(.bottom, toView: container)
