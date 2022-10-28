@@ -11,39 +11,39 @@ import UIKit
 extension UIColor {
         
     static var newGradientStart: UIColor {
-        return UIColor.fromHex("FB5491")
+        return UIColor(hex: "FB5491")
     }
     
     static var almostBlack: UIColor {
-        return UIColor.fromHex("#282828")
+        return UIColor(hex: "#282828")
     }
 
     static var vibrantYellow: UIColor {
-        return UIColor.fromHex("#F8BA37")
+        return UIColor(hex: "#F8BA37")
     }
     
     static var gray1: UIColor {
-        return UIColor.fromHex("#696969")
+        return UIColor(hex: "#696969")
     }
     
     static var gray2: UIColor {
-        return UIColor.fromHex("#A0A0A0")
+        return UIColor(hex: "#A0A0A0")
     }
     
     static var gray3: UIColor {
-        return UIColor.fromHex("#C9C9C9")
+        return UIColor(hex: "#C9C9C9")
     }
     
     static var green: UIColor {
-        return UIColor.fromHex("#00A86E")
+        return UIColor(hex: "#00A86E")
     }
     
     static var red: UIColor {
-        return UIColor.fromHex("#FF5C4A")
+        return UIColor(hex: "#FF5C4A")
     }
     
     static var homeBackground: UIColor {
-        return UIColor.fromHex("#fafafa")
+        return UIColor(hex: "#fafafa")
     }
     
     static var shadowColor: UIColor {
@@ -71,15 +71,15 @@ extension UIColor {
     }
     
     static var newGradientEnd: UIColor {
-        return UIColor.fromHex("FAA03F")
+        return UIColor(hex: "FAA03F")
     }
 
     static var darkBackground: UIColor {
-        return Theme.primaryBackground
+        return LightColors.Background.two
     }
     
     static var darkPromptBackground: UIColor {
-        return UIColor.fromHex("3E334F")
+        return UIColor(hex: "3E334F")
     }
 
     static var darkPromptTitleColor: UIColor {
@@ -87,48 +87,48 @@ extension UIColor {
     }
 
     static var darkPromptBodyColor: UIColor {
-        return UIColor.fromHex("A1A9BC")
+        return UIColor(hex: "A1A9BC")
     }
     
     static var emailInputBackgroundColor: UIColor {
-        return UIColor.fromHex("F8F7FC").withAlphaComponent(0.05)
+        return UIColor(hex: "F8F7FC").withAlphaComponent(0.05)
     }
     
     static var submitButtonEnabledBlue: UIColor {
-        return UIColor.fromHex("29ABE2")
+        return UIColor(hex: "29ABE2")
     }
     
     static var orangeText: UIColor {
-        return UIColor.fromHex("FA724D")
+        return UIColor(hex: "FA724D")
     }
     
     static var newWhite: UIColor {
-        return UIColor.fromHex("BDBDBD")
+        return UIColor(hex: "BDBDBD")
     }
     
     static var greenCheck: UIColor {
-        return UIColor.fromHex("00A86E")
+        return UIColor(hex: "00A86E")
     }
     
     static var redCheck: UIColor {
-        return UIColor.fromHex("D72431")
+        return UIColor(hex: "D72431")
     }
     
     static var shuttleGrey: UIColor {
-        return UIColor.fromHex("5F6368")
+        return UIColor(hex: "5F6368")
     }
     
     static var disabledBackground: UIColor {
-        return UIColor.fromHex("3E3C61")
+        return UIColor(hex: "3E3C61")
     }
 
     // MARK: Buttons
     static var primaryButton: UIColor {
-        return UIColor.fromHex("2C78FF")
+        return UIColor(hex: "2C78FF")
     }
     
     static var orangeButton: UIColor {
-        return UIColor.fromHex("E7AA41")
+        return UIColor(hex: "E7AA41")
     }
 
     static var secondaryButton: UIColor {
@@ -142,19 +142,19 @@ extension UIColor {
     // MARK: text color
         
     static var darkText: UIColor {
-        return UIColor.fromHex("4F4F4F")
+        return UIColor(hex: "4F4F4F")
     }
 
     static var lightText: UIColor {
-        return UIColor.fromHex("828282")
+        return UIColor(hex: "828282")
     }
 
     static var lightHeaderBackground: UIColor {
-        return UIColor.fromHex("F9F9F9")
+        return UIColor(hex: "F9F9F9")
     }
 
     static var lightTableViewSectionHeaderBackground: UIColor {
-        return UIColor.fromHex("ECECEC")
+        return UIColor(hex: "ECECEC")
     }
 
     static var darkLine: UIColor {
@@ -167,11 +167,11 @@ extension UIColor {
 
     // MARK: Gradient
     static var gradientStart: UIColor {
-        return UIColor.fromHex("FF5193")
+        return UIColor(hex: "FF5193")
     }
 
     static var gradientEnd: UIColor {
-        return UIColor.fromHex("F29500")
+        return UIColor(hex: "F29500")
     }
 
     static var offWhite: UIColor {
@@ -199,7 +199,7 @@ extension UIColor {
     }
     
     static var emailPlaceholderText: UIColor {
-        return UIColor.fromHex("828092")
+        return UIColor(hex: "828092")
     }
     
     static var grayBackgroundTint: UIColor {
@@ -259,7 +259,7 @@ extension UIColor {
     }
 
     static var darkOpaqueButton: UIColor {
-        return UIColor.fromHex("6496F8")
+        return UIColor(hex: "6496F8")
 //        return UIColor(white: 1.0, alpha: 0.05)
     }
     
@@ -316,11 +316,11 @@ extension UIColor {
     }
     
     static var navigationTint: UIColor {
-        return Theme.blueBackground
+        return LightColors.Text.one
     }
     
     static var navigationBackground: UIColor {
-        return Theme.primaryBackground
+        return LightColors.Background.one
     }
     
     static var transparentCellBackground: UIColor {
@@ -332,15 +332,15 @@ extension UIColor {
     }
     
     static var disabledCellBackground: UIColor {
-        return UIColor.fromHex("190C2A")
+        return UIColor(hex: "190C2A")
     }
     
     static var pageIndicatorDotBackground: UIColor {
-        return UIColor.fromHex("1F1E3D")
+        return UIColor(hex: "1F1E3D")
     }
     
     static var pageIndicatorDot: UIColor {
-        return  UIColor.fromHex("027AFF")
+        return  UIColor(hex: "027AFF")
     }
     
     static var onboardingHeadingText: UIColor {
@@ -348,53 +348,26 @@ extension UIColor {
     }
     
     static var onboardingSubheadingText: UIColor {
-        return UIColor.fromHex("8B89A1")
+        return UIColor(hex: "8B89A1")
     }
     
     static var onboardingSkipButtonTitle: UIColor {
-        return UIColor.fromHex("8B89A1")
+        return UIColor(hex: "8B89A1")
     }
     
     static var onboardingOrangeText: UIColor {
-        return UIColor.fromHex("EA8017")
+        return UIColor(hex: "EA8017")
     }
 
     static var rewardsViewNormalTitle: UIColor {
-        return UIColor.fromHex("2A2A2A")
+        return UIColor(hex: "2A2A2A")
     }
 
     static var rewardsViewExpandedTitle: UIColor {
-        return UIColor.fromHex("441E36")
+        return UIColor(hex: "441E36")
     }
 
     static var rewardsViewExpandedBody: UIColor {
-        return UIColor.fromHex("#441E36").withAlphaComponent(0.7)
-    }
-}
-
-extension UIColor {
-    static func fromHex(_ hex: String) -> UIColor {
-        var sanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if sanitized.hasPrefix("#") {
-            sanitized.remove(at: sanitized.startIndex)
-        }
-        guard sanitized.count == 6 else { return .lightGray }
-        var rgbValue: UInt64 = 0
-        Scanner(string: sanitized).scanHexInt64(&rgbValue)
-        return UIColor(
-            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0))
-    }
-    
-    var toHex: String {
-        var r: CGFloat = 0
-        var g: CGFloat = 0
-        var b: CGFloat = 0
-        var a: CGFloat = 0
-        getRed(&r, green: &g, blue: &b, alpha: &a)
-        let rgb: Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
-        return String(format: "#%06x", rgb)
+        return UIColor(hex: "#441E36").withAlphaComponent(0.7)
     }
 }

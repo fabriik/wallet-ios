@@ -372,8 +372,8 @@ private class StartupScreen: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = Theme.primaryBackground
-        logo.tintColor = Theme.primaryBackground
+        view.backgroundColor = LightColors.Background.one
+        logo.tintColor = LightColors.Background.one
         
         logoBackground.addSubview(logo)
         view.addSubview(logoBackground)

@@ -139,7 +139,7 @@ extension CurrencyMetaData: Codable {
         code = try container.decode(String.self, forKey: .code)
         let colorValues = try container.decodeIfPresent([String].self, forKey: .colors)
         if colorValues?.count == 2 {
-            colors = (UIColor.fromHex(colorValues?[0] ?? ""), UIColor.fromHex(colorValues?[1] ?? ""))
+            colors = (UIColor(hex: colorValues?[0] ?? ""), UIColor(hex: colorValues?[1] ?? ""))
         } else {
             colors = (UIColor.black, UIColor.black)
         }

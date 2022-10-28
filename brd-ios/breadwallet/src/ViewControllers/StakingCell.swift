@@ -95,16 +95,16 @@ class StakingCell: UIView, Subscriber {
     private func updateStakingStatus() {
         if currency.wallet?.hasPendingTxn == true {
             statusFlag.text = "  \(L10n.Staking.stakingPendingFlag)  "
-            statusFlag.backgroundColor = Theme.accent.withAlphaComponent(0.16)
-            statusFlag.textColor = .darkGray
+            statusFlag.backgroundColor = LightColors.Pending.two
+            statusFlag.textColor = LightColors.Pending.one
         } else if currency.wallet?.stakedValidatorAddress != nil {
             statusFlag.text = "  \(L10n.Staking.stakingActiveFlag)  "
-            statusFlag.backgroundColor = Theme.success.withAlphaComponent(0.16)
-            statusFlag.textColor = Theme.success
+            statusFlag.backgroundColor = LightColors.Success.two
+            statusFlag.textColor = LightColors.Success.one
         } else {
             statusFlag.text = "  \(L10n.Staking.stakingInactiveFlag)  "
-            statusFlag.backgroundColor = Theme.accent.withAlphaComponent(0.16)
-            statusFlag.textColor = .darkGray
+            statusFlag.backgroundColor = LightColors.Pending.two
+            statusFlag.textColor = LightColors.Pending.one
         }
     }
     

@@ -17,7 +17,7 @@ class EnterPhraseCell: UICollectionViewCell {
     }
 
     private func cellPlaceHolder(_ index: Int) -> NSAttributedString {
-        return NSAttributedString(string: "\(index + 1)", attributes: [NSAttributedString.Key.foregroundColor: Theme.tertiaryText])
+        return NSAttributedString(string: "\(index + 1)", attributes: [NSAttributedString.Key.foregroundColor: LightColors.Text.three])
     }
     
     func updatePlaceholder() {

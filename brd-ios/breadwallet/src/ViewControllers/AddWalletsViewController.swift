@@ -114,7 +114,7 @@ class AddWalletsViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
-        view.backgroundColor = Theme.primaryBackground
+        view.backgroundColor = LightColors.Background.one
         
         setupSearchBar()
         setupInfoView()

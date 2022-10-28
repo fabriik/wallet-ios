@@ -219,7 +219,7 @@ class Theme: BRDTheme {
     
     // Returns a color with the given enum
     private static func color(_ hex: ColorHex) -> UIColor {
-        return UIColor.fromHex(hex.rawValue)
+        return UIColor(hex: hex.rawValue)
     }
 }
 
@@ -252,9 +252,9 @@ struct ThemePreview: View {
                 .font(Font(Theme.body3))
             Group {
                 HStack {
-                    self.colorRectangle(color: Color(Theme.primaryBackground), label: "primaryBackground")
-                    self.colorRectangle(color: Color(Theme.secondaryBackground), label: "secondaryBackground")
-                    self.colorRectangle(color: Color(Theme.tertiaryBackground), label: "tertiaryBackground")
+                    self.colorRectangle(color: Color(LightColors.Background.one), label: "primaryBackground")
+                    self.colorRectangle(color: Color(LightColors.Background.two), label: "secondaryBackground")
+                    self.colorRectangle(color: Color(LightColors.Background.three), label: "tertiaryBackground")
                 }
                 HStack {
                     self.colorRectangle(color: Color(Theme.accent), label: "accent")
@@ -266,9 +266,9 @@ struct ThemePreview: View {
                 }
                 HStack {
                     self.colorRectangle(color: Color(Theme.primaryText), label: "primaryText")
-                    self.colorRectangle(color: Color(Theme.secondaryText), label: "secondaryText")
+                    self.colorRectangle(color: Color(LightColors.Text.two), label: "secondaryText")
                     self.colorRectangle(color: Color(Theme.tertiaryText), label: "tertiaryText")
-                }.background(Color(Theme.primaryBackground))
+                }.background(Color(LightColors.Background.one))
             }
         }
     }

@@ -55,7 +55,7 @@ struct MarketDataView: View {
     
     func text(_ text: String) -> some View {
         Text(text)
-            .font(Font(Theme.body1))
+            .font(Font(Fonts.Body.one))
             .foregroundColor(textColor)
             .minimumScaleFactor(0.1)
             .lineLimit(1)
@@ -63,7 +63,7 @@ struct MarketDataView: View {
     
     func subText(_ text: String) -> Text {
         Text(text)
-            .font(Font(Theme.caption))
+            .font(Font(Fonts.Subtitle.one))
             .foregroundColor(subTextColor)
     }
     

@@ -13,7 +13,7 @@ extension UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.setImage(image, for: .normal)
-        button.titleLabel?.font = Theme.caption
+        button.titleLabel?.font = Fonts.button
         button.contentMode = .center
         button.imageView?.contentMode = .center
         if let imageSize = button.imageView?.image?.size,

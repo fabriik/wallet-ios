@@ -44,7 +44,7 @@ class DefaultCurrencyViewController: UITableViewController, Subscriber {
         self.selectedCurrencyCode = Store.state.defaultCurrencyCode
 
         tableView.separatorStyle = .none
-        tableView.backgroundColor = Theme.primaryBackground
+        tableView.backgroundColor = LightColors.Background.one
 
         let titleLabel = UILabel(font: .customBold(size: 17.0), color: .almostBlack)
         titleLabel.text = L10n.Settings.currency

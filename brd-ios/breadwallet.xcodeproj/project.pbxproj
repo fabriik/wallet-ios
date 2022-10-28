@@ -112,7 +112,6 @@
 		71988B0821EF8A0E008B8EA0 /* BRUserAgentHeaderGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71988B0721EF8A0E008B8EA0 /* BRUserAgentHeaderGenerator.swift */; };
 		71988B0921EF8A0E008B8EA0 /* BRUserAgentHeaderGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71988B0721EF8A0E008B8EA0 /* BRUserAgentHeaderGenerator.swift */; };
 		71988B0B21EF8D06008B8EA0 /* BRUserAgentHeaderGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71988B0A21EF8D06008B8EA0 /* BRUserAgentHeaderGeneratorTests.swift */; };
-		71A3170D229C70C00088F97C /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3170C229C70C00088F97C /* Theme.swift */; };
 		71A3171022A6D55A0088F97C /* InAppNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3170F22A6D55A0088F97C /* InAppNotificationViewController.swift */; };
 		71A3171222A6E5F10088F97C /* BRAPIClient+Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3171122A6E5F10088F97C /* BRAPIClient+Messages.swift */; };
 		71C44E90225D135E00EF4459 /* ConfirmRecoveryKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C44E8F225D135E00EF4459 /* ConfirmRecoveryKeyViewController.swift */; };
@@ -287,6 +286,12 @@
 		7E2E1A41284E267000E56E69 /* ProfileWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E1A40284E267000E56E69 /* ProfileWorker.swift */; };
 		7E383A9B28AF68160000D2F7 /* BuyErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E383A9A28AF68160000D2F7 /* BuyErrors.swift */; };
 		7E383B4928AE1AFD00A5339F /* AssetSelectionDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E383B4828AE1AFD00A5339F /* AssetSelectionDisplayable.swift */; };
+		7E50C71F290BE0EE0036AA9F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CB36D2835090E00EC787E /* Colors.swift */; };
+		7E50C720290BE0EE0036AA9F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CB36D2835090E00EC787E /* Colors.swift */; };
+		7E50C721290BE0F80036AA9F /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CB36B2835090E00EC787E /* ThemeManager.swift */; };
+		7E50C722290BE0F90036AA9F /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CB36B2835090E00EC787E /* ThemeManager.swift */; };
+		7E50C723290BE10F0036AA9F /* UIColor+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CB3482835090D00EC787E /* UIColor+init.swift */; };
+		7E50C724290BE1100036AA9F /* UIColor+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CB3482835090D00EC787E /* UIColor+init.swift */; };
 		7E516D7928B4E83000BBB702 /* ExchangeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E516D7828B4E83000BBB702 /* ExchangeManager.swift */; };
 		7E52B7A22872CD1E003D2249 /* SupportedCurrenciesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E52B7A12872CD1E003D2249 /* SupportedCurrenciesWorker.swift */; };
 		7E5B305B28A67FC60065D2D8 /* SwapInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B305A28A67FC60065D2D8 /* SwapInfoViewController.swift */; };
@@ -4765,7 +4770,6 @@
 				7B94343B2886DAF000638703 /* DeleteProfileInfoCoordinator.swift in Sources */,
 				7BDB49B62805AC780031F015 /* EmailFeedbackManager.swift in Sources */,
 				CE8CD8DF1E2E825100785E02 /* VerifyPinViewController.swift in Sources */,
-				71A3170D229C70C00088F97C /* Theme.swift in Sources */,
 				7CA238142011A97C00A4A59D /* TxDetailViewController.swift in Sources */,
 				CE65C665207B0BEF000C99C4 /* ManageCurrencyCell.swift in Sources */,
 				7B54E5AB27F4A2B0002DD1E4 /* SpinnerView.swift in Sources */,
@@ -5048,9 +5052,12 @@
 				7EF2999827E3B9C700A2238A /* ApiClient.swift in Sources */,
 				7EF2999627E3B9C700A2238A /* Models.swift in Sources */,
 				7BDB49FA2806F23E0031F015 /* BRTar.swift in Sources */,
+				7E50C722290BE0F90036AA9F /* ThemeManager.swift in Sources */,
 				7EF2999727E3B9C700A2238A /* SimplePrice.swift in Sources */,
 				9F3C30B025DA954300C7C398 /* UIFont+BRWAdditions.swift in Sources */,
+				7E50C724290BE1100036AA9F /* UIColor+init.swift in Sources */,
 				9F3C308625DA929600C7C398 /* Identifier.swift in Sources */,
+				7E50C720290BE0EE0036AA9F /* Colors.swift in Sources */,
 				9F3C30A225DA951200C7C398 /* Theme.swift in Sources */,
 				9F3C309425DA94C600C7C398 /* UIColor+BRWAdditions.swift in Sources */,
 				9F1143B7261B048900848E7B /* CacheService.swift in Sources */,
@@ -5072,10 +5079,13 @@
 				9F00EAD025DDF28400A99218 /* Bundle+Extensions.swift in Sources */,
 				9FDDE57225D5B82A00E42BE3 /* AssetWidget.swift in Sources */,
 				9F3C309B25DA951200C7C398 /* Theme.swift in Sources */,
+				7E50C723290BE10F0036AA9F /* UIColor+init.swift in Sources */,
 				9F2118AC25DD74EA00ABD2C8 /* CoinGecko+Extesions.swift in Sources */,
 				7B8140BA27FD6DBB00662724 /* Currency+Extensions.swift in Sources */,
 				9FD519D525E310D300F9D856 /* Strings.swift in Sources */,
 				9FC529D12604FAA300855473 /* BreadwalletWidget.intentdefinition in Sources */,
+				7E50C71F290BE0EE0036AA9F /* Colors.swift in Sources */,
+				7E50C721290BE0F80036AA9F /* ThemeManager.swift in Sources */,
 				7EF2999B27E3B9D900A2238A /* MarketData.swift in Sources */,
 				9FB0CA1525D5AD180057DD11 /* BreadwalletWidget.swift in Sources */,
 				9F3C302525DA8B2F00C7C398 /* WidgetService.swift in Sources */,

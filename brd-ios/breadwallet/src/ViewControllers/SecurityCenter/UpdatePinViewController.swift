@@ -183,7 +183,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
     }
 
     private func setData() {
-        view.backgroundColor = Theme.primaryBackground
+        view.backgroundColor = LightColors.Background.one
         pinPad.ouputDidUpdate = { [weak self] text in
             guard let step = self?.step else { return }
             switch step {
