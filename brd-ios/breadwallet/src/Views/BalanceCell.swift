@@ -110,8 +110,8 @@ class BalanceCell: UIView, Subscriber {
     private func setBalances() {
         let amount = Amount(amount: balance, rate: exchangeRate)
         
-        let tokenValue = ExchangeFormatter.crypto.string(for: amount.tokenValue.doubleValue)
-        let fiatValue = ExchangeFormatter.fiat.string(for: amount.fiatValue.doubleValue)
+        let tokenValue = amount.tokenDescription
+        let fiatValue = amount.fiatDescription
         
         primaryBalance.setup(with: .text(tokenValue))
         secondaryBalance.setup(with: .text(fiatValue))
