@@ -26,6 +26,10 @@ struct Presets {
                                                           tintColor: LightColors.Contrast.two,
                                                           border: Presets.Border.disabledButtonFullRadius)
             
+            static var selectedTextField = BackgroundConfiguration(backgroundColor: LightColors.Background.one,
+                                                        tintColor: LightColors.Contrast.two,
+                                                         border: Border.selectedTextField)
+            
             static var error = BackgroundConfiguration(backgroundColor: LightColors.primary,
                                                        tintColor: .red,
                                                        border: Presets.Border.error)
@@ -78,7 +82,7 @@ struct Presets {
         static var disabledButtonFullRadius = BorderConfiguration(borderWidth: 0, cornerRadius: .fullRadius)
         
         static var normalTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
-        static var selectedTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
+        static var selectedTextField = BorderConfiguration(tintColor: LightColors.primary, borderWidth: 1, cornerRadius: .small)
         static var disabledTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
     }
     
