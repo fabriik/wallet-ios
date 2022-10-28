@@ -158,27 +158,14 @@ extension TxViewModel {
             return exchangeStatusIconDecider(status: swap?.status)
         }
         
-        if let gift = gift, tx.confirmations >= currency.confirmationsUntilFinal {
-            // Not shared should override unclaimed
-            if gift.reclaimed == true {
-                return .gift(.reclaimed)
-            } else if gift.claimed {
-                return .gift(.claimed)
-            } else if gift.shared == false {
-                return .gift(.unsent)
-            } else {
-                return .gift(.unclaimed)
-            }
-        }
-        
         switch tx.transactionType {
         case .defaultTransaction, .buyTransaction:
             if tx.confirmations < currency.confirmationsUntilFinal, tx.transactionType != .buyTransaction {
-                return tx.direction == .received ? .receivePending : .sendPending
+                return tx.direction == .received ? .received : .sent
             } else if tx.transactionType == .buyTransaction {
                 return exchangeStatusIconDecider(status: tx.status)
             } else if tx.status == .invalid {
-                return tx.transactionType == .buyTransaction ? .receiveFailed : .sendFailed
+                return tx.transactionType == .buyTransaction ? .received : .sent
             } else if tx.direction == .received || tx.direction == .recovered {
                 return .received
             }
@@ -195,14 +182,14 @@ extension TxViewModel {
         let status = status ?? .failed
         
         if status == .complete || status == .manuallySettled || status == .confirmed {
-            return transactionType == .buyTransaction ? .received : .swapComplete
+            return transactionType == .buyTransaction ? .received : .swap
         }
         
         if status == .pending {
-            return transactionType == .buyTransaction ? .receivePending : .swapPending
+            return transactionType == .buyTransaction ? .received : .swap
         }
         
-        return transactionType == .buyTransaction ? .receiveFailed : .sendFailed
+        return transactionType == .buyTransaction ? .received : .sent
     }
     
     var gift: Gift? {

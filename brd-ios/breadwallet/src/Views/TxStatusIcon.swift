@@ -10,44 +10,16 @@
 
 import SwiftUI
 
-enum GiftStatus {
-    case claimed
-    case reclaimed
-    case unclaimed
-    case unsent
-}
-
 enum StatusIcon {
-    case sent, sendPending, sendFailed
-    case received, receivePending, receiveFailed
-    case swapComplete, swapPending, swapFailed
-    case gift(GiftStatus)
+    case sent
+    case received
+    case swap
     
-    var icon: String {
+    var icon: UIImage? {
         switch self {
-        case .sent: return "send_success"
-        case .sendPending: return "send_pending"
-        case .sendFailed: return "send_failed"
-            
-        case .received: return "purchase_success"
-        case .receivePending: return "purchase_pending"
-        case .receiveFailed: return "purchase_failed"
-            
-        case .swapComplete: return "swap_success"
-        case .swapPending: return "swap_pending"
-        case .swapFailed: return "swap_failed"
-            
-        case .gift(let status):
-            switch status {
-            case .claimed:
-                return "ClaimedGift"
-            case .reclaimed:
-                return "ReclaimedGift"
-            case .unclaimed:
-                return "UnclaimedGift"
-            case .unsent:
-                return "UnsentGift"
-            }
+        case .sent: return .init(named: "send")
+        case .received: return .init(named: "receive")
+        case .swap: return .init(named: "exchange")
         }
     }
 }

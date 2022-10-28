@@ -12,17 +12,17 @@ import SwiftUI
 class TxListCell: UITableViewCell, Identifiable {
 
     // MARK: - Views
-    
+
     private let iconImageView = UIImageView()
-    private let timestamp = UILabel(font: .customBody(size: 16.0), color: .darkGray)
-    private let descriptionLabel = UILabel(font: .customBody(size: 14.0), color: .lightGray)
+    private let titleLabel = UILabel(font: Fonts.Subtitle.two, color: LightColors.Text.three)
+    private let descriptionLabel = UILabel(font: Fonts.Body.two, color: LightColors.Text.two)
     private  let amount: UILabel = {
-        let label = UILabel(font: .customBold(size: 18.0))
+        let label = UILabel(font: Fonts.Subtitle.two, color: LightColors.Text.three)
         label.lineBreakMode = .byTruncatingMiddle
         return label
     }()
     
-    private let separator = UIView(color: .separatorGray)
+    private let separator = UIView(color: LightColors.Outline.one)
     
     // MARK: Vars
     
@@ -36,85 +36,25 @@ class TxListCell: UITableViewCell, Identifiable {
         setupViews()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        iconImageView.layer.cornerRadius = iconImageView.frame.height * CornerRadius.fullRadius.rawValue
+        iconImageView.layer.masksToBounds = true
+    }
+    
     func setTransaction(_ viewModel: TxListViewModel, currency: Currency, showFiatAmounts: Bool, rate: Rate) {
         self.viewModel = viewModel
         self.currency = currency
         
-        iconImageView.image = .init(named: viewModel.icon.icon)
-        descriptionLabel.text = viewModel.shortDescription
-        amount.attributedText = viewModel.amount(showFiatAmounts: showFiatAmounts, rate: rate)
+        let status = viewModel.tx?.status ?? viewModel.swap?.status ?? .pending
         
-        switch viewModel.transactionType {
-        case .defaultTransaction:
-            handleDefaultTransactions()
-            
-        case .swapTransaction:
-            handleSwapTransactions()
-            
-        case .buyTransaction:
-            handleBuyTransactions()
-        }
-        
-        layoutSubviews()
-    }
-    
-    private func handleDefaultTransactions() {
-        switch viewModel.status {
-        case .invalid:
-            timestamp.text = L10n.Transaction.failed
-            timestamp.isHidden = false
-            
-        case .complete:
-            timestamp.text = viewModel.shortTimestamp
-            timestamp.isHidden = false
-            
-        default:
-            timestamp.isHidden = false
-            
-            guard let currency = currency else { return }
-            timestamp.text = "\(viewModel.confirmations)/\(currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
-        }
-    }
-    
-    private func handleBuyTransactions() {
-        switch viewModel.status {
-        case .invalid, .failed, .refunded:
-            timestamp.text = L10n.Transaction.purchaseFailed
-            timestamp.isHidden = false
-    
-        case .complete, .manuallySettled, .confirmed:
-            timestamp.text = L10n.Transaction.purchased
-            timestamp.isHidden = false
-            
-        default:
-            timestamp.text = L10n.Transaction.pendingPurchase
-            timestamp.isHidden = false
-        }
-    }
-    
-    private func handleSwapTransactions() {
-        let sourceCurrency = viewModel.swapSourceCurrency?.code.uppercased() ?? ""
-        let destinationCurrency = viewModel.swapDestinationCurrency?.code.uppercased() ?? ""
-        let isOnSource = currency?.code.uppercased() == viewModel.swapSourceCurrency?.code.uppercased()
-        let swapString = isOnSource ? "to \(destinationCurrency)" : "from \(sourceCurrency)"
-        
-        switch viewModel.status {
-        case .complete, .manuallySettled:
-            timestamp.text = "\(L10n.Transaction.swapped) \(swapString)"
-            timestamp.isHidden = false
-            
-        case .pending:
-            timestamp.text = "\(L10n.Transaction.pendingSwap) \(swapString)"
-            timestamp.isHidden = false
-            
-        case .failed, .refunded:
+        iconImageView.image = viewModel.icon.icon?.tinted(with: status.tintColor)
+        iconImageView.backgroundColor = status.backgroundColor
 
-            timestamp.text = "\(L10n.Transaction.failedSwap) \(swapString)"
-            timestamp.isHidden = false
-            
-        default:
-            break
-        }
+        amount.text = viewModel.amount(showFiatAmounts: showFiatAmounts, rate: rate)
+        titleLabel.text = viewModel.shortTimestamp
+        descriptionLabel.text = viewModel.shortDescription
+        layoutSubviews()
     }
     
     // MARK: - Private
@@ -127,8 +67,8 @@ class TxListCell: UITableViewCell, Identifiable {
     
     private func addSubviews() {
         contentView.addSubview(iconImageView)
-        iconImageView.contentMode = .scaleAspectFill
-        contentView.addSubview(timestamp)
+        iconImageView.contentMode = .center
+        contentView.addSubview(titleLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(amount)
         contentView.addSubview(separator)
@@ -137,27 +77,22 @@ class TxListCell: UITableViewCell, Identifiable {
     private func addConstraints() {
         iconImageView.constrain([
             iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.large.rawValue),
-            iconImageView.widthAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue),
-            iconImageView.heightAnchor.constraint(equalToConstant: ViewSizes.Common.defaultCommon.rawValue),
+            iconImageView.widthAnchor.constraint(equalToConstant: ViewSizes.medium.rawValue),
+            iconImageView.heightAnchor.constraint(equalToConstant: ViewSizes.medium.rawValue),
             iconImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
-        
-        timestamp.constrain([
-            timestamp.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.large.rawValue),
-            timestamp.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: Margins.large.rawValue)])
+        titleLabel.constrain([
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.medium.rawValue),
+            titleLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: Margins.large.rawValue)])
         descriptionLabel.constrain([
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Margins.large.rawValue),
-            descriptionLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor),
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Margins.medium.rawValue),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: amount.leadingAnchor, constant: -Margins.large.rawValue)
         ])
-        descriptionLabel.constrain([
-            descriptionLabel.topAnchor.constraint(equalTo: timestamp.bottomAnchor),
-            descriptionLabel.leadingAnchor.constraint(equalTo: timestamp.leadingAnchor)
-        ])
         amount.constrain([
-            amount.leadingAnchor.constraint(equalTo: timestamp.trailingAnchor, constant: Margins.large.rawValue),
-            amount.topAnchor.constraint(equalTo: contentView.topAnchor),
-            amount.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            amount.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: Margins.large.rawValue),
+            amount.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.medium.rawValue),
             amount.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.large.rawValue)])
         separator.constrainBottomCorners(height: 0.5)
     }
