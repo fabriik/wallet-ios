@@ -127,9 +127,7 @@ class RequestAmountViewController: UIViewController {
     }
 
     private func setupCopiedMessage() {
-        // TODO: style
-        let copiedMessage = UILabel(font: .customMedium(size: 14.0))
-        copiedMessage.textColor = .black
+        let copiedMessage = UILabel(font: Fonts.Subtitle.two, color: LightColors.Text.one)
         copiedMessage.text = L10n.Receive.copied
         copiedMessage.textAlignment = .center
         addressPopout.contentView = copiedMessage

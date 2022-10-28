@@ -40,12 +40,6 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
         return view
     }()
     
-    private lazy var modeLabel: FELabel = {
-        let view = FELabel()
-        view.configure(with: .init(font: Fonts.Body.three, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 1))
-        return view
-    }()
-    
     private lazy var graphButtonStackView: UIStackView = {
         let view = UIStackView()
         view.distribution = .fillEqually
@@ -143,7 +137,6 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
         priceInfoStackView.addArrangedSubview(exchangeRateLabel)
         priceInfoStackView.addArrangedSubview(priceChangeView)
         priceInfoStackView.addArrangedSubview(priceDateLabel)
-        addSubview(modeLabel)
         addSubview(graphButtonStackView)
         
         if let id = currency.coinGeckoId {
@@ -171,11 +164,6 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
         headerHeight = intrinsicSizeView.heightAnchor.constraint(equalToConstant: AccountHeaderView.headerViewMaxHeight)
         intrinsicSizeView.constrain(toSuperviewEdges: nil)
         intrinsicSizeView.constrain([headerHeight])
-        chartView.constrain([
-            chartView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            chartView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            chartView.heightAnchor.constraint(equalToConstant: 100.0),
-            chartView.bottomAnchor.constraint(equalTo: graphButtonStackView.topAnchor, constant: -Margins.small.rawValue)])
         currencyName.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(RootNavigationController().navigationBar.frame.height)
@@ -189,10 +177,12 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
         priceInfoStackView.constrain([
             priceInfoStackView.centerXAnchor.constraint(equalTo: currencyIconImageView.centerXAnchor),
             priceInfoStackView.topAnchor.constraint(equalTo: currencyIconImageView.bottomAnchor)])
-        modeLabel.constrain([
-            modeLabel.heightAnchor.constraint(equalToConstant: ViewSizes.extraSmall.rawValue),
-            modeLabel.centerXAnchor.constraint(equalTo: priceInfoStackView.centerXAnchor),
-            modeLabel.topAnchor.constraint(equalTo: priceInfoStackView.bottomAnchor)])
+        chartView.constrain([
+            chartView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            chartView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            chartView.heightAnchor.constraint(equalToConstant: ViewSizes.extraExtraHuge.rawValue),
+            chartView.bottomAnchor.constraint(equalTo: graphButtonStackView.topAnchor)])
+        
         if let delistedTokenView = delistedTokenView {
             delistedTokenView.constrain([
                 delistedTokenView.topAnchor.constraint(equalTo: priceInfoStackView.topAnchor),
@@ -207,13 +197,13 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
             graphButtonStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
             graphButtonStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue),
             graphButtonStackView.topAnchor.constraint(equalTo: chartView.bottomAnchor),
-            graphButtonStackView.bottomAnchor.constraint(equalTo: graphBottom, constant: -Margins.small.rawValue),
+            graphButtonStackView.bottomAnchor.constraint(equalTo: graphBottom),
             graphButtonStackView.heightAnchor.constraint(equalToConstant: ViewSizes.medium.rawValue)])
         
         if let marketView = marketDataView {
             marketView.constrain([
                 marketView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.large.rawValue),
-                marketView.bottomAnchor.constraint(equalTo: balanceCell.topAnchor, constant: -Margins.small.rawValue),
+                marketView.bottomAnchor.constraint(equalTo: balanceCell.topAnchor),
                 marketView.heightAnchor.constraint(equalToConstant: AccountHeaderView.marketDataHeight),
                 marketView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue) ])
         }
@@ -245,14 +235,9 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
         currencyName.setup(with: .text(currency.name))
         currencyIconImageView.wrappedView.setup(with: .image(currency.imageSquareBackground))
         
-        if let mode = currency.wallet?.connectionMode {
-            let modeName = "\(mode)"
-            modeLabel.setup(with: .text("\(modeName) \(E.isTestnet ? "(Testnet)" : "")"))
-            modeLabel.isHidden = (E.isDebug || E.isSimulator || E.isTestFlight) == false
-        }
-        
         priceChangeView.currency = currency
-        priceDateLabel.textColor = UIColor.white.withAlphaComponent(0.6)
+        priceDateLabel.font = Fonts.Subtitle.two
+        priceDateLabel.textColor = LightColors.Text.one
         priceDateLabel.textAlignment = .center
         priceDateLabel.alpha = 0.0
         
@@ -325,7 +310,6 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
             self.graphButtonStackView.alpha = 1.0
             self.historyPeriodPill.alpha = 0.3
             self.marketDataView?.alpha = 1.0
-            self.modeLabel.alpha = 1.0
         })
     }
     
@@ -347,7 +331,6 @@ class AccountHeaderView: UIView, GradientDrawable, Subscriber {
         graphButtonStackView.alpha = 0.0
         historyPeriodPill.alpha = 0.0
         marketDataView?.alpha = 0.0
-        modeLabel.alpha = 0.0
     }
     
     func setOffset(_ offset: CGFloat) {
