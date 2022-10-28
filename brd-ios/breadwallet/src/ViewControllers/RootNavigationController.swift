@@ -49,6 +49,7 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             is RecoveryKeyIntroViewController,
             is EnterPhraseViewController,
             is AboutViewController,
+            is UpdatePinViewController,
             is LoginViewController:
             backgroundColor = LightColors.Background.cards
             tintColor = LightColors.Text.three

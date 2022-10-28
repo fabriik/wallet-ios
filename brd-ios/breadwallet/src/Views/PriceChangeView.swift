@@ -22,9 +22,7 @@ class PriceChangeView: UIView, Subscriber {
         }
     }
     
-    private let percentLabel = UILabel(font: Fonts.Subtitle.two, color: LightColors.Success.one)
-    private let absoluteLabel = UILabel(font: Fonts.Subtitle.two, color: LightColors.Success.one)
-    private let prefixLabel = UILabel(font: Fonts.Subtitle.two, color: LightColors.Success.one)
+    private let priceText = UILabel(font: Fonts.Subtitle.two, color: LightColors.Success.one)
     
     private var priceInfo: FiatPriceInfo? {
         didSet {
@@ -77,53 +75,34 @@ class PriceChangeView: UIView, Subscriber {
     }
     
     private func setupConstraints() {
-        prefixLabel.constrain([
-            prefixLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.extraSmall.rawValue),
-            prefixLabel.centerYAnchor.constraint(equalTo: centerYAnchor)])
-        percentLabel.constrain([
-            percentLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            percentLabel.leadingAnchor.constraint(equalTo: prefixLabel.trailingAnchor)])
-        absoluteLabel.constrain([
-            absoluteLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            absoluteLabel.leadingAnchor.constraint(equalTo: percentLabel.trailingAnchor, constant: Margins.small.rawValue/2.0),
-            absoluteLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.small.rawValue)])
-        if style == .percentOnly {
-            percentLabel.constrain([
-                percentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4.0)])
-        }
+        priceText.constrain([
+            priceText.centerYAnchor.constraint(equalTo: centerYAnchor),
+            priceText.centerXAnchor.constraint(equalTo: centerXAnchor),
+            priceText.leadingAnchor.constraint(equalTo: leadingAnchor)])
     }
     
     private func addSubviews() {
-        addSubview(percentLabel)
-        addSubview(prefixLabel)
-        addSubview(absoluteLabel)
+        addSubview(priceText)
     }
     
     private func handlePriceChange() {
         guard let priceChange = priceInfo else { return }
         
         let percentText = String(format: "%.2f%%", fabs(priceChange.changePercentage24Hrs))
-        var textColor = valueColor
+        var text = (prefixValue ?? "") + percentText
+        var color = valueColor
         
-        if style == .percentAndAbsolute, let absoluteString = currencyNumberFormatter.string(from: NSNumber(value: abs(priceChange.change24Hrs))) {
-            absoluteLabel.text = "(\(absoluteString))"
-            prefixLabel.text = prefixValue
-            percentLabel.text = percentText
-            textColor = LightColors.Text.one
-            layoutIfNeeded()
-        } else if style == .percentOnly {
-            UIView.transition(with: percentLabel,
-                              duration: Presets.Animation.duration,
-                              options: .curveEaseIn,
-                              animations: { [weak self] in
-                self?.prefixLabel.text = self?.prefixValue ?? ""
-                self?.percentLabel.text = percentText
-            })
+        if style == .percentAndAbsolute,
+            let absoluteString = currencyNumberFormatter.string(from: NSNumber(value: abs(priceChange.change24Hrs))) {
+            text += " (\(absoluteString))"
+            color = LightColors.Text.one
         }
         
-        prefixLabel.textColor = textColor
-        percentLabel.textColor = textColor
-        absoluteLabel.textColor = textColor
+        priceText.text = text
+        priceText.textColor = color
+        priceText.textAlignment = .center
+        
+        layoutIfNeeded()
     }
     
     private func subscribeToPriceChange() {
