@@ -50,6 +50,24 @@ enum TransactionStatus: String, Hashable, ModelResponse {
             return nil
         }
     }
+    
+    var backgroundColor: UIColor {
+        switch self {
+        case .pending: return LightColors.Pending.two
+        case .failed: return LightColors.Error.two
+        case .complete: return LightColors.Success.two
+        default: return .clear
+        }
+    }
+    
+    var tintColor: UIColor {
+        switch self {
+        case .pending: return LightColors.Pending.one
+        case .failed: return LightColors.Error.one
+        case .complete: return LightColors.Success.one
+        default: return .clear
+        }
+    }
 }
 
 /// Wrapper for BRCrypto TransferFeeBasis
