@@ -1004,7 +1004,7 @@
 "ExportTransfers.body" = "This will generate a CSV file including all completed transactions from all enabled wallets.";
 
 /* "Export transfers button" */
-"ExportTransfers.confirmExport" = "Export Transfers";
+"ExportTransfers.confirmExport" = "Export";
 
 /* "Export dialog error message" */
 "ExportTransfers.exportFailedBody" = "Failed to export CSV file, please try again.";

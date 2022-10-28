@@ -915,7 +915,7 @@ internal enum L10n {
     /// "Export transfers body"
     internal static let body = L10n.tr("Localizable", "ExportTransfers.body", fallback: "This will generate a CSV file including all completed transactions from all enabled wallets.")
     /// "Export transfers button"
-    internal static let confirmExport = L10n.tr("Localizable", "ExportTransfers.confirmExport", fallback: "Export Transfers")
+    internal static let confirmExport = L10n.tr("Localizable", "ExportTransfers.confirmExport", fallback: "Export")
     /// "Export dialog error message"
     internal static let exportFailedBody = L10n.tr("Localizable", "ExportTransfers.exportFailedBody", fallback: "Failed to export CSV file, please try again.")
     /// "Export dialog error title"
