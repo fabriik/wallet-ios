@@ -10,16 +10,10 @@
 
 import SwiftUI
 
-enum StatusIcon {
-    case sent
-    case received
-    case swap
+enum StatusIcon: String {
+    case send
+    case receive
+    case exchange
     
-    var icon: UIImage? {
-        switch self {
-        case .sent: return .init(named: "send")
-        case .received: return .init(named: "receive")
-        case .swap: return .init(named: "exchange")
-        }
-    }
+    var icon: UIImage? { return .init(named: rawValue) }
 }

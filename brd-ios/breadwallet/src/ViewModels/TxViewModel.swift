@@ -161,13 +161,13 @@ extension TxViewModel {
         switch tx.transactionType {
         case .defaultTransaction, .buyTransaction:
             if tx.confirmations < currency.confirmationsUntilFinal, tx.transactionType != .buyTransaction {
-                return tx.direction == .received ? .received : .sent
+                return tx.direction == .received ? .receive : .send
             } else if tx.transactionType == .buyTransaction {
                 return exchangeStatusIconDecider(status: tx.status)
             } else if tx.status == .invalid {
-                return tx.transactionType == .buyTransaction ? .received : .sent
+                return tx.transactionType == .buyTransaction ? .receive : .send
             } else if tx.direction == .received || tx.direction == .recovered {
-                return .received
+                return .receive
             }
             
         case .swapTransaction:
@@ -175,21 +175,21 @@ extension TxViewModel {
             
         }
         
-        return .sent
+        return .send
     }
     
     private func exchangeStatusIconDecider(status: TransactionStatus?) -> StatusIcon {
         let status = status ?? .failed
         
         if status == .complete || status == .manuallySettled || status == .confirmed {
-            return transactionType == .buyTransaction ? .received : .swap
+            return transactionType == .buyTransaction ? .receive : .send
         }
         
         if status == .pending {
-            return transactionType == .buyTransaction ? .received : .swap
+            return transactionType == .buyTransaction ? .receive : .send
         }
         
-        return transactionType == .buyTransaction ? .received : .sent
+        return transactionType == .buyTransaction ? .receive : .send
     }
     
     var gift: Gift? {
