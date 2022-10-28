@@ -92,7 +92,7 @@ class PinView: UIView {
             addSubview(circle)
             let leadingConstraint: NSLayoutConstraint?
             if index == 0 {
-                leadingConstraint = circle.constraint(.leading, toView: self, constant: 0.0)
+                leadingConstraint = circle.constraint(.leading, toView: self)
             } else {
                 leadingConstraint = NSLayoutConstraint(item: circle,
                                                        attribute: .leading,

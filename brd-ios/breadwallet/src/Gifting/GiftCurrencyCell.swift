@@ -61,7 +61,7 @@ class GiftCurrencyCell: UIView {
             price.bottomAnchor.constraint(equalTo: iconContainer.bottomAnchor)])
         currencyName.constrain([
             currencyName.leadingAnchor.constraint(equalTo: price.leadingAnchor),
-            currencyName.bottomAnchor.constraint(equalTo: price.topAnchor, constant: 0.0)])
+            currencyName.bottomAnchor.constraint(equalTo: price.topAnchor)])
         tokenBalance.constrain([
             tokenBalance.bottomAnchor.constraint(equalTo: price.bottomAnchor),
             tokenBalance.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue)])

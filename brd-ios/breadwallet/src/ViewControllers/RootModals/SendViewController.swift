@@ -169,7 +169,7 @@ class SendViewController: UIViewController, Subscriber, ModalPresentable {
             memoCell.heightAnchor.constraint(equalTo: memoCell.textView.heightAnchor, constant: Margins.extraHuge.rawValue) ])
 
         memoCell.accessoryView.constrain([
-                memoCell.accessoryView.constraint(.width, constant: 0.0) ])
+                memoCell.accessoryView.constraint(.width) ])
 
         sendButton.constrain([
             sendButton.constraint(.leading, toView: view, constant: Margins.large.rawValue),

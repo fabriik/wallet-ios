@@ -373,9 +373,9 @@ class RecoveryKeyWordInputView: UIView, UITextFieldDelegate {
         addSubview(mainContainer)
         mainContainer.constrain([
             mainContainer.heightAnchor.constraint(equalToConstant: mainContainerHeight),
-            mainContainer.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0),
-            mainContainer.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0),
-            mainContainer.topAnchor.constraint(equalTo: self.topAnchor, constant: 0)
+            mainContainer.leftAnchor.constraint(equalTo: self.leftAnchor),
+            mainContainer.rightAnchor.constraint(equalTo: self.rightAnchor),
+            mainContainer.topAnchor.constraint(equalTo: self.topAnchor)
             ])
     }
 

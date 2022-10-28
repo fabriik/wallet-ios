@@ -407,7 +407,7 @@ class OnboardingViewController: UIViewController {
             ])
         
         recoverButton.constrain([
-            recoverButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            recoverButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             recoverButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
             recoverButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin),
             recoverButton.heightAnchor.constraint(equalToConstant: buttonHeight),
@@ -415,7 +415,7 @@ class OnboardingViewController: UIViewController {
             ])
         
         restoreButton.constrain([
-            restoreButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            restoreButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             restoreButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLeftRightMargin),
             restoreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLeftRightMargin), 
             restoreButton.heightAnchor.constraint(equalToConstant: buttonHeight),
@@ -472,7 +472,7 @@ class OnboardingViewController: UIViewController {
         
         skipButton.constrain([
             skipButton.trailingAnchor.constraint(equalTo: trailingAnchor!, constant: -30),
-            skipButton.centerYAnchor.constraint(equalTo: backButton.centerYAnchor, constant: 0)
+            skipButton.centerYAnchor.constraint(equalTo: backButton.centerYAnchor)
             ])
     }
             
