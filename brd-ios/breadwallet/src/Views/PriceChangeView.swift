@@ -94,7 +94,7 @@ class PriceChangeView: UIView, Subscriber {
         
         if style == .percentAndAbsolute,
             let absoluteString = currencyNumberFormatter.string(from: NSNumber(value: abs(priceChange.change24Hrs))) {
-            text += " \(absoluteString)"
+            text += " (\(absoluteString))"
             color = LightColors.Text.one
         }
         
