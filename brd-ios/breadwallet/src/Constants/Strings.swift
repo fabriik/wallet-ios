@@ -1451,7 +1451,7 @@ internal enum L10n {
   }
   internal enum Receive {
     /// Address copied message.
-    internal static let copied = L10n.tr("Localizable", "Receive.copied", fallback: "Copied to clipboard.")
+    internal static let copied = L10n.tr("Localizable", "Receive.copied", fallback: "Copied to clipboard")
     /// Share via email button label
     internal static let emailButton = L10n.tr("Localizable", "Receive.emailButton", fallback: "Email")
     /// Request button label
