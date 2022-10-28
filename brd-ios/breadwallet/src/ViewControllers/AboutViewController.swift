@@ -5,23 +5,15 @@
 import UIKit
 
 class AboutViewController: UIViewController {
-    private lazy var titleLabel: UILabel = {
-        let titleLabel = UILabel(font: .customBold(size: 26.0), color: .almostBlack)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.text = L10n.About.title
+    private lazy var aboutHeaderView: UIImageView = {
+        let logo = UIImageView()
+        logo.image = UIImage(named: "logo_vertical")
         
-        return titleLabel
-    }()
-    
-    private lazy var aboutHeaderView: AboutHeaderView = {
-        let aboutHeaderView = AboutHeaderView()
-        aboutHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return aboutHeaderView
+        return logo
     }()
     
     private lazy var aboutFooterView: UILabel = {
-        let aboutFooterView = UILabel.wrapping(font: .customBody(size: 13.0), color: Theme.primaryText)
+        let aboutFooterView = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.two)
         aboutFooterView.translatesAutoresizingMaskIntoConstraints = false
         aboutFooterView.textAlignment = .center
         
@@ -34,23 +26,29 @@ class AboutViewController: UIViewController {
     }()
     
     private lazy var privacy: UIButton = {
-        let privacy = UIButton(type: .system)
-        privacy.translatesAutoresizingMaskIntoConstraints = false
-        privacy.setTitle(L10n.About.privacy, for: .normal)
-        privacy.titleLabel?.font = UIFont.customBody(size: 13.0)
-        privacy.tintColor = .primaryButton
+        let button = UIButton()
+        let attributes: [NSAttributedString.Key: Any] = [
+        NSAttributedString.Key.underlineStyle: 1,
+        NSAttributedString.Key.font: Fonts.Subtitle.two,
+        NSAttributedString.Key.foregroundColor: LightColors.secondary]
         
-        return privacy
+        let attributedString = NSMutableAttributedString(string: L10n.About.privacy, attributes: attributes)
+        button.setAttributedTitle(attributedString, for: .normal)
+        
+        return button
     }()
     
     private lazy var terms: UIButton = {
-        let terms = UIButton(type: .system)
-        terms.translatesAutoresizingMaskIntoConstraints = false
-        terms.setTitle(L10n.About.terms, for: .normal)
-        terms.titleLabel?.font = UIFont.customBody(size: 13.0)
-        terms.tintColor = .primaryButton
+        let button = UIButton()
+        let attributes: [NSAttributedString.Key: Any] = [
+        NSAttributedString.Key.underlineStyle: 1,
+        NSAttributedString.Key.font: Fonts.Subtitle.two,
+        NSAttributedString.Key.foregroundColor: LightColors.secondary]
         
-        return terms
+        let attributedString = NSMutableAttributedString(string: L10n.About.terms, attributes: attributes)
+        button.setAttributedTitle(attributedString, for: .normal)
+        
+        return button
     }()
     
     override func viewDidLoad() {
@@ -66,7 +64,6 @@ class AboutViewController: UIViewController {
     }
 
     private func addSubviews() {
-        view.addSubview(titleLabel)
         view.addSubview(aboutHeaderView)
         view.addSubview(privacy)
         view.addSubview(terms)
@@ -74,26 +71,20 @@ class AboutViewController: UIViewController {
     }
 
     private func addConstraints() {
-        titleLabel.constrain([
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.large.rawValue) ])
-        
-        let verticalMargin = (E.isIPhone6OrSmaller) ? Margins.small.rawValue : Margins.large.rawValue
-        
         aboutHeaderView.constrain([
-            aboutHeaderView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: verticalMargin),
-            aboutHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            aboutHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor) ])
+            aboutHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: ViewSizes.extraExtraHuge.rawValue),
+            aboutHeaderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            aboutHeaderView.widthAnchor.constraint(equalToConstant: 213)])
         terms.constrain([
-            terms.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            terms.topAnchor.constraint(equalTo: aboutHeaderView.bottomAnchor, constant: verticalMargin)])
+            terms.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.extraLarge.rawValue * 3),
+            terms.topAnchor.constraint(equalTo: aboutHeaderView.bottomAnchor, constant: Margins.extraLarge.rawValue * 2)])
         privacy.constrain([
-            privacy.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            privacy.topAnchor.constraint(equalTo: terms.bottomAnchor)])
+            privacy.topAnchor.constraint(equalTo: terms.topAnchor),
+            privacy.leadingAnchor.constraint(equalTo: terms.trailingAnchor, constant: Margins.large.rawValue)])
         aboutFooterView.constrain([
             aboutFooterView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.huge.rawValue),
             aboutFooterView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.huge.rawValue),
-            aboutFooterView.topAnchor.constraint(equalTo: privacy.bottomAnchor, constant: verticalMargin)])
+            aboutFooterView.topAnchor.constraint(equalTo: privacy.bottomAnchor, constant: Margins.extraLarge.rawValue * 2)])
     }
     
     private func setActions() {
