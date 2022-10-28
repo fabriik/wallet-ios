@@ -11,13 +11,13 @@
 import Foundation
 
 var WalletSecAttrService: String {
-    if E.isRunningTests { return "com.placeholder.two.testnetQA.tests" }
+    if E.isRunningTests { return "com.placeholder.app.testnetQA.tests" }
     #if TESTNET
-    return "com.placeholder.two.testnetQA"
+    return "com.placeholder.app.testnetQA"
     #elseif INTERNAL
-    return "com.placeholder.two.internalQA"
+    return "com.placeholder.app.internalQA"
     #else
-    return "com.placeholder.two"
+    return "com.placeholder.app"
     #endif
 }
 

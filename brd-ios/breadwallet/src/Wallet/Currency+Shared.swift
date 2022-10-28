@@ -11,7 +11,7 @@
 import UIKit
 
 public enum AppGroup: String {
-    case companyOne = "group.com.placeholder.two"
+    case companyOne = "group.com.placeholder.app"
     
     public var containerURL: URL? {
         switch self {
