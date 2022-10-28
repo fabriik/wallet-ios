@@ -46,7 +46,7 @@ class MainSwapView: FEView<MainSwapConfiguration, MainSwapViewModel> {
     
     private lazy var lineView: UIView = {
         let view = UIView()
-        view.backgroundColor = LightColors.Outline.two
+        view.backgroundColor = LightColors.Outline.one
         return view
     }()
     
