@@ -27,8 +27,8 @@ struct Presets {
                                                           border: Presets.Border.disabledButtonFullRadius)
             
             static var selectedTextField = BackgroundConfiguration(backgroundColor: LightColors.Background.one,
-                                                        tintColor: LightColors.Contrast.two,
-                                                         border: Border.selectedTextField)
+                                                                   tintColor: LightColors.Contrast.two,
+                                                                   border: Border.selectedTextField)
             
             static var error = BackgroundConfiguration(backgroundColor: LightColors.primary,
                                                        tintColor: .red,
