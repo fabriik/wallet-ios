@@ -537,11 +537,7 @@ class ModalPresenter: Subscriber {
                 self?.presentLoginScan()
             },
             // Security
-            MenuItem(title: L10n.MenuButton.security,
-                     icon: #imageLiteral(resourceName: "security"),
-                     subMenu: securityItems,
-                     rootNav: menuNav,
-                     faqButton: UIButton.buildFaqButton(articleId: ArticleIds.securityCenter, position: .right)),
+            MenuItem(title: L10n.MenuButton.security, icon: #imageLiteral(resourceName: "security"), subMenu: securityItems, rootNav: menuNav),
             // Preferences
             MenuItem(title: L10n.Settings.preferences, icon: MenuItem.Icon.preferences, subMenu: preferencesItems, rootNav: menuNav),
             // Manage Assets

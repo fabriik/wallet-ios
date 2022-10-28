@@ -42,14 +42,14 @@ class MenuViewController: UITableViewController, Subscriber {
         tableView.register(MenuCell.self, forCellReuseIdentifier: MenuCell.cellIdentifier)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .singleLine
-        tableView.separatorColor = .gray3
+        tableView.separatorColor = LightColors.Outline.one
         tableView.backgroundColor = LightColors.Background.two
         
         navigationController?.navigationBar.backgroundColor = LightColors.Background.two
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         if let button = faqButton {
-            button.tintColor = .navigationTint
+            button.tintColor = LightColors.Text.three
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
         }
         
