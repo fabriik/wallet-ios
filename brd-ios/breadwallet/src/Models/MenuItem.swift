@@ -11,16 +11,16 @@ import UIKit
 struct MenuItem {
     
     enum Icon {
-        static let scan = UIImage(named: "scan")
-        static let feedback = UIImage(named: "Feedback")
-        static let wallet = UIImage(named: "wallet_menu")
-        static let preferences = UIImage(named: "prefs")
-        static let security = UIImage(named: "security")
-        static let support = UIImage(named: "support_menu")
+        static let scan = UIImage(named: "qr")
+        static let feedback = UIImage(named: "love")
+        static let wallet = UIImage(named: "wallet")
+        static let preferences = UIImage(named: "settings")
+        static let security = UIImage(named: "lock")
+        static let support = UIImage(named: "chat")
         static let rewards = UIImage(named: "Star")
-        static let about = UIImage(named: "about")
+        static let about = UIImage(named: "info")
         static let atmMap = UIImage(named: "placemark")
-        static let export = UIImage(named: "Export")
+        static let export = UIImage(named: "withdrawal")
     }
     
     var title: String
