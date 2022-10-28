@@ -14,22 +14,6 @@ class WhiteNumberPad: GenericPinPadCell {
         set {}
     }
 
-    override func setAppearance() {
-        if isHighlighted {
-            backgroundColor = .transparentBlack
-            label.textColor = .darkText
-        } else {
-            if (text?.isEmpty ?? false) || text == PinPadViewController.SpecialKeys.delete.rawValue {
-                backgroundColor = .white
-                imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
-                imageView.tintColor = .almostBlack
-            } else {
-                backgroundColor = .white
-                label.textColor = .almostBlack
-            }
-        }
-    }
-
     override func addConstraints() {
         label.constrain(toSuperviewEdges: nil)
         imageView.constrain(toSuperviewEdges: nil)

@@ -15,16 +15,6 @@ class WhiteDecimalPad: GenericPinPadCell {
         set {}
     }
 
-    override func setAppearance() {
-        if isHighlighted {
-            label.backgroundColor = LightColors.Background.one
-            label.textColor = LightColors.Text.three
-        } else {
-            label.backgroundColor = .white
-            label.textColor = .grayTextTint
-        }
-    }
-
     override func addConstraints() {
         label.constrain(toSuperviewEdges: nil)
         imageView.constrain(toSuperviewEdges: nil)

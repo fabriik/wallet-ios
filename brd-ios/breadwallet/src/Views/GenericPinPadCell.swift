@@ -35,18 +35,18 @@ class GenericPinPadCell: UICollectionViewCell {
         setup()
     }
 
-    internal var label = UILabel(font: Fonts.Title.two)
+    internal var label = UILabel(font: Fonts.Title.two, color: LightColors.Text.one)
     internal let imageView = UIImageView()
-    let masks: [UIView] = (0..<4).map { _ in UIView(color: .darkBackground) }
     var style: PinPadStyle = .clear
 
     private func setup() {
         setAppearance()
         label.textAlignment = .center
-        addSubview(label)
         addSubview(imageView)
+        addSubview(label)
         imageView.contentMode = .center
-        masks.forEach { self.addSubview($0) }
+        imageView.backgroundColor = .clear
+        
         addConstraints()
     }
 
@@ -55,27 +55,6 @@ class GenericPinPadCell: UICollectionViewCell {
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: centerYAnchor)])
         label.constrain(toSuperviewEdges: nil)
-
-        masks[0].constrain([
-            masks[0].leadingAnchor.constraint(equalTo: leadingAnchor),
-            masks[0].topAnchor.constraint(equalTo: topAnchor),
-            masks[0].bottomAnchor.constraint(equalTo: bottomAnchor),
-            masks[0].trailingAnchor.constraint(equalTo: imageView.leadingAnchor)])
-        masks[1].constrain([
-            masks[1].leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            masks[1].topAnchor.constraint(equalTo: topAnchor),
-            masks[1].bottomAnchor.constraint(equalTo: imageView.topAnchor),
-            masks[1].trailingAnchor.constraint(equalTo: imageView.trailingAnchor)])
-        masks[2].constrain([
-            masks[2].leadingAnchor.constraint(equalTo: imageView.trailingAnchor),
-            masks[2].topAnchor.constraint(equalTo: topAnchor),
-            masks[2].bottomAnchor.constraint(equalTo: bottomAnchor),
-            masks[2].trailingAnchor.constraint(equalTo: trailingAnchor)])
-        masks[3].constrain([
-            masks[3].leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            masks[3].topAnchor.constraint(equalTo: imageView.bottomAnchor),
-            masks[3].bottomAnchor.constraint(equalTo: bottomAnchor),
-            masks[3].trailingAnchor.constraint(equalTo: imageView.trailingAnchor)])
     }
 
     override var isAccessibilityElement: Bool {
@@ -99,7 +78,17 @@ class GenericPinPadCell: UICollectionViewCell {
         set { }
     }
 
-    func setAppearance() {}
+    func setAppearance() {
+        backgroundColor = LightColors.Background.one
+        let color: UIColor
+        if isHighlighted {
+            color = LightColors.Text.two
+        } else {
+            color = LightColors.Text.one
+        }
+        imageView.tintColor = color
+        label.textColor = color
+    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
