@@ -1568,7 +1568,7 @@
 "RateAppPrompt.Title.Android" = "Rate RockWallet";
 
 /* Address copied message. */
-"Receive.copied" = "Copied to clipboard.";
+"Receive.copied" = "Copied to clipboard";
 
 /* Share via email button label */
 "Receive.emailButton" = "Email";
