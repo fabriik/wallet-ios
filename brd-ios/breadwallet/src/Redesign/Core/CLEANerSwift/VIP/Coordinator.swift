@@ -395,7 +395,7 @@ class BaseCoordinator: NSObject,
     func showUnderConstruction(_ feat: String) {
         showPopup(on: navigationController.topViewController,
                   with: .init(title: .text("Under construction"),
-                              body: "The \(feat.uppercased()) functionality is being developed for You by the awesome Fabriik team. Stay tuned!"))
+                              body: "The \(feat.uppercased()) functionality is being developed for You by the awesome Rockwallet team. Stay tuned!"))
     }
     
     func showOverlay(with viewModel: TransparentViewModel, completion: (() -> Void)? = nil) {

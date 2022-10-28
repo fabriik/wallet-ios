@@ -34,9 +34,3 @@ echo "STAGING_TOKEN=$STAGING_TOKEN" >> $BRD_ENV
 echo "STAGING_CHECKOUT_TOKEN=$STAGING_CHECKOUT_TOKEN" >> $BRD_ENV
 
 echo "" >> $BRD_ENV
-
-# display the script
-cat << $BRD_ENV
-
-# Setting the marketing build
-# agvtool new-marketing-version $MARKETING_VERSION
