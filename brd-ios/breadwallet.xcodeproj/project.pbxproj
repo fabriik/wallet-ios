@@ -5875,7 +5875,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.breadwalletWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.placeholderWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = IS_EXTENSION_ENVIRONMENT;
@@ -5906,7 +5906,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.breadwalletIntentHandler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.placeholderIntentHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = IS_EXTENSION_ENVIRONMENT;
@@ -5948,7 +5948,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.breadwalletIntentHandler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.placeholderIntentHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG IS_EXTENSION_ENVIRONMENT";
@@ -5979,7 +5979,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.breadwalletIntentHandler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.placeholderIntentHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = IS_EXTENSION_ENVIRONMENT;
@@ -6016,7 +6016,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.breadwalletWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.placeholderWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG IS_EXTENSION_ENVIRONMENT";
@@ -6051,7 +6051,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.breadwalletWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.placeholder.app.placeholderWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = IS_EXTENSION_ENVIRONMENT;
