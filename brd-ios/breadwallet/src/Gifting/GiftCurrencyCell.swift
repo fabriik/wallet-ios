@@ -11,14 +11,14 @@
 import UIKit
 
 class GiftCurrencyCell: UIView {
-    
+
     private let currency = Currencies.shared.btc
     private let iconContainer = UIView(color: .transparentIconBackground)
     private let icon = UIImageView()
-    private let currencyName = UILabel(font: Theme.body1Accent, color: Theme.primaryText)
-    private let price = UILabel(font: Theme.body3, color: Theme.secondaryText)
-    private let fiatBalance = UILabel(font: Theme.body1Accent, color: Theme.primaryText)
-    private let tokenBalance = UILabel(font: Theme.body3, color: Theme.secondaryText)
+    private let currencyName = UILabel(font: Fonts.Body.one, color: LightColors.Text.one)
+    private let price = UILabel(font: Fonts.Body.three, color: LightColors.Text.two)
+    private let fiatBalance = UILabel(font: Fonts.Body.one, color: LightColors.Text.one)
+    private let tokenBalance = UILabel(font: Fonts.Body.three, color: LightColors.Text.two)
     
     private let rate: Double
     private let amount: Double
@@ -61,7 +61,7 @@ class GiftCurrencyCell: UIView {
             price.bottomAnchor.constraint(equalTo: iconContainer.bottomAnchor)])
         currencyName.constrain([
             currencyName.leadingAnchor.constraint(equalTo: price.leadingAnchor),
-            currencyName.bottomAnchor.constraint(equalTo: price.topAnchor, constant: 0.0)])
+            currencyName.bottomAnchor.constraint(equalTo: price.topAnchor)])
         tokenBalance.constrain([
             tokenBalance.bottomAnchor.constraint(equalTo: price.bottomAnchor),
             tokenBalance.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.large.rawValue)])

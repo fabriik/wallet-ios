@@ -1,11 +1,11 @@
-/* App name */
+﻿/* App name */
 "About.appName.android" = "RockWallet";
 
 /* About screen blog label */
 "About.blog" = "Blog";
 
 /* About screen footer */
-"About.footer" = "Made by the global Rockwallet team.\nVersion %1$@ Build %2$@";
+"About.footer" = "Made by the global RockWallet team.\nVersion %1$@ Build %2$@";
 
 /* Privay Policy button label */
 "About.privacy" = "Privacy Policy";
@@ -41,7 +41,7 @@
 "Account.AccountVerify" = "Verify";
 
 /* Account balance */
-"Account.balance" = "Balance";
+"Account.balance" = "Your balance";
 
 /* Before confirm photo label in create account screen */
 "Account.BeforeConfirm" = "Before you confirm, please:";
@@ -1004,7 +1004,7 @@
 "ExportTransfers.body" = "This will generate a CSV file including all completed transactions from all enabled wallets.";
 
 /* "Export transfers button" */
-"ExportTransfers.confirmExport" = "Export Transfers";
+"ExportTransfers.confirmExport" = "Export";
 
 /* "Export dialog error message" */
 "ExportTransfers.exportFailedBody" = "Failed to export CSV file, please try again.";
@@ -1568,7 +1568,7 @@
 "RateAppPrompt.Title.Android" = "Rate RockWallet";
 
 /* Address copied message. */
-"Receive.copied" = "Copied to clipboard.";
+"Receive.copied" = "Copied to clipboard";
 
 /* Share via email button label */
 "Receive.emailButton" = "Email";
@@ -2857,6 +2857,12 @@
 
 /* Verification Code Title */
 "VerificationCode.title" = "Confirmation Code";
+
+"VerifyAccount.Button" = "Verify";
+
+"VerifyAccount.Subtitle" = "We need to verify your identity before you can buy or swap assets.";
+
+"VerifyAccount.Title" = "Verify your account to get full access to your RockWallet!";
 
 /* Verify PIN for transaction view body */
 "VerifyPin.authorize" = "Please enter your PIN to authorize this transaction.";

@@ -162,7 +162,7 @@ class AlertView: UIView {
         header.constrainTopCorners(sidePadding: Margins.large.rawValue, topPadding: Margins.large.rawValue)
         separator.constrain([
             separator.constraint(.height, constant: 1.0),
-            separator.constraint(.width, toView: self, constant: 0.0),
+            separator.constraint(.width, toView: self),
             separator.constraint(.top, toView: self, constant: separatorYOffset),
             separator.constraint(.leading, toView: self, constant: nil) ])
         icon.constrain([

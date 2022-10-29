@@ -11,8 +11,8 @@ import UserNotifications
 
 class PushNotificationsViewController: UIViewController {
 
-    private let toggleLabel = UILabel.wrapping(font: Theme.body1, color: Theme.primaryText)
-    private let body = UILabel.wrapping(font: Theme.body2, color: Theme.secondaryText)
+    private let toggleLabel = UILabel.wrapping(font: Fonts.Body.one, color: LightColors.Text.one)
+    private let body = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.two)
     private let toggle = UISwitch()
     private let separator = UIView()
     private let openSettingsButton = BRDButton(title: L10n.Button.openSettings, type: .primary)
@@ -118,11 +118,11 @@ class PushNotificationsViewController: UIViewController {
     private func setData() {
         title = L10n.Settings.notifications
         
-        view.backgroundColor = Theme.primaryBackground
-        separator.backgroundColor = Theme.tertiaryText
+        view.backgroundColor = LightColors.Background.one
+        separator.backgroundColor = LightColors.Text.three
         
         toggleLabel.text = L10n.PushNotifications.label
-        toggleLabel.textColor = Theme.primaryText
+        toggleLabel.textColor = LightColors.Text.one
         
         toggle.isOn = areNotificationsEnabled
         toggle.sendActions(for: .valueChanged)

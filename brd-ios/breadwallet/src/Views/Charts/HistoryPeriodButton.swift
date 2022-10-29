@@ -10,6 +10,7 @@ import UIKit
 
 class HistoryPeriodButton {
     private let historyPeriod: HistoryPeriod
+    
     let button: UIButton
     
     var callback: ((UIButton, HistoryPeriod) -> Void)? {
@@ -28,9 +29,8 @@ class HistoryPeriodButton {
     init(historyPeriod: HistoryPeriod) {
         self.historyPeriod = historyPeriod
         self.button = UIButton(type: .system)
-        button.setTitle(historyPeriod.buttonLabel, for: .normal)
-        let color = historyPeriod == HistoryPeriod.defaultPeriod ? Theme.primaryText : Theme.tertiaryText
-        button.setTitleColor(color, for: .normal)
-        button.titleLabel?.font = Theme.body1
+        button.setTitle(historyPeriod.buttonLabel.uppercased(), for: .normal)
+        button.setTitleColor(LightColors.Text.three, for: .normal)
+        button.titleLabel?.font = Fonts.Subtitle.two
     }
 }

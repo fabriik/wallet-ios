@@ -74,9 +74,9 @@ class RequestAmountViewController: UIViewController {
             address.constraint(toBottom: qrCode, constant: Margins.small.rawValue),
             address.constraint(.centerX, toView: view),
             address.constraint(.leading, toView: view, constant: Margins.extraExtraHuge.rawValue) ])
-        addressPopout.heightConstraint = addressPopout.constraint(.height, constant: 0.0)
+        addressPopout.heightConstraint = addressPopout.constraint(.height)
         addressPopout.constrain([
-            addressPopout.constraint(toBottom: address, constant: 0.0),
+            addressPopout.constraint(toBottom: address),
             addressPopout.constraint(.centerX, toView: view),
             addressPopout.constraint(.width, toView: view),
             addressPopout.heightConstraint ])
@@ -127,9 +127,7 @@ class RequestAmountViewController: UIViewController {
     }
 
     private func setupCopiedMessage() {
-        // TODO: style
-        let copiedMessage = UILabel(font: .customMedium(size: 14.0))
-        copiedMessage.textColor = .black
+        let copiedMessage = UILabel(font: Fonts.Subtitle.two, color: LightColors.Text.one)
         copiedMessage.text = L10n.Receive.copied
         copiedMessage.textAlignment = .center
         addressPopout.contentView = copiedMessage

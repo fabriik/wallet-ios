@@ -13,7 +13,7 @@ extension UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.setImage(image, for: .normal)
-        button.titleLabel?.font = Theme.caption
+        button.titleLabel?.font = Fonts.button
         button.contentMode = .center
         button.imageView?.contentMode = .center
         if let imageSize = button.imageView?.image?.size,
@@ -31,9 +31,10 @@ extension UIButton {
     static func rounded(title: String) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont.customMedium(size: 16.0)
-        button.backgroundColor = .red
-        button.layer.cornerRadius = 5
+        button.titleLabel?.font = Fonts.button
+        button.backgroundColor = LightColors.primary
+        button.setTitleColor(LightColors.Contrast.two, for: .normal)
+        button.layer.cornerRadius = 22
         button.layer.masksToBounds = true
         return button
     }

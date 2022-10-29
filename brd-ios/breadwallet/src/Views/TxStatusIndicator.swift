@@ -55,7 +55,7 @@ class TxStatusIndicator: UIView {
         pips.enumerated().forEach { index, pip in
             let leadingConstraint: NSLayoutConstraint?
             if index == 0 {
-                leadingConstraint = pip.constraint(.leading, toView: self, constant: 0.0)
+                leadingConstraint = pip.constraint(.leading, toView: self)
             } else {
                 leadingConstraint = NSLayoutConstraint(item: pip,
                                                        attribute: .leading,

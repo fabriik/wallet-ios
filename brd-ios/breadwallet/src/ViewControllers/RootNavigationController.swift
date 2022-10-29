@@ -31,12 +31,15 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         let tintColor: UIColor
         
         switch viewController {
+        case is AccountViewController:
+            backgroundColor = .clear
+            tintColor = LightColors.Text.three
+            
         case is KYCCameraViewController:
             backgroundColor = .black
             tintColor = LightColors.Background.one
             
-        case is AccountViewController,
-            is HomeScreenViewController,
+        case is HomeScreenViewController,
             is OnboardingViewController:
             backgroundColor = .clear
             tintColor = LightColors.Background.two
@@ -45,6 +48,8 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             is AddWalletsViewController,
             is RecoveryKeyIntroViewController,
             is EnterPhraseViewController,
+            is AboutViewController,
+            is UpdatePinViewController,
             is LoginViewController:
             backgroundColor = LightColors.Background.cards
             tintColor = LightColors.Text.three
@@ -54,9 +59,12 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             tintColor = LightColors.Text.three
         }
         
-        setNormalNavigationBar(normalBackgroundColor: backgroundColor, scrollBackgroundColor: backgroundColor, tintColor: tintColor)
         let item = SimpleBackBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         viewController.navigationItem.backBarButtonItem = item
+        
+        setNormalNavigationBar(normalBackgroundColor: backgroundColor,
+                               scrollBackgroundColor: backgroundColor,
+                               tintColor: tintColor)
     }
     
     func setNormalNavigationBar(normalBackgroundColor: UIColor = .clear,
@@ -67,12 +75,14 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         ]
         
         let normalAppearance = UINavigationBarAppearance()
+        normalAppearance.setBackIndicatorImage(UIImage(named: "back"), transitionMaskImage: UIImage(named: "back"))
         normalAppearance.titleTextAttributes = navigationBar.titleTextAttributes ?? [:]
         normalAppearance.configureWithOpaqueBackground()
         normalAppearance.backgroundColor = normalBackgroundColor
         normalAppearance.shadowColor = nil
         
         let scrollAppearance = UINavigationBarAppearance()
+        scrollAppearance.setBackIndicatorImage(UIImage(named: "back"), transitionMaskImage: UIImage(named: "back"))
         scrollAppearance.titleTextAttributes = navigationBar.titleTextAttributes ?? [:]
         scrollAppearance.configureWithTransparentBackground()
         scrollAppearance.backgroundColor = scrollBackgroundColor

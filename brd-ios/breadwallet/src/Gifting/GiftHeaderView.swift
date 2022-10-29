@@ -13,8 +13,8 @@ import UIKit
 class GiftHeaderView: UIView {
     
     let close = UIButton.buildModernCloseButton(position: .middle)
-    private let titleLabel = UILabel(font: Theme.body1, color: .white)
-    private let border = UIView(color: .white)
+    private let titleLabel = UILabel(font: Fonts.Body.one, color: LightColors.Contrast.two)
+    private let border = UIView(color: LightColors.Contrast.two)
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -47,7 +47,7 @@ class GiftHeaderView: UIView {
             border.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.large.rawValue),
             border.trailingAnchor.constraint(equalTo: trailingAnchor),
             border.heightAnchor.constraint(equalToConstant: 1.0),
-                            border.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0)])
+                            border.bottomAnchor.constraint(equalTo: bottomAnchor)])
     }
     
     private func setInitialData() {

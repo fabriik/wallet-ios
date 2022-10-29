@@ -11,7 +11,6 @@
 import UIKit
 
 class ExtendedTouchArea: UIView {
-    
     var delegateView: UIView?
     var ignoringView: UIView?
     

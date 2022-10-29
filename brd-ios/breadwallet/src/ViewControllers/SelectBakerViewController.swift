@@ -38,11 +38,11 @@ class SelectBakerViewController: UIViewController, Subscriber, ModalPresentable,
         tableView.isHidden = true
         
         tableView.constrain([
-            tableView.constraint(.leading, toView: view, constant: 0.0),
-            tableView.constraint(.trailing, toView: view, constant: 0.0),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0.0),
+            tableView.constraint(.leading, toView: view),
+            tableView.constraint(.trailing, toView: view),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.constraint(.height, constant: 600),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0.0) ])
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor) ])
         
         setInitialData()
     }

@@ -356,9 +356,9 @@ class RecoveryKeyIntroViewController: BaseRecoveryKeyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = Theme.primaryBackground
+        view.backgroundColor = LightColors.Background.one
         navigationItem.setHidesBackButton(true, animated: false)
-        navigationController?.navigationBar.backgroundColor = Theme.primaryBackground
+        navigationController?.navigationBar.backgroundColor = LightColors.Background.one
         
         showExitButton()
         setUpPages()

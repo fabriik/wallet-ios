@@ -17,7 +17,7 @@ class GradientSwitch: UISwitch {
 
     private let background: UIView = {
         let view = UIView()
-        view.backgroundColor = Theme.blueBackground
+        view.backgroundColor = LightColors.primary
         view.clipsToBounds = true
         view.layer.cornerRadius = 16.0
         view.alpha = 0.0

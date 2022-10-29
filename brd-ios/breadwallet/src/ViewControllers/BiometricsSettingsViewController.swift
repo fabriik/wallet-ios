@@ -31,13 +31,13 @@ class BiometricsSettingsViewController: UIViewController, Subscriber {
     
     private let imageView = UIImageView()
     
-    private let explanationLabel = UILabel.wrapping(font: Theme.body1, color: Theme.secondaryText)
+    private let explanationLabel = UILabel.wrapping(font: Fonts.Body.one, color: LightColors.Text.two)
     
     // Toggle for enabling Touch ID or Face ID to unlock the BRD app.
-    private let unlockTitleLabel = UILabel.wrapping(font: Theme.body1, color: Theme.primaryText)
+    private let unlockTitleLabel = UILabel.wrapping(font: Fonts.Body.one, color: LightColors.Text.one)
     
     // Toggle for enabling Touch ID or Face ID for sending money.
-    private let transactionsTitleLabel = UILabel.wrapping(font: Theme.body1, color: Theme.primaryText)
+    private let transactionsTitleLabel = UILabel.wrapping(font: Fonts.Body.one, color: LightColors.Text.one)
 
     private let unlockToggle = UISwitch()
     private let transactionsToggle = UISwitch()
@@ -70,11 +70,11 @@ class BiometricsSettingsViewController: UIViewController, Subscriber {
     }
     
     private func setUpAppearance() {
-        view.backgroundColor = Theme.primaryBackground
+        view.backgroundColor = LightColors.Background.one
         explanationLabel.textAlignment = .center
-        
-        unlockToggleSeparator.backgroundColor = Theme.tertiaryBackground
-        transactionsToggleSeparator.backgroundColor = Theme.tertiaryBackground
+
+        unlockToggleSeparator.backgroundColor = LightColors.Background.three
+        transactionsToggleSeparator.backgroundColor = LightColors.Background.three
         
         [unlockTitleLabel, transactionsTitleLabel].forEach({
             $0.adjustsFontSizeToFitWidth = true
@@ -152,7 +152,7 @@ class BiometricsSettingsViewController: UIViewController, Subscriber {
 
     private func setData() {
         imageView.image = UIImage(named: imageName)
-        imageView.tintColor = Theme.blueBackground
+        imageView.tintColor = LightColors.primary
         explanationLabel.text = explanatoryText
         unlockTitleLabel.text = unlockTitleText
         transactionsTitleLabel.text = transactionsTitleText

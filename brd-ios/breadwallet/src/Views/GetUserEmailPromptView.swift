@@ -49,8 +49,8 @@ class GetUserEmailPromptView: PromptView {
     override func setup() {
         super.setup()
         
-        title.textColor = Theme.primaryText
-        body.textColor = Theme.secondaryText
+        title.textColor = LightColors.Text.one
+        body.textColor = LightColors.Text.two
         
         successFootnoteLabel.textColor = body.textColor
         successFootnoteLabel.font = body.font
@@ -144,7 +144,7 @@ class GetUserEmailPromptView: PromptView {
     }
     
     override var containerBackgroundColor: UIColor {
-        return Theme.secondaryBackground
+        return LightColors.Background.two
     }
     
     override func addSubviews() {
@@ -169,9 +169,9 @@ class GetUserEmailPromptView: PromptView {
     private func setUpEmailInput() {
         emailInput.delegate = self
         
-        emailInput.backgroundColor = Theme.primaryBackground
+        emailInput.backgroundColor = LightColors.Background.one
         emailInput.layer.cornerRadius = 2.0
-        emailInput.textColor = Theme.primaryText
+        emailInput.textColor = LightColors.Text.one
         emailInput.font = UIFont.emailPlaceholder()
         emailInput.attributedPlaceholder = NSAttributedString(string: L10n.Prompts.Email.placeholder,
                                                               attributes: [ NSAttributedString.Key.foregroundColor: UIColor.emailPlaceholderText ])

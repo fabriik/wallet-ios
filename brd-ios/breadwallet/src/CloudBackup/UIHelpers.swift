@@ -35,7 +35,7 @@ struct TitleText: View {
     
     var body: some View {
         Text(text)
-            .font(Font(Theme.h1Title))
+            .font(Font(Fonts.Title.one))
     }
 }
 
@@ -55,6 +55,6 @@ struct BodyText: View {
     
     var body: some View {
         Text(text)
-            .font(Font(Theme.body1))
+            .font(Font(Fonts.Body.one))
     }
 }

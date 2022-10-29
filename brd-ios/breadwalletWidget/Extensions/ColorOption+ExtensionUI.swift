@@ -163,13 +163,13 @@ extension ColorOption {
         case .primaryBackground:
             return Color(Theme.primaryBackground)
         case .secondaryBackground:
-            return Color(Theme.secondaryBackground)
+            return Color(LightColors.Background.two)
         case .tertiaryBackground:
-            return Color(Theme.tertiaryBackground)
+            return Color(LightColors.Background.three)
         case .primaryText:
-            return Color(Theme.primaryText)
+            return Color(LightColors.Text.one)
         case .secondaryText:
-            return Color(Theme.secondaryText)
+            return Color(LightColors.Text.two)
         case .tertiaryText:
             return Color(Theme.tertiaryText)
         default:

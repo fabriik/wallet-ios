@@ -49,9 +49,3 @@ class GradientView: UIView {
         drawGradient(rect)
     }
 }
-
-class DoubleGradientView: UIView {
-    override func draw(_ rect: CGRect) {
-        drawGradient(ends: UIColor.white.withAlphaComponent(0.1), middle: UIColor.white.withAlphaComponent(0.6), rect)
-    }
-}

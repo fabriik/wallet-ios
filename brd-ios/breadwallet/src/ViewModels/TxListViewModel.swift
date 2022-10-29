@@ -15,42 +15,8 @@ struct TxListViewModel: TxViewModel, Hashable {
     
     var tx: Transaction?
     var swap: SwapDetail?
-    
-    var shortDescription: String {
-        let isComplete = tx?.status == .complete || swap?.status == .complete
-        
-        if let comment = comment, !comment.isEmpty {
-            return comment
-        } else if let tokenCode = tokenTransferCode {
-            return L10n.Transaction.tokenTransfer(tokenCode.uppercased())
-        } else if let tx = tx {
-            guard transactionType == .defaultTransaction else {
-                return shortTimestamp
-            }
-            
-            var address = tx.toAddress
-            var format: (Any) -> String
-            
-            switch tx.direction {
-            case .sent, .recovered:
-                format = isComplete ? L10n.Transaction.sentTo : L10n.Transaction.sendingTo
-                
-            case .received:
-                if tx.currency.isBitcoinCompatible == false {
-                    format = isComplete ? L10n.TransactionDetails.receivedFrom : L10n.TransactionDetails.receivingFrom
-                    address = tx.fromAddress
-                } else {
-                    format = isComplete ? L10n.TransactionDetails.receivedVia : L10n.TransactionDetails.receivingVia
-                }
-            }
-            return format(address)
-            
-        } else {
-            return shortTimestamp
-        }
-    }
 
-    func amount(showFiatAmounts: Bool, rate: Rate) -> NSAttributedString {
+    func amount(showFiatAmounts: Bool, rate: Rate) -> String {
         // TODO: handle swap amount
         if let tx = tx {
             var amount = tx.amount
@@ -63,25 +29,84 @@ struct TxListViewModel: TxViewModel, Hashable {
             let text = Amount(amount: amount,
                               rate: showFiatAmounts ? rate : nil,
                               negative: (tx.direction == .sent)).description
-            let color: UIColor = (tx.direction == .received) ? .receivedGreen : .darkGray
-            
-            return NSMutableAttributedString(string: text,
-                                             attributes: [.foregroundColor: color])
+            return text
         } else if let swap = swap {
-            let color: UIColor
             if swap.source.currency == C.usdCurrencyCode,
                swap.status == .pending {
-                color = .darkGray
-            } else {
-                let isSedning = swap.source.currency == currency?.code
-                color = isSedning ? .darkGray : .receivedGreen
             }
             
             let amount = ExchangeFormatter.crypto.string(for: swap.destination.currencyAmount) ?? ""
-            return NSMutableAttributedString(string: "\(amount) \(swap.destination.currency)",
-                                             attributes: [.foregroundColor: color])
+            return "\(amount) \(swap.destination.currency)"
         } else {
             return .init()
+        }
+    }
+    
+    var shortDescription: String {
+        switch transactionType {
+        case .defaultTransaction:
+            return handleDefaultTransactions()
+            
+        case .swapTransaction:
+            return handleSwapTransactions()
+            
+        case .buyTransaction:
+            return handleBuyTransactions()
+        }
+    }
+    
+    private func handleDefaultTransactions() -> String {
+        guard let tx = tx else { return "" }
+        
+        switch status {
+        case .invalid:
+            return L10n.Transaction.failed
+            
+        case .complete:
+            if tx.direction == .sent {
+                return L10n.TransactionDetails.sent(tx.toAddress)
+            } else if tx.direction == .received {
+                return L10n.TransactionDetails.received(tx.fromAddress)
+            }
+            return ""
+            
+        default:
+            guard let currency = currency else { return "" }
+            return "\(confirmations)/\(currency.confirmationsUntilFinal) " + L10n.TransactionDetails.confirmationsLabel
+        }
+    }
+    
+    private func handleBuyTransactions() -> String {
+        switch status {
+        case .invalid, .failed, .refunded:
+            return L10n.Transaction.purchaseFailed
+    
+        case .complete, .manuallySettled, .confirmed:
+            return L10n.Transaction.purchased
+            
+        default:
+            return L10n.Transaction.pendingPurchase
+        }
+    }
+    
+    private func handleSwapTransactions() -> String {
+        let sourceCurrency = swapSourceCurrency?.code.uppercased() ?? ""
+        let destinationCurrency = swapDestinationCurrency?.code.uppercased() ?? ""
+        let isOnSource = currency?.code.uppercased() == swapSourceCurrency?.code.uppercased()
+        let swapString = isOnSource ? "to \(destinationCurrency)" : "from \(sourceCurrency)"
+        
+        switch status {
+        case .complete, .manuallySettled:
+            return "\(L10n.Transaction.swapped) \(swapString)"
+            
+        case .pending:
+            return "\(L10n.Transaction.pendingSwap) \(swapString)"
+            
+        case .failed, .refunded:
+            return "\(L10n.Transaction.failedSwap) \(swapString)"
+            
+        default:
+            return ""
         }
     }
 }

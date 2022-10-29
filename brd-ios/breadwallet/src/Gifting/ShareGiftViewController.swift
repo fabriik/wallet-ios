@@ -24,15 +24,15 @@ class ShareGiftView: UIView {
     private let contentView = UIView()
     private let closeButton = UIButton.buildModernCloseButton(position: .middle)
     private let qr = UIImageView()
-    private let name = UILabel(font: Theme.h0Title, color: UIColor.white)
-    private let subHeader = UILabel(font: Theme.h2Title, color: UIColor.white)
+    private let name = UILabel(font: Fonts.Title.one, color: UIColor.white)
+    private let subHeader = UILabel(font: Fonts.Title.two, color: UIColor.white)
     private let separator = UIView(color: UIColor.white.withAlphaComponent(0.15))
     private let logo = UIImageView(image: UIImage(named: "LogoGradientSmall"))
-    private let totalLabel = UILabel(font: Theme.body1, color: UIColor.white)
-    private let total = UILabel(font: Theme.h0Title, color: UIColor.white)
+    private let totalLabel = UILabel(font: Fonts.Body.one, color: UIColor.white)
+    private let total = UILabel(font: Fonts.Title.one, color: UIColor.white)
     private let cell: GiftCurrencyCell
-    private let disclaimer = UILabel(font: Theme.body1, color: UIColor.white.withAlphaComponent(0.2))
-    private let disclaimer2 = UILabel(font: Theme.body1, color: UIColor.white.withAlphaComponent(0.4))
+    private let disclaimer = UILabel(font: Fonts.Body.one, color: UIColor.white.withAlphaComponent(0.2))
+    private let disclaimer2 = UILabel(font: Fonts.Body.one, color: UIColor.white.withAlphaComponent(0.4))
     private let share = BRDButton(title: "Share", type: .primary)
     private let gift: Gift
     private let showButton: Bool
@@ -79,7 +79,7 @@ class ShareGiftView: UIView {
         let padding = showButton ? Margins.large.rawValue : 0
         if !showButton {
             blurView.isHidden = true
-            backgroundColor = Theme.primaryBackground
+            backgroundColor = LightColors.Background.one
         } else {
             top.priority = .defaultLow
         }
@@ -191,7 +191,7 @@ class ShareGiftView: UIView {
         name.numberOfLines = 1
         name.lineBreakMode = .byTruncatingTail
         
-        contentView.backgroundColor = Theme.primaryBackground
+        contentView.backgroundColor = LightColors.Background.one
         contentView.layer.cornerRadius = 10.0
         contentView.layer.masksToBounds = true
         scrollView.backgroundColor = UIColor.clear

@@ -21,10 +21,10 @@ class SelectBakerCell: UITableViewCell {
     private let bakerIcon = UIImageView(color: .transparentIconBackground)
     private let bakerIconLoadingView = UIView()
     private let iconLoadingSpinner = UIActivityIndicatorView(style: .medium)
-    private let bakerName = UILabel(font: Theme.h3Title, color: .darkGray)
-    private let roiHeader = UILabel(font: Theme.caption, color: .lightGray)
-    private let roi = UILabel(font: Theme.h3Title, color: .darkGray)
-    private let fee = UILabel(font: Theme.caption, color: .lightGray)
+    private let bakerName = UILabel(font: Fonts.Title.three, color: .darkGray)
+    private let roiHeader = UILabel(font: Fonts.Body.three, color: .lightGray)
+    private let roi = UILabel(font: Fonts.Title.three, color: .darkGray)
+    private let fee = UILabel(font: Fonts.Body.three, color: .lightGray)
     
     let container = Background()    // not private for inheritance
     
@@ -104,13 +104,13 @@ class SelectBakerCell: UITableViewCell {
             bakerName.topAnchor.constraint(equalTo: container.topAnchor, constant: Margins.large.rawValue),
             bakerName.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: Margins.large.rawValue) ])
         fee.constrain([
-            fee.topAnchor.constraint(equalTo: bakerName.bottomAnchor, constant: 0.0),
+            fee.topAnchor.constraint(equalTo: bakerName.bottomAnchor),
             fee.leadingAnchor.constraint(equalTo: bakerIcon.trailingAnchor, constant: Margins.large.rawValue) ])
         roi.constrain([
-            roi.topAnchor.constraint(equalTo: bakerName.topAnchor, constant: 0.0),
+            roi.topAnchor.constraint(equalTo: bakerName.topAnchor),
             roi.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -Margins.large.rawValue) ])
         roiHeader.constrain([
-            roiHeader.topAnchor.constraint(equalTo: roi.bottomAnchor, constant: 0.0),
+            roiHeader.topAnchor.constraint(equalTo: roi.bottomAnchor),
             roiHeader.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -Margins.large.rawValue) ])
         
         layoutIfNeeded()

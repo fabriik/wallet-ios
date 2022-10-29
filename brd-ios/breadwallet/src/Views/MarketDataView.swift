@@ -11,11 +11,9 @@
 import SwiftUI
 
 struct MarketDataView: View {
-    private let strokeColor = Color.white.opacity(0.15)
-    private let fillColor = Color.white.opacity(0.1)
-    private let textColor = Color.white
-    private let subTextColor = Color.white.opacity(0.69)
-    private let textSize = 16.0
+    private let fillColor = Color(LightColors.Background.two)
+    private let textColor = Color(LightColors.Text.one)
+    private let subTextColor = Color(LightColors.Text.two)
     
     @ObservedObject var marketData: MarketDataPublisher
     
@@ -34,10 +32,10 @@ struct MarketDataView: View {
             }.padding(8.0)
             .frame(minWidth: 0, maxWidth: .infinity)
             Rectangle()
-                .fill(strokeColor)
+                .fill(textColor)
                 .frame(width: 1.0)
                 .cornerRadius(0.5)
-                .padding([.top, .bottom], 4.0)
+                .padding([.top, .bottom], Margins.large.rawValue)
             VStack(alignment: .center, spacing: Margins.small.rawValue) {
                 text(marketData.viewModel.high24h)
                 subText(L10n.MarketData.high24h)
@@ -49,18 +47,15 @@ struct MarketDataView: View {
         .frame(maxWidth: .infinity)
         .fixedSize(horizontal: false, vertical: true)
         .background(fillColor)
-        .cornerRadius(8)
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(strokeColor, lineWidth: 1)
-        ).onAppear(perform: {
+        .cornerRadius(CornerRadius.extraSmall.rawValue)
+        .onAppear(perform: {
             self.marketData.fetch()
         })
     }
     
     func text(_ text: String) -> some View {
         Text(text)
-            .font(Font(Theme.body1))
+            .font(Font(Fonts.Body.one))
             .foregroundColor(textColor)
             .minimumScaleFactor(0.1)
             .lineLimit(1)
@@ -68,7 +63,7 @@ struct MarketDataView: View {
     
     func subText(_ text: String) -> Text {
         Text(text)
-            .font(Font(Theme.caption))
+            .font(Font(Fonts.Subtitle.one))
             .foregroundColor(subTextColor)
     }
     

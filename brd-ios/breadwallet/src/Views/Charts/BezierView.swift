@@ -7,35 +7,32 @@
 //  original: https://github.com/Ramshandilya/Bezier
 
 import UIKit
-import Foundation
-
-protocol BezierViewDataSource: AnyObject {
-    var bezierViewDataPoints: [CGPoint] { get }
-}
 
 class BezierView: UIView {
-   
-    private let kStrokeAnimationKey = "StrokeAnimationKey"
-    private let kFadeAnimationKey = "FadeAnimationKey"
-    
-    weak var dataSource: BezierViewDataSource?
-    private let lineColor = Theme.primaryBackground
+    private var lineColor: UIColor = .black
     private var animates = true
     private var lineLayer = CAShapeLayer()
     private var graphPath: UIBezierPath?
     
+    private var bezierViewDataPoints: [CGPoint] = []
+    private var currencyColors: (UIColor, UIColor) = (.black, .black)
+    
     var didFinishAnimation: (() -> Void)?
     
     private var dataPoints: [CGPoint]? {
-		return self.dataSource?.bezierViewDataPoints
+		return bezierViewDataPoints
     }
     
     private let cubicCurveAlgorithm = CubicCurveAlgorithm()
     
-    func drawBezierCurve() {
-        self.layer.sublayers?.forEach({ (layer: CALayer) -> Void in
+    func drawBezierCurve(bezierViewDataPoints: [CGPoint], currencyColors: (UIColor, UIColor)) {
+        self.bezierViewDataPoints = bezierViewDataPoints
+        self.currencyColors = currencyColors
+        
+        layer.sublayers?.forEach({ (layer: CALayer) -> Void in
             layer.removeFromSuperlayer()
         })
+        
         cubicCurveAlgorithm.reset()
         drawSmoothLines()
         animateLine()
@@ -43,8 +40,6 @@ class BezierView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        
-        //Draw gradient
         guard let linePath = graphPath else { return }
         guard let points = dataPoints, !points.isEmpty else { return }
         guard let clippingPath = linePath.copy() as? UIBezierPath else { return }
@@ -62,8 +57,7 @@ class BezierView: UIView {
         let gradient = CGGradient(colorsSpace: colorSpace,
                                   colors: colors as CFArray,
                                   locations: colorLocations)!
-        lineColor.setFill()
-        lineColor.setStroke()
+        
         let context = UIGraphicsGetCurrentContext()!
         context.drawLinearGradient(gradient, start: graphStartPoint, end: graphEndPoint, options: [])
     }
@@ -84,13 +78,17 @@ class BezierView: UIView {
 			}
 		}
         graphPath = linePath
+        
+        lineColor = currencyColors.0
+        lineColor.setFill()
+        lineColor.setStroke()
         lineLayer = CAShapeLayer()
 		lineLayer.path = linePath.cgPath
 		lineLayer.fillColor = UIColor.clear.cgColor
-		lineLayer.strokeColor = lineColor.cgColor
-        lineLayer.lineWidth = 1.0
+        lineLayer.strokeColor = lineColor.cgColor
+        lineLayer.lineWidth = 2.0
         
-        self.layer.addSublayer(lineLayer)
+        layer.addSublayer(lineLayer)
         
         if animates {
             lineLayer.strokeEnd = 0
@@ -106,7 +104,7 @@ class BezierView: UIView {
         growAnimation.fillMode = CAMediaTimingFillMode.forwards
         growAnimation.isRemovedOnCompletion = false
         growAnimation.delegate = self
-        lineLayer.add(growAnimation, forKey: kStrokeAnimationKey)
+        lineLayer.add(growAnimation, forKey: "StrokeAnimationKey")
     }
 }
 
