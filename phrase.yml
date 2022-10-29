@@ -1,5 +1,4 @@
 ﻿phrase:
-  access_token: "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"
   push:
     sources:
     - file: ./brd-ios/breadwallet/src/Strings/en.lproj/Localizable.strings
