@@ -40,7 +40,7 @@ struct C {
     static let privacyPolicy = "https://\(companyURL)/privacy-policy/"
     static let termsAndConditions = "https://\(companyURL)/terms-and-conditions/"
     static let feedbackEmail = "hello@\(companyURL)"
-    static let iosEmail = "ios@\(companyURL)"
+    static let iosEmail = "hello@\(companyURL)"
     static let reviewLink = "https://apps.apple.com/us/app/company/id1595167194?action=write-review"
     static let supportLink = "https://app-support.\(companyURL)/"
     static var standardPort: Int {

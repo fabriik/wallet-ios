@@ -301,7 +301,7 @@ internal enum L10n {
     internal enum Keystore {
       internal enum Generic {
         /// Keystore error
-        internal static let android = L10n.tr("Localizable", "Alert.keystore.generic.android", fallback: "There is a problem with your Android OS keystore, please contact hello@company.com")
+        internal static let android = L10n.tr("Localizable", "Alert.keystore.generic.android", fallback: "There is a problem with your Android OS keystore, please contact hello@rockwallet.com")
       }
       internal enum Invalidated {
         /// KeyStore error, keys are invalidated

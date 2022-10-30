@@ -11,11 +11,11 @@
 import UIKit
 
 public enum AppGroup: String {
-    case companyOne = "group.com.placeholder.app"
+    case placeholderApp = "group.com.placeholder.app"
     
     public var containerURL: URL? {
         switch self {
-        case .companyOne:
+        case .placeholderApp:
             return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: rawValue)
         }
     }
@@ -257,7 +257,7 @@ struct CurrencyFileManager {
     }
     
     static func sharedFilePath(type: DownloadedCurrencyType) -> String? {
-        return AppGroup.companyOne.containerURL?.appendingPathComponent("\(type.rawValue).json").path
+        return AppGroup.placeholderApp.containerURL?.appendingPathComponent("\(type.rawValue).json").path
     }
     
     static func bundledFilePath(type: DownloadedCurrencyType) -> String? {

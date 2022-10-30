@@ -1,4 +1,4 @@
-﻿/* App name */
+/* App name */
 "About.appName.android" = "RockWallet";
 
 /* About screen blog label */
@@ -341,7 +341,7 @@
 "Alert.HederaAccount" = "Hedera Account succesfully created.";
 
 /* Keystore error */
-"Alert.keystore.generic.android" = "There is a problem with your Android OS keystore, please contact hello@company.com";
+"Alert.keystore.generic.android" = "There is a problem with your Android OS keystore, please contact hello@rockwallet.com";
 
 /* KeyStore error, keys are invalidated */
 "Alert.keystore.invalidated.android" = "Your Rockwallet encrypted data was recently invalidated because your Android lock screen was disabled.";
