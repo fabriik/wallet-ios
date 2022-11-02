@@ -57,24 +57,24 @@ struct CloudBackupView: View {
                 }
                 .toggleStyle(SwitchToggleStyle(tint: Color(LightColors.primary)))
                 .onReceive(Just(isBackupOn), perform: self.onToggleChange)
-                .if(!E.isIPhone5, content: { $0.padding() })
-                .if(E.isIPhone5, content: { $0.padding([.leading, .trailing]) })
+                .padding([.leading, .trailing])
+                .padding(.bottom, Margins.extraExtraHuge.rawValue)
                 
                 HStack {
                     Image("warning")
-                        .resizable()
                         .frame(width: ViewSizes.medium.rawValue, height: ViewSizes.medium.rawValue)
                         .foregroundColor(Color(LightColors.Error.one))
+                        .background(Color(LightColors.Background.one))
+                        .cornerRadius(ViewSizes.medium.rawValue * CornerRadius.fullRadius.rawValue)
                         .padding(.leading)
                     BodyText(L10n.CloudBackup.mainWarning, style: .seconday)
-                        .foregroundColor(Color(LightColors.Text.one))
+                        .padding([.top, .bottom], Margins.extraLarge.rawValue)
+                        .padding(.trailing, 40)
                     .fixedSize(horizontal: false, vertical: true)
                     .lineLimit(nil)
-                    .if(!E.isIPhone5, content: { $0.padding() })
-                    .if(E.isIPhone5, content: { $0.padding(4.0) })
                 }.background(Color(LightColors.Background.three))
                     .cornerRadius(CornerRadius.common.rawValue)
-                .padding()
+                    .padding([.leading, .trailing], Margins.large.rawValue)
                 if self.synchronizer.context == .onboarding {
                     Button(action: {
                         if !didToggleOffDuringOnboarding {
@@ -180,16 +180,20 @@ struct CloudBackupViewBody: View {
     var body: some View {
         Group {
             CloudBackupIcon(style: .up)
+                .padding(.bottom, Margins.extraHuge.rawValue)
             Text(L10n.CloudBackup.mainTitle)
                 .font(Font(Fonts.Title.six))
                 .foregroundColor(Color(LightColors.Text.three))
+                .padding(.bottom, Margins.large.rawValue)
             Text(L10n.CloudBackup.mainBody)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
-            // TODO: wrong font
-                .font(Font(Fonts.Body.one))
+                .font(Font(Fonts.Body.two))
                 .foregroundColor(Color(LightColors.Text.two))
-                .padding()
+            // uncommon padding :shrug
+                .padding(.leading, 40)
+                .padding(.trailing, 40)
+                .padding(.bottom, Margins.huge.rawValue)
         }
     }
 }
@@ -204,12 +208,7 @@ struct CloudBackupIcon: View {
     let style: CloudBackupIconStyle
     
     private var imageSize: CGFloat {
-        if E.isIPhone5 {
-            return 60
-        } else if E.isIPhone6 {
-            return 80
-        }
-        return 150
+        return 120
     }
     
     var body: some View {

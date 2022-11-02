@@ -11,13 +11,13 @@
 import Foundation
 
 var WalletSecAttrService: String {
-    if E.isRunningTests { return "com.fabriik.one.testnetQA.tests" }
+    if E.isRunningTests { return "com.placeholder.app.testnetQA.tests" }
     #if TESTNET
-    return "com.fabriik.one.testnetQA"
+    return "com.placeholder.app.testnetQA"
     #elseif INTERNAL
-    return "com.fabriik.one.internalQA"
+    return "com.placeholder.app.internalQA"
     #else
-    return "com.fabriik.one"
+    return "com.placeholder.app"
     #endif
 }
 

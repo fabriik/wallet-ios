@@ -3,7 +3,7 @@
 //  breadwallet
 //
 //  Created by Kenan Mamedoff on 20/05/2022.
-//  Copyright © 2022 Fabriik Exchange, LLC. All rights reserved.
+//  Copyright © 2022 Placeholder, LLC. All rights reserved.
 //
 //  See the LICENSE file at the project root for license information.
 //
@@ -11,11 +11,11 @@
 import UIKit
 
 public enum AppGroup: String {
-    case fabriikOne = "group.com.fabriik.one"
+    case placeholderApp = "group.com.placeholder.app"
     
     public var containerURL: URL? {
         switch self {
-        case .fabriikOne:
+        case .placeholderApp:
             return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: rawValue)
         }
     }
@@ -257,7 +257,7 @@ struct CurrencyFileManager {
     }
     
     static func sharedFilePath(type: DownloadedCurrencyType) -> String? {
-        return AppGroup.fabriikOne.containerURL?.appendingPathComponent("\(type.rawValue).json").path
+        return AppGroup.placeholderApp.containerURL?.appendingPathComponent("\(type.rawValue).json").path
     }
     
     static func bundledFilePath(type: DownloadedCurrencyType) -> String? {
