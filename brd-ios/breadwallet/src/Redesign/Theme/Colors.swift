@@ -81,4 +81,6 @@ struct LightColors {
         /// Error 2 message text, icons & backgrounds
         static var two = ThemeManager.shared.color(for: "error-02")
     }
+    /// Primary button selected / highlighted
+    static var primaryPressed = ThemeManager.shared.color(for: "primary-pressed")
 }
