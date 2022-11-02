@@ -4,6 +4,8 @@
   <a href="https://apps.apple.com/us/app/rockwallet/id1595167194"><img align="center" width="120px" height="40px" src="image/app_store_logo.png"/></a>
 </div>
 
+## Rockwallet
+
 Rockwallet is the best way to get started with bitcoin.
 Our simple, streamlined design is easy for beginners, yet powerful enough for experienced users.
 
