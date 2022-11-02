@@ -24,13 +24,6 @@ class AccountFooterView: UIView, Subscriber {
         setup()
     }
 
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        guard !hasSetup else { return }
-//        setup()
-//        hasSetup = true
-//    }
-
     private func toRadian(value: Int) -> CGFloat {
         return CGFloat(Double(value) / 180.0 * .pi)
     }
