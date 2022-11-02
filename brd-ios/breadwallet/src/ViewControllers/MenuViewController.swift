@@ -37,16 +37,11 @@ class MenuViewController: UITableViewController, Subscriber {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = LightColors.Background.two
-        
         tableView.register(MenuCell.self, forCellReuseIdentifier: MenuCell.cellIdentifier)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .singleLine
         tableView.separatorColor = LightColors.Outline.one
-        tableView.backgroundColor = LightColors.Background.two
-        
-        navigationController?.navigationBar.backgroundColor = LightColors.Background.two
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        tableView.backgroundColor = LightColors.Background.one
         
         if let button = faqButton {
             button.tintColor = LightColors.Text.three

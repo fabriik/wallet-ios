@@ -48,14 +48,13 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             is AddWalletsViewController,
             is RecoveryKeyIntroViewController,
             is EnterPhraseViewController,
-            is AboutViewController,
             is UpdatePinViewController,
             is LoginViewController:
             backgroundColor = LightColors.Background.cards
             tintColor = LightColors.Text.three
             
         default:
-            backgroundColor = LightColors.Background.two
+            backgroundColor = LightColors.Background.one
             tintColor = LightColors.Text.three
         }
         
