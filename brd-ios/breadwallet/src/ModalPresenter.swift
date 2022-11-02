@@ -553,7 +553,7 @@ class ModalPresenter: Subscriber {
             // About
             MenuItem(title: L10n.Settings.about, icon: MenuItem.Icon.about) {
                 menuNav.pushViewController(AboutViewController(), animated: true)
-            },// Feedback
+            }, // Feedback
             MenuItem(title: L10n.MenuButton.feedback, icon: MenuItem.Icon.feedback) { [weak self] in
                 guard let topVc = self?.topViewController else { return }
                 
