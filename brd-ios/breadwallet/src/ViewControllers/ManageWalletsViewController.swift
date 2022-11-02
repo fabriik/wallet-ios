@@ -31,7 +31,7 @@ class ManageWalletsViewController: UITableViewController {
     
     private lazy var footerView: UIView = {
         let footerView = UIView()
-        footerView.backgroundColor = .homeBackground
+        footerView.backgroundColor = LightColors.Background.one
         
         return footerView
     }()
@@ -43,7 +43,7 @@ class ManageWalletsViewController: UITableViewController {
     }
     
     override func viewDidLoad() {
-        tableView.backgroundColor = .darkBackground
+        tableView.backgroundColor = LightColors.Background.one
         tableView.rowHeight = 66.0
         tableView.separatorStyle = .singleLine
         tableView.separatorColor = LightColors.Outline.one

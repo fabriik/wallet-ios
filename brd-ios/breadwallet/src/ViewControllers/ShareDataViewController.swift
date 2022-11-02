@@ -20,6 +20,7 @@ class ShareDataViewController: UIViewController {
         addSubviews()
         addConstraints()
         setInitialData()
+        navigationItem.leftBarButtonItem?.tintColor = navigationController?.navigationBar.tintColor
     }
 
     private func addSubviews() {
@@ -52,10 +53,10 @@ class ShareDataViewController: UIViewController {
     }
 
     private func setInitialData() {
-        view.backgroundColor = .darkBackground
         titleLabel.text = L10n.ShareData.header
         body.text = L10n.ShareData.body
         label.text = L10n.ShareData.toggleLabel
+        view.backgroundColor = LightColors.Background.two
 
         if UserDefaults.hasAquiredShareDataPermission {
             toggle.isOn = true

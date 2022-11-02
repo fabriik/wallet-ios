@@ -124,7 +124,8 @@ class BuyCoordinator: BaseCoordinator, BuyRoutes, BillingAddressRoutes, OrderPre
             return
         }
         openModally(coordinator: ItemSelectionCoordinator.self,
-                    scene: Scenes.CardSelection) { vc in
+                    scene: Scenes.CardSelection,
+                    presentationStyle: .currentContext) { vc in
             vc?.dataStore?.isAddingEnabled = true
             vc?.dataStore?.isSelectingEnabled = fromBuy
             vc?.dataStore?.items = cards

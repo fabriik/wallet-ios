@@ -40,6 +40,7 @@ class BaseTableViewController<C: CoordinatableRoutes,
             navigationItem.setLeftBarButton(closeButton, animated: false)
             return
         }
+        closeButton.tintColor = (navigationController as? RootNavigationController)?.navigationBar.tintColor
         navigationItem.setRightBarButton(closeButton, animated: false)
     }
     
