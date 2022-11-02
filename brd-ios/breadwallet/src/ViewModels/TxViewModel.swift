@@ -171,14 +171,15 @@ extension TxViewModel {
             }
             
         case .swapTransaction:
-            return exchangeStatusIconDecider(status: tx.status)
-            
+            return .exchange
         }
         
         return .send
     }
     
     private func exchangeStatusIconDecider(status: TransactionStatus?) -> StatusIcon {
+        if transactionType == .swapTransaction { return .exchange }
+        
         let status = status ?? .failed
         
         if status == .complete || status == .manuallySettled || status == .confirmed {
