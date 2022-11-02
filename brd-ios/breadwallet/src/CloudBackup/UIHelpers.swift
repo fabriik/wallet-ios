@@ -56,5 +56,8 @@ struct BodyText: View {
     var body: some View {
         Text(text)
             .font(Font(Fonts.Body.one))
+            .foregroundColor(Color(LightColors.Text.two))
+            .padding([.top, .bottom], Margins.extraLarge.rawValue)
+            .padding(.trailing, 40)
     }
 }
