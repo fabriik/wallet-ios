@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSMinimumSystemVersion</key>
+	<string>13.0.0</string>
 	<key>API_TOKEN</key>
 	<string>$(API_TOKEN)</string>
 	<key>API_URL</key>
@@ -11,7 +13,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Fabriik</string>
+	<string>Rockwallet</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -62,7 +64,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.15.0</string>
+	<string>5.0.0</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

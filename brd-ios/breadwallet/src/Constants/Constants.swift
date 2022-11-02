@@ -34,15 +34,15 @@ struct C {
     static let brdLogoTopMargin: CGFloat = E.isIPhoneX ? Margins.custom(9) + 35.0 : Margins.custom(9) + 20.0
     static let secondsInDay: TimeInterval = 86400
     static let secondsInMinute: TimeInterval = 60
-    static let walletQueue = "com.fabriik.one.walletqueue"
+    static let walletQueue = "com.placeholder.app.walletqueue"
     static let maxMemoLength = 250
-    static let fabriikURL = "fabriik.com"
-    static let privacyPolicy = "https://\(fabriikURL)/privacy-policy/"
-    static let termsAndConditions = "https://\(fabriikURL)/terms-and-conditions/"
-    static let feedbackEmail = "hello@\(fabriikURL)"
-    static let iosEmail = "ios@\(fabriikURL)"
-    static let reviewLink = "https://apps.apple.com/us/app/fabriik/id1595167194?action=write-review"
-    static let supportLink = "https://app-support.\(fabriikURL)/"
+    static let companyURL = "placeholder.com"
+    static let privacyPolicy = "https://\(companyURL)/privacy-policy/"
+    static let termsAndConditions = "https://\(companyURL)/terms-and-conditions/"
+    static let feedbackEmail = "hello@\(companyURL)"
+    static let iosEmail = "hello@\(companyURL)"
+    static let reviewLink = "https://apps.apple.com/us/app/company/id1595167194?action=write-review"
+    static let supportLink = "https://app-support.\(companyURL)/"
     static var standardPort: Int {
         return E.isTestnet ? 18333 : 8333
     }
