@@ -40,22 +40,29 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             tintColor = LightColors.Background.one
             
         case is HomeScreenViewController,
-            is OnboardingViewController:
+            is OnboardingViewController,
+            is ProfileViewController,
+            is CardSelectionViewController:
             backgroundColor = .clear
             tintColor = LightColors.Background.two
             
-        case is ManageWalletsViewController,
-            is AddWalletsViewController,
-            is RecoveryKeyIntroViewController,
-            is EnterPhraseViewController,
-            is AboutViewController,
-            is UpdatePinViewController,
-            is LoginViewController:
-            backgroundColor = LightColors.Background.cards
+        case is DefaultCurrencyViewController,
+            is ShareDataViewController,
+            is BuyViewController,
+            is SwapViewController,
+            is AddCardViewController,
+            is ExchangeDetailsViewController,
+            is RegistrationViewController,
+            is RegistrationConfirmationViewController,
+            is AccountVerificationViewController,
+            is KYCBasicViewController,
+            is KYCLevelTwoEntryViewController,
+            is KYCDocumentPickerViewController:
+            backgroundColor = LightColors.Background.two
             tintColor = LightColors.Text.three
             
         default:
-            backgroundColor = LightColors.Background.two
+            backgroundColor = LightColors.Background.one
             tintColor = LightColors.Text.three
         }
         

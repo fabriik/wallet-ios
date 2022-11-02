@@ -60,7 +60,7 @@ class AboutViewController: UIViewController {
         addConstraints()
         setActions()
         
-        view.backgroundColor = .darkBackground
+        view.backgroundColor = LightColors.Background.one
     }
 
     private func addSubviews() {
