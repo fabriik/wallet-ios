@@ -141,6 +141,10 @@ class SearchHeaderView: UIView {
     private func addSubviews() {
         addSubview(searchBar)
         addSubview(cancel)
+        searchBar.tintColor = LightColors.Text.three
+        cancel.tintColor = LightColors.primary
+        searchBar.searchTextField.textColor = LightColors.Text.one
+        searchBar.searchTextField.font = Fonts.Body.two
     }
 
     private func addConstraints() {
@@ -154,7 +158,7 @@ class SearchHeaderView: UIView {
     }
 
     private func setData() {
-        backgroundColor = .whiteTint
+        backgroundColor = LightColors.Background.one
         
         searchBar.backgroundImage = UIImage()
         searchBar.delegate = self
@@ -229,7 +233,7 @@ class SearchHeaderView: UIView {
         stackView.spacing = Margins.small.rawValue
         stackView.constrain([
             stackView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor, constant: Margins.small.rawValue),
-            stackView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: Margins.small.rawValue),
+            stackView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.small.rawValue),
             stackView.trailingAnchor.constraint(equalTo: cancel.trailingAnchor, constant: -Margins.small.rawValue) ])
         stackView.addArrangedSubview(sent)

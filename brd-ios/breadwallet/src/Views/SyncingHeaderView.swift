@@ -10,10 +10,10 @@ import UIKit
 
 class SyncingHeaderView: UIView, Subscriber {
 
-    static let height: CGFloat = 40.0
+    static let height: CGFloat = 56.0
     private let syncIndicator = SyncingIndicator(style: .account)
-    private let date = UILabel(font: Fonts.Body.two, color: UIColor(red: 0.08, green: 0.07, blue: 0.2, alpha: 0.4))
-    private let separator = UIView(color: LightColors.Outline.one)
+    private let date = UILabel(font: Fonts.Title.six, color: LightColors.Text.one)
+    private let separator = UIView(color: .clear)
     private let lineLoadingView = LineLoadingView(style: .sync)
     private let currency: Currency
     private var syncState: SyncState = .success {
@@ -37,10 +37,6 @@ class SyncingHeaderView: UIView, Subscriber {
         addSubviews()
         addConstraints()
         setInitialState()
-        
-        // For languages such as German, the date string can be long and can overlap the sync'ing indicator.
-        date.minimumScaleFactor = 0.75
-        date.adjustsFontSizeToFitWidth = true
     }
 
     private func addSubviews() {
@@ -52,14 +48,15 @@ class SyncingHeaderView: UIView, Subscriber {
 
     private func addConstraints() {
         syncIndicator.constrain([
-            syncIndicator.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.small.rawValue),
+            syncIndicator.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.huge.rawValue),
             syncIndicator.topAnchor.constraint(equalTo: topAnchor),
             syncIndicator.bottomAnchor.constraint(equalTo: bottomAnchor)])
         date.constrain([
-            date.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.small.rawValue),
-            date.topAnchor.constraint(equalTo: topAnchor, constant: Margins.small.rawValue),
-            date.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.small.rawValue),
-            date.trailingAnchor.constraint(equalTo: syncIndicator.leadingAnchor, constant: -Margins.small.rawValue)])
+            date.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margins.huge.rawValue),
+            date.topAnchor.constraint(equalTo: topAnchor, constant: Margins.large.rawValue),
+            date.heightAnchor.constraint(equalToConstant: ViewSizes.small.rawValue),
+            date.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Margins.large.rawValue),
+            date.trailingAnchor.constraint(equalTo: syncIndicator.leadingAnchor, constant: -Margins.huge.rawValue)])
         separator.constrainBottomCorners(height: 1.0)
         lineLoadingView.constrain([
             lineLoadingView.heightAnchor.constraint(equalTo: separator.heightAnchor),
@@ -69,7 +66,7 @@ class SyncingHeaderView: UIView, Subscriber {
     }
     
     private func setInitialState() {
-        backgroundColor = .white
+        backgroundColor = .clear
         
         Store.subscribe(self,
                         selector: { [weak self] oldState, newState in

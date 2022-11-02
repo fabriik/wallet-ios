@@ -134,7 +134,7 @@ class TransactionsTableViewController: UITableViewController, Subscriber {
     
     private func setupUI() {
         let header = SyncingHeaderView(currency: currency)
-        header.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 40.0)
+        header.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: SyncingHeaderView.height)
         tableView.tableHeaderView = header
         
         tableView.addSubview(emptyMessage)
@@ -234,6 +234,10 @@ class TransactionsTableViewController: UITableViewController, Subscriber {
     }
     
     private func updateTransactions() {
+        guard filters.isEmpty else {
+            tableView.reloadData()
+            return
+        }
         guard let transfers = wallet?.transfers else { return }
         
         transactions = transfers.sorted(by: { $0.timestamp > $1.timestamp })

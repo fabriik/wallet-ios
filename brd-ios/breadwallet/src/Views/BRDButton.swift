@@ -91,14 +91,24 @@ class BRDButton: UIControl {
     override var isSelected: Bool {
         didSet {
             guard isToggleable else { return }
-            if type == .tertiary || type == .search {
-                if isSelected {
-                    container.layer.borderColor = UIColor.primaryButton.cgColor
-                    imageView?.tintColor = .primaryButton
-                    label.textColor = .primaryButton
-                } else {
-                    setColors()
-                }
+            guard isSelected else {
+                setColors()
+                return
+            }
+            
+            switch type {
+            case .tertiary:
+                container.layer.borderColor = UIColor.primaryButton.cgColor
+                imageView?.tintColor = .primaryButton
+                label.textColor = .primaryButton
+                
+            case .search:
+                imageView?.tintColor = LightColors.Contrast.two
+                label.textColor = LightColors.Contrast.two
+                container.backgroundColor = LightColors.Text.two
+                
+            default:
+                return
             }
         }
     }
@@ -214,12 +224,10 @@ class BRDButton: UIControl {
             container.layer.borderWidth = 0.0
             imageView?.tintColor = .white
         case .search:
-            label.font = UIFont.customBody(size: 13.0)
-            container.backgroundColor = .secondaryButton
-            label.textColor = .grayTextTint
-            container.layer.borderColor = UIColor.secondaryBorder.cgColor
-            container.layer.borderWidth = 1.0
-            imageView?.tintColor = .grayTextTint
+            label.font = Fonts.Body.two
+            container.backgroundColor = LightColors.Background.two
+            label.textColor = LightColors.Text.three
+            imageView?.tintColor = LightColors.Text.three
         }
     }
 

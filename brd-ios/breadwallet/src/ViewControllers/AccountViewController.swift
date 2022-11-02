@@ -90,6 +90,9 @@ class AccountViewController: UIViewController, Subscriber {
         transactionsTableView?.didStopScrolling = { [weak self] in
             self?.headerView.didStopScrolling()
         }
+        transactionsTableView?.view.layer.cornerRadius = CornerRadius.large.rawValue
+        transactionsTableView?.view.layer.masksToBounds = true
+        transactionsTableView?.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,6 +108,7 @@ class AccountViewController: UIViewController, Subscriber {
     }
     
     override func viewSafeAreaInsetsDidChange() {
+        
         footerHeightConstraint?.constant = AccountFooterView.height + view.safeAreaInsets.bottom
     }
     
@@ -138,12 +142,10 @@ class AccountViewController: UIViewController, Subscriber {
         headerView.constrain(toSuperviewEdges: nil)
         searchHeaderview.constrain(toSuperviewEdges: nil)
         
-        footerHeightConstraint = footerView.heightAnchor.constraint(equalToConstant: AccountFooterView.height)
         footerView.constrain([
-            footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            footerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             footerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: -Margins.small.rawValue),
-            footerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Margins.small.rawValue),
-            footerHeightConstraint ])
+            footerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Margins.small.rawValue)])
     }
     
     private func addSubscriptions() {
@@ -203,15 +205,16 @@ class AccountViewController: UIViewController, Subscriber {
     
     private func addTransactionsView() {
         if let transactionsTableView = transactionsTableView {
-            transactionsTableView.view.backgroundColor = .clear
-            view.backgroundColor = .white
+            transactionsTableView.tableView.contentInset.bottom = AccountFooterView.height
+            transactionsTableView.view.backgroundColor = LightColors.Background.two
+            view.backgroundColor = LightColors.Background.one
             
             addChildViewController(transactionsTableView, layout: {
                 transactionsTableView.view.constrain([
-                    transactionsTableView.view.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-                    transactionsTableView.view.bottomAnchor.constraint(equalTo: footerView.topAnchor),
-                    transactionsTableView.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                    transactionsTableView.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)])
+                    transactionsTableView.view.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Margins.extraLarge.rawValue),
+                    transactionsTableView.view.bottomAnchor.constraint(equalTo: footerView.bottomAnchor),
+                    transactionsTableView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    transactionsTableView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
             })
             
             view.sendSubviewToBack(transactionsTableView.view)

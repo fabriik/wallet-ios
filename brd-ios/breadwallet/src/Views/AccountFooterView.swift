@@ -10,25 +10,18 @@ import UIKit
 
 class AccountFooterView: UIView, Subscriber {
     
-    static let height: CGFloat = 67.0
+    static let height: CGFloat = 72.0
 
     var sendCallback: (() -> Void)?
     var receiveCallback: (() -> Void)?
     
     private var hasSetup = false
     private let currency: Currency
-    private let toolbar = UIToolbar()
     
     init(currency: Currency) {
         self.currency = currency
         super.init(frame: .zero)
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        guard !hasSetup else { return }
         setup()
-        hasSetup = true
     }
 
     private func toRadian(value: Int) -> CGFloat {
@@ -37,19 +30,12 @@ class AccountFooterView: UIView, Subscriber {
     
     private func setup() {
         let separator = UIView(color: LightColors.Outline.one)
-        addSubview(toolbar)
         addSubview(separator)
-        
         backgroundColor = LightColors.Background.one
-        
-        toolbar.clipsToBounds = true // to remove separator line
-        toolbar.isOpaque = true
-        toolbar.isTranslucent = false
-        toolbar.barTintColor = backgroundColor
-        
-        // constraints
-        toolbar.constrainTopCorners(height: AccountFooterView.height)
         separator.constrainTopCorners(height: 0.5)
+        layer.cornerRadius = CornerRadius.large.rawValue
+        layer.masksToBounds = true
+        layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         setupToolbarButtons()
     }
@@ -58,32 +44,23 @@ class AccountFooterView: UIView, Subscriber {
         let buttons = [
             (L10n.Button.send, #selector(AccountFooterView.send)),
             (L10n.Button.receive, #selector(AccountFooterView.receive))
-        ].compactMap { (title, selector) -> UIBarButtonItem in
+        ].compactMap { (title, selector) -> UIButton in
             let button = UIButton.rounded(title: title.uppercased())
             button.addTarget(self, action: selector, for: .touchUpInside)
-            return UIBarButtonItem(customView: button)
+            return button
         }
         buttons.first?.isEnabled = currency.wallet?.balance.isZero != true
+        let buttonsView = UIStackView(arrangedSubviews: buttons)
+        buttonsView.spacing = Margins.small.rawValue
+        buttonsView.distribution = .fillEqually
         
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        flexibleSpace.width = Margins.large.rawValue
-        let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        fixedSpace.width = Margins.small.rawValue
-        let paddingWidth = Margins.large.rawValue * 2 + Margins.small.rawValue
-        
-        toolbar.items = [
-            flexibleSpace,
-            buttons[0],
-            fixedSpace,
-            buttons[1],
-            flexibleSpace
-        ]
-        
-        let buttonWidth = (bounds.width - paddingWidth) / CGFloat(buttons.count)
-        let buttonHeight = CGFloat(44.0)
-        
-        buttons.forEach {
-            $0.customView?.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
+        addSubview(buttonsView)
+        buttonsView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(Margins.medium.rawValue)
+            make.height.equalTo(ViewSizes.Common.defaultCommon.rawValue)
+            make.leading.equalToSuperview().offset(Margins.large.rawValue)
+            make.trailing.equalToSuperview().offset(-Margins.large.rawValue)
+            make.bottom.equalToSuperview()
         }
     }
 
