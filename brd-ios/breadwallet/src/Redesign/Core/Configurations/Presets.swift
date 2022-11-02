@@ -240,15 +240,16 @@ extension Presets {
 
 extension Presets {
     struct Popup {
-        static var normal = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.cards,
+        static var normal = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
                                                                  tintColor: LightColors.Contrast.two,
                                                                  border: Presets.Border.zero),
-                                               title: .init(font: Fonts.Title.six, textColor: LightColors.Text.three),
-                                               body: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
+                                               title: .init(font: Fonts.Title.six, textColor: LightColors.Text.one, textAlignment: .center),
+                                               body: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center),
+                                               
                                                buttons: [Presets.Button.primary.withBorder(normal: Presets.Border.normalButtonFullRadius,
-                                                                                            selected: Presets.Border.selectedButtonFullRadius,
-                                                                                            disabled: Presets.Border.disabledButtonFullRadius),
-                                                          Presets.Button.secondary],
+                                                                                           selected: Presets.Border.selectedButtonFullRadius,
+                                                                                           disabled: Presets.Border.disabledButtonFullRadius),
+                                                         Presets.Button.secondary],
                                                closeButton: Presets.Button.blackIcon)
         
         static var white = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
@@ -261,18 +262,6 @@ extension Presets {
                                                                                           disabled: Presets.Border.disabledButtonFullRadius),
                                                         Presets.Button.secondary],
                                               closeButton: Presets.Button.blackIcon)
-        
-        static var whiteDimmed = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
-                                                                      tintColor: LightColors.Contrast.two,
-                                                                      border: Presets.Border.zero),
-                                                    title: .init(font: Fonts.Title.six, textColor: LightColors.Text.one, textAlignment: .center),
-                                                    body: .init(font: Fonts.Body.one, textColor: LightColors.Text.one, textAlignment: .center),
-                                                    
-                                                    buttons: [Presets.Button.primary.withBorder(normal: Presets.Border.normalButtonFullRadius,
-                                                                                                selected: Presets.Border.selectedButtonFullRadius,
-                                                                                                disabled: Presets.Border.disabledButtonFullRadius),
-                                                              Presets.Button.secondary],
-                                                    closeButton: Presets.Button.blackIcon)
     }
 }
 

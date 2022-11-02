@@ -159,7 +159,7 @@ class OrderPreviewViewController: BaseTableViewController<BuyCoordinator,
     }
     
     func displayCvvInfoPopup(responseDisplay: OrderPreviewModels.CvvInfoPopup.ResponseDisplay) {
-        coordinator?.showPopup(with: responseDisplay.model, config: Presets.Popup.whiteDimmed)
+        coordinator?.showPopup(with: responseDisplay.model, config: Presets.Popup.normal)
     }
     
     func displaySubmit(responseDisplay: OrderPreviewModels.Submit.ResponseDisplay) {
