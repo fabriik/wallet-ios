@@ -90,6 +90,9 @@ class AccountViewController: UIViewController, Subscriber {
         transactionsTableView?.didStopScrolling = { [weak self] in
             self?.headerView.didStopScrolling()
         }
+        transactionsTableView?.view.layer.cornerRadius = CornerRadius.large.rawValue
+        transactionsTableView?.view.layer.masksToBounds = true
+        transactionsTableView?.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -209,8 +212,8 @@ class AccountViewController: UIViewController, Subscriber {
                 transactionsTableView.view.constrain([
                     transactionsTableView.view.topAnchor.constraint(equalTo: headerView.bottomAnchor),
                     transactionsTableView.view.bottomAnchor.constraint(equalTo: footerView.topAnchor),
-                    transactionsTableView.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                    transactionsTableView.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)])
+                    transactionsTableView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    transactionsTableView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
             })
             
             view.sendSubviewToBack(transactionsTableView.view)
