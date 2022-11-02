@@ -65,11 +65,11 @@ class AccountFooterView: UIView, Subscriber {
         }
         buttons.first?.isEnabled = currency.wallet?.balance.isZero != true
         
-        let paddingWidth = Margins.large.rawValue
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         flexibleSpace.width = Margins.large.rawValue
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         fixedSpace.width = Margins.small.rawValue
+        let paddingWidth = Margins.large.rawValue * 2 + Margins.small.rawValue
         
         toolbar.items = [
             flexibleSpace,
@@ -79,7 +79,7 @@ class AccountFooterView: UIView, Subscriber {
             flexibleSpace
         ]
         
-        let buttonWidth = (self.bounds.width - (paddingWidth * CGFloat(buttons.count + 1))) / CGFloat(buttons.count)
+        let buttonWidth = (bounds.width - paddingWidth) / CGFloat(buttons.count)
         let buttonHeight = CGFloat(44.0)
         
         buttons.forEach {

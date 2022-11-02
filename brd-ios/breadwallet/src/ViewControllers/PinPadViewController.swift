@@ -113,24 +113,15 @@ class PinPadViewController: UICollectionViewController {
     override func viewDidLoad() {
         haptics.prepare()
         
-        switch style {
-        case .white:
-            collectionView?.backgroundColor = LightColors.Background.one
-            switch keyboardType {
-            case .decimalPad:
-                collectionView?.register(WhiteDecimalPad.self, forCellWithReuseIdentifier: cellIdentifier)
-            case .pinPad:
-                collectionView?.register(WhiteNumberPad.self, forCellWithReuseIdentifier: cellIdentifier)
-            }
-        case .clear:
-            collectionView?.backgroundColor = .clear
-
-            if keyboardType == .pinPad {
-                collectionView?.register(ClearNumberPad.self, forCellWithReuseIdentifier: cellIdentifier)
-            } else {
-                assert(false, "Invalid cell")
-            }
+        collectionView?.backgroundColor = LightColors.Background.one
+        
+        switch keyboardType {
+        case .decimalPad:
+            collectionView?.register(WhiteDecimalPad.self, forCellWithReuseIdentifier: cellIdentifier)
+        case .pinPad:
+            collectionView?.register(WhiteNumberPad.self, forCellWithReuseIdentifier: cellIdentifier)
         }
+        
         collectionView?.delegate = self
         collectionView?.dataSource = self
 
