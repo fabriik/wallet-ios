@@ -31,13 +31,13 @@ class BiometricsSettingsViewController: UIViewController, Subscriber {
     
     private let imageView = UIImageView()
     
-    private let explanationLabel = UILabel.wrapping(font: Fonts.Body.one, color: LightColors.Text.two)
+    private let explanationLabel = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.two)
     
     // Toggle for enabling Touch ID or Face ID to unlock the BRD app.
-    private let unlockTitleLabel = UILabel.wrapping(font: Fonts.Body.one, color: LightColors.Text.one)
+    private let unlockTitleLabel = UILabel.wrapping(font: Fonts.Body.one, color: LightColors.Text.three)
     
     // Toggle for enabling Touch ID or Face ID for sending money.
-    private let transactionsTitleLabel = UILabel.wrapping(font: Fonts.Body.one, color: LightColors.Text.one)
+    private let transactionsTitleLabel = UILabel.wrapping(font: Fonts.Body.one, color: LightColors.Text.three)
 
     private let unlockToggle = UISwitch()
     private let transactionsToggle = UISwitch()
@@ -73,8 +73,10 @@ class BiometricsSettingsViewController: UIViewController, Subscriber {
         view.backgroundColor = LightColors.Background.one
         explanationLabel.textAlignment = .center
 
-        unlockToggleSeparator.backgroundColor = LightColors.Background.three
-        transactionsToggleSeparator.backgroundColor = LightColors.Background.three
+        unlockToggleSeparator.backgroundColor = LightColors.Outline.one
+        transactionsToggleSeparator.backgroundColor = LightColors.Outline.one
+        unlockToggle.onTintColor = LightColors.primary
+        transactionsToggle.onTintColor = LightColors.primary
         
         [unlockTitleLabel, transactionsTitleLabel].forEach({
             $0.adjustsFontSizeToFitWidth = true
@@ -117,7 +119,7 @@ class BiometricsSettingsViewController: UIViewController, Subscriber {
             ])
         
         unlockToggleSeparator.constrain([
-            unlockToggleSeparator.topAnchor.constraint(equalTo: unlockTitleLabel.bottomAnchor, constant: Margins.small.rawValue),
+            unlockToggleSeparator.topAnchor.constraint(equalTo: unlockTitleLabel.bottomAnchor, constant: Margins.extraLarge.rawValue),
             unlockToggleSeparator.leftAnchor.constraint(equalTo: view.leftAnchor),
             unlockToggleSeparator.rightAnchor.constraint(equalTo: view.rightAnchor),
             unlockToggleSeparator.heightAnchor.constraint(equalToConstant: 1.0)
@@ -142,7 +144,7 @@ class BiometricsSettingsViewController: UIViewController, Subscriber {
         transactionsToggle.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         transactionsToggleSeparator.constrain([
-            transactionsToggleSeparator.topAnchor.constraint(equalTo: transactionsTitleLabel.bottomAnchor, constant: Margins.small.rawValue),
+            transactionsToggleSeparator.topAnchor.constraint(equalTo: transactionsTitleLabel.bottomAnchor, constant: Margins.extraLarge.rawValue),
             transactionsToggleSeparator.leftAnchor.constraint(equalTo: view.leftAnchor),
             transactionsToggleSeparator.rightAnchor.constraint(equalTo: view.rightAnchor),
             transactionsToggleSeparator.heightAnchor.constraint(equalToConstant: 1.0)
