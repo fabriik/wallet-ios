@@ -49,20 +49,23 @@ struct EnableKeychainView: View {
                     .padding(.trailing, Margins.medium.rawValue)
                 BodyText(L10n.CloudBackup.understandText, style: .primary)
             }.padding()
-            Spacer()
-            Button(action: self.completion, label: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: CornerRadius.common.rawValue)
-                        .fill(Color(isKeychainToggleOn ? LightColors.primary : LightColors.Background.two))
-                    Text(L10n.CloudBackup.enableButton)
-                        .font(Font(Fonts.Body.two))
-                        .foregroundColor(Color(isKeychainToggleOn ? LightColors.Contrast.two : LightColors.Text.three))
-                }
-            })
-            .frame(height: 60)
-            .disabled(!self.isKeychainToggleOn)
-            .padding([.leading, .trailing], Margins.large.rawValue)
-        }.padding()
+        }
+        .padding([.leading, .trailing], Margins.huge.rawValue)
+        .padding(.top, 40)
+        Spacer()
+        Button(action: self.completion, label: {
+            ZStack {
+                RoundedRectangle(cornerRadius: CornerRadius.common.rawValue)
+                    .fill(Color(isKeychainToggleOn ? LightColors.primary : LightColors.Background.two))
+                Text(L10n.CloudBackup.enableButton)
+                    .font(Font(Fonts.Body.two))
+                    .foregroundColor(Color(isKeychainToggleOn ? LightColors.Contrast.two : LightColors.Text.three))
+            }
+        })
+        .frame(height: 60)
+        .disabled(!self.isKeychainToggleOn)
+        .padding([.leading, .trailing], Margins.large.rawValue)
+        .padding(.bottom, Margins.huge.rawValue)
     }
 }
 
