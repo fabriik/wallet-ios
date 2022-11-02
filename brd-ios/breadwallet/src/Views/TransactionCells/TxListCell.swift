@@ -99,6 +99,7 @@ class TxListCell: UITableViewCell, Identifiable {
     
     private func setupStyle() {
         selectionStyle = .none
+        backgroundColor = LightColors.Background.two
         amount.textAlignment = .right
         descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         descriptionLabel.lineBreakMode = .byTruncatingTail
