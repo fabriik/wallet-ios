@@ -51,7 +51,9 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             is BuyViewController,
             is SwapViewController,
             is AddCardViewController,
-            is ExchangeDetailsViewController:
+            is ExchangeDetailsViewController,
+            is RegistrationViewController,
+            is RegistrationConfirmationViewController:
             backgroundColor = LightColors.Background.two
             tintColor = LightColors.Text.three
             
