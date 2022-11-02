@@ -1,4 +1,4 @@
-[![Rockwallet](image/logo-with-text.png)](https://www.rockwallet.com/)
+[![Rockwallet](image/logo_with_text.png)](https://www.rockwallet.com/)
 
 <div align="center">
   <a href="https://apps.apple.com/us/app/rockwallet/id1595167194"><img align="center" width="120px" height="40px" src="image/app_store_logo.png"/></a>
