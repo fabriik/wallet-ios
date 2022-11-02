@@ -53,7 +53,11 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             is AddCardViewController,
             is ExchangeDetailsViewController,
             is RegistrationViewController,
-            is RegistrationConfirmationViewController:
+            is RegistrationConfirmationViewController,
+            is AccountVerificationViewController,
+            is KYCBasicViewController,
+            is KYCLevelTwoEntryViewController,
+            is KYCDocumentPickerViewController:
             backgroundColor = LightColors.Background.two
             tintColor = LightColors.Text.three
             
