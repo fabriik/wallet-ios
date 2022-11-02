@@ -234,6 +234,10 @@ class TransactionsTableViewController: UITableViewController, Subscriber {
     }
     
     private func updateTransactions() {
+        guard filters.isEmpty else {
+            tableView.reloadData()
+            return
+        }
         guard let transfers = wallet?.transfers else { return }
         
         transactions = transfers.sorted(by: { $0.timestamp > $1.timestamp })

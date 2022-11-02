@@ -141,8 +141,10 @@ class SearchHeaderView: UIView {
     private func addSubviews() {
         addSubview(searchBar)
         addSubview(cancel)
-        searchBar.tintColor = LightColors.Outline.one
+        searchBar.tintColor = LightColors.Text.three
         cancel.tintColor = LightColors.primary
+        searchBar.searchTextField.textColor = LightColors.Text.one
+        searchBar.searchTextField.font = Fonts.Body.two
     }
 
     private func addConstraints() {
