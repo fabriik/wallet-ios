@@ -35,7 +35,8 @@ struct TitleText: View {
     
     var body: some View {
         Text(text)
-            .font(Font(Fonts.Title.one))
+            .font(Font(Fonts.Title.six))
+            .foregroundColor(Color(LightColors.Text.three))
     }
 }
 
@@ -57,7 +58,5 @@ struct BodyText: View {
         Text(text)
             .font(Font(Fonts.Body.one))
             .foregroundColor(Color(LightColors.Text.two))
-            .padding([.top, .bottom], Margins.extraLarge.rawValue)
-            .padding(.trailing, 40)
     }
 }

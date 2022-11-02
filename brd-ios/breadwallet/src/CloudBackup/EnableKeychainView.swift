@@ -19,10 +19,10 @@ struct EnableKeychainView: View {
     var body: some View {
         VStack {
             TitleText(L10n.CloudBackup.enableTitle)
-                .padding(.bottom)
+                .padding(.bottom, Margins.large.rawValue)
             VStack(alignment: .leading) {
                 BodyText(L10n.CloudBackup.enableBody1, style: .primary)
-                    .padding(.bottom, 8.0)
+                    .padding(.bottom, Margins.large.rawValue)
                     .fixedSize(horizontal: false, vertical: true)
                     .lineLimit(nil)
                 ForEach(0..<steps.count, id: \.self) { i in
@@ -35,32 +35,37 @@ struct EnableKeychainView: View {
                     }
                 }
                 BodyText(L10n.CloudBackup.enableBody2, style: .primary)
-                    .padding(.top, 8.0)
+                    .padding(.top, Margins.large.rawValue)
                     .fixedSize(horizontal: false, vertical: true)
                     .lineLimit(nil)
             }
+            .padding(.bottom, Margins.large.rawValue)
             Image("Keychain")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .padding([.leading, .trailing], 24.0)
+                .padding([.leading, .trailing], 40)
             HStack {
                 RadioButton(isOn: self.$isKeychainToggleOn)
-                    .frame(width: 44.0, height: 44.0)
+                    .padding(.trailing, Margins.medium.rawValue)
                 BodyText(L10n.CloudBackup.understandText, style: .primary)
             }.padding()
-            Button(action: self.completion, label: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 4.0)
-                        .fill(Color(self.isKeychainToggleOn ? LightColors.primary : LightColors.Text.one))
-                    Text(L10n.CloudBackup.enableButton)
-                        .font(Font(Fonts.Body.one))
-                        .foregroundColor(Color(LightColors.Text.one))
-                }
-            })
-            .frame(height: 44.0)
-            .disabled(!self.isKeychainToggleOn)
-            .padding([.leading, .trailing, .bottom])
-        }.padding()
+        }
+        .padding([.leading, .trailing], Margins.huge.rawValue)
+        .padding(.top, 40)
+        Spacer()
+        Button(action: self.completion, label: {
+            ZStack {
+                RoundedRectangle(cornerRadius: CornerRadius.common.rawValue)
+                    .fill(Color(isKeychainToggleOn ? LightColors.primary : LightColors.Background.two))
+                Text(L10n.CloudBackup.enableButton)
+                    .font(Font(Fonts.Body.two))
+                    .foregroundColor(Color(isKeychainToggleOn ? LightColors.Contrast.two : LightColors.Text.three))
+            }
+        })
+        .frame(height: 60)
+        .disabled(!self.isKeychainToggleOn)
+        .padding([.leading, .trailing], Margins.large.rawValue)
+        .padding(.bottom, Margins.huge.rawValue)
     }
 }
 

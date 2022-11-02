@@ -68,6 +68,8 @@ struct CloudBackupView: View {
                         .cornerRadius(ViewSizes.medium.rawValue * CornerRadius.fullRadius.rawValue)
                         .padding(.leading)
                     BodyText(L10n.CloudBackup.mainWarning, style: .seconday)
+                        .padding([.top, .bottom], Margins.extraLarge.rawValue)
+                        .padding(.trailing, 40)
                     .fixedSize(horizontal: false, vertical: true)
                     .lineLimit(nil)
                 }.background(Color(LightColors.Background.three))

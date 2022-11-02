@@ -13,7 +13,12 @@ import SwiftUI
 struct RadioButton: View {
     @SwiftUI.Binding var isOn: Bool
     
-    private let color = Color(LightColors.primary)
+    private var color: Color {
+        guard isOn else {
+            return Color(LightColors.secondary)
+        }
+        return Color(LightColors.primary)
+    }
     
     var body: some View {
         Button(action: {
@@ -24,7 +29,7 @@ struct RadioButton: View {
             ZStack {
                 SwiftUI.Circle()
                     .strokeBorder(self.color, lineWidth: 3)
-                if self.isOn {
+                if isOn {
                     SwiftUI.Circle()
                         .fill(self.color)
                         .padding(5)
@@ -32,5 +37,6 @@ struct RadioButton: View {
                 }
             }
         })
+        .frame(width: ViewSizes.extraSmall.rawValue, height: ViewSizes.extraSmall.rawValue)
     }
 }
