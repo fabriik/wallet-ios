@@ -12,7 +12,7 @@ class SyncingHeaderView: UIView, Subscriber {
 
     static let height: CGFloat = 40.0
     private let syncIndicator = SyncingIndicator(style: .account)
-    private let date = UILabel(font: Fonts.Body.two, color: UIColor(red: 0.08, green: 0.07, blue: 0.2, alpha: 0.4))
+    private let date = UILabel(font: Fonts.Title.six, color: LightColors.Text.one)
     private let separator = UIView(color: LightColors.Outline.one)
     private let lineLoadingView = LineLoadingView(style: .sync)
     private let currency: Currency
@@ -69,7 +69,7 @@ class SyncingHeaderView: UIView, Subscriber {
     }
     
     private func setInitialState() {
-        backgroundColor = .white
+        backgroundColor = .clear
         
         Store.subscribe(self,
                         selector: { [weak self] oldState, newState in

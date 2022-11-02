@@ -105,6 +105,7 @@ class AccountViewController: UIViewController, Subscriber {
     }
     
     override func viewSafeAreaInsetsDidChange() {
+        
         footerHeightConstraint?.constant = AccountFooterView.height + view.safeAreaInsets.bottom
     }
     
@@ -138,12 +139,10 @@ class AccountViewController: UIViewController, Subscriber {
         headerView.constrain(toSuperviewEdges: nil)
         searchHeaderview.constrain(toSuperviewEdges: nil)
         
-        footerHeightConstraint = footerView.heightAnchor.constraint(equalToConstant: AccountFooterView.height)
         footerView.constrain([
-            footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            footerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             footerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: -Margins.small.rawValue),
-            footerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Margins.small.rawValue),
-            footerHeightConstraint ])
+            footerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Margins.small.rawValue)])
     }
     
     private func addSubscriptions() {
@@ -203,8 +202,8 @@ class AccountViewController: UIViewController, Subscriber {
     
     private func addTransactionsView() {
         if let transactionsTableView = transactionsTableView {
-            transactionsTableView.view.backgroundColor = .clear
-            view.backgroundColor = .white
+            transactionsTableView.view.backgroundColor = LightColors.Background.two
+            view.backgroundColor = LightColors.Background.one
             
             addChildViewController(transactionsTableView, layout: {
                 transactionsTableView.view.constrain([
