@@ -42,7 +42,7 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
         case is HomeScreenViewController,
             is OnboardingViewController,
             is ProfileViewController,
-            is CardSelectionViewController:
+            is ItemSelectionViewController:
             backgroundColor = .clear
             tintColor = LightColors.Background.two
             
@@ -57,7 +57,12 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             is AccountVerificationViewController,
             is KYCBasicViewController,
             is KYCLevelTwoEntryViewController,
-            is KYCDocumentPickerViewController:
+            is KYCDocumentPickerViewController,
+            is SimpleWebViewController,
+            is VerifyAccountViewController,
+            is SwapInfoViewController,
+            is OrderPreviewViewController,
+            is BaseInfoViewController:
             backgroundColor = LightColors.Background.two
             tintColor = LightColors.Text.three
             
