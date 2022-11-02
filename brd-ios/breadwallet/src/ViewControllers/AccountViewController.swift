@@ -205,13 +205,14 @@ class AccountViewController: UIViewController, Subscriber {
     
     private func addTransactionsView() {
         if let transactionsTableView = transactionsTableView {
+            transactionsTableView.tableView.contentInset.bottom = AccountFooterView.height
             transactionsTableView.view.backgroundColor = LightColors.Background.two
             view.backgroundColor = LightColors.Background.one
             
             addChildViewController(transactionsTableView, layout: {
                 transactionsTableView.view.constrain([
                     transactionsTableView.view.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Margins.extraLarge.rawValue),
-                    transactionsTableView.view.bottomAnchor.constraint(equalTo: footerView.topAnchor),
+                    transactionsTableView.view.bottomAnchor.constraint(equalTo: footerView.bottomAnchor),
                     transactionsTableView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                     transactionsTableView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
             })
