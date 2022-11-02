@@ -26,6 +26,10 @@ struct Presets {
                                                           tintColor: LightColors.Contrast.two,
                                                           border: Presets.Border.disabledButtonFullRadius)
             
+            static var selectedPickerTextField = BackgroundConfiguration(backgroundColor: LightColors.Background.one,
+                                                                   tintColor: LightColors.Contrast.two,
+                                                                   border: Border.pickerTextField)
+            
             static var error = BackgroundConfiguration(backgroundColor: LightColors.primary,
                                                        tintColor: .red,
                                                        border: Presets.Border.error)
@@ -80,6 +84,8 @@ struct Presets {
         static var normalTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
         static var selectedTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
         static var disabledTextField = BorderConfiguration(tintColor: LightColors.Outline.two, borderWidth: 1, cornerRadius: .extraSmall)
+        
+        static var pickerTextField = BorderConfiguration(tintColor: LightColors.primary, borderWidth: 1, cornerRadius: .small)
     }
     
     // TODO: add as needed

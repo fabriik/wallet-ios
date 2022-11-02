@@ -12,7 +12,7 @@ import UIKit
 
 struct DateConfiguration: Configurable {
     var normal: BackgroundConfiguration = Presets.Background.Primary.normal
-    var selected: BackgroundConfiguration = Presets.Background.Primary.selected
+    var selected: BackgroundConfiguration = Presets.Background.Primary.selectedPickerTextField
 }
 
 struct DateViewModel: ViewModel {
