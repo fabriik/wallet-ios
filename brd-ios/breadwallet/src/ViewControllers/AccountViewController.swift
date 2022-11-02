@@ -210,7 +210,7 @@ class AccountViewController: UIViewController, Subscriber {
             
             addChildViewController(transactionsTableView, layout: {
                 transactionsTableView.view.constrain([
-                    transactionsTableView.view.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+                    transactionsTableView.view.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Margins.extraLarge.rawValue),
                     transactionsTableView.view.bottomAnchor.constraint(equalTo: footerView.topAnchor),
                     transactionsTableView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                     transactionsTableView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)])

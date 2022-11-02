@@ -13,7 +13,7 @@ class SyncingHeaderView: UIView, Subscriber {
     static let height: CGFloat = 56.0
     private let syncIndicator = SyncingIndicator(style: .account)
     private let date = UILabel(font: Fonts.Title.six, color: LightColors.Text.one)
-    private let separator = UIView(color: LightColors.Outline.one)
+    private let separator = UIView(color: .clear)
     private let lineLoadingView = LineLoadingView(style: .sync)
     private let currency: Currency
     private var syncState: SyncState = .success {

@@ -64,7 +64,7 @@ class AccountFooterView: UIView, Subscriber {
         addSubview(buttonsView)
         buttonsView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(Margins.medium.rawValue)
-            make.height.equalTo(48)
+            make.height.equalTo(ViewSizes.Common.defaultCommon.rawValue)
             make.leading.equalToSuperview().offset(Margins.large.rawValue)
             make.trailing.equalToSuperview().offset(-Margins.large.rawValue)
             make.bottom.equalToSuperview()
