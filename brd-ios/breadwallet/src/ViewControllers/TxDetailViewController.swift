@@ -10,8 +10,8 @@ import UIKit
 
 private extension C {
     static let statusRowHeight: CGFloat = 48.0
-    static let compactContainerHeight: CGFloat = 322.0
-    static let expandedContainerHeight: CGFloat = 546.0
+    static let compactContainerHeight: CGFloat = 330//322.0
+    static let expandedContainerHeight: CGFloat = 554//546.0
     static let detailsButtonHeight: CGFloat = 65.0
 }
 
@@ -119,8 +119,8 @@ class TxDetailViewController: UIViewController, Subscriber {
     private func addConstraints() {
         tapView.constrain(toSuperviewEdges: nil)
         container.constrain([
-            container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
-            container.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
+            container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.extraLarge.rawValue),
+            container.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.extraLarge.rawValue),
             container.centerYAnchor.constraint(equalTo: view.centerYAnchor)
             ])
         
@@ -152,7 +152,7 @@ class TxDetailViewController: UIViewController, Subscriber {
     }
     
     private func setInitialData() {
-        container.layer.cornerRadius = CornerRadius.extraSmall.rawValue
+        container.layer.cornerRadius = CornerRadius.common.rawValue
         container.layer.masksToBounds = true
         
         footer.backgroundColor = LightColors.Background.one
