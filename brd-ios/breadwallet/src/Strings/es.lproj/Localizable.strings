@@ -77,7 +77,7 @@
 "Alert.ethBalance" = "Insufficient Ethereum Balance";
 
 /* Keystore error */
-"Alert.keystore.generic.android" = "Hay un problema con el almacén de claves de tu sistema operativo Android. Ponte en contacto con support@breadwallet.com.";
+"Alert.keystore.generic.android" = "Hay un problema con el almacén de claves de tu sistema operativo Android. Ponte en contacto con hello@rockwallet.com.";
 
 /* KeyStore error, keys are invalidated */
 "Alert.keystore.invalidated.android" = "Tus datos codificados en Rockwallet fueron anulados recientemente debido a que no estaba habilitada tu pantalla de bloqueo de Android.";

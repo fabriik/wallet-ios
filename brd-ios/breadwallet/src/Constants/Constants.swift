@@ -42,7 +42,7 @@ struct C {
     static let feedbackEmail = "hello@\(companyURL)"
     static let iosEmail = "hello@\(companyURL)"
     static let reviewLink = "https://apps.apple.com/us/app/company/id1595167194?action=write-review"
-    static let supportLink = "https://app-support.\(companyURL)/"
+    static let supportLink = "https://support.\(companyURL)/"
     static var standardPort: Int {
         return E.isTestnet ? 18333 : 8333
     }

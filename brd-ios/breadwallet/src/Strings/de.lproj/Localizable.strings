@@ -77,7 +77,7 @@
 "Alert.ethBalance" = "Insufficient Ethereum Balance";
 
 /* Keystore error */
-"Alert.keystore.generic.android" = "Es liegt ein Problem mit dem KeyStore Ihres Android-Betriebssystems vor, bitte wenden Sie sich an support@rockwallet.com";
+"Alert.keystore.generic.android" = "Es liegt ein Problem mit dem KeyStore Ihres Android-Betriebssystems vor, bitte wenden Sie sich an hello@rockwallet.com";
 
 /* KeyStore error, keys are invalidated */
 "Alert.keystore.invalidated.android" = "Ihre mit Rockwallet verschlüsselten Daten wurden vor Kurzem für ungültig erklärt, da Ihre Android-Bildschirmsperre deaktiviert war.";
