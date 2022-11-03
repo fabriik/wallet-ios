@@ -17,7 +17,7 @@ class TxAmountCell: UITableViewCell, Subscriber {
         let label = UILabel(font: Fonts.Title.five)
         label.textColor = LightColors.secondary
         label.textAlignment = .center
-//        label.adjustsFontSizeToFitWidth = true
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     private lazy var fiatAmountLabel: UILabel = {
