@@ -40,8 +40,8 @@ class TxMemoCell: TxDetailRowCell {
         
         placeholderLabel.constrain([
             placeholderLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            placeholderLabel.topAnchor.constraint(equalTo: textView.topAnchor),
-            placeholderLabel.bottomAnchor.constraint(equalTo: textView.bottomAnchor),
+            placeholderLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor),
+            placeholderLabel.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             placeholderLabel.widthAnchor.constraint(equalTo: textView.widthAnchor)
             ])
         placeholderLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
