@@ -52,8 +52,8 @@
 /* Country title label in select countries view */
 "Account.Country" = "Country";
 
-/* Create a Rockwallet account by entering your email address label in registration flow */
-"Account.CreateAccount" = "Create a Rockwallet account by entering your email address.";
+/* Create a Fabriik account by entering your email address label in registration flow */
+"Account.CreateAccount" = "Create a Fabriik account by entering your email address.";
 
 /* Current limit per day label in profile screen */
 "Account.CurrentLimit" = "Current limit: $1,000/day";
@@ -78,7 +78,7 @@
 /* $10000 per BTC */
 "Account.exchangeRate" = "%1$@ per %2$@";
 
-/* Get full access for the Rockwallet label on profile screen */
+/* Get full access for the Fabriik wallet label on profile screen */
 "Account.FullAccess" = "Get full access to your RockWallet!";
 
 /* ID Verification title on account screen */
@@ -132,7 +132,7 @@
 "Account.VerifyAccountText" = "If you verify your account, you are given access to:\n・Unlimited deposits/withdrawals\n・Enhanced security\n・Full asset support\n・Buy assets with credit card\n・24/7/365 live customer support";
 
 /* Enter and verify your email address for your account label in registration flow */
-"Account.VerifyEmail" = "Enter and verify your new email address for your Rockwallet account.";
+"Account.VerifyEmail" = "Enter and verify your new email address for your Fabriik account.";
 
 "Account.VerifyIdentity" = "We need to verify your identity before you can buy or swap assets.";
 
@@ -194,13 +194,13 @@
 "AccountDelete.AccountDeletedPopup" = "Your account has been deleted.\nWe are sorry to see you go.";
 
 /* Delete account title */
-"AccountDelete.DeleteAccountTitle" = "You are about to delete your Rockwallet account.";
+"AccountDelete.DeleteAccountTitle" = "You are about to delete your Fabriik account.";
 
 /* Delete account explanation title */
 "AccountDelete.DeleteWhatMean" = "What does this mean?";
 
 /* Delete account explanation part one */
-"AccountDelete.ExplanationOne" = "-You will no longer be able to use your email to sign in into Rockwallet";
+"AccountDelete.ExplanationOne" = "-You will no longer be able to use your email to sign in into Fabriik Wallet";
 
 /* Delete account explanation part three */
 "AccountDelete.ExplanationThree" = "-Your private keys are still yours, keep your security phrase in a safe place in case you need to restore your wallet.";
@@ -341,16 +341,16 @@
 "Alert.HederaAccount" = "Hedera Account succesfully created.";
 
 /* Keystore error */
-"Alert.keystore.generic.android" = "There is a problem with your Android OS keystore, please contact hello@rockwallet.com";
+"Alert.keystore.generic.android" = "There is a problem with your Android OS keystore, please contact support@fabriik.com";
 
 /* KeyStore error, keys are invalidated */
-"Alert.keystore.invalidated.android" = "Your Rockwallet encrypted data was recently invalidated because your Android lock screen was disabled.";
+"Alert.keystore.invalidated.android" = "Your Fabriik encrypted data was recently invalidated because your Android lock screen was disabled.";
 
 /* Warn user key store data has been invalidate because the user changed their security settings. The user must uninstall. */
-"Alert.keystore.invalidated.uninstall.android" = "We can't proceed because your screen lock settings have been changed (e.g. password was disabled, fingerprints were changed). For security purposes, Android has permanently locked your key store. Therefore, your Rockwallet app data must be wiped by uninstalling.\n\nDon’t worry, your funds are still secure! Reinstall the app and recover your wallet using your recovery phrase.";
+"Alert.keystore.invalidated.uninstall.android" = "We can't proceed because your screen lock settings have been changed (e.g. password was disabled, fingerprints were changed). For security purposes, Android has permanently locked your key store. Therefore, your Fabriik app data must be wiped by uninstalling.\n\nDon’t worry, your funds are still secure! Reinstall the app and recover your wallet using your recovery phrase.";
 
 /* Warn user key store data has been invalidate because the user changed their security settings. The user must wipe their app data. */
-"Alert.keystore.invalidated.wipe.android" = "We can't proceed because your screen lock settings have been changed (e.g. password was disabled, fingerprints were changed). For security purposes, Android has permanently locked your key store. Therefore, your Rockwallet app data must be wiped.\n\nDon’t worry, your funds are still secure! Recover your wallet using your recovery phrase.";
+"Alert.keystore.invalidated.wipe.android" = "We can't proceed because your screen lock settings have been changed (e.g. password was disabled, fingerprints were changed). For security purposes, Android has permanently locked your key store. Therefore, your Fabriik app data must be wiped.\n\nDon’t worry, your funds are still secure! Recover your wallet using your recovery phrase.";
 
 /* Keystore error title */
 "Alert.keystore.title.android" = "Android Key Store Error";
@@ -410,13 +410,13 @@
 "Amount.RippleBalanceText" = "Ripple requires each wallet to have a minimum balance of 10 XRP, so the balance displayed here is always 10 XRP less than your actual balance.";
 
 /* Tell the user where they can enable permissions to access device storage. */
-"Android.allowFileSystemAccess" = "Please enable storage permissions in your device settings: \"Settings\" > \"Apps\" > \"Rockwallet\" > \"Permissions\".";
+"Android.allowFileSystemAccess" = "Please enable storage permissions in your device settings: \"Settings\" > \"Apps\" > \"Fabriik\" > \"Permissions\".";
 
 /* The "home" screen is the name of the top level menu for the app. */
 "Android.BCH.welcome.message" = "Any BCH in your wallet can be accessed through the home screen.";
 
 /* Warning about using apps that can alter the screen */
-"Android.screenAlteringMessage" = "We've detected an app that is incompatible with Rockwallet running on your device. For security reasons, please disable any screen altering or light filtering apps to proceed.";
+"Android.screenAlteringMessage" = "We've detected an app that is incompatible with Fabriik running on your device. For security reasons, please disable any screen altering or light filtering apps to proceed.";
 
 /* An app that alters the screen ("screen-altering app") has been detected. */
 "Android.screenAlteringTitle" = "Screen Altering App Detected";
@@ -941,7 +941,7 @@
 "ErrorMessages.Kyc.Underage" = "You must be at least 18 years old to complete Level 1 and 2 verification.";
 
 /* Message that gets shown when we've detected the user has encountered the looping lock-screen bug. (preserve [ ] characters) */
-"ErrorMessages.loopingLockScreen.android" = "Rockwallet can not be authenticated due to a bug in your version of Android. [Please tap here for more information.]";
+"ErrorMessages.loopingLockScreen.android" = "Fabriik can not be authenticated due to a bug in your version of Android. [Please tap here for more information.]";
 
 /* Messaging unavailable alert title */
 "ErrorMessages.messagingUnavailableMessage" = "This device isn't configured to send messages.";
@@ -1019,16 +1019,16 @@
 "FaceIDSettings.customizeText" = "You can customize your Face ID spending limit from the %1$@.";
 
 /* Text describing the purpose of the Face ID settings in the BRD app. */
-"FaceIDSettings.explanatoryText" = "Use Face ID to unlock your Rockwallet app and send money.";
+"FaceIDSettings.explanatoryText" = "Use Face ID to unlock your Fabriik app and send money.";
 
 /* Face Id screen label */
-"FaceIDSettings.label" = "Use your face to unlock your Rockwallet and send money up to a set limit.";
+"FaceIDSettings.label" = "Use your face to unlock your Fabriik and send money up to a set limit.";
 
 /* Title of the screen for setting the Face ID Spending Limit */
 "FaceIDSettings.linkText" = "Face ID Spending Limit Screen";
 
 /* Setting to turn on Face ID for BRD */
-"FaceIDSettings.switchLabel" = "Enable Face ID for Rockwallet";
+"FaceIDSettings.switchLabel" = "Enable Face ID for Fabriik";
 
 /* Face ID settings view title */
 "FaceIDSettings.title" = "Face ID";
@@ -1043,7 +1043,7 @@
 "FaceIDSettings.unavailableAlertTitle" = "Face ID Not Set Up";
 
 /* Text label for a toggle that enables Face ID for unlocking the BRD app. */
-"FaceIDSettings.unlockTitleText" = "Enable Face ID to unlock Rockwallet";
+"FaceIDSettings.unlockTitleText" = "Enable Face ID to unlock Fabriik";
 
 /* Face Id spending limit screen title */
 "FaceIDSpendingLimit.title" = "Face ID Spending Limit";
@@ -1084,7 +1084,7 @@
 "FileChooser.selectImageSource.android" = "Select Image Source";
 
 /* Fingerprint authentication settings screen description */
-"FingerprintSettings.description" = "Use your fingerprint to unlock your Rockwallet app and send transactions.";
+"FingerprintSettings.description" = "Use your fingerprint to unlock your Fabriik app and send transactions.";
 
 /* Switch label to enable fingerprint authentication to send money */
 "FingerprintSettings.sendMoney" = "Use fingerprint to send money";
@@ -1093,7 +1093,7 @@
 "FingerprintSettings.title" = "Fingerprint";
 
 /* Switch label to enable fingerprint authentication to unlock BRD app */
-"FingerprintSettings.unlockApp" = "Use fingerprint to unlock Rockwallet";
+"FingerprintSettings.unlockApp" = "Use fingerprint to unlock Fabriik";
 
 /* Activity button on the home screen toolbar */
 "HomeScreen.activity" = "Activity";
@@ -1168,7 +1168,7 @@
 "Import.leftCaption" = "Wallet to be imported";
 
 /* Import wallet intro screen message */
-"Import.message" = "Importing a wallet transfers all the money from your other wallet into your Rockwallet using a single transaction.";
+"Import.message" = "Importing a wallet transfers all the money from your other wallet into your Fabriik wallet using a single transaction.";
 
 /* Enter password alert view title */
 "Import.password" = "This private key is password protected.";
@@ -1177,7 +1177,7 @@
 "Import.passwordPlaceholder" = "password";
 
 /* Caption for graphics */
-"Import.rightCaption" = "Your Rockwallet";
+"Import.rightCaption" = "Your Fabriik Wallet";
 
 /* Scan Private key button label */
 "Import.scan" = "Scan Private Key";
@@ -1210,10 +1210,10 @@
 "JailbreakWarnings.ignore" = "Ignore";
 
 /* Jailbreak warning message */
-"JailbreakWarnings.messageWithBalance" = "DEVICE SECURITY COMPROMISED\n Any 'jailbreak' app can access Rockwallet's keychain data and steal your bitcoin! Wipe this wallet immediately and restore on a secure device.";
+"JailbreakWarnings.messageWithBalance" = "DEVICE SECURITY COMPROMISED\n Any 'jailbreak' app can access Fabriik's keychain data and steal your bitcoin! Wipe this wallet immediately and restore on a secure device.";
 
 /* Jailbreak warning message */
-"JailbreakWarnings.messageWithoutBalance" = "DEVICE SECURITY COMPROMISED\n Any 'jailbreak' app can access Rockwallet's keychain data and steal your bitcoin. Please only use Rockwallet on a non-jailbroken device.";
+"JailbreakWarnings.messageWithoutBalance" = "DEVICE SECURITY COMPROMISED\n Any 'jailbreak' app can access Fabriik's keychain data and steal your bitcoin. Please only use Fabriik on a non-jailbroken device.";
 
 /* Jailbreak warning title */
 "JailbreakWarnings.title" = "WARNING";
@@ -1246,7 +1246,7 @@
 "LocationPlugin.disabled" = "Location services are disabled.";
 
 /* No permissions for location services */
-"LocationPlugin.notAuthorized" = "Rockwallet does not have permission to access location services.";
+"LocationPlugin.notAuthorized" = "Fabriik does not have permission to access location services.";
 
 /* Wallet creation date prefix */
 "ManageWallet.creationDatePrefix" = "You created your wallet on %1$@";
@@ -1380,7 +1380,7 @@
 "OnboardingPageOne.title" = "Empowering you in the emerging digital asset economy";
 
 /* Onboarding screen Page 3 subtitle */
-"OnboardingPageThree.subtitle" = "Invest and diversify with Rockwallet, easily and securely.";
+"OnboardingPageThree.subtitle" = "Invest and diversify with Fabriik, easily and securely.";
 
 /* Onboarding screen Page 3 title */
 "OnboardingPageThree.title" = "Buy and swap bitcoin, tokens, and other digital currencies.";
@@ -1389,7 +1389,7 @@
 "OnboardingPageTwo.subtitle" = "We have over $6 billion USD worth of assets under protection.";
 
 /* Onboarding screen Page 2 title */
-"OnboardingPageTwo.title" = "Join people around the world who trust Rockwallet.";
+"OnboardingPageTwo.title" = "Join people around the world who trust Fabriik.";
 
 /* Eg. Send 1.0Eth to purchase CCC */
 "PaymentConfirmation.amountText" = "Send %1$@ to purchase %2$@";
@@ -1484,9 +1484,9 @@
 
 "Prompts.RateApp.enjoyingBrd" = "Enjoying RockWallet?";
 
-"Prompts.RateApp.enjoyingRockwallet" = "Enjoying RockWallet?";
+"Prompts.RateApp.enjoyingFabriik" = "Enjoying RockWallet?";
 
-"Prompts.RateApp.googlePlayReview" = "Your review helps grow the Rockwallet community.";
+"Prompts.RateApp.googlePlayReview" = "Your review helps grow the Fabriik community.";
 
 "Prompts.RateApp.noThanks" = "No thanks";
 
@@ -1499,7 +1499,7 @@
 "Prompts.RecommendRescan.title" = "Transaction Rejected";
 
 /* Share data prompt body */
-"Prompts.ShareData.body" = "Help improve Rockwallet by sharing your anonymous data with us";
+"Prompts.ShareData.body" = "Help improve Fabriik by sharing your anonymous data with us";
 
 /* Share data prompt title */
 "Prompts.ShareData.title" = "Share Anonymous Data";
@@ -1520,7 +1520,7 @@
 "Prompts.TouchId.usePin.android" = "PIN";
 
 /* Upgrade PIN prompt body. */
-"Prompts.UpgradePin.body" = "Rockwallet has upgraded to using a 6-digit PIN. Tap Continue to upgrade.";
+"Prompts.UpgradePin.body" = "Fabriik has upgraded to using a 6-digit PIN. Tap Continue to upgrade.";
 
 /* Upgrade PIN prompt title. */
 "Prompts.UpgradePin.title" = "Upgrade PIN";
@@ -1532,13 +1532,13 @@
 "PushNotifications.disabled" = "Notifications Disabled";
 
 /* Body text when push notifications are disabled. */
-"PushNotifications.disabledBody" = "Turn on notifications to receive special offers and updates from Rockwallet.";
+"PushNotifications.disabledBody" = "Turn on notifications to receive special offers and updates from Fabriik.";
 
 /* Body text when push notifications are enabled. */
-"PushNotifications.enabledBody" = "You’re receiving special offers and updates from Rockwallet.";
+"PushNotifications.enabledBody" = "You’re receiving special offers and updates from Fabriik.";
 
 /* Instructions to enable push notifications for BRD in the phone's system settings. */
-"PushNotifications.enableInstructions" = "Looks like notifications are turned off. Please go to Settings to enable notifications from Rockwallet.";
+"PushNotifications.enableInstructions" = "Looks like notifications are turned off. Please go to Settings to enable notifications from Fabriik.";
 
 /* Push notifications toggle switch label */
 "PushNotifications.label" = "Receive Push Notifications";
@@ -1601,7 +1601,7 @@
 "RecoverWallet.instruction" = "Enter Recovery Phrase";
 
 /* Recover wallet intro */
-"RecoverWallet.intro" = "Recover your Rockwallet with your recovery phrase.";
+"RecoverWallet.intro" = "Recover your Fabriik with your recovery phrase.";
 
 /* Invalid paper key message */
 "RecoverWallet.invalid" = "The recovery phrase you entered is invalid. Please double-check each word and try again.";
@@ -1682,7 +1682,7 @@
 "RecoveryKeyFlow.noScreenshotsRecommendation" = "Write down your key on paper and confirm it. Screenshots are not recommended for security reasons.";
 
 /* Title displayed when the user starts the process of recovering a wallet */
-"RecoveryKeyFlow.recoveryYourWallet" = "Recover Your Wallet";
+"RecoveryKeyFlow.recoveryYourWallet" = "Restore Your Wallet";
 
 /* Subtitle displayed when the user starts the process of recovering a wallet */
 "RecoveryKeyFlow.recoveryYourWalletSubtitle" = "Please enter the Recovery Phrase of the wallet you want to restore";
@@ -1706,7 +1706,7 @@
 "RecoveryKeyFlow.successHeading" = "Congratulations! You completed your recovery phrase setup.";
 
 /* Subtitle for the success page after the recovery key has been set up */
-"RecoveryKeyFlow.successSubheading" = "You're all set to deposit, swap, and buy crypto from your Rockwallet.";
+"RecoveryKeyFlow.successSubheading" = "You're all set to deposit, swap, and buy crypto from your Fabriik wallet.";
 
 /* Title displayed to the user on the intro screen when unlinking a wallet */
 "RecoveryKeyFlow.unlinkWallet" = "Unlink your wallet from this device.";
@@ -1757,7 +1757,7 @@
 "ReScan.body1" = "20-45 minutes";
 
 /* Syncing explanation */
-"ReScan.body2" = "If a transaction shows as completed on the network but not in your Rockwallet.";
+"ReScan.body2" = "If a transaction shows as completed on the network but not in your Fabriik.";
 
 /* Syncing explanation */
 "ReScan.body3" = "You repeatedly get an error saying your transaction was rejected.";
@@ -1781,7 +1781,7 @@
 "RewardsView.expandedBody" = "Learn how you can save on trading fees and unlock future rewards";
 
 /* Rewards view expanded title. */
-"RewardsView.expandedTitle" = "Introducing Rockwallet Rewards.";
+"RewardsView.expandedTitle" = "Introducing Fabriik Rewards.";
 
 /* Rewards view title */
 "RewardsView.normalTitle" = "Rewards";
@@ -1823,13 +1823,13 @@
 "SecurityCenter.paperKeyTitle.android" = "Recovery Phrase";
 
 /* PIN button description */
-"SecurityCenter.pinDescription" = "Protects your Rockwallet from unauthorized users.";
+"SecurityCenter.pinDescription" = "Protects your Fabriik from unauthorized users.";
 
 /* PIN button title */
 "SecurityCenter.pinTitle" = "6-Digit PIN";
 
 /* Touch ID button description */
-"SecurityCenter.touchIdDescription" = "Conveniently unlock your Rockwallet and send money up to a set limit.";
+"SecurityCenter.touchIdDescription" = "Conveniently unlock your Fabriik and send money up to a set limit.";
 
 /* Touch ID button title */
 "SecurityCenter.touchIdTitle" = "Touch ID";
@@ -1864,16 +1864,16 @@
 "Send.balanceString" = "Balance:";
 
 /* Instructions how to allow the camera access for the app */
-"Send.cameraUnavailabeMessage.android" = "Allow camera access in \"Settings\" > \"Apps\" > \"Rockwallet\" > \"Permissions\"";
+"Send.cameraUnavailabeMessage.android" = "Allow camera access in \"Settings\" > \"Apps\" > \"Fabriik\" > \"Permissions\"";
 
 /* Permission required to access camera */
-"Send.cameraUnavailabeTitle.android" = "Rockwallet is not allowed to access the camera";
+"Send.cameraUnavailabeTitle.android" = "Fabriik is not allowed to access the camera";
 
 /* Camera not allowed message */
 "Send.cameraunavailableMessage" = "Go to Settings to allow camera access.";
 
 /* Camera not allowed alert title */
-"Send.cameraUnavailableTitle" = "Rockwallet is not allowed to access the camera";
+"Send.cameraUnavailableTitle" = "Fabriik is not allowed to access the camera";
 
 /* Warning when sending to self. */
 "Send.containsAddress" = "The destination is your own address. You cannot send to yourself.";
@@ -2058,7 +2058,7 @@
 "Settings.EnableSegwit" = "Enable Segwit";
 
 /* Are you enjoying bread alert message body */
-"Settings.enjoying" = "Are you enjoying Rockwallet?";
+"Settings.enjoying" = "Are you enjoying Fabriik?";
 
 /* Export transaction history menu item */
 "Settings.exportTransfers" = "Export transaction history to CSV";
@@ -2127,7 +2127,7 @@
 "Settings.wipe.android" = "Wipe wallet from this device";
 
 /* Share data view body */
-"ShareData.body" = "Help improve Rockwallet by sharing your anonymous data with us. This does not include any financial information. We respect your financial privacy.";
+"ShareData.body" = "Help improve Fabriik by sharing your anonymous data with us. This does not include any financial information. We respect your financial privacy.";
 
 /* Share data header */
 "ShareData.header" = "Share Data?";
@@ -2139,7 +2139,7 @@
 
 "ShareGift.footerMessage1" = "A network fee will be deducted from the total when claimed.\nActual value depends on current price of bitcoin.";
 
-"ShareGift.footerMessage2" = "Download the Rockwallet app for iPhone or Android.\nFor more information visit Rockwallet.com/gift";
+"ShareGift.footerMessage2" = "Download the Fabriik app for iPhone or Android.\nFor more information visit Fabriik.com/gift";
 
 "ShareGift.tagLine" = "Someone gifted you bitcoin!";
 
@@ -2211,10 +2211,10 @@
 "StartPaperPhrase.againButtonTitle" = "Write Down Recovery Phrase Again";
 
 /* Paper key explanation text. */
-"StartPaperPhrase.body" = "Your recovery phrase is the only way to restore your Rockwallet if your phone is lost, stolen, broken, or upgraded.\n\nWe will show you a list of words to write down on a piece of paper and keep safe.";
+"StartPaperPhrase.body" = "Your recovery phrase is the only way to restore your Fabriik if your phone is lost, stolen, broken, or upgraded.\n\nWe will show you a list of words to write down on a piece of paper and keep safe.";
 
 /* Paper key explanation text (Android-version) */
-"StartPaperPhrase.Body.Android" = "Your recovery phrase is the only way to restore your Rockwallet if your phone is lost, stolen, broken, or upgraded.\n\nYour recovery phrase is also required if you change the security settings on your device.\n\nWe will show you a list of words to write down on a piece of paper and keep safe.";
+"StartPaperPhrase.Body.Android" = "Your recovery phrase is the only way to restore your Fabriik if your phone is lost, stolen, broken, or upgraded.\n\nYour recovery phrase is also required if you change the security settings on your device.\n\nWe will show you a list of words to write down on a piece of paper and keep safe.";
 
 /* button label */
 "StartPaperPhrase.buttonTitle" = "Write Down Recovery Phrase";
@@ -2342,7 +2342,7 @@
 "Swap.transactionFrom" = "From %1$@";
 
 /* Transaction ID label in swap details screen */
-"Swap.TransactionID" = "Rockwallet Transaction ID";
+"Swap.TransactionID" = "Fabriik Transaction ID";
 
 "Swap.transactionInEthereumNetwork" = "It seems that your transaction takes place in the Ethereum network, please keep in mind that network fees will be charged in ETH";
 
@@ -2423,10 +2423,10 @@
 "TouchIdSettings.disabledWarning.title.android" = "Fingerprint Authentication Not Enabled";
 
 /* Text that describes the purpose of the Touch ID settings in the BRD app. */
-"TouchIdSettings.explanatoryText" = "Use Touch ID to unlock your Rockwallet app and send money.";
+"TouchIdSettings.explanatoryText" = "Use Touch ID to unlock your Fabriik app and send money.";
 
 /* Touch Id screen label */
-"TouchIdSettings.label" = "Use your fingerprint to unlock your Rockwallet and send money up to a set limit.";
+"TouchIdSettings.label" = "Use your fingerprint to unlock your Fabriik and send money up to a set limit.";
 
 /* Link Text (see TouchIdSettings.customizeText) */
 "TouchIdSettings.linkText" = "Touch ID Spending Limit Screen";
@@ -2435,7 +2435,7 @@
 "TouchIdSettings.spendingLimit" = "Spending limit: %1$@ (%2$@)";
 
 /* Touch id switch label. */
-"TouchIdSettings.switchLabel" = "Enable Touch ID for Rockwallet";
+"TouchIdSettings.switchLabel" = "Enable Touch ID for Fabriik";
 
 /* Enable fingerprint for this wallet called Bread */
 "TouchIdSettings.switchLabel.android" = "Enable Fingerprint Authentication";
@@ -2456,7 +2456,7 @@
 "TouchIdSettings.unavailableAlertTitle" = "Touch ID Not Set Up";
 
 /* Text label for the toggle that enables Touch ID for unlocking the BRD app. */
-"TouchIdSettings.unlockTitleText" = "Enable Touch ID to unlock Rockwallet";
+"TouchIdSettings.unlockTitleText" = "Enable Touch ID to unlock Fabriik";
 
 /* Always require passcode option */
 "TouchIdSpendingLimit" = "Always require passcode";
@@ -2742,7 +2742,7 @@
 "UnlockScreen.touchIdInstructions.android" = "Touch Sensor";
 
 /* TouchID prompt text */
-"UnlockScreen.touchIdPrompt" = "Unlock your Rockwallet.";
+"UnlockScreen.touchIdPrompt" = "Unlock your Fabriik.";
 
 /* Device authentication body */
 "UnlockScreen.touchIdPrompt.android" = "Please unlock your Android device to continue.";
@@ -2823,7 +2823,7 @@
 "UpdatePin.TwoAttempts" = "2 more failed attempts.";
 
 /* Update pin popup explanation when pressing "?" button */
-"UpdatePin.UpdatePinPopup" = "The Rockwallet app requires you to set a PIN to secure your wallet, separate from your device passcode.  \n\nYou will be required to enter the PIN to view your balance or send money, which keeps your wallet private even if you let someone use your phone or if your phone is stolen by someone who knows your device passcode.\n            \nDo not forget your wallet PIN! It can only be reset by using your Recovery Phrase. If you forget your PIN and lose your Recovery Phrase, your wallet will be lost.";
+"UpdatePin.UpdatePinPopup" = "The Fabriik Wallet app requires you to set a PIN to secure your wallet, separate from your device passcode.  \n\nYou will be required to enter the PIN to view your balance or send money, which keeps your wallet private even if you let someone use your phone or if your phone is stolen by someone who knows your device passcode.\n            \nDo not forget your wallet PIN! It can only be reset by using your Recovery Phrase. If you forget your PIN and lose your Recovery Phrase, your wallet will be lost.";
 
 /* Update PIN title */
 "UpdatePin.updateTitle" = "Update PIN";
@@ -2924,7 +2924,7 @@
 "WalletConnectionSettings.viewTitle" = "Fastsync";
 
 /* 'No wallet' warning for watch app */
-"Watch.noWalletWarning" = "Open the Rockwallet iPhone app to set up your wallet.";
+"Watch.noWalletWarning" = "Open the Fabriik iPhone app to set up your wallet.";
 
 /* Dismiss button label */
 "Webview.dismiss" = "Dismiss";
@@ -2936,10 +2936,10 @@
 "Webview.updating" = "Updating...";
 
 /* Welcome screen text. (?) will be replaced with the help icon users should look for. */
-"Welcome.body" = "Breadwallet has changed its name to Rockwallet, with a brand new look and some new features.\n\nIf you need help, look for the (?) in the top right of most screens.";
+"Welcome.body" = "Breadwallet has changed its name to Fabriik, with a brand new look and some new features.\n\nIf you need help, look for the (?) in the top right of most screens.";
 
 /* Top title of welcome screen */
-"Welcome.title" = "Welcome to Rockwallet!";
+"Welcome.title" = "Welcome to Fabriik!";
 
 /* Single asset widget description */
 "Widget.assetDescription" = "Stay up to date with your favorite crypto asset";
@@ -3047,7 +3047,7 @@
 "WipeWallet.instruction" = "Please enter your recovery phrase to wipe this wallet from your device.";
 
 /* Instructions for unlinking the wallet */
-"WipeWallet.startMessage" = "Starting or recovering another wallet allows you to access and manage a different Rockwallet on this device.";
+"WipeWallet.startMessage" = "Starting or recovering another wallet allows you to access and manage a different Fabriik wallet on this device.";
 
 /* Start wipe wallet view warning */
 "WipeWallet.startWarning" = "Your current wallet will be removed from this device. If you wish to restore it in the future, you will need to enter your Recovery Phrase.";
