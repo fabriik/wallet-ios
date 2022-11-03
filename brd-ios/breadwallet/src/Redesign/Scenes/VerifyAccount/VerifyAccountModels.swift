@@ -6,7 +6,7 @@ import UIKit
 import SwiftUI
 
 enum VerifyAccountModels {
-    typealias Item = (String?)
+    typealias Item = (coverImageName: String?, subtitleMessage: String?)
     
     enum Section: Sectionable {
         case image

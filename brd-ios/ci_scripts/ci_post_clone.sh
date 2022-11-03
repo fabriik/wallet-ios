@@ -4,7 +4,6 @@
 #  breadwallet
 #
 #  Created by Gardner von Holt on 9/6/22.
-#  Copyright © 2022 Fabriik Exchange, LLC. All rights reserved.
 
 # Set the -e flag to stop running the script in case a command returns
 # a nonzero exit code.
