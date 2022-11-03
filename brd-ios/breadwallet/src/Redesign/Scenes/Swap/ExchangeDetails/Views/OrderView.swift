@@ -63,9 +63,9 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         content.addSubview(stack)
         stack.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.top.greaterThanOrEqualTo(content.snp.topMargin).inset(Margins.medium.rawValue)
-            make.bottom.greaterThanOrEqualTo(content.snp.bottom).inset(Margins.medium.rawValue)
-            make.leading.greaterThanOrEqualTo(content.snp.leadingMargin).inset(Margins.medium.rawValue)
+            make.top.greaterThanOrEqualTo(content.snp.topMargin).inset(Margins.large.rawValue)
+            make.bottom.greaterThanOrEqualTo(content.snp.bottom).inset(Margins.large.rawValue)
+            make.leading.greaterThanOrEqualTo(content.snp.leadingMargin).inset(Margins.huge.rawValue)
         }
         
         stack.addArrangedSubview(titleLabel)
