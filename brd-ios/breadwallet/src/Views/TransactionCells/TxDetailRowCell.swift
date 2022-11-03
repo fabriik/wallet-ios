@@ -24,8 +24,8 @@ class TxDetailRowCell: UITableViewCell {
     // MARK: - Views
     
     internal let container = UIView()
-    internal let titleLabel = UILabel(font: UIFont.customBody(size: 14.0))
-    internal let separator = UIView(color: .secondaryShadow)
+    internal let titleLabel = UILabel(font: Fonts.Body.two, color: LightColors.Text.two)
+    internal let separator = UIView(color: LightColors.Outline.one)
     
     // MARK: - Init
     
@@ -61,9 +61,7 @@ class TxDetailRowCell: UITableViewCell {
         separator.constrainTopCorners(height: 0.5)
     }
     
-    internal func setupStyle() {
-        titleLabel.textColor = .lightGray
-    }
+    internal func setupStyle() {}
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

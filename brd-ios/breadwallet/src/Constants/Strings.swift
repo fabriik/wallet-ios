@@ -54,7 +54,7 @@ internal enum L10n {
     /// Account Verification screen title
     internal static let accountVerification = L10n.tr("Localizable", "Account.AccountVerification", fallback: "Account Verification")
     /// Verify your account label on profile screen
-    internal static let accountVerify = L10n.tr("Localizable", "Account.AccountVerify", fallback: "Verify")
+    internal static let accountVerify = L10n.tr("Localizable", "Account.AccountVerify", fallback: "Verify your account")
     /// Account balance
     internal static let balance = L10n.tr("Localizable", "Account.balance", fallback: "Your balance")
     /// Before confirm photo label in create account screen
@@ -236,7 +236,7 @@ internal enum L10n {
     /// Passport
     internal static let passport = L10n.tr("Localizable", "AccountKYCLevelTwo.Passport", fallback: "Passport")
     /// Prepare documents label in KYC2
-    internal static let prepareDocument = L10n.tr("Localizable", "AccountKYCLevelTwo.PrepareDocument", fallback: "Prepare a valid government-issued identity document (Passport, National ID card or Drivers license)")
+    internal static let prepareDocument = L10n.tr("Localizable", "AccountKYCLevelTwo.PrepareDocument", fallback: "Have a valid government-issued identity document (passport, national ID card or driver’s license) ready")
     /// Residence permit
     internal static let residencePermit = L10n.tr("Localizable", "AccountKYCLevelTwo.ResidencePermit", fallback: "Residence permit")
     /// Select documents  options text label in KYC2
@@ -1337,8 +1337,6 @@ internal enum L10n {
       internal static let dontShow = L10n.tr("Localizable", "Prompts.RateApp.dontShow", fallback: "Don't ask again")
       /// Enjoying RockWallet?
       internal static let enjoyingBrd = L10n.tr("Localizable", "Prompts.RateApp.enjoyingBrd", fallback: "Enjoying RockWallet?")
-      /// Enjoying RockWallet?
-      internal static let enjoyingFabriik = L10n.tr("Localizable", "Prompts.RateApp.enjoyingFabriik", fallback: "Enjoying RockWallet?")
       /// Your review helps grow the Fabriik community.
       internal static let googlePlayReview = L10n.tr("Localizable", "Prompts.RateApp.googlePlayReview", fallback: "Your review helps grow the Fabriik community.")
       /// No thanks
