@@ -12,8 +12,7 @@ import UIKit
 
 struct OrderConfiguration: Configurable {
     var title: LabelConfiguration?
-    var copyableValue: LabelConfiguration?
-    var regularValue: LabelConfiguration?
+    var value: LabelConfiguration?
     var shadow: ShadowConfiguration?
     var background: BackgroundConfiguration?
     var contentBackground: BackgroundConfiguration?
@@ -22,7 +21,6 @@ struct OrderConfiguration: Configurable {
 struct OrderViewModel: ViewModel {
     var title: String
     var value: NSAttributedString
-    var showsFullValue: Bool
     var isCopyable: Bool
 }
 
@@ -93,7 +91,7 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         bottomStack.configure(background: config?.contentBackground)
         configure(background: config?.background)
         configure(shadow: config?.shadow)
-        valueLabel.configure(with: viewModel?.isCopyable == true ? config?.copyableValue : config?.regularValue)
+        valueLabel.configure(with: config?.value)
     }
     
     override func setup(with viewModel: OrderViewModel?) {

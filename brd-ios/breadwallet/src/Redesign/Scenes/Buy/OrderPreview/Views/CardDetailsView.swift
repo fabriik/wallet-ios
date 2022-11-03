@@ -11,10 +11,10 @@
 import UIKit
 
 struct CardDetailsConfiguration: Configurable {
-    var logo: BackgroundConfiguration? = .init(tintColor: LightColors.Text.two)
-    var title: LabelConfiguration? = .init(font: Fonts.Title.six, textColor: LightColors.secondary, numberOfLines: 1)
-    var cardNumber: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1)
-    var expiration: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Text.one)
+    var logo: BackgroundConfiguration? = .init()
+    var title: LabelConfiguration? = .init(font: Fonts.Body.three, textColor: LightColors.Text.two, numberOfLines: 1)
+    var cardNumber: LabelConfiguration? = .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, numberOfLines: 1)
+    var expiration: LabelConfiguration? = .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.two)
     var moreButton: BackgroundConfiguration? = Presets.Background.Secondary.selected
 }
 
@@ -27,7 +27,6 @@ struct CardDetailsViewModel: ViewModel {
 }
 
 class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
-    
     var moreButtonCallback: (() -> Void)?
     
     private lazy var mainStack: UIStackView = {
@@ -86,9 +85,6 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         }
         
         mainStack.addArrangedSubview(selectorStack)
-        selectorStack.snp.makeConstraints { make in
-            make.leading.equalTo(Margins.medium.rawValue)
-        }
         
         selectorStack.addArrangedSubview(logoImageView)
         logoImageView.snp.makeConstraints { make in
@@ -111,19 +107,15 @@ class CardDetailsView: FEView<CardDetailsConfiguration, CardDetailsViewModel> {
         
         selectorStack.addArrangedSubview(expirationLabel)
         
-        let spacer2 = UIView()
-        selectorStack.addArrangedSubview(spacer2)
-        spacer2.snp.makeConstraints { make in
-            make.width.equalTo(Margins.extraSmall.rawValue).priority(.low)
-        }
-        
         selectorStack.addArrangedSubview(moreButton)
         moreButton.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
+        
         layoutIfNeeded()
     }
     
     override func configure(with config: CardDetailsConfiguration?) {
         super.configure(with: config)
+        
         logoImageView.configure(with: config?.logo)
         titleLabel.configure(with: config?.title)
         cardNumberLabel.configure(with: config?.cardNumber)

@@ -329,27 +329,16 @@ extension Presets {
 extension Presets {
     struct Order {
         static var small = OrderConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 1),
-                                              copyableValue: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1,
-                                                                   lineBreakMode: .byTruncatingTail),
-                                              regularValue: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1),
+                                              value: .init(font: Fonts.Subtitle.two,
+                                                           textColor: LightColors.Text.one,
+                                                           textAlignment: .center,
+                                                           numberOfLines: 1,
+                                                           lineBreakMode: .byTruncatingMiddle),
                                               shadow: Presets.Shadow.light,
                                               background: .init(backgroundColor: LightColors.Background.one,
                                                                 tintColor: LightColors.Text.one,
                                                                 border: Presets.Border.zero),
-                                              contentBackground: .init(tintColor: LightColors.Text.one,
-                                                                       border: .init(tintColor: LightColors.Text.one,
-                                                                                     borderWidth: BorderWidth.minimum.rawValue,
-                                                                                     cornerRadius: .medium)))
-        
-        static var full = OrderConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 1),
-                                             copyableValue: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .center, numberOfLines: 0),
-                                             regularValue: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .center, numberOfLines: 1),
-                                             shadow: Presets.Shadow.light,
-                                             background: .init(backgroundColor: LightColors.Background.one,
-                                                               tintColor: LightColors.Text.one,
-                                                               border: Presets.Border.zero),
-                                             contentBackground: .init(tintColor: LightColors.Text.one,
-                                                                      border: .init(borderWidth: 0, cornerRadius: .zero)))
+                                              contentBackground: .init(tintColor: LightColors.Text.one))
     }
 }
 
@@ -387,17 +376,17 @@ extension Presets {
 
 extension Presets {
     struct TitleValue {
-        static var horizontal = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1),
-                                                        value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
+        static var horizontal = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, numberOfLines: 1),
+                                                        value: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .right))
         
-        static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1),
-                                                      value: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .right))
+        static var horizontalBold = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1),
+                                                            value: .init(font: Fonts.Subtitle.two, textColor: LightColors.Text.one, textAlignment: .right))
         
-        static var verticalSmall = TitleValueConfiguration(title: .init(font: Fonts.Body.three, textColor: LightColors.Text.one, numberOfLines: 1),
-                                                           value: .init(font: Fonts.Body.three, textColor: LightColors.Text.one, textAlignment: .right))
+        static var vertical = TitleValueConfiguration(title: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, numberOfLines: 1),
+                                                      value: .init(font: Fonts.Body.two, textColor: LightColors.Text.two, textAlignment: .right))
         
-        static var subtitle = TitleValueConfiguration(title: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, numberOfLines: 1),
-                                                      value: .init(font: Fonts.Subtitle.one, textColor: LightColors.Text.one, textAlignment: .right))
+        static var verticalSmall = TitleValueConfiguration(title: .init(font: Fonts.Body.three, textColor: LightColors.Text.two, numberOfLines: 1),
+                                                           value: .init(font: Fonts.Body.three, textColor: LightColors.Text.two, textAlignment: .right))
     }
 }
 
