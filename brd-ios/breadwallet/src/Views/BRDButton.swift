@@ -43,14 +43,14 @@ class BRDButton: UIControl {
     var title: String {
         didSet {
             guard type == .blackTransparent else {
-                label.text = title
+                label.text = title.uppercased()
                 return
             }
             
             let underlineAttribute = [
                 NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue
             ]
-            let underlineAttributedString = NSAttributedString(string: title, attributes: underlineAttribute)
+            let underlineAttributedString = NSAttributedString(string: title.uppercased(), attributes: underlineAttribute)
             label.attributedText = underlineAttributedString
         }
     }
