@@ -107,7 +107,7 @@ enum VerificationStatus: Equatable {
                                  headerTrailing: .init(image: "info"),
                                  status: VerificationStatus.none,
                                  description: .text(L10n.Account.fullAccess),
-                                 button: .init(title: L10n.Account.accountVerify.uppercased()),
+                                 button: .init(title: L10n.VerifyAccount.button.uppercased()),
                                  dismissType: .persistent)
             
         case .emailPending, .levelTwo(.submitted):

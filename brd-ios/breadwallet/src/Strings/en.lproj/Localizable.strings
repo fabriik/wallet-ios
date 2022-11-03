@@ -37,9 +37,6 @@
 /* Account Verification screen title */
 "Account.AccountVerification" = "Account Verification";
 
-/* Verify your account label on profile screen */
-"Account.AccountVerify" = "Verify your account";
-
 /* Account balance */
 "Account.balance" = "Your balance";
 
@@ -71,9 +68,6 @@
 
 /* Delisted token alert banner message */
 "Account.delistedToken" = "This token has been delisted. \n\nYou may still be able to send these tokens to another platform. For more details, visit our support page.";
-
-/* Document confirmation label for KYC2 */
-"Account.DocumentConfirmation" = "Make sure document details are clearly visible and within the frame";
 
 /* $10000 per BTC */
 "Account.exchangeRate" = "%1$@ per %2$@";
@@ -116,6 +110,8 @@
 
 /* Upgrade your limits label in profile screen */
 "Account.UpgradeLimits" = "Upgrade your limits";
+
+"Account.UpgradeVerificationIdentity" = "You need to upgrade your verification status before you can buy or swap assets.";
 
 /* You need to be at least 18 years old to complete Level 1 verification label in verify account */
 "Account.Verification" = "You need to be at least 18 years old to complete Level 1 verification";
@@ -221,7 +217,7 @@
 "AccountKYCLevelOne.Limit" = "Account limit: $1,000/day ($10,000 lifetime)";
 
 /* Back page of the document text instructions for KYC2 */
-"AccountKYCLevelTwo.BackPageInstructions" = "You have captured the entire back page of the document";
+"AccountKYCLevelTwo.BackPageInstructions" = "Make sure document details are clearly visible and within the frame";
 
 /* Before start label */
 "AccountKYCLevelTwo.BeforeStart" = "Before you start, please:";
@@ -244,7 +240,7 @@
 "AccountKYCLevelTwo.ConfirmID" = "We need to confirm your ID";
 
 /* Document confirmation label for KYC2 */
-"AccountKYCLevelTwo.DocumentConfirmation" = "You have captured the entire document";
+"AccountKYCLevelTwo.DocumentConfirmation" = "Make sure document details are clearly visible and within the frame";
 
 /* Documents review label in KYC2 */
 "AccountKYCLevelTwo.DocumentsReview" = "We are reviewing your documents and will let you know when your account has been verified.";
@@ -252,22 +248,22 @@
 "AccountKYCLevelTwo.DrivingLicence" = "Driver’s license";
 
 /* Face capture instructions text on documents for KYC2 */
-"AccountKYCLevelTwo.FaceCaptureInstructions" = "You have captured your entire face in the frame.";
+"AccountKYCLevelTwo.FaceCaptureInstructions" = "Make sure you have captured your entire face in the frame.";
 
 /* Face is in the frame text for document on KYC2 */
 "AccountKYCLevelTwo.FaceVisible" = "Make sure your face is in the frame and clearly visible";
 
 /* Face is clearly visible confirmation text for documents on KYC2 */
-"AccountKYCLevelTwo.FaceVisibleConfirmation" = "Your face is clearly visible.";
+"AccountKYCLevelTwo.FaceVisibleConfirmation" = "Make sure your face is clearly visible.";
 
 /* Front page of the document instructions text for KYC2 */
-"AccountKYCLevelTwo.FrontPageInstructions" = "You have captured the entire front page of the document";
+"AccountKYCLevelTwo.FrontPageInstructions" = "Make sure document details are clearly visible and within the frame";
 
 /* KYC Level Two status */
 "AccountKYCLevelTwo.InProgress" = "Your ID verification is in progress";
 
 /* Document instructions label for KYC2 */
-"AccountKYCLevelTwo.Instructions" = "Make sure to capture the entire document.";
+"AccountKYCLevelTwo.Instructions" = "Make sure document details are clearly visible and within the frame";
 
 /* Level two title in Account screen */
 "AccountKYCLevelTwo.LevelTwo" = "Level 2";
@@ -575,6 +571,8 @@
 
 /* Button label to uninstall the app. */
 "Button.uninstall.android" = "Uninstall";
+
+"Button.Verify" = "Verify";
 
 /* Button label to wipe the user's application data. */
 "Button.wipe.android" = "Wipe";
@@ -2857,10 +2855,6 @@
 "VerificationCode.title" = "Confirmation Code";
 
 "VerifyAccount.Button" = "Verify";
-
-"VerifyAccount.Subtitle" = "We need to verify your identity before you can buy or swap assets.";
-
-"VerifyAccount.Title" = "Verify your account to get full access to your RockWallet!";
 
 /* Verify PIN for transaction view body */
 "VerifyPin.authorize" = "Please enter your PIN to authorize this transaction.";
