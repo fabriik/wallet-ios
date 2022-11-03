@@ -12,7 +12,7 @@ import UIKit
 
 struct CardDetailsConfiguration: Configurable {
     var logo: BackgroundConfiguration? = .init(tintColor: LightColors.Text.two)
-    var title: LabelConfiguration? = .init(font: Fonts.Title.six, textColor: LightColors.secondary, numberOfLines: 1)
+    var title: LabelConfiguration? = .init(font: Fonts.Body.three, textColor: LightColors.Text.two, numberOfLines: 1)
     var cardNumber: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Text.one, numberOfLines: 1)
     var expiration: LabelConfiguration? = .init(font: Fonts.Body.two, textColor: LightColors.Text.one)
     var moreButton: BackgroundConfiguration? = Presets.Background.Secondary.selected
