@@ -53,8 +53,6 @@ internal enum L10n {
     internal static let accountLimits = L10n.tr("Localizable", "Account.AccountLimits", fallback: "Account limits")
     /// Account Verification screen title
     internal static let accountVerification = L10n.tr("Localizable", "Account.AccountVerification", fallback: "Account Verification")
-    /// Verify your account label on profile screen
-    internal static let accountVerify = L10n.tr("Localizable", "Account.AccountVerify", fallback: "Verify your account")
     /// Account balance
     internal static let balance = L10n.tr("Localizable", "Account.balance", fallback: "Your balance")
     /// Before confirm photo label in create account screen
@@ -77,8 +75,6 @@ internal enum L10n {
     internal static let deleteAccount = L10n.tr("Localizable", "Account.DeleteAccount", fallback: "Delete account")
     /// Delisted token alert banner message
     internal static let delistedToken = L10n.tr("Localizable", "Account.delistedToken", fallback: "This token has been delisted. \n\nYou may still be able to send these tokens to another platform. For more details, visit our support page.")
-    /// Document confirmation label for KYC2
-    internal static let documentConfirmation = L10n.tr("Localizable", "Account.DocumentConfirmation", fallback: "Make sure document details are clearly visible and within the frame")
     /// $10000 per BTC
     internal static func exchangeRate(_ p1: Any, _ p2: Any) -> String {
       return L10n.tr("Localizable", "Account.exchangeRate", String(describing: p1), String(describing: p2), fallback: "%1$@ per %2$@")
@@ -111,6 +107,8 @@ internal enum L10n {
     internal static let swapAndBuyLimit = L10n.tr("Localizable", "Account.SwapAndBuyLimit", fallback: "Swap limit: $10,000 USD/day\nBuy limit: $500 USD/day")
     /// Upgrade your limits label in profile screen
     internal static let upgradeLimits = L10n.tr("Localizable", "Account.UpgradeLimits", fallback: "Upgrade your limits")
+    /// You need to upgrade your verification status before you can buy or swap assets.
+    internal static let upgradeVerificationIdentity = L10n.tr("Localizable", "Account.UpgradeVerificationIdentity", fallback: "You need to upgrade your verification status before you can buy or swap assets.")
     /// You need to be at least 18 years old to complete Level 1 verification label in verify account
     internal static let verification = L10n.tr("Localizable", "Account.Verification", fallback: "You need to be at least 18 years old to complete Level 1 verification")
     /// Why is the verification declined label in profile screen
@@ -192,7 +190,7 @@ internal enum L10n {
   }
   internal enum AccountKYCLevelTwo {
     /// Back page of the document text instructions for KYC2
-    internal static let backPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.BackPageInstructions", fallback: "You have captured the entire back page of the document")
+    internal static let backPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.BackPageInstructions", fallback: "Make sure document details are clearly visible and within the frame")
     /// Before start label
     internal static let beforeStart = L10n.tr("Localizable", "AccountKYCLevelTwo.BeforeStart", fallback: "Before you start, please:")
     /// Buy limits on KYC2 account
@@ -208,23 +206,23 @@ internal enum L10n {
     /// Confirm ID label in KYC2 flow
     internal static let confirmID = L10n.tr("Localizable", "AccountKYCLevelTwo.ConfirmID", fallback: "We need to confirm your ID")
     /// Document confirmation label for KYC2
-    internal static let documentConfirmation = L10n.tr("Localizable", "AccountKYCLevelTwo.DocumentConfirmation", fallback: "You have captured the entire document")
+    internal static let documentConfirmation = L10n.tr("Localizable", "AccountKYCLevelTwo.DocumentConfirmation", fallback: "Make sure document details are clearly visible and within the frame")
     /// Documents review label in KYC2
     internal static let documentsReview = L10n.tr("Localizable", "AccountKYCLevelTwo.DocumentsReview", fallback: "We are reviewing your documents and will let you know when your account has been verified.")
     /// Driver’s license
     internal static let drivingLicence = L10n.tr("Localizable", "AccountKYCLevelTwo.DrivingLicence", fallback: "Driver’s license")
     /// Face capture instructions text on documents for KYC2
-    internal static let faceCaptureInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceCaptureInstructions", fallback: "You have captured your entire face in the frame.")
+    internal static let faceCaptureInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceCaptureInstructions", fallback: "Make sure you have captured your entire face in the frame.")
     /// Face is in the frame text for document on KYC2
     internal static let faceVisible = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceVisible", fallback: "Make sure your face is in the frame and clearly visible")
     /// Face is clearly visible confirmation text for documents on KYC2
-    internal static let faceVisibleConfirmation = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceVisibleConfirmation", fallback: "Your face is clearly visible.")
+    internal static let faceVisibleConfirmation = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceVisibleConfirmation", fallback: "Make sure your face is clearly visible.")
     /// Front page of the document instructions text for KYC2
-    internal static let frontPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FrontPageInstructions", fallback: "You have captured the entire front page of the document")
+    internal static let frontPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FrontPageInstructions", fallback: "Make sure document details are clearly visible and within the frame")
     /// KYC Level Two status
     internal static let inProgress = L10n.tr("Localizable", "AccountKYCLevelTwo.InProgress", fallback: "Your ID verification is in progress")
     /// Document instructions label for KYC2
-    internal static let instructions = L10n.tr("Localizable", "AccountKYCLevelTwo.Instructions", fallback: "Make sure to capture the entire document.")
+    internal static let instructions = L10n.tr("Localizable", "AccountKYCLevelTwo.Instructions", fallback: "Make sure document details are clearly visible and within the frame")
     /// Level two title in Account screen
     internal static let levelTwo = L10n.tr("Localizable", "AccountKYCLevelTwo.LevelTwo", fallback: "Level 2")
     /// Swap limits on KYC2 account
@@ -476,6 +474,8 @@ internal enum L10n {
     internal static let skip = L10n.tr("Localizable", "Button.skip", fallback: "Skip")
     /// Settings button label
     internal static let submit = L10n.tr("Localizable", "Button.submit", fallback: "Submit")
+    /// Verify
+    internal static let verify = L10n.tr("Localizable", "Button.Verify", fallback: "Verify")
     /// Yes button
     internal static let yes = L10n.tr("Localizable", "Button.yes", fallback: "Yes")
     internal enum ContactSupport {
@@ -2552,10 +2552,6 @@ internal enum L10n {
   internal enum VerifyAccount {
     /// Verify
     internal static let button = L10n.tr("Localizable", "VerifyAccount.Button", fallback: "Verify")
-    /// We need to verify your identity before you can buy or swap assets.
-    internal static let subtitle = L10n.tr("Localizable", "VerifyAccount.Subtitle", fallback: "We need to verify your identity before you can buy or swap assets.")
-    /// Verify your account to get full access to your RockWallet!
-    internal static let title = L10n.tr("Localizable", "VerifyAccount.Title", fallback: "Verify your account to get full access to your RockWallet!")
   }
   internal enum VerifyPin {
     /// Verify PIN for transaction view body
