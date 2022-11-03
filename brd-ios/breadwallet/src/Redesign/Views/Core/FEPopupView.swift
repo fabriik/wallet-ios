@@ -42,6 +42,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
+        view.isScrollEnabled = false
         return view
     }()
     
@@ -163,7 +164,10 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         imageView.setup(with: .imageName(viewModel.imageName))
         imageView.isHidden = viewModel.imageName == nil
         
-        textView.text = viewModel.body
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 2.0
+        let attributes = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+        textView.attributedText = NSAttributedString(string: viewModel.body ?? "", attributes: attributes)
         textView.isHidden = viewModel.body == nil
         textView.sizeToFit()
         
@@ -195,7 +199,7 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         scrollingStack.layoutIfNeeded()
         
         var newHeight = textView.contentSize.height
-        newHeight += (CGFloat(viewModel.buttons.count) * buttonHeight) + Margins.huge.rawValue
+        newHeight += (CGFloat(viewModel.buttons.count) * buttonHeight) + Margins.extraHuge.rawValue
         
         scrollView.snp.makeConstraints { make in
             make.height.equalTo(newHeight)
