@@ -298,7 +298,7 @@ extension Presets {
                                                        status: .init(title: .init(font: Fonts.Body.two,
                                                                                   textColor: LightColors.Contrast.one,
                                                                                   textAlignment: .center),
-                                                                     background: .init(backgroundColor: LightColors.Contrast.one,
+                                                                     background: .init(backgroundColor: LightColors.Pending.one,
                                                                                        tintColor: LightColors.Contrast.one,
                                                                                        border: Presets.Border.extraSmallPlain)),
                                                        infoButton: .init(normalConfiguration: Presets.Background.Secondary.normal,
