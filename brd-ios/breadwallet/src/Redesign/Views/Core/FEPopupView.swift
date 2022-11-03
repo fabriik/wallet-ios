@@ -76,8 +76,11 @@ class FEPopupView: FEView<PopupConfiguration, PopupViewModel> {
         view.isSelectable = false
         view.isScrollEnabled = false
         view.backgroundColor = .clear
-        view.textContainerInset = .zero
         view.textContainer.lineFragmentPadding = 0
+        view.textContainerInset = .init(top: Margins.zero.rawValue,
+                                        left: Margins.zero.rawValue,
+                                        bottom: Margins.medium.rawValue,
+                                        right: Margins.zero.rawValue)
         return view
     }()
     

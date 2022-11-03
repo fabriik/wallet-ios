@@ -367,7 +367,7 @@ class BaseCoordinator: NSObject,
             notification.alpha = 0
             
             notification.snp.makeConstraints { make in
-                make.top.equalTo(superview.safeAreaLayoutGuide.snp.top).inset(Margins.small.rawValue)
+                make.top.equalTo(superview.safeAreaLayoutGuide.snp.top)
                 make.leading.equalToSuperview().offset(Margins.medium.rawValue)
                 make.centerX.equalToSuperview()
             }
