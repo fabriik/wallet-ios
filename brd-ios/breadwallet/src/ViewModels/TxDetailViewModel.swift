@@ -43,14 +43,13 @@ struct TxDetailViewModel: TxViewModel, Hashable {
             let text = " " + L10n.TransactionDetails.completeTimestampHeader
             let attributedString = NSMutableAttributedString(string: text)
             let icon = NSTextAttachment()
-            icon.image = #imageLiteral(resourceName: "CircleCheckSolid").withRenderingMode(.alwaysTemplate)
+            icon.image = #imageLiteral(resourceName: "CircleCheckSolid").withRenderingMode(.alwaysTemplate).tinted(with: LightColors.Success.one)
             icon.bounds = CGRect(x: 0, y: -2.0, width: 14.0, height: 14.0)
-            let iconString = NSMutableAttributedString(string: L10n.Symbols.narrowSpace) // space required before an attachment to apply template color (UIKit bug)
-            iconString.append(NSAttributedString(attachment: icon))
+            let iconString = NSAttributedString(attachment: icon)
             attributedString.insert(iconString, at: 0)
-            attributedString.addAttributes([.foregroundColor: UIColor.receivedGreen,
-                                            .font: UIFont.customBody(size: 0.0)],
-                                           range: NSRange(location: 0, length: iconString.length))
+            attributedString.addAttributes([.foregroundColor: LightColors.Text.two,
+                                            .font: Fonts.Body.two],
+                                           range: NSRange(location: iconString.length - 1, length: attributedString.length))
             return attributedString
         } else {
             return NSAttributedString(string: L10n.TransactionDetails.initializedTimestampHeader)
