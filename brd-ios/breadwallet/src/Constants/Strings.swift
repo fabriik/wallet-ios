@@ -53,8 +53,6 @@ internal enum L10n {
     internal static let accountLimits = L10n.tr("Localizable", "Account.AccountLimits", fallback: "Account limits")
     /// Account Verification screen title
     internal static let accountVerification = L10n.tr("Localizable", "Account.AccountVerification", fallback: "Account Verification")
-    /// Verify your account label on profile screen
-    internal static let accountVerify = L10n.tr("Localizable", "Account.AccountVerify", fallback: "Verify your account")
     /// Account balance
     internal static let balance = L10n.tr("Localizable", "Account.balance", fallback: "Your balance")
     /// Before confirm photo label in create account screen
@@ -63,8 +61,8 @@ internal enum L10n {
     internal static let changeEmail = L10n.tr("Localizable", "Account.ChangeEmail", fallback: "Change your email")
     /// Country title label in select countries view
     internal static let country = L10n.tr("Localizable", "Account.Country", fallback: "Country")
-    /// Create a Fabriik account by entering your email address label in registration flow
-    internal static let createAccount = L10n.tr("Localizable", "Account.CreateAccount", fallback: "Create a Fabriik account by entering your email address.")
+    /// Create a RockWallet account by entering your email address label in registration flow
+    internal static let createAccount = L10n.tr("Localizable", "Account.CreateAccount", fallback: "Create a RockWallet account by entering your email address.")
     /// Current limit per day label in profile screen
     internal static let currentLimit = L10n.tr("Localizable", "Account.CurrentLimit", fallback: "Current limit: $1,000/day")
     /// Issues for processing your data label on profile screen
@@ -77,13 +75,11 @@ internal enum L10n {
     internal static let deleteAccount = L10n.tr("Localizable", "Account.DeleteAccount", fallback: "Delete account")
     /// Delisted token alert banner message
     internal static let delistedToken = L10n.tr("Localizable", "Account.delistedToken", fallback: "This token has been delisted. \n\nYou may still be able to send these tokens to another platform. For more details, visit our support page.")
-    /// Document confirmation label for KYC2
-    internal static let documentConfirmation = L10n.tr("Localizable", "Account.DocumentConfirmation", fallback: "Make sure document details are clearly visible and within the frame")
     /// $10000 per BTC
     internal static func exchangeRate(_ p1: Any, _ p2: Any) -> String {
       return L10n.tr("Localizable", "Account.exchangeRate", String(describing: p1), String(describing: p2), fallback: "%1$@ per %2$@")
     }
-    /// Get full access for the Fabriik wallet label on profile screen
+    /// Get full access for the RockWallet wallet label on profile screen
     internal static let fullAccess = L10n.tr("Localizable", "Account.FullAccess", fallback: "Get full access to your RockWallet!")
     /// ID Verification title on account screen
     internal static let idVerification = L10n.tr("Localizable", "Account.IDVerification", fallback: "ID Verification")
@@ -111,6 +107,8 @@ internal enum L10n {
     internal static let swapAndBuyLimit = L10n.tr("Localizable", "Account.SwapAndBuyLimit", fallback: "Swap limit: $10,000 USD/day\nBuy limit: $500 USD/day")
     /// Upgrade your limits label in profile screen
     internal static let upgradeLimits = L10n.tr("Localizable", "Account.UpgradeLimits", fallback: "Upgrade your limits")
+    /// You need to upgrade your verification status before you can buy or swap assets.
+    internal static let upgradeVerificationIdentity = L10n.tr("Localizable", "Account.UpgradeVerificationIdentity", fallback: "You need to upgrade your verification status before you can buy or swap assets.")
     /// You need to be at least 18 years old to complete Level 1 verification label in verify account
     internal static let verification = L10n.tr("Localizable", "Account.Verification", fallback: "You need to be at least 18 years old to complete Level 1 verification")
     /// Why is the verification declined label in profile screen
@@ -122,7 +120,7 @@ internal enum L10n {
     /// Verify account text in popup
     internal static let verifyAccountText = L10n.tr("Localizable", "Account.VerifyAccountText", fallback: "If you verify your account, you are given access to:\n・Unlimited deposits/withdrawals\n・Enhanced security\n・Full asset support\n・Buy assets with credit card\n・24/7/365 live customer support")
     /// Enter and verify your email address for your account label in registration flow
-    internal static let verifyEmail = L10n.tr("Localizable", "Account.VerifyEmail", fallback: "Enter and verify your new email address for your Fabriik account.")
+    internal static let verifyEmail = L10n.tr("Localizable", "Account.VerifyEmail", fallback: "Enter and verify your new email address for your RockWallet account.")
     /// We need to verify your identity before you can buy or swap assets.
     internal static let verifyIdentity = L10n.tr("Localizable", "Account.VerifyIdentity", fallback: "We need to verify your identity before you can buy or swap assets.")
     /// Verify personal information text explanation
@@ -168,11 +166,11 @@ internal enum L10n {
     /// Popup text when the account is deleted
     internal static let accountDeletedPopup = L10n.tr("Localizable", "AccountDelete.AccountDeletedPopup", fallback: "Your account has been deleted.\nWe are sorry to see you go.")
     /// Delete account title
-    internal static let deleteAccountTitle = L10n.tr("Localizable", "AccountDelete.DeleteAccountTitle", fallback: "You are about to delete your Fabriik account.")
+    internal static let deleteAccountTitle = L10n.tr("Localizable", "AccountDelete.DeleteAccountTitle", fallback: "You are about to delete your RockWallet account.")
     /// Delete account explanation title
     internal static let deleteWhatMean = L10n.tr("Localizable", "AccountDelete.DeleteWhatMean", fallback: "What does this mean?")
     /// Delete account explanation part one
-    internal static let explanationOne = L10n.tr("Localizable", "AccountDelete.ExplanationOne", fallback: "-You will no longer be able to use your email to sign in into Fabriik Wallet")
+    internal static let explanationOne = L10n.tr("Localizable", "AccountDelete.ExplanationOne", fallback: "-You will no longer be able to use your email to sign in into RockWallet Wallet")
     /// Delete account explanation part three
     internal static let explanationThree = L10n.tr("Localizable", "AccountDelete.ExplanationThree", fallback: "-Your private keys are still yours, keep your security phrase in a safe place in case you need to restore your wallet.")
     /// Delete account explanation part two
@@ -192,7 +190,7 @@ internal enum L10n {
   }
   internal enum AccountKYCLevelTwo {
     /// Back page of the document text instructions for KYC2
-    internal static let backPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.BackPageInstructions", fallback: "You have captured the entire back page of the document")
+    internal static let backPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.BackPageInstructions", fallback: "Make sure document details are clearly visible and within the frame")
     /// Before start label
     internal static let beforeStart = L10n.tr("Localizable", "AccountKYCLevelTwo.BeforeStart", fallback: "Before you start, please:")
     /// Buy limits on KYC2 account
@@ -208,23 +206,23 @@ internal enum L10n {
     /// Confirm ID label in KYC2 flow
     internal static let confirmID = L10n.tr("Localizable", "AccountKYCLevelTwo.ConfirmID", fallback: "We need to confirm your ID")
     /// Document confirmation label for KYC2
-    internal static let documentConfirmation = L10n.tr("Localizable", "AccountKYCLevelTwo.DocumentConfirmation", fallback: "You have captured the entire document")
+    internal static let documentConfirmation = L10n.tr("Localizable", "AccountKYCLevelTwo.DocumentConfirmation", fallback: "Make sure document details are clearly visible and within the frame")
     /// Documents review label in KYC2
     internal static let documentsReview = L10n.tr("Localizable", "AccountKYCLevelTwo.DocumentsReview", fallback: "We are reviewing your documents and will let you know when your account has been verified.")
     /// Driver’s license
     internal static let drivingLicence = L10n.tr("Localizable", "AccountKYCLevelTwo.DrivingLicence", fallback: "Driver’s license")
     /// Face capture instructions text on documents for KYC2
-    internal static let faceCaptureInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceCaptureInstructions", fallback: "You have captured your entire face in the frame.")
+    internal static let faceCaptureInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceCaptureInstructions", fallback: "Make sure you have captured your entire face in the frame.")
     /// Face is in the frame text for document on KYC2
     internal static let faceVisible = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceVisible", fallback: "Make sure your face is in the frame and clearly visible")
     /// Face is clearly visible confirmation text for documents on KYC2
-    internal static let faceVisibleConfirmation = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceVisibleConfirmation", fallback: "Your face is clearly visible.")
+    internal static let faceVisibleConfirmation = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceVisibleConfirmation", fallback: "Make sure your face is clearly visible.")
     /// Front page of the document instructions text for KYC2
-    internal static let frontPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FrontPageInstructions", fallback: "You have captured the entire front page of the document")
+    internal static let frontPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FrontPageInstructions", fallback: "Make sure document details are clearly visible and within the frame")
     /// KYC Level Two status
     internal static let inProgress = L10n.tr("Localizable", "AccountKYCLevelTwo.InProgress", fallback: "Your ID verification is in progress")
     /// Document instructions label for KYC2
-    internal static let instructions = L10n.tr("Localizable", "AccountKYCLevelTwo.Instructions", fallback: "Make sure to capture the entire document.")
+    internal static let instructions = L10n.tr("Localizable", "AccountKYCLevelTwo.Instructions", fallback: "Make sure document details are clearly visible and within the frame")
     /// Level two title in Account screen
     internal static let levelTwo = L10n.tr("Localizable", "AccountKYCLevelTwo.LevelTwo", fallback: "Level 2")
     /// Swap limits on KYC2 account
@@ -301,18 +299,18 @@ internal enum L10n {
     internal enum Keystore {
       internal enum Generic {
         /// Keystore error
-        internal static let android = L10n.tr("Localizable", "Alert.keystore.generic.android", fallback: "There is a problem with your Android OS keystore, please contact support@fabriik.com")
+        internal static let android = L10n.tr("Localizable", "Alert.keystore.generic.android", fallback: "There is a problem with your Android OS keystore, please contact hello@rockwallet.com")
       }
       internal enum Invalidated {
         /// KeyStore error, keys are invalidated
-        internal static let android = L10n.tr("Localizable", "Alert.keystore.invalidated.android", fallback: "Your Fabriik encrypted data was recently invalidated because your Android lock screen was disabled.")
+        internal static let android = L10n.tr("Localizable", "Alert.keystore.invalidated.android", fallback: "Your RockWallet encrypted data was recently invalidated because your Android lock screen was disabled.")
         internal enum Uninstall {
           /// Warn user key store data has been invalidate because the user changed their security settings. The user must uninstall.
-          internal static let android = L10n.tr("Localizable", "Alert.keystore.invalidated.uninstall.android", fallback: "We can't proceed because your screen lock settings have been changed (e.g. password was disabled, fingerprints were changed). For security purposes, Android has permanently locked your key store. Therefore, your Fabriik app data must be wiped by uninstalling.\n\nDon’t worry, your funds are still secure! Reinstall the app and recover your wallet using your recovery phrase.")
+          internal static let android = L10n.tr("Localizable", "Alert.keystore.invalidated.uninstall.android", fallback: "We can't proceed because your screen lock settings have been changed (e.g. password was disabled, fingerprints were changed). For security purposes, Android has permanently locked your key store. Therefore, your RockWallet app data must be wiped by uninstalling.\n\nDon’t worry, your funds are still secure! Reinstall the app and recover your wallet using your recovery phrase.")
         }
         internal enum Wipe {
           /// Warn user key store data has been invalidate because the user changed their security settings. The user must wipe their app data.
-          internal static let android = L10n.tr("Localizable", "Alert.keystore.invalidated.wipe.android", fallback: "We can't proceed because your screen lock settings have been changed (e.g. password was disabled, fingerprints were changed). For security purposes, Android has permanently locked your key store. Therefore, your Fabriik app data must be wiped.\n\nDon’t worry, your funds are still secure! Recover your wallet using your recovery phrase.")
+          internal static let android = L10n.tr("Localizable", "Alert.keystore.invalidated.wipe.android", fallback: "We can't proceed because your screen lock settings have been changed (e.g. password was disabled, fingerprints were changed). For security purposes, Android has permanently locked your key store. Therefore, your RockWallet app data must be wiped.\n\nDon’t worry, your funds are still secure! Recover your wallet using your recovery phrase.")
         }
       }
       internal enum Title {
@@ -355,9 +353,9 @@ internal enum L10n {
   }
   internal enum Android {
     /// Tell the user where they can enable permissions to access device storage.
-    internal static let allowFileSystemAccess = L10n.tr("Localizable", "Android.allowFileSystemAccess", fallback: "Please enable storage permissions in your device settings: \"Settings\" > \"Apps\" > \"Fabriik\" > \"Permissions\".")
+    internal static let allowFileSystemAccess = L10n.tr("Localizable", "Android.allowFileSystemAccess", fallback: "Please enable storage permissions in your device settings: \"Settings\" > \"Apps\" > \"RockWallet\" > \"Permissions\".")
     /// Warning about using apps that can alter the screen
-    internal static let screenAlteringMessage = L10n.tr("Localizable", "Android.screenAlteringMessage", fallback: "We've detected an app that is incompatible with Fabriik running on your device. For security reasons, please disable any screen altering or light filtering apps to proceed.")
+    internal static let screenAlteringMessage = L10n.tr("Localizable", "Android.screenAlteringMessage", fallback: "We've detected an app that is incompatible with RockWallet running on your device. For security reasons, please disable any screen altering or light filtering apps to proceed.")
     /// An app that alters the screen ("screen-altering app") has been detected.
     internal static let screenAlteringTitle = L10n.tr("Localizable", "Android.screenAlteringTitle", fallback: "Screen Altering App Detected")
     internal enum Bch {
@@ -476,6 +474,8 @@ internal enum L10n {
     internal static let skip = L10n.tr("Localizable", "Button.skip", fallback: "Skip")
     /// Settings button label
     internal static let submit = L10n.tr("Localizable", "Button.submit", fallback: "Submit")
+    /// Verify
+    internal static let verify = L10n.tr("Localizable", "Button.Verify", fallback: "Verify")
     /// Yes button
     internal static let yes = L10n.tr("Localizable", "Button.yes", fallback: "Yes")
     internal enum ContactSupport {
@@ -894,7 +894,7 @@ internal enum L10n {
     }
     internal enum LoopingLockScreen {
       /// Message that gets shown when we've detected the user has encountered the looping lock-screen bug. (preserve [ ] characters)
-      internal static let android = L10n.tr("Localizable", "ErrorMessages.loopingLockScreen.android", fallback: "Fabriik can not be authenticated due to a bug in your version of Android. [Please tap here for more information.]")
+      internal static let android = L10n.tr("Localizable", "ErrorMessages.loopingLockScreen.android", fallback: "RockWallet can not be authenticated due to a bug in your version of Android. [Please tap here for more information.]")
     }
     internal enum TouchIdFailed {
       /// Fingerprint was not recognized by the scanner, please try scanning again
@@ -929,13 +929,13 @@ internal enum L10n {
       return L10n.tr("Localizable", "FaceIDSettings.customizeText", String(describing: p1), fallback: "You can customize your Face ID spending limit from the %1$@.")
     }
     /// Text describing the purpose of the Face ID settings in the BRD app.
-    internal static let explanatoryText = L10n.tr("Localizable", "FaceIDSettings.explanatoryText", fallback: "Use Face ID to unlock your Fabriik app and send money.")
+    internal static let explanatoryText = L10n.tr("Localizable", "FaceIDSettings.explanatoryText", fallback: "Use Face ID to unlock your RockWallet app and send money.")
     /// Face Id screen label
-    internal static let label = L10n.tr("Localizable", "FaceIDSettings.label", fallback: "Use your face to unlock your Fabriik and send money up to a set limit.")
+    internal static let label = L10n.tr("Localizable", "FaceIDSettings.label", fallback: "Use your face to unlock your RockWallet and send money up to a set limit.")
     /// Title of the screen for setting the Face ID Spending Limit
     internal static let linkText = L10n.tr("Localizable", "FaceIDSettings.linkText", fallback: "Face ID Spending Limit Screen")
     /// Setting to turn on Face ID for BRD
-    internal static let switchLabel = L10n.tr("Localizable", "FaceIDSettings.switchLabel", fallback: "Enable Face ID for Fabriik")
+    internal static let switchLabel = L10n.tr("Localizable", "FaceIDSettings.switchLabel", fallback: "Enable Face ID for RockWallet")
     /// Face ID settings view title
     internal static let title = L10n.tr("Localizable", "FaceIDSettings.title", fallback: "Face ID")
     /// Text label for a toggle that enables Face ID for sending money.
@@ -945,7 +945,7 @@ internal enum L10n {
     /// Face ID unavailable alert title
     internal static let unavailableAlertTitle = L10n.tr("Localizable", "FaceIDSettings.unavailableAlertTitle", fallback: "Face ID Not Set Up")
     /// Text label for a toggle that enables Face ID for unlocking the BRD app.
-    internal static let unlockTitleText = L10n.tr("Localizable", "FaceIDSettings.unlockTitleText", fallback: "Enable Face ID to unlock Fabriik")
+    internal static let unlockTitleText = L10n.tr("Localizable", "FaceIDSettings.unlockTitleText", fallback: "Enable Face ID to unlock RockWallet")
   }
   internal enum FaceIDSpendingLimit {
     /// Face Id spending limit screen title
@@ -987,13 +987,13 @@ internal enum L10n {
   }
   internal enum FingerprintSettings {
     /// Fingerprint authentication settings screen description
-    internal static let description = L10n.tr("Localizable", "FingerprintSettings.description", fallback: "Use your fingerprint to unlock your Fabriik app and send transactions.")
+    internal static let description = L10n.tr("Localizable", "FingerprintSettings.description", fallback: "Use your fingerprint to unlock your RockWallet app and send transactions.")
     /// Switch label to enable fingerprint authentication to send money
     internal static let sendMoney = L10n.tr("Localizable", "FingerprintSettings.sendMoney", fallback: "Use fingerprint to send money")
     /// Fingerprint authentication settings sceen title
     internal static let title = L10n.tr("Localizable", "FingerprintSettings.title", fallback: "Fingerprint")
     /// Switch label to enable fingerprint authentication to unlock BRD app
-    internal static let unlockApp = L10n.tr("Localizable", "FingerprintSettings.unlockApp", fallback: "Use fingerprint to unlock Fabriik")
+    internal static let unlockApp = L10n.tr("Localizable", "FingerprintSettings.unlockApp", fallback: "Use fingerprint to unlock RockWallet")
   }
   internal enum HomeScreen {
     /// Activity button on the home screen toolbar
@@ -1029,13 +1029,13 @@ internal enum L10n {
     /// Caption for graphics
     internal static let leftCaption = L10n.tr("Localizable", "Import.leftCaption", fallback: "Wallet to be imported")
     /// Import wallet intro screen message
-    internal static let message = L10n.tr("Localizable", "Import.message", fallback: "Importing a wallet transfers all the money from your other wallet into your Fabriik wallet using a single transaction.")
+    internal static let message = L10n.tr("Localizable", "Import.message", fallback: "Importing a wallet transfers all the money from your other wallet into your RockWallet wallet using a single transaction.")
     /// Enter password alert view title
     internal static let password = L10n.tr("Localizable", "Import.password", fallback: "This private key is password protected.")
     /// password textfield placeholder
     internal static let passwordPlaceholder = L10n.tr("Localizable", "Import.passwordPlaceholder", fallback: "password")
     /// Caption for graphics
-    internal static let rightCaption = L10n.tr("Localizable", "Import.rightCaption", fallback: "Your Fabriik Wallet")
+    internal static let rightCaption = L10n.tr("Localizable", "Import.rightCaption", fallback: "Your RockWallet Wallet")
     /// Scan Private key button label
     internal static let scan = L10n.tr("Localizable", "Import.scan", fallback: "Scan Private Key")
     /// Import wallet success alert title
@@ -1083,9 +1083,9 @@ internal enum L10n {
     /// Ignore jailbreak warning button
     internal static let ignore = L10n.tr("Localizable", "JailbreakWarnings.ignore", fallback: "Ignore")
     /// Jailbreak warning message
-    internal static let messageWithBalance = L10n.tr("Localizable", "JailbreakWarnings.messageWithBalance", fallback: "DEVICE SECURITY COMPROMISED\n Any 'jailbreak' app can access Fabriik's keychain data and steal your bitcoin! Wipe this wallet immediately and restore on a secure device.")
+    internal static let messageWithBalance = L10n.tr("Localizable", "JailbreakWarnings.messageWithBalance", fallback: "DEVICE SECURITY COMPROMISED\n Any 'jailbreak' app can access RockWallet's keychain data and steal your bitcoin! Wipe this wallet immediately and restore on a secure device.")
     /// Jailbreak warning message
-    internal static let messageWithoutBalance = L10n.tr("Localizable", "JailbreakWarnings.messageWithoutBalance", fallback: "DEVICE SECURITY COMPROMISED\n Any 'jailbreak' app can access Fabriik's keychain data and steal your bitcoin. Please only use Fabriik on a non-jailbroken device.")
+    internal static let messageWithoutBalance = L10n.tr("Localizable", "JailbreakWarnings.messageWithoutBalance", fallback: "DEVICE SECURITY COMPROMISED\n Any 'jailbreak' app can access RockWallet's keychain data and steal your bitcoin. Please only use RockWallet on a non-jailbroken device.")
     /// Jailbreak warning title
     internal static let title = L10n.tr("Localizable", "JailbreakWarnings.title", fallback: "WARNING")
     /// Wipe wallet button
@@ -1111,7 +1111,7 @@ internal enum L10n {
     /// Location services disabled error
     internal static let disabled = L10n.tr("Localizable", "LocationPlugin.disabled", fallback: "Location services are disabled.")
     /// No permissions for location services
-    internal static let notAuthorized = L10n.tr("Localizable", "LocationPlugin.notAuthorized", fallback: "Fabriik does not have permission to access location services.")
+    internal static let notAuthorized = L10n.tr("Localizable", "LocationPlugin.notAuthorized", fallback: "RockWallet does not have permission to access location services.")
   }
   internal enum ManageWallet {
     /// Wallet creation date prefix
@@ -1231,7 +1231,7 @@ internal enum L10n {
   }
   internal enum OnboardingPageThree {
     /// Onboarding screen Page 3 subtitle
-    internal static let subtitle = L10n.tr("Localizable", "OnboardingPageThree.subtitle", fallback: "Invest and diversify with Fabriik, easily and securely.")
+    internal static let subtitle = L10n.tr("Localizable", "OnboardingPageThree.subtitle", fallback: "Invest and diversify with RockWallet, easily and securely.")
     /// Onboarding screen Page 3 title
     internal static let title = L10n.tr("Localizable", "OnboardingPageThree.title", fallback: "Buy and swap bitcoin, tokens, and other digital currencies.")
   }
@@ -1239,7 +1239,7 @@ internal enum L10n {
     /// Onboarding screen Page 2 subtitle
     internal static let subtitle = L10n.tr("Localizable", "OnboardingPageTwo.subtitle", fallback: "We have over $6 billion USD worth of assets under protection.")
     /// Onboarding screen Page 2 title
-    internal static let title = L10n.tr("Localizable", "OnboardingPageTwo.title", fallback: "Join people around the world who trust Fabriik.")
+    internal static let title = L10n.tr("Localizable", "OnboardingPageTwo.title", fallback: "Join people around the world who trust RockWallet.")
   }
   internal enum PaymentConfirmation {
     /// Eg. Send 1.0Eth to purchase CCC
@@ -1337,8 +1337,8 @@ internal enum L10n {
       internal static let dontShow = L10n.tr("Localizable", "Prompts.RateApp.dontShow", fallback: "Don't ask again")
       /// Enjoying RockWallet?
       internal static let enjoyingBrd = L10n.tr("Localizable", "Prompts.RateApp.enjoyingBrd", fallback: "Enjoying RockWallet?")
-      /// Your review helps grow the Fabriik community.
-      internal static let googlePlayReview = L10n.tr("Localizable", "Prompts.RateApp.googlePlayReview", fallback: "Your review helps grow the Fabriik community.")
+      /// Your review helps grow the RockWallet community.
+      internal static let googlePlayReview = L10n.tr("Localizable", "Prompts.RateApp.googlePlayReview", fallback: "Your review helps grow the RockWallet community.")
       /// No thanks
       internal static let noThanks = L10n.tr("Localizable", "Prompts.RateApp.noThanks", fallback: "No thanks")
       /// Review us
@@ -1346,13 +1346,13 @@ internal enum L10n {
     }
     internal enum RecommendRescan {
       /// Transaction rejected prompt body
-      internal static let body = L10n.tr("Localizable", "Prompts.RecommendRescan.body", fallback: "Your wallet may be out of sync. This can often be fixed by pulling down this screen to refresh. ")
+      internal static let body = L10n.tr("Localizable", "Prompts.RecommendRescan.body", fallback: "Your wallet may be out of sync. This can often be fixed by pulling down this screen to refresh.")
       /// Transaction rejected prompt title
       internal static let title = L10n.tr("Localizable", "Prompts.RecommendRescan.title", fallback: "Transaction Rejected")
     }
     internal enum ShareData {
       /// Share data prompt body
-      internal static let body = L10n.tr("Localizable", "Prompts.ShareData.body", fallback: "Help improve Fabriik by sharing your anonymous data with us")
+      internal static let body = L10n.tr("Localizable", "Prompts.ShareData.body", fallback: "Help improve RockWallet by sharing your anonymous data with us")
       /// Share data prompt title
       internal static let title = L10n.tr("Localizable", "Prompts.ShareData.title", fallback: "Share Anonymous Data")
     }
@@ -1376,7 +1376,7 @@ internal enum L10n {
     }
     internal enum UpgradePin {
       /// Upgrade PIN prompt body.
-      internal static let body = L10n.tr("Localizable", "Prompts.UpgradePin.body", fallback: "Fabriik has upgraded to using a 6-digit PIN. Tap Continue to upgrade.")
+      internal static let body = L10n.tr("Localizable", "Prompts.UpgradePin.body", fallback: "RockWallet has upgraded to using a 6-digit PIN. Tap Continue to upgrade.")
       /// Upgrade PIN prompt title.
       internal static let title = L10n.tr("Localizable", "Prompts.UpgradePin.title", fallback: "Upgrade PIN")
     }
@@ -1387,11 +1387,11 @@ internal enum L10n {
     /// Push notifications are disabled alert title"
     internal static let disabled = L10n.tr("Localizable", "PushNotifications.disabled", fallback: "Notifications Disabled")
     /// Body text when push notifications are disabled.
-    internal static let disabledBody = L10n.tr("Localizable", "PushNotifications.disabledBody", fallback: "Turn on notifications to receive special offers and updates from Fabriik.")
+    internal static let disabledBody = L10n.tr("Localizable", "PushNotifications.disabledBody", fallback: "Turn on notifications to receive special offers and updates from RockWallet.")
     /// Body text when push notifications are enabled.
-    internal static let enabledBody = L10n.tr("Localizable", "PushNotifications.enabledBody", fallback: "You’re receiving special offers and updates from Fabriik.")
+    internal static let enabledBody = L10n.tr("Localizable", "PushNotifications.enabledBody", fallback: "You’re receiving special offers and updates from RockWallet.")
     /// Instructions to enable push notifications for BRD in the phone's system settings.
-    internal static let enableInstructions = L10n.tr("Localizable", "PushNotifications.enableInstructions", fallback: "Looks like notifications are turned off. Please go to Settings to enable notifications from Fabriik.")
+    internal static let enableInstructions = L10n.tr("Localizable", "PushNotifications.enableInstructions", fallback: "Looks like notifications are turned off. Please go to Settings to enable notifications from RockWallet.")
     /// Push notifications toggle switch label
     internal static let label = L10n.tr("Localizable", "PushNotifications.label", fallback: "Receive Push Notifications")
     /// Push notifications are off label
@@ -1433,7 +1433,7 @@ internal enum L10n {
     /// extimated time
     internal static let body1 = L10n.tr("Localizable", "ReScan.body1", fallback: "20-45 minutes")
     /// Syncing explanation
-    internal static let body2 = L10n.tr("Localizable", "ReScan.body2", fallback: "If a transaction shows as completed on the network but not in your Fabriik.")
+    internal static let body2 = L10n.tr("Localizable", "ReScan.body2", fallback: "If a transaction shows as completed on the network but not in your RockWallet.")
     /// Syncing explanation
     internal static let body3 = L10n.tr("Localizable", "ReScan.body3", fallback: "You repeatedly get an error saying your transaction was rejected.")
     /// Start Sync button label
@@ -1473,7 +1473,7 @@ internal enum L10n {
     /// Enter paper key instruction
     internal static let instruction = L10n.tr("Localizable", "RecoverWallet.instruction", fallback: "Enter Recovery Phrase")
     /// Recover wallet intro
-    internal static let intro = L10n.tr("Localizable", "RecoverWallet.intro", fallback: "Recover your Fabriik with your recovery phrase.")
+    internal static let intro = L10n.tr("Localizable", "RecoverWallet.intro", fallback: "Recover your RockWallet with your recovery phrase.")
     /// Invalid paper key message
     internal static let invalid = L10n.tr("Localizable", "RecoverWallet.invalid", fallback: "The recovery phrase you entered is invalid. Please double-check each word and try again.")
     /// Previous button accessibility label
@@ -1547,7 +1547,7 @@ internal enum L10n {
     /// Title for the success page after the recovery phrase has been set up
     internal static let successHeading = L10n.tr("Localizable", "RecoveryKeyFlow.successHeading", fallback: "Congratulations! You completed your recovery phrase setup.")
     /// Subtitle for the success page after the recovery key has been set up
-    internal static let successSubheading = L10n.tr("Localizable", "RecoveryKeyFlow.successSubheading", fallback: "You're all set to deposit, swap, and buy crypto from your Fabriik wallet.")
+    internal static let successSubheading = L10n.tr("Localizable", "RecoveryKeyFlow.successSubheading", fallback: "You're all set to deposit, swap, and buy crypto from your RockWallet wallet.")
     /// Title displayed to the user on the intro screen when unlinking a wallet
     internal static let unlinkWallet = L10n.tr("Localizable", "RecoveryKeyFlow.unlinkWallet", fallback: "Unlink your wallet from this device.")
     /// Subtitle displayed to the user on the intro screen when unlinking a wallet.
@@ -1581,7 +1581,7 @@ internal enum L10n {
     /// Rewards view expanded body.
     internal static let expandedBody = L10n.tr("Localizable", "RewardsView.expandedBody", fallback: "Learn how you can save on trading fees and unlock future rewards")
     /// Rewards view expanded title.
-    internal static let expandedTitle = L10n.tr("Localizable", "RewardsView.expandedTitle", fallback: "Introducing Fabriik Rewards.")
+    internal static let expandedTitle = L10n.tr("Localizable", "RewardsView.expandedTitle", fallback: "Introducing RockWallet Rewards.")
     /// Rewards view title
     internal static let normalTitle = L10n.tr("Localizable", "RewardsView.normalTitle", fallback: "Rewards")
   }
@@ -1615,11 +1615,11 @@ internal enum L10n {
     /// Recovery Phrase button title. This used to be called 'paper key', so leaving the string key as `paperKeyTitle` in order, * to not break existing client code.
     internal static let paperKeyTitle = L10n.tr("Localizable", "SecurityCenter.paperKeyTitle", fallback: "Recovery Phrase")
     /// PIN button description
-    internal static let pinDescription = L10n.tr("Localizable", "SecurityCenter.pinDescription", fallback: "Protects your Fabriik from unauthorized users.")
+    internal static let pinDescription = L10n.tr("Localizable", "SecurityCenter.pinDescription", fallback: "Protects your RockWallet from unauthorized users.")
     /// PIN button title
     internal static let pinTitle = L10n.tr("Localizable", "SecurityCenter.pinTitle", fallback: "6-Digit PIN")
     /// Touch ID button description
-    internal static let touchIdDescription = L10n.tr("Localizable", "SecurityCenter.touchIdDescription", fallback: "Conveniently unlock your Fabriik and send money up to a set limit.")
+    internal static let touchIdDescription = L10n.tr("Localizable", "SecurityCenter.touchIdDescription", fallback: "Conveniently unlock your RockWallet and send money up to a set limit.")
     /// Touch ID button title
     internal static let touchIdTitle = L10n.tr("Localizable", "SecurityCenter.touchIdTitle", fallback: "Touch ID")
     internal enum PaperKeyTitle {
@@ -1655,7 +1655,7 @@ internal enum L10n {
     /// Camera not allowed message
     internal static let cameraunavailableMessage = L10n.tr("Localizable", "Send.cameraunavailableMessage", fallback: "Go to Settings to allow camera access.")
     /// Camera not allowed alert title
-    internal static let cameraUnavailableTitle = L10n.tr("Localizable", "Send.cameraUnavailableTitle", fallback: "Fabriik is not allowed to access the camera")
+    internal static let cameraUnavailableTitle = L10n.tr("Localizable", "Send.cameraUnavailableTitle", fallback: "RockWallet is not allowed to access the camera")
     /// Warning when sending to self.
     internal static let containsAddress = L10n.tr("Localizable", "Send.containsAddress", fallback: "The destination is your own address. You cannot send to yourself.")
     /// Could not create transaction alert title
@@ -1776,11 +1776,11 @@ internal enum L10n {
     }
     internal enum CameraUnavailabeMessage {
       /// Instructions how to allow the camera access for the app
-      internal static let android = L10n.tr("Localizable", "Send.cameraUnavailabeMessage.android", fallback: "Allow camera access in \"Settings\" > \"Apps\" > \"Fabriik\" > \"Permissions\"")
+      internal static let android = L10n.tr("Localizable", "Send.cameraUnavailabeMessage.android", fallback: "Allow camera access in \"Settings\" > \"Apps\" > \"RockWallet\" > \"Permissions\"")
     }
     internal enum CameraUnavailabeTitle {
       /// Permission required to access camera
-      internal static let android = L10n.tr("Localizable", "Send.cameraUnavailabeTitle.android", fallback: "Fabriik is not allowed to access the camera")
+      internal static let android = L10n.tr("Localizable", "Send.cameraUnavailabeTitle.android", fallback: "RockWallet is not allowed to access the camera")
     }
   }
   internal enum Settings {
@@ -1807,7 +1807,7 @@ internal enum L10n {
     /// Enable segwit.
     internal static let enableSegwit = L10n.tr("Localizable", "Settings.EnableSegwit", fallback: "Enable Segwit")
     /// Are you enjoying bread alert message body
-    internal static let enjoying = L10n.tr("Localizable", "Settings.enjoying", fallback: "Are you enjoying Fabriik?")
+    internal static let enjoying = L10n.tr("Localizable", "Settings.enjoying", fallback: "Are you enjoying RockWallet?")
     /// Export transaction history menu item
     internal static let exportTransfers = L10n.tr("Localizable", "Settings.exportTransfers", fallback: "Export transaction history to CSV")
     /// Face ID spending limit label
@@ -1861,7 +1861,7 @@ internal enum L10n {
   }
   internal enum ShareData {
     /// Share data view body
-    internal static let body = L10n.tr("Localizable", "ShareData.body", fallback: "Help improve Fabriik by sharing your anonymous data with us. This does not include any financial information. We respect your financial privacy.")
+    internal static let body = L10n.tr("Localizable", "ShareData.body", fallback: "Help improve RockWallet by sharing your anonymous data with us. This does not include any financial information. We respect your financial privacy.")
     /// Share data header
     internal static let header = L10n.tr("Localizable", "ShareData.header", fallback: "Share Data?")
     /// Share data switch label.
@@ -1873,9 +1873,9 @@ internal enum L10n {
     /// A network fee will be deducted from the total when claimed.
     /// Actual value depends on current price of bitcoin.
     internal static let footerMessage1 = L10n.tr("Localizable", "ShareGift.footerMessage1", fallback: "A network fee will be deducted from the total when claimed.\nActual value depends on current price of bitcoin.")
-    /// Download the Fabriik app for iPhone or Android.
-    /// For more information visit Fabriik.com/gift
-    internal static let footerMessage2 = L10n.tr("Localizable", "ShareGift.footerMessage2", fallback: "Download the Fabriik app for iPhone or Android.\nFor more information visit Fabriik.com/gift")
+    /// Download the RockWallet app for iPhone or Android.
+    /// For more information visit RockWallet.com/gift
+    internal static let footerMessage2 = L10n.tr("Localizable", "ShareGift.footerMessage2", fallback: "Download the RockWallet app for iPhone or Android.\nFor more information visit RockWallet.com/gift")
     /// Someone gifted you bitcoin!
     internal static let tagLine = L10n.tr("Localizable", "ShareGift.tagLine", fallback: "Someone gifted you bitcoin!")
     /// Bitcoin
@@ -1939,7 +1939,7 @@ internal enum L10n {
     /// button label
     internal static let againButtonTitle = L10n.tr("Localizable", "StartPaperPhrase.againButtonTitle", fallback: "Write Down Recovery Phrase Again")
     /// Paper key explanation text.
-    internal static let body = L10n.tr("Localizable", "StartPaperPhrase.body", fallback: "Your recovery phrase is the only way to restore your Fabriik if your phone is lost, stolen, broken, or upgraded.\n\nWe will show you a list of words to write down on a piece of paper and keep safe.")
+    internal static let body = L10n.tr("Localizable", "StartPaperPhrase.body", fallback: "Your recovery phrase is the only way to restore your RockWallet if your phone is lost, stolen, broken, or upgraded.\n\nWe will show you a list of words to write down on a piece of paper and keep safe.")
     /// button label
     internal static let buttonTitle = L10n.tr("Localizable", "StartPaperPhrase.buttonTitle", fallback: "Write Down Recovery Phrase")
     /// Argument is date; date should be on a new line
@@ -1948,7 +1948,7 @@ internal enum L10n {
     }
     internal enum Body {
       /// Paper key explanation text (Android-version)
-      internal static let android = L10n.tr("Localizable", "StartPaperPhrase.Body.Android", fallback: "Your recovery phrase is the only way to restore your Fabriik if your phone is lost, stolen, broken, or upgraded.\n\nYour recovery phrase is also required if you change the security settings on your device.\n\nWe will show you a list of words to write down on a piece of paper and keep safe.")
+      internal static let android = L10n.tr("Localizable", "StartPaperPhrase.Body.Android", fallback: "Your recovery phrase is the only way to restore your RockWallet if your phone is lost, stolen, broken, or upgraded.\n\nYour recovery phrase is also required if you change the security settings on your device.\n\nWe will show you a list of words to write down on a piece of paper and keep safe.")
     }
   }
   internal enum StartViewController {
@@ -2049,7 +2049,7 @@ internal enum L10n {
       return L10n.tr("Localizable", "Swap.transactionFrom", String(describing: p1), fallback: "From %1$@")
     }
     /// Transaction ID label in swap details screen
-    internal static let transactionID = L10n.tr("Localizable", "Swap.TransactionID", fallback: "Fabriik Transaction ID")
+    internal static let transactionID = L10n.tr("Localizable", "Swap.TransactionID", fallback: "RockWallet Transaction ID")
     /// It seems that your transaction takes place in the Ethereum network, please keep in mind that network fees will be charged in ETH
     internal static let transactionInEthereumNetwork = L10n.tr("Localizable", "Swap.transactionInEthereumNetwork", fallback: "It seems that your transaction takes place in the Ethereum network, please keep in mind that network fees will be charged in ETH")
     /// To %1$@
@@ -2139,9 +2139,9 @@ internal enum L10n {
       return L10n.tr("Localizable", "TouchIdSettings.customizeText", String(describing: p1), fallback: "You can customize your Touch ID spending limit from the %1$@.")
     }
     /// Text that describes the purpose of the Touch ID settings in the BRD app.
-    internal static let explanatoryText = L10n.tr("Localizable", "TouchIdSettings.explanatoryText", fallback: "Use Touch ID to unlock your Fabriik app and send money.")
+    internal static let explanatoryText = L10n.tr("Localizable", "TouchIdSettings.explanatoryText", fallback: "Use Touch ID to unlock your RockWallet app and send money.")
     /// Touch Id screen label
-    internal static let label = L10n.tr("Localizable", "TouchIdSettings.label", fallback: "Use your fingerprint to unlock your Fabriik and send money up to a set limit.")
+    internal static let label = L10n.tr("Localizable", "TouchIdSettings.label", fallback: "Use your fingerprint to unlock your RockWallet and send money up to a set limit.")
     /// Link Text (see TouchIdSettings.customizeText)
     internal static let linkText = L10n.tr("Localizable", "TouchIdSettings.linkText", fallback: "Touch ID Spending Limit Screen")
     /// Spending Limit: b100,000 ($100)
@@ -2149,7 +2149,7 @@ internal enum L10n {
       return L10n.tr("Localizable", "TouchIdSettings.spendingLimit", String(describing: p1), String(describing: p2), fallback: "Spending limit: %1$@ (%2$@)")
     }
     /// Touch id switch label.
-    internal static let switchLabel = L10n.tr("Localizable", "TouchIdSettings.switchLabel", fallback: "Enable Touch ID for Fabriik")
+    internal static let switchLabel = L10n.tr("Localizable", "TouchIdSettings.switchLabel", fallback: "Enable Touch ID for RockWallet")
     /// Touch ID settings view title
     internal static let title = L10n.tr("Localizable", "TouchIdSettings.title", fallback: "Touch ID")
     /// Text label for a toggle that enables Touch ID for sending money.
@@ -2159,7 +2159,7 @@ internal enum L10n {
     /// Touch ID unavailable alert title
     internal static let unavailableAlertTitle = L10n.tr("Localizable", "TouchIdSettings.unavailableAlertTitle", fallback: "Touch ID Not Set Up")
     /// Text label for the toggle that enables Touch ID for unlocking the BRD app.
-    internal static let unlockTitleText = L10n.tr("Localizable", "TouchIdSettings.unlockTitleText", fallback: "Enable Touch ID to unlock Fabriik")
+    internal static let unlockTitleText = L10n.tr("Localizable", "TouchIdSettings.unlockTitleText", fallback: "Enable Touch ID to unlock RockWallet")
     internal enum CustomizeText {
       /// Fingerprint enabling description body
       internal static let android = L10n.tr("Localizable", "TouchIdSettings.customizeText.android", fallback: "You can customize your Fingerprint Authentication Spending Limit from the Fingerprint Authorization Spending Limit screen")
@@ -2467,7 +2467,7 @@ internal enum L10n {
     /// Scan button title
     internal static let scan = L10n.tr("Localizable", "UnlockScreen.scan", fallback: "Scan")
     /// TouchID prompt text
-    internal static let touchIdPrompt = L10n.tr("Localizable", "UnlockScreen.touchIdPrompt", fallback: "Unlock your Fabriik.")
+    internal static let touchIdPrompt = L10n.tr("Localizable", "UnlockScreen.touchIdPrompt", fallback: "Unlock your RockWallet.")
     /// Unlock with TouchID accessibility label
     internal static let touchIdText = L10n.tr("Localizable", "UnlockScreen.touchIdText", fallback: "Unlock with TouchID")
     /// Wallet disabled header
@@ -2531,7 +2531,7 @@ internal enum L10n {
     /// Number of attempts left on pin entry screen
     internal static let twoAttempts = L10n.tr("Localizable", "UpdatePin.TwoAttempts", fallback: "2 more failed attempts.")
     /// Update pin popup explanation when pressing "?" button
-    internal static let updatePinPopup = L10n.tr("Localizable", "UpdatePin.UpdatePinPopup", fallback: "The Fabriik Wallet app requires you to set a PIN to secure your wallet, separate from your device passcode.  \n\nYou will be required to enter the PIN to view your balance or send money, which keeps your wallet private even if you let someone use your phone or if your phone is stolen by someone who knows your device passcode.\n            \nDo not forget your wallet PIN! It can only be reset by using your Recovery Phrase. If you forget your PIN and lose your Recovery Phrase, your wallet will be lost.")
+    internal static let updatePinPopup = L10n.tr("Localizable", "UpdatePin.UpdatePinPopup", fallback: "The RockWallet Wallet app requires you to set a PIN to secure your wallet, separate from your device passcode.  \n\nYou will be required to enter the PIN to view your balance or send money, which keeps your wallet private even if you let someone use your phone or if your phone is stolen by someone who knows your device passcode.\n            \nDo not forget your wallet PIN! It can only be reset by using your Recovery Phrase. If you forget your PIN and lose your Recovery Phrase, your wallet will be lost.")
     /// Update PIN title
     internal static let updateTitle = L10n.tr("Localizable", "UpdatePin.updateTitle", fallback: "Update PIN")
     /// Why do I need a PIN title explanation popup
@@ -2552,10 +2552,6 @@ internal enum L10n {
   internal enum VerifyAccount {
     /// Verify
     internal static let button = L10n.tr("Localizable", "VerifyAccount.Button", fallback: "Verify")
-    /// We need to verify your identity before you can buy or swap assets.
-    internal static let subtitle = L10n.tr("Localizable", "VerifyAccount.Subtitle", fallback: "We need to verify your identity before you can buy or swap assets.")
-    /// Verify your account to get full access to your RockWallet!
-    internal static let title = L10n.tr("Localizable", "VerifyAccount.Title", fallback: "Verify your account to get full access to your RockWallet!")
   }
   internal enum VerifyPin {
     /// Verify PIN for transaction view body
@@ -2609,7 +2605,7 @@ internal enum L10n {
   }
   internal enum Watch {
     /// 'No wallet' warning for watch app
-    internal static let noWalletWarning = L10n.tr("Localizable", "Watch.noWalletWarning", fallback: "Open the Fabriik iPhone app to set up your wallet.")
+    internal static let noWalletWarning = L10n.tr("Localizable", "Watch.noWalletWarning", fallback: "Open the RockWallet iPhone app to set up your wallet.")
   }
   internal enum Webview {
     /// Dismiss button label
@@ -2621,9 +2617,9 @@ internal enum L10n {
   }
   internal enum Welcome {
     /// Welcome screen text. (?) will be replaced with the help icon users should look for.
-    internal static let body = L10n.tr("Localizable", "Welcome.body", fallback: "Breadwallet has changed its name to Fabriik, with a brand new look and some new features.\n\nIf you need help, look for the (?) in the top right of most screens.")
+    internal static let body = L10n.tr("Localizable", "Welcome.body", fallback: "Breadwallet has changed its name to RockWallet, with a brand new look and some new features.\n\nIf you need help, look for the (?) in the top right of most screens.")
     /// Top title of welcome screen
-    internal static let title = L10n.tr("Localizable", "Welcome.title", fallback: "Welcome to Fabriik!")
+    internal static let title = L10n.tr("Localizable", "Welcome.title", fallback: "Welcome to RockWallet!")
   }
   internal enum Widget {
     /// Single asset widget description
@@ -2701,7 +2697,7 @@ internal enum L10n {
     /// Enter phrase to wipe wallet instruction. (Important to explain it is the CURRENT [this wallet's] paper key that needs to be entered).
     internal static let instruction = L10n.tr("Localizable", "WipeWallet.instruction", fallback: "Please enter your recovery phrase to wipe this wallet from your device.")
     /// Instructions for unlinking the wallet
-    internal static let startMessage = L10n.tr("Localizable", "WipeWallet.startMessage", fallback: "Starting or recovering another wallet allows you to access and manage a different Fabriik wallet on this device.")
+    internal static let startMessage = L10n.tr("Localizable", "WipeWallet.startMessage", fallback: "Starting or recovering another wallet allows you to access and manage a different RockWallet wallet on this device.")
     /// Start wipe wallet view warning
     internal static let startWarning = L10n.tr("Localizable", "WipeWallet.startWarning", fallback: "Your current wallet will be removed from this device. If you wish to restore it in the future, you will need to enter your Recovery Phrase.")
     /// Unlink this wallet from this device.

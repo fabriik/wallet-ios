@@ -10,6 +10,7 @@ class VerifyAccountStore: NSObject, BaseDataStore, VerifyAccountDataStore {
     // MARK: - VerifyAccountDataStore
     
     var coverImageName: String?
+    var subtitleMessage: String?
     
     // MARK: - Aditional helpers
 }

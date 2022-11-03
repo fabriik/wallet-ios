@@ -31,19 +31,24 @@ class KYCCoordinator: BaseCoordinator,
                 guard let role = self?.role else { return }
                 
                 let coverImageName: String
+                let subtitleMessage: String
                 
                 switch role {
                 case .kyc1:
                     coverImageName = "il_setup"
+                    subtitleMessage = L10n.Account.verifyIdentity
                     
                 case .kyc2:
                     coverImageName = "verification"
+                    subtitleMessage = L10n.Account.upgradeVerificationIdentity
                     
                 default:
                     coverImageName = ""
+                    subtitleMessage = ""
                 }
                 
                 vc.dataStore?.coverImageName = coverImageName
+                vc.dataStore?.subtitleMessage = subtitleMessage
             }
         }
     }

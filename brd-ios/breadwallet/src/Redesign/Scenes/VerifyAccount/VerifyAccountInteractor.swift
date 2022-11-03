@@ -5,11 +5,6 @@
 import UIKit
 
 class VerifyAccountInteractor: NSObject, Interactor, VerifyAccountViewActions {
-    
-    func getData(viewAction: FetchModels.Get.ViewAction) {
-        presenter?.presentData(actionResponse: .init(item: dataStore?.coverImageName))
-    }
-    
     typealias Models = VerifyAccountModels
 
     var presenter: VerifyAccountPresenter?
@@ -17,5 +12,10 @@ class VerifyAccountInteractor: NSObject, Interactor, VerifyAccountViewActions {
 
     // MARK: - VerifyAccountViewActions
 
+    func getData(viewAction: FetchModels.Get.ViewAction) {
+        presenter?.presentData(actionResponse: .init(item: Models.Item(coverImageName: dataStore?.coverImageName,
+                                                                       subtitleMessage: dataStore?.subtitleMessage)))
+    }
+    
     // MARK: - Aditional helpers
 }
