@@ -41,8 +41,7 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             
         case is HomeScreenViewController,
             is OnboardingViewController,
-            is ProfileViewController,
-            is ItemSelectionViewController:
+            is ProfileViewController:
             backgroundColor = .clear
             tintColor = LightColors.Background.two
             
@@ -62,7 +61,8 @@ class RootNavigationController: UINavigationController, UINavigationControllerDe
             is VerifyAccountViewController,
             is SwapInfoViewController,
             is OrderPreviewViewController,
-            is BaseInfoViewController:
+            is BaseInfoViewController,
+            is ItemSelectionViewController:
             backgroundColor = LightColors.Background.two
             tintColor = LightColors.Text.three
             
