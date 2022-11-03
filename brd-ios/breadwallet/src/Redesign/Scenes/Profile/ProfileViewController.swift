@@ -62,7 +62,8 @@ class ProfileViewController: BaseTableViewController<ProfileCoordinator,
                     (.levelTwo, .levelTwo(.levelTwo)):
                     config.status = Presets.VerificationView.verified.status
                     
-                case (.levelTwo, .levelTwo(.submitted)):
+                case (.levelOne, .emailPending),
+                    (.levelTwo, .levelTwo(.submitted)):
                     config.status = Presets.VerificationView.pending.status
                     
                 case (.levelTwo, .levelTwo(.resubmit)),
