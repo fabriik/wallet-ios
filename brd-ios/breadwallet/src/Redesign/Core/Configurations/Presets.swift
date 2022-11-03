@@ -243,7 +243,7 @@ extension Presets {
         static var normal = PopupConfiguration(background: .init(backgroundColor: LightColors.Background.one,
                                                                  tintColor: LightColors.Contrast.two,
                                                                  border: Presets.Border.zero),
-                                               title: .init(font: Fonts.Title.six, textColor: LightColors.Text.one, textAlignment: .center),
+                                               title: .init(font: Fonts.Title.six, textColor: LightColors.Text.three, textAlignment: .center),
                                                body: .init(font: Fonts.Body.two, textColor: LightColors.Text.one, textAlignment: .center),
                                                
                                                buttons: [Presets.Button.primary.withBorder(normal: Presets.Border.normalButtonFullRadius,
