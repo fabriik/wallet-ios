@@ -88,10 +88,7 @@ struct Presets {
         static var pickerTextField = BorderConfiguration(tintColor: LightColors.primary, borderWidth: 1, cornerRadius: .small)
     }
     
-    // TODO: add as needed
     struct Shadow {
-        // TODO: the shadow color is not part of our Color config?
-        
         static var zero = ShadowConfiguration(color: .clear,
                                               opacity: .zero,
                                               offset: .zero,
@@ -129,14 +126,6 @@ extension Presets {
                                                    selectedConfiguration: Presets.Background.Secondary.selected,
                                                    disabledConfiguration: Presets.Background.Secondary.disabled,
                                                    buttonContentEdgeInsets: .zero)
-        
-        static var popupActionButton = ButtonConfiguration(normalConfiguration: .init(tintColor: LightColors.Contrast.two),
-                                                           selectedConfiguration: .init(tintColor: LightColors.Text.one),
-                                                           disabledConfiguration: .init(tintColor: LightColors.Disabled.one))
-        
-        static var verificationActionButton = ButtonConfiguration(normalConfiguration: .init(tintColor: LightColors.Text.three),
-                                                                  selectedConfiguration: .init(tintColor: LightColors.Text.two),
-                                                                  disabledConfiguration: .init(tintColor: LightColors.Disabled.two))
         
         static var blackIcon = ButtonConfiguration(normalConfiguration: .init(tintColor: LightColors.Text.three),
                                                    selectedConfiguration: .init(tintColor: LightColors.Text.one),
@@ -200,7 +189,9 @@ extension Presets {
     struct InfoView {
         static var verification = InfoViewConfiguration(headerLeadingImage: Presets.Image.tertiary,
                                                         headerTitle: .init(font: Fonts.Subtitle.three, textColor: LightColors.Contrast.one),
-                                                        headerTrailing: Presets.Button.verificationActionButton,
+                                                        headerTrailing: .init(normalConfiguration: .init(tintColor: LightColors.Text.three),
+                                                                              selectedConfiguration: .init(tintColor: LightColors.Text.two),
+                                                                              disabledConfiguration: .init(tintColor: LightColors.Disabled.two)),
                                                         title: .init(font: Fonts.Subtitle.three, textColor: LightColors.Text.one),
                                                         description: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
                                                         button: Presets.Button.primary.withBorder(normal: Presets.Border.normal,
@@ -223,18 +214,6 @@ extension Presets {
                                                                    tintColor: LightColors.Contrast.two,
                                                                    border: Presets.Border.zero),
                                                  shadow: Presets.Shadow.zero)
-    }
-}
-
-extension Presets {
-    struct Alert {
-        static var one = AlertConfiguration(titleConfiguration: .init(font: Fonts.Title.six, textColor: LightColors.Text.one),
-                                            descriptionConfiguration: .init(font: Fonts.Body.two, textColor: LightColors.Text.one),
-                                            imageConfiguration: Presets.Image.primary,
-                                            buttonConfigurations: [
-                                                Presets.Button.primary,
-                                                Presets.Button.secondary
-                                            ])
     }
 }
 
@@ -387,11 +366,5 @@ extension Presets {
         
         static var verticalSmall = TitleValueConfiguration(title: .init(font: Fonts.Body.three, textColor: LightColors.Text.two, numberOfLines: 1),
                                                            value: .init(font: Fonts.Body.three, textColor: LightColors.Text.two, textAlignment: .right))
-    }
-}
-
-extension Presets {
-    struct Timer {
-        static var one = TimerConfiguration(background: .init(tintColor: LightColors.secondary), font: Fonts.Body.two)
     }
 }
