@@ -23,7 +23,7 @@ class TxLabelCell: TxDetailRowCell {
 
     // MARK: - Views
     
-    fileprivate let valueLabel = UILabel(font: UIFont.customBody(size: 14.0))
+    fileprivate let valueLabel = UILabel(font: Fonts.Body.two, color: LightColors.Text.two)
     
     // MARK: - Init
     
@@ -45,7 +45,6 @@ class TxLabelCell: TxDetailRowCell {
     
     override func setupStyle() {
         super.setupStyle()
-        valueLabel.textColor = .darkGray
         valueLabel.textAlignment = .right
     }
 }

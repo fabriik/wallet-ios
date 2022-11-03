@@ -155,11 +155,10 @@ class TxDetailViewController: UIViewController, Subscriber {
         container.layer.cornerRadius = CornerRadius.extraSmall.rawValue
         container.layer.masksToBounds = true
         
-        footer.backgroundColor = .white
-        separator.backgroundColor = .secondaryShadow
-        detailsButton.setTitleColor(.blueButtonText, for: .normal)
-        detailsButton.setTitleColor(.blueButtonText, for: .selected)
-        detailsButton.titleLabel?.font = .customBody(size: 16.0)
+        footer.backgroundColor = LightColors.Background.one
+        separator.backgroundColor = LightColors.Outline.one
+        detailsButton.setTitleColor(LightColors.secondary, for: .normal)
+        detailsButton.titleLabel?.font = Fonts.Subtitle.two
         
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
@@ -174,8 +173,14 @@ class TxDetailViewController: UIViewController, Subscriber {
         tableView.dataSource = dataSource
         tableView.reloadData()
         
-        detailsButton.setTitle(L10n.TransactionDetails.showDetails, for: .normal)
-        detailsButton.setTitle(L10n.TransactionDetails.hideDetails, for: .selected)
+        let attributes: [NSAttributedString.Key: Any] = [
+        NSAttributedString.Key.underlineStyle: 1,
+        NSAttributedString.Key.font: Fonts.Subtitle.two,
+        NSAttributedString.Key.foregroundColor: LightColors.secondary]
+        var attributedString = NSMutableAttributedString(string: L10n.TransactionDetails.showDetails, attributes: attributes)
+        detailsButton.setAttributedTitle(attributedString, for: .normal)
+        attributedString = NSMutableAttributedString(string: L10n.TransactionDetails.hideDetails, attributes: attributes)
+        detailsButton.setAttributedTitle(attributedString, for: .selected)
         detailsButton.addTarget(self, action: #selector(onToggleDetails), for: .touchUpInside)
         
         header.setTitle(viewModel.title)

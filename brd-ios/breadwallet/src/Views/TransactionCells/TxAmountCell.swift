@@ -14,17 +14,19 @@ class TxAmountCell: UITableViewCell, Subscriber {
     
     private let container = UIView()
     private lazy var tokenAmountLabel: UILabel = {
-        let label = UILabel(font: UIFont.customBody(size: 26.0))
+        let label = UILabel(font: Fonts.Title.five)
+        label.textColor = LightColors.secondary
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     private lazy var fiatAmountLabel: UILabel = {
-        let label = UILabel(font: UIFont.customBody(size: 14.0))
+        let label = UILabel(font: Fonts.Body.one)
+        label.textColor = LightColors.Text.two
         label.textAlignment = .center
         return label
     }()
-    private let separator = UIView(color: .clear)
+    private let separator = UIView(color: LightColors.Outline.one)
     
     // MARK: - Init
     
@@ -71,38 +73,19 @@ class TxAmountCell: UITableViewCell, Subscriber {
     }
     
     func set(viewModel: TxDetailViewModel) {
-        
-        let largeFont = UIFont.customBody(size: 26.0)
-        let smallFont = UIFont.customBody(size: 14.0)
-        let fiatColor = UIColor.mediumGray
-        let textColor = UIColor.lightGray
-        let tokenColor: UIColor = (viewModel.direction == .received) ? .receivedGreen : .darkGray
-        
-        let amountText = NSMutableAttributedString(string: viewModel.amount,
-                                                   attributes: [.font: largeFont,
-                                                                .foregroundColor: tokenColor])
-        tokenAmountLabel.attributedText = amountText
-        
+        tokenAmountLabel.text = viewModel.amount
         // fiat amount label
-        
         let currentAmount = viewModel.fiatAmount
         let originalAmount = viewModel.originalFiatAmount
         
         if viewModel.status != .complete || originalAmount == nil {
-            fiatAmountLabel.attributedText = NSAttributedString(string: currentAmount,
-                                                attributes: [.font: smallFont,
-                                                             .foregroundColor: fiatColor])
+            fiatAmountLabel.text = currentAmount
         } else {
+            guard let originalAmount = originalAmount else { return }
             let format = (viewModel.direction == .sent) ? L10n.TransactionDetails.amountWhenSent : L10n.TransactionDetails.amountWhenReceived
+            let string = format(originalAmount, currentAmount)
             
-            let attributedText = NSMutableAttributedString(string: format(originalAmount!, currentAmount),
-                                                           attributes: [.font: smallFont,
-                                                                        .foregroundColor: textColor])
-            
-            attributedText.set(attributes: [.foregroundColor: fiatColor], forText: currentAmount)
-            attributedText.set(attributes: [.foregroundColor: fiatColor], forText: originalAmount!)
-            
-            fiatAmountLabel.attributedText = attributedText
+            fiatAmountLabel.text = currentAmount
         }
     }
 }

@@ -38,7 +38,7 @@
 "Account.AccountVerification" = "Account Verification";
 
 /* Verify your account label on profile screen */
-"Account.AccountVerify" = "Verify";
+"Account.AccountVerify" = "Verify your account";
 
 /* Account balance */
 "Account.balance" = "Your balance";
@@ -283,7 +283,7 @@
 "AccountKYCLevelTwo.Passport" = "Passport";
 
 /* Prepare documents label in KYC2 */
-"AccountKYCLevelTwo.PrepareDocument" = "Prepare a valid government-issued identity document (Passport, National ID card or Drivers license)";
+"AccountKYCLevelTwo.PrepareDocument" = "Have a valid government-issued identity document (passport, national ID card or driver’s license) ready";
 
 "AccountKYCLevelTwo.ResidencePermit" = "Residence permit";
 
@@ -1483,8 +1483,6 @@
 "Prompts.RateApp.dontShow" = "Don't ask again";
 
 "Prompts.RateApp.enjoyingBrd" = "Enjoying RockWallet?";
-
-"Prompts.RateApp.enjoyingFabriik" = "Enjoying RockWallet?";
 
 "Prompts.RateApp.googlePlayReview" = "Your review helps grow the Fabriik community.";
 
