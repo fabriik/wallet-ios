@@ -400,14 +400,14 @@ class HomeScreenViewController: UIViewController, Subscriber {
     
     private func setupKYCPrompt(result: Result<Profile?, Error>?) {
         guard case .success(let profile) = result,
-              promptContainerStack.arrangedSubviews.isEmpty == true,
-              let infoView = profile?.status.viewModel
-        else { return }
+              promptContainerStack.arrangedSubviews.isEmpty == true else { return }
         
         let infoConfig: InfoViewConfiguration = Presets.InfoView.verification
+        var infoViewModel = profile?.status.viewModel
+        infoViewModel?.headerTrailing = .init(image: "close")
         
         kycStatusPromptView.configure(with: infoConfig)
-        kycStatusPromptView.setup(with: infoView)
+        kycStatusPromptView.setup(with: infoViewModel)
         
         kycStatusPromptView.setupCustomMargins(all: .large)
         
@@ -420,7 +420,6 @@ class HomeScreenViewController: UIViewController, Subscriber {
         }
         
         layoutPrompts(kycStatusPromptView)
-        
     }
     
     private func hidePrompt(_ prompt: UIView?) {
