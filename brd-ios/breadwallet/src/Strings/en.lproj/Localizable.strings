@@ -2568,7 +2568,7 @@
 "TransactionDetails.addressToHeader" = "To";
 
 /* e.g. "(this was received) via (address #1)" via = by way of */
-"TransactionDetails.addressViaHeader" = "Via";
+"TransactionDetails.addressViaHeader" = "From";
 
 /* Amount section header */
 "TransactionDetails.amountHeader" = "Amount";
@@ -2854,7 +2854,7 @@
 /* Verification Code Title */
 "VerificationCode.title" = "Confirmation Code";
 
-"VerifyAccount.Button" = "Verify";
+"VerifyAccount.Button" = "Verify your account";
 
 /* Verify PIN for transaction view body */
 "VerifyPin.authorize" = "Please enter your PIN to authorize this transaction.";

@@ -10,9 +10,9 @@ import UIKit
 
 private extension C {
     static let statusRowHeight: CGFloat = 48.0
-    static let compactContainerHeight: CGFloat = 330//322.0
-    static let expandedContainerHeight: CGFloat = 554//546.0
-    static let detailsButtonHeight: CGFloat = 65.0
+    static let compactContainerHeight: CGFloat = 300
+    static let expandedContainerHeight: CGFloat = 408
+    static let detailsButtonHeight: CGFloat = 64.0
 }
 
 protocol TxDetaiViewControllerDelegate: AnyObject {
@@ -46,7 +46,7 @@ class TxDetailViewController: UIViewController, Subscriber {
     private var isExpanded: Bool = false
     
     private var compactContainerHeight: CGFloat {
-        return (viewModel.status == .complete || viewModel.status == .invalid) ? C.compactContainerHeight : C.compactContainerHeight + C.statusRowHeight
+        return (viewModel.status == .complete || viewModel.status == .invalid) ? C.compactContainerHeight : C.compactContainerHeight
     }
     
     private var expandedContainerHeight: CGFloat {

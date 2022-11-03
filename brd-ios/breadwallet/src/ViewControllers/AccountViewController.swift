@@ -279,7 +279,7 @@ class AccountViewController: UIViewController, Subscriber {
                           options: [.transitionFlipFromBottom, .showHideTransitionViews, .curveEaseOut],
                           completion: { [weak self] _ in
             self?.searchHeaderview.triggerUpdate()
-            self?.setNeedsStatusBarAppearanceUpdate()
+//            self?.setNeedsStatusBarAppearanceUpdate()
         })
     }
     

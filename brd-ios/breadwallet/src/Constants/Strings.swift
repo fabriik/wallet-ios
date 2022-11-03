@@ -2303,7 +2303,7 @@ internal enum L10n {
     /// Address sent to header
     internal static let addressToHeader = L10n.tr("Localizable", "TransactionDetails.addressToHeader", fallback: "To")
     /// e.g. "(this was received) via (address #1)" via = by way of
-    internal static let addressViaHeader = L10n.tr("Localizable", "TransactionDetails.addressViaHeader", fallback: "Via")
+    internal static let addressViaHeader = L10n.tr("Localizable", "TransactionDetails.addressViaHeader", fallback: "From")
     /// Amount section header
     internal static let amountHeader = L10n.tr("Localizable", "TransactionDetails.amountHeader", fallback: "Amount")
     /// "(it was worth) $100 when sent, (and it is worth) $200 now"
@@ -2550,8 +2550,8 @@ internal enum L10n {
     internal static let title = L10n.tr("Localizable", "VerificationCode.title", fallback: "Confirmation Code")
   }
   internal enum VerifyAccount {
-    /// Verify
-    internal static let button = L10n.tr("Localizable", "VerifyAccount.Button", fallback: "Verify")
+    /// Verify your account
+    internal static let button = L10n.tr("Localizable", "VerifyAccount.Button", fallback: "Verify your account")
   }
   internal enum VerifyPin {
     /// Verify PIN for transaction view body
