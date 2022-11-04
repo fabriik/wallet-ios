@@ -48,21 +48,21 @@ class TxAmountCell: UITableViewCell, Subscriber {
     }
     
     private func addConstraints() {
-        container.constrain(toSuperviewEdges: UIEdgeInsets(top: Margins.small.rawValue,
-                                                           left: Margins.large.rawValue,
-                                                           bottom: -Margins.large.rawValue,
-                                                           right: -Margins.large.rawValue))
+        container.constrain(toSuperviewEdges: UIEdgeInsets(top: 0,
+                                                           left: Margins.huge.rawValue,
+                                                           bottom: 0,
+                                                           right: -Margins.huge.rawValue))
         
         tokenAmountLabel.constrain([
-            tokenAmountLabel.constraint(.top, toView: container),
+            tokenAmountLabel.constraint(.top, toView: container, constant: Margins.small.rawValue),
             tokenAmountLabel.constraint(.leading, toView: container),
             tokenAmountLabel.constraint(.trailing, toView: container)
             ])
         fiatAmountLabel.constrain([
-            fiatAmountLabel.constraint(toBottom: tokenAmountLabel),
+            fiatAmountLabel.constraint(toBottom: tokenAmountLabel, constant: Margins.extraSmall.rawValue),
             fiatAmountLabel.constraint(.leading, toView: container),
             fiatAmountLabel.constraint(.trailing, toView: container),
-            fiatAmountLabel.constraint(.bottom, toView: container)
+            fiatAmountLabel.constraint(.bottom, toView: container, constant: -Margins.small.rawValue)
             ])
         
         separator.constrainBottomCorners(height: 0.5)
@@ -74,18 +74,6 @@ class TxAmountCell: UITableViewCell, Subscriber {
     
     func set(viewModel: TxDetailViewModel) {
         tokenAmountLabel.text = viewModel.amount
-        // fiat amount label
-        let currentAmount = viewModel.fiatAmount
-        let originalAmount = viewModel.originalFiatAmount
-        
-        if viewModel.status != .complete || originalAmount == nil {
-            fiatAmountLabel.text = currentAmount
-        } else {
-            guard let originalAmount = originalAmount else { return }
-            let format = (viewModel.direction == .sent) ? L10n.TransactionDetails.amountWhenSent : L10n.TransactionDetails.amountWhenReceived
-            let string = format(originalAmount, currentAmount)
-            
-            fiatAmountLabel.text = currentAmount
-        }
+        fiatAmountLabel.text = viewModel.fiatAmount
     }
 }

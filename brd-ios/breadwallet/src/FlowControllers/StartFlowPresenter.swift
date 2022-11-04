@@ -364,8 +364,7 @@ class StartFlowPresenter: Subscriber {
 // This is displayed over the home screen before the login screen is pushed.
 private class StartupScreen: UIViewController {
     
-    private var logo = UIImageView(image: UIImage(named: "logo")?.withRenderingMode(.alwaysTemplate))
-    private var logoBackground = MotionGradientView()
+    private var logo = UIImageView(image: .init(named: "logo"))
     
     override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
     
@@ -373,21 +372,13 @@ private class StartupScreen: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = LightColors.Background.one
-        logo.tintColor = LightColors.Background.one
+        view.addSubview(logo)
         
-        logoBackground.addSubview(logo)
-        view.addSubview(logoBackground)
-        
-        logoBackground.constrain([
-            logoBackground.topAnchor.constraint(equalTo: view.topAnchor,
-                                                constant: ViewSizes.medium.rawValue + C.brdLogoTopMargin),
-            logoBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoBackground.heightAnchor.constraint(equalTo: logoBackground.widthAnchor,
-                                                   multiplier: logo.image!.size.height/logo.image!.size.width),
-            logoBackground.widthAnchor.constraint(equalTo: view.widthAnchor,
-                                                  multiplier: 0.45) ])
-        
-        logo.constrain(toSuperviewEdges: nil)
+        logo.constrain([
+            logo.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logo.leadingAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leadingAnchor)
+        ])
     }
     
     override func viewWillAppear(_ animated: Bool) {

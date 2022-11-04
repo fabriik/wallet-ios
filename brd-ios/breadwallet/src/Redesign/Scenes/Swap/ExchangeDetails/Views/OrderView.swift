@@ -12,8 +12,7 @@ import UIKit
 
 struct OrderConfiguration: Configurable {
     var title: LabelConfiguration?
-    var copyableValue: LabelConfiguration?
-    var regularValue: LabelConfiguration?
+    var value: LabelConfiguration?
     var shadow: ShadowConfiguration?
     var background: BackgroundConfiguration?
     var contentBackground: BackgroundConfiguration?
@@ -22,7 +21,6 @@ struct OrderConfiguration: Configurable {
 struct OrderViewModel: ViewModel {
     var title: String
     var value: NSAttributedString
-    var showsFullValue: Bool
     var isCopyable: Bool
 }
 
@@ -65,9 +63,9 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         content.addSubview(stack)
         stack.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.top.greaterThanOrEqualTo(content.snp.topMargin).inset(Margins.medium.rawValue)
-            make.bottom.greaterThanOrEqualTo(content.snp.bottom).inset(Margins.medium.rawValue)
-            make.leading.greaterThanOrEqualTo(content.snp.leadingMargin).inset(Margins.medium.rawValue)
+            make.top.greaterThanOrEqualTo(content.snp.topMargin).inset(Margins.large.rawValue)
+            make.bottom.greaterThanOrEqualTo(content.snp.bottom).inset(Margins.large.rawValue)
+            make.leading.greaterThanOrEqualTo(content.snp.leadingMargin).inset(Margins.huge.rawValue)
         }
         
         stack.addArrangedSubview(titleLabel)
@@ -93,7 +91,7 @@ class OrderView: FEView<OrderConfiguration, OrderViewModel> {
         bottomStack.configure(background: config?.contentBackground)
         configure(background: config?.background)
         configure(shadow: config?.shadow)
-        valueLabel.configure(with: viewModel?.isCopyable == true ? config?.copyableValue : config?.regularValue)
+        valueLabel.configure(with: config?.value)
     }
     
     override func setup(with viewModel: OrderViewModel?) {

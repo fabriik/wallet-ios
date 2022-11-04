@@ -13,7 +13,7 @@ class TxMemoCell: TxDetailRowCell {
     // MARK: - Views
     
     fileprivate let textView = UITextView()
-    fileprivate let placeholderLabel = UILabel(font: .customBody(size: 14.0), color: .lightGray)
+    fileprivate let placeholderLabel = UILabel(font: Fonts.Body.two, color: LightColors.Text.two)
     
     // MARK: - Vars
 
@@ -34,14 +34,14 @@ class TxMemoCell: TxDetailRowCell {
         textView.constrain([
             textView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: Margins.large.rawValue),
             textView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            textView.topAnchor.constraint(equalTo: container.topAnchor),
-            textView.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+            textView.topAnchor.constraint(equalTo: titleLabel.safeAreaLayoutGuide.topAnchor),
+            textView.bottomAnchor.constraint(equalTo: titleLabel.safeAreaLayoutGuide.bottomAnchor)
             ])
         
         placeholderLabel.constrain([
             placeholderLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            placeholderLabel.topAnchor.constraint(equalTo: container.topAnchor),
-            placeholderLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            placeholderLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor),
+            placeholderLabel.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             placeholderLabel.widthAnchor.constraint(equalTo: textView.widthAnchor)
             ])
         placeholderLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -50,8 +50,8 @@ class TxMemoCell: TxDetailRowCell {
     override func setupStyle() {
         super.setupStyle()
 
-        textView.font = .customBody(size: 14.0)
-        textView.textColor = .darkGray
+        textView.font = Fonts.Body.two
+        textView.textColor = LightColors.Text.two
         textView.textAlignment = .right
         textView.isScrollEnabled = false
         textView.returnKeyType = .done

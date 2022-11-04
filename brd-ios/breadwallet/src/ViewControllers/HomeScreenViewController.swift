@@ -184,7 +184,7 @@ class HomeScreenViewController: UIViewController, Subscriber {
         promptContainerStack.constrain([
             promptContainerStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue),
             promptContainerStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.large.rawValue),
-            promptContainerStack.topAnchor.constraint(equalTo: subHeaderView.bottomAnchor),
+            promptContainerStack.topAnchor.constraint(equalTo: subHeaderView.bottomAnchor, constant: Margins.huge.rawValue),
                 promptContainerStack.heightAnchor.constraint(equalToConstant: 0).priority(.defaultLow)])
         
         addChildViewController(assetListTableView, layout: {

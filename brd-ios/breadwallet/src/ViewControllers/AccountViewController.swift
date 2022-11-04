@@ -144,8 +144,8 @@ class AccountViewController: UIViewController, Subscriber {
         
         footerView.constrain([
             footerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            footerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: -Margins.small.rawValue),
-            footerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Margins.small.rawValue)])
+            footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
     }
     
     private func addSubscriptions() {
