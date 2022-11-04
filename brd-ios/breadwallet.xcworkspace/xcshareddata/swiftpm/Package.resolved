@@ -57,7 +57,7 @@
     {
       "identity" : "walletkitcore",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/rockwalletcode/WalletKitCore",
+      "location" : "https://github.com/rockwalletcode/WalletKitCore.git",
       "state" : {
         "branch" : "main",
         "revision" : "12f02841e6becfe9c871b618415d211a4c23b942"
