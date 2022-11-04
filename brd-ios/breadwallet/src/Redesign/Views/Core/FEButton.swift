@@ -109,10 +109,10 @@ class FEButton: UIButton, ViewProtocol, StateDisplayable, Borderable, Shadable {
 
         self.viewModel = viewModel
         
-        if let title = viewModel.title?.uppercased() {
+        if let title = viewModel.isUnderlined ? viewModel.title : viewModel.title?.uppercased() {
             if viewModel.isUnderlined {
                 let attributeString = NSMutableAttributedString(
-                    string: title.firstCapitalized(),
+                    string: title,
                     attributes: [
                         NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
                     ]
