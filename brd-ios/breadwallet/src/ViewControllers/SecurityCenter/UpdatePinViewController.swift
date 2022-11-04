@@ -145,7 +145,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
             pinView.centerYAnchor.constraint(equalTo: spacer.centerYAnchor),
             pinView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             pinView.widthAnchor.constraint(equalToConstant: pinView.width),
-            pinView.heightAnchor.constraint(equalToConstant: pinView.itemSize) ])
+            pinView.heightAnchor.constraint(equalToConstant: ViewSizes.small.rawValue)])
         addPinPad()
         spacer.constrain([
             spacer.topAnchor.constraint(equalTo: instruction.bottomAnchor),
@@ -349,7 +349,7 @@ class UpdatePinViewController: UIViewController, Subscriber {
             pinView.centerYAnchor.constraint(equalTo: spacer.centerYAnchor),
             pinView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             pinView.widthAnchor.constraint(equalToConstant: pinView.width),
-            pinView.heightAnchor.constraint(equalToConstant: pinView.itemSize) ])
+            pinView.heightAnchor.constraint(equalToConstant: ViewSizes.small.rawValue)])
     }
 
     private func pushNewStep(_ newStep: Step) {

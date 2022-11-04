@@ -111,7 +111,8 @@ final class ExchangeDetailsPresenter: NSObject, Presenter, ExchangeDetailsAction
                                isCopyable: true)
             ],
             Models.Section.buyOrder: [
-                BuyOrderViewModel(rateValue: .init(title: .text(L10n.Swap.rate), value: .text(rate), infoImage: nil),
+                // TODO: whoever removed the key.. please fix this as well
+                BuyOrderViewModel(rateValue: .init(title: .text("RATE"), value: .text(rate), infoImage: nil),
                                   amount: .init(title: .text("\(L10n.Swap.amountPurchased):"), value: .text(amountText), infoImage: nil),
                                   cardFee: .init(title: .text("\(L10n.Swap.cardFee):"),
                                                  value: .text(cardFeeText),

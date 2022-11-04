@@ -1469,7 +1469,7 @@ internal enum L10n {
     /// Recover wallet header
     internal static let header = L10n.tr("Localizable", "RecoverWallet.header", fallback: "Recover Wallet")
     /// Reset PIN with paper key: header
-    internal static let headerResetPin = L10n.tr("Localizable", "RecoverWallet.header_reset_pin", fallback: "Reset PIN")
+    internal static let headerResetPin = L10n.tr("Localizable", "RecoverWallet.header_reset_pin", fallback: "Reset your PIN")
     /// Enter paper key instruction
     internal static let instruction = L10n.tr("Localizable", "RecoverWallet.instruction", fallback: "Enter Recovery Phrase")
     /// Recover wallet intro
@@ -2004,8 +2004,6 @@ internal enum L10n {
     internal static let notValidPair = L10n.tr("Localizable", "Swap.NotValidPair", fallback: "Not a valid pair")
     /// Paid with label in swap details screen
     internal static let paidWith = L10n.tr("Localizable", "Swap.PaidWith", fallback: "Paid with")
-    /// Exchange label rate
-    internal static let rate = L10n.tr("Localizable", "Swap.Rate", fallback: "Rate:")
     /// Rate label in swap screen
     internal static let rateValue = L10n.tr("Localizable", "Swap.RateValue", fallback: "Rate")
     /// Receiving network fee text label on Swap screen
@@ -2463,7 +2461,7 @@ internal enum L10n {
     /// My Address button title
     internal static let myAddress = L10n.tr("Localizable", "UnlockScreen.myAddress", fallback: "My Address")
     /// Reset PIN with Paper Key button label.
-    internal static let resetPin = L10n.tr("Localizable", "UnlockScreen.resetPin", fallback: "Reset PIN")
+    internal static let resetPin = L10n.tr("Localizable", "UnlockScreen.resetPin", fallback: "Reset your PIN")
     /// Scan button title
     internal static let scan = L10n.tr("Localizable", "UnlockScreen.scan", fallback: "Scan")
     /// TouchID prompt text
