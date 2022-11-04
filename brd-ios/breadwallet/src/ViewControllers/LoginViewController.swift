@@ -69,8 +69,8 @@ class LoginViewController: UIViewController, Subscriber {
     }()
     private let disabledView: WalletDisabledView
     private var logo: UIImageView = {
-        let view = UIImageView(image: .init(named: "logo_vertical"))
-        view.isHidden = true
+        let view = UIImageView(image: .init(named: "logo_icon"))
+        view.contentMode = .scaleAspectFit
         return view
     }()
     private var pinPadPottom: NSLayoutConstraint?
@@ -130,7 +130,6 @@ class LoginViewController: UIViewController, Subscriber {
         addSubviews()
         addConstraints()
         addPinPadCallbacks()
-        addPinView()
         setupCloseButton()
 
         disabledView.didTapReset = { [weak self] in
@@ -192,15 +191,6 @@ class LoginViewController: UIViewController, Subscriber {
         super.viewDidDisappear(animated)
         unlockTimer?.invalidate()
     }
-
-    private func addPinView() {
-        pinViewContainer.addSubview(pinView)
-        pinView.constrain([
-            pinView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            pinView.centerXAnchor.constraint(equalTo: pinViewContainer.centerXAnchor),
-            pinView.widthAnchor.constraint(equalToConstant: pinView.width),
-            pinView.heightAnchor.constraint(equalToConstant: pinView.itemSize)])
-    }
     
     func setupCloseButton() {
         guard case .confirm = pinViewStyle else { return }
@@ -224,6 +214,7 @@ class LoginViewController: UIViewController, Subscriber {
     private func addSubviews() {
         view.addSubview(backgroundView)
         view.addSubview(pinViewContainer)
+        pinViewContainer.addSubview(pinView)
         view.addSubview(logo)
         view.addSubview(header)
         view.addSubview(instruction)
@@ -236,25 +227,6 @@ class LoginViewController: UIViewController, Subscriber {
         backgroundView.constrain(toSuperviewEdges: nil)
         backgroundView.backgroundColor = LightColors.Background.one
         pinViewContainer.constrain(toSuperviewEdges: nil)
-        debugLabel.constrain([
-            debugLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.huge.rawValue),
-            debugLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue)
-        ])
-        topControlTop = logo.topAnchor.constraint(equalTo: view.topAnchor,
-                                                  constant: ViewSizes.medium.rawValue * 2 + C.brdLogoTopMargin)
-        logo.constrain([
-            topControlTop,
-            logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logo.widthAnchor.constraint(equalToConstant: 40),
-            logo.heightAnchor.constraint(equalTo: logo.widthAnchor)])
-        
-        header.constrain([
-            header.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            header.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: Margins.huge.rawValue)])
-        
-        instruction.constrain([
-            instruction.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            instruction.topAnchor.constraint(equalTo: header.bottomAnchor, constant: Margins.large.rawValue)])
         
         pinPadPottom = pinPadBackground.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         pinPadBackground.constrain([
@@ -263,10 +235,36 @@ class LoginViewController: UIViewController, Subscriber {
             pinPadBackground.heightAnchor.constraint(equalToConstant: pinPad.height),
             pinPadPottom])
         
+        pinView.constrain([
+            pinView.centerYAnchor.constraint(equalTo: pinViewContainer.centerYAnchor),
+            pinView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pinView.widthAnchor.constraint(equalToConstant: pinView.width),
+            pinView.heightAnchor.constraint(equalToConstant: ViewSizes.small.rawValue)])
+        
+        debugLabel.constrain([
+            debugLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Margins.huge.rawValue),
+            debugLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.large.rawValue)
+        ])
+        topControlTop = logo.topAnchor.constraint(equalTo: view.topAnchor,
+                                                  constant: ViewSizes.medium.rawValue * 2 + C.brdLogoTopMargin)
+        logo.constrain([
+            logo.bottomAnchor.constraint(equalTo: pinView.topAnchor, constant: -Margins.extraHuge.rawValue),
+            logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logo.heightAnchor.constraint(equalToConstant: ViewSizes.large.rawValue)
+        ])
+        
+        header.constrain([
+            header.bottomAnchor.constraint(equalTo: instruction.topAnchor, constant: -Margins.large.rawValue),
+            header.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
+        
+        instruction.constrain([
+            instruction.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            instruction.bottomAnchor.constraint(equalTo: logo.topAnchor, constant: -Margins.extraHuge.rawValue)])
+        
         resetPinButton.constrain([
             resetPinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             resetPinButton.heightAnchor.constraint(equalToConstant: Margins.extraLarge.rawValue),
-            resetPinButton.topAnchor.constraint(equalTo: pinPadBackground.topAnchor, constant: -ViewSizes.extralarge.rawValue)])
+            resetPinButton.bottomAnchor.constraint(equalTo: pinPadBackground.topAnchor, constant: -Margins.extraHuge.rawValue)])
         
         addChild(pinPad)
         pinPadBackground.addSubview(pinPad.view)

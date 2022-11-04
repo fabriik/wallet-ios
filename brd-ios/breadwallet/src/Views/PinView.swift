@@ -18,12 +18,8 @@ enum PinViewStyle {
 class PinView: UIView {
 
     // MARK: - Public
-    var itemSize: CGFloat {
-        return 22.0
-    }
-    
     var width: CGFloat {
-        return (itemSize + Margins.small.rawValue) * CGFloat(length)
+        return CGFloat(length) * ViewSizes.small.rawValue + CGFloat(length - 1) * Margins.large.rawValue
     }
     
     let shakeDuration: CFTimeInterval = 0.6
@@ -86,7 +82,7 @@ class PinView: UIView {
     }
 
     private func addCircleContraints(_ circles: [UIView]) {
-        let padding: CGFloat = 8.0
+        let padding: CGFloat = Margins.large.rawValue
         let extraWidth: CGFloat = 0.0
         circles.enumerated().forEach { index, circle in
             addSubview(circle)
@@ -103,8 +99,8 @@ class PinView: UIView {
                                                        constant: padding)
             }
             circle.constrain([
-                circle.constraint(.width, constant: itemSize + extraWidth),
-                circle.constraint(.height, constant: itemSize),
+                circle.constraint(.width, constant: ViewSizes.small.rawValue + extraWidth),
+                circle.constraint(.height, constant: ViewSizes.small.rawValue),
                 circle.constraint(.centerY, toView: self, constant: nil),
                 leadingConstraint ])
         }

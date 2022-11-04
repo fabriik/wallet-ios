@@ -30,7 +30,7 @@ class Circle: UIView {
             context.fillPath()
         case .unfilled:
             context.addEllipse(in: rect.insetBy(dx: 0.5, dy: 0.5))
-            context.setLineWidth(1.0)
+            context.setLineWidth(2.0)
             context.setStrokeColor(color.cgColor)
             context.strokePath()
         }

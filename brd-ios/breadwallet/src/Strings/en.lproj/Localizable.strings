@@ -1591,7 +1591,7 @@
 "RecoverWallet.header" = "Recover Wallet";
 
 /* Reset PIN with paper key: header */
-"RecoverWallet.header_reset_pin" = "Reset PIN";
+"RecoverWallet.header_reset_pin" = "Reset your PIN";
 
 /* Enter paper key instruction */
 "RecoverWallet.instruction" = "Enter Recovery Phrase";
@@ -2288,9 +2288,6 @@
 /* Paid with label in swap details screen */
 "Swap.PaidWith" = "Paid with";
 
-/* Exchange label rate */
-"Swap.Rate" = "Rate:";
-
 /* Rate label in swap screen */
 "Swap.RateValue" = "Rate";
 
@@ -2729,7 +2726,7 @@
 "UnlockScreen.myAddress" = "My Address";
 
 /* Reset PIN with Paper Key button label. */
-"UnlockScreen.resetPin" = "Reset PIN";
+"UnlockScreen.resetPin" = "Reset your PIN";
 
 /* Scan button title */
 "UnlockScreen.scan" = "Scan";
