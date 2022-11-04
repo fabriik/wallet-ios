@@ -48,15 +48,14 @@ class TxDetailRowCell: UITableViewCell {
     
     internal func addConstraints() {
         container.constrain(toSuperviewEdges: UIEdgeInsets(top: Margins.small.rawValue,
-                                                           left: Margins.large.rawValue,
+                                                           left: Margins.huge.rawValue,
                                                            bottom: -Margins.small.rawValue,
-                                                           right: -Margins.large.rawValue))
-        container.constrain([container.heightAnchor.constraint(greaterThanOrEqualToConstant: 29.0)])
-        
+                                                           right: -Margins.huge.rawValue))
         titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         titleLabel.constrain([
             titleLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            titleLabel.constraint(toTop: container, constant: Margins.huge.rawValue)
+            titleLabel.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: container.topAnchor)
             ])
         separator.constrainTopCorners(height: 0.5)
     }
