@@ -190,7 +190,7 @@ internal enum L10n {
   }
   internal enum AccountKYCLevelTwo {
     /// Back page of the document text instructions for KYC2
-    internal static let backPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.BackPageInstructions", fallback: "Make sure document details are clearly visible and within the frame")
+    internal static let backPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.BackPageInstructions", fallback: "Make sure you have captured the entire back page of the document")
     /// Before start label
     internal static let beforeStart = L10n.tr("Localizable", "AccountKYCLevelTwo.BeforeStart", fallback: "Before you start, please:")
     /// Buy limits on KYC2 account
@@ -218,11 +218,11 @@ internal enum L10n {
     /// Face is clearly visible confirmation text for documents on KYC2
     internal static let faceVisibleConfirmation = L10n.tr("Localizable", "AccountKYCLevelTwo.FaceVisibleConfirmation", fallback: "Make sure your face is clearly visible.")
     /// Front page of the document instructions text for KYC2
-    internal static let frontPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FrontPageInstructions", fallback: "Make sure document details are clearly visible and within the frame")
+    internal static let frontPageInstructions = L10n.tr("Localizable", "AccountKYCLevelTwo.FrontPageInstructions", fallback: "Make sure you have captured the entire front page of the document")
     /// KYC Level Two status
     internal static let inProgress = L10n.tr("Localizable", "AccountKYCLevelTwo.InProgress", fallback: "Your ID verification is in progress")
     /// Document instructions label for KYC2
-    internal static let instructions = L10n.tr("Localizable", "AccountKYCLevelTwo.Instructions", fallback: "Make sure document details are clearly visible and within the frame")
+    internal static let instructions = L10n.tr("Localizable", "AccountKYCLevelTwo.Instructions", fallback: "Make sure you have captured the entire document")
     /// Level two title in Account screen
     internal static let levelTwo = L10n.tr("Localizable", "AccountKYCLevelTwo.LevelTwo", fallback: "Level 2")
     /// Swap limits on KYC2 account
@@ -1571,6 +1571,22 @@ internal enum L10n {
       return L10n.tr("Localizable", "RecoveryKeyFlow.writeKeyStepTitle", String(describing: p1), String(describing: p2), fallback: "%1$@ of %2$@")
     }
   }
+  internal enum RecoveryKeyOnboarding {
+    /// This is required to restore your wallet if you upgrade or lose your phone.
+    internal static let description1 = L10n.tr("Localizable", "RecoveryKeyOnboarding.description1", fallback: "This is required to restore your wallet if you upgrade or lose your phone.")
+    /// For security reasons, screenshots are not recommended, as anyone with your Recovery Phrase can access your funds.
+    internal static let description2 = L10n.tr("Localizable", "RecoveryKeyOnboarding.description2", fallback: "For security reasons, screenshots are not recommended, as anyone with your Recovery Phrase can access your funds.")
+    /// Remember that this is the only way to restore your wallet. RockWallet does not keep a copy.
+    internal static let description3 = L10n.tr("Localizable", "RecoveryKeyOnboarding.description3", fallback: "Remember that this is the only way to restore your wallet. RockWallet does not keep a copy.")
+    /// Generate your private Recovery Phrase
+    internal static let title1 = L10n.tr("Localizable", "RecoveryKeyOnboarding.title1", fallback: "Generate your private Recovery Phrase")
+    /// Write down your Recovery Phrase
+    internal static let title2 = L10n.tr("Localizable", "RecoveryKeyOnboarding.title2", fallback: "Write down your Recovery Phrase")
+    /// Keep your Recovery Phrase in a secure location
+    internal static let title3 = L10n.tr("Localizable", "RecoveryKeyOnboarding.title3", fallback: "Keep your Recovery Phrase in a secure location")
+    /// Generate your private Recovery Phrase
+    internal static let titlePage1 = L10n.tr("Localizable", "RecoveryKeyOnboarding.titlePage1", fallback: "Generate your private Recovery Phrase")
+  }
   internal enum RequestAnAmount {
     /// No amount entered error message.
     internal static let noAmount = L10n.tr("Localizable", "RequestAnAmount.noAmount", fallback: "Please enter an amount first.")
@@ -2707,7 +2723,7 @@ internal enum L10n {
   }
   internal enum WritePaperPhrase {
     /// Paper key instructions.
-    internal static let instruction = L10n.tr("Localizable", "WritePaperPhrase.instruction", fallback: "Write down each word in order and store it in a safe place.")
+    internal static let instruction = L10n.tr("Localizable", "WritePaperPhrase.instruction", fallback: "Write down the following words in order")
     /// button label
     internal static let next = L10n.tr("Localizable", "WritePaperPhrase.next", fallback: "Next")
     /// button label
@@ -2716,6 +2732,10 @@ internal enum L10n {
     internal static func step(_ p1: Int, _ p2: Int) -> String {
       return L10n.tr("Localizable", "WritePaperPhrase.step", p1, p2, fallback: "%1$d of %2$d")
     }
+    /// For security purposes, do not screenshot or email these words.
+    internal static let warning = L10n.tr("Localizable", "WritePaperPhrase.warning", fallback: "For security purposes, do not screenshot or email these words.")
+    /// Remember to write these words down. Swipe back if you forgot.
+    internal static let warning2 = L10n.tr("Localizable", "WritePaperPhrase.warning2", fallback: "Remember to write these words down. Swipe back if you forgot.")
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
