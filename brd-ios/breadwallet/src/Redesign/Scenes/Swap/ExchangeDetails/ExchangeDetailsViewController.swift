@@ -79,7 +79,7 @@ class ExchangeDetailsViewController: BaseTableViewController<BaseCoordinator,
         cell.setup { view in
             view.configure(with: Presets.Asset.header)
             view.setup(with: model)
-            view.content.setupCustomMargins(vertical: .small, horizontal: .large)
+            view.content.setupCustomMargins(vertical: .medium, horizontal: .large)
         }
         
         return cell
@@ -94,8 +94,8 @@ class ExchangeDetailsViewController: BaseTableViewController<BaseCoordinator,
         }
         
         cell.setup { view in
+            view.configure(with: Presets.Order.small)
             view.setup(with: model)
-            view.configure(with: model.showsFullValue ? Presets.Order.full : Presets.Order.small)
             
             view.didCopyValue = { [weak self] value in
                 self?.interactor?.copyValue(viewAction: .init(value: value))

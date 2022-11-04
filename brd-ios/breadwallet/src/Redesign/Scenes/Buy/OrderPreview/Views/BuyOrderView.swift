@@ -18,7 +18,7 @@ struct BuyOrderConfiguration: Configurable {
     var amount: TitleValueConfiguration = Presets.TitleValue.horizontal
     var cardFee: TitleValueConfiguration = Presets.TitleValue.horizontal
     var networkFee: TitleValueConfiguration = Presets.TitleValue.horizontal
-    var totalCost: TitleValueConfiguration = Presets.TitleValue.horizontal
+    var totalCost: TitleValueConfiguration = Presets.TitleValue.horizontalBold
     var shadow: ShadowConfiguration? = Presets.Shadow.light
     var background: BackgroundConfiguration? = .init(backgroundColor: LightColors.Background.one,
                                                      tintColor: LightColors.Text.one,
@@ -77,7 +77,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
     private lazy var topLineView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 1.0
-        view.layer.borderColor = LightColors.Outline.two.cgColor
+        view.layer.borderColor = LightColors.Outline.one.cgColor
         return view
     }()
     
@@ -104,7 +104,7 @@ class BuyOrderView: FEView<BuyOrderConfiguration, BuyOrderViewModel> {
     private lazy var bottomLineView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 1.0
-        view.layer.borderColor = LightColors.Outline.two.cgColor
+        view.layer.borderColor = LightColors.Outline.one.cgColor
         return view
     }()
     

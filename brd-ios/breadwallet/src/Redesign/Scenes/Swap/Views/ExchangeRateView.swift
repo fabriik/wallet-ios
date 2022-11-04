@@ -14,7 +14,7 @@ struct ExchangeRateConfiguration: Configurable {
     var title = LabelConfiguration(font: Fonts.Subtitle.two, textColor: LightColors.Text.one)
     var value = LabelConfiguration(font: Fonts.Body.two, textColor: LightColors.Text.one)
     var background = BackgroundConfiguration()
-    var timer = Presets.Timer.one
+    var timer = TimerConfiguration(background: .init(tintColor: LightColors.secondary), font: Fonts.Body.two)
 }
 
 struct ExchangeRateViewModel: ViewModel {

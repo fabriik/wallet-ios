@@ -34,7 +34,6 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
             Models.Section.order: [
                 OrderViewModel(title: "Rockwallet Order ID",
                                value: NSAttributedString(string: "13rXEZoh5NFj4q9aasdfkLp2..."),
-                               showsFullValue: false,
                                isCopyable: true)
             ]
         ]
@@ -116,7 +115,7 @@ class DemoViewController: BaseTableViewController<DemoCoordinator,
         }
         
         cell.setup { view in
-            view.configure(with: Presets.Order.full)
+            view.configure(with: Presets.Order.small)
             view.setup(with: model)
             view.didCopyValue = { [weak self] code in
                 self?.coordinator?.showMessage(model: InfoViewModel(description: .text(code), dismissType: .auto),
