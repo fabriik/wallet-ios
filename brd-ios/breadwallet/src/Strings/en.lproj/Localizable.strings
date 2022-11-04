@@ -217,7 +217,7 @@
 "AccountKYCLevelOne.Limit" = "Account limit: $1,000/day ($10,000 lifetime)";
 
 /* Back page of the document text instructions for KYC2 */
-"AccountKYCLevelTwo.BackPageInstructions" = "Make sure document details are clearly visible and within the frame";
+"AccountKYCLevelTwo.BackPageInstructions" = "Make sure you have captured the entire back page of the document";
 
 /* Before start label */
 "AccountKYCLevelTwo.BeforeStart" = "Before you start, please:";
@@ -257,13 +257,13 @@
 "AccountKYCLevelTwo.FaceVisibleConfirmation" = "Make sure your face is clearly visible.";
 
 /* Front page of the document instructions text for KYC2 */
-"AccountKYCLevelTwo.FrontPageInstructions" = "Make sure document details are clearly visible and within the frame";
+"AccountKYCLevelTwo.FrontPageInstructions" = "Make sure you have captured the entire front page of the document";
 
 /* KYC Level Two status */
 "AccountKYCLevelTwo.InProgress" = "Your ID verification is in progress";
 
 /* Document instructions label for KYC2 */
-"AccountKYCLevelTwo.Instructions" = "Make sure document details are clearly visible and within the frame";
+"AccountKYCLevelTwo.Instructions" = "Make sure you have captured the entire document";
 
 /* Level two title in Account screen */
 "AccountKYCLevelTwo.LevelTwo" = "Level 2";
@@ -1734,6 +1734,20 @@
 /* Title for the step number when the user pages through the recovery words */
 "RecoveryKeyFlow.writeKeyStepTitle" = "%1$@ of %2$@";
 
+"RecoveryKeyOnboarding.description1" = "This is required to restore your wallet if you upgrade or lose your phone.";
+
+"RecoveryKeyOnboarding.description2" = "For security reasons, screenshots are not recommended, as anyone with your Recovery Phrase can access your funds.";
+
+"RecoveryKeyOnboarding.description3" = "Remember that this is the only way to restore your wallet. RockWallet does not keep a copy.";
+
+"RecoveryKeyOnboarding.title1" = "Generate your private Recovery Phrase";
+
+"RecoveryKeyOnboarding.title2" = "Write down your Recovery Phrase";
+
+"RecoveryKeyOnboarding.title3" = "Keep your Recovery Phrase in a secure location";
+
+"RecoveryKeyOnboarding.titlePage1" = "Generate your private Recovery Phrase";
+
 /* No amount entered error message. */
 "RequestAnAmount.noAmount" = "Please enter an amount first.";
 
@@ -3051,7 +3065,7 @@
 "WipeWallet.wiping" = "Wiping...";
 
 /* Paper key instructions. */
-"WritePaperPhrase.instruction" = "Write down each word in order and store it in a safe place.";
+"WritePaperPhrase.instruction" = "Write down the following words in order";
 
 /* button label */
 "WritePaperPhrase.next" = "Next";
@@ -3061,4 +3075,8 @@
 
 /* 1 of 3 */
 "WritePaperPhrase.step" = "%1$d of %2$d";
+
+"WritePaperPhrase.warning" = "For security purposes, do not screenshot or email these words.";
+
+"WritePaperPhrase.warning2" = "Remember to write these words down. Swipe back if you forgot.";
 
