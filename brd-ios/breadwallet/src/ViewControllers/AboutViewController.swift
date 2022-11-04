@@ -15,14 +15,24 @@ class AboutViewController: UIViewController {
     private lazy var aboutFooterView: UILabel = {
         let aboutFooterView = UILabel.wrapping(font: Fonts.Body.two, color: LightColors.Text.two)
         aboutFooterView.translatesAutoresizingMaskIntoConstraints = false
-        aboutFooterView.textAlignment = .center
+        
+        let aboutFooterStyle = NSMutableParagraphStyle()
+        aboutFooterStyle.lineSpacing = 5.0
+        aboutFooterStyle.alignment = .center
+        let attributes = [NSAttributedString.Key.paragraphStyle: aboutFooterStyle]
         
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
             let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
-            aboutFooterView.text = L10n.About.footer(version, build)
+            aboutFooterView.attributedText = NSAttributedString(string: L10n.About.footer(version, build), attributes: attributes)
         }
         
         return aboutFooterView
+    }()
+    
+    private lazy var termsAndPrivacyStack: UIStackView = {
+        let view = UIStackView()
+        view.spacing = Margins.large.rawValue
+        return view
     }()
     
     private lazy var privacy: UIButton = {
@@ -65,8 +75,9 @@ class AboutViewController: UIViewController {
 
     private func addSubviews() {
         view.addSubview(aboutHeaderView)
-        view.addSubview(privacy)
-        view.addSubview(terms)
+        view.addSubview(termsAndPrivacyStack)
+        termsAndPrivacyStack.addArrangedSubview(terms)
+        termsAndPrivacyStack.addArrangedSubview(privacy)
         view.addSubview(aboutFooterView)
     }
 
@@ -75,12 +86,9 @@ class AboutViewController: UIViewController {
             aboutHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: ViewSizes.extraExtraHuge.rawValue),
             aboutHeaderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             aboutHeaderView.widthAnchor.constraint(equalToConstant: 213)])
-        terms.constrain([
-            terms.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.extraLarge.rawValue * 3),
-            terms.topAnchor.constraint(equalTo: aboutHeaderView.bottomAnchor, constant: Margins.extraLarge.rawValue * 2)])
-        privacy.constrain([
-            privacy.topAnchor.constraint(equalTo: terms.topAnchor),
-            privacy.leadingAnchor.constraint(equalTo: terms.trailingAnchor, constant: Margins.large.rawValue)])
+        termsAndPrivacyStack.constrain([
+            termsAndPrivacyStack.topAnchor.constraint(equalTo: aboutHeaderView.bottomAnchor, constant: Margins.extraLarge.rawValue * 2),
+            termsAndPrivacyStack.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
         aboutFooterView.constrain([
             aboutFooterView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.huge.rawValue),
             aboutFooterView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.huge.rawValue),
