@@ -12,10 +12,10 @@
     {
       "identity" : "cosmos",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/fabriik/cosmos.git",
+      "location" : "https://github.com/rockwalletcode/cosmos.git",
       "state" : {
-        "branch" : "mit",
-        "revision" : "20f0b6e0788b8432aa02f0e5f7193ba33c3bbaf4"
+        "branch" : "main",
+        "revision" : "a300c97b1db75696f935e01029faccc4eac1459e"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/marmelroy/PhoneNumberKit.git",
       "state" : {
-        "revision" : "104a53d62c55aa5794faf30b29ccad319653b552",
-        "version" : "3.4.5"
+        "revision" : "2964493a52e64812833662a7bd19def82f35973c",
+        "version" : "3.4.10"
       }
     },
     {
@@ -57,19 +57,19 @@
     {
       "identity" : "walletkitcore",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/fabriik/WalletKitCore",
+      "location" : "https://github.com/rockwalletcode/WalletKitCore",
       "state" : {
-        "branch" : "mit",
-        "revision" : "30eac340bf996544c35177b4d5e949978e47cad2"
+        "branch" : "main",
+        "revision" : "12f02841e6becfe9c871b618415d211a4c23b942"
       }
     },
     {
       "identity" : "walletkitswift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/fabriik/WalletKitSwift",
+      "location" : "https://github.com/rockwalletcode/WalletKitSwift.git",
       "state" : {
-        "branch" : "mit",
-        "revision" : "6ad101c31dd2d502f7ad9f5519b1ef3dadaedadd"
+        "branch" : "main",
+        "revision" : "5e9b218d1c056fcd4709061e661c1e27ab6b5ef1"
       }
     }
   ],

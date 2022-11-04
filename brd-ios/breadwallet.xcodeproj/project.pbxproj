@@ -6159,17 +6159,17 @@
 		};
 		7E18DBED28C8BFE200B83E3B /* XCRemoteSwiftPackageReference "WalletKitSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/fabriik/WalletKitSwift";
+			repositoryURL = "https://github.com/rockwalletcode/WalletKitSwift.git";
 			requirement = {
-				branch = mit;
+				branch = main;
 				kind = branch;
 			};
 		};
 		7E5CB32B2834E63400EC787E /* XCRemoteSwiftPackageReference "cosmos" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/fabriik/cosmos.git";
+			repositoryURL = "https://github.com/rockwalletcode/cosmos.git";
 			requirement = {
-				branch = mit;
+				branch = main;
 				kind = branch;
 			};
 		};
